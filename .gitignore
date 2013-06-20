@@ -1,0 +1,26 @@
+# use glob syntax.
+syntax: glob
+*~
+*.bak
+*.off
+*.old
+.DS_Store
+*.swp
+
+# other scm
+.svn
+.CVS
+.hg*
+
+# switch to regexp syntax.
+#  syntax: regexp
+#  ^\.pc/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea
+.idea/*
+
+._git
