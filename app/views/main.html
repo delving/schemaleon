@@ -1,14 +1,18 @@
 <div class="hero-unit">
-  <h1>'Allo, 'Allo!</h1>
-  <p>Gerald, ou now fortunately have</p>
-  <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
-  </ul>
-  <p>installed. for real!</p>
-  <h3>Enjoy coding! - Yeoman</h3>
-    <table>
-        <tr ng-repeat="melvin in melvins">
-            <td>{{melvin}}</td>
+    <h1>Culture Collector</h1>
+    <br><br>
+    <table cellpadding="20" border="3" width="100%">
+        <tr>
+            <th ng-repeat="panel in panels">{{panel.element.name}}</th>
+        </tr>
+        <tr>
+            <td ng-repeat="panel in panels">
+                <ul>
+                    <li ng-repeat="member in panel.element.elements" ng-click="choose(member, $parent.$index)">
+                        {{member.name}}
+                    </li>
+                </ul>
+            </td>
         </tr>
     </table>
 </div>
