@@ -56,9 +56,13 @@ body {
     color: white;
 }
 
-.panel-last-true {
-    border-radius: 0 20px 20px 0;
+.panel {
+    border-radius: 20px
 }
+
+/*.panel-last-true {*/
+    /*border-radius: 0 20px 20px 0;*/
+/*}*/
 
 /*.bordered-true {*/
     /*border-style: solid;*/
