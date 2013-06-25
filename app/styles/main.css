@@ -37,6 +37,9 @@ body {
 .table td a {
   color: silver;
 }
+.table td a.selected-true {
+    color: white;
+}
 .nav-tabs > li > a, .nav-pills > li > a,
 .nav-tabs > li > a, .nav-pills > li > a:hover {
     border-radius: 12px 0 0 12px;
@@ -69,6 +72,14 @@ body {
     padding-left: 20px;
 }
 
+.element-list form {
+    margin: 8px 20px 20px;
+    padding: 0;
+}
+
+.element-list form label {
+    color: #fffff0;
+}
 
 .plus {
     position: absolute;

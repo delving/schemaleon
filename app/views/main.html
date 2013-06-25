@@ -10,22 +10,19 @@
     <tr>
         <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
             <ul class="nav nav-pills nav-stacked fade-in element-list">
-                <div ng-show="panel.element.fetch" style="background: #ffffff;">
+                <div ng-show="panel.element.fetch">
                     <form ng-controller="FetchCtrl">
-                        <li>
-                            URI: <input ng-model="uri">
-                        </li>
-                        <li>
-                            Preferred Label: <input ng-model="preferredLabel">
-                        </li>
+                        <label>URI:</label>
+                        <input type="text" ng-model="uri"/>
+                        <label>Preferred Label</label>
+                        <input type="text" ng-model="preferredLabel"/>
                     </form>
                 </div>
                 <li ng-repeat="member in panel.element.elements"
                     ng-click="choose(member, $parent.$index)"
                     ng-show="!panel.element.fetch">
-                    <a href class="level{{member.classIndex}} bordered-{{member.selected}}">{{member.name}}</a>
-                    <!--<p ng-show="member.multiple" class="plus" ng-click="addSibling(panel.element.elements, $index)"><i class="icon-plus-sign icon-white"></i>({{member.name}})</p>-->
-                    <span tooltip-placement="bottom" tooltip="Add {{member.name}}"ng-show="member.multiple" class="plus" ng-click="addSibling(panel.element.elements, $index)"><i class="icon-plus-sign icon-white"></i></span>
+                    <a href class="level{{member.classIndex}} selected-{{member.selected}}">{{member.name}}</a>
+                    <span tooltip-placement="bottom" tooltip="Add {{member.name}}" ng-show="member.multiple" class="plus" ng-click="addSibling(panel.element.elements, $index)"><i class="icon-plus-sign icon-white"></i></span>
 
                 </li>
             </ul>
