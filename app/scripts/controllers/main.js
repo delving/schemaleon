@@ -37,7 +37,7 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
                     { name: 'Type' },
                     {
                         name: 'Creator',
-                        doc: 'adfafafafafasfasf asdfasdf asdf asf afasf. asdfasfasfasfasfas asdfasdfewr asdfpwer asdf.',
+                        doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
                         elements: [
                             {
                                 name: 'URI',
@@ -96,6 +96,21 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
 }]);
 
 module.controller('FetchCtrl', ['$scope', function ($scope) {
-    $scope.uri = 'you are eye';
-    $scope.preferredLabel = 'preferred label';
+    $scope.kickstart = function(fetch, elements) {
+        if (!fetch) return; // todo: note that this function gets called all the time
+
+        var findElement = function(soughtName) {
+            for (var walk=0; walk<elements.length; walk++) {
+                if (elements[walk].name == soughtName) return elements[walk];
+            }
+            return {name:'unknown'}
+        };
+        $scope.fetch = fetch;
+        $scope.uri = findElement($scope.fetch.uriField);
+        $scope.preferredLabel = findElement($scope.fetch.preferredLabelField);
+    }
+}]);
+
+module.controller('GroupCtrl', ['$scope', function ($scope) {
+    $scope.fields = [];
 }]);
