@@ -39,11 +39,21 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
                         name: 'Creator',
                         doc: 'adfafafafafasfasf asdfasdf asdf asf afasf. asdfasfasfasfasfas asdfasdfewr asdfpwer asdf.',
                         elements: [
-                            { name: 'URI'},
-                            { name: 'PreferredLabel' }
+                            {
+                                name: 'URI',
+                                value: 'this was fetched'
+                            },
+                            {
+                                name: 'PreferredLabel',
+                                value: 'this accompanied the result'
+                            }
                         ],
                         fetch: {
-                            url: 'http://fetch.eu'
+                            fetchURL: 'http://fetch.eu',
+                            uriLabel: 'Fetched URI',
+                            uriField: 'URI',
+                            preferredLabelLabel: 'Preferred Label',
+                            preferredLabelField: 'PreferredLabel'
                         }
                     }
                 ]
@@ -83,7 +93,6 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
         var fresh = { name: existing.name };
         list.splice(index, 0, fresh)
     }
-
 }]);
 
 module.controller('FetchCtrl', ['$scope', function ($scope) {
