@@ -1,0 +1,37 @@
+/* color definitions */
+
+@baseDark: #34495e;
+@baseDarker: #2c3e50;
+
+@baseMedium: #ffffff;
+
+
+body {
+  margin: 20px;
+}
+.table {
+  width: auto;
+  min-width: 250px;
+  td {
+    a{
+      color: silver;
+    }
+
+  }
+  td:nth-of-type(1){
+    background: darken(@baseDark, 10%);
+  }
+  td:nth-of-type(2){
+    background: @baseDark;
+  }
+  td:nth-of-type(3){
+    background: lighten(@baseDark, 10%);
+  }
+  td:nth-of-type(4){
+    background: lighten(@baseDark, 20%);
+  }
+}
+
+.active {
+  color: gold;
+}

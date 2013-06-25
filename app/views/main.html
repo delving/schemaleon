@@ -1,18 +1,23 @@
-<div class="hero-unit">
-    <h1>Culture Collector</h1>
-    <br><br>
-    <table cellpadding="20" border="3" width="100%">
-        <tr>
-            <th ng-repeat="panel in panels">{{panel.element.name}}</th>
-        </tr>
-        <tr>
-            <td ng-repeat="panel in panels">
-                <ul>
-                    <li ng-repeat="member in panel.element.elements" ng-click="choose(member, $parent.$index)">
-                        {{member.name}}
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    </table>
-</div>
+<h1 class="page-header">Culture Collector</h1>
+
+<table cellpadding="20" border="0" class="table">
+    <thead>
+    <tr>
+        <th ng-repeat="panel in panels">{{panel.element.name}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td ng-repeat="panel in panels">
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-repeat="member in panel.element.elements"
+                    ng-click="choose(member, $parent.$index)">
+                    <a href>{{member.name}}</a>
+                </li>
+            </ul>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+

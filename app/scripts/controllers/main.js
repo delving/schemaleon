@@ -58,7 +58,7 @@ angular.module('cultureCollectorApp')
             $scope.panels[here + 1] = {
                 'element': element
             };
-            $scope.panels.splice(here + 2, 5)
+            $scope.panels.splice(here + 2, 5);
         };
 
         $scope.panels = [];
