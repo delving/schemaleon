@@ -9,11 +9,12 @@
     <tbody>
     <tr>
         <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
-            <ul class="nav nav-pills nav-stacked fade-in">
+            <ul class="nav nav-pills nav-stacked fade-in element-list">
                 <li ng-repeat="member in panel.element.elements"
                     ng-click="choose(member, $parent.$index)">
                     <a href class="level{{member.classIndex}} bordered-{{member.selected}}">{{member.name}}</a>
-                    <p ng-show="member.multiple" class="plus" ng-click="addSibling(panel.element.elements, $index)">(+{{member.name}})</p>
+                    <!--<p ng-show="member.multiple" class="plus" ng-click="addSibling(panel.element.elements, $index)"><i class="icon-plus-sign icon-white"></i>({{member.name}})</p>-->
+                    <span ng-show="member.multiple" class="plus" ng-click="addSibling(panel.element.elements, $index)"><i class="icon-plus-sign icon-white"></i></span>
                 </li>
             </ul>
         </td>
