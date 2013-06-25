@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cultureCollectorApp', [])
+angular.module('cultureCollectorApp', ['ui.bootstrap'])
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
