@@ -3,13 +3,6 @@
 angular.module('cultureCollectorApp')
     .controller('MainCtrl', ['$scope', function ($scope) {
 
-        var tabStyles = [
-            'background:#222f3d',
-            'background:#34495e',
-            'background:#46627f',
-            'background:#587ca0'
-        ];
-
         var doc = {
             'identifier': 'DOC123',
             'name': 'Document',
@@ -77,7 +70,5 @@ angular.module('cultureCollectorApp')
         $scope.panels[0] = {
             'element': doc
         };
-
-        $scope.tabStyles = tabStyles;
 
     }]);
