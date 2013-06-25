@@ -10,7 +10,7 @@
     <tr>
         <td ng-repeat="panel in panels">
             <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="member in panel.element.elements"
+                <li ng-repeat="member in panel.element.elements" class="selected-{{member.selected}}"
                     ng-click="choose(member, $parent.$index)">
                     <a href>{{member.name}}</a>
                 </li>

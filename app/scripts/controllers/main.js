@@ -55,6 +55,9 @@ angular.module('cultureCollectorApp')
         };
 
         $scope.choose = function (element, here) {
+            $scope.panels[here].element.elements.forEach(function(el) {
+                el.selected = (el == element);
+            })
             $scope.panels[here + 1] = {
                 'element': element
             };

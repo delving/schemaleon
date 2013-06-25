@@ -21,3 +21,10 @@ body {
 .table td:nth-of-type(4) {
   background: #587ca0;
 }
+
+.selected-true {
+    background: #FFFFFF;
+}
+
+.selected-false {
+}
