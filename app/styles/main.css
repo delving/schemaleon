@@ -24,10 +24,10 @@ body {
 }
 .table {
   width: auto;
-  min-width: 250px;
 }
 .table td {
     padding: 0 0 0 10px;
+    min-width: 150px;
 }
 .table td a {
   color: silver;
