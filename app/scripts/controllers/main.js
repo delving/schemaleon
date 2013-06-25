@@ -62,9 +62,9 @@ angular.module('cultureCollectorApp')
 
         $scope.choose = function (element, here) {
             $scope.panels[here].element.elements.forEach(function (el) {
-                var styleIndex = here;
-                if (el == element) styleIndex++;
-                el.style = tabStyles[styleIndex]
+                el.selected = (el == element);
+                el.classIndex = here;
+                if (el.selected) el.classIndex++;
             })
             $scope.panels[here + 1] = {
                 'element': element

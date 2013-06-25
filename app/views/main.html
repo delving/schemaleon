@@ -8,16 +8,15 @@
     </thead>
     <tbody>
     <tr>
-        <td ng-repeat="panel in panels" style="{{tabStyles[$index]}}">
+        <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}}">
             <ul class="nav nav-pills nav-stacked">
                 <li ng-repeat="member in panel.element.elements"
                     ng-click="choose(member, $parent.$index)"
-                    style="{{member.style}}">
+                    class="level{{member.classIndex}} bordered-{{member.selected}}">
                     <a href>{{member.name}}</a>
                 </li>
             </ul>
         </td>
-
     </tr>
     </tbody>
 </table>
