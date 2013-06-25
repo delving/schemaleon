@@ -72,22 +72,30 @@ body {
     padding-left: 20px;
 }
 
-.element-list form {
+.panel form {
     margin: 8px 20px 20px;
     padding: 0;
 }
 
-.element-list form label {
+.panel form label {
     color: #fffff0;
 }
 
 .plus {
     position: absolute;
-    left: 0px;
+    left: -5px;
     top: 5px;
 }
 .plus:hover {
     cursor: pointer;
+}
+.documentation {
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    cursor: help;
 }
 
 

@@ -37,8 +37,9 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
                     { name: 'Type' },
                     {
                         name: 'Creator',
+                        doc: 'adfafafafafasfasf asdfasdf asdf asf afasf. asdfasfasfasfasfas asdfasdfewr asdfpwer asdf.',
                         elements: [
-                            { name: 'URI' },
+                            { name: 'URI'},
                             { name: 'PreferredLabel' }
                         ],
                         fetch: {
@@ -82,6 +83,7 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
         var fresh = { name: existing.name };
         list.splice(index, 0, fresh)
     }
+
 }]);
 
 module.controller('FetchCtrl', ['$scope', function ($scope) {
