@@ -13,7 +13,7 @@
                 <li ng-repeat="member in panel.element.elements"
                     ng-click="choose(member, $parent.$index)"
                     class="level{{member.classIndex}} bordered-{{member.selected}}">
-                    <a href>{{member.name}}</a>
+                    <a href>{{member.name}}</a><p ng-show="member.multiple" class="plus">(+{{member.name}})</p>
                 </li>
             </ul>
         </td>

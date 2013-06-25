@@ -4,50 +4,51 @@ angular.module('cultureCollectorApp')
     .controller('MainCtrl', ['$scope', function ($scope) {
 
         var doc = {
-            'identifier': 'DOC123',
-            'name': 'Document',
-            'elements': [
+            identifier: 'DOC123',
+            name: 'Document',
+            elements: [
                 {
-                    'name': 'Basics',
-                    'elements': [
-                        { 'name': 'Type' },
-                        { 'name': 'Condition' }
+                    name: 'Basics',
+                    elements: [
+                        { name: 'Type' },
+                        { name: 'Condition' }
                     ]
                 },
                 {
-                    'name': 'Object',
-                    'elements': [
-                        { 'name': 'Link' },
-                        { 'name': 'MimeType' }
+                    name: 'Object',
+                    elements: [
+                        { name: 'Link' },
+                        { name: 'MimeType' }
                     ]
                 },
                 {
-                    'name': 'Source',
-                    'elements': [
-                        { 'name': 'URI' },
-                        { 'name': 'Type' },
-                        { 'name': 'Note' }
+                    name: 'Source',
+                    elements: [
+                        { name: 'URI' },
+                        { name: 'Type' },
+                        { name: 'Note' }
                     ]
                 },
                 {
-                    'name': 'Creation',
-                    'elements': [
-                        { 'name': 'Date' },
-                        { 'name': 'Type' },
+                    name: 'Creation',
+                    elements: [
+                        { name: 'Date' },
+                        { name: 'Type' },
                         {
-                            'name': 'Creator',
-                            'elements': [
-                                { 'name': 'URI' },
-                                { 'name': 'Preferred Label' }
+                            name: 'Creator',
+                            elements: [
+                                { name: 'URI' },
+                                { name: 'Preferred Label' }
                             ]
                         }
                     ]
                 },
                 {
-                    'name': "Events",
-                    'elements': [
-                        { 'name': 'Link' },
-                        { 'name': 'MimeType' }
+                    name: 'OtherEvent',
+                    multiple: true,
+                    elements: [
+                        { name: 'Link' },
+                        { name: 'MimeType' }
                     ]
                 }
             ]

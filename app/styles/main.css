@@ -47,6 +47,10 @@ body {
   background: #587ca0;
 }
 
+.plus {
+    color: white;
+}
+
 /*.bordered-true {*/
     /*border-style: solid;*/
     /*border-color: #ce1b94;*/
