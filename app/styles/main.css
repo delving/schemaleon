@@ -9,22 +9,15 @@ body {
 .table td a {
   color: silver;
 }
-.table td:nth-of-type(1) {
-  background: #222f3d;
-}
-.table td:nth-of-type(2) {
-  background: #34495e;
-}
-.table td:nth-of-type(3) {
-  background: #46627f;
-}
-.table td:nth-of-type(4) {
-  background: #587ca0;
-}
-
-.selected-true {
-    background: #FFFFFF;
-}
-
-.selected-false {
-}
+/*.table td:nth-of-type(1) {*/
+  /*background: #222f3d;*/
+/*}*/
+/*.table td:nth-of-type(2) {*/
+  /*background: #34495e;*/
+/*}*/
+/*.table td:nth-of-type(3) {*/
+  /*background: #46627f;*/
+/*}*/
+/*.table td:nth-of-type(4) {*/
+  /*background: #587ca0;*/
+/*}*/

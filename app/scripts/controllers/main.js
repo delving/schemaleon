@@ -3,6 +3,12 @@
 angular.module('cultureCollectorApp')
     .controller('MainCtrl', ['$scope', function ($scope) {
 
+        var tabStyles = [
+            'background:#222f3d',
+            'background:#34495e',
+            'background:#46627f',
+            'background:#587ca0'
+        ];
 
         var doc = {
             'identifier': 'DOC123',
@@ -55,8 +61,10 @@ angular.module('cultureCollectorApp')
         };
 
         $scope.choose = function (element, here) {
-            $scope.panels[here].element.elements.forEach(function(el) {
-                el.selected = (el == element);
+            $scope.panels[here].element.elements.forEach(function (el) {
+                var styleIndex = here;
+                if (el == element) styleIndex++;
+                el.style = tabStyles[styleIndex]
             })
             $scope.panels[here + 1] = {
                 'element': element
@@ -69,5 +77,7 @@ angular.module('cultureCollectorApp')
         $scope.panels[0] = {
             'element': doc
         };
+
+        $scope.tabStyles = tabStyles;
 
     }]);

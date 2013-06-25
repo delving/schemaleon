@@ -8,10 +8,11 @@
     </thead>
     <tbody>
     <tr>
-        <td ng-repeat="panel in panels">
+        <td ng-repeat="panel in panels" style="{{tabStyles[$index]}}">
             <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="member in panel.element.elements" class="selected-{{member.selected}}"
-                    ng-click="choose(member, $parent.$index)">
+                <li ng-repeat="member in panel.element.elements"
+                    ng-click="choose(member, $parent.$index)"
+                    style="{{member.style}}">
                     <a href>{{member.name}}</a>
                 </li>
             </ul>
