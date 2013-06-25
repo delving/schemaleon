@@ -8,7 +8,7 @@
     </thead>
     <tbody>
     <tr>
-        <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}}">
+        <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel-last-{{$last}}">
             <ul class="nav nav-pills nav-stacked fade-in">
                 <li ng-repeat="member in panel.element.elements"
                     ng-click="choose(member, $parent.$index)">

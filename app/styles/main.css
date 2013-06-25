@@ -26,15 +26,16 @@ body {
   width: auto;
 }
 .table td {
-    padding: 0 0 0 10px;
+    padding: 10px 0 0 10px;
     min-width: 150px;
+
 }
 .table td a {
   color: silver;
 }
 .nav-tabs > li > a, .nav-pills > li > a,
 .nav-tabs > li > a, .nav-pills > li > a:hover {
-    border-radius: 8px 0 0 8px;
+    border-radius: 12px 0 0 12px;
 }
 
 
@@ -53,6 +54,10 @@ body {
 
 .plus {
     color: white;
+}
+
+.panel-last-true {
+    border-radius: 0 20px 20px 0;
 }
 
 /*.bordered-true {*/
