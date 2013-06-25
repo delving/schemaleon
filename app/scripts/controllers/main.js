@@ -72,4 +72,10 @@ angular.module('cultureCollectorApp')
             'element': doc
         };
 
+        $scope.addSibling = function(list, index) {
+            // should be some kind of deep copy
+            var existing = list[index];
+            var fresh = { name: existing.name };
+            list.splice(index, 0, fresh)
+        }
     }]);
