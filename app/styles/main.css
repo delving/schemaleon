@@ -25,9 +25,14 @@ body {
 .table {
   width: auto;
 }
+.table th {
+    border: none !important;
+    padding-left: 20px;
+}
 .table td {
-    padding: 10px 0 0 10px;
+    padding: 20px 0 20px 20px;
     min-width: 150px;
+    border: none;
 
 }
 .table td a {
