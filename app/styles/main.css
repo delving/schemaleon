@@ -32,6 +32,10 @@ body {
 .table td a {
   color: silver;
 }
+.nav-tabs > li > a, .nav-pills > li > a,
+.nav-tabs > li > a, .nav-pills > li > a:hover {
+    border-radius: 8px 0 0 8px;
+}
 
 
 .level0 {

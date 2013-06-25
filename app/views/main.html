@@ -8,12 +8,11 @@
     </thead>
     <tbody>
     <tr>
-        <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} fade-in">
-            <ul class="nav nav-pills nav-stacked">
+        <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}}">
+            <ul class="nav nav-pills nav-stacked fade-in">
                 <li ng-repeat="member in panel.element.elements"
-                    ng-click="choose(member, $parent.$index)"
-                    class="level{{member.classIndex}} bordered-{{member.selected}}">
-                    <a href>{{member.name}}</a><p ng-show="member.multiple" class="plus">(+{{member.name}})</p>
+                    ng-click="choose(member, $parent.$index)">
+                    <a href class="level{{member.classIndex}} bordered-{{member.selected}}">{{member.name}}</a><p ng-show="member.multiple" class="plus">(+{{member.name}})</p>
                 </li>
             </ul>
         </td>
