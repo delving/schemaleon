@@ -38,11 +38,21 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
                     {
                         name: 'Creator',
                         elements: [
-                            { name: 'URI' },
-                            { name: 'PreferredLabel' }
+                            {
+                                name: 'URI',
+                                value: 'this was fetched'
+                            },
+                            {
+                                name: 'PreferredLabel',
+                                value: 'this accompanied the result'
+                            }
                         ],
                         fetch: {
-                            url: 'http://fetch.eu'
+                            fetchURL: 'http://fetch.eu',
+                            uriLabel: 'Fetched URI',
+                            uriField: 'URI',
+                            preferredLabelLabel: 'Preferred Label',
+                            preferredLabelField: 'PreferredLabel'
                         }
                     }
                 ]
@@ -85,6 +95,21 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
 }]);
 
 module.controller('FetchCtrl', ['$scope', function ($scope) {
-    $scope.uri = 'you are eye';
-    $scope.preferredLabel = 'preferred label';
+    $scope.kickstart = function(fetch, elements) {
+        if (!fetch) return; // todo: note that this function gets called all the time
+
+        var findElement = function(soughtName) {
+            for (var walk=0; walk<elements.length; walk++) {
+                if (elements[walk].name == soughtName) return elements[walk];
+            }
+            return {name:'unknown'}
+        };
+        $scope.fetch = fetch;
+        $scope.uri = findElement($scope.fetch.uriField);
+        $scope.preferredLabel = findElement($scope.fetch.preferredLabelField);
+    }
+}]);
+
+module.controller('GroupCtrl', ['$scope', function ($scope) {
+    $scope.fields = [];
 }]);
