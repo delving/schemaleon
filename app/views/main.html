@@ -11,16 +11,16 @@
         <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
 
             <form>
-                <div ng-show="panel.element.fetch" ng-controller="FetchCtrl" ng-init="kickstart(panel.element.fetch, panel.element.elements)">
-                    <label>{{ uri.label }}</label>
-                    <input type="text" ng-model="uri.value"/>
-                    <label>{{ literal.label }}</label>
-                    <input type="text" ng-model="literal.value"/>
+                <div ng-show="panel.element.remoteVocabulary" ng-controller="RemoteVocabularyController">
+                    <label>{{ panel.element.remoteVocabulary.elements[0].label }}</label>
+                    <input type="text" ng-model="panel.element.remoteVocabulary.elements[0].value"/>
+                    <label>{{ panel.element.remoteVocabulary.elements[1].label }}</label>
+                    <input type="text" ng-model="panel.element.remoteVocabulary.elements[1].value"/>
                 </div>
 
-                <div ng-show="panel.element.controlled">
+                <div ng-show="panel.element.localVocabulary">
                     <label>{{ panel.element.name }}</label>
-                    <input type="text" ng-model="panel.element.value" typeahead="control for control in panel.element.controlled"/>
+                    <input type="text" ng-model="panel.element.value" typeahead="control for control in panel.element.localVocabulary"/>
                 </div>
 
                 <div ng-show="panel.element.textInput">

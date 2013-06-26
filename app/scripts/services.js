@@ -9,7 +9,7 @@ var doc = {
             elements: [
                 {
                     name: 'Type',
-                    controlled: [
+                    localVocabulary: [
                         'Landscapes',
                         'Portraits',
                         'Nudes'
@@ -17,7 +17,7 @@ var doc = {
                 },
                 {
                     name: 'Condition',
-                    controlled: [
+                    localVocabulary: [
                         'Shitty',
                         'Reasonable',
                         'Superduper'
@@ -58,7 +58,7 @@ var doc = {
                 },
                 {
                     name: 'Type',
-                    controlled: [
+                    localVocabulary: [
                         'First',
                         'Second',
                         'Third'
@@ -67,7 +67,7 @@ var doc = {
                 {
                     name: 'Creator',
                     doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-                    fetch: {
+                    remoteVocabulary: {
                         source: 'http://fetch.eu',
                         elements: [
                             {

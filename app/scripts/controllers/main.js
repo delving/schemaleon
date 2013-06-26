@@ -36,15 +36,8 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
     }
 }]);
 
-module.controller('FetchCtrl', ['$scope', function ($scope) {
-    $scope.kickstart = function (fetch, elements) {
-        if (!fetch) return; // todo: note that this function gets called all the time
-        $scope.fetch = fetch;
-        $scope.uri = fetch.elements[0];
-        $scope.literal = fetch.elements[1];
-    }
+module.controller('RemoteVocabularyController', ['$scope', function ($scope) {
 }]);
 
 module.controller('PanelCtl', ['$scope', function ($scope) {
-    $scope.groupFields = [];
 }]);
