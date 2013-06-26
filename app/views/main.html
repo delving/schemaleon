@@ -10,7 +10,10 @@
     <tr>
         <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
 
-            <form>
+            <form ng-show="panel.element.remoteVocabulary ||
+                           panel.element.localVocabulary ||
+                           panel.element.textInput ||
+                           panel.element.textArea">
                 <div ng-show="panel.element.remoteVocabulary" ng-controller="RemoteVocabularyController">
                     <label>{{ panel.element.remoteVocabulary.elements[0].label }}</label>
                     <input type="text" ng-model="panel.element.remoteVocabulary.elements[0].value"/>
