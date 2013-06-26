@@ -9,19 +9,23 @@ var doc = {
             elements: [
                 {
                     name: 'Type',
-                    localVocabulary: [
-                        'Landscapes',
-                        'Portraits',
-                        'Nudes'
-                    ]
+                    localVocabulary: {
+                        options: [
+                            'Landscapes',
+                            'Portraits',
+                            'Nudes'
+                        ]
+                    }
                 },
                 {
                     name: 'Condition',
-                    localVocabulary: [
-                        'Shitty',
-                        'Reasonable',
-                        'Superduper'
-                    ]
+                    localVocabulary: {
+                        options: [
+                            'Shitty',
+                            'Reasonable',
+                            'Superduper'
+                        ]
+                    }
                 }
             ]
         },
@@ -58,11 +62,13 @@ var doc = {
                 },
                 {
                     name: 'Type',
-                    localVocabulary: [
-                        'First',
-                        'Second',
-                        'Third'
-                    ]
+                    localVocabulary: {
+                        options: [
+                            'First',
+                            'Second',
+                            'Third'
+                        ]
+                    }
                 },
                 {
                     name: 'Creator',
@@ -96,8 +102,8 @@ var doc = {
     ]
 };
 
-module.service("Docs", function() {
-    this.query = function() {
+module.service("Docs", function () {
+    this.query = function () {
         return doc;
     };
 });

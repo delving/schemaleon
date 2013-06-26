@@ -37,10 +37,22 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
     }
 }]);
 
+module.controller('PanelController', ['$scope', function ($scope) {
+    if (!$scope.panel) return;
+    $scope.el = $scope.panel.element
+}]);
+
 module.controller('RemoteVocabularyController', ['$scope', function ($scope) {
     var rv = $scope.panel.element.remoteVocabulary;
     if (!rv) return;
     $scope.rv = rv;
     $scope.uri = rv.elements[0];
     $scope.literal = rv.elements[1];
+}]);
+
+module.controller('LocalVocabularyController', ['$scope', function ($scope) {
+    var lv = $scope.panel.element.localVocabulary;
+    if (!lv) return;
+    $scope.lv = lv;
+    $scope.options = lv.options;
 }]);
