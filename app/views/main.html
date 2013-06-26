@@ -40,7 +40,7 @@
             <ul class="nav nav-pills nav-stacked fade-in element-list" ng-controller="PanelCtl">
                 <li ng-repeat="member in panel.element.elements">
                     <a href
-                       class="level{{member.classIndex}} selected-{{member.selected}}"
+                       class="level{{member.classIndex}}"
                        ng-click="choose(member, $parent.$index)">
                         {{ member.name }}
                     </a>
@@ -48,7 +48,7 @@
                           tooltip-placement="bottom"
                           tooltip="Add {{member.name}}"
                           class="plus"
-                          ng-click="addSibling(panel.element.elements, $index)">
+                          ng-click="addSibling(panel.element.elements, $index, $parent.index)">
                         <i class="icon-plus-sign icon-white"></i>
                     </span>
                     <span ng-show="member.doc"

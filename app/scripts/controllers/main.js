@@ -10,30 +10,30 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
         'element': Docs.query()
     };
 
-    $scope.choose = function (element, here) {
-        $scope.panels[here].element.elements.forEach(function (el) {
-            el.selected = (el == element);
-            el.classIndex = here;
-            if (el.selected) el.classIndex++;
+    $scope.choose = function (element, parentIndex) {
+        $scope.panels[parentIndex].element.elements.forEach(function (el) {
+            el.classIndex = parentIndex;
+            if (el == element) el.classIndex++;
         });
-        $scope.panels[here + 1] = {
+        $scope.panels[parentIndex + 1] = {
             'element': element
         };
         if (element.elements) {
             element.elements.forEach(function (el) {
                 el.selected = false;
-                el.classIndex = here + 1;
+                el.classIndex = parentIndex + 1;
             });
         }
-        $scope.panels.splice(here + 2, 5);
+        $scope.panels.splice(parentIndex + 2, 5);
     };
 
-    $scope.addSibling = function (list, index) {
+    $scope.addSibling = function (list, index, parentIndex) {
         // should be some kind of deep copy
         var existing = list[index];
         var fresh = JSON.parse(JSON.stringify(existing));
         fresh.value = '';
         existing.multiple = false;
+        existing.classIndex = parentIndex + 1;
         list.splice(index + 1, 0, fresh)
     }
 }]);
