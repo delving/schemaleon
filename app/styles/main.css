@@ -66,9 +66,9 @@
 
   -moz-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  animation-duration: 1s;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 /* color definitions */
 body {
@@ -116,7 +116,8 @@ body {
 }
 .nav-tabs > li > a:hover,
 .nav-pills > li > a:hover {
-  color: #46627f;
+  background: #7795b4;
+  color: #34495e;
 }
 .element-list li {
   position: relative;
