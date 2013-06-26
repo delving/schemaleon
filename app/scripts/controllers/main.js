@@ -11,8 +11,22 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
             {
                 name: 'Basics',
                 elements: [
-                    { name: 'Type' },
-                    { name: 'Condition' }
+                    {
+                        name: 'Type',
+                        controlled: [
+                            'Landscapes',
+                            'Portraits',
+                            'Nudes'
+                        ]
+                    },
+                    {
+                        name: 'Condition',
+                        controlled: [
+                            'Shitty',
+                            'Reasonable',
+                            'Superduper'
+                        ]
+                    }
                 ]
             },
             {
@@ -82,10 +96,16 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
             el.selected = (el == element);
             el.classIndex = here;
             if (el.selected) el.classIndex++;
-        })
+        });
         $scope.panels[here + 1] = {
             'element': element
         };
+        if (element.elements) {
+            element.elements.forEach(function (el) {
+                el.selected = false;
+                el.classIndex = here + 1;
+            });
+        }
         $scope.panels.splice(here + 2, 5);
     };
 
@@ -104,7 +124,7 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
 }]);
 
 module.controller('FetchCtrl', ['$scope', function ($scope) {
-    $scope.kickstart = function(fetch, elements) {
+    $scope.kickstart = function (fetch, elements) {
         if (!fetch) return; // todo: note that this function gets called all the time
         $scope.fetch = fetch;
         $scope.uri = fetch.elements[0];
