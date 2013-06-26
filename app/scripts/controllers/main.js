@@ -20,7 +20,6 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
         };
         if (element.elements) {
             element.elements.forEach(function (el) {
-                el.selected = false;
                 el.classIndex = parentIndex + 1;
             });
         }
