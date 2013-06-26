@@ -4,15 +4,12 @@
 
 /* COLOR THEME */
 //
-//@baseDarkest: #222f3d;
-//@baseDarker: #34495e;
-//@baseDark:#46627f;
-//#34495e
-//#34495e
-//#2c3e50
-//@baseLigt:;
-//@baseLighter:;
-//@baseLightest:;
+@baseDarkest: darken(@baseDarker, 10%);
+@baseDarker: #34495e;
+@baseDark: lighten(@baseDarker, 10%);
+@baseLight:lighten(@baseDarker, 20%);
+@baseLighter:lighten(@baseDarker, 30%);
+@baseLightest:lighten(@baseDarker, 40%);
 
 
 /* make keyframes that tell the start state and the end state of our object */
@@ -51,29 +48,35 @@ body {
   border: none;
 
 }
-.table td a {
-  color: silver;
-}
-.table td a.selected-true {
-  color: white;
-}
-.nav-tabs > li > a, .nav-pills > li > a,
-.nav-tabs > li > a, .nav-pills > li > a:hover {
+//.table td a {
+//  color: silver;
+//}
+//.table td a.selected-true {
+//  color: white;
+//}
+.nav-tabs > li > a, .nav-pills > li > a {
   border-radius: 12px 0 0 12px;
+  color: silver;
+  &:hover {
+    color: @baseDark;
+  }
+  &.selected-true {
+    color: @white;
+  }
 }
 
 
 .level0 {
-  background: #222f3d;
+  background: @baseDarkest;
 }
 .level1 {
-  background: #34495e;
+  background: @baseDark;
 }
 .level2 {
-  background: #46627f;
+  background: @baseLight;
 }
 .level3 {
-  background: #587ca0;
+  background: @baseLighter;
 }
 
 .plus {

@@ -85,29 +85,30 @@ body {
   min-width: 150px;
   border: none;
 }
-.table td a {
+.nav-tabs > li > a,
+.nav-pills > li > a {
+  border-radius: 12px 0 0 12px;
   color: silver;
 }
-.table td a.selected-true {
-  color: white;
-}
-.nav-tabs > li > a,
-.nav-pills > li > a,
-.nav-tabs > li > a,
+.nav-tabs > li > a:hover,
 .nav-pills > li > a:hover {
-  border-radius: 12px 0 0 12px;
+  color: #46627f;
+}
+.nav-tabs > li > a.selected-true,
+.nav-pills > li > a.selected-true {
+  color: #ffffff;
 }
 .level0 {
   background: #222f3d;
 }
 .level1 {
-  background: #34495e;
-}
-.level2 {
   background: #46627f;
 }
-.level3 {
+.level2 {
   background: #587ca0;
+}
+.level3 {
+  background: #7795b4;
 }
 .plus {
   color: white;
