@@ -44,16 +44,20 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
                                 value: 'this was fetched'
                             },
                             {
-                                name: 'PreferredLabel',
+                                name: 'Literal',
                                 value: 'this accompanied the result'
+                            },
+                            {
+                                name: 'Third',
+                                value: 'this is a third field'
                             }
                         ],
                         fetch: {
                             fetchURL: 'http://fetch.eu',
                             uriLabel: 'Fetched URI',
                             uriField: 'URI',
-                            preferredLabelLabel: 'Preferred Label',
-                            preferredLabelField: 'PreferredLabel'
+                            literalLabel: 'Literal Value',
+                            literalField: 'Literal'
                         }
                     }
                 ]
@@ -107,10 +111,12 @@ module.controller('FetchCtrl', ['$scope', function ($scope) {
         };
         $scope.fetch = fetch;
         $scope.uri = findElement($scope.fetch.uriField);
-        $scope.preferredLabel = findElement($scope.fetch.preferredLabelField);
+        $scope.literal = findElement($scope.fetch.literalField);
+        $scope.groupFields.push($scope.fetch.uriField);
+        $scope.groupFields.push($scope.fetch.literalField);
     }
 }]);
 
-module.controller('GroupCtrl', ['$scope', function ($scope) {
-    $scope.fields = [];
+module.controller('PanelCtl', ['$scope', function ($scope) {
+    $scope.groupFields = [];
 }]);

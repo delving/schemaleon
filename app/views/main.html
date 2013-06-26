@@ -17,15 +17,15 @@
                     <!--<input type="text" ng-model="preferredLabel.value"/>-->
                 <!--</form>-->
             <!--</div>-->
-            <ul class="nav nav-pills nav-stacked fade-in element-list">
+            <ul class="nav nav-pills nav-stacked fade-in element-list" ng-controller="PanelCtl">
                 <form ng-show="panel.element.fetch" ng-controller="FetchCtrl" ng-init="kickstart(panel.element.fetch, panel.element.elements)">
                     <label>{{fetch.uriLabel}}</label>
                     <input type="text" ng-model="uri.value"/>
-                    <label>{{fetch.preferredLabelLabel}}</label>
-                    <input type="text" ng-model="preferredLabel.value"/>
+                    <label>{{fetch.literalLabel}}</label>
+                    <input type="text" ng-model="literal.value"/>
                 </form>
                 <li ng-repeat="member in panel.element.elements"
-                    ng-show="!panel.element.fetch">
+                    ng-show="groupFields.indexOf(member.name) < 0">
                     <a href class="level{{member.classIndex}} selected-{{member.selected}}"
                        ng-click="choose(member, $parent.$index)">
                         {{member.name}}
