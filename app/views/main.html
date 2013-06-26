@@ -1,6 +1,6 @@
 <h1 class="page-header">Culture Collector</h1>
 
-<table cellpadding="20" border="0" class="table">
+<table cellpadding="20" border="0" class="table panels">
     <thead>
     <tr>
         <th ng-repeat="panel in panels" class="panel-header">{{panel.element.name}}</th>
@@ -14,6 +14,10 @@
                 <input type="text" ng-model="uri.value"/>
                 <label>{{literal.label}}</label>
                 <input type="text" ng-model="literal.value"/>
+            </form>
+            <form ng-show="panel.element.controlled" >
+                <label>{{ panel.element.name }}</label>
+                <input type="text" ng-model="panel.element.value" typeahead="control for control in panel.element.controlled"/>
             </form>
             <ul class="nav nav-pills nav-stacked fade-in element-list" ng-controller="PanelCtl">
                 <li ng-repeat="member in panel.element.elements">

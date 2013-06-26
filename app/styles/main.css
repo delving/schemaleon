@@ -26,7 +26,7 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* COLOR THEME */
+/* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
   from {
@@ -74,30 +74,7 @@
 body {
   margin: 20px;
 }
-.table {
-  width: auto;
-}
-.table th {
-  padding-left: 20px;
-}
-.table td {
-  padding: 20px 0 20px 10px;
-  min-width: 150px;
-  border: none;
-}
-.nav-tabs > li > a,
-.nav-pills > li > a {
-  border-radius: 12px 0 0 12px;
-  color: silver;
-}
-.nav-tabs > li > a:hover,
-.nav-pills > li > a:hover {
-  color: #46627f;
-}
-.nav-tabs > li > a.selected-true,
-.nav-pills > li > a.selected-true {
-  color: #ffffff;
-}
+/* LEVEL COLORS */
 .level0 {
   background: #222f3d;
 }
@@ -110,16 +87,36 @@ body {
 .level3 {
   background: #7795b4;
 }
-.plus {
-  color: white;
+/* PANELS TABLE */
+.panels {
+  background: transparent;
+  width: auto;
 }
-.panel {
+.panels .panel-header {
+  background: #98afc6;
+  border-radius: 20px 20px 0 0;
+  color: #222f3d;
+  font-weight: normal;
+  padding-left: 20px;
+}
+.panels .panel {
+  padding: 20px 0 20px 10px;
+  min-width: 150px;
+  border: none;
   border-radius: 0 0 20px 20px;
 }
-.panel-header {
-  border-radius: 20px 20px 0 0;
-  background: #7f8c8d;
-  color: #fff;
+.nav-tabs > li > a,
+.nav-pills > li > a {
+  border-radius: 12px 0 0 12px;
+  color: silver;
+}
+.nav-tabs > li > a.selected-true,
+.nav-pills > li > a.selected-true {
+  color: #ffffff;
+}
+.nav-tabs > li > a:hover,
+.nav-pills > li > a:hover {
+  color: #46627f;
 }
 .element-list li {
   position: relative;

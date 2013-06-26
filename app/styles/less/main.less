@@ -2,8 +2,7 @@
 @import "/app/components/bootstrap/less/variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
-/* COLOR THEME */
-//
+/* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
 @baseDarker: #34495e;
 @baseDark: lighten(@baseDarker, 10%);
@@ -36,35 +35,8 @@
 body {
   margin: 20px;
 }
-.table {
-  width: auto;
-}
-.table th {
-  padding-left: 20px;
-}
-.table td {
-  padding: 20px 0 20px 10px;
-  min-width: 150px;
-  border: none;
 
-}
-//.table td a {
-//  color: silver;
-//}
-//.table td a.selected-true {
-//  color: white;
-//}
-.nav-tabs > li > a, .nav-pills > li > a {
-  border-radius: 12px 0 0 12px;
-  color: silver;
-  &:hover {
-    color: @baseDark;
-  }
-  &.selected-true {
-    color: @white;
-  }
-}
-
+/* LEVEL COLORS */
 
 .level0 {
   background: @baseDarkest;
@@ -79,18 +51,35 @@ body {
   background: @baseLighter;
 }
 
-.plus {
-  color: white;
+/* PANELS TABLE */
+.panels {
+  background: transparent;
+  width: auto;
+  .panel-header {
+    background: @baseLightest;
+    border-radius: 20px 20px 0 0;
+    color: @baseDarkest;
+    font-weight: normal;
+    padding-left: 20px;
+  }
+  .panel {
+    padding: 20px 0 20px 10px;
+    min-width: 150px;
+    border: none;
+    border-radius: 0 0 20px 20px;
+  }
 }
 
-.panel {
-  border-radius: 0 0 20px 20px;
-}
 
-.panel-header {
-  border-radius: 20px 20px 0 0;
-  background: #7f8c8d;
-  color: #fff;
+.nav-tabs > li > a, .nav-pills > li > a {
+  border-radius: 12px 0 0 12px;
+  color: silver;
+  &.selected-true {
+    color: @white;
+  }
+  &:hover {
+    color: @baseDark;
+  }
 }
 
 .element-list li {
