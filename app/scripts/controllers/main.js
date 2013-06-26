@@ -31,8 +31,10 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
     $scope.addSibling = function (list, index) {
         // should be some kind of deep copy
         var existing = list[index];
-        var fresh = { name: existing.name };
-        list.splice(index, 0, fresh)
+        var fresh = JSON.parse(JSON.stringify(existing));
+        fresh.value = '';
+        existing.multiple = false;
+        list.splice(index + 1, 0, fresh)
     }
 }]);
 
