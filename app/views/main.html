@@ -9,13 +9,13 @@
     <tbody>
     <tr>
         <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
+            <form ng-show="panel.element.fetch" ng-controller="FetchCtrl" ng-init="kickstart(panel.element.fetch, panel.element.elements)">
+                <label>{{uri.label}}</label>
+                <input type="text" ng-model="uri.value"/>
+                <label>{{literal.label}}</label>
+                <input type="text" ng-model="literal.value"/>
+            </form>
             <ul class="nav nav-pills nav-stacked fade-in element-list" ng-controller="PanelCtl">
-                <form ng-show="panel.element.fetch" ng-controller="FetchCtrl" ng-init="kickstart(panel.element.fetch, panel.element.elements)">
-                    <label>{{uri.label}}</label>
-                    <input type="text" ng-model="uri.value"/>
-                    <label>{{literal.label}}</label>
-                    <input type="text" ng-model="literal.value"/>
-                </form>
                 <li ng-repeat="member in panel.element.elements">
                     <a href class="level{{member.classIndex}} selected-{{member.selected}}"
                        ng-click="choose(member, $parent.$index)">
