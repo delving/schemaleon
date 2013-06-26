@@ -38,7 +38,9 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
 }]);
 
 module.controller('RemoteVocabularyController', ['$scope', function ($scope) {
-}]);
-
-module.controller('PanelCtl', ['$scope', function ($scope) {
+    var rv = $scope.panel.element.remoteVocabulary;
+    if (!rv) return;
+    $scope.rv = rv;
+    $scope.uri = rv.elements[0];
+    $scope.literal = rv.elements[1];
 }]);
