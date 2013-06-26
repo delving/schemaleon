@@ -33,31 +33,35 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
             {
                 name: 'Creation',
                 elements: [
-                    { name: 'Date' },
-                    { name: 'Type' },
+                    {
+                        name: 'Date',
+                        value: 'August 30, 2010'
+                    },
+                    {
+                        name: 'Type',
+                        controlled: [
+                            'First',
+                            'Second',
+                            'Third'
+                        ]
+                    },
                     {
                         name: 'Creator',
                         doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-                        elements: [
-                            {
-                                name: 'URI',
-                                value: 'this was fetched'
-                            },
-                            {
-                                name: 'Literal',
-                                value: 'this accompanied the result'
-                            },
-                            {
-                                name: 'Third',
-                                value: 'this is a third field'
-                            }
-                        ],
                         fetch: {
-                            fetchURL: 'http://fetch.eu',
-                            uriLabel: 'Fetched URI',
-                            uriField: 'URI',
-                            literalLabel: 'Literal Value',
-                            literalField: 'Literal'
+                            source: 'http://fetch.eu',
+                            elements: [
+                                {
+                                    label: 'Fetched URI',
+                                    name: 'URI',
+                                    value: 'this was fetched'
+                                },
+                                {
+                                    label: 'Literal value',
+                                    name: 'Literal',
+                                    value: 'this accompanied the result'
+                                }
+                            ]
                         }
                     }
                 ]
@@ -102,18 +106,9 @@ module.controller('MainCtrl', ['$scope', function ($scope) {
 module.controller('FetchCtrl', ['$scope', function ($scope) {
     $scope.kickstart = function(fetch, elements) {
         if (!fetch) return; // todo: note that this function gets called all the time
-
-        var findElement = function(soughtName) {
-            for (var walk=0; walk<elements.length; walk++) {
-                if (elements[walk].name == soughtName) return elements[walk];
-            }
-            return {name:'unknown'}
-        };
         $scope.fetch = fetch;
-        $scope.uri = findElement($scope.fetch.uriField);
-        $scope.literal = findElement($scope.fetch.literalField);
-        $scope.groupFields.push($scope.fetch.uriField);
-        $scope.groupFields.push($scope.fetch.literalField);
+        $scope.uri = fetch.elements[0];
+        $scope.literal = fetch.elements[1];
     }
 }]);
 
