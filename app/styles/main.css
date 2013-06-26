@@ -1,23 +1,46 @@
 /* make keyframes that tell the start state and the end state of our object */
-@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-.fade-in {
-    opacity:0;  /* make things invisible upon start */
-    -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
-    -moz-animation:fadeIn ease-in 1;
-    animation:fadeIn ease-in 1;
-
-    -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
-    -moz-animation-fill-mode:forwards;
-    animation-fill-mode:forwards;
-
-    -webkit-animation-duration:1s;
-    -moz-animation-duration:1s;
-    animation-duration:1s;
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in {
+  opacity: 0;
+  /* make things invisible upon start */
 
+  -webkit-animation: fadeIn ease-in 1;
+  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+  -webkit-animation-fill-mode: forwards;
+  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
+}
 /* color definitions */
 body {
   margin: 20px;
@@ -26,26 +49,25 @@ body {
   width: auto;
 }
 .table th {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 .table td {
-    padding: 20px 0 20px 10px;
-    min-width: 150px;
-    border: none;
-
+  padding: 20px 0 20px 10px;
+  min-width: 150px;
+  border: none;
 }
 .table td a {
   color: silver;
 }
 .table td a.selected-true {
-    color: white;
+  color: white;
 }
-.nav-tabs > li > a, .nav-pills > li > a,
-.nav-tabs > li > a, .nav-pills > li > a:hover {
-    border-radius: 12px 0 0 12px;
+.nav-tabs > li > a,
+.nav-pills > li > a,
+.nav-tabs > li > a,
+.nav-pills > li > a:hover {
+  border-radius: 12px 0 0 12px;
 }
-
-
 .level0 {
   background: #222f3d;
 }
@@ -58,65 +80,52 @@ body {
 .level3 {
   background: #587ca0;
 }
-
 .plus {
-    color: white;
+  color: white;
 }
-
 .panel {
-    border-radius: 0 0 20px 20px;
+  border-radius: 0 0 20px 20px;
 }
-
 .panel-header {
-    border-radius: 20px 20px 0 0;
-    background: #95a5a6;
-    color: #fff;
+  border-radius: 20px 20px 0 0;
+  background: #7f8c8d;
+  color: #fff;
 }
-
 .element-list li {
-    position: relative;
-    padding-left: 20px;
+  position: relative;
+  padding-left: 20px;
 }
-
 .panel form {
-    margin: 8px 20px 20px;
-    padding: 0;
+  margin: 8px 20px 20px;
+  padding: 0;
 }
-
 .panel form label {
-    color: #fffff0;
+  color: #fffff0;
 }
-
 .plus {
-    position: absolute;
-    left: -5px;
-    top: 5px;
+  position: absolute;
+  left: -5px;
+  top: 5px;
 }
 .plus:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 .documentation {
-    position: absolute;
-    left: 4px;
-    top: 5px;
-    width: 10px;
-    height: 10px;
-    cursor: help;
+  position: absolute;
+  left: 4px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  cursor: help;
 }
-
-
-
-
 /*.panel-last-true {*/
-    /*border-radius: 0 20px 20px 0;*/
+/*border-radius: 0 20px 20px 0;*/
 /*}*/
-
 /*.bordered-true {*/
-    /*border-style: solid;*/
-    /*border-color: #ce1b94;*/
-    /*border-right: none;*/
+/*border-style: solid;*/
+/*border-color: #ce1b94;*/
+/*border-right: none;*/
 /*}*/
-
 /*.bordered-false {*/
-    /*border-style: none;*/
+/*border-style: none;*/
 /*}*/

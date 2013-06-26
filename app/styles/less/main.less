@@ -1,37 +1,122 @@
+/* make keyframes that tell the start state and the end state of our object */
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.fade-in {
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in 1;
+  animation:fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1s;
+  -moz-animation-duration:1s;
+  animation-duration:1s;
+}
+
 /* color definitions */
-
-@baseDark: #34495e;
-@baseDarker: #2c3e50;
-
-@baseMedium: #ffffff;
-
-
 body {
   margin: 20px;
 }
 .table {
   width: auto;
-  min-width: 250px;
-  td {
-    a{
-      color: silver;
-    }
+}
+.table th {
+  padding-left: 20px;
+}
+.table td {
+  padding: 20px 0 20px 10px;
+  min-width: 150px;
+  border: none;
 
-  }
-  td:nth-of-type(1){
-    background: darken(@baseDark, 10%);
-  }
-  td:nth-of-type(2){
-    background: @baseDark;
-  }
-  td:nth-of-type(3){
-    background: lighten(@baseDark, 10%);
-  }
-  td:nth-of-type(4){
-    background: lighten(@baseDark, 20%);
-  }
+}
+.table td a {
+  color: silver;
+}
+.table td a.selected-true {
+  color: white;
+}
+.nav-tabs > li > a, .nav-pills > li > a,
+.nav-tabs > li > a, .nav-pills > li > a:hover {
+  border-radius: 12px 0 0 12px;
 }
 
-.active {
-  color: gold;
+
+.level0 {
+  background: #222f3d;
 }
+.level1 {
+  background: #34495e;
+}
+.level2 {
+  background: #46627f;
+}
+.level3 {
+  background: #587ca0;
+}
+
+.plus {
+  color: white;
+}
+
+.panel {
+  border-radius: 0 0 20px 20px;
+}
+
+.panel-header {
+  border-radius: 20px 20px 0 0;
+  background: #7f8c8d;
+  color: #fff;
+}
+
+.element-list li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.panel form {
+  margin: 8px 20px 20px;
+  padding: 0;
+}
+
+.panel form label {
+  color: #fffff0;
+}
+
+.plus {
+  position: absolute;
+  left: -5px;
+  top: 5px;
+}
+.plus:hover {
+  cursor: pointer;
+}
+.documentation {
+  position: absolute;
+  left: 4px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  cursor: help;
+}
+
+
+
+
+/*.panel-last-true {*/
+/*border-radius: 0 20px 20px 0;*/
+/*}*/
+
+/*.bordered-true {*/
+/*border-style: solid;*/
+/*border-color: #ce1b94;*/
+/*border-right: none;*/
+/*}*/
+
+/*.bordered-false {*/
+/*border-style: none;*/
+/*}*/
