@@ -37,7 +37,12 @@ var doc = {
             elements: [
                 { name: 'URI' },
                 { name: 'Type' },
-                { name: 'Note' }
+                {
+                    name: 'Note',
+                    textArea: {
+                        label: 'Source Note'
+                    }
+                }
             ]
         },
         {
@@ -45,7 +50,11 @@ var doc = {
             elements: [
                 {
                     name: 'Date',
-                    value: 'August 30, 2010'
+                    value: 'August 30, 2010',
+                    textInput: {
+                        label: 'Creation date',
+                        type: 'date'
+                    }
                 },
                 {
                     name: 'Type',

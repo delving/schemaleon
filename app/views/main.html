@@ -9,21 +9,37 @@
     <tbody>
     <tr>
         <td ng-repeat="panel in panels" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
-            <form ng-show="panel.element.fetch" ng-controller="FetchCtrl" ng-init="kickstart(panel.element.fetch, panel.element.elements)">
-                <label>{{uri.label}}</label>
-                <input type="text" ng-model="uri.value"/>
-                <label>{{literal.label}}</label>
-                <input type="text" ng-model="literal.value"/>
+
+            <form>
+                <div ng-show="panel.element.fetch" ng-controller="FetchCtrl" ng-init="kickstart(panel.element.fetch, panel.element.elements)">
+                    <label>{{ uri.label }}</label>
+                    <input type="text" ng-model="uri.value"/>
+                    <label>{{ literal.label }}</label>
+                    <input type="text" ng-model="literal.value"/>
+                </div>
+
+                <div ng-show="panel.element.controlled">
+                    <label>{{ panel.element.name }}</label>
+                    <input type="text" ng-model="panel.element.value" typeahead="control for control in panel.element.controlled"/>
+                </div>
+
+                <div ng-show="panel.element.textInput">
+                    <label>{{ panel.element.textInput.label }}</label>
+                    <input type="text" ng-model="panel.element.value"/>
+                </div>
+
+                <div ng-show="panel.element.textArea">
+                    <label>{{ panel.element.textArea.label }}</label>
+                    <textarea ng-model="panel.element.value"></textarea>
+                </div>
             </form>
-            <form ng-show="panel.element.controlled" >
-                <label>{{ panel.element.name }}</label>
-                <input type="text" ng-model="panel.element.value" typeahead="control for control in panel.element.controlled"/>
-            </form>
+
             <ul class="nav nav-pills nav-stacked fade-in element-list" ng-controller="PanelCtl">
                 <li ng-repeat="member in panel.element.elements">
-                    <a href class="level{{member.classIndex}} selected-{{member.selected}}"
+                    <a href
+                       class="level{{member.classIndex}} selected-{{member.selected}}"
                        ng-click="choose(member, $parent.$index)">
-                        {{member.name}}
+                        {{ member.name }}
                     </a>
                     <span ng-show="member.multiple"
                           tooltip-placement="bottom"
