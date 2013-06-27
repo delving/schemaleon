@@ -16,6 +16,6 @@ describe('Controller: MainCtrl', function () {
   }));
 
   it('should have panels in the scope', function () {
-    expect(scope.panels.length).toBe(0);
+    expect(scope.panels.length).toBe(1);
   });
 });
