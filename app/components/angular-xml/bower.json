@@ -1,0 +1,29 @@
+{
+  "name": "angular-xml",
+  "version": "0.1.3",
+  "main": "angular-xml.js",
+  "ignore": [
+    "**/*.swp",
+    ".gitignore",
+    "components",
+    "git-hooks",
+    "Gruntfile.js",
+    "node_modules",
+    "package.json",
+    "README.md",
+    "test"
+  ],
+  "devDependencies": {
+    "angular": "~1.0.6",
+    "angular-mocks": "~1.0.6"
+  },
+  "gitHead": "4f10f0a92cad9d717bc0c10902e3929e410fbe85",
+  "readme": "angular-xml\n===========\n\nXML module for AngularJS.\n\nIt provides 2 XML helpers:\n\n1.  A filter to convert an XML string in to an [Angular element][angular.element].\n\n    ```js\n    function MyCtrl(xmlFilter) {\n        var xml = xmlFilter('<blogs><blog name=\"my first blog\" id=\"1\"/></blogs>');\n        console.log(xml.find('blog'));\n        // => [blog 1]\n    }\n    ```\n    \n2.  A HTTP interceptor to turn all your responses in to an [Angular XML element][angular.element].\n\n    ```js\n    angular\n        .module('blogs', ['xml'])\n        .config(function ($httpProvider) {\n            $httpProvider.responseInterceptors.push('xmlHttpInterceptor');\n        });\n        \n    function BlogsCtrl ($scope, $http) {\n        $scope.blogs = [];\n        \n        $http.get('blogs.xml').then(function (response) {\n            var blogs = [],\n                els = response.xml.find('blog'),\n                blog,\n                i;\n            \n            for (i = 0; i < els.length; i += 1) {\n                blog = angular.element(els[i]);\n                blogs.push({\n                  name: blog.attr('name'),\n                  id: blog.attr('id')\n                });\n            }\n\n            $scope.blogs = blogs;\n        });\n    }\n    ```\n    \n    ```html\n    <!doctype html>\n    <html lang=\"en\" ng-app=\"blogs\">\n        <head>\n            <title>Blogs</title>\n            <script src=\"//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js\"></script>\n            <script src=\"angular-xml.min.js\"></script>\n            <script src=\"blogs.js\"></script>\n        </head>\n        <body ng-controller=\"BlogsCtrl\">\n            <ul>\n                <li ng-repeat=\"blog in blogs\">\n                    {{blog.id}} - {{blog.name}}\n                </li>\n            </ul>\n        </body>\n    </html>\n    ```\n\nInstallation\n------------\n\nEither download the latest tag, or use bower:\n\n```sh\nbower i --save angular-xml\n```\n\nTests\n-----\n\nThe tests run with karma.\n\n### Installing karma\n\n1. Install Node.js\n2. `npm i -g karma`\n\n### Run the test suite\n\n```\nkarma start test/karma.js\n```\n\nCompiling\n---------\n\nThe source file `angular-xml.js` can be minifed and checked for problems using a grunt command. First make sure you have installed all npm dependencies `npm i`. Then run `grunt`.\n\n[angular.element]: http://docs.angularjs.org/api/angular.element\n\nGit Hooks\n---------\n\nThere is a git hook available for shell environments that will automatically lint, test and compile the xml module when commiting it. To use it simply link it in to the git hook directory.\n\n```\ncd .git/hooks && ln -s ../../pre-commit.sh pre-commit\n```\n\nNow when you change the `angular-xml.js` file and commit it, it will be linted, tested and if all is OK, then compiled and the minified version wil be added to your commit.\n\n",
+  "readmeFilename": "README.md",
+  "_id": "angular-xml@0.1.3",
+  "description": "angular-xml ===========",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/johngeorgewright/angular-xml.git"
+  }
+}
