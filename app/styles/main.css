@@ -100,7 +100,7 @@ body {
   border-radius: 20px 20px 0 0;
   color: #222f3d;
   font-weight: normal;
-  padding-left: 20px;
+  padding-left: 40px;
 }
 .panels .panel {
   padding: 20px 0 20px 10px;
@@ -127,7 +127,7 @@ body {
   padding-left: 20px;
 }
 .panel form {
-  margin: 8px 20px 20px;
+  margin: 8px 20px 20px 30px;
   padding: 0;
 }
 .panel form label {

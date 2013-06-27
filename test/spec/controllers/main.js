@@ -20,4 +20,16 @@ describe('Controller: MainCtrl', function () {
         expect(scope.panels.length).toBe(1);
         expect(scope.panels[0].element.name).toBe('Document')
     });
+
+    it("should add another panel", function () {
+        element(':a.level0').click();
+        expect(scope.panels.length).toBe(2);
+    });
+
+    it("should add another panel", function () {
+        element(':a.level1').click();
+        expect(scope.panels.length).toBe(3);
+    });
+
+
 });
