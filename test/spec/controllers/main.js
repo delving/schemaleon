@@ -3,7 +3,7 @@
 describe('Controller: MainCtrl', function () {
 
   // load the controller's module
-  beforeEach(angular.module('CultureCollectorApp'));
+  beforeEach(module('CultureCollectorApp'));
 
   var MainCtrl, scope;
 

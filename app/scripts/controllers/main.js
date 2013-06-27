@@ -37,12 +37,12 @@ CultureCollectorApp.controller('MainCtrl', ['$scope', 'Docs', function ($scope, 
     }
 }]);
 
-module.controller('PanelController', ['$scope', function ($scope) {
+CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
     if (!$scope.panel) return;
     $scope.el = $scope.panel.element;
 }]);
 
-module.controller('RemoteVocabularyController', ['$scope', function ($scope) {
+CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', function ($scope) {
     var rv = $scope.panel.element.remoteVocabulary;
     if (!rv) return;
     $scope.rv = rv;
@@ -50,7 +50,7 @@ module.controller('RemoteVocabularyController', ['$scope', function ($scope) {
     $scope.literal = rv.elements[1];
 }]);
 
-module.controller('LocalVocabularyController', ['$scope', function ($scope) {
+CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function ($scope) {
     var lv = $scope.panel.element.localVocabulary;
     if (!lv) return;
     $scope.lv = lv;
