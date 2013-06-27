@@ -33,13 +33,13 @@ module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
         fresh.value = '';
         existing.multiple = false;
         existing.classIndex = parentIndex + 1;
-        list.splice(index + 1, 0, fresh)
+        list.splice(index + 1, 0, fresh);
     }
 }]);
 
 module.controller('PanelController', ['$scope', function ($scope) {
     if (!$scope.panel) return;
-    $scope.el = $scope.panel.element
+    $scope.el = $scope.panel.element;
 }]);
 
 module.controller('RemoteVocabularyController', ['$scope', function ($scope) {
