@@ -1,4 +1,4 @@
-var module = angular.module('CultureCollectorApp');
+var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 var doc = {
     identifier: 'DOC123',
@@ -102,7 +102,7 @@ var doc = {
     ]
 };
 
-module.service("Docs", function () {
+CultureCollectorApp.service("Docs", function () {
     this.query = function () {
         return doc;
     };

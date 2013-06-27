@@ -1,8 +1,8 @@
 'use strict';
 
-var module = angular.module('CultureCollectorApp');
+var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-module.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
+CultureCollectorApp.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
 
     $scope.panels = [];
 
