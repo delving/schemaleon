@@ -2,7 +2,7 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-CultureCollectorApp.controller('MainCtrl', ['$scope', 'Docs', function ($scope, Docs) {
+CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', function ($scope, Docs) {
 
     $scope.panels = [];
 
@@ -57,4 +57,20 @@ CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function 
     if (!lv) return;
     $scope.lv = lv;
     $scope.options = lv.options;
+}]);
+
+CultureCollectorApp.controller('NavigationController', ['$scope', function($scope){
+    $scope.mainMenu = [
+        {label: "Dashboard", path: "#/dashboard.html", active: true},
+        {label: "List", path: "#/list.html", active: false},
+        {label: "Object", path: "#/object.html", active: false}
+    ];
+
+    $scope.choose = function(index){
+        $scope.mainMenu.forEach(function(item){
+            item.active = false;
+        });
+        $scope.mainMenu[index].active = true;
+
+    }
 }]);

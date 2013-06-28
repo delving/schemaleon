@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: ObjectEditController', function () {
 
     var mockDoc = {
         name: 'Fake',

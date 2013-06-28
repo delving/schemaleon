@@ -2,29 +2,39 @@
 
 describe('End2End Testing', function () {
 
-    afterEach(function(){
-         pause();
-    });
 
-    it("should show a panel with 5 elements", function () {
-        browser().navigateTo('/#/');
-        var panels = repeater('td.panel').count();
-        expect(panels).toBe(1);
-        var links = element('a').count();
-        expect(links).toBe(5);
-    });
 
-    it("should show a second panel when an element is clicked", function () {
-        var firstLink = element('a:first');
-        firstLink.click();
-        var panels = repeater('td.panel').count();
-        expect(panels).toBe(2);
-    });
+    describe('loading the objects page', function () {
 
-    it("should add a new element to the current list of elements", function() {
-       var addSibling = element('span.plus.display-true:first');
-        addSibling.click();
-        expect(repeater('td.level0 ul li').count()).toBe(6);
+        beforeEach(function(){
+            pause();
+        });
+
+        afterEach(function(){
+            //
+        });
+
+        it("should show a panel with 5 elements", function () {
+            browser().navigateTo('/#/');
+            var panels = repeater('td.panel').count();
+            expect(panels).toBe(1);
+            var links = element('a').count();
+            expect(links).toBe(5);
+        });
+
+        it("clicking a list element should show a second panel with elements", function () {
+            var firstLink = element('a:first');
+            firstLink.click();
+            var panels = repeater('td.panel').count();
+            expect(panels).toBe(2);
+        });
+
+        it("clicking the plus icon should create another sibling element", function() {
+            var addSibling = element('span.plus.display-true:first');
+            addSibling.click();
+            expect(repeater('td.level0 ul li').count()).toBe(6);
+        });
+
     });
 
 });
