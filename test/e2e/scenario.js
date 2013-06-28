@@ -2,6 +2,10 @@
 
 describe('End2End Testing', function () {
 
+    afterEach(function(){
+         pause();
+    });
+
     it("should show a panel with 5 elements", function () {
         browser().navigateTo('/#/');
         var panels = repeater('td.panel').count();
@@ -15,21 +19,12 @@ describe('End2End Testing', function () {
         firstLink.click();
         var panels = repeater('td.panel').count();
         expect(panels).toBe(2);
-//        pause();
     });
 
     it("should add a new element to the current list of elements", function() {
-       var addSibling = element('span.plus');
+       var addSibling = element('span.plus.display-true:first');
         addSibling.click();
-        pause();
+        expect(repeater('td.level0 ul li').count()).toBe(6);
     });
-
-
-
-//    it("should add another panel", function () {
-//        element(':a.level1').click();
-//        expect(scope.panels.length).toBe(1000);
-//    });
-
 
 });
