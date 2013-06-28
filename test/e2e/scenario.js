@@ -10,9 +10,10 @@ describe('End2End Testing', function () {
 //    });
 
     it("should add another panel", function () {
-        browser().navigateTo('/');
-        var firstA = element("a");
-        expect(JSON.stringify(firstA)).toBe('<a href="bla"></a>');
+        browser().navigateTo('/#/');
+        pause();
+        var firstA = element("a.level");
+        expect(JSON.stringify(firstA)).toBe('<a href="" class="level" ng-click="choose(member, $parent.$index)">Basics</a>');
     });
 
 //    it("should add another panel", function () {

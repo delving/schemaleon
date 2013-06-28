@@ -325,6 +325,15 @@ module.exports = function (grunt) {
         'karma:unit'
     ]);
 
+    grunt.registerTask('test',[
+        'clean:server',
+//        'coffee',
+//        'compass',
+        'livereload-start',
+        'connect:livereload',
+        'karma'
+    ]);
+
     grunt.registerTask('e2e', [
         'clean:server',
         'karma:e2e'
@@ -335,7 +344,7 @@ module.exports = function (grunt) {
         'jshint',
         'test',
 //        'coffee',
-//        'compass:dist',
+        'compass:dist',
         'less:dist',
         'useminPrepare',
         'imagemin',
@@ -351,6 +360,6 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', ['build']);
-    grunt.loadNpmTasks('grunt-contrib-compass');
+//    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-less');
 };

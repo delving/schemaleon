@@ -49,3 +49,15 @@ captureTimeout = 5000;
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+proxies = {
+    // angular.js, angular-resource.js, etc
+    '/angular': 'http://localhost:9000/components/angular',
+    '/': 'http://localhost:9000/#/'
+};
+
+//proxies =  {
+//    '/': 'http://localhost:8081'
+//};
+
+urlRoot = '/__e2e/';
