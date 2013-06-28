@@ -9,19 +9,17 @@ describe('End2End Testing', function () {
 //        expect(scope.panels[0].element.name).toBe('Gumby')
 //    });
 
-    it("should alert message", function () {
+    it("should show a panel with 5 elements", function () {
         browser().navigateTo('/#/');
-        var btn = element("button.btn");
-        var basicsLink = element("a.link-Basics");
-        basicsLink.click();
-//        btn.click();
+        var links = element('a').count();
+        expect(links).toBe(5);
+    });
+
+    it("should show a second panel when an element is clicked", function () {
+        var firstLink = element('a:first');
+        firstLink.click();
+//        expect.
         pause();
-
-
-//        pause();
-//        var firstA = element("a.level");
-//        pause();
-//        expect(JSON.stringify(firstA)).toBe('<a href="" class="level" ng-click="choose(member, $parent.$index)">Basics</a>');
     });
 
 //    it("should add another panel", function () {
