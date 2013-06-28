@@ -12,11 +12,12 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
                 controller: 'ListCtrl'
             })
             .when('/object.html', {
-                templateUrl: 'views/main.html',
+                templateUrl: 'views/object.html',
                 controller: 'ObjectEditController'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/',
+                controller: 'ObjectEditController'
             });
     }]);
 

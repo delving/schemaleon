@@ -1,0 +1,71 @@
+<h1 class="page-header">CRM Object</h1>
+
+<table cellpadding="20" border="0" class="table panels">
+    <thead>
+    <tr>
+        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{panel.element.name}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td ng-repeat="panel in panels"
+            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in"
+            ng-controller="PanelController">
+
+            <form ng-show="panel.element.remoteVocabulary ||
+                           panel.element.localVocabulary ||
+                           panel.element.textInput ||
+                           panel.element.textArea">
+
+                <div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">
+                    <label>{{ uri.label }}</label>
+                    <input type="text" ng-model="uri.value"/>
+                    <label>{{ literal.label }}</label>
+                    <input type="text" ng-model="literal.value"/>
+                </div>
+
+                <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">
+                    <label>{{ el.name }}</label>
+                    <input type="text" ng-model="el.value" typeahead="control for control in options"/>
+                </div>
+
+                <div ng-show="el.textInput">
+                    <label>{{ el.textInput.label }}</label>
+                    <input type="text" ng-model="el.value"/>
+                </div>
+
+                <div ng-show="el.textArea">
+                    <label>{{ el.textArea.label }}</label>
+                    <textarea ng-model="el.value"></textarea>
+                </div>
+
+            </form>
+
+            <ul class="nav nav-pills nav-stacked panel-list">
+                <li ng-repeat="member in el.elements">
+                    <a href
+                       class="level{{member.classIndex}} link-{{ member.name }}"
+                       ng-click="choose($index, $parent.$index)">
+                        {{ member.name }}
+                    </a>
+                    <span ng-show="member.multiple"
+                          tooltip-placement="bottom"
+                          tooltip="Add {{member.name}}"
+                          class="plus display-{{ member.multiple }}"
+                          ng-click="addSibling(el.elements, $index, $parent.index)">
+                        <i class="icon-plus-sign icon-white"></i>
+                    </span>
+                    <span ng-show="member.doc"
+                          class="documentation"
+                          popover-trigger="mouseenter"
+                          popover-placement="top"
+                          popover-title="{{member.name}}"
+                          popover="{{member.doc}}"><i class="icon-question-sign icon-white"></i>
+                    </span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

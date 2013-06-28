@@ -1,57 +1,133 @@
 /* IMPORT USEFULL BOOTSTRAP LESS FILES */
-@import "/app/components/bootstrap/less/variables.less";
+//@import "/app/components/bootstrap/less/variables.less";
+@import "/app/styles/less/oscr-variables.less";
+//@import "/app/styles/less/oscr-bootswatch.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
 /* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
-@baseDarker: #34495e;
+@baseDarker: @grayDark;
 @baseDark: lighten(@baseDarker, 10%);
-@baseLight:lighten(@baseDarker, 20%);
-@baseLighter:lighten(@baseDarker, 30%);
-@baseLightest:lighten(@baseDarker, 40%);
-
+@baseLight: lighten(@baseDarker, 20%);
+@baseLighter: lighten(@baseDarker, 30%);
+@baseLightest: lighten(@baseDarker, 40%);
 
 /* make keyframes that tell the start state and the end state of our object */
-@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .fade-in {
-  opacity:0;  /* make things invisible upon start */
-  -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
-  -moz-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
+  opacity: 0; /* make things invisible upon start */
+  -webkit-animation: fadeIn ease-in 1; /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
 
-  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
+  -webkit-animation-fill-mode: forwards; /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 
-  -webkit-animation-duration:0.5s;
-  -moz-animation-duration:0.5s;
-  animation-duration:0.5s;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 
 /* color definitions */
 body {
+  background: @bodyBackground;
   margin: 20px;
-  padding-top: 40px;
+  padding-top: 60px;
+  color: @textColor;
+}
+
+.brand img {
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: text-bottom;
 }
 
 .page-header {
   font-weight: normal;
 }
 
+/* MAIN NAVIGATION */
+
+.nav-pills > li > a {
+  border-radius: 12px 0 0 12px;
+  color: @white;
+  &.selected-true {
+    color: @white;
+  }
+  &:hover {
+//    background: transparent;
+//    color: @blue;
+  }
+}
+
+//.nav-pills > .active > a,
+//.nav-pills > .active > a:hover {
+//  background: @bodyBackground;
+//}
+
+
+ul.main-menu {
+  background: @gray;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-top: @baseLineHeight*1.5;
+  padding-bottom: @baseLineHeight*1.5;
+  &> li > a {
+    color: @black
+  }
+  &:hover {
+    background: @gray;
+  }
+  &> .active > a,
+  &> .active > a:hover {
+    background: @bodyBackground;
+  }
+}
+
+
+//.nav-list > .active > a, .nav-list > .active > a:hover
+
 /* LEVEL COLORS */
 
 .level0 {
   background: @baseDarkest;
 }
+
 .level1 {
   background: @baseDark;
 }
+
 .level2 {
   background: @baseLight;
 }
+
 .level3 {
   background: @baseLighter;
 }
@@ -61,7 +137,7 @@ body {
   background: transparent;
   width: auto;
   .panel-header {
-    background: @baseLightest;
+    background: @blue;
     border-radius: 20px 20px 0 0;
     color: @baseDarkest;
     font-weight: normal;
@@ -76,21 +152,15 @@ body {
 }
 
 
-.nav-tabs > li > a, .nav-pills > li > a {
-  border-radius: 12px 0 0 12px;
-  color: silver;
-  &.selected-true {
-    color: @white;
-  }
-  &:hover {
-    background: @baseLighter;
-    color: @baseDarker;
-  }
-}
+ul.panel-list {
+   li {
+     position: relative;
+     padding-left: 20px;
+     a:hover {
+        background: @grayDark;
+     }
+   }
 
-.element-list li {
-  position: relative;
-  padding-left: 20px;
 }
 
 .panel form {
@@ -107,9 +177,11 @@ body {
   left: -5px;
   top: 5px;
 }
+
 .plus:hover {
   cursor: pointer;
 }
+
 .documentation {
   position: absolute;
   left: 4px;
@@ -118,9 +190,6 @@ body {
   height: 10px;
   cursor: help;
 }
-
-
-
 
 /*.panel-last-true {*/
 /*border-radius: 0 20px 20px 0;*/

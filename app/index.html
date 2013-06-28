@@ -33,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">Delving Culture Collector</a>
+                <a class="brand" href="#"><img src="img/logo.png" />Delving CRM Manager</a>
                 <div class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
                         Logged in as <a href="#" class="navbar-link">Username</a>
@@ -51,17 +51,14 @@
 
 
         <div class="container-fluid" ng-app="CultureCollectorApp">
-            <div class="row-fluid">
+            <div class="row-fluid" ng-controller="NavigationController">
                 <div class="span3">
                     <!--Sidebar content-->
-                    <div class="well sidebar-nav">
-                        <ul class="nav nav-list" ng-controller="NavigationController">
-                            <li ng-repeat="item in mainMenu" ng-class="{ active: item.active }" ng-click="choose($index)"><a href="{{ item.path }}">{{ item.label }}</a></li>
-                            <!--<li class="nav-header">Sidebar</li>-->
-                            <!--<li id="dashboard" class="active"><a href="#/dashboard.html">Dashboard</a></li>-->
-                            <!--<li id="list"><a href="#/list.html">Registered Objects</a></li>-->
-                            <!--<li id="object"><a href="#/object.html">Edit object</a></li>-->
-                        </ul>
+                    <div class="sidebar-nav">
+                        <ul class="nav nav-pills nav-stacked main-menu" >
+                            <!--<li class="nav-header">{{ mainMenu.section }}</li>-->
+                            <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>
+                        <!--</ul>-->
                     </div><!--/.well -->
                 </div><!--/span-->
                 <div class="span9" ng-view>

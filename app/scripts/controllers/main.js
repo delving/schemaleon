@@ -19,7 +19,7 @@ CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', functi
         $scope.panels[parentIndex + 1] = {
             'element': element
         };
-        console.log(JSON.stringify(element)+' added to '+(parentIndex + 1));
+        console.log(JSON.stringify(element) + ' added to ' + (parentIndex + 1));
         if (element.elements) {
             element.elements.forEach(function (el) {
                 el.classIndex = parentIndex + 1;
@@ -59,18 +59,24 @@ CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function 
     $scope.options = lv.options;
 }]);
 
-CultureCollectorApp.controller('NavigationController', ['$scope', function($scope){
-    $scope.mainMenu = [
-        {label: "Dashboard", path: "#/dashboard.html", active: true},
-        {label: "List", path: "#/list.html", active: false},
-        {label: "Object", path: "#/object.html", active: false}
-    ];
+CultureCollectorApp.controller('NavigationController', ['$scope', function ($scope) {
+    $scope.mainMenu =
+    {
+        section: "Main",
+        links: [
+            {label: "Dashboard", path: "#/dashboard.html", active: true},
+            {label: "Registered Objects", path: "#/list.html", active: false},
+            {label: "Object", path: "#/object.html", active: false}
+        ]
+    };
 
-    $scope.choose = function(index){
-        $scope.mainMenu.forEach(function(item){
-            item.active = false;
+
+
+    $scope.choose = function (index) {
+        $scope.mainMenu.links.forEach(function (link) {
+            link.active = false;
         });
-        $scope.mainMenu[index].active = true;
+        $scope.mainMenu.links[index].active = true;
 
     }
 }]);
