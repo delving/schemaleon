@@ -327,15 +327,20 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test',[
         'clean:server',
-//        'coffee',
-//        'compass',
         'livereload-start',
         'connect:livereload',
         'karma'
     ]);
 
+    grunt.registerTask('unit',[
+        'clean:server',
+        'karma:unit'
+    ]);
+
     grunt.registerTask('e2e', [
         'clean:server',
+        'livereload-start',
+        'connect:livereload',
         'karma:e2e'
     ]);
 

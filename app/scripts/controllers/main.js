@@ -10,7 +10,8 @@ CultureCollectorApp.controller('MainCtrl', ['$scope', 'Docs', function ($scope, 
         'element': Docs.query()
     };
 
-    $scope.choose = function (element, parentIndex) {
+    $scope.choose = function (index, parentIndex) {
+        var element = $scope.panels[parentIndex].element.elements[index];
         $scope.panels[parentIndex].element.elements.forEach(function (el) {
             el.classIndex = parentIndex;
             if (el == element) el.classIndex++;
@@ -18,6 +19,7 @@ CultureCollectorApp.controller('MainCtrl', ['$scope', 'Docs', function ($scope, 
         $scope.panels[parentIndex + 1] = {
             'element': element
         };
+        console.log(JSON.stringify(element)+' added to '+(parentIndex + 1));
         if (element.elements) {
             element.elements.forEach(function (el) {
                 el.classIndex = parentIndex + 1;

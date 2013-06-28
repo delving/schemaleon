@@ -44,7 +44,7 @@
                 <li ng-repeat="member in el.elements">
                     <a href
                        class="level{{member.classIndex}} link-{{ member.name }}"
-                       ng-click="choose(member, $parent.$index)">
+                       ng-click="choose($index, $parent.$index)">
                         {{ member.name }}
                     </a>
                     <span ng-show="member.multiple"
