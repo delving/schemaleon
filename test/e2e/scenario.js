@@ -9,11 +9,16 @@ describe('End2End Testing', function () {
 //        expect(scope.panels[0].element.name).toBe('Gumby')
 //    });
 
-    it("should add another panel", function () {
+    it("should alert message", function () {
         browser().navigateTo('/#/');
-        pause();
-        var firstA = element("a.level");
-        expect(JSON.stringify(firstA)).toBe('<a href="" class="level" ng-click="choose(member, $parent.$index)">Basics</a>');
+        var btn = element(":button.btn");
+        btn.click();
+
+
+//        pause();
+//        var firstA = element("a.level");
+//        pause();
+//        expect(JSON.stringify(firstA)).toBe('<a href="" class="level" ng-click="choose(member, $parent.$index)">Basics</a>');
     });
 
 //    it("should add another panel", function () {
