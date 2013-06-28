@@ -44,7 +44,7 @@
             <ul class="nav nav-pills nav-stacked element-list">
                 <li ng-repeat="member in el.elements">
                     <a href
-                       class="level{{member.classIndex}}"
+                       class="level{{member.classIndex}} link-{{ member.name }}"
                        ng-click="choose(member, $parent.$index)">
                         {{ member.name }}
                     </a>

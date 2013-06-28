@@ -11,8 +11,11 @@ describe('End2End Testing', function () {
 
     it("should alert message", function () {
         browser().navigateTo('/#/');
-        var btn = element(":button.btn");
-        btn.click();
+        var btn = element("button.btn");
+        var basicsLink = element("a.link-Basics");
+        basicsLink.click();
+//        btn.click();
+        pause();
 
 
 //        pause();
