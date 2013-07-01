@@ -64,9 +64,9 @@ CultureCollectorApp.controller('NavigationController', ['$scope', function ($sco
     {
         section: "Main",
         links: [
-            {label: "Dashboard", path: "#/dashboard.html", active: true},
-            {label: "Registered Objects", path: "#/list.html", active: false},
-            {label: "Object", path: "#/object.html", active: false}
+            {label: "Dashboard", path: "#/", active: true},
+            {label: "Registered Objects", path: "#/list", active: false},
+            {label: "Object", path: "#/object", active: false}
         ]
     };
 

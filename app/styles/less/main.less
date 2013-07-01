@@ -55,6 +55,64 @@
   animation-duration: 0.5s;
 }
 
+// BUTTONS
+// -----------------------------------------------------
+
+.btn {
+  //  .box-shadow(1px 1px 2px #111);
+  .buttonBackground(darken(@gray, 20%), darken(@gray, 30%));
+  color: @white;
+  text-shadow: none;
+  .border-radius(0px);
+  &:hover {
+    text-shadow: none;
+    color: @white;
+  }
+}
+
+.btn-primary {
+  .buttonBackground(@blue, darken(@blue, 10%));
+}
+
+.btn-warning {
+  .buttonBackground(lighten(@orange, 10%), @orange);
+}
+
+.btn-danger {
+  .buttonBackground(lighten(@red, 10%), @red);
+}
+
+.btn-success {
+  .buttonBackground(lighten(@green, 10%), @green);
+}
+
+.btn-info {
+  .buttonBackground(darken(@gray, 40%), darken(@gray, 50%));
+}
+
+.btn-inverse {
+  .buttonBackground(lighten(@purple, 5%), @purple);
+}
+
+.btn .caret {
+  border-top: 4px solid black;
+  opacity: 0.3;
+}
+
+.btn-group > .dropdown-menu > li > a:hover {
+  border-bottom: 0;
+}
+
+.btn.disabled, .btn[disabled] {
+  background-color: @grayLight;
+}
+
+/* grid */
+
+.row-fluid {
+  margin-bottom: @baseLineHeight*2;
+}
+
 /* color definitions */
 body {
   background: @bodyBackground;
