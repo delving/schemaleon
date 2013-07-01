@@ -1,7 +1,8 @@
 'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+var path = require('path');
 var mountFolder = function (connect, dir) {
-    return connect.static(require('path').resolve(dir));
+    return connect.static(path.resolve(dir));
 };
 
 module.exports = function (grunt) {
@@ -59,7 +60,6 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             lrSnippet,
-                            mountFolder(connect, '.tmp'),
                             mountFolder(connect, yeomanConfig.app)
                         ];
                     }
@@ -69,10 +69,20 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
-                            mountFolder(connect, '.tmp'),
                             mountFolder(connect, 'test')
                         ];
                     }
+                }
+            }
+        },
+        express: {
+            livereload: {
+                options: {
+                    port: 9000,
+                    bases: path.resolve('app'),
+                    monitor: {},
+                    debug: true,
+                    server: path.resolve('./app/server')
                 }
             }
         },
@@ -115,47 +125,6 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
-//        coffee: {
-//            dist: {
-//                files: [
-//                    {
-//                        expand: true,
-//                        cwd: '<%= yeoman.app %>/scripts',
-//                        src: '{,*/}*.coffee',
-//                        dest: '.tmp/scripts',
-//                        ext: '.js'
-//                    }
-//                ]
-//            },
-//            test: {
-//                files: [
-//                    {
-//                        expand: true,
-//                        cwd: 'test/spec',
-//                        src: '{,*/}*.coffee',
-//                        dest: '.tmp/spec',
-//                        ext: '.js'
-//                    }
-//                ]
-//            }
-//        },
-//        compass: {
-//            options: {
-//                sassDir: '<%= yeoman.app %>/styles',
-//                cssDir: '.tmp/styles',
-//                imagesDir: '<%= yeoman.app %>/images',
-//                javascriptsDir: '<%= yeoman.app %>/scripts',
-//                fontsDir: '<%= yeoman.app %>/styles/fonts',
-//                importPath: '<%= yeoman.app %>/components',
-//                relativeAssets: true
-//            },
-//            dist: {},
-//            server: {
-//                options: {
-//                    debugInfo: true
-//                }
-//            }
-//        },
         less: {
             server: {
                 options: {
@@ -308,31 +277,34 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', [
         'clean:server',
-//        'coffee:dist',
         'less:server',
-//        'compass:server',
         'livereload-start',
         'connect:livereload',
         'open',
         'watch'
     ]);
 
+    grunt.registerTask('api', [
+        'livereload-start',
+        'express',
+        'open',
+        'express-keepalive'
+    ]);
+
     grunt.registerTask('unit', [
         'clean:server',
-//        'coffee',
-//        'compass',
         'connect:test',
         'karma:unit'
     ]);
 
-    grunt.registerTask('test',[
+    grunt.registerTask('test', [
         'clean:server',
         'livereload-start',
         'connect:livereload',
         'karma'
     ]);
 
-    grunt.registerTask('unit',[
+    grunt.registerTask('unit', [
         'clean:server',
         'karma:unit'
     ]);
