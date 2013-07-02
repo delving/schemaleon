@@ -31,7 +31,6 @@ CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', functi
         $scope.panels[parentIndex + 1] = {
             'element': element
         };
-        console.log(JSON.stringify(element) + ' added to ' + (parentIndex + 1));
         if (element.elements) {
             element.elements.forEach(function (el) {
                 el.classIndex = parentIndex + 1;

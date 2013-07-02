@@ -27,8 +27,8 @@ describe('Controller: ObjectEditController', function () {
     };
 
     var mockService = {
-        query: function () {
-            return mockDoc;
+        fetchDocument: function (identifier ,success) {
+            success(mockDoc);
         }
     };
 
