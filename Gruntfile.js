@@ -46,7 +46,8 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/{,*/}*.html',
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    '<%= yeoman.app %>/server.js'
                 ],
                 tasks: ['livereload']
             }
@@ -287,10 +288,12 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('api', [
+        'clean:server',
+        'less:server',
         'livereload-start',
-        'express',
+        'express:livereload',
         'open',
-        'express-keepalive'
+        'watch'
     ]);
 
     grunt.registerTask('unit', [

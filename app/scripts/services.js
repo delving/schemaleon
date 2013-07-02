@@ -102,9 +102,15 @@ var doc = {
     ]
 };
 
-CultureCollectorApp.service("Docs", function () {
-    this.query = function () {
-        return doc;
+CultureCollectorApp.service("Docs", function ($http, $log) {
+    this.fetchDocument = function (identifier, success) {
+        $http.get('/document/'+identifier)
+            .success(function (data, status, headers, config) {
+                success(data);
+            })
+            .error(function (data, status, headers, config) {
+                success(doc);
+            });
     };
 });
 

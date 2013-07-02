@@ -16,9 +16,11 @@ CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', functi
 
     $scope.panels = [];
 
-    $scope.panels[0] = {
-        'element': Docs.query()
-    };
+    Docs.fetchDocument('ID939393', function(doc) {
+        $scope.panels[0] = {
+            'element': doc
+        };
+    });
 
     $scope.choose = function (index, parentIndex) {
         var element = $scope.panels[parentIndex].element.elements[index];
