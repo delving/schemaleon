@@ -5,6 +5,8 @@ var mountFolder = function (connect, dir) {
     return connect.static(path.resolve(dir));
 };
 
+// This is a comment
+
 module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
