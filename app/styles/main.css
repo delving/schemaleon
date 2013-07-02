@@ -88,9 +88,9 @@
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff;
   text-shadow: none;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
 }
 .btn:hover,
 .btn:focus,
@@ -331,10 +331,11 @@ body {
 }
 .page-header {
   font-weight: normal;
+  border-color: #999999;
 }
 /* MAIN NAVIGATION */
 .nav-pills > li > a {
-  border-radius: 12px 0 0 12px;
+  border-radius: 20px 0 0 20px;
   color: #ffffff;
 }
 .nav-pills > li > a.selected-true {
@@ -418,14 +419,8 @@ ul.panel-list li a:hover {
   height: 10px;
   cursor: help;
 }
-/*.panel-last-true {*/
-/*border-radius: 0 20px 20px 0;*/
-/*}*/
-/*.bordered-true {*/
-/*border-style: solid;*/
-/*border-color: #ce1b94;*/
-/*border-right: none;*/
-/*}*/
-/*.bordered-false {*/
-/*border-style: none;*/
-/*}*/
+/* STRIPED TABLE */
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+  background-color: #555555;
+}

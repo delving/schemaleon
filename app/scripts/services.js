@@ -107,3 +107,49 @@ CultureCollectorApp.service("Docs", function () {
         return doc;
     };
 });
+
+
+var docList = [
+        {
+            identifier: 'Item123',
+            appellation: 'Lorem ipsum',
+            status: 'incomplete'
+        },
+        {
+            identifier: 'Item234',
+            appellation: 'Lorem updown',
+            status: 'complete'
+        },
+        {
+            identifier: 'Item345',
+            appellation: 'Solor delar sammit',
+            status: 'incomplete'
+        },
+        {
+            identifier: 'Item456',
+            appellation: 'Objectus in a rowus',
+            status: 'complete'
+        },
+        {
+            identifier: 'Item567',
+            appellation: 'Imus objectus',
+            status: 'complete'
+        },
+        {
+            identifier: 'Item678',
+            appellation: 'Globule module listus',
+            status: 'incomplete'
+        },
+        {
+            identifier: 'Item789',
+            appellation: 'Lipsum sapsum drapsum',
+            status: 'incomplete'
+        }
+
+    ];
+
+CultureCollectorApp.service("ObjectList", function () {
+    this.query = function () {
+        return docList;
+    };
+});

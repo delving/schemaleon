@@ -1,1 +1,23 @@
 <h1 class="page-header">Registered Objects</h1>
+
+<table class="table table-striped">
+    <thead>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>STATUS</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="object in objects">
+            <td>{{ object.identifier }}</td>
+            <td>{{ object.appellation }}</td>
+            <td>
+                <span ng-show="object.status == 'complete'" class="badge badge-success">{{ object.status }}</span>
+                <span ng-show="object.status == 'incomplete'" class="badge badge-info">{{ object.status }}</span>
+            </td>
+            <td>
+                <a ng-href="#/object/{{ object.identifier }}" class="btn btn-inverse">Edit</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

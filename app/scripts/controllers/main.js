@@ -2,6 +2,16 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
+/* CRM LIST RELATED CONTROLLERS */
+
+CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', function ($scope, ObjectList) {
+
+    $scope.objects = ObjectList.query();
+
+}]);
+
+/* CRM OBJECT RELATED CONTROLLERS */
+
 CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', function ($scope, Docs) {
 
     $scope.panels = [];
@@ -59,18 +69,18 @@ CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function 
     $scope.options = lv.options;
 }]);
 
-CultureCollectorApp.controller('NavigationController', ['$scope', function ($scope) {
+CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {
+
+
     $scope.mainMenu =
     {
         section: "Main",
         links: [
-            {label: "Dashboard", path: "#/", active: true},
+            {label: "Dashboard", path: "/", active: true},
             {label: "Registered Objects", path: "#/list", active: false},
             {label: "Object", path: "#/object", active: false}
         ]
     };
-
-
 
     $scope.choose = function (index) {
         $scope.mainMenu.links.forEach(function (link) {
@@ -78,5 +88,31 @@ CultureCollectorApp.controller('NavigationController', ['$scope', function ($sco
         });
         $scope.mainMenu.links[index].active = true;
 
-    }
+    };
+
+//    $scope.mainNavClass = function (path) {
+////        console.log($location.path().substring(1));
+//        var currentRoute = $location.path().substring(1) || '/';
+////        console.log(path + " : " + currentRoute);
+//        console.log(path === currentRoute ? 'active' : '');
+//        return path === currentRoute ? 'active' : 'no-active';
+//    };
+
+//    $scope.$watch('$location', function() {
+//        console.log($scope.$location.path());
+////        $scope.mainMenu.links.forEach(function (index, link) {
+////            if ('/' + link === $scope.mainMenu.links[index].path) {
+////                $scope.mainMenu.links[index].active = true;
+////            }
+////        });
+//
+//    });
+
+
 }]);
+
+
+
+
+
+

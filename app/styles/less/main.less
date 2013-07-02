@@ -63,7 +63,7 @@
   .buttonBackground(darken(@gray, 20%), darken(@gray, 30%));
   color: @white;
   text-shadow: none;
-  .border-radius(0px);
+  .border-radius(20px);
   &:hover {
     text-shadow: none;
     color: @white;
@@ -129,12 +129,13 @@ body {
 
 .page-header {
   font-weight: normal;
+  border-color: @gray;
 }
 
 /* MAIN NAVIGATION */
 
 .nav-pills > li > a {
-  border-radius: 12px 0 0 12px;
+  border-radius: 20px 0 0 20px;
   color: @white;
   &.selected-true {
     color: @white;
@@ -249,16 +250,8 @@ ul.panel-list {
   cursor: help;
 }
 
-/*.panel-last-true {*/
-/*border-radius: 0 20px 20px 0;*/
-/*}*/
+/* STRIPED TABLE */
 
-/*.bordered-true {*/
-/*border-style: solid;*/
-/*border-color: #ce1b94;*/
-/*border-right: none;*/
-/*}*/
-
-/*.bordered-false {*/
-/*border-style: none;*/
-/*}*/
+.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
+  background-color: @baseLight;
+}

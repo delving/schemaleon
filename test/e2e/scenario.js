@@ -14,6 +14,10 @@ describe('End2End Testing', function () {
             //
         });
 
+//        it("should open on the dashboard page", function () {
+//            browser().navigateTo('/#/');
+//        });
+
         it("should show a panel with 5 elements", function () {
             browser().navigateTo('/#/');
             var panels = repeater('td.panel').count();
