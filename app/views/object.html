@@ -18,10 +18,10 @@
                            panel.element.textArea">
 
                 <div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">
-                    <label>{{ uri.label }}</label>
-                    <input type="text" ng-model="uri.value"/>
+                    <!--<label>{{ uri.label }}</label>-->
+                    <!--<input type="text" ng-model="uri.value"/>-->
                     <label>{{ literal.label }}</label>
-                    <input type="text" ng-model="literal.value"/>
+                    <input type="text" ng-model="literal.value" typeahead="state for state in getStates($viewValue)"/>
                 </div>
 
                 <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">

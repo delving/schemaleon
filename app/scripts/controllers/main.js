@@ -55,12 +55,20 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
     $scope.el = $scope.panel.element;
 }]);
 
-CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', function ($scope) {
+CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {
     var rv = $scope.panel.element.remoteVocabulary;
     if (!rv) return;
+    $scope.vocab = 'Vocab1';
     $scope.rv = rv;
     $scope.uri = rv.elements[0];
     $scope.literal = rv.elements[1];
+    $scope.getStates = function(value) {
+        var deferred = $q.defer();
+        Vocabulary.getStates($scope.vocab, value, function(states) {
+            deferred.resolve(states);
+        });
+        return deferred.promise;
+    };
 }]);
 
 CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function ($scope) {

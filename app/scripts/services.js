@@ -78,13 +78,11 @@ var doc = {
                         elements: [
                             {
                                 label: 'Fetched URI',
-                                name: 'URI',
-                                value: 'this was fetched'
+                                name: 'URI'
                             },
                             {
                                 label: 'Literal value',
-                                name: 'Literal',
-                                value: 'this accompanied the result'
+                                name: 'Literal'
                             }
                         ]
                     }
@@ -104,7 +102,7 @@ var doc = {
 
 CultureCollectorApp.service("Docs", function ($http, $log) {
     this.fetchDocument = function (identifier, success) {
-        $http.get('/document/'+identifier)
+        $http.get('/document/' + identifier)
             .success(function (data, status, headers, config) {
                 success(data);
             })
@@ -115,43 +113,43 @@ CultureCollectorApp.service("Docs", function ($http, $log) {
 });
 
 var docList = [
-        {
-            identifier: 'Item123',
-            appellation: 'Lorem ipsum',
-            status: 'incomplete'
-        },
-        {
-            identifier: 'Item234',
-            appellation: 'Lorem updown',
-            status: 'complete'
-        },
-        {
-            identifier: 'Item345',
-            appellation: 'Solor delar sammit',
-            status: 'incomplete'
-        },
-        {
-            identifier: 'Item456',
-            appellation: 'Objectus in a rowus',
-            status: 'complete'
-        },
-        {
-            identifier: 'Item567',
-            appellation: 'Imus objectus',
-            status: 'complete'
-        },
-        {
-            identifier: 'Item678',
-            appellation: 'Globule module listus',
-            status: 'incomplete'
-        },
-        {
-            identifier: 'Item789',
-            appellation: 'Lipsum sapsum drapsum',
-            status: 'incomplete'
-        }
+    {
+        identifier: 'Item123',
+        appellation: 'Lorem ipsum',
+        status: 'incomplete'
+    },
+    {
+        identifier: 'Item234',
+        appellation: 'Lorem updown',
+        status: 'complete'
+    },
+    {
+        identifier: 'Item345',
+        appellation: 'Solor delar sammit',
+        status: 'incomplete'
+    },
+    {
+        identifier: 'Item456',
+        appellation: 'Objectus in a rowus',
+        status: 'complete'
+    },
+    {
+        identifier: 'Item567',
+        appellation: 'Imus objectus',
+        status: 'complete'
+    },
+    {
+        identifier: 'Item678',
+        appellation: 'Globule module listus',
+        status: 'incomplete'
+    },
+    {
+        identifier: 'Item789',
+        appellation: 'Lipsum sapsum drapsum',
+        status: 'incomplete'
+    }
 
-    ];
+];
 
 CultureCollectorApp.service("ObjectList", function () {
     this.query = function () {
@@ -162,19 +160,20 @@ CultureCollectorApp.service("ObjectList", function () {
 var vocabResponse = {
     vocabulary: 'VocabName',
     candidates: [
-        { label: 'One', id: "0001", uri: "http://vocab.com/v/0001" },
-        { label: 'Two', id: "0002", uri: "http://vocab.com/v/0002" },
-        { label: 'Three', id: "0003", uri: "http://vocab.com/v/0003" },
-        { label: 'Four', id: "0004", uri: "http://vocab.com/v/0004" }
+//        { label: 'One', id: "0001", uri: "http://vocab.com/v/0001" },
+//        { label: 'Two', id: "0002", uri: "http://vocab.com/v/0002" },
+//        { label: 'Three', id: "0003", uri: "http://vocab.com/v/0003" },
+//        { label: 'Four', id: "0004", uri: "http://vocab.com/v/0004" }
+        'one', 'two', 'three', 'four'
     ]
 };
 
 
-CultureCollectorApp.service("Vocabulary", function () {
-    this.fetchDocument = function (identifier, success) {
-        $http.get('/document/'+identifier)
+CultureCollectorApp.service("Vocabulary", function ($http) {
+    this.getStates = function (vocab, value, success) {
+        $http.get('/vocabulary/' + vocab, {params: {q: value}})
             .success(function (data, status, headers, config) {
-                success(data);
+                success(data.candidates);
             })
             .error(function (data, status, headers, config) {
                 success(vocabResponse);
