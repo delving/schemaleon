@@ -114,7 +114,6 @@ CultureCollectorApp.service("Docs", function ($http, $log) {
     };
 });
 
-
 var docList = [
         {
             identifier: 'Item123',
@@ -157,5 +156,28 @@ var docList = [
 CultureCollectorApp.service("ObjectList", function () {
     this.query = function () {
         return docList;
+    };
+});
+
+var vocabResponse = {
+    vocabulary: 'VocabName',
+    candidates: [
+        { label: 'One', id: "0001", uri: "http://vocab.com/v/0001" },
+        { label: 'Two', id: "0002", uri: "http://vocab.com/v/0002" },
+        { label: 'Three', id: "0003", uri: "http://vocab.com/v/0003" },
+        { label: 'Four', id: "0004", uri: "http://vocab.com/v/0004" }
+    ]
+};
+
+
+CultureCollectorApp.service("Vocabulary", function () {
+    this.fetchDocument = function (identifier, success) {
+        $http.get('/document/'+identifier)
+            .success(function (data, status, headers, config) {
+                success(data);
+            })
+            .error(function (data, status, headers, config) {
+                success(vocabResponse);
+            });
     };
 });

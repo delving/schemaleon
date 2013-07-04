@@ -103,8 +103,22 @@ var doc = {
     ]
 };
 
+var vocabResponse = {
+    vocabulary: 'VocabName',
+    candidates: [
+        { label: 'One', id: "0001", uri: "http://vocab.com/v/0001" },
+        { label: 'Two', id: "0002", uri: "http://vocab.com/v/0002" },
+        { label: 'Three', id: "0003", uri: "http://vocab.com/v/0003" },
+        { label: 'Four', id: "0004", uri: "http://vocab.com/v/0004" }
+    ]
+};
+
 app.get('/document/:identifier', function(req, res) {
     res.json(doc);
+});
+
+app.get('/vocabulary/:vocab', function(req, res) {
+    res.json(vocabResponse);
 });
 
 module.exports = app;
