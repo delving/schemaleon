@@ -58,13 +58,12 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
 CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {
     var rv = $scope.panel.element.remoteVocabulary;
     if (!rv) return;
-    $scope.selectedState = $scope.panel.element.selectedState;
-    $scope.vocab = 'Vocab1';
+    $scope.value = $scope.panel.element.value;
+    $scope.vocab = rv.vocabularyName;
     $scope.rv = rv;
-    $scope.uri = rv.elements[0];
-    $scope.literal = rv.elements[1];
+    $scope.field = rv.elements[0];
     $scope.getStates = function (value) {
-        console.log('getStates: '+value);
+//        console.log('getStates: '+value);
         var deferred = $q.defer();
         Vocabulary.getStates($scope.vocab, value, function (states) {
             deferred.resolve(states);
@@ -73,9 +72,8 @@ CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', '$q', 'V
     };
     $scope.$watch('chosenState', function(after, before) {
         if (_.isObject(after)) {
-            $scope.panel.element.selectedState = after;
-            $scope.selectedState = after;
-            console.log("selected state: "+JSON.stringify($scope.panel.element.selectedState));
+            $scope.panel.element.value = after;
+            $scope.value = after;
         }
     })
 }]);

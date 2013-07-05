@@ -75,14 +75,11 @@ var doc = {
                     doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
                     remoteVocabulary: {
                         source: 'http://fetch.eu',
+                        vocabularyName: 'vocabby',
                         elements: [
                             {
-                                label: 'Fetched URI',
-                                name: 'URI'
-                            },
-                            {
-                                label: 'Literal value',
-                                name: 'Literal'
+                                label: 'Label',
+                                name: 'label'
                             }
                         ]
                     }

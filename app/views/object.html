@@ -18,16 +18,12 @@
                            panel.element.textArea">
 
                 <div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">
-                    <!--<label>{{ uri.label }}</label>-->
-                    <!--<input type="text" ng-model="uri.value"/>-->
-                    <div ng-show="!selectedState">
-                        <label>{{ literal.label }}</label>
+                    <div ng-show="!value">
+                        <label>{{ field.label }}</label>
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                     </div>
-                    <div ng-show="selectedState">
-                        <label>label: {{ selectedState.label }}</label>
-                        <label>id: {{ selectedState.id }}</label>
-                        <label>uri: {{ selectedState.uri }}</label>
+                    <div ng-show="value">
+                        <a ng-href="{{ value.uri }}">{{ value.label }} ({{ value.id }})</a>
                     </div>
                 </div>
 
