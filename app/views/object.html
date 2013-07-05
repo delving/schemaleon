@@ -20,11 +20,15 @@
                 <div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">
                     <!--<label>{{ uri.label }}</label>-->
                     <!--<input type="text" ng-model="uri.value"/>-->
-                    <label>{{ literal.label }}</label>
-                    <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
-                    <label>label: {{ chosenState.label }}</label>
-                    <label>id: {{ chosenState.id }}</label>
-                    <label>uri: {{ chosenState.uri }}</label>
+                    <div ng-show="!selectedState">
+                        <label>{{ literal.label }}</label>
+                        <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
+                    </div>
+                    <div ng-show="selectedState">
+                        <label>label: {{ selectedState.label }}</label>
+                        <label>id: {{ selectedState.id }}</label>
+                        <label>uri: {{ selectedState.uri }}</label>
+                    </div>
                 </div>
 
                 <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">
