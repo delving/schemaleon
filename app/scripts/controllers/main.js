@@ -16,7 +16,7 @@ CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', functi
 
     $scope.panels = [];
 
-    Docs.fetchDocument('ID939393', function(doc) {
+    Docs.fetchDocument('ID939393', function (doc) {
         $scope.panels[0] = {
             'element': doc
         };
@@ -62,13 +62,19 @@ CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', '$q', 'V
     $scope.rv = rv;
     $scope.uri = rv.elements[0];
     $scope.literal = rv.elements[1];
-    $scope.getStates = function(value) {
+    $scope.getStates = function (value) {
+        console.log('getStates: '+value);
         var deferred = $q.defer();
-        Vocabulary.getStates($scope.vocab, value, function(states) {
+        Vocabulary.getStates($scope.vocab, value, function (states) {
             deferred.resolve(states);
         });
         return deferred.promise;
     };
+    $scope.$watch('chosenState', function(after, before) {
+//        if (_.isObject(after)) {
+            console.log("chosen state changed: "+JSON.stringify(after));
+//        }
+    })
 }]);
 
 CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function ($scope) {
@@ -79,10 +85,7 @@ CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function 
 }]);
 
 CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {
-
-
-    $scope.mainMenu =
-    {
+    $scope.mainMenu = {
         section: "Main",
         links: [
             {label: "Dashboard", path: "/", active: true},
@@ -90,7 +93,6 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
             {label: "Object", path: "#/object", active: false}
         ]
     };
-
     $scope.choose = function (index) {
         $scope.mainMenu.links.forEach(function (link) {
             link.active = false;
@@ -98,26 +100,6 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
         $scope.mainMenu.links[index].active = true;
 
     };
-
-//    $scope.mainNavClass = function (path) {
-////        console.log($location.path().substring(1));
-//        var currentRoute = $location.path().substring(1) || '/';
-////        console.log(path + " : " + currentRoute);
-//        console.log(path === currentRoute ? 'active' : '');
-//        return path === currentRoute ? 'active' : 'no-active';
-//    };
-
-//    $scope.$watch('$location', function() {
-//        console.log($scope.$location.path());
-////        $scope.mainMenu.links.forEach(function (index, link) {
-////            if ('/' + link === $scope.mainMenu.links[index].path) {
-////                $scope.mainMenu.links[index].active = true;
-////            }
-////        });
-//
-//    });
-
-
 }]);
 
 

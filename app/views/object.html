@@ -21,7 +21,10 @@
                     <!--<label>{{ uri.label }}</label>-->
                     <!--<input type="text" ng-model="uri.value"/>-->
                     <label>{{ literal.label }}</label>
-                    <input type="text" ng-model="literal.value" typeahead="state for state in getStates($viewValue)"/>
+                    <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
+                    <label>label: {{ chosenState.label }}</label>
+                    <label>id: {{ chosenState.id }}</label>
+                    <label>uri: {{ chosenState.uri }}</label>
                 </div>
 
                 <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">
