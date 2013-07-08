@@ -58,11 +58,11 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
 
     // Panel Element Editor Toggles
     $scope.enableEditor = function (element) {
-        element.editorEnabled = true;
+        $scope.el.editorEnabled = true;
     };
 
     $scope.disableEditor = function (element) {
-        element.editorEnabled = false;
+        $scope.el.editorEnabled = false;
     }
 
 }]);
