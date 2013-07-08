@@ -29,7 +29,7 @@
 
                 <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">
                     <label>{{ el.name }}</label>
-                    <input type="text" ng-model="el.value" typeahead="option for options in options"/>
+                    <input type="text" ng-model="el.value" typeahead="option for option in options"/>
                 </div>
 
                 <div ng-show="el.textInput">

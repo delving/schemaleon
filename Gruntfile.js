@@ -25,18 +25,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-//            coffee: {
-//                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-//                tasks: ['coffee:dist']
-//            },
-//            coffeeTest: {
-//                files: ['test/spec/{,*/}*.coffee'],
-//                tasks: ['coffee:test']
-//            },
-//            compass: {
-//                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-//                tasks: ['compass']
-//            },
             less: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
                 tasks: ['less']
@@ -47,6 +35,7 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    '<%= yeoman.app %>/server-data.js',
                     '<%= yeoman.app %>/server.js'
                 ],
                 tasks: ['livereload']
@@ -282,24 +271,10 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'livereload-start',
-        'connect:livereload',
-        'open',
-        'watch'
-    ]);
-
-    grunt.registerTask('api', [
-        'clean:server',
-        'less:server',
-        'livereload-start',
         'express:livereload',
+//        'connect:livereload',
         'open',
         'watch'
-    ]);
-
-    grunt.registerTask('unit', [
-        'clean:server',
-        'connect:test',
-        'karma:unit'
     ]);
 
     grunt.registerTask('test', [
@@ -325,7 +300,6 @@ module.exports = function (grunt) {
         'clean:dist',
         'jshint',
         'test',
-//        'coffee',
         'compass:dist',
         'less:dist',
         'useminPrepare',
@@ -342,6 +316,5 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', ['build']);
-//    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-less');
 };

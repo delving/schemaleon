@@ -5,9 +5,9 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 /* CRM LIST RELATED CONTROLLERS */
 
 CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', function ($scope, ObjectList) {
-
-    $scope.objects = ObjectList.query();
-
+    ObjectList.fetchList(function(data){
+        $scope.objects = data;
+    });
 }]);
 
 /* CRM OBJECT RELATED CONTROLLERS */

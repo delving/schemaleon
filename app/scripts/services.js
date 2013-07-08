@@ -1,102 +1,5 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-var doc = {
-    identifier: 'DOC123',
-    name: 'Document',
-    elements: [
-        {
-            name: 'Basics',
-            elements: [
-                {
-                    name: 'Type',
-                    localVocabulary: {
-                        options: [
-                            'Landscapes',
-                            'Portraits',
-                            'Nudes'
-                        ]
-                    }
-                },
-                {
-                    name: 'Condition',
-                    localVocabulary: {
-                        options: [
-                            'Shitty',
-                            'Reasonable',
-                            'Superduper'
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            name: 'Object',
-            elements: [
-                { name: 'Link' },
-                { name: 'MimeType' }
-            ]
-        },
-        {
-            name: 'Source',
-            elements: [
-                { name: 'URI' },
-                { name: 'Type' },
-                {
-                    name: 'Note',
-                    textArea: {
-                        label: 'Source Note'
-                    }
-                }
-            ]
-        },
-        {
-            name: 'Creation',
-            elements: [
-                {
-                    name: 'Date',
-                    value: 'August 30, 2010',
-                    textInput: {
-                        label: 'Creation date',
-                        type: 'date'
-                    }
-                },
-                {
-                    name: 'Type',
-                    localVocabulary: {
-                        options: [
-                            'First',
-                            'Second',
-                            'Third'
-                        ]
-                    }
-                },
-                {
-                    name: 'Creator',
-                    doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-                    remoteVocabulary: {
-                        source: 'http://fetch.eu',
-                        vocabularyName: 'vocabby',
-                        elements: [
-                            {
-                                label: 'Label',
-                                name: 'label'
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            name: 'OtherEvent',
-            multiple: true,
-            elements: [
-                { name: 'Link' },
-                { name: 'MimeType' }
-            ]
-        }
-    ]
-};
-
 CultureCollectorApp.service("Docs", function ($http, $log) {
     this.fetchDocument = function (identifier, success) {
         $http.get('/document/' + identifier)
@@ -104,66 +7,22 @@ CultureCollectorApp.service("Docs", function ($http, $log) {
                 success(data);
             })
             .error(function (data, status, headers, config) {
-                success(doc);
+                alert('Problem fetching document');
             });
     };
 });
 
-var docList = [
-    {
-        identifier: 'Item123',
-        appellation: 'Lorem ipsum',
-        status: 'incomplete'
-    },
-    {
-        identifier: 'Item234',
-        appellation: 'Lorem updown',
-        status: 'complete'
-    },
-    {
-        identifier: 'Item345',
-        appellation: 'Solor delar sammit',
-        status: 'incomplete'
-    },
-    {
-        identifier: 'Item456',
-        appellation: 'Objectus in a rowus',
-        status: 'complete'
-    },
-    {
-        identifier: 'Item567',
-        appellation: 'Imus objectus',
-        status: 'complete'
-    },
-    {
-        identifier: 'Item678',
-        appellation: 'Globule module listus',
-        status: 'incomplete'
-    },
-    {
-        identifier: 'Item789',
-        appellation: 'Lipsum sapsum drapsum',
-        status: 'incomplete'
-    }
-
-];
-
-CultureCollectorApp.service("ObjectList", function () {
-    this.query = function () {
-        return docList;
+CultureCollectorApp.service("ObjectList", function ($http) {
+    this.fetchList = function (success) {
+        $http.get('/doclist')
+            .success(function (data, status, headers, config) {
+                success(data);
+            })
+            .error(function (data, status, headers, config) {
+                alert('Problem fetching document list');
+            });
     };
 });
-
-var vocabResponse = {
-    vocabulary: 'VocabName',
-    candidates: [
-        { label: 'One', id: "0001", uri: "http://vocab.com/v/0001" },
-        { label: 'Two', id: "0002", uri: "http://vocab.com/v/0002" },
-        { label: 'Three', id: "0003", uri: "http://vocab.com/v/0003" },
-        { label: 'Four', id: "0004", uri: "http://vocab.com/v/0004" }
-    ]
-};
-
 
 CultureCollectorApp.service("Vocabulary", function ($http) {
     this.getStates = function (vocab, value, success) {
@@ -172,7 +31,7 @@ CultureCollectorApp.service("Vocabulary", function ($http) {
                 success(data.candidates);
             })
             .error(function (data, status, headers, config) {
-                success(vocabResponse);
+                alert("Problem accessing vocabulary");
             });
     };
 });
