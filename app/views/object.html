@@ -36,13 +36,16 @@
                     <label>{{ el.textInput.label }}</label>
                     <div ng-show="!el.value || el.editorEnabled">
                         <input type="text" ng-model="el.value"/>
-                        <span ng-click="disableEditor(panel.element)" class="pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                        <span ng-click="disableEditor(panel.element)" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
-                    <span ng-show="el.value && !el.editorEnabled"
+                    <div ng-show="el.value && !el.editorEnabled">
+                    <span
                             tooltip-placement="left"
                             tooltip="Click to edit"
                             ng-click="enableEditor(panel.element)"
                             class="pointer">{{ el.value }}</span>
+                        <span class="badge pointer" ng-click="enableEditor(panel.element)">Edit</a>
+                    </div>
                 </div>
 
                 <div ng-show="el.textArea">
