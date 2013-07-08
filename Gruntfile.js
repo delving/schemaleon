@@ -35,8 +35,7 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= yeoman.app %>/server-data.js',
-                    '<%= yeoman.app %>/server.js'
+                    '<%= yeoman.app %>/server/*.js'
                 ],
                 tasks: ['livereload']
             }
@@ -108,7 +107,7 @@ module.exports = function (grunt) {
             ]
         },
         karma: {
-            unit: {
+            client: {
                 configFile: 'karma.conf.js',
                 singleRun: true
             },
@@ -116,6 +115,11 @@ module.exports = function (grunt) {
                 configFile: 'karma-e2e.conf.js',
                 singleRun: true
             }
+        },
+        nodeunit: {
+            all: [
+                'test/server/*.js'
+            ]
         },
         less: {
             server: {
@@ -267,32 +271,28 @@ module.exports = function (grunt) {
 
     grunt.renameTask('regarde', 'watch');
 
-    grunt.registerTask('server', [
+    grunt.registerTask('run', [
         'clean:server',
         'less:server',
         'livereload-start',
         'express:livereload',
-//        'connect:livereload',
         'open',
         'watch'
     ]);
 
-    grunt.registerTask('test', [
+    grunt.registerTask('test-client', [
         'clean:server',
-        'livereload-start',
-        'connect:livereload',
-        'karma'
+        'karma:client'
     ]);
 
-    grunt.registerTask('unit', [
-        'clean:server',
-        'karma:unit'
+    grunt.registerTask('test-server', [
+        'nodeunit'
     ]);
 
-    grunt.registerTask('e2e', [
+    grunt.registerTask('test-e2e', [
         'clean:server',
         'livereload-start',
-        'connect:livereload',
+        'express:livereload',
         'karma:e2e'
     ]);
 
@@ -317,4 +317,5 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['build']);
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
 };
