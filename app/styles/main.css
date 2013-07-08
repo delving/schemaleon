@@ -358,6 +358,9 @@ ul.main-menu > .active > a,
 ul.main-menu > .active > a:hover {
   background: #222222;
 }
+.pointer {
+  cursor: pointer;
+}
 /* LEVEL COLORS */
 .level0 {
   background: #080808;

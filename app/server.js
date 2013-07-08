@@ -16,7 +16,9 @@ var doc = {
                             'Portraits',
                             'Nudes'
                         ]
-                    }
+                    },
+                    editorEnabled: false
+
                 },
                 {
                     name: 'Condition',
@@ -26,7 +28,8 @@ var doc = {
                             'Reasonable',
                             'Superduper'
                         ]
-                    }
+                    },
+                    editorEnabled: false
                 }
             ]
         },
@@ -59,7 +62,8 @@ var doc = {
                     textInput: {
                         label: 'Creation date',
                         type: 'date'
-                    }
+                    },
+                    editorEnabled: false
                 },
                 {
                     name: 'Type',

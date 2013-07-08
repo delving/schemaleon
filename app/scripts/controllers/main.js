@@ -51,8 +51,19 @@ CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', functi
 }]);
 
 CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
+
     if (!$scope.panel) return;
     $scope.el = $scope.panel.element;
+
+    // Panel Element Editor Toggles
+    $scope.enableEditor = function (element) {
+        element.editorEnabled = true;
+    };
+
+    $scope.disableEditor = function (element) {
+        element.editorEnabled = false;
+    }
+
 }]);
 
 CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {

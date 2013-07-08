@@ -29,12 +29,20 @@
 
                 <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">
                     <label>{{ el.name }}</label>
-                    <input type="text" ng-model="el.value" typeahead="control for control in options"/>
+                    <input type="text" ng-model="el.value" typeahead="option for options in options"/>
                 </div>
 
                 <div ng-show="el.textInput">
                     <label>{{ el.textInput.label }}</label>
-                    <input type="text" ng-model="el.value"/>
+                    <div ng-show="!el.value || el.editorEnabled">
+                        <input type="text" ng-model="el.value"/>
+                        <span ng-click="disableEditor(panel.element)" class="pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                    </div>
+                    <span ng-show="el.value && !el.editorEnabled"
+                            tooltip-placement="left"
+                            tooltip="Click to edit"
+                            ng-click="enableEditor(panel.element)"
+                            class="pointer">{{ el.value }}</span>
                 </div>
 
                 <div ng-show="el.textArea">
