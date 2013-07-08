@@ -16,26 +16,16 @@
                            panel.element.localVocabulary ||
                            panel.element.textInput ||
                            panel.element.textArea">
-                                                         <span>editorEnabled: {{ el.editorEnabled }}</span>
-                <!--<div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">-->
-                    <!--<div ng-show="!value">-->
-                        <!--<label>{{ field.label }}</label>-->
-                        <!--<input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>-->
-                    <!--</div>-->
-                    <!--<div ng-show="value">-->
-                        <!--<a ng-href="{{ value.uri }}">{{ value.label }} ({{ value.id }})</a>-->
-                    <!--</div>-->
-                <!--</div>-->
 
                 <div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">
 
                     <label>{{ field.label }}</label>
-                    <div ng-show="editorEnabled">
+                    <div ng-show="el.editorEnabled">
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
-                    <div ng-show="!editorEnabled">
-                        <a ng-href="{{ value.uri }}">{{ value.label }} ({{ value.id }})</a>
+                    <div ng-show="!el.editorEnabled">
+                        <a ng-href="{{ value.uri }}" target="_blank">{{ value.label }} ({{ value.id }})</a>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                     </div>
                 </div>
