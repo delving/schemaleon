@@ -67,34 +67,22 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
 
 }]);
 
-CultureCollectorApp.controller('RemoteVocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {
-    var rv = $scope.panel.element.remoteVocabulary;
-    if (!rv) return;
-    $scope.value = $scope.panel.element.value;
-    $scope.vocab = rv.vocabularyName;
-    $scope.rv = rv;
-    $scope.field = rv.elements[0];
+CultureCollectorApp.controller('VocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {
+    var voc = $scope.el.vocabulary;
+    if (!voc) return;
+    $scope.voc = voc;
     $scope.getStates = function (value) {
-//        console.log('getStates: '+value);
         var deferred = $q.defer();
-        Vocabulary.getStates($scope.vocab, value, function (states) {
+        Vocabulary.getStates($scope.voc.name, value, function (states) {
             deferred.resolve(states);
         });
         return deferred.promise;
     };
     $scope.$watch('chosenState', function(after, before) {
         if (_.isObject(after)) {
-            $scope.panel.element.value = after;
-            $scope.value = after;
+            $scope.el.value = after;
         }
     })
-}]);
-
-CultureCollectorApp.controller('LocalVocabularyController', ['$scope', function ($scope) {
-    var lv = $scope.panel.element.localVocabulary;
-    if (!lv) return;
-    $scope.lv = lv;
-    $scope.options = lv.options;
 }]);
 
 CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {

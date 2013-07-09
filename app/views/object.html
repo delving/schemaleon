@@ -12,32 +12,19 @@
             class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in"
             ng-controller="PanelController">
 
-            <form ng-show="panel.element.remoteVocabulary ||
-                           panel.element.localVocabulary ||
+            <form ng-show="panel.element.vocabulary ||
                            panel.element.textInput ||
                            panel.element.textArea">
 
-                <div ng-show="el.remoteVocabulary" ng-controller="RemoteVocabularyController">
+                <div ng-show="el.vocabulary" ng-controller="VocabularyController">
 
-                    <label>{{ field.label }}</label>
+                    <label>{{ voc.name }}</label>
                     <div ng-show="el.editorEnabled">
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
                     <div ng-show="!el.editorEnabled">
-                        <a ng-href="{{ value.uri }}" target="_blank">{{ value.label }} ({{ value.id }})</a>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
-                    </div>
-                </div>
-
-                <div ng-show="el.localVocabulary" ng-controller="LocalVocabularyController">
-                    <label>{{ el.name }}</label>
-                    <div ng-show="el.editorEnabled">
-                        <input type="text" ng-model="el.value" typeahead="option for option in options"/>
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                    </div>
-                    <div ng-show="!el.editorEnabled">
-                        <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
+                        <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                     </div>
                 </div>

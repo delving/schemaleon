@@ -28,7 +28,7 @@ CultureCollectorApp.service("Vocabulary", function ($http) {
     this.getStates = function (vocab, value, success) {
         $http.get('/vocabulary/' + vocab, {params: {q: value}})
             .success(function (data, status, headers, config) {
-                success(data.candidates);
+                success(data);
             })
             .error(function (data, status, headers, config) {
                 alert("Problem accessing vocabulary");

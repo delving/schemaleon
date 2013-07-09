@@ -8,7 +8,6 @@ CultureCollectorApp.service("XMLTree", function () {
             var valueExpression = JSON.parse(string);
             var fresh = { name: key, valueExpression: valueExpression };
             to.elements.push(fresh);
-            console.log(JSON.stringify(fresh));
         }
 
         function generate(from, to, path) {

@@ -10,37 +10,15 @@ module.exports = {
                 elements: [
                     {
                         name: 'Type',
-                        localVocabulary: {
-                            options: [
-                                'Landscapes',
-                                'Portraits',
-                                'Nudes'
-                            ]
-                        }
-                    },
-                    {
-                        name: 'Condition',
-                        localVocabulary: {
-                            options: [
-                                'Shitty',
-                                'Reasonable',
-                                'Superduper'
-                            ]
+                        vocabulary: {
+                            name: 'PhotoTypes'
                         }
                     }
                 ]
             },
             {
-                name: 'Object',
-                elements: [
-                    { name: 'Link' },
-                    { name: 'MimeType' }
-                ]
-            },
-            {
                 name: 'Source',
                 elements: [
-                    { name: 'URI' },
                     { name: 'Type' },
                     {
                         name: 'Note',
@@ -55,7 +33,6 @@ module.exports = {
                 elements: [
                     {
                         name: 'Date',
-                        value: 'August 30, 2010',
                         textInput: {
                             label: 'Creation date',
                             type: 'date'
@@ -63,47 +40,40 @@ module.exports = {
                     },
                     {
                         name: 'Type',
-                        localVocabulary: {
-                            options: [
-                                'First',
-                                'Second',
-                                'Third'
-                            ]
+                        vocabulary: {
+                            name: 'SourceTypes'
                         }
                     },
                     {
                         name: 'Creator',
                         doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-                        remoteVocabulary: {
-                            source: 'http://fetch.eu',
-                            vocabularyName: 'vocabby',
-                            elements: [
-                                {
-                                    label: 'Label',
-                                    name: 'label'
-                                }
-                            ]
+                        vocabulary: {
+                            name: 'Actors'
                         }
                     }
                 ]
             },
             {
                 name: 'OtherEvent',
-                multiple: true,
-                elements: [
-                    { name: 'Link' },
-                    { name: 'MimeType' }
-                ]
+                multiple: true
             }
         ]
     },
-    vocabResponse: {
-        vocabulary: 'VocabName',
-        candidates: [
-            { label: 'One', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Two', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Three', id: "0003", uri: "http://vocab.com/v/0003" },
-            { label: 'Four', id: "0004", uri: "http://vocab.com/v/0004" }
+    vocabulary: {
+        PhotoTypes: [
+            { label: 'Landscapes', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Portraits', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Nudes', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        SourceTypes: [
+            { label: 'Local', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Foreign', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Unknown', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        Actors: [
+            { label: 'Bob Marley', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Jimi Hendrix', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Dan Brown', id: "0003", uri: "http://vocab.com/v/0003" }
         ]
     },
     docList: [

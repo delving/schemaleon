@@ -73,7 +73,7 @@ module.exports = function (grunt) {
                     bases: path.resolve('app'),
                     monitor: {},
                     debug: true,
-                    server: path.resolve('./app/server')
+                    server: path.resolve('./app/server/rest')
                 }
             }
         },
