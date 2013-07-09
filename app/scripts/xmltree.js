@@ -2,47 +2,35 @@
 
 CultureCollectorApp.service("XMLTree", function () {
 
-    this.xmlToTree = function (schemas, xml) {
+    this.xmlToTree = function (xml) {
 
-        function augment(schemas, path, to) {
-            function arraysEqual(arr1, arr2) {
-                if (arr1.length !== arr2.length) return false;
-                for (var i = arr1.length; i--;) if (arr1[i] !== arr2[i]) return false;
-                return true;
-            }
-
-            _.each(schemas, function (member) {
-                if (arraysEqual(path, member.path)) {
-                    for (var key in member.insert) {
-                        to[key] = member.insert[key];
-                    }
-                }
-            });
+        function parse(key, string, to) {
+            var valueExpression = JSON.parse(string);
+            var fresh = { name: key, valueExpression: valueExpression };
+            to.elements.push(fresh);
+            console.log(JSON.stringify(fresh));
         }
 
         function generate(from, to, path) {
             for (var key in from) {
-                if (key == '__cnt' || key.indexOf('_asArray') > 0) continue;
-                path.push(key);
+                if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') > 0) continue;
                 var value = from[key];
+                path.push(key);
                 if (_.isString(value)) {
-                    var stringElement = { name: key, value: value };
-                    to.elements.push(stringElement);
-                    augment(schemas, path, stringElement);
+                    parse(key, value, to);
                 }
                 else {
                     if (_.isArray(value)) {
-                        for (var i = 0; i < value.length; i++) {
-                            var arrayElement = { name: key, value: value[i] };
-                            to.elements.push(arrayElement);
-                            augment(schemas, path, arrayElement);
+                        for (var n = 0; n < value.length; n++) {
+                            var valueN = value[n];
+                            parse(key, valueN, to);
                         }
                     }
                     else if (_.isObject(value)) {
                         var subDoc = { name: key, elements: [] };
                         generate(value, subDoc, path);
                         to.elements.push(subDoc);
-                        augment(schemas, path, subDoc);
+                        // todo: augment here too
                     }
                 }
                 path.pop();
