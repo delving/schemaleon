@@ -35,7 +35,7 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= yeoman.app %>/server/*.js'
+                    '/server/*.js'
                 ],
                 tasks: ['livereload']
             }
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
                     bases: path.resolve('app'),
                     monitor: {},
                     debug: true,
-                    server: path.resolve('./app/server/rest')
+                    server: path.resolve('server/rest')
                 }
             }
         },

@@ -3,9 +3,9 @@
 var express = require('express');
 var app = express();
 
-var data = require('../../app/server/fake-data');
+var data = require('../server/fake-data');
 
-var _ = require("../../app/components/underscore/underscore-min.js");
+var _ = require("../app/components/underscore/underscore-min.js");
 
 app.get('/document/:identifier', function (req, res) {
     res.json(data.documentTree);
