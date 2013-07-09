@@ -35,7 +35,7 @@
                         <input type="text" ng-model="el.value"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
-                    <div ng-show="el.value && !el.editorEnabled">
+                    <div ng-show="!el.editorEnabled">
                         <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                     </div>
@@ -43,8 +43,8 @@
 
                 <div ng-show="el.textArea">
                     <label>{{ el.textArea.label }}</label>
-                    <div ng-show="el.editorEndabled">
-                        <textarea ng-model="el.value"></textarea>
+                    <div ng-show="el.editorEnabled">
+                        <textarea ng-model="el.value" rows="5"></textarea>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
                     <div ng-show="!el.editorEnabled">

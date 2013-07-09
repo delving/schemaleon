@@ -15,6 +15,9 @@ app.get('/document/:identifier', function (req, res) {
 app.get('/vocabulary/:vocab', function (req, res) {
     var query = req.param('q').toLowerCase();
     var values = data.vocabulary[req.params.vocab];
+    if (!values) {
+        values = data.vocabulary.Default;
+    }
     var filtered = _.filter(values, function(value) {
         return value.label.toLowerCase().indexOf(query) >= 0;
     });

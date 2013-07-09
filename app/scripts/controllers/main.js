@@ -55,7 +55,7 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
 
     if (!$scope.panel) return;
     $scope.el = $scope.panel.element;
-    $scope.el.editorEnabled = false;
+    $scope.el.editorEnabled = ($scope.el.value == undefined);
 
     // Panel Element Editor Toggles
     $scope.enableEditor = function (element) {

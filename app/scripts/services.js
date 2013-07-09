@@ -41,35 +41,54 @@ CultureCollectorApp.service("XMLTree", function () {
     this.xmlToTree = function (xml) {
 
         function parse(key, string, to) {
-            var valueExpression = JSON.parse(string);
-            var fresh = { name: key, valueExpression: valueExpression };
+            var fresh = { name: key };
+            if (_.isString(string)) {
+                var vx = JSON.parse(string);
+                fresh.valueExpression = vx;
+                if (vx.vocabulary) {
+                    fresh.vocabulary = { name: vx.vocabulary };
+                }
+                else if (vx.paragraph) {
+                    fresh.textArea = { label: key };
+                }
+                else {
+                    fresh.textInput = { label: key };
+                }
+            }
+            else {
+                fresh.textInput = { label: key };
+            }
             to.elements.push(fresh);
         }
 
         function generate(from, to, path) {
+            var generated = false;
             for (var key in from) {
-                if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') > 0) continue;
+                if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) continue;
+                generated = true;
                 var value = from[key];
                 path.push(key);
                 if (_.isString(value)) {
                     parse(key, value, to);
                 }
-                else {
-                    if (_.isArray(value)) {
-                        for (var n = 0; n < value.length; n++) {
-                            var valueN = value[n];
-                            parse(key, valueN, to);
-                        }
+                else if (_.isArray(value)) {
+                    for (var n = 0; n < value.length; n++) {
+                        var valueN = value[n];
+                        parse(key, valueN, to);
                     }
-                    else if (_.isObject(value)) {
-                        var subDoc = { name: key, elements: [] };
-                        generate(value, subDoc, path);
+                }
+                else if (_.isObject(value)) {
+                    var subDoc = { name: key, elements: [] };
+                    if (!generate(value, subDoc, path)) {
+                        parse(key, null, to);
+                    }
+                    else {
                         to.elements.push(subDoc);
-                        // todo: augment here too
                     }
                 }
                 path.pop();
             }
+            return generated;
         }
 
         var xmlObject = x2js.xml_str2json(xml);

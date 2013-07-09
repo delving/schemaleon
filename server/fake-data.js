@@ -74,6 +74,78 @@ module.exports = {
             { label: 'Bob Marley', id: "0001", uri: "http://vocab.com/v/0001" },
             { label: 'Jimi Hendrix', id: "0002", uri: "http://vocab.com/v/0002" },
             { label: 'Dan Brown', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        Places: [
+            { label: 'My back yard', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Your back yard', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Downtown', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        Techniques: [
+            { label: 'Slide rotation on the sugar plumb', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Like a virgin', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Playing hard to get', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        Materials: [
+            { label: 'Shop vac', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Electric toothbrush', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Chainsaw', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        DigitalRights: [
+            { label: 'Mine all mine, go away!', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'You can look but you cannot touch', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Here, my photos are your photos', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        StorageLocationTypes: [
+            { label: 'Under the bridge near the river', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Old shoebox', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'New shoebox', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Titanium safe with time lock', id: "0002", uri: "http://vocab.com/v/0002" }
+        ],
+        PhotoConditions: [
+            { label: 'Pristine', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Not bad for an old shot', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Coffee stains, maybe sepia', id: "0002", uri: "http://vocab.com/v/0002" },
+            { label: 'Ripped and torn', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Soggy, Ripped and torn', id: "0003", uri: "http://vocab.com/v/0003" }
+        ],
+        AuthenticityLevels: [
+            { label: 'I swear on the grave of my grandmother', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'My sister said it was true', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Bruce says it is authentic', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'Not quite sure, to be honest', id: "0002", uri: "http://vocab.com/v/0002" }
+        ],
+        PhotoISO: [
+            { label: 'ISO 25', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'ISO 50', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'ISO 100', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'ISO 200', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'ISO 400', id: "0001", uri: "http://vocab.com/v/0001" }
+        ],
+        PhotoExposure: [
+            { label: '1 second', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '1/2 second', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '1/1000th second', id: "0001", uri: "http://vocab.com/v/0001" }
+        ],
+        PhotoAperture: [
+            { label: 'F 2.8', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'F 5.6', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'F 11', id: "0001", uri: "http://vocab.com/v/0001" }
+        ],
+        PhotoFocalLength: [
+            { label: '500mm', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '150mm', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '100mm', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '28mm', id: "0002", uri: "http://vocab.com/v/0002" }
+        ],
+        PhotoColorDepth: [
+            { label: '32 bit', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '16 bit', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '8 bit', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: '4 bit with transparency', id: "0002", uri: "http://vocab.com/v/0002" }
+        ],
+        Default: [
+            { label: 'Defaulty Towers', id: "0001", uri: "http://vocab.com/v/0001" },
+            { label: 'abcdefghijklmnopqrstuvwxyz', id: "0002", uri: "http://vocab.com/v/0002" }
         ]
     },
     docList: [
@@ -115,7 +187,7 @@ module.exports = {
     ],
     documentXML:
         '<PhotoObject>' +
-        '<IdentificationNumber>{ "maxLength":20, "required":true }</IdentificationNumber>' +
+        '    <IdentificationNumber>{ "maxLength":20, "required":true }</IdentificationNumber>' +
         '    <Title>{ "required": true }</Title>' +
         '    <Type>{ "vocabulary": "PhotoTypes" }</Type>' +
         '    <ShortDescription>{ "paragraph":true }</ShortDescription>' +
