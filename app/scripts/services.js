@@ -1,6 +1,6 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-CultureCollectorApp.service("Docs", function ($http, $log) {
+CultureCollectorApp.service("Documents", function ($http, $log) {
     this.fetchDocument = function (identifier, success) {
         $http.get('/document/' + identifier)
             .success(function (data, status, headers, config) {

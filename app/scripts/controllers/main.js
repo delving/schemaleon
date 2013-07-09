@@ -12,11 +12,11 @@ CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', 
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
-CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Docs', function ($scope, Docs) {
+CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Documents', function ($scope, Documents) {
 
     $scope.panels = [];
 
-    Docs.fetchDocument('ID939393', function (doc) {
+    Documents.fetchDocument('ID939393', function (doc) {
         $scope.panels[0] = {
             'element': doc
         };

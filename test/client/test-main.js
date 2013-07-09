@@ -26,7 +26,7 @@ describe('Controller: ObjectEditController', function () {
         ]
     };
 
-    var mockService = {
+    var mockDocumentService = {
         fetchDocument: function (identifier ,success) {
             success(mockDoc);
         }
@@ -42,7 +42,7 @@ describe('Controller: ObjectEditController', function () {
         scope = $rootScope.$new();
         MainCtrl = $controller('ObjectEditController', {
             $scope: scope,
-            Docs: mockService
+            Documents: mockDocumentService
         });
     }));
 
