@@ -112,5 +112,58 @@ module.exports = {
             appellation: 'Lipsum sapsum drapsum',
             status: 'incomplete'
         }
-    ]
+    ],
+    documentXML:
+        '<PhotoObject>' +
+        '<IdentificationNumber>{ "maxLength":20, "required":true }</IdentificationNumber>' +
+        '    <Title>{ "required": true }</Title>' +
+        '    <Type>{ "vocabulary": "PhotoTypes" }</Type>' +
+        '    <ShortDescription>{ "paragraph":true }</ShortDescription>' +
+        '    <Authenticity>{ "vocabulary": "AuthenticityLevels" }</Authenticity>' +
+        '    <Condition>{ "vocabulary": "PhotoConditions" }</Condition>' +
+        '    <Purpose/>' +
+        '    <Collection/>' +
+        '    <DigitalFile>' +
+        '        <File/>' +
+        '        <Comment/>' +
+        '    </DigitalFile>' +
+        '    <DigitalRights>{ "vocabulary": "DigitalRights" }</DigitalRights>' +
+        '    <Source>' +
+        '        <IdentificationNumber>' +
+        '            <URI/>' +
+        '        </IdentificationNumber>' +
+        '        <Type>{ "vocabulary": "SourceTypes" }</Type>' +
+        '        <Title/>' +
+        '        <Description>{ "paragraph":true }</Description>' +
+        '    </Source>' +
+        '    <StorageLocation>' +
+        '        <Type>{ "vocabulary": "StorageLocationTypes" }</Type>' +
+        '        <Name/>' +
+        '        <Description/>' +
+        '    </StorageLocation>' +
+        '    <CreationEvent>' +
+        '        <CreationDate>{"validator": "date" }</CreationDate>' +
+        '        <Creator>{ "vocabulary": "Actors" }</Creator>' +
+        '        <CreationPlace>{ "vocabulary": "Places" }</CreationPlace>' +
+        '        <Technique>{ "vocabulary": "Techniques" }</Technique>' +
+        '        <Material>{ "vocabulary": "Materials" }</Material>' +
+        '        <TechnicalDescription>' +
+        '            <Dimension>' +
+        '                <PixelsXAxis>{ "validator": "pixels" }</PixelsXAxis>' +
+        '                <PixelsYAxis>{ "validator": "pixels" }</PixelsYAxis>' +
+        '            </Dimension>' +
+        '            <CharacteristicsOfPhotograph>' +
+        '                <ISO>{ "vocabulary": "PhotoISO" }</ISO>' +
+        '                <ExposureTime>{ "vocabulary": "PhotoExposure" }</ExposureTime>' +
+        '                <LensAperture>{ "vocabulary": "PhotoAperture" }</LensAperture>' +
+        '                <FocalLength>{ "vocabulary": "PhotoFocalLength" }</FocalLength>' +
+        '            </CharacteristicsOfPhotograph>' +
+        '            <CharacteristicsOfDigitization>' +
+        '                <DPIResolution>{ "validator": "DPI" }</DPIResolution>' +
+        '                <ColorDepth>{ "vocabulary": "PhotoColorDepth" }</ColorDepth>' +
+        '            </CharacteristicsOfDigitization>' +
+        '            <Exif/>' +
+        '        </TechnicalDescription>' +
+        '    </CreationEvent>' +
+        '</PhotoObject>'
 };

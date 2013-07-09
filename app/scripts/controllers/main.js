@@ -12,13 +12,14 @@ CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', 
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
-CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Documents', function ($scope, Documents) {
+CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Documents', 'XMLTree', function ($scope, Documents, XMLTree) {
 
     $scope.panels = [];
 
     Documents.fetchDocument('ID939393', function (doc) {
+        var tree = XMLTree.xmlToTree(doc);
         $scope.panels[0] = {
-            'element': doc
+            'element': tree
         };
     });
 

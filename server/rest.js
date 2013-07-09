@@ -8,7 +8,8 @@ var data = require('../server/fake-data');
 var _ = require("../app/components/underscore/underscore-min.js");
 
 app.get('/document/:identifier', function (req, res) {
-    res.json(data.documentTree);
+    res.setHeader('Content-Type', 'text/xml');
+    res.send(data.documentXML);
 });
 
 app.get('/vocabulary/:vocab', function (req, res) {
