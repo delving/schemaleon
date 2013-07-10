@@ -4,13 +4,15 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 /* CRM LIST RELATED CONTROLLERS */
 
+
+
 CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {
     $scope.mainMenu = {
         section: "Main",
         links: [
             {label: "Dashboard", path: "/#/dashboard", active: false},
             {label: "Registered Objects", path: "/#/list", active: false},
-            {label: "Object", path: "/#/object", active: false}
+            {label: "Object", path: "/#/object/", active: false}
         ]
     };
     $scope.choose = function (index) {
@@ -22,6 +24,7 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
     };
     _.forEach($scope.mainMenu.links, function(link) {
         var sought = link.path.substring(3);
+        console.log(sought);
         link.active = ($location.path().indexOf(sought) >= 0);
     });
 }]);

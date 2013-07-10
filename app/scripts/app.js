@@ -10,7 +10,7 @@ angular.module('CultureCollectorApp', ['ui.bootstrap.tooltip','ui.bootstrap.popo
                 templateUrl: 'views/list.html',
                 controller: 'ObjectListController'
             })
-            .when('/object/', {
+            .when('/object/:id', {
                 templateUrl: 'views/object.html',
                 controller: 'ObjectEditController'
             })
