@@ -12,6 +12,14 @@ app.get('/document/:identifier', function (req, res) {
     res.send(data.documentXML);
 });
 
+app.get('/vocabularyFields/:vocab', function (req, res) {
+    var vocab = data.vocabulary[req.params.vocab];
+    if (!vocab) {
+        vocab = data.vocabulary.Default;
+    }
+    res.json(vocab.fields);
+});
+
 app.get('/vocabulary/:vocab', function (req, res) {
     var query = req.param('q').toLowerCase();
     console.log("vocab request:" + req.params.vocab);

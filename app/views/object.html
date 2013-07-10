@@ -20,6 +20,12 @@
                     <div ng-show="el.editorEnabled">
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                        <span ng-click="createNew()" class="">New</span>
+                        <div ng-show="newFields">
+                            <ul>
+                                <li ng-repeat="field in newFields">{{ field }}</li>
+                            </ul>
+                        </div>
                     </div>
                     <div ng-show="!el.editorEnabled">
                         <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>

@@ -149,8 +149,14 @@ CultureCollectorApp.controller('PanelController',
 CultureCollectorApp.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary',
         function ($scope, $q, Vocabulary) {
-            var voc = $scope.el.vocabulary;
-            if (!voc) return;
+            if (!$scope.el.vocabulary) return;
+            $scope.createNew = function () {
+                Vocabulary.getFields($scope.el.vocabulary.name, function (fields) {
+                    $scope.newFields = _.map(fields, function (field) {
+                        return field;
+                    });
+                });
+            };
             $scope.getStates = function (value) {
                 var deferred = $q.defer();
                 Vocabulary.getStates($scope.el.vocabulary.name, value, function (states) {
@@ -162,7 +168,7 @@ CultureCollectorApp.controller('VocabularyController',
                 if (_.isObject(after)) {
                     $scope.el.value = after;
                 }
-            })
+            });
         }]
 );
 
