@@ -12,7 +12,7 @@ CultureCollectorApp.controller('NavigationController',
                 links: [
                     {label: "Dashboard", path: "/#/dashboard", active: false},
                     {label: "Registered Objects", path: "/#/list", active: false},
-                    {label: "Object", path: "/#/object/", active: false}
+                    {label: "Object", path: "/#/object", active: false}
                 ]
             };
             $scope.choose = function (index) {
@@ -22,11 +22,13 @@ CultureCollectorApp.controller('NavigationController',
                     walk++;
                 });
             };
+            var anyActive = false;
             _.forEach($scope.mainMenu.links, function (link) {
                 var sought = link.path.substring(3);
-                console.log(sought);
                 link.active = ($location.path().indexOf(sought) >= 0);
+                if (link.active) anyActive = true;
             });
+            if (!anyActive) $scope.mainMenu.links[0].active = true;
         }]
 );
 
