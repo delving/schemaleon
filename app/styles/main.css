@@ -374,6 +374,9 @@ ul.main-menu > .active > a:hover {
 .level3 {
   background: #6f6f6f;
 }
+.level4 {
+  background: #888888;
+}
 /* PANELS TABLE */
 .panels {
   background: transparent;
