@@ -396,6 +396,9 @@ ul.panel-list li {
   position: relative;
   padding-left: 20px;
 }
+ul.panel-list li a {
+  padding-right: 30px;
+}
 ul.panel-list li a:hover {
   background: #222222;
 }

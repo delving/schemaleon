@@ -4,7 +4,30 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 /* CRM LIST RELATED CONTROLLERS */
 
+
+
+CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {
+    $scope.mainMenu = {
+        section: "Main",
+        links: [
+            {label: "Dashboard", path: "#/dashboard", active: false},
+            {label: "Registered Objects", path: "#/list", active: false},
+            {label: "Object", path: "#/object", active: false}
+        ]
+    };
+//    $scope.choose = function (index) {
+//        $scope.mainMenu.links.forEach(function (link) {
+//            link.active = false;
+//        });
+//        $scope.mainMenu.links[index].active = true;
+//
+//    };
+}]);
+
 CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', function ($scope, ObjectList) {
+
+    $scope.mainMenu.links[1].active = true;
+
     ObjectList.fetchList(function (data) {
         $scope.objects = data;
     });
@@ -13,6 +36,8 @@ CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', 
 /* CRM OBJECT RELATED CONTROLLERS */
 
 CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Documents', 'XMLTree', function ($scope, Documents, XMLTree) {
+
+    $scope.mainMenu.links[2].active = true;
 
     $scope.panels = [];
 
@@ -86,23 +111,6 @@ CultureCollectorApp.controller('VocabularyController', ['$scope', '$q', 'Vocabul
     })
 }]);
 
-CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {
-    $scope.mainMenu = {
-        section: "Main",
-        links: [
-            {label: "Dashboard", path: "/", active: true},
-            {label: "Registered Objects", path: "#/list", active: false},
-            {label: "Object", path: "#/object", active: false}
-        ]
-    };
-    $scope.choose = function (index) {
-        $scope.mainMenu.links.forEach(function (link) {
-            link.active = false;
-        });
-        $scope.mainMenu.links[index].active = true;
-
-    };
-}]);
 
 CultureCollectorApp.controller('TextInputController', ['$scope', 'Validator', function ($scope, Validator) {
     var ti = $scope.el.textInput;
