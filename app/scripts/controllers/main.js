@@ -4,8 +4,6 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 /* CRM LIST RELATED CONTROLLERS */
 
-
-
 CultureCollectorApp.controller('NavigationController', ['$scope', '$location', function ($scope, $location) {
     $scope.mainMenu = {
         section: "Main",
@@ -16,27 +14,16 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
         ]
     };
     $scope.choose = function (index) {
-        $scope.mainMenu.links.forEach(function (link) {
-            link.active = false;
+        var walk = 0;
+        _.forEach($scope.mainMenu.links, function (link) {
+            link.active = (walk == index);
+            walk++;
         });
-        $scope.mainMenu.links[index].active = true;
-
     };
-    console.log($location.path());
-    switch ($location.path()){
-        case "/dashboard/":
-            $scope.mainMenu.links[0].active = true;
-            break;
-        case "/list/":
-            $scope.mainMenu.links[1].active = true;
-            break;
-        case "/object/":
-            $scope.mainMenu.links[2].active = true;
-            break;
-        default:
-            $scope.mainMenu.links[0].active = true;
-
-    }
+    _.forEach($scope.mainMenu.links, function(link) {
+        var sought = link.path.substring(3);
+        link.active = ($location.path().indexOf(sought) >= 0);
+    });
 }]);
 
 CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', function ($scope, ObjectList) {
