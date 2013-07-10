@@ -40,23 +40,28 @@ CultureCollectorApp.service("XMLTree", function () {
 
     this.xmlToTree = function (xml) {
 
+        function toTitleCase(str) {
+            return str.replace(/([a-z])([A-Z])/g, "\$1 \$2");
+        }
+
         function parse(key, string, to) {
-            var fresh = { name: key };
+            var name = toTitleCase(key);
+            var fresh = { name: name };
             if (_.isString(string)) {
                 var vx = JSON.parse(string);
                 fresh.valueExpression = vx;
                 if (vx.vocabulary) {
-                    fresh.vocabulary = { name: vx.vocabulary };
+                    fresh.vocabulary = { name: toTitleCase(vx.vocabulary) };
                 }
                 else if (vx.paragraph) {
-                    fresh.textArea = { label: key };
+                    fresh.textArea = { label: name };
                 }
                 else {
-                    fresh.textInput = { label: key };
+                    fresh.textInput = { label: name };
                 }
             }
             else {
-                fresh.textInput = { label: key };
+                fresh.textInput = { label: name };
             }
             to.elements.push(fresh);
         }
@@ -78,7 +83,7 @@ CultureCollectorApp.service("XMLTree", function () {
                     }
                 }
                 else if (_.isObject(value)) {
-                    var subDoc = { name: key, elements: [] };
+                    var subDoc = { name: toTitleCase(key), elements: [] };
                     if (!generate(value, subDoc, path)) {
                         parse(key, null, to);
                     }
