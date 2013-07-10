@@ -107,6 +107,7 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
 CultureCollectorApp.controller('TextInputController', ['$scope', 'Validator', function ($scope, Validator) {
     var ti = $scope.el.textInput;
     if (!ti) return;
+    $scope.el.value = '';
     if (ti.validator) {
         console.log("validator "+ti.validator);
         var func = Validator.getFunction(ti.validator);

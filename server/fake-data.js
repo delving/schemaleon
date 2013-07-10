@@ -220,10 +220,7 @@ module.exports = {
         '        <Technique>{ "vocabulary": "Techniques" }</Technique>' +
         '        <Material>{ "vocabulary": "Materials" }</Material>' +
         '        <TechnicalDescription>' +
-        '            <Dimension>' +
-        '                <PixelsXAxis>{ "validator": "pixels" }</PixelsXAxis>' +
-        '                <PixelsYAxis>{ "validator": "pixels" }</PixelsYAxis>' +
-        '            </Dimension>' +
+        '            <Dimension>{ "validator": "pixels" }</Dimension>' +
         '            <CharacteristicsOfPhotograph>' +
         '                <ISO>{ "vocabulary": "PhotoISO" }</ISO>' +
         '                <ExposureTime>{ "vocabulary": "PhotoExposure" }</ExposureTime>' +

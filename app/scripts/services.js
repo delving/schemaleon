@@ -43,11 +43,8 @@ CultureCollectorApp.service("Validator", function () {
                 break;
             case 'pixels' :
                 return function(value) {
-                    if (_.isString(value)) {
-                        return "valid!";
-                    }
-                    else {
-                        return 'Value must consist of digits only';
+                    if (!value.match(/^[0-9]+[Xx][0-9]+$/)) {
+                        return 'Value should be WIDTHxHEIGHT, like 640x480';
                     }
                 };
         }
