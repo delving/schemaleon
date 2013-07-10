@@ -52,10 +52,13 @@ CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Documents', '
 }]);
 
 CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
-
     if (!$scope.panel) return;
+    $scope.checkEmpty = function() {
+        if ($scope.el.value != undefined && $scope.el.value.replace(/^\s+|\s+$/g, '').length == 0) {
+            $scope.el.value = undefined;
+        }
+    };
     $scope.el = $scope.panel.element;
-    $scope.el.editorEnabled = ($scope.el.value == undefined);
 
     // Panel Element Editor Toggles
     $scope.enableEditor = function (element) {
@@ -63,9 +66,11 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
     };
 
     $scope.disableEditor = function (element) {
-        $scope.el.editorEnabled = false;
+        $scope.checkEmpty();
+        $scope.el.editorEnabled = ($scope.el.value == undefined);
     }
 
+    $scope.disableEditor();
 }]);
 
 CultureCollectorApp.controller('VocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {
