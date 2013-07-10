@@ -234,5 +234,13 @@ module.exports = {
         '            <Exif/>' +
         '        </TechnicalDescription>' +
         '    </CreationEvent>' +
-        '</PhotoObject>'
+        '</PhotoObject>',
+    i18n: {
+        en: {
+            IdentificationNumber: "Identification Number"
+        },
+        nl: {
+            IdentificationNumber: "Identificatienummer"
+        }
+    }
 };

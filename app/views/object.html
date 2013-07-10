@@ -1,9 +1,9 @@
 <h1 class="page-header">CRM Object</h1>
 
-<table cellpadding="20" border="0" class="table panels">
+<table cellpadding="20" border="0" class="table panels" ng-controller="I18NController">
     <thead>
     <tr>
-        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{panel.element.name}}</th>
+        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element.title }}</th>
     </tr>
     </thead>
     <tbody>
@@ -55,25 +55,25 @@
             </form>
 
             <ul class="nav nav-pills nav-stacked panel-list">
-                <li ng-repeat="member in el.elements">
+                <li ng-repeat="element in el.elements">
                     <a href
-                       class="level{{member.classIndex}} link-{{ member.name }}"
+                       class="level{{ element.classIndex }} link-{{ element.name }}"
                        ng-click="choose($index, $parent.$index)">
-                        {{ member.title }}
+                        {{ element | title }}
                     </a>
-                    <span ng-show="member.multiple"
+                    <span ng-show="element.multiple"
                           tooltip-placement="bottom"
-                          tooltip="Add {{member.name}}"
-                          class="plus display-{{ member.multiple }}"
+                          tooltip="Add {{ element.title }}"
+                          class="plus display-{{ element.multiple }}"
                           ng-click="addSibling(el.elements, $index, $parent.index)">
                         <i class="icon-plus-sign icon-white"></i>
                     </span>
-                    <span ng-show="member.doc"
+                    <span ng-show="element.doc"
                           class="documentation"
                           popover-trigger="mouseenter"
                           popover-placement="top"
-                          popover-title="{{member.name}}"
-                          popover="{{member.doc}}"><i class="icon-question-sign icon-white"></i>
+                          popover-title="{{ element.title }}"
+                          popover="{{element.doc}}"><i class="icon-question-sign icon-white"></i>
                     </span>
                 </li>
             </ul>
