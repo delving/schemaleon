@@ -10,23 +10,36 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
     $scope.mainMenu = {
         section: "Main",
         links: [
-            {label: "Dashboard", path: "#/dashboard", active: false},
-            {label: "Registered Objects", path: "#/list", active: false},
-            {label: "Object", path: "#/object", active: false}
+            {label: "Dashboard", path: "/#/dashboard", active: false},
+            {label: "Registered Objects", path: "/#/list", active: false},
+            {label: "Object", path: "/#/object", active: false}
         ]
     };
-//    $scope.choose = function (index) {
-//        $scope.mainMenu.links.forEach(function (link) {
-//            link.active = false;
-//        });
-//        $scope.mainMenu.links[index].active = true;
-//
-//    };
+    $scope.choose = function (index) {
+        $scope.mainMenu.links.forEach(function (link) {
+            link.active = false;
+        });
+        $scope.mainMenu.links[index].active = true;
+
+    };
+    console.log($location.path());
+    switch ($location.path()){
+        case "/dashboard/":
+            $scope.mainMenu.links[0].active = true;
+            break;
+        case "/list/":
+            $scope.mainMenu.links[1].active = true;
+            break;
+        case "/object/":
+            $scope.mainMenu.links[2].active = true;
+            break;
+        default:
+            $scope.mainMenu.links[0].active = true;
+
+    }
 }]);
 
 CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', function ($scope, ObjectList) {
-
-    $scope.mainMenu.links[1].active = true;
 
     ObjectList.fetchList(function (data) {
         $scope.objects = data;
@@ -36,8 +49,6 @@ CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', 
 /* CRM OBJECT RELATED CONTROLLERS */
 
 CultureCollectorApp.controller('ObjectEditController', ['$scope', 'Documents', 'XMLTree', function ($scope, Documents, XMLTree) {
-
-    $scope.mainMenu.links[2].active = true;
 
     $scope.panels = [];
 
