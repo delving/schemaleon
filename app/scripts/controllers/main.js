@@ -5,7 +5,7 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 /* CRM LIST RELATED CONTROLLERS */
 
 CultureCollectorApp.controller('ObjectListController', ['$scope', 'ObjectList', function ($scope, ObjectList) {
-    ObjectList.fetchList(function(data){
+    ObjectList.fetchList(function (data) {
         $scope.objects = data;
     });
 }]);
@@ -79,7 +79,7 @@ CultureCollectorApp.controller('VocabularyController', ['$scope', '$q', 'Vocabul
         });
         return deferred.promise;
     };
-    $scope.$watch('chosenState', function(after, before) {
+    $scope.$watch('chosenState', function (after, before) {
         if (_.isObject(after)) {
             $scope.el.value = after;
         }
@@ -104,6 +104,23 @@ CultureCollectorApp.controller('NavigationController', ['$scope', '$location', f
     };
 }]);
 
+CultureCollectorApp.controller('TextInputController', ['$scope', 'Validator', function ($scope, Validator) {
+    var ti = $scope.el.textInput;
+    if (!ti) return;
+    if (ti.validator) {
+        console.log("validator "+ti.validator);
+        var func = Validator.getFunction(ti.validator);
+        if (func) {
+            $scope.validator = function () {
+                return func($scope.el.value);
+            }
+        }
+        $scope.invalidMessage = 'Nothing yet';
+        $scope.$watch('el.value', function (after, before) {
+            $scope.invalidMessage = $scope.validator();
+        })
+    }
+}]);
 
 
 

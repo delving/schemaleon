@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textInput">
+                <div ng-show="el.textInput" ng-controller="TextInputController">
                     <label>{{ el.textInput.label }}</label>
                     <div ng-show="el.editorEnabled">
                         <input type="text" ng-model="el.value"/>
@@ -38,6 +38,9 @@
                     <div ng-show="!el.editorEnabled">
                         <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                    </div>
+                    <div ng-show="invalidMessage">
+                        <span>{{ invalidMessage }}</span>
                     </div>
                 </div>
 

@@ -36,6 +36,25 @@ CultureCollectorApp.service("Vocabulary", function ($http) {
     };
 });
 
+CultureCollectorApp.service("Validator", function () {
+    this.getFunction = function(name) {
+        switch (name) {
+            case 'date' :
+                break;
+            case 'pixels' :
+                return function(value) {
+                    if (_.isString(value)) {
+                        return "valid!";
+                    }
+                    else {
+                        return 'Value must consist of digits only';
+                    }
+                };
+        }
+        return null;
+    }
+});
+
 CultureCollectorApp.service("XMLTree", function () {
 
     this.xmlToTree = function (xml) {
@@ -58,6 +77,9 @@ CultureCollectorApp.service("XMLTree", function () {
                 }
                 else {
                     fresh.textInput = { label: name };
+                    if (vx.validator) {
+                        fresh.textInput.validator = vx.validator;
+                    }
                 }
                 if (vx.multiple) {
                     fresh.multiple = true;
