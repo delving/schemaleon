@@ -60,93 +60,93 @@ module.exports = {
         ]
     },
     vocabulary: {
-        PhotoTypes: [
-            { label: 'Landscapes', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Portraits', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Nudes', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        SourceTypes: [
-            { label: 'Local', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Foreign', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Unknown', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        Actors: [
-            { label: 'Bob Marley', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Jimi Hendrix', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Dan Brown', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        Places: [
-            { label: 'My back yard', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Your back yard', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Downtown', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        Techniques: [
-            { label: 'Slide rotation on the sugar plumb', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Like a virgin', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Playing hard to get', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        Materials: [
-            { label: 'Shop vac', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Electric toothbrush', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Chainsaw', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        DigitalRights: [
-            { label: 'Mine all mine, go away!', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'You can look but you cannot touch', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Here, my photos are your photos', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        StorageLocationTypes: [
-            { label: 'Under the bridge near the river', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Old shoebox', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'New shoebox', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Titanium safe with time lock', id: "0002", uri: "http://vocab.com/v/0002" }
-        ],
-        PhotoConditions: [
-            { label: 'Pristine', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Not bad for an old shot', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Coffee stains, maybe sepia', id: "0002", uri: "http://vocab.com/v/0002" },
-            { label: 'Ripped and torn', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Soggy, Ripped and torn', id: "0003", uri: "http://vocab.com/v/0003" }
-        ],
-        AuthenticityLevels: [
-            { label: 'I swear on the grave of my grandmother', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'My sister said it was true', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Bruce says it is authentic', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'Not quite sure, to be honest', id: "0002", uri: "http://vocab.com/v/0002" }
-        ],
-        PhotoISO: [
-            { label: 'ISO 25', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'ISO 50', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'ISO 100', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'ISO 200', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'ISO 400', id: "0001", uri: "http://vocab.com/v/0001" }
-        ],
-        PhotoExposure: [
-            { label: '1 second', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '1/2 second', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '1/1000th second', id: "0001", uri: "http://vocab.com/v/0001" }
-        ],
-        PhotoAperture: [
-            { label: 'F 2.8', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'F 5.6', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'F 11', id: "0001", uri: "http://vocab.com/v/0001" }
-        ],
-        PhotoFocalLength: [
-            { label: '500mm', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '150mm', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '100mm', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '28mm', id: "0002", uri: "http://vocab.com/v/0002" }
-        ],
-        PhotoColorDepth: [
-            { label: '32 bit', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '16 bit', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '8 bit', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: '4 bit with transparency', id: "0002", uri: "http://vocab.com/v/0002" }
-        ],
-        Default: [
-            { label: 'Defaulty Towers', id: "0001", uri: "http://vocab.com/v/0001" },
-            { label: 'abcdefghijklmnopqrstuvwxyz', id: "0002", uri: "http://vocab.com/v/0002" }
-        ]
+        PhotoTypes: { fields: ['label', 'id', 'uri'], list:[
+            { label: 'Landscapes', id: "a", uri: "http://vocab.com/v/0001" },
+            { label: 'Portraits', id: "b", uri: "http://vocab.com/v/0002" },
+            { label: 'Nudes', id: "c", uri: "http://vocab.com/v/0003" }
+        ]},
+        SourceTypes: { fields: ['label', 'id'], list:[
+            { label: 'Local', id: "1" },
+            { label: 'Foreign', id: "2" },
+            { label: 'Unknown', id: "3" }
+        ]},
+        Actors: { fields: ['label', 'id'], list:[
+            { label: 'Bob Marley', id: "1" },
+            { label: 'Jimi Hendrix', id: "2" },
+            { label: 'Dan Brown', id: "3" }
+        ]},
+        Places: { fields: ['label', 'id'], list:[
+            { label: 'My back yard', id: "x" },
+            { label: 'Your back yard', id: "y" },
+            { label: 'Downtown', id: "z" }
+        ]},
+        Techniques: { fields: ['label', 'id'], list:[
+            { label: 'Slide rotation on the sugar plumb', id: "1" },
+            { label: 'Like a virgin', id: "2" },
+            { label: 'Playing hard to get', id: "3" }
+        ]},
+        Materials: { fields: ['label', 'id'], list:[
+            { label: 'Shop vac', id: "1" },
+            { label: 'Electric toothbrush', id: "2" },
+            { label: 'Chainsaw', id: "3" }
+        ]},
+        DigitalRights: { fields: ['label', 'id'], list:[
+            { label: 'Mine all mine, go away!', id: "1" },
+            { label: 'You can look but you cannot touch', id: "2" },
+            { label: 'Here, my photos are your photos', id: "3" }
+        ]},
+        StorageLocationTypes: { fields: ['label', 'id'], list:[
+            { label: 'Under the bridge near the river', id: "a" },
+            { label: 'Old shoebox', id: "b" },
+            { label: 'New shoebox', id: "c" },
+            { label: 'Titanium safe with time lock', id: "d" }
+        ]},
+        PhotoConditions: { fields: ['label', 'id'], list:[
+            { label: 'Pristine', id: "A" },
+            { label: 'Not bad for an old shot', id: "B" },
+            { label: 'Coffee stains, maybe sepia', id: "C" },
+            { label: 'Ripped and torn', id: "D" },
+            { label: 'Soggy, Ripped and torn', id: "E" }
+        ]},
+        AuthenticityLevels: { fields: ['label', 'id'], list:[
+            { label: 'I swear on the grave of my grandmother', id: "1" },
+            { label: 'My sister said it was true', id: "2" },
+            { label: 'Bruce says it is authentic', id: "3" },
+            { label: 'Not quite sure, to be honest', id: "4" }
+        ]},
+        PhotoISO: { fields: ['label', 'id'], list:[
+            { label: 'ISO 25', id: "a" },
+            { label: 'ISO 50', id: "b" },
+            { label: 'ISO 100', id: "c" },
+            { label: 'ISO 200', id: "d" },
+            { label: 'ISO 400', id: "e" }
+        ]},
+        PhotoExposure: { fields: ['label', 'id'], list:[
+            { label: '1 second', id: "a" },
+            { label: '1/2 second', id: "b" },
+            { label: '1/1000th second', id: "c" }
+        ]},
+        PhotoAperture: { fields: ['label', 'id'], list:[
+            { label: 'F 2.8', id: "1" },
+            { label: 'F 5.6', id: "2" },
+            { label: 'F 11', id: "3" }
+        ]},
+        PhotoFocalLength: { fields: ['label', 'id'], list:[
+            { label: '500mm', id: "1" },
+            { label: '150mm', id: "2" },
+            { label: '100mm', id: "3" },
+            { label: '28mm', id: "4" }
+        ]},
+        PhotoColorDepth: { fields: ['label', 'id'], list:[
+            { label: '32 bit', id: "a" },
+            { label: '16 bit', id: "b" },
+            { label: '8 bit', id: "c" },
+            { label: '4 bit with transparency', id: "d" }
+        ]},
+        Default: { fields: ['label'], list:[
+            { label: 'Defaulty Towers' },
+            { label: 'abcdefghijklmnopqrstuvwxyz' }
+        ]}
     },
     docList: [
         {

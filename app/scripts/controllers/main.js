@@ -96,10 +96,9 @@ CultureCollectorApp.controller('PanelController', ['$scope', function ($scope) {
 CultureCollectorApp.controller('VocabularyController', ['$scope', '$q', 'Vocabulary', function ($scope, $q, Vocabulary) {
     var voc = $scope.el.vocabulary;
     if (!voc) return;
-    $scope.voc = voc;
     $scope.getStates = function (value) {
         var deferred = $q.defer();
-        Vocabulary.getStates($scope.voc.name, value, function (states) {
+        Vocabulary.getStates($scope.el.vocabulary.name, value, function (states) {
             deferred.resolve(states);
         });
         return deferred.promise;
@@ -123,11 +122,11 @@ CultureCollectorApp.controller('TextInputController', ['$scope', 'Validator', fu
             $scope.validator = function () {
                 return func($scope.el.value);
             }
+            $scope.invalidMessage = 'Nothing yet';
+            $scope.$watch('el.value', function (after, before) {
+                $scope.invalidMessage = $scope.validator();
+            })
         }
-        $scope.invalidMessage = 'Nothing yet';
-        $scope.$watch('el.value', function (after, before) {
-            $scope.invalidMessage = $scope.validator();
-        })
     }
 }]);
 

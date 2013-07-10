@@ -17,8 +17,6 @@
                            panel.element.textArea">
 
                 <div ng-show="el.vocabulary" ng-controller="VocabularyController">
-
-                    <label>{{ voc.name }}</label>
                     <div ng-show="el.editorEnabled">
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
@@ -30,7 +28,6 @@
                 </div>
 
                 <div ng-show="el.textInput" ng-controller="TextInputController">
-                    <label>{{ el.textInput.label }}</label>
                     <div ng-show="el.editorEnabled">
                         <input type="text" ng-model="el.value"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
@@ -45,7 +42,6 @@
                 </div>
 
                 <div ng-show="el.textArea">
-                    <label>{{ el.textArea.label }}</label>
                     <div ng-show="el.editorEnabled">
                         <textarea ng-model="el.value" rows="5"></textarea>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
@@ -63,7 +59,7 @@
                     <a href
                        class="level{{member.classIndex}} link-{{ member.name }}"
                        ng-click="choose($index, $parent.$index)">
-                        {{ member.name }}
+                        {{ member.title }}
                     </a>
                     <span ng-show="member.multiple"
                           tooltip-placement="bottom"
