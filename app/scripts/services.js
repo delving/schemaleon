@@ -46,6 +46,7 @@ CultureCollectorApp.service("Validator", function () {
                     if (!value.match(/^[0-9]+[Xx][0-9]+$/)) {
                         return 'Value should be WIDTHxHEIGHT, like 640x480';
                     }
+                    return null;
                 };
         }
         return null;
@@ -61,19 +62,19 @@ CultureCollectorApp.service("XMLTree", function () {
         }
 
         function parse(key, string, to) {
-            var name = toTitleCase(key);
-            var fresh = { name: name };
+            var title = toTitleCase(key);
+            var fresh = { name: key, title: title };
             if (_.isString(string)) {
                 var vx = JSON.parse(string);
                 fresh.valueExpression = vx;
                 if (vx.vocabulary) {
-                    fresh.vocabulary = { name: toTitleCase(vx.vocabulary) };
+                    fresh.vocabulary = { name: vx.vocabulary, title: toTitleCase(vx.vocabulary) };
                 }
                 else if (vx.paragraph) {
-                    fresh.textArea = { label: name };
+                    fresh.textArea = {  };
                 }
                 else {
-                    fresh.textInput = { label: name };
+                    fresh.textInput = { };
                     if (vx.validator) {
                         fresh.textInput.validator = vx.validator;
                     }
@@ -83,7 +84,7 @@ CultureCollectorApp.service("XMLTree", function () {
                 }
             }
             else {
-                fresh.textInput = { label: name };
+                fresh.textInput = {  };
             }
             to.elements.push(fresh);
         }
@@ -105,7 +106,7 @@ CultureCollectorApp.service("XMLTree", function () {
                     }
                 }
                 else if (_.isObject(value)) {
-                    var subDoc = { name: toTitleCase(key), elements: [] };
+                    var subDoc = { name: key, title: toTitleCase(key), elements: [] };
                     if (!generate(value, subDoc, path)) {
                         parse(key, null, to);
                     }

@@ -14,11 +14,12 @@ app.get('/document/:identifier', function (req, res) {
 
 app.get('/vocabulary/:vocab', function (req, res) {
     var query = req.param('q').toLowerCase();
-    var values = data.vocabulary[req.params.vocab];
-    if (!values) {
-        values = data.vocabulary.Default;
+    console.log("vocab request:" + req.params.vocab);
+    var vocab = data.vocabulary[req.params.vocab];
+    if (!vocab) {
+        vocab = data.vocabulary.Default;
     }
-    var filtered = _.filter(values, function(value) {
+    var filtered = _.filter(vocab.list, function(value) {
         return value.label.toLowerCase().indexOf(query) >= 0;
     });
     res.json(filtered);
