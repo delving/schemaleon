@@ -59,6 +59,9 @@ CultureCollectorApp.service("XMLTree", function () {
                 else {
                     fresh.textInput = { label: name };
                 }
+                if (vx.multiple) {
+                    fresh.multiple = true;
+                }
             }
             else {
                 fresh.textInput = { label: name };

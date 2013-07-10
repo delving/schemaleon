@@ -215,7 +215,7 @@ module.exports = {
         '    </StorageLocation>' +
         '    <CreationEvent>' +
         '        <CreationDate>{"validator": "date" }</CreationDate>' +
-        '        <Creator>{ "vocabulary": "Actors" }</Creator>' +
+        '        <Creator>{ "vocabulary": "Actors", "multiple":true }</Creator>' +
         '        <CreationPlace>{ "vocabulary": "Places" }</CreationPlace>' +
         '        <Technique>{ "vocabulary": "Techniques" }</Technique>' +
         '        <Material>{ "vocabulary": "Materials" }</Material>' +
