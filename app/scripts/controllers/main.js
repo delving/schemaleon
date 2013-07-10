@@ -134,13 +134,13 @@ CultureCollectorApp.controller('PanelController',
 
             // Panel Element Editor Toggles
             $scope.enableEditor = function (element) {
-                $scope.el.editorEnabled = true;
+                $scope.el.edit = true;
             };
 
             $scope.disableEditor = function (element) {
                 $scope.checkEmpty();
-                $scope.el.editorEnabled = ($scope.el.value == undefined);
-            }
+                $scope.el.edit = ($scope.el.value == undefined);
+            };
 
             $scope.disableEditor();
         }]
@@ -153,7 +153,7 @@ CultureCollectorApp.controller('VocabularyController',
             $scope.createNew = function () {
                 Vocabulary.getFields($scope.el.vocabulary.name, function (fields) {
                     $scope.newFields = _.map(fields, function (field) {
-                        return field;
+                        return { name:field, title:field };
                     });
                 });
             };

@@ -17,28 +17,28 @@
                            panel.element.textArea">
 
                 <div ng-show="el.vocabulary" ng-controller="VocabularyController">
-                    <div ng-show="el.editorEnabled">
+                    <div ng-show="el.edit">
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                        <span ng-click="createNew()" class="">New</span>
-                        <div ng-show="newFields">
+                        <span ng-click="createNew()" class="badge badge-warning">New</span>
+                        <div ng-show="newFields"  style="color:red; background: white">
                             <ul>
-                                <li ng-repeat="field in newFields">{{ field }}</li>
+                                <li ng-repeat="field in newFields">{{ field.title }} is what?</li>
                             </ul>
                         </div>
                     </div>
-                    <div ng-show="!el.editorEnabled">
+                    <div ng-show="!el.edit">
                         <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                     </div>
                 </div>
 
                 <div ng-show="el.textInput" ng-controller="TextInputController">
-                    <div ng-show="el.editorEnabled">
+                    <div ng-show="el.edit">
                         <input type="text" ng-model="el.value"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
-                    <div ng-show="!el.editorEnabled">
+                    <div ng-show="!el.edit">
                         <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                     </div>
@@ -48,11 +48,11 @@
                 </div>
 
                 <div ng-show="el.textArea">
-                    <div ng-show="el.editorEnabled">
+                    <div ng-show="el.edit">
                         <textarea ng-model="el.value" rows="5"></textarea>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
                     </div>
-                    <div ng-show="!el.editorEnabled">
+                    <div ng-show="!el.edit">
                         <span>{{ el.value }}</span>
                         <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                     </div>
