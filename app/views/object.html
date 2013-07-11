@@ -3,7 +3,7 @@
 <table cellpadding="20" border="0" class="table panels" ng-controller="I18NController">
     <thead>
     <tr>
-        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element.title }}</th>
+        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element | title }}</th>
     </tr>
     </thead>
     <tbody>
@@ -20,12 +20,7 @@
                     <div ng-show="el.edit">
                         <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                        <span ng-click="createNew()" class="badge badge-warning">New</span>
-                        <div ng-show="newFields"  style="color:red; background: white">
-                            <ul>
-                                <li ng-repeat="field in newFields">{{ field.title }} is what?</li>
-                            </ul>
-                        </div>
+                        <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning">New</span>
                     </div>
                     <div ng-show="!el.edit">
                         <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>
@@ -69,7 +64,7 @@
                     </a>
                     <span ng-show="element.multiple"
                           tooltip-placement="bottom"
-                          tooltip="Add {{ element.title }}"
+                          tooltip="Add {{ element | title }}"
                           class="plus display-{{ element.multiple }}"
                           ng-click="addSibling(el.elements, $index, $parent.index)">
                         <i class="icon-plus-sign icon-white"></i>
@@ -79,7 +74,7 @@
                           popover-trigger="mouseenter"
                           popover-placement="top"
                           popover-title="{{ element.title }}"
-                          popover="{{element.doc}}"><i class="icon-question-sign icon-white"></i>
+                          popover="{{ element.doc }}"><i class="icon-question-sign icon-white"></i>
                     </span>
                 </li>
             </ul>

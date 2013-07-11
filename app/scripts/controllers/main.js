@@ -152,9 +152,14 @@ CultureCollectorApp.controller('VocabularyController',
             if (!$scope.el.vocabulary) return;
             $scope.createNew = function () {
                 Vocabulary.getFields($scope.el.vocabulary.name, function (fields) {
-                    $scope.newFields = _.map(fields, function (field) {
-                        return { name:field, title:field };
-                    });
+                    $scope.el.elements = [{
+                        name: 'new',
+                        title: 'Create a new one',
+                        elements: _.map(fields, function(field) {
+                            field.textInput = {};
+                            return field;
+                        })
+                    }];
                 });
             };
             $scope.getStates = function (value) {
