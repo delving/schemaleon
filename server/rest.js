@@ -12,12 +12,13 @@ app.get('/document/:identifier', function (req, res) {
     res.send(data.documentXML);
 });
 
-app.get('/vocabularyFields/:vocab', function (req, res) {
+app.get('/vocabularySchema/:vocab', function (req, res) {
     var vocab = data.vocabulary[req.params.vocab];
     if (!vocab) {
         vocab = data.vocabulary.Default;
     }
-    res.json(vocab.fields);
+    res.setHeader('Content-Type', 'text/xml');
+    res.send(vocab.schema);
 });
 
 app.get('/vocabulary/:vocab', function (req, res) {

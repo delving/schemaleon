@@ -64,8 +64,8 @@ CultureCollectorApp.service("Vocabulary",
                     alert("Problem accessing vocabulary");
                 });
         };
-        this.getFields = function (vocab, success) {
-            $http.get('/vocabularyFields/' + vocab)
+        this.getSchema = function (vocab, success) {
+            $http.get('/vocabularySchema/' + vocab)
                 .success(function (data, status, headers, config) {
                     success(data);
                 })
