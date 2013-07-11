@@ -56,7 +56,7 @@ CultureCollectorApp.service("ObjectList",
 CultureCollectorApp.service("Vocabulary",
     function ($http) {
         this.getStates = function (vocab, value, success) {
-            $http.get('/vocabulary/' + vocab, {params: {q: value}})
+            $http.get('/vocabulary/list/' + vocab, {params: {q: value}})
                 .success(function (data, status, headers, config) {
                     success(data);
                 })
@@ -65,7 +65,7 @@ CultureCollectorApp.service("Vocabulary",
                 });
         };
         this.getSchema = function (vocab, success) {
-            $http.get('/vocabularySchema/' + vocab)
+            $http.get('/vocabulary/schema/' + vocab)
                 .success(function (data, status, headers, config) {
                     success(data);
                 })
@@ -73,6 +73,15 @@ CultureCollectorApp.service("Vocabulary",
                     alert("Problem accessing vocabulary");
                 });
         };
+        this.submitValue = function (vocab, entry, success) {
+            $http.post('/vocabulary/add/' + vocab, entry)
+                .success(function (data, status, headers, config) {
+                    success(data);
+                })
+                .error(function (data, status, headers, config) {
+                    alert("Problem accessing vocabulary");
+                });
+        }
     }
 );
 
@@ -165,6 +174,59 @@ CultureCollectorApp.service("XMLTree",
             var result = { elements: [] };
             generate(xmlObject, result, []);
             return result.elements[0];
-        }
+        };
+
+        this.treeToXml = function (tree) {
+            var out = [];
+
+            function indent(string, level) {
+                return new Array(level).join('   ') + string;
+            }
+
+            function toXml(from, level) {
+                if (from.elements) {
+                    out.push(indent('<' + from.name + '>', level));
+                    _.forEach(from.elements, function (element) {
+                        toXml(element, level + 1);
+                    });
+                    out.push(indent('</' + from.name + '>', level));
+                }
+                else if (from.value) {
+                    if (_.isObject(from.value)) {
+                        out.push(indent('<' + from.name + '>', level) + JSON.stringify(from.value) + '</' + from.name + '>');
+                    }
+                    else if (_.isString(from.value)) {
+                        out.push(indent('<' + from.name + '>', level) + from.value + '</' + from.name + '>');
+                    }
+                }
+                else {
+                    out.push(indent('<' + from.name + '/>', level));
+                }
+            }
+
+            toXml(tree, 0);
+
+            return out.join('');
+        };
+
+        this.treeClean = function (tree) {
+            function clean(from, out) {
+                if (from.elements) {
+                    var sub = {};
+                    _.forEach(from.elements, function (element) {
+                        clean(element, sub)
+                    });
+                    out[from.name] = sub;
+                }
+                else if (from.value) {
+                    // todo: when multiple = true
+                    out[from.name] = from.value;
+                }
+            }
+
+            var out = {};
+            clean(tree, out);
+            return out;
+        };
     }
 );

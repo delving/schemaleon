@@ -163,12 +163,21 @@ CultureCollectorApp.controller('VocabularyController',
             if (!$scope.el.vocabulary) return;
             $scope.createNew = function () {
                 Vocabulary.getSchema($scope.el.vocabulary.name, function (schema) {
-                    var tree = XMLTree.xmlToTree(schema);
-                    $scope.el.elements = tree.elements;
+                    $scope.tree = XMLTree.xmlToTree(schema);
+                    $scope.el.elements = $scope.tree.elements;
                 });
             };
             $scope.cancelNew = function() {
                 $scope.el.elements = null;
+            };
+            $scope.submitNew = function() {
+                var clean = XMLTree.treeClean($scope.tree);
+                Vocabulary.submitValue($scope.el.vocabulary.name, clean, function(echo) {
+                    $scope.panels.pop();
+                    $scope.el.elements = null;
+                    $scope.el.value = echo.Entry;
+                    $scope.disableEditor();
+                });
             };
             $scope.getStates = function (value) {
                 var deferred = $q.defer();

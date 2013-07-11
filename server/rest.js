@@ -3,6 +3,8 @@
 var express = require('express');
 var app = express();
 
+app.use(express.bodyParser());
+
 var data = require('../server/fake-data');
 
 var _ = require("../app/components/underscore/underscore-min.js");
@@ -12,7 +14,7 @@ app.get('/document/:identifier', function (req, res) {
     res.send(data.documentXML);
 });
 
-app.get('/vocabularySchema/:vocab', function (req, res) {
+app.get('/vocabulary/schema/:vocab', function (req, res) {
     var vocab = data.vocabulary[req.params.vocab];
     if (!vocab) {
         vocab = data.vocabulary.Default;
@@ -21,17 +23,26 @@ app.get('/vocabularySchema/:vocab', function (req, res) {
     res.send(vocab.schema);
 });
 
-app.get('/vocabulary/:vocab', function (req, res) {
+app.get('/vocabulary/list/:vocab', function (req, res) {
     var query = req.param('q').toLowerCase();
-    console.log("vocab request:" + req.params.vocab);
     var vocab = data.vocabulary[req.params.vocab];
     if (!vocab) {
         vocab = data.vocabulary.Default;
     }
     var filtered = _.filter(vocab.list, function (value) {
-        return value.label.toLowerCase().indexOf(query) >= 0;
+        return value.Label.toLowerCase().indexOf(query) >= 0;
+        // todo: Label should not be known
     });
     res.json(filtered);
+});
+
+app.post('/vocabulary/add/:vocab', function (req, res) {
+    var vocab = data.vocabulary[req.params.vocab];
+    if (!vocab) {
+        vocab = data.vocabulary.Default;
+    }
+    vocab.list.push(req.body.Entry);
+    res.json(req.body);
 });
 
 app.get('/doclist', function (req, res) {

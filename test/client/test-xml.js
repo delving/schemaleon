@@ -4,96 +4,58 @@ describe('Service: XMLTree', function () {
 
     var xmlString =
         '<PhotoObject>' +
-            '<IdentificationNumber>{ "maxLength":20, "required":true }</IdentificationNumber>' +
-            '    <Title>{ "required": true }</Title>' +
-            '    <Type>{ "vocabulary": "PhotoTypes" }</Type>' +
-            '    <ShortDescription>{ "paragraph":true }</ShortDescription>' +
-            '    <Authenticity>{ "vocabulary": "AuthenticityLevels" }</Authenticity>' +
-            '    <Condition>{ "vocabulary": "PhotoConditions" }</Condition>' +
-            '    <Purpose/>' +
-            '    <Collection/>' +
-            '    <DigitalFile>' +
-            '        <File/>' +
-            '        <Comment/>' +
-            '    </DigitalFile>' +
-            '    <DigitalRights>{ "vocabulary": "DigitalRights" }</DigitalRights>' +
-            '    <Source>' +
-            '        <IdentificationNumber>' +
-            '            <URI/>' +
-            '        </IdentificationNumber>' +
-            '        <Type>{ "vocabulary": "SourceTypes" }</Type>' +
-            '        <Title/>' +
-            '        <Description>{ "paragraph":true }</Description>' +
-            '    </Source>' +
-            '    <StorageLocation>' +
-            '        <Type>{ "vocabulary": "StorageLocationTypes" }</Type>' +
-            '        <Name/>' +
-            '        <Description/>' +
-            '    </StorageLocation>' +
-            '    <CreationEvent>' +
-            '        <CreationDate>{"validator": "date" }</CreationDate>' +
-            '        <Creator>{ "vocabulary": "Actors" }</Creator>' +
-            '        <CreationPlace>{ "vocabulary": "Places" }</CreationPlace>' +
-            '        <Technique>{ "vocabulary": "Techniques" }</Technique>' +
-            '        <Material>{ "vocabulary": "Materials" }</Material>' +
-            '        <TechnicalDescription>' +
-            '            <Dimension>' +
-            '                <PixelsXAxis>{ "validator": "pixels" }</PixelsXAxis>' +
-            '                <PixelsYAxis>{ "validator": "pixels" }</PixelsYAxis>' +
-            '            </Dimension>' +
-            '            <CharacteristicsOfPhotograph>' +
-            '                <ISO>{ "vocabulary": "PhotoISO" }</ISO>' +
-            '                <ExposureTime>{ "vocabulary": "PhotoExposure" }</ExposureTime>' +
-            '                <LensAperture>{ "vocabulary": "PhotoAperture" }</LensAperture>' +
-            '                <FocalLength>{ "vocabulary": "PhotoFocalLength" }</FocalLength>' +
-            '            </CharacteristicsOfPhotograph>' +
-            '            <CharacteristicsOfDigitization>' +
-            '                <DPIResolution>{ "validator": "DPI" }</DPIResolution>' +
-            '                <ColorDepth>{ "vocabulary": "PhotoColorDepth" }</ColorDepth>' +
-            '            </CharacteristicsOfDigitization>' +
-            '            <Exif/>' +
-            '        </TechnicalDescription>' +
-            '    </CreationEvent>' +
+            '    <IdentificationNumber></IdentificationNumber>' +
+            '    <Title></Title>' +
+            '    <Type>' +
+            '        <FirstPart/>' +
+            '        <SecondPart/>' +
+            '    </Type>' +
             '</PhotoObject>';
 
-    var expected =
+    var expectedEmpty =
     {
-        name: 'document',
+        name: 'PhotoObject',
+        title: 'Photo Object',
         elements: [
             {
-                name: 'basics',
-                elements: [
-                    {
-                        name: 'type',
-                        value: 'Landscapes',
-                        localVocabulary: {
-                            options: [
-                                'Landscapes',
-                                'Portraits',
-                                'Nudes'
-                            ]
-                        }
-                    }
-                ]
+                name: 'IdentificationNumber',
+                title: 'Identification Number',
+                textInput: {}
             },
             {
-                name: 'object',
+                name: 'Title',
+                title: 'Title',
+                textInput: {}
+            },
+            {
+                name: 'Type',
+                title: 'Type',
                 elements: [
                     {
-                        name: 'link',
-                        value: 'linky'
+                        name: 'FirstPart',
+                        title: 'First Part',
+                        textInput: {}
                     },
                     {
-                        name: 'link',
-                        value: 'linko'
-                    },
-                    {
-                        name: 'link',
-                        value: 'linka'
+                        name: 'SecondPart',
+                        title: 'Second Part',
+                        textInput: {}
                     }
                 ]
             }
         ]
+    };
+
+    var expectedClean =
+    {
+        PhotoObject: {
+            IdentificationNumber: 'one',
+            Title: 'two',
+            Type: {
+                FirstPart: 'threeA',
+                SecondPart: 'threeB'
+            }
+        }
     };
 
     beforeEach(module('CultureCollectorApp'));
@@ -107,10 +69,26 @@ describe('Service: XMLTree', function () {
     it('should parse an xml document and generate', function () {
         var result = xt.xmlToTree(xmlString);
         var jsonString = JSON.stringify(result);
+        var expectedString = JSON.stringify(expectedEmpty);
+        expect(jsonString).toBe(expectedString);
+
         console.log(jsonString);
-//        var expectedString = JSON.stringify(expected);
+
+        result.elements[0].value = 'one';
+        result.elements[1].value = 'two';
+        result.elements[2].elements[0].value = 'threeA';
+        result.elements[2].elements[1].value = 'threeB';
+
+        var cleaned = xt.treeClean(result);
+
+        var cleanedString = JSON.stringify(cleaned);
+        var expectedCleanedString = JSON.stringify(expectedClean);
+        expect(cleanedString).toBe(expectedCleanedString);
+        console.log(cleanedString);
+
+//        var xmlRecord = xt.treeToXml(result);
+//        console.log(xmlRecord);
 //        console.log(expectedString);
-//        expect(jsonString).toBe(expectedString);
     })
 
 });

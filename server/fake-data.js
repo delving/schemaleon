@@ -63,136 +63,136 @@ module.exports = {
         PhotoType: {
             schema: "<Entry><Label/><ID/><URI/></Entry>",
             list: [
-                { label: 'Landscapes', id: "a", uri: "http://vocab.com/v/0001" },
-                { label: 'Portraits', id: "b", uri: "http://vocab.com/v/0002" },
-                { label: 'Nudes', id: "c", uri: "http://vocab.com/v/0003" }
+                { Label: 'Landscapes', ID: "a", URI: "http://vocab.com/v/0001" },
+                { Label: 'Portraits', ID: "b", URI: "http://vocab.com/v/0002" },
+                { Label: 'Nudes', ID: "c", URI: "http://vocab.com/v/0003" }
             ]
         },
         SourceType: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Local', id: "1" },
-                { label: 'Foreign', id: "2" },
-                { label: 'Unknown', id: "3" }
+                { Label: 'Local', ID: "1" },
+                { Label: 'Foreign', ID: "2" },
+                { Label: 'Unknown', ID: "3" }
             ]
         },
         Actor: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Bob Marley', id: "1" },
-                { label: 'Jimi Hendrix', id: "2" },
-                { label: 'Dan Brown', id: "3" }
+                { Label: 'Bob Marley', ID: "1" },
+                { Label: 'Jimi Hendrix', ID: "2" },
+                { Label: 'Dan Brown', ID: "3" }
             ]
         },
         Place: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'My back yard', id: "x" },
-                { label: 'Your back yard', id: "y" },
-                { label: 'Downtown', id: "z" }
+                { Label: 'My back yard', ID: "x" },
+                { Label: 'Your back yard', ID: "y" },
+                { Label: 'Downtown', ID: "z" }
             ]
         },
         Technique: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Slide rotation on the sugar plumb', id: "1" },
-                { label: 'Like a virgin', id: "2" },
-                { label: 'Playing hard to get', id: "3" }
+                { Label: 'Slide rotation on the sugar plumb', ID: "1" },
+                { Label: 'Like a virgin', ID: "2" },
+                { Label: 'Playing hard to get', ID: "3" }
             ]
         },
         Material: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Shop vac', id: "1" },
-                { label: 'Electric toothbrush', id: "2" },
-                { label: 'Chainsaw', id: "3" }
+                { Label: 'Shop vac', ID: "1" },
+                { Label: 'Electric toothbrush', ID: "2" },
+                { Label: 'Chainsaw', ID: "3" }
             ]
         },
         DigitalRights: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Mine all mine, go away!', id: "1" },
-                { label: 'You can look but you cannot touch', id: "2" },
-                { label: 'Here, my photos are your photos', id: "3" }
+                { Label: 'Mine all mine, go away!', ID: "1" },
+                { Label: 'You can look but you cannot touch', ID: "2" },
+                { Label: 'Here, my photos are your photos', ID: "3" }
             ]
         },
         StorageLocationType: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Under the bridge near the river', id: "a" },
-                { label: 'Old shoebox', id: "b" },
-                { label: 'New shoebox', id: "c" },
-                { label: 'Titanium safe with time lock', id: "d" }
+                { Label: 'Under the bridge near the river', ID: "a" },
+                { Label: 'Old shoebox', ID: "b" },
+                { Label: 'New shoebox', ID: "c" },
+                { Label: 'Titanium safe with time lock', ID: "d" }
             ]
         },
         PhotoCondition: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'Pristine', id: "A" },
-                { label: 'Not bad for an old shot', id: "B" },
-                { label: 'Coffee stains, maybe sepia', id: "C" },
-                { label: 'Ripped and torn', id: "D" },
-                { label: 'Soggy, Ripped and torn', id: "E" }
+                { Label: 'Pristine', ID: "A" },
+                { Label: 'Not bad for an old shot', ID: "B" },
+                { Label: 'Coffee stains, maybe sepia', ID: "C" },
+                { Label: 'Ripped and torn', ID: "D" },
+                { Label: 'Soggy, Ripped and torn', ID: "E" }
             ]
         },
         AuthenticityLevel: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'I swear on the grave of my grandmother', id: "1" },
-                { label: 'My sister said it was true', id: "2" },
-                { label: 'Bruce says it is authentic', id: "3" },
-                { label: 'Not quite sure, to be honest', id: "4" }
+                { Label: 'I swear on the grave of my grandmother', ID: "1" },
+                { Label: 'My sister said it was true', ID: "2" },
+                { Label: 'Bruce says it is authentic', ID: "3" },
+                { Label: 'Not quite sure, to be honest', ID: "4" }
             ]
         },
         PhotoISO: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'ISO 25', id: "a" },
-                { label: 'ISO 50', id: "b" },
-                { label: 'ISO 100', id: "c" },
-                { label: 'ISO 200', id: "d" },
-                { label: 'ISO 400', id: "e" }
+                { Label: 'ISO 25', ID: "a" },
+                { Label: 'ISO 50', ID: "b" },
+                { Label: 'ISO 100', ID: "c" },
+                { Label: 'ISO 200', ID: "d" },
+                { Label: 'ISO 400', ID: "e" }
             ]
         },
         PhotoExposure: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: '1 second', id: "a" },
-                { label: '1/2 second', id: "b" },
-                { label: '1/1000th second', id: "c" }
+                { Label: '1 second', ID: "a" },
+                { Label: '1/2 second', ID: "b" },
+                { Label: '1/1000th second', ID: "c" }
             ]
         },
         PhotoAperture: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: 'F 2.8', id: "1" },
-                { label: 'F 5.6', id: "2" },
-                { label: 'F 11', id: "3" }
+                { Label: 'F 2.8', ID: "1" },
+                { Label: 'F 5.6', ID: "2" },
+                { Label: 'F 11', ID: "3" }
             ]
         },
         PhotoFocalLength: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: '500mm', id: "1" },
-                { label: '150mm', id: "2" },
-                { label: '100mm', id: "3" },
-                { label: '28mm', id: "4" }
+                { Label: '500mm', ID: "1" },
+                { Label: '150mm', ID: "2" },
+                { Label: '100mm', ID: "3" },
+                { Label: '28mm', ID: "4" }
             ]
         },
         PhotoColorDepth: {
             schema: "<Entry><Label/><ID/></Entry>",
             list: [
-                { label: '32 bit', id: "a" },
-                { label: '16 bit', id: "b" },
-                { label: '8 bit', id: "c" },
-                { label: '4 bit with transparency', id: "d" }
+                { Label: '32 bit', ID: "a" },
+                { Label: '16 bit', ID: "b" },
+                { Label: '8 bit', ID: "c" },
+                { Label: '4 bit with transparency', ID: "d" }
             ]
         },
         Default: {
             schema: "<Entry><Label/></Entry>",
             list: [
-                { label: 'Defaulty Towers' },
-                { label: 'abcdefghijklmnopqrstuvwxyz' }
+                { Label: 'Defaulty Towers' },
+                { Label: 'abcdefghijklmnopqrstuvwxyz' }
             ]}
     },
     docList: [

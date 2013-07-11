@@ -377,6 +377,9 @@ ul.main-menu > .active > a:hover {
 .level4 {
   background: #888888;
 }
+.level5 {
+  background: #959595;
+}
 #panel-container {
   max-width: 100%;
   overflow-x: scroll;
