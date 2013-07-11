@@ -171,7 +171,7 @@ CultureCollectorApp.controller('VocabularyController',
                 $scope.el.elements = null;
             };
             $scope.submitNew = function() {
-                var clean = XMLTree.treeClean($scope.tree);
+                var clean = XMLTree.treeToObject($scope.tree);
                 Vocabulary.submitValue($scope.el.vocabulary.name, clean, function(echo) {
                     $scope.panels.pop();
                     $scope.el.elements = null;

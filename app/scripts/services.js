@@ -176,7 +176,7 @@ CultureCollectorApp.service("XMLTree",
             return result.elements[0];
         };
 
-        this.treeToXml = function (tree) {
+        this.objectToXml = function (object) {
             var out = [];
 
             function indent(string, level) {
@@ -184,32 +184,36 @@ CultureCollectorApp.service("XMLTree",
             }
 
             function toXml(from, level) {
-                if (from.elements) {
-                    out.push(indent('<' + from.name + '>', level));
-                    _.forEach(from.elements, function (element) {
-                        toXml(element, level + 1);
-                    });
-                    out.push(indent('</' + from.name + '>', level));
-                }
-                else if (from.value) {
-                    if (_.isObject(from.value)) {
-                        out.push(indent('<' + from.name + '>', level) + JSON.stringify(from.value) + '</' + from.name + '>');
+                for (var key in from) {
+                    var value = from[key];
+                    if (_.isString(value)) {
+                        out.push(indent('<' + key+ '>', level) + value + '</' + key + '>');
                     }
-                    else if (_.isString(from.value)) {
-                        out.push(indent('<' + from.name + '>', level) + from.value + '</' + from.name + '>');
+                    else if (_.isArray(value)) {
+                        _.each(value, function (item) {
+                            if (_.isString(item)) {
+                                out.push(indent('<' + key+ '>', level) + item + '</' + key + '>');
+                            }
+                            else {
+                                out.push(indent('<' + key + '>', level));
+                                toXml(item, level + 1);
+                                out.push(indent('</' + key + '>', level));
+                            }
+                        });
                     }
-                }
-                else {
-                    out.push(indent('<' + from.name + '/>', level));
+                    else if (_.isObject(value)) {
+                        out.push(indent('<' + key + '>', level));
+                        toXml(value, level+1);
+                        out.push(indent('</' + key + '>', level));
+                    }
                 }
             }
 
-            toXml(tree, 0);
-
+            toXml(object, 1);
             return out.join('');
         };
 
-        this.treeClean = function (tree) {
+        this.treeToObject = function (tree) {
             function clean(from, out) {
                 if (from.elements) {
                     var sub = {};
@@ -219,8 +223,15 @@ CultureCollectorApp.service("XMLTree",
                     out[from.name] = sub;
                 }
                 else if (from.value) {
-                    // todo: when multiple = true
-                    out[from.name] = from.value;
+                    if (from.multiple) {
+                        if (!out[from.name]) {
+                            out[from.name] = [];
+                        }
+                        out[from.name].push(from.value);
+                    }
+                    else {
+                        out[from.name] = from.value;
+                    }
                 }
             }
 
