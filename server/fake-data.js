@@ -61,11 +61,7 @@ module.exports = {
     },
     vocabulary: {
         PhotoType: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" },
-                { name: 'uri', title: "URI"}
-            ],
+            schema: "<Entry><Label/><ID/><URI/></Entry>",
             list: [
                 { label: 'Landscapes', id: "a", uri: "http://vocab.com/v/0001" },
                 { label: 'Portraits', id: "b", uri: "http://vocab.com/v/0002" },
@@ -73,10 +69,7 @@ module.exports = {
             ]
         },
         SourceType: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Local', id: "1" },
                 { label: 'Foreign', id: "2" },
@@ -84,10 +77,7 @@ module.exports = {
             ]
         },
         Actor: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Bob Marley', id: "1" },
                 { label: 'Jimi Hendrix', id: "2" },
@@ -95,10 +85,7 @@ module.exports = {
             ]
         },
         Place: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'My back yard', id: "x" },
                 { label: 'Your back yard', id: "y" },
@@ -106,10 +93,7 @@ module.exports = {
             ]
         },
         Technique: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Slide rotation on the sugar plumb', id: "1" },
                 { label: 'Like a virgin', id: "2" },
@@ -117,10 +101,7 @@ module.exports = {
             ]
         },
         Material: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Shop vac', id: "1" },
                 { label: 'Electric toothbrush', id: "2" },
@@ -128,10 +109,7 @@ module.exports = {
             ]
         },
         DigitalRights: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Mine all mine, go away!', id: "1" },
                 { label: 'You can look but you cannot touch', id: "2" },
@@ -139,10 +117,7 @@ module.exports = {
             ]
         },
         StorageLocationType: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Under the bridge near the river', id: "a" },
                 { label: 'Old shoebox', id: "b" },
@@ -151,10 +126,7 @@ module.exports = {
             ]
         },
         PhotoCondition: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'Pristine', id: "A" },
                 { label: 'Not bad for an old shot', id: "B" },
@@ -164,10 +136,7 @@ module.exports = {
             ]
         },
         AuthenticityLevel: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'I swear on the grave of my grandmother', id: "1" },
                 { label: 'My sister said it was true', id: "2" },
@@ -176,10 +145,7 @@ module.exports = {
             ]
         },
         PhotoISO: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'ISO 25', id: "a" },
                 { label: 'ISO 50', id: "b" },
@@ -189,10 +155,7 @@ module.exports = {
             ]
         },
         PhotoExposure: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: '1 second', id: "a" },
                 { label: '1/2 second', id: "b" },
@@ -200,10 +163,7 @@ module.exports = {
             ]
         },
         PhotoAperture: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: 'F 2.8', id: "1" },
                 { label: 'F 5.6', id: "2" },
@@ -211,10 +171,7 @@ module.exports = {
             ]
         },
         PhotoFocalLength: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: '500mm', id: "1" },
                 { label: '150mm', id: "2" },
@@ -223,10 +180,7 @@ module.exports = {
             ]
         },
         PhotoColorDepth: {
-            fields: [
-                { name: 'label', title: "Label"},
-                { name: 'id', title: "Identifier" }
-            ],
+            schema: "<Entry><Label/><ID/></Entry>",
             list: [
                 { label: '32 bit', id: "a" },
                 { label: '16 bit', id: "b" },
@@ -235,9 +189,7 @@ module.exports = {
             ]
         },
         Default: {
-            fields: [
-                { name: 'label', title: "Label"}
-            ],
+            schema: "<Entry><Label/></Entry>",
             list: [
                 { label: 'Defaulty Towers' },
                 { label: 'abcdefghijklmnopqrstuvwxyz' }

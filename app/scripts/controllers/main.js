@@ -147,15 +147,13 @@ CultureCollectorApp.controller('PanelController',
 );
 
 CultureCollectorApp.controller('VocabularyController',
-    ['$scope', '$q', 'Vocabulary',
-        function ($scope, $q, Vocabulary) {
+    ['$scope', '$q', 'Vocabulary', 'XMLTree',
+        function ($scope, $q, Vocabulary, XMLTree) {
             if (!$scope.el.vocabulary) return;
             $scope.createNew = function () {
-                Vocabulary.getFields($scope.el.vocabulary.name, function (fields) {
-                    $scope.el.elements = _.map(fields, function (field) {
-                        field.textInput = {};
-                        return field;
-                    });
+                Vocabulary.getSchema($scope.el.vocabulary.name, function (schema) {
+                    var tree = XMLTree.xmlToTree(schema);
+                    $scope.el.elements = tree.elements;
                 });
             };
             $scope.cancelNew = function() {
