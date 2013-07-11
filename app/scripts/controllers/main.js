@@ -178,14 +178,13 @@ CultureCollectorApp.controller('TextInputController',
         function ($scope, Validator) {
             var ti = $scope.el.textInput;
             if (!ti) return;
-            $scope.el.value = '';
             if (ti.validator) {
                 console.log("validator " + ti.validator);
                 var func = Validator.getFunction(ti.validator);
                 if (func) {
                     $scope.validator = function () {
                         return func($scope.el.value);
-                    }
+                    };
                     $scope.invalidMessage = 'Nothing yet';
                     $scope.$watch('el.value', function (after, before) {
                         $scope.invalidMessage = $scope.validator();
