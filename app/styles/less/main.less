@@ -7,10 +7,15 @@
 /* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
 @baseDarker: @grayDark;
+//@baseDarker: #696963;
 @baseDark: lighten(@baseDarker, 10%);
 @baseLight: lighten(@baseDarker, 20%);
 @baseLighter: lighten(@baseDarker, 30%);
 @baseLightest: lighten(@baseDarker, 40%);
+
+//@blue: #009AE0;
+
+//@bodyBackground: @baseDarker;
 
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -197,7 +202,14 @@ ul.main-menu {
   background: lighten(@baseLighter, 10%);
 }
 
+#panel-container {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
 /* PANELS TABLE */
+
+
 .panels {
   background: transparent;
   width: auto;
@@ -213,6 +225,9 @@ ul.main-menu {
     min-width: 150px;
     border: none;
     border-radius: 0 0 20px 20px;
+  }
+  .panel-input {
+    padding: 0 20px;
   }
 }
 

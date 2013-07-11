@@ -1,6 +1,7 @@
 <h1 class="page-header">CRM Object</h1>
-
-<table cellpadding="20" border="0" class="table panels" ng-controller="I18NController">
+<div id="panel-container">
+    <a href="" ng-click="scrollPanel('r','400')">scroll</a>
+<table cellpadding="20" border="0" class="table panels" ng-controller="I18NController" id="panel-table">
     <thead>
     <tr>
         <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element | title }}</th>
@@ -10,13 +11,13 @@
     <tr>
         <td ng-repeat="panel in panels" ng-controller="PanelController"
             class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in">
-            <div ng-show="el.vocabulary || el.textInput || el.textArea">
+            <div ng-show="el.vocabulary || el.textInput || el.textArea" class="panel-input">
                 <div ng-show="!el.elements">
                     <div ng-show="el.vocabulary" ng-controller="VocabularyController">
                         <div ng-show="el.edit">
                             <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
-                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                            <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning">New</span>
+                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
+                            <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</span>
                         </div>
                         <div ng-show="!el.edit">
                             <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>
@@ -27,7 +28,7 @@
                     <div ng-show="el.textInput" ng-controller="TextInputController">
                         <div ng-show="el.edit">
                             <input type="text" ng-model="el.value"/>
-                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                         </div>
                         <div ng-show="!el.edit">
                             <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
@@ -41,13 +42,14 @@
                     <div ng-show="el.textArea">
                         <div ng-show="el.edit">
                             <textarea ng-model="el.value" rows="5"></textarea>
-                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                         </div>
                         <div ng-show="!el.edit">
                             <span>{{ el.value }}</span>
                             <span ng-click="enableEditor()" class="badge pointer">Edit</span>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -81,4 +83,4 @@
     </tr>
     </tbody>
 </table>
-
+</div>

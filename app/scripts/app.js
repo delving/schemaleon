@@ -3,7 +3,7 @@
 angular.module('CultureCollectorApp', ['ui.bootstrap.tooltip','ui.bootstrap.popover','ui.bootstrap.typeahead'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
-            .when('/dashboard/', {
+            .when('/dashboard', {
                 templateUrl: 'views/dashboard.html'
             })
             .when('/list/', {
@@ -11,6 +11,10 @@ angular.module('CultureCollectorApp', ['ui.bootstrap.tooltip','ui.bootstrap.popo
                 controller: 'ObjectListController'
             })
             .when('/object/', {
+                templateUrl: 'views/object.html',
+                controller: 'ObjectEditController'
+            })
+            .when('/object/:id', {
                 templateUrl: 'views/object.html',
                 controller: 'ObjectEditController'
             })

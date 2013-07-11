@@ -2,7 +2,7 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-/* CRM LIST RELATED CONTROLLERS */
+
 
 CultureCollectorApp.controller('NavigationController',
     ['$scope', '$location',
@@ -75,7 +75,7 @@ CultureCollectorApp.controller('ObjectEditController',
                     'element': tree
                 };
             });
-
+ 
             $scope.choose = function (index, parentIndex) {
                 var element = $scope.panels[parentIndex].element.elements[index];
                 $scope.panels[parentIndex].element.elements.forEach(function (el) {
@@ -91,6 +91,15 @@ CultureCollectorApp.controller('ObjectEditController',
                     });
                 }
                 $scope.panels.splice(parentIndex + 2, 5);
+
+                // slide panels over
+                var scroller = $('#panel-container'),
+                    table = $('#panel-table'),
+                    wTable = table.width(),
+                    leftPos = scroller.scrollLeft();
+
+                scroller.animate({scrollLeft: leftPos + wTable}, 800);
+
             };
 
             $scope.addSibling = function (list, index, parentIndex) {
@@ -118,6 +127,7 @@ CultureCollectorApp.controller('ObjectEditController',
                 }
                 return element.title;
             }
+
         }]
 );
 
@@ -143,6 +153,7 @@ CultureCollectorApp.controller('PanelController',
             };
 
             $scope.disableEditor();
+
         }]
 );
 

@@ -377,6 +377,10 @@ ul.main-menu > .active > a:hover {
 .level4 {
   background: #888888;
 }
+#panel-container {
+  max-width: 100%;
+  overflow-x: scroll;
+}
 /* PANELS TABLE */
 .panels {
   background: transparent;
@@ -394,6 +398,9 @@ ul.main-menu > .active > a:hover {
   min-width: 150px;
   border: none;
   border-radius: 0 0 20px 20px;
+}
+.panels .panel-input {
+  padding: 0 20px;
 }
 ul.panel-list li {
   position: relative;
