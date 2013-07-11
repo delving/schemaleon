@@ -8,54 +8,50 @@
     </thead>
     <tbody>
     <tr>
-        <td ng-repeat="panel in panels"
-            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in"
-            ng-controller="PanelController">
-
-            <form ng-show="panel.element.vocabulary ||
-                           panel.element.textInput ||
-                           panel.element.textArea">
-
-                <div ng-show="el.vocabulary" ng-controller="VocabularyController">
-                    <div ng-show="el.edit">
-                        <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                        <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning">New</span>
+        <td ng-repeat="panel in panels" ng-controller="PanelController"
+            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in">
+            <div ng-show="el.vocabulary || el.textInput || el.textArea">
+                <div ng-show="!el.elements">
+                    <div ng-show="el.vocabulary" ng-controller="VocabularyController">
+                        <div ng-show="el.edit">
+                            <input type="text" ng-model="chosenState" typeahead="state as state.label for state in getStates($viewValue)"/>
+                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                            <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning">New</span>
+                        </div>
+                        <div ng-show="!el.edit">
+                            <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>
+                            <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                        </div>
                     </div>
-                    <div ng-show="!el.edit">
-                        <a ng-href="{{ el.value.uri }}" target="_blank">{{ el.value.label }} ({{ el.value.id }})</a>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+
+                    <div ng-show="el.textInput" ng-controller="TextInputController">
+                        <div ng-show="el.edit">
+                            <input type="text" ng-model="el.value"/>
+                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                        </div>
+                        <div ng-show="!el.edit">
+                            <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
+                            <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                        </div>
+                        <div ng-show="invalidMessage">
+                            <span>{{ invalidMessage }}</span>
+                        </div>
+                    </div>
+
+                    <div ng-show="el.textArea">
+                        <div ng-show="el.edit">
+                            <textarea ng-model="el.value" rows="5"></textarea>
+                            <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
+                        </div>
+                        <div ng-show="!el.edit">
+                            <span>{{ el.value }}</span>
+                            <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div ng-show="el.textInput" ng-controller="TextInputController">
-                    <div ng-show="el.edit">
-                        <input type="text" ng-model="el.value"/>
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                    </div>
-                    <div ng-show="!el.edit">
-                        <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
-                    </div>
-                    <div ng-show="invalidMessage">
-                        <span>{{ invalidMessage }}</span>
-                    </div>
-                </div>
-
-                <div ng-show="el.textArea">
-                    <div ng-show="el.edit">
-                        <textarea ng-model="el.value" rows="5"></textarea>
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> done</span>
-                    </div>
-                    <div ng-show="!el.edit">
-                        <span>{{ el.value }}</span>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
-                    </div>
-                </div>
-
-            </form>
-
-            <ul class="nav nav-pills nav-stacked panel-list">
+            <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
                 <li ng-repeat="element in el.elements">
                     <a href
                        class="level{{ element.classIndex }} link-{{ element.name }}"
@@ -76,6 +72,9 @@
                           popover-title="{{ element.title }}"
                           popover="{{ element.doc }}"><i class="icon-question-sign icon-white"></i>
                     </span>
+                </li>
+                <li ng-show="el.vocabulary"  ng-controller="VocabularyController">
+                    <span ng-click="cancelNew()" class="badge badge-warning">Cancel</span>
                 </li>
             </ul>
         </td>

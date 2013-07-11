@@ -60,7 +60,7 @@ module.exports = {
         ]
     },
     vocabulary: {
-        PhotoTypes: {
+        PhotoType: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" },
@@ -72,7 +72,7 @@ module.exports = {
                 { label: 'Nudes', id: "c", uri: "http://vocab.com/v/0003" }
             ]
         },
-        SourceTypes: {
+        SourceType: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -83,7 +83,7 @@ module.exports = {
                 { label: 'Unknown', id: "3" }
             ]
         },
-        Actors: {
+        Actor: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -94,7 +94,7 @@ module.exports = {
                 { label: 'Dan Brown', id: "3" }
             ]
         },
-        Places: {
+        Place: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -105,7 +105,7 @@ module.exports = {
                 { label: 'Downtown', id: "z" }
             ]
         },
-        Techniques: {
+        Technique: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -116,7 +116,7 @@ module.exports = {
                 { label: 'Playing hard to get', id: "3" }
             ]
         },
-        Materials: {
+        Material: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -138,7 +138,7 @@ module.exports = {
                 { label: 'Here, my photos are your photos', id: "3" }
             ]
         },
-        StorageLocationTypes: {
+        StorageLocationType: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -150,7 +150,7 @@ module.exports = {
                 { label: 'Titanium safe with time lock', id: "d" }
             ]
         },
-        PhotoConditions: {
+        PhotoCondition: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -163,7 +163,7 @@ module.exports = {
                 { label: 'Soggy, Ripped and torn', id: "E" }
             ]
         },
-        AuthenticityLevels: {
+        AuthenticityLevel: {
             fields: [
                 { name: 'label', title: "Label"},
                 { name: 'id', title: "Identifier" }
@@ -283,10 +283,10 @@ module.exports = {
     documentXML: '<PhotoObject>' +
         '    <IdentificationNumber>{ "maxLength":20, "required":true }</IdentificationNumber>' +
         '    <Title>{ "required": true }</Title>' +
-        '    <Type>{ "vocabulary": "PhotoTypes" }</Type>' +
+        '    <Type>{ "vocabulary": "PhotoType" }</Type>' +
         '    <ShortDescription>{ "paragraph":true }</ShortDescription>' +
-        '    <Authenticity>{ "vocabulary": "AuthenticityLevels" }</Authenticity>' +
-        '    <Condition>{ "vocabulary": "PhotoConditions" }</Condition>' +
+        '    <Authenticity>{ "vocabulary": "AuthenticityLevel" }</Authenticity>' +
+        '    <Condition>{ "vocabulary": "PhotoCondition" }</Condition>' +
         '    <Purpose/>' +
         '    <Collection/>' +
         '    <DigitalFile>' +
@@ -298,21 +298,21 @@ module.exports = {
         '        <IdentificationNumber>' +
         '            <URI/>' +
         '        </IdentificationNumber>' +
-        '        <Type>{ "vocabulary": "SourceTypes" }</Type>' +
+        '        <Type>{ "vocabulary": "SourceType" }</Type>' +
         '        <Title/>' +
         '        <Description>{ "paragraph":true }</Description>' +
         '    </Source>' +
         '    <StorageLocation>' +
-        '        <Type>{ "vocabulary": "StorageLocationTypes" }</Type>' +
+        '        <Type>{ "vocabulary": "StorageLocationType" }</Type>' +
         '        <Name/>' +
         '        <Description/>' +
         '    </StorageLocation>' +
         '    <CreationEvent>' +
         '        <CreationDate>{ "validator": "date" }</CreationDate>' +
-        '        <Creator>{ "vocabulary": "Actors", "multiple":true }</Creator>' +
-        '        <CreationPlace>{ "vocabulary": "Places" }</CreationPlace>' +
-        '        <Technique>{ "vocabulary": "Techniques" }</Technique>' +
-        '        <Material>{ "vocabulary": "Materials" }</Material>' +
+        '        <Creator>{ "vocabulary": "Actor", "multiple":true }</Creator>' +
+        '        <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>' +
+        '        <Technique>{ "vocabulary": "Technique" }</Technique>' +
+        '        <Material>{ "vocabulary": "Material" }</Material>' +
         '        <TechnicalDescription>' +
         '            <Dimension>{ "validator": "pixels" }</Dimension>' +
         '            <CharacteristicsOfPhotograph>' +
@@ -334,14 +334,14 @@ module.exports = {
             IdentificationNumber: "Identification Number",
             Title: "Title",
             Type: "Type",
-            "ShortDescription": "Short description",
+            ShortDescription: "Short description",
             Condition: "Condition"
         },
         nl: {
             IdentificationNumber: "Identificatienummer",
             Title: "Titel",
             Type: "Type",
-            "ShortDescription": "Korte beschrijving",
+            ShortDescription: "Korte beschrijving",
             Condition: "Conditie"
         }
     }

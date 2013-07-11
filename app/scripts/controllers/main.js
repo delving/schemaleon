@@ -126,7 +126,7 @@ CultureCollectorApp.controller('PanelController',
         function ($scope) {
             if (!$scope.panel) return;
             $scope.checkEmpty = function () {
-                if ($scope.el.value != undefined && $scope.el.value.replace(/^\s+|\s+$/g, '').length == 0) {
+                if (!$scope.el.value || /^\s*$/.test($scope.el.value)) {
                     $scope.el.value = undefined;
                 }
             };
@@ -152,15 +152,14 @@ CultureCollectorApp.controller('VocabularyController',
             if (!$scope.el.vocabulary) return;
             $scope.createNew = function () {
                 Vocabulary.getFields($scope.el.vocabulary.name, function (fields) {
-                    $scope.el.elements = [{
-                        name: 'new',
-                        title: 'Create a new one',
-                        elements: _.map(fields, function(field) {
-                            field.textInput = {};
-                            return field;
-                        })
-                    }];
+                    $scope.el.elements = _.map(fields, function (field) {
+                        field.textInput = {};
+                        return field;
+                    });
                 });
+            };
+            $scope.cancelNew = function() {
+                $scope.el.elements = null;
             };
             $scope.getStates = function (value) {
                 var deferred = $q.defer();
