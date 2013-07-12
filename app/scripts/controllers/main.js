@@ -3,7 +3,6 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 
-
 CultureCollectorApp.controller('NavigationController',
     ['$scope', '$location',
         function ($scope, $location) {
@@ -32,7 +31,7 @@ CultureCollectorApp.controller('NavigationController',
         }]
 );
 
-CultureCollectorApp.filter('title',
+CultureCollectorApp.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
@@ -75,7 +74,7 @@ CultureCollectorApp.controller('ObjectEditController',
                     'element': tree
                 };
             });
- 
+
             $scope.choose = function (index, parentIndex) {
                 var element = $scope.panels[parentIndex].element.elements[index];
                 $scope.panels[parentIndex].element.elements.forEach(function (el) {
@@ -161,36 +160,80 @@ CultureCollectorApp.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary', 'XMLTree',
         function ($scope, $q, Vocabulary, XMLTree) {
             if (!$scope.el.vocabulary) return;
+
+            $scope.getStates = function (query) {
+                if (!$scope.el.vocabulary.def) {
+                    var deferred = $q.defer();
+                    Vocabulary.get($scope.el.vocabulary.name, function (vocabulary) {
+                        $scope.el.vocabulary.def = vocabulary;
+                        $scope.el.vocabulary.tree = XMLTree.xmlToTree(vocabulary.schema);
+                        $scope.el.firstFieldName = $scope.el.vocabulary.tree.elements[0].name;
+                        deferred.resolve(_.filter(vocabulary.list, function (value) {
+                            return value[$scope.el.firstFieldName].toLowerCase().indexOf(query) >= 0;
+                        }));
+                    });
+                    return deferred.promise;
+                }
+                else {
+                    return _.filter($scope.el.vocabulary.def.list, function (value) {
+                        return value[$scope.el.firstFieldName].toLowerCase().indexOf(query) >= 0;
+                    })
+                }
+            };
+
+            if (!$scope.el.vocabulary.def) {
+                $scope.getStates('');
+            }
+
             $scope.createNew = function () {
-                Vocabulary.getSchema($scope.el.vocabulary.name, function (schema) {
-                    $scope.tree = XMLTree.xmlToTree(schema);
-                    $scope.el.elements = $scope.tree.elements;
-                });
+                if ($scope.el.vocabulary.tree) {
+                    $scope.el.elements = _.map($scope.el.vocabulary.tree.elements, function(el) {
+                        el.value = null;
+                        return el;
+                    });
+                }
             };
-            $scope.cancelNew = function() {
-                $scope.el.elements = null;
-            };
-            $scope.submitNew = function() {
-                var clean = XMLTree.treeToObject($scope.tree);
-                Vocabulary.submitValue($scope.el.vocabulary.name, clean, function(echo) {
+
+            $scope.submitNew = function () {
+                $scope.newValue = XMLTree.treeToObject($scope.el.vocabulary.tree);
+                Vocabulary.add($scope.el.vocabulary.name, $scope.newValue, function (vocabulary) {
+                    $scope.el.vocabulary.def = vocabulary; // freshen
                     $scope.panels.pop();
                     $scope.el.elements = null;
-                    $scope.el.value = echo.Entry;
+                    console.log(" new value : " + JSON.stringify($scope.newValue));
+                    $scope.setValue($scope.newValue.Entry);
                     $scope.disableEditor();
                 });
             };
-            $scope.getStates = function (value) {
-                var deferred = $q.defer();
-                Vocabulary.getStates($scope.el.vocabulary.name, value, function (states) {
-                    deferred.resolve(states);
-                });
-                return deferred.promise;
+
+            $scope.cancelNew = function () {
+                $scope.el.elements = null;
             };
+
+            $scope.enableClearedEditor = function () {
+                $scope.chosenState = null;
+                $scope.el.value = null;
+                $scope.el.valueFields = null;
+                $scope.enableEditor();
+            };
+
             $scope.$watch('chosenState', function (after, before) {
                 if (_.isObject(after)) {
-                    $scope.el.value = after;
+                    $scope.setValue(after);
                 }
             });
+
+            $scope.stateToString = function (state) {
+                if (!state) return [];
+                return state[$scope.el.firstFieldName];
+            };
+
+            $scope.setValue = function (value) {
+                $scope.el.value = value;
+                $scope.el.valueFields = _.map($scope.el.vocabulary.tree.elements, function (element) {
+                    return { prompt: element.title, value: value[element.name] };
+                });
+            }
         }]
 );
 

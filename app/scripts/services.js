@@ -55,33 +55,37 @@ CultureCollectorApp.service("ObjectList",
 
 CultureCollectorApp.service("Vocabulary",
     function ($http) {
-        this.getStates = function (vocab, value, success) {
-            $http.get('/vocabulary/list/' + vocab, {params: {q: value}})
+
+        this.get = function(vocab, acceptVocabulary) {
+            $http.get('/vocabulary/' + vocab)
                 .success(function (data, status, headers, config) {
-                    success(data);
+                    acceptVocabulary(data);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing vocabulary");
                 });
         };
-        this.getSchema = function (vocab, success) {
-            $http.get('/vocabulary/schema/' + vocab)
+
+        this.select = function (vocab, query, acceptList) {
+            $http.get('/vocabulary/' + vocab + "/select", {params: {q: query}})
                 .success(function (data, status, headers, config) {
-                    success(data);
+                    acceptList(data);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing vocabulary");
                 });
         };
-        this.submitValue = function (vocab, entry, success) {
-            $http.post('/vocabulary/add/' + vocab, entry)
+
+        this.add = function (vocab, entry, acceptVocabulary) {
+            $http.post('/vocabulary/' + vocab + "/add", entry)
                 .success(function (data, status, headers, config) {
-                    success(data);
+                    acceptVocabulary(data);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing vocabulary");
                 });
         }
+
     }
 );
 

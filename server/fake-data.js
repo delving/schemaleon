@@ -1,64 +1,6 @@
 'use strict';
 
 module.exports = {
-    documentTree: {
-        identifier: 'DOC123',
-        name: 'Fetched Document',
-        elements: [
-            {
-                name: 'Basics',
-                elements: [
-                    {
-                        name: 'Type',
-                        vocabulary: {
-                            name: 'PhotoTypes'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Source',
-                elements: [
-                    { name: 'Type' },
-                    {
-                        name: 'Note',
-                        textArea: {
-                            label: 'Source Note'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Creation',
-                elements: [
-                    {
-                        name: 'Date',
-                        textInput: {
-                            label: 'Creation date',
-                            type: 'date'
-                        }
-                    },
-                    {
-                        name: 'Type',
-                        vocabulary: {
-                            name: 'SourceTypes'
-                        }
-                    },
-                    {
-                        name: 'Creator',
-                        doc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
-                        vocabulary: {
-                            name: 'Actors'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'OtherEvent',
-                multiple: true
-            }
-        ]
-    },
     vocabulary: {
         PhotoType: {
             schema: "<Entry><Label/><ID/><URI/></Entry>",

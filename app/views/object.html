@@ -4,7 +4,7 @@
 <table cellpadding="20" border="0" class="table panels" ng-controller="I18NController" id="panel-table">
     <thead>
     <tr>
-        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element | title }}</th>
+        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element | elementTitle }}</th>
     </tr>
     </thead>
     <tbody>
@@ -15,15 +15,17 @@
 
                 <div ng-show="el.vocabulary" ng-controller="VocabularyController">
                     <div ng-show="el.edit && !el.elements">
-                        <!--todo: state.Label should not be known here-->
-                        <input type="text" ng-model="chosenState" typeahead="state as state.Label for state in getStates($viewValue)"/>
+                        <input type="text" ng-model="chosenState" typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                         <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</span>
                     </div>
-                    <div ng-show="!el.edit && !el.elements">
-                        <!--todo: uri label and id should not be known here, somehow figure out how to format -->
-                        <a ng-href="{{ el.value.URI }}" target="_blank">{{ el.value.Label }} ({{ el.value.ID }})</a>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                    <div ng-show="!el.edit && !el.elements && el.valueFields">
+                        <ul>
+                            <li ng-repeat="line in el.valueFields">
+                                <span>{{ line.prompt }}</span>: <span>{{ line.value }}</span>
+                            </li>
+                        </ul>
+                        <span ng-click="enableClearedEditor()" class="badge pointer">Edit</span>
                     </div>
                     <div ng-show="el.elements"  ng-controller="VocabularyController">
                         <span ng-click="cancelNew()" class="badge badge-warning">Cancel</span>
@@ -63,11 +65,11 @@
                     <a href
                        class="level{{ element.classIndex }} link-{{ element.name }}"
                        ng-click="choose($index, $parent.$index)">
-                        {{ element | title }}
+                        {{ element | elementTitle }}
                     </a>
                     <span ng-show="element.multiple"
                           tooltip-placement="bottom"
-                          tooltip="Add {{ element | title }}"
+                          tooltip="Add {{ element | elementTitle }}"
                           class="plus display-{{ element.multiple }}"
                           ng-click="addSibling(el.elements, $index, $parent.index)">
                         <i class="icon-plus-sign icon-white"></i>
@@ -76,7 +78,7 @@
                           class="documentation"
                           popover-trigger="mouseenter"
                           popover-placement="top"
-                          popover-title="{{ element.title }}"
+                          popover-title="{{ element | elementTitle }}"
                           popover="{{ element.doc }}"><i class="icon-question-sign icon-white"></i>
                     </span>
                 </li>
