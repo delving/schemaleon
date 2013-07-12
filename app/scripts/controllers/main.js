@@ -62,6 +62,42 @@ CultureCollectorApp.controller('ObjectListController',
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
+CultureCollectorApp.directive('arrowKey', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attr, ctrl) {
+            elem.bind('keydown', function (e) {
+                var direction = null;
+                switch (e.keyCode) {
+                    case 37: // left
+                        direction = 'left';
+                        break;
+                    case 39: // right
+                        direction = 'right';
+                        break;
+                    case 38: // up
+                        direction = 'up';
+                        break;
+                    case 40: // down
+                        direction = 'down';
+                        break;
+                }
+                if (direction) {
+                    scope.$apply(function (s) {
+                        s.$eval(attr.arrowKey, { $direction: direction });
+                    });
+                }
+            });
+        }
+    };
+});
+
+CultureCollectorApp.directive('focus', function () {
+    return function (scope, element) {
+        element[0].focus();
+    };
+});
+
 CultureCollectorApp.controller('ObjectEditController',
     ['$scope', 'Documents', 'XMLTree', 'I18N',
         function ($scope, Documents, XMLTree, I18N) {
@@ -76,6 +112,8 @@ CultureCollectorApp.controller('ObjectEditController',
             });
 
             $scope.choose = function (index, parentIndex) {
+                $scope.selected = index;
+                $scope.selectedWhere = parentIndex;
                 var element = $scope.panels[parentIndex].element.elements[index];
                 $scope.panels[parentIndex].element.elements.forEach(function (el) {
                     el.classIndex = parentIndex;
@@ -98,7 +136,6 @@ CultureCollectorApp.controller('ObjectEditController',
                     leftPos = scroller.scrollLeft();
 
                 scroller.animate({scrollLeft: leftPos + wTable}, 800);
-
             };
 
             $scope.addSibling = function (list, index, parentIndex) {
@@ -125,8 +162,33 @@ CultureCollectorApp.controller('ObjectEditController',
                     console.log('No i18n in scope!');
                 }
                 return element.title;
-            }
+            };
 
+            $scope.arrowKeyPressed = function (direction) {
+                var size = $scope.panels[$scope.selectedWhere].element.elements.length;
+                switch (direction) {
+                    case 'up':
+                        if ($scope.selected > 0) {
+                            $scope.choose($scope.selected - 1, $scope.selectedWhere);
+                        }
+                        else {
+                            $scope.choose(size - 1, $scope.selectedWhere);
+                        }
+                        break;
+                    case 'down':
+                        if ($scope.selected < size - 1) {
+                            $scope.choose($scope.selected + 1, $scope.selectedWhere);
+                        }
+                        else {
+                            $scope.choose(0, $scope.selectedWhere);
+                        }
+                        break;
+                    case 'left':
+                        break;
+                    case 'right':
+                        break;
+                }
+            }
         }]
 );
 
@@ -189,7 +251,7 @@ CultureCollectorApp.controller('VocabularyController',
 
             $scope.createNew = function () {
                 if ($scope.v.tree) {
-                    $scope.el.elements = _.map($scope.v.tree.elements, function(el) {
+                    $scope.el.elements = _.map($scope.v.tree.elements, function (el) {
                         el.value = null;
                         return el;
                     });
@@ -256,6 +318,9 @@ CultureCollectorApp.controller('TextInputController',
                         $scope.invalidMessage = $scope.validator();
                     })
                 }
+            }
+            $scope.keyPressed = function (event) {
+                alert(event);
             }
         }]
 );

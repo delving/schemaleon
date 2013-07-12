@@ -13,9 +13,9 @@
             class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in">
             <div ng-show="el.vocabulary || el.textInput || el.textArea" class="panel-input">
 
-                <div ng-show="el.vocabulary" ng-controller="VocabularyController">
+                <div ng-show="el.vocabulary" ng-controller="VocabularyController" arrow-key="arrowKeyPressed($direction)">
                     <div ng-show="el.edit && !el.elements">
-                        <input type="text" ng-model="chosenState" typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
+                        <input type="text" focus ng-model="chosenState" typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                         <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</span>
                     </div>
@@ -33,9 +33,9 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textInput" ng-controller="TextInputController">
+                <div ng-show="el.textInput" ng-controller="TextInputController" arrow-key="arrowKeyPressed($direction)">
                     <div ng-show="el.edit">
-                        <input type="text" ng-model="el.value"/>
+                        <input focus type="text" ng-model="el.value"/>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                     </div>
                     <div ng-show="!el.edit">
@@ -47,9 +47,9 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textArea">
+                <div ng-show="el.textArea" arrow-key="arrowKeyPressed($direction)">
                     <div ng-show="el.edit">
-                        <textarea ng-model="el.value" rows="5"></textarea>
+                        <textarea ng-model="el.value" rows="5" focus></textarea>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                     </div>
                     <div ng-show="!el.edit">
