@@ -97,8 +97,10 @@ CultureCollectorApp.directive('focus',
         return {
             restrict: 'A',
             priority: 100,
-            link: function (scope, element) {
-                element[0].focus();
+            link: function (scope, element, attrs) {
+                if (attrs.id == scope.active) {
+                    element[0].focus();
+                }
             }
         };
     }
@@ -231,6 +233,9 @@ CultureCollectorApp.controller('PanelController',
 
             $scope.disableEditor();
 
+            $scope.setActive = function (field) {
+                $scope.active = field;
+            };
         }]
 );
 
@@ -238,8 +243,8 @@ CultureCollectorApp.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary', 'XMLTree',
         function ($scope, $q, Vocabulary, XMLTree) {
             if (!$scope.el.vocabulary) return;
-
             $scope.v = $scope.el.vocabulary;
+            $scope.setActive('vocabulary');
 
             $scope.getStates = function (query) {
                 if (!$scope.v.def) {
@@ -322,6 +327,7 @@ CultureCollectorApp.controller('TextInputController',
         function ($scope, Validator) {
             var ti = $scope.el.textInput;
             if (!ti) return;
+            $scope.setActive('textInput');
             if (ti.validator) {
                 console.log("validator " + ti.validator);
                 var func = Validator.getFunction(ti.validator);
@@ -335,8 +341,24 @@ CultureCollectorApp.controller('TextInputController',
                     })
                 }
             }
-            $scope.keyPressed = function (event) {
-                alert(event);
+        }]
+);
+
+
+CultureCollectorApp.controller('TextAreaController',
+    ['$scope',
+        function ($scope) {
+            var ta = $scope.el.textArea;
+            if (!ta) return;
+            $scope.setActive('textArea');
+        }]
+);
+
+CultureCollectorApp.controller('HiddenController',
+    ['$scope',
+        function ($scope) {
+            if ($scope.el.elements) {
+                $scope.setActive('hidden');
             }
         }]
 );

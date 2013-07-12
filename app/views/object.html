@@ -10,15 +10,15 @@
     <tbody>
     <tr>
         <td ng-repeat="panel in panels" ng-controller="PanelController"
-            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
-            <div ng-show="el.vocabulary || el.textInput || el.textArea" class="panel-input">
+            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" arrow-key="arrowKeyPressed($direction)">
+            <div ng-show="!el.elements" class="panel-input">
 
                 <div ng-show="el.vocabulary" ng-controller="VocabularyController">
                     <div ng-show="el.edit && !el.elements">
                         <input focus
+                               id="vocabulary"
                                type="text"
                                ng-model="chosenState"
-                               arrow-key="arrowKeyPressed($direction)"
                                typeahead="state as stateToString(state) for state in getStates($viewValue)"
                         />
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
@@ -41,7 +41,7 @@
                 <div ng-show="el.textInput" ng-controller="TextInputController">
                     <div ng-show="el.edit">
                         <input focus
-                                arrow-key="arrowKeyPressed($direction)"
+                                id="textInput"
                                 type="text"
                                 ng-model="el.value"
                         />
@@ -56,10 +56,10 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textArea">
+                <div ng-show="el.textArea" ng-controller="TextAreaController">
                     <div ng-show="el.edit">
                         <textarea focus
-                                arrow-key="arrowKeyPressed($direction)"
+                                id="textArea"
                                 ng-model="el.value"
                                 rows="5"
                                 ></textarea>
@@ -74,6 +74,7 @@
             </div>
 
             <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
+                <input id="hidden" ng-show="false" ng-controller="HiddenController" focus/>
                 <li ng-repeat="element in el.elements">
                     <a href
                        class="level{{ element.classIndex }} link-{{ element.name }}"
