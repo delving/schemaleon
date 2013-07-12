@@ -7,7 +7,7 @@ basePath = '';
 files = [
   ANGULAR_SCENARIO,
   ANGULAR_SCENARIO_ADAPTER,
-  'app/components/jquery.min.js',
+  'app/components/jquery/jquery.min.js',
   'test/e2e/**/*.js'
 ];
 
@@ -49,11 +49,12 @@ captureTimeout = 5000;
 
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
-singleRun = false;
+singleRun = true;
 
 proxies = {
     // angular.js, angular-resource.js, etc
     '/angular': 'http://localhost:9000/components/angular',
+    '/jquery': 'http://localhost:9000/components/jquery',
     '/': 'http://localhost:9000/'
 };
 
