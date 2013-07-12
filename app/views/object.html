@@ -4,18 +4,23 @@
 <table cellpadding="20" border="0" class="table panels" ng-controller="I18NController" id="panel-table">
     <thead>
     <tr>
-        <th ng-repeat="panel in panels" class="panel-header  fade-in">{{ panel.element | elementTitle }}</th>
+        <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <td ng-repeat="panel in panels" ng-controller="PanelController"
-            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}} fade-in">
+            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
             <div ng-show="el.vocabulary || el.textInput || el.textArea" class="panel-input">
 
-                <div ng-show="el.vocabulary" ng-controller="VocabularyController" arrow-key="arrowKeyPressed($direction)">
+                <div ng-show="el.vocabulary" ng-controller="VocabularyController">
                     <div ng-show="el.edit && !el.elements">
-                        <input type="text" focus ng-model="chosenState" typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
+                        <input focus
+                               type="text"
+                               ng-model="chosenState"
+                               arrow-key="arrowKeyPressed($direction)"
+                               typeahead="state as stateToString(state) for state in getStates($viewValue)"
+                        />
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                         <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</span>
                     </div>
@@ -33,9 +38,13 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textInput" ng-controller="TextInputController" arrow-key="arrowKeyPressed($direction)">
+                <div ng-show="el.textInput" ng-controller="TextInputController">
                     <div ng-show="el.edit">
-                        <input focus type="text" ng-model="el.value"/>
+                        <input focus
+                                arrow-key="arrowKeyPressed($direction)"
+                                type="text"
+                                ng-model="el.value"
+                        />
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                     </div>
                     <div ng-show="!el.edit">
@@ -47,9 +56,13 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textArea" arrow-key="arrowKeyPressed($direction)">
+                <div ng-show="el.textArea">
                     <div ng-show="el.edit">
-                        <textarea ng-model="el.value" rows="5" focus></textarea>
+                        <textarea focus
+                                arrow-key="arrowKeyPressed($direction)"
+                                ng-model="el.value"
+                                rows="5"
+                                ></textarea>
                         <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
                     </div>
                     <div ng-show="!el.edit">

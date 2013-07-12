@@ -92,11 +92,17 @@ CultureCollectorApp.directive('arrowKey', function () {
     };
 });
 
-CultureCollectorApp.directive('focus', function () {
-    return function (scope, element) {
-        element[0].focus();
-    };
-});
+CultureCollectorApp.directive('focus',
+    function () {
+        return {
+            restrict: 'A',
+            priority: 100,
+            link: function (scope, element) {
+                element[0].focus();
+            }
+        };
+    }
+);
 
 CultureCollectorApp.controller('ObjectEditController',
     ['$scope', 'Documents', 'XMLTree', 'I18N',
@@ -107,23 +113,27 @@ CultureCollectorApp.controller('ObjectEditController',
             Documents.fetchDocument('ID939393', function (doc) {
                 var tree = XMLTree.xmlToTree(doc);
                 $scope.panels[0] = {
-                    'element': tree
+                    selected: 0,
+                    element: tree
                 };
             });
 
-            $scope.choose = function (index, parentIndex) {
-                $scope.selected = index;
+            $scope.choose = function (choice, parentIndex) {
+                $scope.selected = choice;
                 $scope.selectedWhere = parentIndex;
-                var element = $scope.panels[parentIndex].element.elements[index];
-                $scope.panels[parentIndex].element.elements.forEach(function (el) {
+                var parentPanel = $scope.panels[parentIndex];
+                parentPanel.selected = choice;
+                var chosen = parentPanel.element.elements[choice];
+                parentPanel.element.elements.forEach(function (el) {
                     el.classIndex = parentIndex;
-                    if (el == element) el.classIndex++;
+                    if (el == chosen) el.classIndex++;
                 });
                 $scope.panels[parentIndex + 1] = {
-                    'element': element
+                    selected: 0,
+                    element: chosen
                 };
-                if (element.elements) {
-                    element.elements.forEach(function (el) {
+                if (chosen.elements) {
+                    chosen.elements.forEach(function (el) {
                         el.classIndex = parentIndex + 1;
                     });
                 }
@@ -183,9 +193,15 @@ CultureCollectorApp.controller('ObjectEditController',
                             $scope.choose(0, $scope.selectedWhere);
                         }
                         break;
-                    case 'left':
-                        break;
                     case 'right':
+                        if ($scope.panels[$scope.selectedWhere + 1].element.elements) {
+                            $scope.choose(0, $scope.selectedWhere + 1);
+                        }
+                        break;
+                    case 'left':
+                        if ($scope.selectedWhere > 0) {
+                            $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
+                        }
                         break;
                 }
             }
