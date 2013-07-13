@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('CultureCollectorApp', ['ui.bootstrap.tooltip','ui.bootstrap.popover','ui.bootstrap.typeahead'])
+angular.module('CultureCollectorApp', ['ui.bootstrap'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/dashboard', {
