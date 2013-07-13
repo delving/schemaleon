@@ -48,6 +48,9 @@ app.get('/vocabulary/:vocab/select', function (req, res) {
         // todo: Label should not be known
         return value.Label.toLowerCase().indexOf(query) >= 0;
     });
+    if (filtered.length  == 0) {
+        filtered = v.list;
+    }
     res.json(filtered);
 });
 

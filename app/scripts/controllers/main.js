@@ -245,22 +245,25 @@ CultureCollectorApp.controller('VocabularyController',
             $scope.setActive('vocabulary');
 
             $scope.getStates = function (query) {
+                function filter(list) {
+                    var filtered = _.filter(list, function (value) {
+                        return value[$scope.v.displayField].toLowerCase().indexOf(query) >= 0;
+                    });
+                    return (filtered.length == 0) ? list : filtered;
+                }
+
                 if (!$scope.v.def) {
                     var deferred = $q.defer();
                     Vocabulary.get($scope.v.name, function (vocabulary) {
                         $scope.v.def = vocabulary;
                         $scope.v.tree = XMLTree.xmlToTree(vocabulary.schema);
                         $scope.v.displayField = $scope.v.tree.elements[0].name;
-                        deferred.resolve(_.filter(vocabulary.list, function (value) {
-                            return value[$scope.v.displayField].toLowerCase().indexOf(query) >= 0;
-                        }));
+                        deferred.resolve(filter(vocabulary.list));
                     });
                     return deferred.promise;
                 }
                 else {
-                    return _.filter($scope.v.def.list, function (value) {
-                        return value[$scope.v.displayField].toLowerCase().indexOf(query) >= 0;
-                    })
+                    return filter($scope.v.def.list);
                 }
             };
 
