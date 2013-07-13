@@ -12,7 +12,6 @@
         <td ng-repeat="panel in panels" ng-controller="PanelController"
             class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" arrow-key="arrowKeyPressed($direction)">
             <div ng-show="!el.elements" class="panel-input">
-
                 <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                     <div ng-show="el.edit && !el.elements">
                         <input focus
@@ -21,8 +20,8 @@
                                ng-model="chosenState"
                                typeahead="state as stateToString(state) for state in getStates($viewValue)"
                         />
-                        <span ng-click="disableEditor()" class="badge pointer" accesskey="y"><i class="icon-ok-circle icon-white"></i> Yes</span>
-                        <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</span>
+                        <button ng-click="disableEditor()" class="badge pointer" accesskey="y"><i class="icon-ok-circle icon-white"></i> Yes</button>
+                        <button ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</button>
                     </div>
                     <div ng-show="!el.edit && !el.elements && el.valueFields">
                         <ul>
@@ -33,8 +32,8 @@
                         <span ng-click="enableClearedEditor()" class="badge pointer">Edit</span>
                     </div>
                     <div ng-show="el.elements" ng-controller="VocabularyController">
-                        <span ng-click="cancelNew()" class="badge badge-warning">Cancel</span>
-                        <span ng-click="submitNew()" class="badge badge-warning">Submit</span>
+                        <button ng-click="cancelNew()" class="badge badge-warning">Cancel</button>
+                        <button ng-click="submitNew()" class="badge badge-warning">Submit</button>
                     </div>
                 </div>
 
@@ -45,11 +44,11 @@
                                 type="text"
                                 ng-model="el.value"
                         />
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
+                        <button ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
                     <div ng-show="!el.edit">
-                        <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                        <button ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</button>
+                        <button ng-click="enableEditor()" class="badge pointer">Edit</button>
                     </div>
                     <div ng-show="invalidMessage">
                         <span>{{ invalidMessage }}</span>
@@ -64,14 +63,13 @@
                                 ng-model="el.value"
                                 rows="5"
                                 ></textarea>
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
+                        <button ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
                     <div ng-show="!el.edit">
                         <span>{{ el.value }}</span>
-                        <span ng-click="enableEditor()" class="badge pointer">Edit</span>
+                        <button ng-click="enableEditor()" class="badge pointer">Edit</button>
                     </div>
                 </div>
-
             </div>
 
             <input id="hidden" ng-show="false" ng-controller="HiddenController" focus/>
