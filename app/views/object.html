@@ -10,7 +10,7 @@
     <tbody>
     <tr>
         <td ng-repeat="panel in panels" ng-controller="PanelController"
-            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" arrow-key="arrowKeyPressed($direction)">
+            class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" special-key="specialKeyPressed($key)">
             <div ng-show="!el.elements" class="panel-input">
                 <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                     <div ng-show="el.edit && !el.elements">

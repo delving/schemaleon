@@ -70,31 +70,24 @@ CultureCollectorApp.controller('ObjectListController',
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
-CultureCollectorApp.directive('arrowKey', function () {
+CultureCollectorApp.directive('specialKey', function () {
     return {
         restrict: 'A',
         link: function (scope, elem, attr, ctrl) {
             elem.bind('keydown', function (e) {
-                var direction = null;
-                switch (e.keyCode) {
-                    case 37: // left
-                        direction = 'left';
-                        break;
-                    case 39: // right
-                        direction = 'right';
-                        break;
-                    case 38: // up
-                        direction = 'up';
-                        break;
-                    case 40: // down
-                        direction = 'down';
-                        break;
-                }
-                if (direction) {
-                    scope.$apply(function (s) {
-                        s.$eval(attr.arrowKey, { $direction: direction });
-                    });
-                }
+                _.each([
+                    { code: 37, name: 'left'},
+                    { code: 39, name: 'right'},
+                    { code: 38, name: 'up'},
+                    { code: 40, name: 'down'},
+                    { code: 13, name: 'enter'}
+                ], function(pair) {
+                    if (pair.code == e.keyCode) {
+                        scope.$apply(function (s) {
+                            s.$eval(attr.specialKey, { $key: pair.name });
+                        });
+                    }
+                });
             });
         }
     };
@@ -184,37 +177,6 @@ CultureCollectorApp.controller('ObjectEditController',
                 return element.title;
             };
 
-            $scope.arrowKeyPressed = function (direction) {
-                var size = $scope.panels[$scope.selectedWhere].element.elements.length;
-                switch (direction) {
-                    case 'up':
-                        if ($scope.selected > 0) {
-                            $scope.choose($scope.selected - 1, $scope.selectedWhere);
-                        }
-                        else {
-                            $scope.choose(size - 1, $scope.selectedWhere);
-                        }
-                        break;
-                    case 'down':
-                        if ($scope.selected < size - 1) {
-                            $scope.choose($scope.selected + 1, $scope.selectedWhere);
-                        }
-                        else {
-                            $scope.choose(0, $scope.selectedWhere);
-                        }
-                        break;
-                    case 'right':
-                        if ($scope.panels[$scope.selectedWhere + 1].element.elements) {
-                            $scope.choose(0, $scope.selectedWhere + 1);
-                        }
-                        break;
-                    case 'left':
-                        if ($scope.selectedWhere > 0) {
-                            $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
-                        }
-                        break;
-                }
-            }
         }]
 );
 
@@ -244,6 +206,34 @@ CultureCollectorApp.controller('PanelController',
             $scope.setActive = function (field) {
                 $scope.active = field;
             };
+
+            $scope.specialKeyPressed = function (key) {
+                var size = $scope.panels[$scope.selectedWhere].element.elements.length;
+                switch (key) {
+                    case 'up':
+                        $scope.choose(($scope.selected + size - 1) % size, $scope.selectedWhere);
+                        break;
+                    case 'down':
+                        $scope.choose(($scope.selected + 1) % size, $scope.selectedWhere);
+                        break;
+                    case 'right':
+                        if ($scope.panels[$scope.selectedWhere + 1].element.elements) {
+                            $scope.choose(0, $scope.selectedWhere + 1);
+                        }
+                        break;
+                    case 'left':
+                        if ($scope.selectedWhere > 0) {
+                            $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
+                        }
+                        break;
+                    case 'enter':
+                        if ($scope.active == 'textInput') {
+                            $scope.disableEditor();
+                        }
+                        break;
+                }
+            }
+
         }]
 );
 
