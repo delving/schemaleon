@@ -2847,11 +2847,11 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position'])
         if (evt.which === 40) {
           scope.activeIdx = (scope.activeIdx + 1) % scope.matches.length;
           scope.$digest();
-
+          evt.stopPropagation(); // added by gerald@delving.eu
         } else if (evt.which === 38) {
           scope.activeIdx = (scope.activeIdx ? scope.activeIdx : scope.matches.length) - 1;
           scope.$digest();
-
+          evt.stopPropagation(); // added by gerald@delving.eu
         } else if (evt.which === 13 || evt.which === 9) {
           scope.$apply(function () {
             scope.select(scope.activeIdx);
