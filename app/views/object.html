@@ -20,8 +20,8 @@
                                ng-model="chosenState"
                                typeahead="state as stateToString(state) for state in getStates($viewValue)"
                         />
-                        <button ng-click="disableEditor()" class="badge pointer" accesskey="y"><i class="icon-ok-circle icon-white"></i> Yes</button>
-                        <button ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</button>
+                        <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
+                        <button ng-show="!el.elements" ng-click="createNew()" class="btn btn-warning btn-small">New</button>
                     </div>
                     <div ng-show="!el.edit && !el.elements && el.valueFields">
                         <ul>
@@ -29,11 +29,11 @@
                                 <span>{{ line.prompt }}</span>: <span>{{ line.value }}</span>
                             </li>
                         </ul>
-                        <span ng-click="enableClearedEditor()" class="badge pointer">Edit</span>
+                        <button ng-click="enableClearedEditor()" class="btn btn-small">Edit</button>
                     </div>
                     <div ng-show="el.elements" ng-controller="VocabularyController">
-                        <button ng-click="cancelNew()" class="badge badge-warning">Cancel</button>
-                        <button ng-click="submitNew()" class="badge badge-warning">Submit</button>
+                        <button ng-click="cancelNew()" class="btn btn-small btn-warning">Cancel</button>
+                        <button ng-click="submitNew()" class="btn btn-small btn-success">Submit</button>
                     </div>
                 </div>
 
@@ -44,11 +44,11 @@
                                 type="text"
                                 ng-model="el.value"
                         />
-                        <button ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</button>
+                        <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
                     <div ng-show="!el.edit">
-                        <button ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</button>
-                        <button ng-click="enableEditor()" class="badge pointer">Edit</button>
+                        <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
+                        <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
                     </div>
                     <div ng-show="invalidMessage">
                         <span>{{ invalidMessage }}</span>
@@ -63,11 +63,11 @@
                                 ng-model="el.value"
                                 rows="5"
                                 ></textarea>
-                        <button ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</button>
+                        <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
                     <div ng-show="!el.edit">
                         <span>{{ el.value }}</span>
-                        <button ng-click="enableEditor()" class="badge pointer">Edit</button>
+                        <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
                     </div>
                 </div>
             </div>
