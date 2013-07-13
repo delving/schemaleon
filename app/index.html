@@ -60,6 +60,7 @@
                             <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>
                         </ul>
                     </div><!--/.well -->
+                    <div ng-include="getInclude()"></div>
                 </div><!--/span-->
                 <div class="span9" ng-view>
                     <!-- Angular views are rendered here -->

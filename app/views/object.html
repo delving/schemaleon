@@ -13,7 +13,7 @@
             class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" arrow-key="arrowKeyPressed($direction)">
             <div ng-show="!el.elements" class="panel-input">
 
-                <div ng-show="el.vocabulary" ng-controller="VocabularyController">
+                <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                     <div ng-show="el.edit && !el.elements">
                         <input focus
                                id="vocabulary"
@@ -21,7 +21,7 @@
                                ng-model="chosenState"
                                typeahead="state as stateToString(state) for state in getStates($viewValue)"
                         />
-                        <span ng-click="disableEditor()" class="badge pointer"><i class="icon-ok-circle icon-white"></i> Yes</span>
+                        <span ng-click="disableEditor()" class="badge pointer" accesskey="y"><i class="icon-ok-circle icon-white"></i> Yes</span>
                         <span ng-show="!el.elements" ng-click="createNew()" class="badge badge-warning pointer">New</span>
                     </div>
                     <div ng-show="!el.edit && !el.elements && el.valueFields">
@@ -32,13 +32,13 @@
                         </ul>
                         <span ng-click="enableClearedEditor()" class="badge pointer">Edit</span>
                     </div>
-                    <div ng-show="el.elements"  ng-controller="VocabularyController">
+                    <div ng-show="el.elements" ng-controller="VocabularyController">
                         <span ng-click="cancelNew()" class="badge badge-warning">Cancel</span>
                         <span ng-click="submitNew()" class="badge badge-warning">Submit</span>
                     </div>
                 </div>
 
-                <div ng-show="el.textInput" ng-controller="TextInputController">
+                <div ng-show="el.textInput" ng-controller="TextInputController" class="text-input">
                     <div ng-show="el.edit">
                         <input focus
                                 id="textInput"
@@ -56,7 +56,8 @@
                     </div>
                 </div>
 
-                <div ng-show="el.textArea" ng-controller="TextAreaController">
+      
+                <div ng-show="el.textArea" class="textarea-input" ng-controller="TextAreaController">
                     <div ng-show="el.edit">
                         <textarea focus
                                 id="textArea"
@@ -73,8 +74,8 @@
 
             </div>
 
+            <input id="hidden" ng-show="false" ng-controller="HiddenController" focus/>
             <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
-                <input id="hidden" ng-show="false" ng-controller="HiddenController" focus/>
                 <li ng-repeat="element in el.elements">
                     <a href
                        class="level{{ element.classIndex }} link-{{ element.name }}"

@@ -28,6 +28,13 @@ CultureCollectorApp.controller('NavigationController',
                 if (link.active) anyActive = true;
             });
             if (!anyActive) $scope.mainMenu.links[0].active = true;
+
+            $scope.getInclude = function(){
+                if($location.path().indexOf('/object.html')){
+                    return "views/legend.html";
+                }
+                return "";
+            }
         }]
 );
 
