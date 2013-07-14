@@ -443,3 +443,12 @@ ul.panel-list li a:hover {
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #555555;
 }
+
+.chosen-value {
+    background-color: white;
+    color: black;
+    border-style: outset;
+    border-color: #808080;
+    border-width: thick;
+    padding: 5px;
+}

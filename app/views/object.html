@@ -24,11 +24,14 @@
                         <button ng-show="!el.elements" ng-click="createNew()" class="btn btn-warning btn-small">New</button>
                     </div>
                     <div ng-show="!el.edit && !el.elements && el.valueFields">
-                        <ul>
-                            <li ng-repeat="line in el.valueFields">
-                                <span>{{ line.prompt }}</span>: <span>{{ line.value }}</span>
-                            </li>
-                        </ul>
+                        <div  ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value">
+                            <table rules="none">
+                                <tr ng-repeat="line in el.valueFields">
+                                    <td style="text-align: right; font-weight: bold;">{{ line.prompt }}:</td><td>{{ line.value }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
                         <button ng-click="enableClearedEditor()" class="btn btn-small">Edit</button>
                     </div>
                     <div ng-show="el.elements" ng-controller="VocabularyController">
@@ -47,7 +50,10 @@
                         <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
                     <div ng-show="!el.edit">
-                        <span ng-click="enableEditor()" tooltip-placement="left" tooltip="Click to edit" class="pointer">{{ el.value }}</span>
+                        <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value">
+                            <span>{{ el.value }}</span>
+                        </div>
+                        <br/>
                         <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
                     </div>
                     <div ng-show="invalidMessage">
@@ -66,7 +72,10 @@
                         <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
                     <div ng-show="!el.edit">
-                        <span>{{ el.value }}</span>
+                        <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value">
+                            <span>{{ el.value }}</span>
+                        </div>
+                        <br/>
                         <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
                     </div>
                 </div>

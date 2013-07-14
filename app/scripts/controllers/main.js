@@ -30,7 +30,7 @@ CultureCollectorApp.controller('NavigationController',
             if (!anyActive) $scope.mainMenu.links[0].active = true;
 
             $scope.getInclude = function(){
-                console.log($location.path());
+//                console.log($location.path());
                 if($location.path().indexOf('/object/') >= 0){
                     return "views/legend.html";
                 }
@@ -330,7 +330,6 @@ CultureCollectorApp.controller('TextInputController',
             if (!ti) return;
             $scope.setActive('textInput');
             if (ti.validator) {
-                console.log("validator " + ti.validator);
                 var func = Validator.getFunction(ti.validator);
                 if (func) {
                     $scope.validator = function () {
