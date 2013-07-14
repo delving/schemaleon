@@ -80,7 +80,8 @@ CultureCollectorApp.directive('specialKey', function () {
                     { code: 39, name: 'right'},
                     { code: 38, name: 'up'},
                     { code: 40, name: 'down'},
-                    { code: 13, name: 'enter'}
+                    { code: 13, name: 'enter'},
+                    { code: 27, name: 'escape'}
                 ], function(pair) {
                     if (pair.code == e.keyCode) {
                         scope.$apply(function (s) {
@@ -227,7 +228,15 @@ CultureCollectorApp.controller('PanelController',
                         }
                         break;
                     case 'enter':
-                        if ($scope.active == 'textInput') {
+                        if (!$scope.el.edit) {
+                            $scope.enableEditor();
+                        }
+                        else if ($scope.active == 'textInput' || $scope.active == 'vocabulary') {
+                            $scope.disableEditor();
+                        }
+                        break;
+                    case 'escape':
+                        if ($scope.el.edit) {
                             $scope.disableEditor();
                         }
                         break;
