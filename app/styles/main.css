@@ -396,10 +396,11 @@ ul.main-menu > .active > a:hover {
   font-weight: normal;
   padding-left: 40px;
 }
-.panels .panel {
+.panels td.panel {
   padding: 20px 0 20px 10px;
   min-width: 150px;
-  border: none;
+  max-width: 350px;
+  border-top: none;
   border-radius: 0 0 20px 20px;
 }
 .panels .panel-input {
@@ -438,14 +439,34 @@ ul.panel-list li a:hover {
   height: 10px;
   cursor: help;
 }
+ul.kv-list {
+  display: table;
+}
+ul.kv-list li span {
+  display: inline-block;
+}
+ul.kv-list li span.label {
+  text-align: right;
+  margin-right: 10px;
+  min-width: 50px;
+}
 /* STRIPED TABLE */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #555555;
 }
 /* HELP PANEL */
+.legend {
+  background: #999999;
+  border: none;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  color: #000000;
+}
 .accordion-group {
-  border: 1px solid #999999;
+  background: #ffffff;
+  border: 1px solid transparent;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;

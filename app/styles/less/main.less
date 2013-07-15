@@ -222,10 +222,11 @@ ul.main-menu {
     font-weight: normal;
     padding-left: 40px;
   }
-  .panel {
+  td.panel {
     padding: 20px 0 20px 10px;
     min-width: 150px;
-    border: none;
+    max-width: 350px;
+    border-top: none;
     border-radius: 0 0 20px 20px;
   }
   .panel-input {
@@ -276,6 +277,29 @@ ul.panel-list {
   cursor: help;
 }
 
+// key:value list
+ul.kv-list {
+  display: table;
+  li {
+//    display: table-row;
+    span {
+//      display: table-cell;
+          display: inline-block;
+      &.label {
+//        background: green;
+        text-align: right;
+        margin-right: 10px;
+        min-width: 50px;
+      }
+      &.value {
+//        margin-left: 10px;
+      }
+    }
+  }
+}
+
+
+
 /* STRIPED TABLE */
 
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
@@ -284,8 +308,17 @@ ul.panel-list {
 
 /* HELP PANEL */
 
+.legend {
+  background: @gray;
+  border: none;
+  .border-radius(20px);
+  color: @black;
+}
+
 .accordion-group {
-  border: 1px solid @gray;
+  background: @white;
+  border: 1px solid transparent;
+//  border: none;
   .border-radius(20px);
   .accordion-inner {
     border-top: 1px solid @gray;

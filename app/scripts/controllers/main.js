@@ -119,9 +119,16 @@ CultureCollectorApp.controller('ObjectEditController',
                     selected: 0,
                     element: tree
                 };
+
+                // initialize with first element in first panel active
+                // for immediate keyboard navigation
+                $scope.choose(0,0);
             });
 
             $scope.choose = function (choice, parentIndex) {
+                
+                console.log(parentIndex);
+                
                 $scope.selected = choice;
                 $scope.selectedWhere = parentIndex;
                 var parentPanel = $scope.panels[parentIndex];
