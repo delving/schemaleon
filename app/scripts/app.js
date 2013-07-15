@@ -7,15 +7,15 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
                 templateUrl: 'views/dashboard.html'
             })
             .when('/list/', {
-                templateUrl: 'views/list.html',
-                controller: 'ObjectListController'
+                templateUrl: 'views/document-list.html',
+                controller: 'DocumentListController'
             })
             .when('/object/', {
-                templateUrl: 'views/object.html',
-                controller: 'ObjectEditController'
+                templateUrl: 'views/document.html',
+                controller: 'DocumentController'
             })
             .when('/object/:id', {
-                templateUrl: 'views/object.html',
+                templateUrl: 'views/document.html',
                 controller: 'ObjectEditController'
             })
             .otherwise({
