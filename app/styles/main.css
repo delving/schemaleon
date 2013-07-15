@@ -390,7 +390,7 @@ ul.main-menu > .active > a:hover {
   width: auto;
 }
 .panels .panel-header {
-  background: #33b5e5;
+  background: #009ae0;
   border-radius: 20px 20px 0 0;
   color: #080808;
   font-weight: normal;
@@ -443,12 +443,13 @@ ul.panel-list li a:hover {
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #555555;
 }
-
-.chosen-value {
-    background-color: white;
-    color: black;
-    border-style: outset;
-    border-color: #808080;
-    border-width: thick;
-    padding: 5px;
+/* HELP PANEL */
+.accordion-group {
+  border: 1px solid #999999;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+.accordion-group .accordion-inner {
+  border-top: 1px solid #999999;
 }

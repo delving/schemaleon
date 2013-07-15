@@ -1,7 +1,6 @@
 /* IMPORT USEFULL BOOTSTRAP LESS FILES */
 //@import "/app/components/bootstrap/less/variables.less";
 @import "/app/styles/less/oscr-variables.less";
-//@import "/app/styles/less/oscr-bootswatch.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
 /* COLOR VARIABLES */
@@ -217,7 +216,7 @@ ul.main-menu {
   background: transparent;
   width: auto;
   .panel-header {
-    background: @blue;
+    background: #009ae0;
     border-radius: 20px 20px 0 0;
     color: @baseDarkest;
     font-weight: normal;
@@ -281,4 +280,14 @@ ul.panel-list {
 
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
   background-color: @baseLight;
+}
+
+/* HELP PANEL */
+
+.accordion-group {
+  border: 1px solid @gray;
+  .border-radius(20px);
+  .accordion-inner {
+    border-top: 1px solid @gray;
+  }
 }

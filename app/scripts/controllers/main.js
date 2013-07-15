@@ -30,7 +30,6 @@ CultureCollectorApp.controller('NavigationController',
             if (!anyActive) $scope.mainMenu.links[0].active = true;
 
             $scope.getInclude = function(){
-//                console.log($location.path());
                 if($location.path().indexOf('/object/') >= 0){
                     return "views/legend.html";
                 }
