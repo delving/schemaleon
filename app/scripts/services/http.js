@@ -14,6 +14,9 @@ CultureCollectorApp.service("I18N",
                         alert('Problem fetching i18n');
                     });
             },
+            isReady: function() {
+                return $rootScope.i18n;
+            },
             translate: function (key) {
                 if ($rootScope.i18n) {
                     var value = $rootScope.i18n[key];
@@ -22,6 +25,16 @@ CultureCollectorApp.service("I18N",
                     }
                 }
                 return null;
+            },
+            setTranslation: function(lang, key, value) {
+                console.log('posting '+key+" = "+ value);
+                $http.post('/i18n/' + lang+ '/add', { key: key, value: value })
+                    .success(function (data, status, headers, config) {
+                        $rootScope.i18n = data;
+                    }
+                ).error(function (data, status, headers, config) {
+                        alert('Problem fetching i18n');
+                    });
             }
         };
     }

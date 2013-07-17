@@ -29,6 +29,24 @@ app.get('/i18n/:lang', function (req, res) {
     }
 });
 
+app.post('/i18n/:lang/add', function (req, res) {
+    var lang = req.params.lang;
+    var strings = data.i18n[lang];
+    if (strings) {
+        var key = req.body.key;
+        console.log("key="+key);
+        var value = req.body.value;
+        console.log("value="+value);
+        if (key && value) {
+            strings[key] = value;
+        }
+        res.json(strings);
+    }
+    else {
+        res.json({});
+    }
+});
+
 var vocab = function(req) {
     var vocab = data.vocabulary[req.params.vocab];
     if (!vocab) {

@@ -114,22 +114,6 @@ CultureCollectorApp.controller('DocumentController',
                 list.splice(index + 1, 0, fresh);
             };
 
-            $scope.getTitle = function (element) {
-                var key = element.name;
-                if ($scope.i18n) {
-                    console.log('i18n key ' + key);
-                    var string = $scope.i18n[key];
-                    console.log('i18n value ' + string);
-                    if (string) {
-                        return string;
-                    }
-                }
-                else {
-                    console.log('No i18n in scope!');
-                }
-                return element.title;
-            };
-
         }]
 );
 

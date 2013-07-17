@@ -92,11 +92,6 @@
             <input id="hidden" ng-show="false" ng-controller="HiddenController" focus/>
             <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
                 <li ng-repeat="element in el.elements">
-                    <!--<a href-->
-                       <!--class="level{{ element.classIndex }} link-{{ element.name }}"-->
-                       <!--ng-click="choose($index, $parent.$index)">-->
-                        <!--{{ element | elementTitle }}-->
-                    <!--</a>-->
                     <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
                         <!-- element title/label -->
                         <div class="link-title">{{ element | elementTitle }}</div>
@@ -106,6 +101,11 @@
                             {{ element | elementDisplay }}
                         </div>
                     </a>
+                    <span ng-show="!element.translation"
+                          class="icon-white plus"
+                          ng-click="openDialog(element)">
+                        <i class="icon-question-sign icon-white"></i>
+                    </span>
                     <span ng-show="element.multiple"
                           tooltip-placement="bottom"
                           tooltip="Add {{ element | elementTitle }}"

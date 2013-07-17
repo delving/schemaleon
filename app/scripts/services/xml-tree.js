@@ -4,18 +4,13 @@ angular.module('CultureCollectorApp').service("XMLTree",
     function () {
         this.xmlToTree = function (xml) {
 
-            function getTitle(str) {
-                return str.replace(/([a-z])([A-Z])/g, "\$1 \$2");
-            }
-
             function parse(key, string, to) {
-                var title = getTitle(key);
-                var fresh = { name: key, title: title };
+                var fresh = { name: key };
                 if (_.isString(string)) {
                     var vx = JSON.parse(string);
                     fresh.valueExpression = vx;
                     if (vx.vocabulary) {
-                        fresh.vocabulary = { name: vx.vocabulary, title: getTitle(vx.vocabulary) };
+                        fresh.vocabulary = { name: vx.vocabulary };
                     }
                     else if (vx.paragraph) {
                         fresh.textArea = {  };
@@ -53,7 +48,7 @@ angular.module('CultureCollectorApp').service("XMLTree",
                         }
                     }
                     else if (_.isObject(value)) {
-                        var subDoc = { name: key, title: getTitle(key), elements: [] };
+                        var subDoc = { name: key, elements: [] };
                         if (!generate(value, subDoc, path)) {
                             parse(key, null, to);
                         }
