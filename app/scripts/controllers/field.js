@@ -2,6 +2,19 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
+CultureCollectorApp.filter('elementDisplay',
+    function () {
+        return function (element) {
+            if (_.isObject(element.value)) {
+                return element.value[element.vocabulary.displayField];
+            }
+            else {
+                return element.value;
+            }
+        }
+    }
+);
+
 CultureCollectorApp.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary', 'XMLTree',
         function ($scope, $q, Vocabulary, XMLTree) {
