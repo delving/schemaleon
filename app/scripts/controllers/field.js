@@ -94,7 +94,7 @@ CultureCollectorApp.controller('VocabularyController',
             $scope.setValue = function (value) {
                 $scope.el.value = value;
                 $scope.el.valueFields = _.map($scope.v.tree.elements, function (element) {
-                    return { prompt: element.title, value: value[element.name] };
+                    return { prompt: element.name, value: value[element.name] };
                 });
             }
         }]
