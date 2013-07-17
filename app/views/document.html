@@ -1,4 +1,8 @@
 <h1 class="page-header">{{ panels[0].element.title }}</h1>
+
+<a href ng-show="config.showInlineValues" ng-click="togglePreview(false);">Hide previews</a>
+<a href ng-show="!config.showInlineValues" ng-click="togglePreview(true);">Show previews</a>
+
 <div id="panel-container">
 
 <table cellpadding="20" border="0" class="table panels" ng-controller="I18NController" id="panel-table">
@@ -94,12 +98,10 @@
                         <!--{{ element | elementTitle }}-->
                     <!--</a>-->
                     <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
-                        <!--todo: make aesthetically responsible-->
                         <!-- element title/label -->
                         <div class="link-title">{{ element | elementTitle }}</div>
                         <!-- element value -->
-
-                        <div class="link-value" ng-show="element.value">
+                        <div class="link-value" ng-show="element.value && config.showInlineValues">
                             <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
                             {{ element | elementDisplay }}
                         </div>

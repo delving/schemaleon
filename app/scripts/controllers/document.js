@@ -2,6 +2,7 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
+
 /* CRM OBJECT RELATED CONTROLLERS */
 
 CultureCollectorApp.directive('specialKey', function () {
@@ -45,6 +46,16 @@ CultureCollectorApp.directive('focus',
 CultureCollectorApp.controller('DocumentController',
     ['$scope', 'Documents', 'XMLTree', 'I18N',
         function ($scope, Documents, XMLTree, I18N) {
+
+            $scope.showInlineValues = 0;
+
+            $scope.config = {
+                showInlineValues: true
+            }
+
+            $scope.togglePreview = function (val) {
+                $scope.config.showInlineValues = val;
+            }
 
             $scope.panels = [];
 
@@ -126,6 +137,7 @@ CultureCollectorApp.controller('PanelController',
     ['$scope',
         function ($scope) {
             if (!$scope.panel) return;
+
             $scope.checkEmpty = function () {
                 if (!$scope.el.value || /^\s*$/.test($scope.el.value)) {
                     $scope.el.value = undefined;
