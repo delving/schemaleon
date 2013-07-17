@@ -93,12 +93,16 @@
                        <!--ng-click="choose($index, $parent.$index)">-->
                         <!--{{ element | elementTitle }}-->
                     <!--</a>-->
-                    <a href class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                    <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
                         <!--todo: make aesthetically responsible-->
-                        <span>{{ element | elementTitle }}</span><br/>
-                        <table ng-show="element.value" style="background:#f5f5f5; color:#000000;"><tr><td>
+                        <!-- element title/label -->
+                        <div class="link-title">{{ element | elementTitle }}</div>
+                        <!-- element value -->
+
+                        <div class="link-value" ng-show="element.value">
+                            <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
                             {{ element | elementDisplay }}
-                        </td></tr></table>
+                        </div>
                     </a>
                     <span ng-show="element.multiple"
                           tooltip-placement="bottom"

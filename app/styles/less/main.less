@@ -209,6 +209,28 @@ ul.main-menu {
   overflow-x: scroll;
 }
 
+/* CRM LINKS */
+
+.link-title {
+
+}
+
+.link-value {
+  background: linen;
+  .border-radius(10px);
+  color: @grayDarker;
+  font-size: smaller;
+  word-wrap: break-word;
+  margin-top: @baseLineHeight/2;
+  padding: 4px;
+  p {
+    margin: 8px 0 0 0;
+    &:first-of-type{
+      margin: 0;
+    }
+  }
+}
+
 /* PANELS TABLE */
 
 
@@ -224,7 +246,7 @@ ul.main-menu {
   }
   td.panel {
     padding: 20px 0 20px 10px;
-    min-width: 150px;
+    min-width: 250px;
     max-width: 350px;
     border-top: none;
     border-radius: 0 0 20px 20px;
@@ -239,8 +261,8 @@ ul.panel-list {
    li {
      position: relative;
      padding-left: 20px;
-     a {
-       padding-right: 30px;
+     a, label {
+       padding-right: 10px;
        &:hover {
          background: @grayDark;
        }
@@ -249,14 +271,14 @@ ul.panel-list {
 
 }
 
-.panel form {
-  margin: 8px 20px 20px 30px;
-  padding: 0;
-}
+//.panel form {
+//  margin: 8px 20px 20px 30px;
+//  padding: 0;
+//}
 
-.panel form label {
-  color: #fffff0;
-}
+//.panel label {
+//  color: #fffff0;
+//}
 
 .plus {
   position: absolute;

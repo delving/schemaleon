@@ -384,6 +384,24 @@ ul.main-menu > .active > a:hover {
   max-width: 100%;
   overflow-x: scroll;
 }
+/* CRM LINKS */
+.link-value {
+  background: linen;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  color: #020202;
+  font-size: smaller;
+  word-wrap: break-word;
+  margin-top: 10px;
+  padding: 4px;
+}
+.link-value p {
+  margin: 8px 0 0 0;
+}
+.link-value p:first-of-type {
+  margin: 0;
+}
 /* PANELS TABLE */
 .panels {
   background: transparent;
@@ -398,7 +416,7 @@ ul.main-menu > .active > a:hover {
 }
 .panels td.panel {
   padding: 20px 0 20px 10px;
-  min-width: 150px;
+  min-width: 250px;
   max-width: 350px;
   border-top: none;
   border-radius: 0 0 20px 20px;
@@ -410,18 +428,13 @@ ul.panel-list li {
   position: relative;
   padding-left: 20px;
 }
-ul.panel-list li a {
-  padding-right: 30px;
+ul.panel-list li a,
+ul.panel-list li label {
+  padding-right: 10px;
 }
-ul.panel-list li a:hover {
+ul.panel-list li a:hover,
+ul.panel-list li label:hover {
   background: #222222;
-}
-.panel form {
-  margin: 8px 20px 20px 30px;
-  padding: 0;
-}
-.panel form label {
-  color: #fffff0;
 }
 .plus {
   position: absolute;
