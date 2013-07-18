@@ -23,12 +23,18 @@ CultureCollectorApp.filter('elementTitle',
 );
 
 CultureCollectorApp.controller('I18NController',
-    ['$scope', '$dialog', '$window', 'I18N',
-        function ($scope, $dialog, $window, I18N) {
+    ['$rootScope', '$scope', '$dialog', '$window', 'I18N',
+        function ($rootScope, $scope, $dialog, $window, I18N) {
 
-            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
+//            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
+            var lang = $rootScope.config.interfaceLanguage;
 
             I18N.fetchList(lang);
+
+            $scope.$watch('config.interfaceLanguage', function(newValue, oldValue){
+                console.log('asdfasdf');
+               I18N.fetchList(newValue);
+            });
 
             $scope.openTitleDialog = function (element) {
                 var dialog = $dialog.dialog({

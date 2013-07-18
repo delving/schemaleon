@@ -6,21 +6,11 @@
 <div class="navbar document">
     <div class="navbar-inner">
         <a class="brand" href="#">{{ panels[0].element | elementTitle }}</a>
-        <ul class="nav">
-            <li class="dropdown" ng-controller="ConfigurationController">
-                <a class="dropdown-toggle">
-                    View
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
+        <form class="navbar-form" ng-controller="ConfigurationController">
                         <input type="checkbox" name="show-inline-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> Show previews
-                    </li>
-                    <li>
+
                         <input type="checkbox" name="show-translation-editor" ng-checked="config.showTranslationEditor" ng-click="toggleTranslationEditor()"/> Show translation editor
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        </form>
     </div>
 </div>
 
@@ -95,8 +85,8 @@
                         <textarea focus
                                 id="textArea"
                                 ng-model="el.value"
-                                rows="5"
-                                ></textarea>
+                                rows="5">
+                        </textarea>
                         <br/>
                         <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
@@ -136,7 +126,7 @@
                     <div class="icon-container">
                         <!-- // Translation editor toggle -->
                         <span ng-show="config.showTranslationEditor"
-                              class="icon-item"
+                              class="icon-item {{ element.title }}"
                               ng-click="openTitleDialog(element)">
                             <i class="icon-question-sign icon-white"></i>
                         </span>

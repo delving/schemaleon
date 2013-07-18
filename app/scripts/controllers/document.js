@@ -43,25 +43,6 @@ CultureCollectorApp.directive('focus',
     }
 );
 
-CultureCollectorApp.controller('ConfigurationController',
-    ['$rootScope',
-    function($rootScope) {
-
-        $rootScope.config = {
-            showInlinePreview: false,
-            showTranslationEditor: false
-        }
-
-        $rootScope.toggleInlinePreview = function () {
-            $rootScope.config.showInlinePreview = ($rootScope.config.showInlinePreview != false) ? false : true;
-        }
-
-        $rootScope.toggleTranslationEditor = function () {
-            $rootScope.config.showTranslationEditor = ($rootScope.config.showTranslationEditor != false) ? false : true;
-        }
-
-    }]);
-
 CultureCollectorApp.controller('DocumentController',
     ['$scope', 'Documents', 'XMLTree', 'I18N',
         function ($scope, Documents, XMLTree, I18N) {

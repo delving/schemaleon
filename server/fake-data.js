@@ -226,7 +226,7 @@ module.exports = {
     i18n: {
         en: {
             label: {
-                EditExplanation: 'Edit the explanation'
+                EditExplanation: 'Edit field explanation'
             },
             element: {
                 IdentificationNumber: { title: "Identification Number" },
@@ -238,7 +238,7 @@ module.exports = {
         },
         nl: {
             label: {
-
+                EditExplanation: 'Veld-uitleg aanpassen'
             },
             element: {
                 IdentificationNumber: { title: "Identificatienummer" },
