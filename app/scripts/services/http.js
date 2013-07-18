@@ -19,24 +19,27 @@ CultureCollectorApp.service("I18N",
             },
             title: function (key) {
                 if ($rootScope.i18n) {
-                    var value = $rootScope.i18n[key];
-                    if (value && value.title) {
-                        return value.title;
-                    }
+                    var value = $rootScope.i18n.element[key];
+                    if (value) return value.title;
                 }
                 return null;
             },
             doc: function (key) {
                 if ($rootScope.i18n) {
-                    var value = $rootScope.i18n[key];
-                    if (value && value.doc) {
-                        return value.doc;
-                    }
+                    var value = $rootScope.i18n.element[key];
+                    if (value) return value.doc;
                 }
                 return null;
             },
+            label: function (key) {
+                if ($rootScope.i18n) {
+                    var value = $rootScope.i18n.label[key];
+                    if (value) return value;
+                }
+                return key;
+            },
             setTitle: function(lang, key, value) {
-                $http.post('/i18n/' + lang+ '/title', { key: key, value: value })
+                $http.post('/i18n/' + lang+ '/element', { key: key, title: value })
                     .success(function (data, status, headers, config) {
                         $rootScope.i18n = data;
                     }
@@ -45,7 +48,7 @@ CultureCollectorApp.service("I18N",
                     });
             },
             setDoc: function(lang, key, value) {
-                $http.post('/i18n/' + lang+ '/doc', { key: key, value: value })
+                $http.post('/i18n/' + lang+ '/element', { key: key, doc: value })
                     .success(function (data, status, headers, config) {
                         $rootScope.i18n = data;
                     }

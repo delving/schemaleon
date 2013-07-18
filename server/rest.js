@@ -18,58 +18,46 @@ app.get('/doclist', function (req, res) {
     res.json(data.docList);
 });
 
+function getLangStrings(req) {
+    var lang = req.params.lang;
+    if (!data.i18n[lang]) {
+        data.i18n[lang] = { element: {}, label: {} };
+    }
+    return data.i18n[lang];
+}
+
+function getLangElement(req) {
+    var langStrings = getLangStrings(req);
+    var key = req.body.key;
+    if (!langStrings.element[key]) {
+        langStrings.element[key] = {};
+    }
+    return langStrings.element[key];
+}
+
+function setElementLang(req) {
+    if (req.body.key) {
+        if (req.body.title) getLangElement(req).title = req.body.title;
+        if (req.body.doc) getLangElement(req).doc = req.body.doc;
+    }
+    return getLangStrings(req);
+}
+
 app.get('/i18n/:lang', function (req, res) {
-    var lang = req.params.lang;
-    var strings = data.i18n[lang];
-    if (strings) {
-        res.json(strings);
-    }
-    else {
-        res.json({});
-    }
+    res.json(getLangStrings(req));
 });
 
-app.post('/i18n/:lang/title', function (req, res) {
-    var lang = req.params.lang;
-    var strings = data.i18n[lang];
-    if (strings) {
-        var key = req.body.key;
-        var value = req.body.value;
-        if (key && value) {
-            if (!strings[key]) strings[key] = {};
-            strings[key].title = value;
-        }
-        res.json(strings);
-    }
-    else {
-        res.json({});
-    }
+app.post('/i18n/:lang/element', function (req, res) {
+    res.json(setElementLang(req));
 });
 
-app.post('/i18n/:lang/doc', function (req, res) {
-    var lang = req.params.lang;
-    var strings = data.i18n[lang];
-    if (strings) {
-        var key = req.body.key;
-        var value = req.body.value;
-        if (key && value) {
-            if (!strings[key]) strings[key] = {};
-            strings[key].doc = value;
-        }
-        res.json(strings);
-    }
-    else {
-        res.json({});
-    }
-});
-
-var vocab = function(req) {
+function vocab(req) {
     var vocab = data.vocabulary[req.params.vocab];
     if (!vocab) {
         vocab = data.vocabulary.Default;
     }
     return vocab;
-};
+}
 
 app.get('/vocabulary/:vocab', function (req, res) {
     res.json(vocab(req));
@@ -82,7 +70,7 @@ app.get('/vocabulary/:vocab/select', function (req, res) {
         // todo: Label should not be known
         return value.Label.toLowerCase().indexOf(query) >= 0;
     });
-    if (filtered.length  == 0) {
+    if (filtered.length == 0) {
         filtered = v.list;
     }
     res.json(filtered);
