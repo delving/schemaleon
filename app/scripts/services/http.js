@@ -9,12 +9,13 @@ CultureCollectorApp.service("I18N",
                 $http.get('/i18n/' + lang)
                     .success(function (data, status, headers, config) {
                         $rootScope.i18n = data;
+                        $rootScope.lang = lang;
                     }
                 ).error(function (data, status, headers, config) {
                         alert('Problem fetching i18n');
                     });
             },
-            isReady: function() {
+            isReady: function () {
                 return $rootScope.i18n;
             },
             title: function (key) {
@@ -36,10 +37,10 @@ CultureCollectorApp.service("I18N",
                     var value = $rootScope.i18n.label[key];
                     if (value) return value;
                 }
-                return key;
+                return null;
             },
-            setTitle: function(lang, key, value) {
-                $http.post('/i18n/' + lang+ '/element', { key: key, title: value })
+            setTitle: function (key, value) {
+                $http.post('/i18n/' + $rootScope.lang + '/element', { key: key, title: value })
                     .success(function (data, status, headers, config) {
                         $rootScope.i18n = data;
                     }
@@ -47,8 +48,8 @@ CultureCollectorApp.service("I18N",
                         alert('Problem fetching i18n');
                     });
             },
-            setDoc: function(lang, key, value) {
-                $http.post('/i18n/' + lang+ '/element', { key: key, doc: value })
+            setDoc: function (key, value) {
+                $http.post('/i18n/' + $rootScope.lang + '/element', { key: key, doc: value })
                     .success(function (data, status, headers, config) {
                         $rootScope.i18n = data;
                     }
@@ -91,7 +92,7 @@ CultureCollectorApp.service("ObjectList",
 CultureCollectorApp.service("Vocabulary",
     function ($http) {
 
-        this.get = function(vocab, acceptVocabulary) {
+        this.get = function (vocab, acceptVocabulary) {
             $http.get('/vocabulary/' + vocab)
                 .success(function (data, status, headers, config) {
                     acceptVocabulary(data);

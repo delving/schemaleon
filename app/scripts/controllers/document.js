@@ -62,9 +62,6 @@ CultureCollectorApp.controller('DocumentController',
             });
 
             $scope.choose = function (choice, parentIndex) {
-                
-                console.log(parentIndex);
-                
                 $scope.selected = choice;
                 $scope.selectedWhere = parentIndex;
                 var parentPanel = $scope.panels[parentIndex];

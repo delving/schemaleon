@@ -2,22 +2,32 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
+CultureCollectorApp.directive('i18n', function (I18N) {
+        return function (scope, elem, attrs) {
+            scope.$watch('i18n', function (after, before) {
+                if (!after) return;
+                var replacement = after.label[attrs.i18n];
+                if (replacement) {
+                    elem.text(replacement);
+                }
+            });
+        };
+    }
+);
+
 CultureCollectorApp.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
                 if (!element) return '';
-                if (!element.title) {
-                    if (I18N.isReady()) {
-                        var title = I18N.title(element.name);
-                        if (title) {
-                            element.title = title;
-                            return title;
-                        }
+                if (I18N.isReady()) {
+                    var title = I18N.title(element.name);
+                    if (title) {
+                        element.title = title;
+                        return title;
                     }
-                    return element.name;
                 }
-                return element.title;
+                return element.name;
             }
         }]
 );
@@ -27,23 +37,20 @@ CultureCollectorApp.controller('I18NController',
         function ($rootScope, $scope, $dialog, $window, I18N) {
 
 //            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
-            var lang = $rootScope.config.interfaceLanguage;
 
-            I18N.fetchList(lang);
-
-            $scope.$watch('config.interfaceLanguage', function(newValue, oldValue){
-                console.log('asdfasdf');
-               I18N.fetchList(newValue);
+            $scope.$watch('config.interfaceLanguage', function (newValue, oldValue) {
+                I18N.fetchList(newValue);
             });
-
             $scope.openTitleDialog = function (element) {
                 var dialog = $dialog.dialog({
                     controller: 'TitleDialogController',
                     dialogFade: true,
                     backdrop: true,
-                    fadeBackdrop:true,
+                    fadeBackdrop: true,
                     keyboard: true,
-                    resolve: { element: function() { return element; } },
+                    resolve: { element: function () {
+                        return element;
+                    } },
                     template: '<div class="modal-header"><h3>Title</h3></div>' +
                         '<div class="modal-body">' +
                         'Translate &quot;<span>{{ element.name }}</span>&quot;<br/>' +
@@ -57,7 +64,7 @@ CultureCollectorApp.controller('I18NController',
                 dialog.open().then(function (title) {
                     if (title) {
                         element.title = title;
-                        I18N.setTitle(lang, element.name, title);
+                        I18N.setTitle(element.name, title);
                     }
                 });
             };
@@ -67,9 +74,11 @@ CultureCollectorApp.controller('I18NController',
                     controller: 'DocDialogController',
                     dialogFade: true,
                     backdrop: true,
-                    fadeBackdrop:true,
+                    fadeBackdrop: true,
                     keyboard: true,
-                    resolve: { element: function() { return element; } },
+                    resolve: { element: function () {
+                        return element;
+                    } },
                     template: '<div class="modal-header"><h3>Explanation</h3></div>' +
                         '<div class="modal-body">' +
                         'Explain &quot;<span>{{ element.name }}</span>&quot;<br/>' +
@@ -84,7 +93,7 @@ CultureCollectorApp.controller('I18NController',
                 dialog.open().then(function (doc) {
                     if (doc) {
                         element.doc = doc;
-                        I18N.setDoc(lang, element.name, doc);
+                        I18N.setDoc(element.name, doc);
                     }
                 });
             };
