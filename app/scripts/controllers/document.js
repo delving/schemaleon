@@ -43,19 +43,22 @@ CultureCollectorApp.directive('focus',
     }
 );
 
+CultureCollectorApp.controller('ConfigurationController',
+    ['$rootScope',
+    function($rootScope) {
+
+        $rootScope.config = {
+            showInlinePreview: false
+        }
+
+        $rootScope.toggleInlinePreview = function () {
+            $rootScope.config.showInlinePreview = ($rootScope.config.showInlinePreview != false) ? false : true;
+        }
+    }]);
+
 CultureCollectorApp.controller('DocumentController',
     ['$scope', 'Documents', 'XMLTree', 'I18N',
         function ($scope, Documents, XMLTree, I18N) {
-
-            $scope.showInlineValues = 0;
-
-            $scope.config = {
-                showInlineValues: true
-            }
-
-            $scope.togglePreview = function (val) {
-                $scope.config.showInlineValues = val;
-            }
 
             $scope.panels = [];
 

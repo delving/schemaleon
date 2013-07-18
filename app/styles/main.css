@@ -361,6 +361,12 @@ ul.main-menu > .active > a:hover {
 .pointer {
   cursor: pointer;
 }
+/* DOCUMENT NAVBAR */
+.navbar.document .navbar-inner {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
 /* LEVEL COLORS */
 .level0 {
   background: #080808;

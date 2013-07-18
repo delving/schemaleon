@@ -1,7 +1,29 @@
-<h1 class="page-header">{{ panels[0].element.title }}</h1>
+<!--<h1 class="page-header">{{ panels[0].element | elementTitle }}</h1>-->
 
-<a href ng-show="config.showInlineValues" ng-click="togglePreview(false);">Hide previews</a>
-<a href ng-show="!config.showInlineValues" ng-click="togglePreview(true);">Show previews</a>
+<!--<a href ng-show="config.showInlineValues" ng-click="togglePreview(false);">Hide previews</a>-->
+<!--<a href ng-show="!config.showInlineValues" ng-click="togglePreview(true);">Show previews</a>-->
+
+<div class="navbar document">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{ panels[0].element | elementTitle }}</a>
+        <ul class="nav">
+            <li class="dropdown" ng-controller="ConfigurationController">
+                <a class="dropdown-toggle">
+                    View
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">
+                        <input type="checkbox" name="show-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> Show previews
+                    </a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+        </ul>
+    </div>
+</div>
+
 
 <div id="panel-container">
 
@@ -106,14 +128,14 @@
                         <!-- element title/label -->
                         <div class="link-title">{{ element | elementTitle }}</div>
                         <!-- element value -->
-                        <div class="link-value" ng-show="element.value && config.showInlineValues">
+                        <div class="link-value" ng-show="element.value && config.showInlinePreview">
                             <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
                             {{ element | elementDisplay }}
                         </div>
                     </a>
                     <span
-                          class="icon-white plus"
-                          ng-click="openTitleDialog(element)">
+                            class="icon-white plus"
+                            ng-click="openTitleDialog(element)">
                         <i class="icon-question-sign icon-white"></i>
                     </span>
                     <span ng-show="element.multiple"
@@ -122,13 +144,6 @@
                           class="plus display-{{ element.multiple }}"
                           ng-click="addSibling(el.elements, $index, $parent.index)">
                         <i class="icon-plus-sign icon-white"></i>
-                    </span>
-                    <span ng-show="element.doc"
-                          class="documentation"
-                          popover-trigger="mouseenter"
-                          popover-placement="top"
-                          popover-title="{{ element | elementTitle }}"
-                          popover="{{ element.doc }}"><i class="icon-question-sign icon-white"></i>
                     </span>
                 </li>
             </ul>
