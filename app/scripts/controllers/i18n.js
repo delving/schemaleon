@@ -2,11 +2,12 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-CultureCollectorApp.directive('i18n', function (I18N) {
+CultureCollectorApp.directive('i18n', function () {
         return function (scope, elem, attrs) {
-            scope.$watch('i18n', function (after, before) {
-                if (!after) return;
-                var replacement = after.label[attrs.i18n];
+            console.log('Why does the i18n direcive get called twice to create watch?:' + attrs.i18n);
+            scope.$watch('i18n', function (i18n, before) {
+                if (!i18n) return;
+                var replacement = i18n.label[attrs.i18n];
                 if (replacement) {
                     elem.text(replacement);
                 }
@@ -20,11 +21,30 @@ CultureCollectorApp.filter('elementTitle',
         function (I18N) {
             return function (element) {
                 if (!element) return '';
+                if (element.title) return element.title;
                 if (I18N.isReady()) {
                     var title = I18N.title(element.name);
                     if (title) {
                         element.title = title;
                         return title;
+                    }
+                }
+                return element.name;
+            }
+        }]
+);
+
+CultureCollectorApp.filter('elementDoc',
+    [ 'I18N',
+        function (I18N) {
+            return function (element) {
+                if (!element) return '';
+                if (element.doc) return element.doc;
+                if (I18N.isReady()) {
+                    var doc = I18N.doc(element.name);
+                    if (doc) {
+                        element.doc = doc;
+                        return doc;
                     }
                 }
                 return element.name;
@@ -41,6 +61,7 @@ CultureCollectorApp.controller('I18NController',
             $scope.$watch('config.interfaceLanguage', function (newValue, oldValue) {
                 I18N.fetchList(newValue);
             });
+
             $scope.openTitleDialog = function (element) {
                 var dialog = $dialog.dialog({
                     controller: 'TitleDialogController',

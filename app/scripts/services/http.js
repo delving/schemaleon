@@ -8,8 +8,8 @@ CultureCollectorApp.service("I18N",
             fetchList: function (lang) {
                 $http.get('/i18n/' + lang)
                     .success(function (data, status, headers, config) {
-                        $rootScope.i18n = data;
                         $rootScope.lang = lang;
+                        $rootScope.i18n = data;
                     }
                 ).error(function (data, status, headers, config) {
                         alert('Problem fetching i18n');

@@ -78,12 +78,12 @@ angular.module('CultureCollectorApp').service("XMLTree",
                 for (var key in from) {
                     var value = from[key];
                     if (_.isString(value)) {
-                        out.push(indent('<' + key+ '>', level) + value + '</' + key + '>');
+                        out.push(indent('<' + key + '>', level) + value + '</' + key + '>');
                     }
                     else if (_.isArray(value)) {
                         _.each(value, function (item) {
                             if (_.isString(item)) {
-                                out.push(indent('<' + key+ '>', level) + item + '</' + key + '>');
+                                out.push(indent('<' + key + '>', level) + item + '</' + key + '>');
                             }
                             else {
                                 out.push(indent('<' + key + '>', level));
@@ -94,7 +94,7 @@ angular.module('CultureCollectorApp').service("XMLTree",
                     }
                     else if (_.isObject(value)) {
                         out.push(indent('<' + key + '>', level));
-                        toXml(value, level+1);
+                        toXml(value, level + 1);
                         out.push(indent('</' + key + '>', level));
                     }
                 }
@@ -129,6 +129,29 @@ angular.module('CultureCollectorApp').service("XMLTree",
             var out = {};
             clean(tree, out);
             return out;
+        };
+
+        this.cleanTree = function (tree, i18n) {
+            function clean(el) {
+                if (el.elements) {
+                    _.forEach(el.elements, function (element) {
+                        clean(element, i18n)
+                    });
+                }
+                else {
+                    var value = i18n.element[el.name];
+                    if (value) {
+                        el.title = value.title;
+                        el.doc = value.doc;
+                    }
+                    else {
+                        el.title = el.name;
+                        el.doc = el.name;
+                    }
+                }
+            }
+
+            clean(tree);
         };
     }
 );

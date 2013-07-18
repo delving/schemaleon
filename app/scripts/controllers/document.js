@@ -50,15 +50,21 @@ CultureCollectorApp.controller('DocumentController',
             $scope.panels = [];
 
             Documents.fetchDocument('ID939393', function (doc) {
-                var tree = XMLTree.xmlToTree(doc);
+                $scope.tree = XMLTree.xmlToTree(doc);
                 $scope.panels[0] = {
                     selected: 0,
-                    element: tree
+                    element: $scope.tree
                 };
 
                 // initialize with first element in first panel active
                 // for immediate keyboard navigation
                 $scope.choose(0,0);
+            });
+
+            $scope.$watch('i18n', function (i18n, oldValue) {
+                if ($scope.tree && i18n) {
+                    XMLTree.cleanTree($scope.tree, i18n);
+                }
             });
 
             $scope.choose = function (choice, parentIndex) {
