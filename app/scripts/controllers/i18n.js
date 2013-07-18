@@ -6,6 +6,7 @@ CultureCollectorApp.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
+                if (!element) return '';
                 if (!element.title) {
                     if (I18N.isReady()) {
                         var title = I18N.title(element.name);
