@@ -6,17 +6,17 @@ CultureCollectorApp.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
-                if (!element.translation) {
+                if (!element.title) {
                     if (I18N.isReady()) {
-                        var translation = I18N.translate(element.name);
-                        if (translation) {
-                            element.translation = translation;
-                            return translation;
+                        var title = I18N.title(element.name);
+                        if (title) {
+                            element.title = title;
+                            return title;
                         }
                     }
                     return element.name;
                 }
-                return element.translation;
+                return element.title;
             }
         }]
 );
@@ -29,27 +29,55 @@ CultureCollectorApp.controller('I18NController',
 
             I18N.fetchList(lang);
 
-            $scope.openDialog = function (element) {
+            $scope.openTitleDialog = function (element) {
                 var dialog = $dialog.dialog({
-                    controller: 'DialogController',
+                    controller: 'TitleDialogController',
                     dialogFade: true,
                     backdrop: true,
                     fadeBackdrop:true,
                     keyboard: true,
-                    template: '<div class="modal-header"><h3>Translate</h3></div>' +
+                    resolve: { element: function() { return element; } },
+                    template: '<div class="modal-header"><h3>Title</h3></div>' +
                         '<div class="modal-body">' +
-                        'Translate &quot;<span>'+element.name+'</span>' +
-                        '&quot; to <input autofocus size="30" ng-model="translation"/>' +
+                        'Translate &quot;<span>{{ element.name }}</span>&quot;<br/>' +
+                        '<input autofocus class="input-block-level" ng-model="title"/>' +
                         '</div>' +
                         '<div class="modal-footer">' +
-                        '<button ng-click="close(translation)" class="btn btn-primary">Ok</button>' +
+                        '<button ng-click="close(title)" class="btn btn-primary">Ok</button>' +
                         '</div>'
 
                 });
-                dialog.open().then(function (translation) {
-                    if (translation) {
-                        element.translation = translation;
-                        I18N.setTranslation(lang, element.name, translation);
+                dialog.open().then(function (title) {
+                    if (title) {
+                        element.title = title;
+                        I18N.setTitle(lang, element.name, title);
+                    }
+                });
+            };
+
+            $scope.openDocDialog = function (element) {
+                var dialog = $dialog.dialog({
+                    controller: 'DocDialogController',
+                    dialogFade: true,
+                    backdrop: true,
+                    fadeBackdrop:true,
+                    keyboard: true,
+                    resolve: { element: function() { return element; } },
+                    template: '<div class="modal-header"><h3>Explanation</h3></div>' +
+                        '<div class="modal-body">' +
+                        'Explain &quot;<span>{{ element.name }}</span>&quot;<br/>' +
+                        '<textarea autofocus rows="8" ng-model="doc" class="input-block-level"></textarea>' +
+                        '</div>' +
+                        '<div class="modal-footer">' +
+                        '<button ng-click="close(doc)" class="btn btn-primary">Ok</button>' +
+                        '</div>' +
+                        '</div>'
+
+                });
+                dialog.open().then(function (doc) {
+                    if (doc) {
+                        element.doc = doc;
+                        I18N.setDoc(lang, element.name, doc);
                     }
                 });
             };
@@ -57,9 +85,17 @@ CultureCollectorApp.controller('I18NController',
         }]
 );
 
+function TitleDialogController($scope, dialog, element) {
+    $scope.element = element;
+    $scope.title = element.title;
+    $scope.close = function (result) {
+        dialog.close(result);
+    };
+}
 
-// the dialog is injected in the specified controller
-function DialogController($scope, dialog) {
+function DocDialogController($scope, dialog, element) {
+    $scope.element = element;
+    $scope.doc = element.doc;
     $scope.close = function (result) {
         dialog.close(result);
     };

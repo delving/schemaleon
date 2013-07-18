@@ -17,18 +17,35 @@ CultureCollectorApp.service("I18N",
             isReady: function() {
                 return $rootScope.i18n;
             },
-            translate: function (key) {
+            title: function (key) {
                 if ($rootScope.i18n) {
                     var value = $rootScope.i18n[key];
-                    if (value) {
-                        return value;
+                    if (value && value.title) {
+                        return value.title;
                     }
                 }
                 return null;
             },
-            setTranslation: function(lang, key, value) {
-                console.log('posting '+key+" = "+ value);
-                $http.post('/i18n/' + lang+ '/add', { key: key, value: value })
+            doc: function (key) {
+                if ($rootScope.i18n) {
+                    var value = $rootScope.i18n[key];
+                    if (value && value.doc) {
+                        return value.doc;
+                    }
+                }
+                return null;
+            },
+            setTitle: function(lang, key, value) {
+                $http.post('/i18n/' + lang+ '/title', { key: key, value: value })
+                    .success(function (data, status, headers, config) {
+                        $rootScope.i18n = data;
+                    }
+                ).error(function (data, status, headers, config) {
+                        alert('Problem fetching i18n');
+                    });
+            },
+            setDoc: function(lang, key, value) {
+                $http.post('/i18n/' + lang+ '/doc', { key: key, value: value })
                     .success(function (data, status, headers, config) {
                         $rootScope.i18n = data;
                     }

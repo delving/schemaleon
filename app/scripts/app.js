@@ -16,12 +16,11 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
             })
             .when('/object/:id', {
                 templateUrl: 'views/document.html',
-                controller: 'ObjectEditController'
+                controller: 'DocumentController'
             })
             .otherwise({
                 redirectTo: '/',
-                templateUrl: 'views/dashboard.html',
-                controller: 'ObjectEditController'
+                templateUrl: 'views/dashboard.html'
             });
     }]);
 //    .config(['$stateProvider', '$routeProvider', function($stateProvider, $urlRouteProvider) {

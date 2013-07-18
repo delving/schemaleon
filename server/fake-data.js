@@ -225,18 +225,18 @@ module.exports = {
         '</PhotoObject>',
     i18n: {
         en: {
-            IdentificationNumber: "Identification Number",
-            Title: "Title",
-            Type: "Type",
-            ShortDescription: "Short description",
-            Condition: "Condition"
+            IdentificationNumber: { title: "Identification Number" },
+            Title: { title: "Title" },
+            Type: { title: "Type" },
+            ShortDescription: { title: "Short description" },
+            Condition: { title: "Condition" }
         },
         nl: {
-            IdentificationNumber: "Identificatienummer",
-            Title: "Titel",
-            Type: "Type",
-            ShortDescription: "Korte beschrijving",
-            Condition: "Conditie"
+            IdentificationNumber: { title: "Identificatienummer" },
+            Title: { title: "Titel" },
+            Type: { title: "Type" },
+            ShortDescription: { title: "Korte beschrijving" },
+            Condition: { title: "Conditie" }
         }
     }
 };

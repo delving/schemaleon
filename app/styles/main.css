@@ -487,3 +487,10 @@ ul.kv-list li span.label {
 .accordion-group .accordion-inner {
   border-top: 1px solid #999999;
 }
+/* EXPLANATIONS */
+.explanation textarea {
+  width: 98%;
+}
+.explanation input {
+  width: 98%;
+}

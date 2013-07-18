@@ -55,7 +55,7 @@
                         />
                         <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
-                    <div ng-show="!el.edit">
+                    <div ng-hide="el.edit">
                         <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
                             <span>{{ el.value }}</span>
                         </div>
@@ -78,7 +78,7 @@
                         <br/>
                         <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
                     </div>
-                    <div ng-show="!el.edit">
+                    <div ng-hide="el.edit">
                         <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
                                 <div ng-repeat="line in el.value.split('\n')">
                                     <span>{{ line }}</span><br/>
@@ -86,6 +86,15 @@
                         </div>
                         <br/>
                         <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
+                    </div>
+                </div>
+
+                <div>
+                    <div ng-show="el.doc">
+                        <p>{{ el.doc }}</p>
+                    </div>
+                    <div>
+                        <button ng-click="openDocDialog(el)" class="btn btn-small">Edit Explanation</button>
                     </div>
                 </div>
             </div>
@@ -102,9 +111,9 @@
                             {{ element | elementDisplay }}
                         </div>
                     </a>
-                    <span ng-show="!element.translation"
+                    <span
                           class="icon-white plus"
-                          ng-click="openDialog(element)">
+                          ng-click="openTitleDialog(element)">
                         <i class="icon-question-sign icon-white"></i>
                     </span>
                     <span ng-show="element.multiple"

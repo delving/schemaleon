@@ -29,16 +29,32 @@ app.get('/i18n/:lang', function (req, res) {
     }
 });
 
-app.post('/i18n/:lang/add', function (req, res) {
+app.post('/i18n/:lang/title', function (req, res) {
     var lang = req.params.lang;
     var strings = data.i18n[lang];
     if (strings) {
         var key = req.body.key;
-        console.log("key="+key);
         var value = req.body.value;
-        console.log("value="+value);
         if (key && value) {
-            strings[key] = value;
+            if (!strings[key]) strings[key] = {};
+            strings[key].title = value;
+        }
+        res.json(strings);
+    }
+    else {
+        res.json({});
+    }
+});
+
+app.post('/i18n/:lang/doc', function (req, res) {
+    var lang = req.params.lang;
+    var strings = data.i18n[lang];
+    if (strings) {
+        var key = req.body.key;
+        var value = req.body.value;
+        if (key && value) {
+            if (!strings[key]) strings[key] = {};
+            strings[key].doc = value;
         }
         res.json(strings);
     }
