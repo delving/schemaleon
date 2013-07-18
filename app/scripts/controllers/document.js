@@ -48,12 +48,18 @@ CultureCollectorApp.controller('ConfigurationController',
     function($rootScope) {
 
         $rootScope.config = {
-            showInlinePreview: false
+            showInlinePreview: false,
+            showTranslationEditor: false
         }
 
         $rootScope.toggleInlinePreview = function () {
             $rootScope.config.showInlinePreview = ($rootScope.config.showInlinePreview != false) ? false : true;
         }
+
+        $rootScope.toggleTranslationEditor = function () {
+            $rootScope.config.showTranslationEditor = ($rootScope.config.showTranslationEditor != false) ? false : true;
+        }
+
     }]);
 
 CultureCollectorApp.controller('DocumentController',

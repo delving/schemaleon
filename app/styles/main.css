@@ -432,7 +432,7 @@ ul.main-menu > .active > a:hover {
 }
 ul.panel-list li {
   position: relative;
-  padding-left: 20px;
+  padding-left: 30px;
 }
 ul.panel-list li a,
 ul.panel-list li label {
@@ -442,13 +442,14 @@ ul.panel-list li a:hover,
 ul.panel-list li label:hover {
   background: #222222;
 }
-.plus {
+.icon-container {
   position: absolute;
-  left: -5px;
+  left: 0px;
   top: 5px;
+  width: 40px;
 }
-.plus:hover {
-  cursor: pointer;
+.icon-container .icon-item {
+  display: inline-block;
 }
 .documentation {
   position: absolute;

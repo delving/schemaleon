@@ -12,14 +12,14 @@
                     View
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">
-                        <input type="checkbox" name="show-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> Show previews
-                    </a>
+                    <li>
+                        <input type="checkbox" name="show-inline-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> Show previews
+                    </li>
+                    <li>
+                        <input type="checkbox" name="show-translation-editor" ng-checked="config.showTranslationEditor" ng-click="toggleTranslationEditor()"/> Show translation editor
                     </li>
                 </ul>
             </li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
         </ul>
     </div>
 </div>
@@ -133,18 +133,23 @@
                             {{ element | elementDisplay }}
                         </div>
                     </a>
-                    <span
-                            class="icon-white plus"
-                            ng-click="openTitleDialog(element)">
-                        <i class="icon-question-sign icon-white"></i>
-                    </span>
-                    <span ng-show="element.multiple"
-                          tooltip-placement="bottom"
-                          tooltip="Add {{ element | elementTitle }}"
-                          class="plus display-{{ element.multiple }}"
-                          ng-click="addSibling(el.elements, $index, $parent.index)">
-                        <i class="icon-plus-sign icon-white"></i>
-                    </span>
+                    <div class="icon-container">
+                        <!-- // Translation editor toggle -->
+                        <span ng-show="config.showTranslationEditor"
+                              class="icon-item"
+                              ng-click="openTitleDialog(element)">
+                            <i class="icon-question-sign icon-white"></i>
+                        </span>
+                        <!-- // Add sibling toggle -->
+                        <span ng-show="element.multiple"
+                              tooltip-placement="bottom"
+                              tooltip="Add {{ element | elementTitle }}"
+                              class="display-{{ element.multiple }} icon-item"
+                              ng-click="addSibling(el.elements, $index, $parent.index)">
+                            <i class="icon-plus-sign icon-white"></i>
+                        </span>
+                    </div>
+
                 </li>
             </ul>
         </td>
