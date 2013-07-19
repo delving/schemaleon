@@ -388,7 +388,7 @@ ul.main-menu > .active > a:hover {
 }
 #panel-container {
   max-width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 /* CRM LINKS */
 .link-value {
@@ -441,6 +441,7 @@ ul.panel-list li label {
 ul.panel-list li a:hover,
 ul.panel-list li label:hover {
   background: #222222;
+  cursor: pointer;
 }
 .icon-container {
   position: absolute;

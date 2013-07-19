@@ -5,6 +5,8 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 CultureCollectorApp.directive('i18n', function () {
         return function (scope, elem, attrs) {
             console.log('Why does the i18n direcive get called twice to create watch?:' + attrs.i18n);
+            // TODO: how to deal with angular-ui bootstrap directive elements like this:
+            // <accordion-group heading="Navigation"> where the placement of the value to be translated is in an attribute like: "heading"
             scope.$watch('i18n', function (i18n, before) {
                 if (!i18n) return;
                 var replacement = i18n.label[attrs.i18n];

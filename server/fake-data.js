@@ -226,7 +226,12 @@ module.exports = {
     i18n: {
         en: {
             label: {
-                EditExplanation: 'Edit field explanation'
+                EditExplanation: 'Edit field explanation',
+                Yes: 'Yes',
+                New: 'New',
+                ShowPreviews: 'Show previews',
+                ShowTranslationEditor: 'Show translation editor'
+
             },
             element: {
                 IdentificationNumber: { title: "Identification Number" },
@@ -238,7 +243,11 @@ module.exports = {
         },
         nl: {
             label: {
-                EditExplanation: 'Veld-uitleg aanpassen'
+                EditExplanation: 'Veld-uitleg aanpassen',
+                Yes: 'Ja',
+                New: 'Nieuw',
+                ShowPreviews: 'Waardes tonen',
+                ShowTranslationEditor: 'Vertaalmodule tonen'
             },
             element: {
                 IdentificationNumber: { title: "Identificatienummer" },
