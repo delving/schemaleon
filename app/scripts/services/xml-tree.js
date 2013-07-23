@@ -34,7 +34,9 @@ angular.module('CultureCollectorApp').service("XMLTree",
             function generate(from, to, path) {
                 var generated = false;
                 for (var key in from) {
-                    if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) continue;
+                    if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) {
+                        continue;
+                    }
                     generated = true;
                     var value = from[key];
                     path.push(key);
@@ -109,7 +111,7 @@ angular.module('CultureCollectorApp').service("XMLTree",
                 if (from.elements) {
                     var sub = {};
                     _.forEach(from.elements, function (element) {
-                        clean(element, sub)
+                        clean(element, sub);
                     });
                     out[from.name] = sub;
                 }
@@ -135,7 +137,7 @@ angular.module('CultureCollectorApp').service("XMLTree",
             function clean(el) {
                 if (el.elements) {
                     _.forEach(el.elements, function (element) {
-                        clean(element, i18n)
+                        clean(element, i18n);
                     });
                 }
                 else {

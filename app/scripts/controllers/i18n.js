@@ -8,7 +8,9 @@ CultureCollectorApp.directive('i18n', function () {
             // TODO: how to deal with angular-ui bootstrap directive elements like this:
             // <accordion-group heading="Navigation"> where the placement of the value to be translated is in an attribute like: "heading"
             scope.$watch('i18n', function (i18n, before) {
-                if (!i18n) return;
+                if (!i18n) {
+                    return;
+                }
                 var replacement = i18n.label[attrs.i18n];
                 if (replacement) {
                     elem.text(replacement);
@@ -22,8 +24,12 @@ CultureCollectorApp.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
-                if (!element) return '';
-                if (element.title) return element.title;
+                if (!element) {
+                    return '';
+                }
+                if (element.title) {
+                    return element.title;
+                }
                 if (I18N.isReady()) {
                     var title = I18N.title(element.name);
                     if (title) {
@@ -32,7 +38,7 @@ CultureCollectorApp.filter('elementTitle',
                     }
                 }
                 return element.name;
-            }
+            };
         }]
 );
 
@@ -40,8 +46,12 @@ CultureCollectorApp.filter('elementDoc',
     [ 'I18N',
         function (I18N) {
             return function (element) {
-                if (!element) return '';
-                if (element.doc) return element.doc;
+                if (!element) {
+                    return '';
+                }
+                if (element.doc) {
+                    return element.doc;
+                }
                 if (I18N.isReady()) {
                     var doc = I18N.doc(element.name);
                     if (doc) {
@@ -50,7 +60,7 @@ CultureCollectorApp.filter('elementDoc',
                     }
                 }
                 return element.name;
-            }
+            };
         }]
 );
 

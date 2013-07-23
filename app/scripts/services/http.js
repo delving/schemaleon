@@ -21,21 +21,27 @@ CultureCollectorApp.service("I18N",
             title: function (key) {
                 if ($rootScope.i18n) {
                     var value = $rootScope.i18n.element[key];
-                    if (value) return value.title;
+                    if (value) {
+                        return value.title;
+                    }
                 }
                 return null;
             },
             doc: function (key) {
                 if ($rootScope.i18n) {
                     var value = $rootScope.i18n.element[key];
-                    if (value) return value.doc;
+                    if (value) {
+                        return value.doc;
+                    }
                 }
                 return null;
             },
             label: function (key) {
                 if ($rootScope.i18n) {
                     var value = $rootScope.i18n.label[key];
-                    if (value) return value;
+                    if (value) {
+                        return value;
+                    }
                 }
                 return null;
             },
@@ -120,7 +126,7 @@ CultureCollectorApp.service("Vocabulary",
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing vocabulary");
                 });
-        }
+        };
 
     }
 );

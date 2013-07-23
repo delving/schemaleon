@@ -11,14 +11,16 @@ CultureCollectorApp.filter('elementDisplay',
             else {
                 return element.value;
             }
-        }
+        };
     }
 );
 
 CultureCollectorApp.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary', 'XMLTree',
         function ($scope, $q, Vocabulary, XMLTree) {
-            if (!$scope.el.vocabulary) return;
+            if (!$scope.el.vocabulary) {
+                return;
+            }
             $scope.v = $scope.el.vocabulary;
             $scope.setActive('vocabulary');
 
@@ -27,7 +29,7 @@ CultureCollectorApp.controller('VocabularyController',
                     var filtered = _.filter(list, function (value) {
                         return value[$scope.v.displayField].toLowerCase().indexOf(query) >= 0;
                     });
-                    return (filtered.length == 0) ? list : filtered;
+                    return (filtered.length === 0) ? list : filtered;
                 }
 
                 if (!$scope.v.def) {
@@ -87,7 +89,9 @@ CultureCollectorApp.controller('VocabularyController',
             });
 
             $scope.stateToString = function (state) {
-                if (!state) return [];
+                if (!state) {
+                    return [];
+                }
                 return state[$scope.v.displayField];
             };
 
@@ -96,7 +100,7 @@ CultureCollectorApp.controller('VocabularyController',
                 $scope.el.valueFields = _.map($scope.v.tree.elements, function (element) {
                     return { prompt: element.name, value: value[element.name] };
                 });
-            }
+            };
         }]
 );
 
@@ -104,7 +108,9 @@ CultureCollectorApp.controller('TextInputController',
     ['$scope', 'Validator',
         function ($scope, Validator) {
             var ti = $scope.el.textInput;
-            if (!ti) return;
+            if (!ti) {
+                return;
+            }
             $scope.setActive('textInput');
             if (ti.validator) {
                 var func = Validator.getFunction(ti.validator);
@@ -115,7 +121,7 @@ CultureCollectorApp.controller('TextInputController',
                     $scope.invalidMessage = 'Nothing yet';
                     $scope.$watch('el.value', function (after, before) {
                         $scope.invalidMessage = $scope.validator();
-                    })
+                    });
                 }
             }
         }]
@@ -125,7 +131,9 @@ CultureCollectorApp.controller('TextAreaController',
     ['$scope',
         function ($scope) {
             var ta = $scope.el.textArea;
-            if (!ta) return;
+            if (!ta) {
+                return;
+            }
             $scope.setActive('textArea');
         }]
 );

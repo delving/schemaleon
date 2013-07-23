@@ -18,7 +18,7 @@ CultureCollectorApp.directive('specialKey', function () {
                     { code: 13, name: 'enter'},
                     { code: 27, name: 'escape'}
                 ], function(pair) {
-                    if (pair.code == e.keyCode) {
+                    if (pair.code === e.keyCode) {
                         scope.$apply(function (s) {
                             s.$eval(attr.specialKey, { $key: pair.name });
                         });
@@ -35,7 +35,7 @@ CultureCollectorApp.directive('focus',
             restrict: 'A',
             priority: 100,
             link: function (scope, element, attrs) {
-                if (attrs.id == scope.active) {
+                if (attrs.id === scope.active) {
                     element[0].focus();
                 }
             }
@@ -75,7 +75,9 @@ CultureCollectorApp.controller('DocumentController',
                 var chosen = parentPanel.element.elements[choice];
                 parentPanel.element.elements.forEach(function (el) {
                     el.classIndex = parentIndex;
-                    if (el == chosen) el.classIndex++;
+                    if (el === chosen) {
+                        el.classIndex++;
+                    }
                 });
                 $scope.panels[parentIndex + 1] = {
                     selected: 0,
@@ -113,7 +115,9 @@ CultureCollectorApp.controller('DocumentController',
 CultureCollectorApp.controller('PanelController',
     ['$scope',
         function ($scope) {
-            if (!$scope.panel) return;
+            if (!$scope.panel) {
+                return;
+            }
 
             $scope.checkEmpty = function () {
                 if (!$scope.el.value || /^\s*$/.test($scope.el.value)) {
@@ -129,7 +133,7 @@ CultureCollectorApp.controller('PanelController',
 
             $scope.disableEditor = function (element) {
                 $scope.checkEmpty();
-                $scope.el.edit = ($scope.el.value == undefined);
+                $scope.el.edit = ($scope.el.value === undefined);
             };
 
             $scope.disableEditor();
@@ -161,7 +165,7 @@ CultureCollectorApp.controller('PanelController',
                         if (!$scope.el.edit) {
                             $scope.enableEditor();
                         }
-                        else if ($scope.active == 'textInput' || $scope.active == 'vocabulary') {
+                        else if ($scope.active === 'textInput' || $scope.active === 'vocabulary') {
                             $scope.disableEditor();
                         }
                         break;
@@ -171,7 +175,7 @@ CultureCollectorApp.controller('PanelController',
                         }
                         break;
                 }
-            }
+            };
 
         }]
 );

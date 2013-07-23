@@ -15,6 +15,6 @@ angular.module('CultureCollectorApp').service("Validator",
                     };
             }
             return null;
-        }
+        };
     }
 );
