@@ -9,15 +9,6 @@ var data = require('../server/fake-data');
 
 var _ = require("../app/components/underscore/underscore-min.js");
 
-app.get('/document/:identifier', function (req, res) {
-    res.setHeader('Content-Type', 'text/xml');
-    res.send(data.documentXML);
-});
-
-app.get('/doclist', function (req, res) {
-    res.json(data.docList);
-});
-
 function getLangStrings(req) {
     var lang = req.params.lang;
     if (!data.i18n[lang]) {
@@ -43,14 +34,6 @@ function setElementLang(req) {
     return getLangStrings(req);
 }
 
-app.get('/i18n/:lang', function (req, res) {
-    res.json(getLangStrings(req));
-});
-
-app.post('/i18n/:lang/element', function (req, res) {
-    res.json(setElementLang(req));
-});
-
 function vocab(req) {
     var vocab = data.vocabulary[req.params.vocab];
     if (!vocab) {
@@ -58,6 +41,16 @@ function vocab(req) {
     }
     return vocab;
 }
+
+// ==============
+
+app.get('/i18n/:lang', function (req, res) {
+    res.json(getLangStrings(req));
+});
+
+app.post('/i18n/:lang/element', function (req, res) {
+    res.json(setElementLang(req));
+});
 
 app.get('/vocabulary/:vocab', function (req, res) {
     res.json(vocab(req));
@@ -80,6 +73,18 @@ app.post('/vocabulary/:vocab/add', function (req, res) {
     var v = vocab(req);
     v.list.push(req.body.Entry);
     res.json(v);
+});
+
+app.get('/document/:identifier', function (req, res) {
+    res.setHeader('Content-Type', 'text/xml');
+    res.send(data.documentXML);
+});
+
+app.post('/document/:identifier', function (req, res) {
+});
+
+app.get('/document', function (req, res) {
+    res.json(data.docList);
 });
 
 module.exports = app;

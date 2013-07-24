@@ -119,6 +119,9 @@ module.exports = function (grunt) {
         nodeunit: {
             all: [
                 'test/server/*.js'
+            ],
+            storage: [
+                'test/server/test-storage.js'
             ]
         },
         less: {
@@ -289,7 +292,11 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('test-server', [
-        'nodeunit'
+        'nodeunit:all'
+    ]);
+
+    grunt.registerTask('test-storage', [
+        'nodeunit:storage'
     ]);
 
     grunt.registerTask('test-e2e', [
