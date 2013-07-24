@@ -104,7 +104,7 @@
                     </div>
                 </div>
 
-                <input id="hidden" ng-show="false" ng-controller="HiddenController" focus/>
+                <input id="hidden" ng-controller="HiddenController" focus/>
                 <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
                     <li ng-repeat="element in el.elements">
                         <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">

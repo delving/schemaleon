@@ -1,4 +1,5 @@
 'use strict';
+/*global language, console, $, _ */
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
 var mountFolder = function (connect, dir) {
@@ -34,7 +35,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/{,*/}*.html',
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.app %>/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ],
                 tasks: ['livereload']
             }
@@ -169,9 +170,9 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app %>/images',
+                        cwd: '<%= yeoman.app %>/img',
                         src: '{,*/}*.{png,jpg,jpeg}',
-                        dest: '<%= yeoman.dist %>/images'
+                        dest: '<%= yeoman.dist %>/img'
                     }
                 ]
             }
@@ -262,7 +263,7 @@ module.exports = function (grunt) {
                             'views/*',
                             'template/**/*',
 //                            'img/{,*/}*.{gif,webp}',
-                            'img/*',
+                            'img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                             'styles/fonts/*'
                         ]
                     }

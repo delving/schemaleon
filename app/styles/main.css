@@ -443,6 +443,13 @@ ul.panel-list li label:hover {
   background: #222222;
   cursor: pointer;
 }
+input#hidden {
+  background: transparent;
+  border: none;
+  border-width: 0px;
+  height: 0px;
+  width: 0px;
+}
 .icon-container {
   position: absolute;
   left: 0px;
