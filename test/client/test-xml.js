@@ -15,32 +15,26 @@ describe('Service: XMLTree', function () {
     var expectedEmpty =
     {
         name: 'PhotoObject',
-        title: 'Photo Object',
         elements: [
             {
                 name: 'IdentificationNumber',
-                title: 'Identification Number',
                 textInput: {}
             },
             {
                 name: 'Title',
-                title: 'Title',
                 valueExpression: {"multiple": true},
                 textInput: {},
                 multiple: true
             },
             {
                 name: 'Type',
-                title: 'Type',
                 elements: [
                     {
                         name: 'FirstPart',
-                        title: 'First Part',
                         textInput: {}
                     },
                     {
                         name: 'SecondPart',
-                        title: 'Second Part',
                         textInput: {}
                     }
                 ]
@@ -82,9 +76,11 @@ describe('Service: XMLTree', function () {
         var result = xt.xmlToTree(xmlString);
         var jsonString = JSON.stringify(result);
         var expectedString = JSON.stringify(expectedEmpty);
-        expect(jsonString).toBe(expectedString);
 
-        console.log(jsonString);
+//        console.log(expectedString);
+//        console.log(jsonString);
+
+        expect(jsonString).toBe(expectedString);
 
         result.elements[0].value = 'one';
         result.elements[1].value = 'two';
@@ -96,11 +92,52 @@ describe('Service: XMLTree', function () {
         var cleanedString = JSON.stringify(cleaned);
         var expectedCleanedString = JSON.stringify(expectedClean);
         expect(cleanedString).toBe(expectedCleanedString);
-        console.log(cleanedString);
+//        console.log(cleanedString);
 
         var xml = xt.objectToXml(cleaned);
-        console.log(xml);
+//        console.log(xml);
         expect(xml).toBe(expectedXml);
-    })
+    });
 
+    var xmlToBeObject =
+        '<Language>' +
+            '<label>' +
+            '<EditExplanation>Edit field explanation</EditExplanation>' +
+            '<Yes>Yes</Yes>' +
+            '<New>New</New>' +
+            '<ShowPreviews>Show previews</ShowPreviews>' +
+            '<ShowTranslationEditor>Show translation editor</ShowTranslationEditor>' +
+            '</label>' +
+            '<element>' +
+            '<IdentificationNumber><title>Identification Number</title></IdentificationNumber>' +
+            '<Title><title>Title</title></Title>' +
+            '<ShortDescription><title>Short description</title></ShortDescription>' +
+            '</element>' +
+            '</Language>';
+
+    var expectedObject = {
+        Language: {
+            label: {
+                EditExplanation: 'Edit field explanation',
+                Yes: 'Yes',
+                New: 'New',
+                ShowPreviews: 'Show previews',
+                ShowTranslationEditor: 'Show translation editor'
+            },
+            element: {
+                IdentificationNumber: { title: "Identification Number" },
+                Title: { title: "Title" },
+                ShortDescription: { title: "Short description" }
+            }
+        }
+    };
+
+    it('should turn XML into a nice object', function () {
+        var object = xt.xmlToObject(xmlToBeObject);
+        var resultString = JSON.stringify(object);
+        var expectedString = JSON.stringify(expectedObject);
+//        console.log(expectedString);
+//        console.log(resultString);
+        expect(resultString).toBe(expectedString);
+    });
 });

@@ -1,11 +1,15 @@
+'use strict';
+
+var CultureCollectorApp = angular.module('CultureCollectorApp');
+
 CultureCollectorApp.controller('ConfigurationController',
     ['$rootScope',
-        function($rootScope) {
+        function ($rootScope) {
 
             $rootScope.config = {
                 interfaceLanguages: [
-                    {name:'English', code: 'en'},
-                    {name:'Nederlands', code: 'nl'}
+                    {name: 'English', code: 'en'},
+                    {name: 'Nederlands', code: 'nl'}
                 ],
                 interfaceLanguage: 'en',
                 showInlinePreview: true,
@@ -13,7 +17,7 @@ CultureCollectorApp.controller('ConfigurationController',
             };
 
             $rootScope.toggleInlinePreview = function () {
-                $rootScope.config.showInlinePreview =  !$rootScope.config.showInlinePreview;
+                $rootScope.config.showInlinePreview = !$rootScope.config.showInlinePreview;
             };
 
             $rootScope.toggleTranslationEditor = function () {

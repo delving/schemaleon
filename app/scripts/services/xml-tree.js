@@ -2,6 +2,7 @@
 
 angular.module('CultureCollectorApp').service("XMLTree",
     function () {
+
         this.xmlToTree = function (xml) {
 
             function parse(key, string, to) {
@@ -104,6 +105,26 @@ angular.module('CultureCollectorApp').service("XMLTree",
 
             toXml(object, 1);
             return out.join('');
+        };
+
+        this.xmlToObject = function (xml) {
+            function strip(from) {
+                for (var key in from) {
+                    if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) {
+                        delete from[key];
+                    }
+                    else {
+                        var value = from[key];
+                        if (_.isObject(value)) {
+                            strip(value);
+                        }
+                    }
+                }
+            }
+
+            var object = x2js.xml_str2json(xml);
+            strip(object);
+            return object;
         };
 
         this.treeToObject = function (tree) {
