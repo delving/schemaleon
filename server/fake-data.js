@@ -231,7 +231,6 @@ module.exports = {
                 New: 'New',
                 ShowPreviews: 'Show previews',
                 ShowTranslationEditor: 'Show translation editor'
-
             },
             element: {
                 IdentificationNumber: { title: "Identification Number" },
@@ -257,5 +256,35 @@ module.exports = {
                 Condition: { title: "Conditie" }
             }
         }
+    },
+    i18nX: {
+        en: '<Language>' +
+            '<label>' +
+            '<EditExplanation>Change that field explanation</EditExplanation>' +
+            '<Yes>Yes</Yes>' +
+            '<New>New</New>' +
+            '<ShowPreviews>Show previews</ShowPreviews>' +
+            '<ShowTranslationEditor>Show translation thingy</ShowTranslationEditor>' +
+            '</label>' +
+            '<element>' +
+            '<IdentificationNumber><title>Identification Number</title></IdentificationNumber>' +
+            '<Title><title>Title</title></Title>' +
+            '<ShortDescription><title>Short description</title></ShortDescription>' +
+            '</element>' +
+            '</Language>',
+        nl: '<Language>' +
+            '<label>' +
+            '<EditExplanation>Pas veld uitleg aan</EditExplanation>' +
+            '<Yes>Ja</Yes>' +
+            '<New>Niew</New>' +
+            '<ShowPreviews>Waardes tonen</ShowPreviews>' +
+            '<ShowTranslationEditor>Vertaalmodule tonen</ShowTranslationEditor>' +
+            '</label>' +
+            '<element>' +
+            '<IdentificationNumber><title>Identificatienummer</title></IdentificationNumber>' +
+            '<Title><title>Titel</title></Title>' +
+            '<ShortDescription><title>Korte beschrijving</title></ShortDescription>' +
+            '</element>' +
+            '</Language>'
     }
 };

@@ -9,7 +9,7 @@ var data = require('../server/fake-data');
 
 var _ = require("../app/components/underscore/underscore-min.js");
 
-function getLangStrings(req) {
+function getLang(req) {
     var lang = req.params.lang;
     if (!data.i18n[lang]) {
         data.i18n[lang] = { element: {}, label: {} };
@@ -18,7 +18,7 @@ function getLangStrings(req) {
 }
 
 function getLangElement(req) {
-    var langStrings = getLangStrings(req);
+    var langStrings = getLang(req);
     var key = req.body.key;
     if (!langStrings.element[key]) {
         langStrings.element[key] = {};
@@ -31,7 +31,7 @@ function setElementLang(req) {
         if (req.body.title) getLangElement(req).title = req.body.title;
         if (req.body.doc) getLangElement(req).doc = req.body.doc;
     }
-    return getLangStrings(req);
+    return getLang(req);
 }
 
 function vocab(req) {
@@ -45,7 +45,13 @@ function vocab(req) {
 // ==============
 
 app.get('/i18n/:lang', function (req, res) {
-    res.json(getLangStrings(req));
+    res.json(getLang(req));
+});
+
+app.get('/i18nX/:lang', function (req, res) {
+    var lang = req.params.lang;
+    res.setHeader('Content-Type', 'text/xml');
+    res.send(data.i18nX[lang]);
 });
 
 app.post('/i18n/:lang/element', function (req, res) {

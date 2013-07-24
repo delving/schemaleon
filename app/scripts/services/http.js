@@ -3,13 +3,24 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 CultureCollectorApp.service("I18N",
-    function ($http, $rootScope) {
+    function ($http, $rootScope, XMLTree) {
         return {
             fetchList: function (lang) {
                 $http.get('/i18n/' + lang)
                     .success(function (data, status, headers, config) {
                         $rootScope.lang = lang;
                         $rootScope.i18n = data;
+                    }
+                ).error(function (data, status, headers, config) {
+                        alert('Problem fetching i18n');
+                    });
+            },
+            fetchListX: function (lang) {
+                $http.get('/i18nX/' + lang)
+                    .success(function (data, status, headers, config) {
+                        $rootScope.lang = lang;
+                        var language = XMLTree.xmlToObject(data);
+                        $rootScope.i18n = language.Language;
                     }
                 ).error(function (data, status, headers, config) {
                         alert('Problem fetching i18n');
