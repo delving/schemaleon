@@ -84,7 +84,7 @@ CultureCollectorApp.service("Documents",
 CultureCollectorApp.service("ObjectList",
     function ($http) {
         this.fetchList = function (success) {
-            $http.get('/doclist')
+            $http.get('/document')
                 .success(function (data, status, headers, config) {
                     success(data);
                 })
