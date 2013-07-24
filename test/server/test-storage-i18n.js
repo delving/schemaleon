@@ -1,6 +1,5 @@
 'use strict';
 
-var basex = require('basex');
 var storage = require('../../server/storage');
 
 exports.createDatabase = function (test) {
@@ -117,7 +116,6 @@ exports.testAfterSetElementDoc = function (test) {
         test.done();
     });
 };
-
 
 exports.dropIt = function (test) {
     test.expect(1);

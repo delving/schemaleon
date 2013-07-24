@@ -4,12 +4,21 @@ var basex = require('basex');
 //basex.debug_mode = true;
 
 var storage = {
+    database: 'oscrtest',
     session: new basex.Session()
 };
 
+function langDocument(language) {
+    return "/i18n/" + language;
+}
+
+function langPath(language) {
+    return "doc('" + storage.database + langDocument(language) + "')/Language";
+}
+
 storage.getLanguage = function (language, receiver) {
     var self = this;
-    var query = self.session.query('doc("oscrtest/i18n/' + language + '")/*');
+    var query = self.session.query(langPath(language));
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -17,7 +26,7 @@ storage.getLanguage = function (language, receiver) {
         else {
             var initialXML = '<Language>\n  <label/>\n  <element/>\n</Language>';
             self.session.add(
-                '/i18n/' + language,
+                langDocument(language),
                 initialXML,
                 function (error, reply) {
                     if (reply.ok) {
@@ -33,7 +42,7 @@ storage.getLanguage = function (language, receiver) {
 };
 
 storage.setLabel = function (language, key, value, receiver) {
-    var labelPath = "doc('oscrtest/i18n/" + language + "')/Language/label";
+    var labelPath = langPath(language) + "/label";
     var keyPath = labelPath + '/' + key;
     var query = "xquery " +
         "if (exists(" + keyPath + ")) " +
@@ -48,7 +57,7 @@ storage.setLabel = function (language, key, value, receiver) {
 };
 
 storage.setElementTitle = function (language, key, value, receiver) {
-    var elementPath = "doc('oscrtest/i18n/" + language + "')/Language/element";
+    var elementPath = langPath(language) + "/element";
     var keyPath = elementPath + '/' + key;
     var titlePath = keyPath + '/title';
     var query = "xquery " +
@@ -64,7 +73,7 @@ storage.setElementTitle = function (language, key, value, receiver) {
 };
 
 storage.setElementDoc = function (language, key, value, receiver) {
-    var elementPath = "doc('oscrtest/i18n/" + language + "')/Language/element";
+    var elementPath = langPath(language) + "/element";
     var keyPath = elementPath + '/' + key;
     var docPath = keyPath + '/doc';
     var query = "xquery " +
@@ -76,6 +85,23 @@ storage.setElementDoc = function (language, key, value, receiver) {
     storage.session.execute(query, function (error, reply) {
         if (error) throw error;
         receiver(reply.ok);
+    });
+};
+
+function vocabPath(vocabName) {
+    return "doc('" + storage.database + "/VocabularySchemas')/VocabularySchemas/" + vocabName;
+}
+
+storage.getVocabularySchema = function (vocabName, receiver) {
+    var self = this;
+    var query = self.session.query(vocabPath(vocabName));
+    query.results(function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw 'No vocabulary found with name ' + vocabName;
+        }
     });
 };
 
