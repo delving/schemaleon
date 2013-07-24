@@ -329,9 +329,28 @@ body {
   margin-right: 8px;
   vertical-align: text-bottom;
 }
+.user-nav {
+  margin: 0;
+  position: absolute;
+  right: 30px;
+  top: 5px;
+  z-index: 20;
+}
+.user-nav > li > a {
+  display: block;
+  font-size: 14px;
+  padding: 0px 6px !important;
+}
+.user-nav li.active {
+  background: #9933cc;
+}
+.user-nav li.active a {
+  background: transparent !important;
+}
 .page-header {
   font-weight: normal;
   border-color: #999999;
+  margin-top: 0px;
 }
 /* MAIN NAVIGATION */
 .nav-pills > li > a {
@@ -452,6 +471,7 @@ input#hidden {
   width: 10px;
   opacity: 0;
   filter: alpha(opacity=0);
+  position: absolute;
 }
 .icon-container {
   position: absolute;

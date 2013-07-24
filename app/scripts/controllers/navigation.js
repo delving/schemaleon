@@ -18,7 +18,7 @@ CultureCollectorApp.controller('NavigationController',
                 _.forEach($scope.mainMenu.links, function (link) {
                     link.active = (walk == index);
                     if (link.active) {
-                        $scope.mainMenu.activeLabe = link.label;
+                        $scope.mainMenu.activeLabel = link.label;
                     }
                     walk++;
                 });
@@ -29,6 +29,7 @@ CultureCollectorApp.controller('NavigationController',
                 link.active = ($location.path().indexOf(sought) >= 0);
                 if (link.active) {
                     anyActive = true;
+                    $scope.mainMenu.activeLabel = link.label;
                 }
             });
             if (!anyActive) {

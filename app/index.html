@@ -26,15 +26,22 @@
     <![endif]-->
 
     <!-- APPLICATION CONTAINER -->
-    <div ng-app="CultureCollectorApp">
+    <div ng-app="CultureCollectorApp" ng-controller="NavigationController">
 
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <a class="brand" href="#"><img src="img/logo.png" />Delving OSCR</a>
+
+                    <ul class="nav user-nav btn-group">
+                        <li ng-repeat="link in mainMenu.links" class="btn" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>
+                        <li class="btn"><a href="login.html" title=""><i class="icon icon-white icon-share-alt"></i> <span class="text">Logout</span></a></li>
+                    </ul>
+
                         <p class="navbar-text pull-right">
                             Logged in as <a href="#" class="navbar-link">Username</a>
                         </p>
+
                         <form class="navbar-form">
                             <select ng-controller="ConfigurationController"  ng-model="config.interfaceLanguage" ng-options="l.code as l.name for l in config.interfaceLanguages">
                                 <option value="">-- Language --</option>
@@ -44,23 +51,39 @@
             </div>
         </div>
 
-        <div class="container-fluid">
-            <div class="row-fluid" ng-controller="NavigationController">
-                <div class="span3">
-                    <!--Sidebar content-->
-                    <div class="sidebar-nav">
-                        <ul class="nav nav-pills nav-stacked main-menu">
-                            <!--<li class="nav-header">{{ mainMenu.section }}</li>-->
-                            <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>
-                        </ul>
-                    </div><!--/.sidebar-nav -->
-                    <div ng-include="getInclude()"></div>
-                </div><!--/span-->
-                <div class="span9" ng-view>
-                    <!-- Angular views are rendered here -->
-                </div>
-            </div>
+        <div id="sideBar">
+            <div class="sidebar-nav">
+                <!--<ul class="nav nav-pills nav-stacked main-menu">-->
+                    <!--&lt;!&ndash;<li class="nav-header">{{ mainMenu.section }}</li>&ndash;&gt;-->
+                    <!--<li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>-->
+                <!--</ul>-->
+            </div><!--/.sidebar-nav -->
+            <div ng-include="getInclude()"></div>
         </div>
+
+        <div id="mainBody">
+            <h1 class="page-header"><span ng-bind="mainMenu.activeLabel"></span></h1>
+            <div ng-view><!-- Angular views are rendered here --></div>
+        </div>
+
+        <!--<div class="container-fluid">-->
+            <!--<div class="row-fluid" >-->
+                <!--<div class="span3">-->
+                    <!--&lt;!&ndash;Sidebar content&ndash;&gt;-->
+                    <!--<div class="sidebar-nav">-->
+                        <!--<ul class="nav nav-pills nav-stacked main-menu">-->
+                            <!--&lt;!&ndash;<li class="nav-header">{{ mainMenu.section }}</li>&ndash;&gt;-->
+                            <!--<li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>&lt;!&ndash;/.sidebar-nav &ndash;&gt;-->
+                    <!--<div ng-include="getInclude()"></div>-->
+                <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
+                <!--<div class="span9">-->
+
+
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
     </div>
     <!-- // APPLICATION CONTAINER -->
