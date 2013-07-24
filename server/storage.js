@@ -34,10 +34,11 @@ storage.getLanguage = function (language, receiver) {
 
 storage.setLabel = function (language, key, value, receiver) {
     var labelPath = "doc('oscrtest/i18n/" + language + "')/Language/label";
+    var keyPath = labelPath + '/' + key;
     var query = "xquery " +
-        "if (exists(" + labelPath + "/" + key + ")) " +
+        "if (exists(" + keyPath + ")) " +
         "then " +
-        "replace value of node " + labelPath + "/" + key + " with '" + value + "'" +
+        "replace value of node " + keyPath + " with '" + value + "' " +
         "else " +
         "insert node <" + key + ">" + value + "</" + key + "> into " + labelPath + " ";
     storage.session.execute(query, function (error, reply) {
@@ -46,14 +47,36 @@ storage.setLabel = function (language, key, value, receiver) {
     });
 };
 
-storage.addElementTitle = function (language, key, value, receiver) {
-    storage.session.execute(
-        "xquery insert node <" + key + ">" + value + "</" + key + "> " +
-            "into doc('oscrtest/i18n/" + language + "')/Language/element",
-        function (error, reply) {
-            receiver(reply.ok);
-        }
-    );
+storage.setElementTitle = function (language, key, value, receiver) {
+    var elementPath = "doc('oscrtest/i18n/" + language + "')/Language/element";
+    var keyPath = elementPath + '/' + key;
+    var titlePath = keyPath + '/title';
+    var query = "xquery " +
+        "if (exists(" + keyPath + ")) " +
+        "then " +
+        "replace value of node " + titlePath + " with '" + value + "' " +
+        "else " +
+        "insert node <" + key + "><title>" + value + "</title><doc/></" + key + "> into " + elementPath + " ";
+    storage.session.execute(query, function (error, reply) {
+        if (error) throw error;
+        receiver(reply.ok);
+    });
+};
+
+storage.setElementDoc = function (language, key, value, receiver) {
+    var elementPath = "doc('oscrtest/i18n/" + language + "')/Language/element";
+    var keyPath = elementPath + '/' + key;
+    var docPath = keyPath + '/doc';
+    var query = "xquery " +
+        "if (exists(" + keyPath + ")) " +
+        "then " +
+        "replace value of node " + docPath + " with '" + value + "' " +
+        "else " +
+        "insert node <" + key + "><title/><doc>" + value + "</doc></" + key + "> into " + elementPath + " ";
+    storage.session.execute(query, function (error, reply) {
+        if (error) throw error;
+        receiver(reply.ok);
+    });
 };
 
 module.exports = storage;
