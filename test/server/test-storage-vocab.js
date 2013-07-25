@@ -14,7 +14,7 @@ exports.createDatabase = function (test) {
 };
 
 exports.fillSchemas = function (test) {
-    var contents = fs.readFileSync('test/server/VocabularySchemas.xml', 'utf8');
+    var contents = fs.readFileSync('test/data/VocabularySchemas.xml', 'utf8');
     storage.session.add('/VocabularySchemas', contents, function (error, reply) {
         if (reply.ok) {
             console.log("Preloaded vocabulary schemas");

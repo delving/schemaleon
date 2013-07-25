@@ -1,5 +1,6 @@
 'use strict';
 
+var fs = require('fs');
 var basex = require('basex');
 //basex.debug_mode = true;
 
@@ -15,6 +16,37 @@ function langDocument(language) {
 function langPath(language) {
     return "doc('" + storage.database + langDocument(language) + "')/Language";
 }
+
+storage.useDatabase = function (name, receiver) {
+    storage.database = name;
+    storage.session.execute('open ' + name, function (error, reply) {
+        if (reply.ok) {
+            console.log(reply.info);
+            receiver(name);
+        }
+        else {
+            console.log('could not open database ' + name);
+            storage.session.execute('create db ' + name, function (error, reply) {
+                if (reply.ok) {
+                    console.log(reply.info);
+                    var contents = fs.readFileSync('test/data/VocabularySchemas.xml', 'utf8');
+                    storage.session.add('/VocabularySchemas', contents, function (error, reply) {
+                        if (reply.ok) {
+                            console.log("Preloaded VocabularySchemas.xml");
+                        }
+                        else {
+                            throw error;
+                        }
+                    });
+                    receiver(name);
+                }
+                else {
+                    throw error;
+                }
+            });
+        }
+    });
+};
 
 storage.getLanguage = function (language, receiver) {
     var self = this;

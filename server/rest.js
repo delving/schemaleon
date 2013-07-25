@@ -1,38 +1,38 @@
 'use strict';
 
+var _ = require("underscore");
 var express = require('express');
+var storage = require('./storage');
 var app = express();
-
 app.use(express.bodyParser());
+storage.useDatabase('oscr', function (name) {
+    console.log('Yes we have ' + name);
+});
+var data = require('./fake-data'); // todo: remove eventually
 
-var data = require('../server/fake-data');
+function replyWithLanguage(lang, res) {
+    storage.getLanguage(lang, function (language) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(language);
+    });
+}
 
-var _ = require("../app/components/underscore/underscore-min.js");
+app.get('/i18n/:lang', function (req, res) {
+    replyWithLanguage(req.params.lang, res);
+});
 
-function getLang(req) {
+app.post('/i18n/:lang/element', function (req, res) {
     var lang = req.params.lang;
-    if (!data.i18n[lang]) {
-        data.i18n[lang] = { element: {}, label: {} };
-    }
-    return data.i18n[lang];
-}
-
-function getLangElement(req) {
-    var langStrings = getLang(req);
     var key = req.body.key;
-    if (!langStrings.element[key]) {
-        langStrings.element[key] = {};
+    if (key) {
+        if (req.body.title) storage.setElementTitle(lang, key, req.body.title, function (ok) {
+            replyWithLanguage(lang, res);
+        });
+        if (req.body.doc) storage.setElementDoc(lang, key, req.body.doc, function (ok) {
+            replyWithLanguage(lang, res);
+        });
     }
-    return langStrings.element[key];
-}
-
-function setElementLang(req) {
-    if (req.body.key) {
-        if (req.body.title) getLangElement(req).title = req.body.title;
-        if (req.body.doc) getLangElement(req).doc = req.body.doc;
-    }
-    return getLang(req);
-}
+});
 
 function vocab(req) {
     var vocab = data.vocabulary[req.params.vocab];
@@ -41,22 +41,6 @@ function vocab(req) {
     }
     return vocab;
 }
-
-// ==============
-
-app.get('/i18n/:lang', function (req, res) {
-    res.json(getLang(req));
-});
-
-app.get('/i18nX/:lang', function (req, res) {
-    var lang = req.params.lang;
-    res.setHeader('Content-Type', 'text/xml');
-    res.send(data.i18nX[lang]);
-});
-
-app.post('/i18n/:lang/element', function (req, res) {
-    res.json(setElementLang(req));
-});
 
 app.get('/vocabulary/:vocab', function (req, res) {
     res.json(vocab(req));
