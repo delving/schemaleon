@@ -44,13 +44,13 @@ CultureCollectorApp.directive('focus',
 );
 
 CultureCollectorApp.controller('DocumentController',
-    ['$scope', 'Documents', 'XMLTree', 'I18N',
-        function ($scope, Documents, XMLTree, I18N) {
+    ['$scope', 'Documents', 'I18N',
+        function ($scope, Documents, I18N) {
 
             $scope.panels = [];
 
             Documents.fetchDocument('ID939393', function (doc) {
-                $scope.tree = XMLTree.xmlToTree(doc);
+                $scope.tree = xmlToTree(doc);
                 $scope.panels[0] = {
                     selected: 0,
                     element: $scope.tree
@@ -63,7 +63,7 @@ CultureCollectorApp.controller('DocumentController',
 
             $scope.$watch('i18n', function (i18n, oldValue) {
                 if ($scope.tree && i18n) {
-                    XMLTree.cleanTree($scope.tree, i18n);
+                    cleanTree($scope.tree, i18n);
                 }
             });
 

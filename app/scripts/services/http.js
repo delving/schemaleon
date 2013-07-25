@@ -3,7 +3,7 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 CultureCollectorApp.service("I18N",
-    function ($http, $rootScope, XMLTree) {
+    function ($http, $rootScope) {
         return {
             fetchList: function (lang) {
                 $http.get('/i18n/' + lang)
@@ -19,7 +19,7 @@ CultureCollectorApp.service("I18N",
                 $http.get('/i18nX/' + lang)
                     .success(function (data, status, headers, config) {
                         $rootScope.lang = lang;
-                        var language = XMLTree.xmlToObject(data);
+                        var language = xmlToObject(data);
                         $rootScope.i18n = language.Language;
                     }
                 ).error(function (data, status, headers, config) {
