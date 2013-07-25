@@ -1,17 +1,24 @@
-<div class="navbar document">
-    <div class="navbar-inner">
-        <a class="brand" href="#">{{ panels[0].element | elementTitle }}</a>
-        <form class="navbar-form form-inline" ng-controller="ConfigurationController" style="margin-top: 8px">
-            <label class="checkbox"><input type="checkbox" name="show-inline-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> <span i18n="ShowPreviews">Show previews</span></label>
-            <label class="checkbox"><input type="checkbox" name="show-translation-editor" ng-checked="config.showTranslationEditor" ng-click="toggleTranslationEditor()"/> <span i18n="ShowTranslationEditor">Show translation editor</span></label>
-        </form>
+<h1 class="page-header">
+    <span ng-bind="mainMenu.activeLabel"></span>
+    <div class="controls btn-toolbar" ng-controller="ConfigurationController">
+        <div class="btn-group">
+            <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
+            <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><span i18n="ShowTranslationEditor">Show translation editor</span></button>
+        </div>
+        <div class="btn-group">
+        <button class="btn btn-success"><span i18n="SaveObject">Save object</span></button>
+            </div>
+        <!--<form class="navbar-form form-inline" ng-controller="ConfigurationController" style="margin-top: 8px">-->
+        <!--<label class="checkbox"><input type="checkbox" name="show-inline-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> <span i18n="ShowPreviews">Show previews</span></label>-->
+        <!--<label class="checkbox"><input type="checkbox" name="show-translation-editor" ng-checked="config.showTranslationEditor" ng-click="toggleTranslationEditor()"/> <span i18n="ShowTranslationEditor">Show translation editor</span></label>-->
+        <!--<a class="btn btn-success" href ><span i18n="SaveObject">Save object</span></a>-->
+        <!--</form>-->
     </div>
-</div>
-
+</h1>
 
 <div id="panel-container">
 
-    <table cellpadding="20" border="0" class="table panels" ng-controller="I18NController" id="panel-table">
+    <table class="table panels" ng-controller="I18NController" id="panel-table">
         <thead>
             <tr>
                 <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
@@ -29,7 +36,7 @@
                                    ng-model="chosenState"
                                    typeahead="state as stateToString(state) for state in getStates($viewValue)"
                             />
-                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i>  <span i18n="Yes">Yes</span></button>
+                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>  <span i18n="Yes">Yes</span></button>
                             <button ng-show="!el.elements" ng-click="createNew()" class="btn btn-warning btn-small"> <span i18n="New">New</span></button>
                         </div>
                         <div ng-show="!el.edit && !el.elements && el.valueFields">
@@ -60,7 +67,7 @@
                                     type="text"
                                     ng-model="el.value"
                             />
-                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i> Yes</button>
+                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i> Yes</button>
                         </div>
                         <div ng-hide="el.edit">
                             <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
@@ -83,7 +90,7 @@
                                     rows="5">
                             </textarea>
                             <br/>
-                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle icon-white"></i>Yes</button>
+                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>Yes</button>
                         </div>
                         <div ng-hide="el.edit">
                             <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
@@ -97,7 +104,8 @@
                     </div>
 
                     <div>
-                        <div ng-show="el.doc">
+                        <div ng-show="el.doc" class="element-documentation">
+                            <h5><i class="icon icon-question-sign"></i> {{ el.name }}</h5>
                             <p>{{ el | elementDoc }}</p>
                         </div>
                         <div>

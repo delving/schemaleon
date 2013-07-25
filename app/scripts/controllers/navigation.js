@@ -6,17 +6,20 @@ CultureCollectorApp.controller('NavigationController',
     ['$scope', '$location',
         function ($scope, $location) {
             $scope.mainMenu = {
-                section: "Main",
                 links: [
-                    {label: "Dashboard", path: "/#/dashboard", active: false},
-                    {label: "Registered Objects", path: "/#/list", active: false},
-                    {label: "Object", path: "/#/object", active: false}
-                ]
+                    {label: "Dashboard", path: "/#/dashboard", icon: 'icon-home', active: false},
+                    {label: "Registered Objects", path: "/#/list", icon: 'icon-th-list', active: false},
+                    {label: "Object", path: "/#/object", icon: 'icon-stop', active: false}
+                ],
+                activeLabel: 'Dashboard'
             };
             $scope.choose = function (index) {
                 var walk = 0;
                 _.forEach($scope.mainMenu.links, function (link) {
                     link.active = (walk == index);
+                    if (link.active) {
+                        $scope.mainMenu.activeLabel = link.label;
+                    }
                     walk++;
                 });
             };
@@ -26,6 +29,7 @@ CultureCollectorApp.controller('NavigationController',
                 link.active = ($location.path().indexOf(sought) >= 0);
                 if (link.active) {
                     anyActive = true;
+                    $scope.mainMenu.activeLabel = link.label;
                 }
             });
             if (!anyActive) {

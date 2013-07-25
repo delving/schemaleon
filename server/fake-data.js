@@ -230,7 +230,8 @@ module.exports = {
                 Yes: 'Yes',
                 New: 'New',
                 ShowPreviews: 'Show previews',
-                ShowTranslationEditor: 'Show translation editor'
+                ShowTranslationEditor: 'Show translation editor' ,
+                Navigation: 'Navigation'
             },
             element: {
                 IdentificationNumber: { title: "Identification Number" },
@@ -246,7 +247,8 @@ module.exports = {
                 Yes: 'Ja',
                 New: 'Nieuw',
                 ShowPreviews: 'Waardes tonen',
-                ShowTranslationEditor: 'Vertaalmodule tonen'
+                ShowTranslationEditor: 'Vertaalmodule tonen' ,
+                Navigation: 'Navigatie'
             },
             element: {
                 IdentificationNumber: { title: "Identificatienummer" },
