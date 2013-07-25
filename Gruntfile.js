@@ -56,6 +56,15 @@ module.exports = function (grunt) {
                     }
                 }
             },
+            prod: {
+                options: {
+                    middleware: function (connect) {
+                        return [
+                            mountFolder(connect, yeomanConfig.dist)
+                        ];
+                    }
+                }
+            },
             test: {
                 options: {
                     middleware: function (connect) {
@@ -71,6 +80,15 @@ module.exports = function (grunt) {
                 options: {
                     port: 9000,
                     bases: path.resolve('app'),
+                    monitor: {},
+                    debug: true,
+                    server: path.resolve('server/rest')
+                }
+            },
+            prod: {
+                options: {
+                    port: 9000,
+                    bases: path.resolve('dist'),
                     monitor: {},
                     debug: true,
                     server: path.resolve('server/rest')
@@ -286,6 +304,15 @@ module.exports = function (grunt) {
         'watch'
     ]);
 
+    grunt.registerTask('prod', [
+        'clean:server',
+        'less:server',
+//        'livereload-start',
+        'express:prod',
+        'open',
+        'watch'
+    ]);
+
     grunt.registerTask('test-client', [
         'clean:server',
         'karma:client'
@@ -308,7 +335,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'jshint',
+//        'jshint',
 //        'test',
 //        'compass:dist',
         'less:dist',
