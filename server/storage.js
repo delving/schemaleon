@@ -17,6 +17,14 @@ function langPath(language) {
     return "doc('" + storage.database + langDocument(language) + "')/Language";
 }
 
+function quote(value) {
+    return "'" + value.replace(/'/g, "\'\'") + "'";
+}
+
+function inXml(value) {
+    return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 storage.useDatabase = function (name, receiver) {
     storage.database = name;
     storage.session.execute('open ' + name, function (error, reply) {
@@ -77,13 +85,13 @@ storage.setLabel = function (language, key, value, receiver) {
     var labelPath = langPath(language) + "/label";
     var keyPath = labelPath + '/' + key;
     var query = "xquery " +
-        "if (exists(" + keyPath + ")) " +
-        "then " +
-        "replace value of node " + keyPath + " with '" + value + "' " +
-        "else " +
-        "insert node <" + key + ">" + value + "</" + key + "> into " + labelPath + " ";
+        "if (exists(" + keyPath + "))" +
+        " then " +
+        "replace value of node " + keyPath + " with " + quote(value) +
+        " else " +
+        "insert node <" + key + ">" + inXml(value) + "</" + key + "> into " + labelPath + " ";
     storage.session.execute(query, function (error, reply) {
-        if (error) throw error;
+        if (error) throw error+ "\n" + query;
         receiver(reply.ok);
     });
 };
@@ -93,13 +101,13 @@ storage.setElementTitle = function (language, key, value, receiver) {
     var keyPath = elementPath + '/' + key;
     var titlePath = keyPath + '/title';
     var query = "xquery " +
-        "if (exists(" + keyPath + ")) " +
-        "then " +
-        "replace value of node " + titlePath + " with '" + value + "' " +
-        "else " +
-        "insert node <" + key + "><title>" + value + "</title><doc/></" + key + "> into " + elementPath + " ";
+        "if (exists(" + keyPath + "))" +
+        " then " +
+        "replace value of node " + titlePath + " with " + quote(value) +
+        " else " +
+        "insert node <" + key + "><title>" + inXml(value) + "</title><doc>?</doc></" + key + "> into " + elementPath + " ";
     storage.session.execute(query, function (error, reply) {
-        if (error) throw error;
+        if (error) throw error+ "\n" + query;
         receiver(reply.ok);
     });
 };
@@ -109,13 +117,13 @@ storage.setElementDoc = function (language, key, value, receiver) {
     var keyPath = elementPath + '/' + key;
     var docPath = keyPath + '/doc';
     var query = "xquery " +
-        "if (exists(" + keyPath + ")) " +
-        "then " +
-        "replace value of node " + docPath + " with '" + value + "' " +
-        "else " +
-        "insert node <" + key + "><title/><doc>" + value + "</doc></" + key + "> into " + elementPath + " ";
+        "if (exists(" + keyPath + "))" +
+        " then " +
+        "replace value of node " + docPath + " with " + quote(value) +
+        " else " +
+        "insert node <" + key + "><title>?</title><doc>" + inXml(value) + "</doc></" + key + "> into " + elementPath + " ";
     storage.session.execute(query, function (error, reply) {
-        if (error) throw error;
+        if (error) throw error+ "\n" + query;
         receiver(reply.ok);
     });
 };
