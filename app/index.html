@@ -1,9 +1,13 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title></title>
@@ -14,138 +18,94 @@
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-  </head>
-  <body>
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
+    today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
+    experience this site.</p>
+<![endif]-->
 
-    <!--[if lt IE 9]>
-      <script src="components/es5-shim/es5-shim.js"></script>
-      <script src="components/json3/lib/json3.min.js"></script>
-    <![endif]-->
+<!--[if lt IE 9]>
+<script src="components/es5-shim/es5-shim.js"></script>
+<script src="components/json3/lib/json3.min.js"></script>
+<![endif]-->
 
-    <!-- APPLICATION CONTAINER -->
-    <div ng-app="CultureCollectorApp" ng-controller="NavigationController">
+<!-- APPLICATION CONTAINER -->
+<div ng-app="CultureCollectorApp" ng-controller="NavigationController">
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="brand" href="#"><img src="img/logo.png" />Delving OSCR</a>
-
-
-                    <ul class="nav">
-                        <li class="dropdown" id="menu-messages">
-                            <a class="dropdown-toggle" href="#">
-                                <i class="icon icon-user icon-white"></i>
-                                <span class="text">Logged in as: Username</span>
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" title="" class="sAdd">new message</a></li>
-                                <li><a href="#" title="" class="sInbox">inbox</a></li>
-                                <li><a href="#" title="" class="sOutbox">outbox</a></li>
-                                <li><a href="#" title="" class="sTrash">trash</a></li>
-                            </ul>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
+                <ul class="nav">
+                    <li>
+                        <a href="#"><i class="icon icon-white icon-user"></i> Logged in as: Username</a>
                         </li>
-                        <li><a href="login.html" title=""><i class="icon icon-white icon-share-alt"></i> <span class="text">Logout</span></a></li>
-                    </ul>
+                    <li><a href="login.html" title=""><i class="icon icon-white icon-share-alt"></i> <span class="text">Logout</span></a></li>
+                </ul>
 
-                    <!--<ul class="nav user-nav btn-group">-->
-                        <!--<li class="btn dropdown" id="menu-messages">-->
-                            <!--<a class="dropdown-toggle" href="#">-->
-                                <!--<i class="icon icon-user"></i>-->
-                                <!--<span class="text">Logged in as: Username</span>-->
-                                <!--<b class="caret"></b>-->
-                            <!--</a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li><a href="#" title="" class="sAdd">new message</a></li>-->
-                                <!--<li><a href="#" title="" class="sInbox">inbox</a></li>-->
-                                <!--<li><a href="#" title="" class="sOutbox">outbox</a></li>-->
-                                <!--<li><a href="#" title="" class="sTrash">trash</a></li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                        <!--<li class="btn"><a href="login.html" title=""><i class="icon icon-white icon-share-alt"></i> <span class="text">Logout</span></a></li>-->
-                    <!--</ul>-->
-
-                        <!--<p class="navbar-text pull-right">-->
-                            <!--Logged in as <a href="#" class="navbar-link">Username</a>-->
-                        <!--</p>-->
-
-                        <form class="navbar-form pull-right">
-                            <select id="language-select" class="span2" ng-controller="ConfigurationController" ng-model="config.interfaceLanguage" ng-options="l.code as l.name for l in config.interfaceLanguages">
-                                <option value="">-- Language --</option>
-                            </select>
-                        </form>
-                </div>
+                <form class="navbar-form pull-right">
+                    <select id="language-select" class="span2" ng-controller="ConfigurationController"
+                            ng-model="config.interfaceLanguage"
+                            ng-options="l.code as l.name for l in config.interfaceLanguages">
+                        <option value="">-- Language --</option>
+                    </select>
+                </form>
             </div>
         </div>
-
-        <div id="sidebar">
-            <div class="sidebar-nav">
-                <ul class="nav nav-pills nav-stacked main-menu">
-                    <!--<li class="nav-header">{{ mainMenu.section }}</li>-->
-                    <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>
-                </ul>
-            </div><!--/.sidebar-nav -->
-            <div ng-include="getInclude()"></div>
-        </div>
-
-        <div id="mainBody">
-            <h1 class="page-header"><span ng-bind="mainMenu.activeLabel"></span></h1>
-            <div ng-view><!-- Angular views are rendered here --></div>
-        </div>
-
-        <!--<div class="container-fluid">-->
-            <!--<div class="row-fluid" >-->
-                <!--<div class="span3">-->
-                    <!--&lt;!&ndash;Sidebar content&ndash;&gt;-->
-                    <!--<div class="sidebar-nav">-->
-                        <!--<ul class="nav nav-pills nav-stacked main-menu">-->
-                            <!--&lt;!&ndash;<li class="nav-header">{{ mainMenu.section }}</li>&ndash;&gt;-->
-                            <!--<li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)"><a href="{{ link.path }}">{{ link.label }}</a></li>-->
-                        <!--</ul>-->
-                    <!--</div>&lt;!&ndash;/.sidebar-nav &ndash;&gt;-->
-                    <!--<div ng-include="getInclude()"></div>-->
-                <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
-                <!--<div class="span9">-->
-
-
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
     </div>
-    <!-- // APPLICATION CONTAINER -->
 
-    <!-- build:js scripts/scripts.js -->
+    <div id="sidebar">
+        <div class="sidebar-nav">
+            <ul class="nav nav-pills nav-stacked main-menu">
+                <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">
+                    <a href="{{ link.path }}">
+                        <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                        {{ link.label }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--/.sidebar-nav -->
+        <div ng-include="getInclude()"></div>
+    </div>
 
-    <script src="components/angular/angular.js"></script>
-    <script src="components/jquery/jquery.min.js"></script>
-    <script src="components/underscore/underscore.js"></script>
-    <script src="components/x2js/xml2json.js"></script>
+    <div id="mainBody">
+        <div ng-view><!-- Angular views are rendered here --></div>
+    </div>
 
-    <!--todo: note that gerald@delving.eu has modified this file:-->
-    <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
+</div>
+<!-- // APPLICATION CONTAINER -->
 
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/i18n.js"></script>
-    <script src="scripts/controllers/configuration.js"></script>
-    <script src="scripts/controllers/navigation.js"></script>
-    <script src="scripts/controllers/document.js"></script>
-    <script src="scripts/controllers/document-list.js"></script>
-    <script src="scripts/controllers/field.js"></script>
-    <script src="scripts/services/http.js"></script>
-    <script src="scripts/services/validator.js"></script>
-    <script src="scripts/services/xml-tree.js"></script>
-    <!-- endbuild -->
+<!-- build:js scripts/scripts.js -->
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <!--<script>-->
-      <!--var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];-->
-      <!--(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];-->
-      <!--g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';-->
-      <!--s.parentNode.insertBefore(g,s)}(document,'script'));-->
-    <!--</script>-->
-  </body>
+<script src="components/angular/angular.js"></script>
+<script src="components/jquery/jquery.min.js"></script>
+<script src="components/underscore/underscore.js"></script>
+<script src="components/x2js/xml2json.js"></script>
+
+<!--todo: note that gerald@delving.eu has modified this file:-->
+<script src="components/angular-bootstrap/ui-bootstrap.js"></script>
+
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/i18n.js"></script>
+<script src="scripts/controllers/configuration.js"></script>
+<script src="scripts/controllers/navigation.js"></script>
+<script src="scripts/controllers/document.js"></script>
+<script src="scripts/controllers/document-list.js"></script>
+<script src="scripts/controllers/field.js"></script>
+<script src="scripts/services/http.js"></script>
+<script src="scripts/services/validator.js"></script>
+<script src="scripts/services/xml-tree.js"></script>
+<!-- endbuild -->
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<!--<script>-->
+<!--var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];-->
+<!--(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];-->
+<!--g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';-->
+<!--s.parentNode.insertBefore(g,s)}(document,'script'));-->
+<!--</script>-->
+</body>
 </html>

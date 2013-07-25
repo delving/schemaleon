@@ -149,7 +149,8 @@ module.exports = function (grunt) {
                     ieCompat: true
                 },
                 files: {
-                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/less/main.less'
+                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/less/main.less',
+                    '<%= yeoman.app %>/styles/theme-admin.css': '<%= yeoman.app %>/styles/less/theme-admin.less'
                 }
             },
             dist: {

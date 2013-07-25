@@ -18,8 +18,12 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
                 templateUrl: 'views/document.html',
                 controller: 'DocumentController'
             })
+            .when('/alt/', {
+                redirectTo: '/index-alt.html',
+//                templateUrl: 'views/dashboard.html'
+            })
             .otherwise({
-                redirectTo: '/',
+                redirectTo: '/index-alt.html',
                 templateUrl: 'views/dashboard.html'
             });
     }]);
