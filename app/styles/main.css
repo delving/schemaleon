@@ -347,6 +347,22 @@ body {
 .user-nav li.active a {
   background: transparent !important;
 }
+select#language-select {
+  background: #222222;
+  border: #222222;
+  color: #adafae;
+}
+#sidebar {
+  display: block;
+  float: left;
+  position: relative;
+  width: 240px;
+  z-index: 16;
+}
+#mainBody {
+  margin-left: 260px;
+  position: relative;
+}
 .page-header {
   font-weight: normal;
   border-color: #999999;
