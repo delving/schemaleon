@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: XMLTree', function () {
+describe('XML Operations', function () {
 
     var xmlString =
         '<PhotoObject>' +
@@ -64,16 +64,8 @@ describe('Service: XMLTree', function () {
             '   </Type>' +
             '</PhotoObject>';
 
-    beforeEach(module('CultureCollectorApp'));
-
-    var xt;
-
-    beforeEach(inject(function (XMLTree) {
-        xt = XMLTree;
-    }));
-
     it('should parse an xml document and generate', function () {
-        var result = xt.xmlToTree(xmlString);
+        var result = xmlToTree(xmlString);
         var jsonString = JSON.stringify(result);
         var expectedString = JSON.stringify(expectedEmpty);
 
@@ -87,14 +79,14 @@ describe('Service: XMLTree', function () {
         result.elements[2].elements[0].value = 'threeA';
         result.elements[2].elements[1].value = 'threeB';
 
-        var cleaned = xt.treeToObject(result);
+        var cleaned = treeToObject(result);
 
         var cleanedString = JSON.stringify(cleaned);
         var expectedCleanedString = JSON.stringify(expectedClean);
         expect(cleanedString).toBe(expectedCleanedString);
 //        console.log(cleanedString);
 
-        var xml = xt.objectToXml(cleaned);
+        var xml = objectToXml(cleaned);
 //        console.log(xml);
         expect(xml).toBe(expectedXml);
     });
@@ -133,7 +125,7 @@ describe('Service: XMLTree', function () {
     };
 
     it('should turn XML into a nice object', function () {
-        var object = xt.xmlToObject(xmlToBeObject);
+        var object = xmlToObject(xmlToBeObject);
         var resultString = JSON.stringify(object);
         var expectedString = JSON.stringify(expectedObject);
 //        console.log(expectedString);

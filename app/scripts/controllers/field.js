@@ -16,8 +16,8 @@ CultureCollectorApp.filter('elementDisplay',
 );
 
 CultureCollectorApp.controller('VocabularyController',
-    ['$scope', '$q', 'Vocabulary', 'XMLTree',
-        function ($scope, $q, Vocabulary, XMLTree) {
+    ['$scope', '$q', 'Vocabulary',
+        function ($scope, $q, Vocabulary) {
             if (!$scope.el.vocabulary) {
                 return;
             }
@@ -36,7 +36,7 @@ CultureCollectorApp.controller('VocabularyController',
                     var deferred = $q.defer();
                     Vocabulary.get($scope.v.name, function (vocabulary) {
                         $scope.v.def = vocabulary;
-                        $scope.v.tree = XMLTree.xmlToTree(vocabulary.schema);
+                        $scope.v.tree = xmlToTree(vocabulary.schema);
                         $scope.v.displayField = $scope.v.tree.elements[0].name;
                         deferred.resolve(filter(vocabulary.list));
                     });
@@ -61,7 +61,7 @@ CultureCollectorApp.controller('VocabularyController',
             };
 
             $scope.submitNew = function () {
-                $scope.newValue = XMLTree.treeToObject($scope.v.tree);
+                $scope.newValue = treeToObject($scope.v.tree);
                 Vocabulary.add($scope.v.name, $scope.newValue, function (vocabulary) {
                     $scope.v.def = vocabulary; // freshen
                     $scope.panels.pop();
