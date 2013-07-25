@@ -8,7 +8,6 @@ app.use(express.bodyParser());
 storage.useDatabase('oscr', function (name) {
     console.log('Yes we have ' + name);
 });
-var data = require('./fake-data'); // todo: remove eventually
 
 function replyWithLanguage(lang, res) {
     storage.getLanguage(lang, function (language) {
@@ -34,36 +33,30 @@ app.post('/i18n/:lang/element', function (req, res) {
     }
 });
 
-function vocab(req) {
-    var vocab = data.vocabulary[req.params.vocab];
-    if (!vocab) {
-        vocab = data.vocabulary.Default;
-    }
-    return vocab;
-}
-
 app.get('/vocabulary/:vocab', function (req, res) {
-    res.json(vocab(req));
+    storage.getVocabularySchema(req.params.vocab, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
 });
 
 app.get('/vocabulary/:vocab/select', function (req, res) {
-    var query = req.param('q').toLowerCase();
-    var v = vocab(req);
-    var filtered = _.filter(v.list, function (value) {
-        // todo: Label should not be known
-        return value.Label.toLowerCase().indexOf(query) >= 0;
+    var search = req.param('q').toLowerCase();
+    storage.getVocabularyEntries(req.params.vocab, search, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send("<Entries>"+xml+"</Entries>");
     });
-    if (filtered.length == 0) {
-        filtered = v.list;
-    }
-    res.json(filtered);
 });
 
 app.post('/vocabulary/:vocab/add', function (req, res) {
-    var v = vocab(req);
-    v.list.push(req.body.Entry);
-    res.json(v);
+    var entry = req.body.Entry;
+    storage.addVocabularyEntry(req.params.vocab, entry, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
 });
+
+var data = require('./fake-data'); // todo: remove eventually
 
 app.get('/document/:identifier', function (req, res) {
     res.setHeader('Content-Type', 'text/xml');

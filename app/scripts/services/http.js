@@ -101,7 +101,7 @@ CultureCollectorApp.service("ObjectList",
 CultureCollectorApp.service("Vocabulary",
     function ($http) {
 
-        this.get = function (vocab, acceptVocabulary) {
+        this.getSchema = function (vocab, acceptVocabulary) {
             $http.get('/vocabulary/' + vocab)
                 .success(function (data, status, headers, config) {
                     acceptVocabulary(data);
@@ -121,10 +121,10 @@ CultureCollectorApp.service("Vocabulary",
                 });
         };
 
-        this.add = function (vocab, entry, acceptVocabulary) {
+        this.add = function (vocab, entry, acceptEntry) {
             $http.post('/vocabulary/' + vocab + "/add", entry)
                 .success(function (data, status, headers, config) {
-                    acceptVocabulary(data);
+                    acceptEntry(data);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing vocabulary");

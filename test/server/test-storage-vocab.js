@@ -26,12 +26,59 @@ exports.fillSchemas = function (test) {
     });
 };
 
-exports.testFetch = function (test) {
+exports.testFetchSchema = function (test) {
     test.expect(2);
     storage.getVocabularySchema('PhotoType', function (xml) {
         test.ok(xml, "no xml");
         console.log("fetched:\n" + xml);
         test.ok(xml[0].indexOf('<PhotoType') == 0, "Didn't retrieve");
+        test.done();
+    });
+};
+
+/*
+ <PhotoType>
+   <Entry>
+     <Label/>
+     <ID/>
+     <URI/>
+   </Entry>
+ </PhotoType>
+ */
+
+exports.testAddEntry1 = function (test) {
+    test.expect(1);
+    var entry = {
+        Label: "Gumby",
+        ID: "01",
+        URI: "http://gumby.com"
+    };
+    storage.addVocabularyEntry('PhotoType', entry, function (xml) {
+        test.ok(xml, "no xml");
+        console.log("added:\n" + xml);
+        test.done();
+    });
+};
+
+exports.testAddEntry2 = function (test) {
+    test.expect(1);
+    var entry = {
+        Label: "Pokey",
+        ID: "02",
+        URI: "http://pokey.com"
+    };
+    storage.addVocabularyEntry('PhotoType', entry, function (xml) {
+        test.ok(xml, "no xml");
+        console.log("added:\n" + xml);
+        test.done();
+    });
+};
+
+exports.testFetchEntry = function(test) {
+    test.expect(1);
+    storage.getVocabularyEntries('PhotoType', 'y', function(xml) {
+        test.ok(xml, "no xml");
+        console.log("fetched:\n" + xml);
         test.done();
     });
 };

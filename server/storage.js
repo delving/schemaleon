@@ -57,15 +57,14 @@ storage.useDatabase = function (name, receiver) {
 };
 
 storage.getLanguage = function (language, receiver) {
-    var self = this;
-    var query = self.session.query(langPath(language));
+    var query = storage.session.query(langPath(language));
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
         else {
             var initialXML = '<Language>\n  <label/>\n  <element/>\n</Language>';
-            self.session.add(
+            storage.session.add(
                 langDocument(language),
                 initialXML,
                 function (error, reply) {
@@ -91,7 +90,7 @@ storage.setLabel = function (language, key, value, receiver) {
         " else " +
         "insert node <" + key + ">" + inXml(value) + "</" + key + "> into " + labelPath + " ";
     storage.session.execute(query, function (error, reply) {
-        if (error) throw error+ "\n" + query;
+        if (error) throw error + "\n" + query;
         receiver(reply.ok);
     });
 };
@@ -107,7 +106,7 @@ storage.setElementTitle = function (language, key, value, receiver) {
         " else " +
         "insert node <" + key + "><title>" + inXml(value) + "</title><doc>?</doc></" + key + "> into " + elementPath + " ";
     storage.session.execute(query, function (error, reply) {
-        if (error) throw error+ "\n" + query;
+        if (error) throw error + "\n" + query;
         receiver(reply.ok);
     });
 };
@@ -123,24 +122,80 @@ storage.setElementDoc = function (language, key, value, receiver) {
         " else " +
         "insert node <" + key + "><title>?</title><doc>" + inXml(value) + "</doc></" + key + "> into " + elementPath + " ";
     storage.session.execute(query, function (error, reply) {
-        if (error) throw error+ "\n" + query;
+        if (error) throw error + "\n" + query;
         receiver(reply.ok);
     });
 };
 
-function vocabPath(vocabName) {
-    return "doc('" + storage.database + "/VocabularySchemas')/VocabularySchemas/" + vocabName;
-}
-
 storage.getVocabularySchema = function (vocabName, receiver) {
-    var self = this;
-    var query = self.session.query(vocabPath(vocabName));
+    var query = storage.session.query("doc('" + storage.database + "/VocabularySchemas')/VocabularySchemas/" + vocabName);
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
         else {
             throw 'No vocabulary found with name ' + vocabName;
+        }
+    });
+};
+
+function vocabDocument(vocabName) {
+    return "/vocabulary/" + vocabName;
+}
+
+function vocabPath(vocabName) {
+    return "doc('" + storage.database + vocabDocument(vocabName) + "')/Entries";
+}
+
+storage.createVocabulary = function(vocabName, entryXml, receiver) {
+    var freshVocab = "<Entries>" + entryXml + "</Entries>";
+    storage.session.add(vocabDocument(vocabName), freshVocab, function (error, reply) {
+        if (reply.ok) {
+            console.log("Created vocabulary "+vocabName);
+            receiver(entryXml);
+        }
+        else {
+            throw error;
+        }
+    });
+};
+
+storage.addVocabularyEntry = function (vocabName, entry, receiver) {
+    var entryPath = vocabPath(vocabName) + "[ID=" + quote(entry.ID) + "]";
+    var entryXml = "<Entry>";
+    for (var key in entry) {
+        entryXml += "<" + key + ">" + inXml(entry[key]) + "</" + key + ">";
+    }
+    entryXml += "</Entry>";
+    var query = "xquery " +
+        "if (exists(" + entryPath + "))" +
+        " then " +
+        "replace value of node " + entryPath + " with " + entryXml +
+        " else " +
+        "insert node " + entryXml + " into " + vocabPath(vocabName);
+    storage.session.execute(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(entryXml);
+        }
+        else {
+            storage.createVocabulary(vocabName, entryXml, function(xml) {
+                receiver(xml);
+            });
+        }
+    });
+};
+
+storage.getVocabularyEntries = function(vocabName, search, receiver) {
+    var searchPath = vocabPath(vocabName) + "/Entry[contains(lower-case(Label), " + quote(search) + ")]";
+    var query = "xquery "+searchPath;
+    storage.session.execute(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            storage.createVocabulary(vocabName, '', function(xml) {
+                receiver('');
+            });
         }
     });
 };
