@@ -45,7 +45,9 @@
                             <br/>
                             <button ng-click="enableClearedEditor()" class="btn btn-small">Edit</button>
                         </div>
-                        <div ng-show="el.elements" ng-controller="VocabularyController">
+                        <!--todo: the following div is misplaced, it should appear after the elements-->
+                        <!--todo: in here there are no elements due to the ng-show above-->
+                        <div ng-show="el.elements">
                             <button ng-click="cancelNew()" class="btn btn-small btn-warning">Cancel</button>
                             <button ng-click="submitNew()" class="btn btn-small btn-success">Submit</button>
                         </div>
