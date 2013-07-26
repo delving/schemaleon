@@ -3,7 +3,7 @@
     <div class="controls btn-toolbar" ng-controller="ConfigurationController">
         <div class="btn-group">
             <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
-            <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><span i18n="ShowTranslationEditor">Show translation editor</span></button>
+            <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
         </div>
         <div class="btn-group">
         <button class="btn btn-success"><span i18n="SaveObject">Save object</span></button>
@@ -132,7 +132,7 @@
                             <span ng-show="config.showTranslationEditor"
                                   class="icon-item {{ element.title }} pointer"
                                   ng-click="openTitleDialog(element)">
-                                    <i class="icon-filter icon-white"></i>
+                                    <i class="icon-translate icon-white"></i>
                             </span>
                             <!-- // Add sibling toggle -->
                             <span ng-show="element.multiple"

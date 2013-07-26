@@ -273,6 +273,10 @@
 .btn[disabled] {
   background-color: #999999;
 }
+/* icons */
+.icon-translate {
+  background-position: 0 -164px;
+}
 /* grid */
 .row-fluid {
   margin-bottom: 40px;

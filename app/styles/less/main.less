@@ -3,6 +3,11 @@
 //@import "/app/styles/less/oscr-variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
+// Sprite icons path
+// -------------------------
+@iconSpritePath:          "../img/custom-glyphicons-halflings.png";
+@iconWhiteSpritePath:     "../img/custom-glyphicons-halflings-white.png";
+
 /* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
 @baseDarker: @grayDarker;
@@ -114,6 +119,12 @@
 
 .btn.disabled, .btn[disabled] {
   background-color: @grayLight;
+}
+
+/* icons */
+
+.icon-translate {
+  background-position: 0 -164px;
 }
 
 /* grid */
@@ -454,6 +465,7 @@ ul.kv-list {
 
 .element-documentation {
   background: @grayLighter;
+//  background: lighten(@yellow, 35%);
   border: 1px solid @grayLighter;
   .border-radius(6px);
   margin: @baseLineHeight 0;
