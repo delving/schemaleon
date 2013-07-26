@@ -103,24 +103,40 @@ function objectToXml(object) {
     return out.join('');
 }
 
-function xmlToObject(xml) {
-    function strip(from) {
-        for (var key in from) {
-            if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) {
-                delete from[key];
-            }
-            else {
-                var value = from[key];
-                if (_.isObject(value)) {
-                    strip(value);
-                }
+function strip(from) {
+    for (var key in from) {
+        if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) {
+            delete from[key];
+        }
+        else {
+            var value = from[key];
+            if (_.isObject(value)) {
+                strip(value);
             }
         }
     }
+}
 
+function xmlToObject(xml) {
     var object = x2js.xml_str2json(xml);
     strip(object);
     return object;
+}
+
+function xmlToArray(xml) {
+    var object = x2js.xml_str2json(xml);
+    var output = [];
+    for (var listKey in object) {
+        var list = object[listKey]; // assume a list at level 0
+        for (var key in list) {
+            if (key.indexOf('_asArray') >= 0) { // assume there's an array at level 1
+                var sub = list[key];
+                strip(sub);
+                output = sub;
+            }
+        }
+    }
+    return output;
 }
 
 function treeToObject(tree) {

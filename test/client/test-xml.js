@@ -132,4 +132,27 @@ describe('XML Operations', function () {
 //        console.log(resultString);
         expect(resultString).toBe(expectedString);
     });
+
+
+    var xmlToBeList =
+        '<Entries>' +
+            '<Entry>' +
+            '<Label>One</Label>' +
+            '<ID>1</ID>' +
+            '</Entry>' +
+            '</Entries>';
+
+    var expectedList = [
+        { Label: 'One', ID: '1'}
+    ];
+
+    it('should turn XML into a nice object', function () {
+        var list = xmlToArray(xmlToBeList);
+        var resultString = JSON.stringify(list);
+        var expectedString = JSON.stringify(expectedList);
+//        console.log(expectedString);
+//        console.log(resultString);
+        expect(resultString).toBe(expectedString);
+    });
+
 });

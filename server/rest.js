@@ -1,85 +1,62 @@
 'use strict';
 
+var _ = require("underscore");
 var express = require('express');
+var storage = require('./storage');
 var app = express();
-
 app.use(express.bodyParser());
-
-var data = require('../server/fake-data');
-
-var _ = require("../app/components/underscore/underscore-min.js");
-
-function getLang(req) {
-    var lang = req.params.lang;
-    if (!data.i18n[lang]) {
-        data.i18n[lang] = { element: {}, label: {} };
-    }
-    return data.i18n[lang];
-}
-
-function getLangElement(req) {
-    var langStrings = getLang(req);
-    var key = req.body.key;
-    if (!langStrings.element[key]) {
-        langStrings.element[key] = {};
-    }
-    return langStrings.element[key];
-}
-
-function setElementLang(req) {
-    if (req.body.key) {
-        if (req.body.title) getLangElement(req).title = req.body.title;
-        if (req.body.doc) getLangElement(req).doc = req.body.doc;
-    }
-    return getLang(req);
-}
-
-function vocab(req) {
-    var vocab = data.vocabulary[req.params.vocab];
-    if (!vocab) {
-        vocab = data.vocabulary.Default;
-    }
-    return vocab;
-}
-
-// ==============
-
-app.get('/i18n/:lang', function (req, res) {
-    res.json(getLang(req));
+storage.useDatabase('oscr', function (name) {
+    console.log('Yes we have ' + name);
 });
 
-app.get('/i18nX/:lang', function (req, res) {
-    var lang = req.params.lang;
-    res.setHeader('Content-Type', 'text/xml');
-    res.send(data.i18nX[lang]);
+function replyWithLanguage(lang, res) {
+    storage.getLanguage(lang, function (language) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(language);
+    });
+}
+
+app.get('/i18n/:lang', function (req, res) {
+    replyWithLanguage(req.params.lang, res);
 });
 
 app.post('/i18n/:lang/element', function (req, res) {
-    res.json(setElementLang(req));
+    var lang = req.params.lang;
+    var key = req.body.key;
+    if (key) {
+        if (req.body.title) storage.setElementTitle(lang, key, req.body.title, function (ok) {
+            replyWithLanguage(lang, res);
+        });
+        if (req.body.doc) storage.setElementDoc(lang, key, req.body.doc, function (ok) {
+            replyWithLanguage(lang, res);
+        });
+    }
 });
 
 app.get('/vocabulary/:vocab', function (req, res) {
-    res.json(vocab(req));
+    storage.getVocabularySchema(req.params.vocab, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
 });
 
 app.get('/vocabulary/:vocab/select', function (req, res) {
-    var query = req.param('q').toLowerCase();
-    var v = vocab(req);
-    var filtered = _.filter(v.list, function (value) {
-        // todo: Label should not be known
-        return value.Label.toLowerCase().indexOf(query) >= 0;
+    var search = req.param('q').toLowerCase();
+    storage.getVocabularyEntries(req.params.vocab, search, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send("<Entries>"+xml+"</Entries>");
     });
-    if (filtered.length == 0) {
-        filtered = v.list;
-    }
-    res.json(filtered);
 });
 
 app.post('/vocabulary/:vocab/add', function (req, res) {
-    var v = vocab(req);
-    v.list.push(req.body.Entry);
-    res.json(v);
+    var entry = req.body.Entry;
+    storage.addVocabularyEntry(req.params.vocab, entry, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
 });
+
+var data = require('./fake-data'); // todo: remove eventually
 
 app.get('/document/:identifier', function (req, res) {
     res.setHeader('Content-Type', 'text/xml');

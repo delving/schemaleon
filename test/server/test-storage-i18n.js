@@ -99,7 +99,7 @@ exports.testAfterSetElementTitleAgain = function (test) {
 
 exports.testSetElementDoc = function (test) {
     test.expect(1);
-    storage.setElementDoc('en', "Identifier", 'Some nice documentation for you all.', function(ok) {
+    storage.setElementDoc('en', "Identifier", "Some \"nasty\" <documentation/> for y'all.", function(ok) {
         test.ok(ok, 'Problem setting element doc');
         test.done();
     });
@@ -112,7 +112,7 @@ exports.testAfterSetElementDoc = function (test) {
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('ID00002') > 0, 'No identifier appears');
-        test.ok(xml[0].indexOf('nice documentation') > 0, 'No doc appears');
+        test.ok(xml[0].indexOf('documentation') > 0, 'No doc appears');
         test.done();
     });
 };

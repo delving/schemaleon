@@ -9,16 +9,6 @@ CultureCollectorApp.service("I18N",
                 $http.get('/i18n/' + lang)
                     .success(function (data, status, headers, config) {
                         $rootScope.lang = lang;
-                        $rootScope.i18n = data;
-                    }
-                ).error(function (data, status, headers, config) {
-                        alert('Problem fetching i18n');
-                    });
-            },
-            fetchListX: function (lang) {
-                $http.get('/i18nX/' + lang)
-                    .success(function (data, status, headers, config) {
-                        $rootScope.lang = lang;
                         var language = xmlToObject(data);
                         $rootScope.i18n = language.Language;
                     }
@@ -59,7 +49,8 @@ CultureCollectorApp.service("I18N",
             setTitle: function (key, value) {
                 $http.post('/i18n/' + $rootScope.lang + '/element', { key: key, title: value })
                     .success(function (data, status, headers, config) {
-                        $rootScope.i18n = data;
+                        var language = xmlToObject(data);
+                        $rootScope.i18n = language.Language;
                     }
                 ).error(function (data, status, headers, config) {
                         alert('Problem fetching i18n');
@@ -68,7 +59,8 @@ CultureCollectorApp.service("I18N",
             setDoc: function (key, value) {
                 $http.post('/i18n/' + $rootScope.lang + '/element', { key: key, doc: value })
                     .success(function (data, status, headers, config) {
-                        $rootScope.i18n = data;
+                        var language = xmlToObject(data);
+                        $rootScope.i18n = language.Language;
                     }
                 ).error(function (data, status, headers, config) {
                         alert('Problem fetching i18n');
@@ -109,7 +101,7 @@ CultureCollectorApp.service("ObjectList",
 CultureCollectorApp.service("Vocabulary",
     function ($http) {
 
-        this.get = function (vocab, acceptVocabulary) {
+        this.getSchema = function (vocab, acceptVocabulary) {
             $http.get('/vocabulary/' + vocab)
                 .success(function (data, status, headers, config) {
                     acceptVocabulary(data);
@@ -129,10 +121,10 @@ CultureCollectorApp.service("Vocabulary",
                 });
         };
 
-        this.add = function (vocab, entry, acceptVocabulary) {
+        this.add = function (vocab, entry, acceptEntry) {
             $http.post('/vocabulary/' + vocab + "/add", entry)
                 .success(function (data, status, headers, config) {
-                    acceptVocabulary(data);
+                    acceptEntry(data);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing vocabulary");

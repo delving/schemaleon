@@ -4,17 +4,15 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 CultureCollectorApp.directive('i18n', function () {
         return function (scope, elem, attrs) {
-            console.log('Why does the i18n direcive get called twice to create watch?:' + attrs.i18n);
-            // TODO: how to deal with angular-ui bootstrap directive elements like this:
-            // <accordion-group heading="Navigation"> where the placement of the value to be translated is in an attribute like: "heading"
             scope.$watch('i18n', function (i18n, before) {
-                if (!i18n) {
-                    return;
+                if (i18n) {
+                    var msg = i18n.label[attrs.i18n];
+                    if (msg && msg != '?') {
+                        elem.text(msg);
+                        return;
+                    }
                 }
-                var replacement = i18n.label[attrs.i18n];
-                if (replacement) {
-                    elem.text(replacement);
-                }
+                elem.text(attrs.i18n);
             });
         };
     }
@@ -24,13 +22,11 @@ CultureCollectorApp.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
-                if (!element) {
-                    return '';
-                }
+                if (!element) return '';
                 if (element.title) {
-                    return element.title;
+                    if (element.title != '?') return element.title;
                 }
-                if (I18N.isReady()) {
+                else if (I18N.isReady()) {
                     var title = I18N.title(element.name);
                     if (title) {
                         element.title = title;
@@ -46,13 +42,11 @@ CultureCollectorApp.filter('elementDoc',
     [ 'I18N',
         function (I18N) {
             return function (element) {
-                if (!element) {
-                    return '';
-                }
+                if (!element) return '';
                 if (element.doc) {
-                    return element.doc;
+                    if (element.doc != '?') return element.doc;
                 }
-                if (I18N.isReady()) {
+                else if (I18N.isReady()) {
                     var doc = I18N.doc(element.name);
                     if (doc) {
                         element.doc = doc;
