@@ -109,9 +109,17 @@ CultureCollectorApp.controller('DocumentController',
             };
 
             $scope.saveDocument = function() {
-                var document = treeToObject($scope.tree);
-                console.log("SAVE!");
-                console.log(JSON.stringify(document));
+                var object = treeToObject($scope.tree);
+                console.log('harvested');
+                console.log(JSON.stringify(object));
+                var xml = objectToXml(object);
+                console.log('turned to xml');
+                console.log(xml);
+                Document.save(xml, function(savedXml) {
+                    console.log('saved');
+                    console.log(savedXml);
+                    // todo: navigate somewhere!
+                });
             }
         }]
 );

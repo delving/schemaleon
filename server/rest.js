@@ -70,4 +70,12 @@ app.get('/document/:identifier', function (req, res) {
     });
 });
 
+app.post('/document/save', function (req, res) {
+    var entry = req.body.Entry;
+    storage.saveDocument(req.params.vocab, entry, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
 module.exports = app;

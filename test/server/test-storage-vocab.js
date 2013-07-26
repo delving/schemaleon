@@ -50,7 +50,6 @@ exports.testAddEntry1 = function (test) {
     test.expect(1);
     var entry = {
         Label: "Gumby",
-        ID: "01",
         URI: "http://gumby.com"
     };
     storage.addVocabularyEntry('PhotoType', entry, function (xml) {
@@ -64,7 +63,6 @@ exports.testAddEntry2 = function (test) {
     test.expect(1);
     var entry = {
         Label: "Pokey",
-        ID: "02",
         URI: "http://pokey.com"
     };
     storage.addVocabularyEntry('PhotoType', entry, function (xml) {

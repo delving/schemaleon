@@ -61,12 +61,8 @@
                     <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
-                                <input focus
-                                       id="vocabulary"
-                                       type="text"
-                                       ng-model="chosenState"
-                                       typeahead="state as stateToString(state) for state in getStates($viewValue)"
-                                        />
+                                <input focus id="vocabulary" type="text" ng-model="chosenState"
+                                       typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
                                 <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>  <span i18n="Yes">Yes</span></button>
                                 <button ng-show="!el.elements" ng-click="createNew($index, $parent.$index)" class="btn btn-warning btn-small"> <span i18n="New">New</span></button>
                             </div>
@@ -92,11 +88,7 @@
 
                     <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController" class="text-input">
                         <div ng-show="el.edit" class="input-append">
-                            <input focus
-                                    id="textInput"
-                                    type="text"
-                                    ng-model="el.value"
-                            />
+                            <input focus id="textInput" type="text" ng-model="el.value"/>
                             <button ng-click="disableEditor()" class="btn"><i class="icon-ok-circle"></i> Yes</button>
                         </div>
 
@@ -115,11 +107,7 @@
 
                     <div ng-show="el.textArea && !el.elements" class="textarea-input" ng-controller="TextAreaController">
                         <div ng-show="el.edit">
-                            <textarea focus
-                                    id="textArea"
-                                    ng-model="el.value"
-                                    rows="5">
-                            </textarea>
+                            <textarea focus id="textArea" ng-model="el.value" rows="5"></textarea>
                             <br/>
                             <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>Yes</button>
                         </div>

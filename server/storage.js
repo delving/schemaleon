@@ -9,6 +9,11 @@ var storage = {
     session: new basex.Session()
 };
 
+function generateId(prefix) {
+    var millisSince2013 = new Date().getTime() - new Date(2013,1,1).getTime();
+    return prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random()*36*36*36).toString(36);
+}
+
 function langDocument(language) {
     return "/i18n/" + language;
 }
@@ -169,28 +174,47 @@ storage.createVocabulary = function (vocabName, entryXml, receiver) {
 storage.addVocabularyEntry = function (vocabName, entry, receiver) {
     console.log('addVocabularyEntry'); // todo
     console.log(entry); // todo
-    var entryPath = vocabPath(vocabName) + "[ID=" + quote(entry.ID) + "]";
-    var entryXml = "<Entry>";
-    for (var key in entry) {
-        entryXml += "<" + key + ">" + inXml(entry[key]) + "</" + key + ">";
+
+    function entryToXML(entry) {
+        var xml = "<Entry>";
+        for (var key in entry) {
+            xml += "<" + key + ">" + inXml(entry[key]) + "</" + key + ">";
+        }
+        xml += "</Entry>";
+        return xml;
     }
-    entryXml += "</Entry>";
-    var query = "xquery " +
-        "if (exists(" + entryPath + "))" +
-        " then " +
-        "replace value of node " + entryPath + " with " + entryXml +
-        " else " +
-        "insert node " + entryXml + " into " + vocabPath(vocabName);
-    storage.session.execute(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(entryXml);
-        }
-        else {
-            storage.createVocabulary(vocabName, entryXml, function (xml) {
-                receiver(xml);
-            });
-        }
-    });
+
+    var entryPath, entryXml, query;
+    if (entry.ID) {
+        entryPath = vocabPath(vocabName) + "[ID=" + quote(entry.ID) + "]";
+        entryXml = entryToXML(entry);
+        query = "xquery replace value of node " + entryPath + " with " + entryXml;
+        storage.session.execute(query, function (error, reply) {
+            if (reply.ok) {
+                receiver(entryXml);
+            }
+            else {
+                storage.createVocabulary(vocabName, entryXml, function (xml) {
+                    receiver(xml);
+                });
+            }
+        });
+    }
+    else {
+        entry.ID = generateId("OSCR-V-"+vocabName);
+        entryXml = entryToXML(entry);
+        query = "xquery insert node " + entryXml + " into " + vocabPath(vocabName);
+        storage.session.execute(query, function (error, reply) {
+            if (reply.ok) {
+                receiver(entryXml);
+            }
+            else {
+                storage.createVocabulary(vocabName, entryXml, function (xml) {
+                    receiver(xml);
+                });
+            }
+        });
+    }
 };
 
 storage.getVocabularyEntries = function (vocabName, search, receiver) {
@@ -236,10 +260,13 @@ storage.getDocument = function (identifier, receiver) {
             receiver(reply.result);
         }
         else {
-            receiver('');
+            receiver(''); // todo: look at this
         }
     });
+};
 
+storage.saveDocument = function(document, receiver) {
+    receiver(document); // todo: implement
 };
 
 module.exports = storage;

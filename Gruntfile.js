@@ -139,7 +139,7 @@ module.exports = function (grunt) {
                 'test/server/*.js'
             ],
             storage: [
-                'test/server/test-storage-vocab.js'
+                'test/server/test-storage-document.js'
             ]
         },
         less: {
