@@ -27,8 +27,7 @@ CultureCollectorApp.controller('VocabularyController',
             if (!$scope.v.tree) {
                 Vocabulary.getSchema($scope.v.name, function(schema) {
                     var treePlus = xmlToTree(schema);
-                    var tree = { elements: treePlus.elements[0].elements };
-                    $scope.v.tree = tree;
+                    $scope.v.tree = { elements: treePlus.elements[0].elements };
                 });
             }
 
@@ -40,14 +39,13 @@ CultureCollectorApp.controller('VocabularyController',
                 return deferred.promise;
             };
 
-            $scope.createNew = function () {
-                console.log("create new");
-                console.log($scope.v.tree);
+            $scope.createNew = function (index, parentIndex) {
                 if ($scope.v.tree) {
                     $scope.el.elements = _.map($scope.v.tree.elements, function (el) {
                         el.value = null;
                         return el;
                     });
+                    $scope.choose(0, parentIndex);
                 }
             };
 
