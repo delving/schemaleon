@@ -1,9 +1,9 @@
 'use strict';
 
 CultureCollectorApp.controller('DocumentListController',
-    ['$scope', 'ObjectList',
-        function ($scope, ObjectList) {
-            ObjectList.fetchList(function (data) {
+    ['$scope', 'Document',
+        function ($scope, Document) {
+            Document.fetchList(function (data) {
                 $scope.objects = data;
             });
         }]

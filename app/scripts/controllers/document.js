@@ -17,7 +17,7 @@ CultureCollectorApp.directive('specialKey', function () {
                     { code: 40, name: 'down'},
                     { code: 13, name: 'enter'},
                     { code: 27, name: 'escape'}
-                ], function(pair) {
+                ], function (pair) {
                     if (pair.code === e.keyCode) {
                         scope.$apply(function (s) {
                             s.$eval(attr.specialKey, { $key: pair.name });
@@ -44,21 +44,20 @@ CultureCollectorApp.directive('focus',
 );
 
 CultureCollectorApp.controller('DocumentController',
-    ['$scope', 'Documents', 'I18N',
-        function ($scope, Documents, I18N) {
+    ['$scope', 'Document', 'I18N',
+        function ($scope, Document, I18N) {
 
             $scope.panels = [];
 
-            Documents.fetchDocument('ID939393', function (doc) {
-                $scope.tree = xmlToTree(doc);
+            Document.fetchSchema('Photograph', function (schema) {
+                $scope.tree = xmlToTree(schema);
                 $scope.panels[0] = {
                     selected: 0,
                     element: $scope.tree
                 };
-
                 // initialize with first element in first panel active
                 // for immediate keyboard navigation
-                $scope.choose(0,0);
+                $scope.choose(0, 0);
             });
 
             $scope.$watch('i18n', function (i18n, oldValue) {

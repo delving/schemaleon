@@ -70,10 +70,19 @@ CultureCollectorApp.service("I18N",
     }
 );
 
-CultureCollectorApp.service("Documents",
-    function ($http, $log) {
-        this.fetchDocument = function (identifier, success) {
-            $http.get('/document/' + identifier)
+CultureCollectorApp.service("Document",
+    function ($http) {
+        this.fetchList = function (success) {
+            $http.get('/document')
+                .success(function (data, status, headers, config) {
+                    success(data);
+                })
+                .error(function (data, status, headers, config) {
+                    alert('Problem fetching document list');
+                });
+        };
+        this.fetchSchema = function (schemaName, success) {
+            $http.get('/document/' + schemaName)
                 .success(function (data, status, headers, config) {
                     success(data);
                 })
@@ -86,15 +95,6 @@ CultureCollectorApp.service("Documents",
 
 CultureCollectorApp.service("ObjectList",
     function ($http) {
-        this.fetchList = function (success) {
-            $http.get('/document')
-                .success(function (data, status, headers, config) {
-                    success(data);
-                })
-                .error(function (data, status, headers, config) {
-                    alert('Problem fetching document list');
-                });
-        };
     }
 );
 

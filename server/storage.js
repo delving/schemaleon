@@ -35,16 +35,22 @@ storage.useDatabase = function (name, receiver) {
         else {
             console.log('could not open database ' + name);
             storage.session.execute('create db ' + name, function (error, reply) {
-                if (reply.ok) {
-                    console.log(reply.info);
-                    var contents = fs.readFileSync('test/data/VocabularySchemas.xml', 'utf8');
-                    storage.session.add('/VocabularySchemas', contents, function (error, reply) {
+                function preload(name, next) {
+                    var contents = fs.readFileSync('test/data/'+name+'.xml', 'utf8');
+                    storage.session.add('/'+name, contents, function (error, reply) {
                         if (reply.ok) {
-                            console.log("Preloaded VocabularySchemas.xml");
+                            console.log("Preloaded: "+name);
+                            if (next) next();
                         }
                         else {
                             throw error;
                         }
+                    });
+                }
+
+                if (reply.ok) {
+                    preload('VocabularySchemas', function() {
+                        preload('DocumentSchemas');
                     });
                     receiver(name);
                 }
@@ -134,7 +140,7 @@ storage.getVocabularySchema = function (vocabName, receiver) {
             receiver(reply.result);
         }
         else {
-            throw 'No vocabulary found with name ' + vocabName;
+            throw 'No vocabulary schema found with name ' + vocabName;
         }
     });
 };
@@ -202,5 +208,18 @@ storage.getVocabularyEntries = function(vocabName, search, receiver) {
         }
     });
 };
+
+storage.getDocumentSchema = function (schemaName, receiver) {
+    var query = storage.session.query("doc('" + storage.database + "/DocumentSchemas')/DocumentSchemas/" + schemaName);
+    query.results(function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw 'No document schema found with name ' + schemaName;
+        }
+    });
+};
+
 
 module.exports = storage;

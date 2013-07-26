@@ -23,24 +23,3 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
                 templateUrl: 'views/dashboard.html'
             });
     }]);
-//    .config(['$stateProvider', '$routeProvider', function($stateProvider, $urlRouteProvider) {
-//        $urlRouteProvider.otherwise("/");
-//        $stateProvider
-//            .state('dashboard', {
-//                url: "/",
-//                templateUrl: "views/dashboard.html",
-//                data: {
-//
-//                }
-//            })
-//            .state('list', {
-//                url: '/list',
-//                templateUrl: 'views/list.html',
-//                controller: 'ObjectListController'
-//            })
-//            .state('object', {
-//                url: '/object',
-//                templateUrl: 'views/object.html',
-//                controller: 'ObjectEditController'
-//            })
-//    }]);
