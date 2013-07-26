@@ -6,13 +6,8 @@
             <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
         </div>
         <div class="btn-group">
-        <button class="btn btn-success"><span i18n="SaveObject">Save object</span></button>
-            </div>
-        <!--<form class="navbar-form form-inline" ng-controller="ConfigurationController" style="margin-top: 8px">-->
-        <!--<label class="checkbox"><input type="checkbox" name="show-inline-preview" ng-checked="config.showInlinePreview" ng-click="toggleInlinePreview()"/> <span i18n="ShowPreviews">Show previews</span></label>-->
-        <!--<label class="checkbox"><input type="checkbox" name="show-translation-editor" ng-checked="config.showTranslationEditor" ng-click="toggleTranslationEditor()"/> <span i18n="ShowTranslationEditor">Show translation editor</span></label>-->
-        <!--<a class="btn btn-success" href ><span i18n="SaveObject">Save object</span></a>-->
-        <!--</form>-->
+            <button class="btn btn-success"><span i18n="SaveObject">Save object</span></button>
+        </div>
     </div>
 </h1>
 
@@ -32,7 +27,16 @@
                     <li ng-repeat="element in el.elements">
                         <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
                             <!-- element title/label -->
-                            <div class="link-title">{{ element | elementTitle }}</div>
+                            <div class="link-title">
+                                {{ element | elementTitle }}
+                                <!-- // Translation editor toggle -->
+                                <span ng-show="config.showTranslationEditor"
+                                      ng-click="openTitleDialog(element)"
+                                      tooltip="Click to translate"
+                                      tooltip-placement="right">
+                                      <i class="icon-translate icon-white"></i>
+                                </span>
+                            </div>
                             <!-- element value -->
                             <div class="link-value" ng-show="element.value && config.showInlinePreview">
                                 <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
@@ -40,12 +44,6 @@
                             </div>
                         </a>
                         <div class="icon-container">
-                            <!-- // Translation editor toggle -->
-                            <span ng-show="config.showTranslationEditor"
-                                  class="icon-item {{ element.title }} pointer"
-                                  ng-click="openTitleDialog(element)">
-                                    <i class="icon-filter icon-white"></i>
-                            </span>
                             <!-- // Add sibling toggle -->
                             <span ng-show="element.multiple"
                                   tooltip-placement="bottom"

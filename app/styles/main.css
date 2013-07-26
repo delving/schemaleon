@@ -427,7 +427,7 @@ ul.main-menu > .active > a:hover {
 }
 .panels .panel-header {
   background: #009ae0;
-  border-radius: 10px 10px 0 0;
+  border-radius: 16px 16px 0 0;
   color: #080808;
   font-weight: normal;
   padding-left: 40px;
