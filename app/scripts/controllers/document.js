@@ -117,7 +117,8 @@ CultureCollectorApp.controller('DocumentController',
                     // todo: fields in the schema will have to be
                     // todo: marked as title, identifier
                     Identifier: '#IDENTIFIER#',
-                    Title: "Big Bang"
+                    Title: "Big Bang",
+                    SchemaName: "Photograph"
                 };
                 var document = {
                     Document: {

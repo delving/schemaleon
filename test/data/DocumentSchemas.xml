@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <DocumentSchemas>
     <Photograph>
-        <IdentificationNumber>{ "maxLength":20, "required":true }</IdentificationNumber>
         <Title>{ "required": true }</Title>
         <Type>{ "vocabulary": "PhotoType" }</Type>
         <ShortDescription>{ "paragraph":true }</ShortDescription>

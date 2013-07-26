@@ -260,7 +260,7 @@ storage.getDocument = function (identifier, receiver) {
             receiver(reply.result);
         }
         else {
-            receiver(''); // todo: look at this
+            throw error + "\n" + query;
         }
     });
 };
