@@ -6,7 +6,7 @@ CultureCollectorApp.filter('elementDisplay',
     function () {
         return function (element) {
             if (_.isObject(element.value)) {
-                return element.value[element.vocabulary.displayField];
+                return element.value.Label;
             }
             else {
                 return element.value;
@@ -24,46 +24,38 @@ CultureCollectorApp.controller('VocabularyController',
             $scope.v = $scope.el.vocabulary;
             $scope.setActive('vocabulary');
 
-            $scope.getStates = function (query) {
-                function filter(list) {
-                    var filtered = _.filter(list, function (value) {
-                        return value[$scope.v.displayField].toLowerCase().indexOf(query) >= 0;
-                    });
-                    return (filtered.length === 0) ? list : filtered;
-                }
-
-                if (!$scope.v.def) {
-                    var deferred = $q.defer();
-                    Vocabulary.get($scope.v.name, function (vocabulary) {
-                        $scope.v.def = vocabulary;
-                        $scope.v.tree = xmlToTree(vocabulary.schema);
-                        $scope.v.displayField = $scope.v.tree.elements[0].name;
-                        deferred.resolve(filter(vocabulary.list));
-                    });
-                    return deferred.promise;
-                }
-                else {
-                    return filter($scope.v.def.list);
-                }
-            };
-
-            if (!$scope.v.def) {
-                $scope.getStates('');
+            if (!$scope.v.tree) {
+                Vocabulary.getSchema($scope.v.name, function(schema) {
+                    var treePlus = xmlToTree(schema);
+                    $scope.v.tree = {
+                        name: 'Entry',
+                        elements: treePlus.elements[0].elements
+                    };
+                });
             }
 
-            $scope.createNew = function () {
+            $scope.getStates = function (query) {
+                var deferred = $q.defer();
+                Vocabulary.select($scope.v.name, query, function(xml) {
+                    var arr = xmlToArray(xml);
+                    deferred.resolve(arr);
+                });
+                return deferred.promise;
+            };
+
+            $scope.createNew = function (index, parentIndex) {
                 if ($scope.v.tree) {
                     $scope.el.elements = _.map($scope.v.tree.elements, function (el) {
                         el.value = null;
                         return el;
                     });
+                    $scope.choose(0, parentIndex);
                 }
             };
 
             $scope.submitNew = function () {
                 $scope.newValue = treeToObject($scope.v.tree);
-                Vocabulary.add($scope.v.name, $scope.newValue, function (vocabulary) {
-                    $scope.v.def = vocabulary; // freshen
+                Vocabulary.add($scope.v.name, $scope.newValue, function (entry) {
                     $scope.panels.pop();
                     $scope.el.elements = null;
                     $scope.setValue($scope.newValue.Entry);
@@ -92,7 +84,7 @@ CultureCollectorApp.controller('VocabularyController',
                 if (!state) {
                     return [];
                 }
-                return state[$scope.v.displayField];
+                return state.Label;
             };
 
             $scope.setValue = function (value) {
