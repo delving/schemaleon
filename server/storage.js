@@ -155,12 +155,14 @@ storage.createVocabulary = function(vocabName, entryXml, receiver) {
             receiver(entryXml);
         }
         else {
-            throw error;
+            throw 'Unable to create vocabulary '+vocabName+" with entry "+entryXml;
         }
     });
 };
 
 storage.addVocabularyEntry = function (vocabName, entry, receiver) {
+    console.log('addVocabularyEntry'); // todo
+    console.log(entry); // todo
     var entryPath = vocabPath(vocabName) + "[ID=" + quote(entry.ID) + "]";
     var entryXml = "<Entry>";
     for (var key in entry) {
@@ -193,6 +195,7 @@ storage.getVocabularyEntries = function(vocabName, search, receiver) {
             receiver(reply.result);
         }
         else {
+            // todo: make sure there's not one already and the problem was something else
             storage.createVocabulary(vocabName, '', function(xml) {
                 receiver('');
             });
