@@ -3,9 +3,14 @@
 //@import "/app/styles/less/oscr-variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
+// Sprite icons path
+// -------------------------
+@iconSpritePath:          "../img/custom-glyphicons-halflings.png";
+@iconWhiteSpritePath:     "../img/custom-glyphicons-halflings-white.png";
+
 /* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
-@baseDarker: @grayDark;
+@baseDarker: @grayDarker;
 //@baseDarker: #696963;
 @baseDark: lighten(@baseDarker, 10%);
 @baseLight: lighten(@baseDarker, 20%);
@@ -116,6 +121,12 @@
   background-color: @grayLight;
 }
 
+/* icons */
+
+.icon-translate {
+  background-position: 0 -164px;
+}
+
 /* grid */
 
 .row-fluid {
@@ -190,6 +201,9 @@ body {
     label {
       margin-right: 20px;
     }
+    .btn.disabled {
+      cursor: pointer;
+    }
   }
 }
 
@@ -201,17 +215,7 @@ body {
   &.selected-true {
     color: @white;
   }
-  &:hover {
-//    background: transparent;
-//    color: @blue;
-  }
 }
-
-//.nav-pills > .active > a,
-//.nav-pills > .active > a:hover {
-//  background: @bodyBackground;
-//}
-
 
 ul.main-menu {
   background: @grayLight;
@@ -274,6 +278,7 @@ ul.main-menu {
 .level5 {
   background: lighten(@baseLighter, 15%);
 }
+
 #panel-container {
   max-width: 100%;
   min-width: 500px;
@@ -288,7 +293,7 @@ ul.main-menu {
 
 .link-value {
   background: linen;
-  .border-radius(10px);
+  .border-radius(@br-small);
   color: @grayDarker;
   font-size: smaller;
   word-wrap: break-word;
@@ -303,8 +308,6 @@ ul.main-menu {
 }
 
 /* PANELS TABLE */
-
-
 .panels {
   background: transparent;
   width: auto;
@@ -324,6 +327,12 @@ ul.main-menu {
   }
   .panel-input {
     padding: 0 20px;
+  }
+  .chosen-value {
+    background: @grayLighter;
+    .border-radius(@br-small);
+    padding: 4px;
+    margin: 0 0 10px 0;
   }
 }
 
@@ -352,6 +361,10 @@ input#hidden {
   width: 10px;
   .opacity(0);
   position: absolute;
+}
+
+.input-append ul {
+  font-size: @baseFontSize;
 }
 
 //.panel form {
@@ -384,14 +397,19 @@ ul.kv-list {
 //    display: table-row;
     span {
 //      display: table-cell;
-          display: inline-block;
-      &.label {
+        display: block;
+      position: relative;
+      &.key {
 //        background: green;
+        color: @grayDark;
         text-align: right;
         margin-right: 10px;
-        min-width: 50px;
+        width: 50px;
+        float: left;
       }
       &.value {
+        color: @gray;
+        margin-left: 60px;
 //        margin-left: 10px;
       }
     }
@@ -447,10 +465,16 @@ ul.kv-list {
 
 .element-documentation {
   background: @grayLighter;
+//  background: lighten(@yellow, 35%);
   border: 1px solid @grayLighter;
   .border-radius(6px);
   margin: @baseLineHeight 0;
   padding: 8px;
+  h5 {
+    margin: 0;
+    border-bottom: 1px dashed @grayLight;
+    color: @gray;
+  }
   p {
     font-size: small;
     padding: 4px 0;

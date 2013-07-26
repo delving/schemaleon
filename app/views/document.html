@@ -3,7 +3,7 @@
     <div class="controls btn-toolbar" ng-controller="ConfigurationController">
         <div class="btn-group">
             <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
-            <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><span i18n="ShowTranslationEditor">Show translation editor</span></button>
+            <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
         </div>
         <div class="btn-group">
         <button class="btn btn-success"><span i18n="SaveObject">Save object</span></button>
@@ -93,20 +93,21 @@
                     </div>
 
                     <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController" class="text-input">
-                        <div ng-show="el.edit">
+                        <div ng-show="el.edit" class="input-append">
                             <input focus
                                     id="textInput"
                                     type="text"
                                     ng-model="el.value"
                             />
-                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i> Yes</button>
+                            <button ng-click="disableEditor()" class="btn"><i class="icon-ok-circle"></i> Yes</button>
                         </div>
-                        <div ng-hide="el.edit">
-                            <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
-                                <span>{{ el.value }}</span>
-                            </div>
-                            <br/>
-                            <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
+
+                        <div ng-hide="el.edit" class="input-append">
+                            <!--<div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">-->
+                                <!--<span>{{ el.value }}</span>-->
+                            <!--</div>-->
+                            <input type="text" ng-model="el.value" class="disabled" ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"/>
+                            <button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>
                         </div>
                         <div ng-show="invalidMessage">
                             <span>{{ invalidMessage }}</span>
@@ -147,6 +148,33 @@
                 </div>
 
                 <input id="hidden" ng-controller="HiddenController" focus/>
+                <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
+                    <li ng-repeat="element in el.elements">
+                        <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                            <!-- element title/label -->
+                            <div class="link-title">{{ element | elementTitle }}</div>
+                            <!-- element value -->
+                            <div class="link-value" ng-show="element.value && config.showInlinePreview">
+                                <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
+                                {{ element | elementDisplay }}
+                            </div>
+                        </a>
+                        <div class="icon-container">
+                            <!-- // Translation editor toggle -->
+                            <span ng-show="config.showTranslationEditor"
+                                  class="icon-item {{ element.title }} pointer"
+                                  ng-click="openTitleDialog(element)">
+                                    <i class="icon-filter icon-white"></i>
+                            </span>
+                            <!-- // Add sibling toggle -->
+                            <span ng-show="element.multiple"
+                                  tooltip-placement="bottom"
+                                  tooltip="Add {{ element | elementTitle }}"
+                                  class="display-{{ element.multiple }} icon-item pointer"
+                                  ng-click="addSibling(el.elements, $index, $parent.index)">
+                                <i class="icon-plus-sign icon-white"></i>
+                            </span>
+                        </div>
 
             </td>
         </tr>
