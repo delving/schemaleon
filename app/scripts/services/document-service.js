@@ -39,13 +39,13 @@ CultureCollectorApp.service("Document",
 //                    alert('Problem fetching document list');
 //                });
         };
-        this.save = function (xml, receiver) {
-            $http.post('/document/save', entry)
-                .success(function (data, status, headers, config) {
-                    receiver(data);
+        this.saveXml = function (body, receiver) {
+            $http.post('/document/save', body)
+                .success(function (savedXml, status, headers, config) {
+                    receiver(savedXml);
                 })
                 .error(function (data, status, headers, config) {
-                    alert("Problem accessing vocabulary");
+                    alert("Problem accessing documents");
                 });
         }
     }

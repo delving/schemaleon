@@ -71,10 +71,11 @@ app.get('/document/:identifier', function (req, res) {
 });
 
 app.post('/document/save', function (req, res) {
-    var entry = req.body.Entry;
-    storage.saveDocument(req.params.vocab, entry, function(xml) {
+    // kind of interesting to receive xml within json, but seems to work
+    console.log(req.body);
+    storage.saveDocument(req.body, function(savedXml) {
         res.setHeader('Content-Type', 'text/xml');
-        res.send(xml);
+        res.send(savedXml);
     });
 });
 

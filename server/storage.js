@@ -10,8 +10,8 @@ var storage = {
 };
 
 function generateId(prefix) {
-    var millisSince2013 = new Date().getTime() - new Date(2013,1,1).getTime();
-    return prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random()*36*36*36).toString(36);
+    var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
+    return prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random() * 36 * 36 * 36).toString(36);
 }
 
 function langDocument(language) {
@@ -201,7 +201,7 @@ storage.addVocabularyEntry = function (vocabName, entry, receiver) {
         });
     }
     else {
-        entry.ID = generateId("OSCR-V-"+vocabName);
+        entry.ID = generateId("OSCR-V-" + vocabName);
         entryXml = entryToXML(entry);
         query = "xquery insert node " + entryXml + " into " + vocabPath(vocabName);
         storage.session.execute(query, function (error, reply) {
@@ -265,8 +265,31 @@ storage.getDocument = function (identifier, receiver) {
     });
 };
 
-storage.saveDocument = function(document, receiver) {
-    receiver(document); // todo: implement
+storage.saveDocument = function (body, receiver) {
+    var BLANK = '#IDENTIFIER#';
+    if (body.header.Identifier === BLANK) {
+        var identifier = generateId("OSCR-D");
+        var documentWithIdentifier = body.xml.replace(BLANK, identifier);
+        storage.session.add(docPath(identifier), documentWithIdentifier, function (error, reply) {
+            if (reply.ok) {
+                receiver(documentWithIdentifier);
+            }
+            else {
+                throw error + "\n" + query;
+            }
+        });
+    }
+    else {
+        // todo: move the current one to the backup collection
+        storage.session.replace(docPath(body.header.Identifier), body.xml, function (error, reply) {
+            if (reply.ok) {
+                receiver(body.xml);
+            }
+            else {
+                throw "Unable to replace " + docPath(body.header.Identifier);
+            }
+        });
+    }
 };
 
 module.exports = storage;

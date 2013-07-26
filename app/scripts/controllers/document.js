@@ -112,10 +112,27 @@ CultureCollectorApp.controller('DocumentController',
                 var object = treeToObject($scope.tree);
                 console.log('harvested');
                 console.log(JSON.stringify(object));
-                var xml = objectToXml(object);
+
+                var header = {
+                    // todo: fields in the schema will have to be
+                    // todo: marked as title, identifier
+                    Identifier: '#IDENTIFIER#',
+                    Title: "Big Bang"
+                };
+                var document = {
+                    Document: {
+                        Header: header,
+                        Body: object
+                    }
+                };
+                var documentXml = objectToXml(document);
                 console.log('turned to xml');
-                console.log(xml);
-                Document.save(xml, function(savedXml) {
+                console.log(documentXml);
+                var body = {
+                    header: header,
+                    xml: documentXml
+                };
+                Document.saveXml(body, function(savedXml) {
                     console.log('saved');
                     console.log(savedXml);
                     // todo: navigate somewhere!
