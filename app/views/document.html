@@ -148,34 +148,6 @@
                 </div>
 
                 <input id="hidden" ng-controller="HiddenController" focus/>
-                <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
-                    <li ng-repeat="element in el.elements">
-                        <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
-                            <!-- element title/label -->
-                            <div class="link-title">{{ element | elementTitle }}</div>
-                            <!-- element value -->
-                            <div class="link-value" ng-show="element.value && config.showInlinePreview">
-                                <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
-                                {{ element | elementDisplay }}
-                            </div>
-                        </a>
-                        <div class="icon-container">
-                            <!-- // Translation editor toggle -->
-                            <span ng-show="config.showTranslationEditor"
-                                  class="icon-item {{ element.title }} pointer"
-                                  ng-click="openTitleDialog(element)">
-                                    <i class="icon-filter icon-white"></i>
-                            </span>
-                            <!-- // Add sibling toggle -->
-                            <span ng-show="element.multiple"
-                                  tooltip-placement="bottom"
-                                  tooltip="Add {{ element | elementTitle }}"
-                                  class="display-{{ element.multiple }} icon-item pointer"
-                                  ng-click="addSibling(el.elements, $index, $parent.index)">
-                                <i class="icon-plus-sign icon-white"></i>
-                            </span>
-                        </div>
-
             </td>
         </tr>
         </tbody>
