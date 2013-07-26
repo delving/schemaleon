@@ -108,6 +108,11 @@ CultureCollectorApp.controller('DocumentController',
                 list.splice(index + 1, 0, fresh);
             };
 
+            $scope.saveDocument = function() {
+                var document = treeToObject($scope.tree);
+                console.log("SAVE!");
+                console.log(JSON.stringify(document));
+            }
         }]
 );
 

@@ -36,10 +36,10 @@ storage.useDatabase = function (name, receiver) {
             console.log('could not open database ' + name);
             storage.session.execute('create db ' + name, function (error, reply) {
                 function preload(name, next) {
-                    var contents = fs.readFileSync('test/data/'+name+'.xml', 'utf8');
-                    storage.session.add('/'+name, contents, function (error, reply) {
+                    var contents = fs.readFileSync('test/data/' + name + '.xml', 'utf8');
+                    storage.session.add('/' + name, contents, function (error, reply) {
                         if (reply.ok) {
-                            console.log("Preloaded: "+name);
+                            console.log("Preloaded: " + name);
                             if (next) next();
                         }
                         else {
@@ -49,7 +49,7 @@ storage.useDatabase = function (name, receiver) {
                 }
 
                 if (reply.ok) {
-                    preload('VocabularySchemas', function() {
+                    preload('VocabularySchemas', function () {
                         preload('DocumentSchemas');
                     });
                     receiver(name);
@@ -153,15 +153,15 @@ function vocabPath(vocabName) {
     return "doc('" + storage.database + vocabDocument(vocabName) + "')/Entries";
 }
 
-storage.createVocabulary = function(vocabName, entryXml, receiver) {
+storage.createVocabulary = function (vocabName, entryXml, receiver) {
     var freshVocab = "<Entries>" + entryXml + "</Entries>";
     storage.session.add(vocabDocument(vocabName), freshVocab, function (error, reply) {
         if (reply.ok) {
-            console.log("Created vocabulary "+vocabName);
+            console.log("Created vocabulary " + vocabName);
             receiver(entryXml);
         }
         else {
-            throw 'Unable to create vocabulary '+vocabName+" with entry "+entryXml;
+            throw 'Unable to create vocabulary ' + vocabName + " with entry " + entryXml;
         }
     });
 };
@@ -186,23 +186,23 @@ storage.addVocabularyEntry = function (vocabName, entry, receiver) {
             receiver(entryXml);
         }
         else {
-            storage.createVocabulary(vocabName, entryXml, function(xml) {
+            storage.createVocabulary(vocabName, entryXml, function (xml) {
                 receiver(xml);
             });
         }
     });
 };
 
-storage.getVocabularyEntries = function(vocabName, search, receiver) {
+storage.getVocabularyEntries = function (vocabName, search, receiver) {
     var searchPath = vocabPath(vocabName) + "/Entry[contains(lower-case(Label), " + quote(search) + ")]";
-    var query = "xquery "+searchPath;
+    var query = "xquery " + searchPath;
     storage.session.execute(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
         else {
             // todo: make sure there's not one already and the problem was something else
-            storage.createVocabulary(vocabName, '', function(xml) {
+            storage.createVocabulary(vocabName, '', function (xml) {
                 receiver('');
             });
         }
@@ -221,5 +221,25 @@ storage.getDocumentSchema = function (schemaName, receiver) {
     });
 };
 
+function docDocument(identifier) {
+    return "/documents/" + identifier;
+}
+
+function docPath(identifier) {
+    return "doc('" + storage.database + docDocument(identifier) + "')/Document";
+}
+
+storage.getDocument = function (identifier, receiver) {
+    var query = "xquery " + docPath(identifier);
+    storage.session.execute(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            receiver('');
+        }
+    });
+
+};
 
 module.exports = storage;

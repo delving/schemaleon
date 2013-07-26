@@ -56,17 +56,18 @@ app.post('/vocabulary/:vocab/add', function (req, res) {
     });
 });
 
-app.get('/document/:schema', function (req, res) {
+app.get('/document/schema/:schema', function (req, res) {
     storage.getDocumentSchema(req.params.schema, function(xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
 });
 
-var data = require('./fake-data'); // todo: remove eventually
-
-app.get('/document', function (req, res) {
-    res.json(data.docList);
+app.get('/document/:identifier', function (req, res) {
+    storage.getDocument(req.params.identifier, function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
 });
 
 module.exports = app;

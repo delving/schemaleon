@@ -2,17 +2,22 @@
 
 describe('XML Operations', function () {
 
-    var xmlString =
+    var photoXml =
         '<PhotoObject>' +
             '    <IdentificationNumber></IdentificationNumber>' +
             '    <Title>{ "multiple": true }</Title>' +
             '    <Type>' +
             '        <FirstPart/>' +
             '        <SecondPart/>' +
+            '        <ThirdPart/>' +
             '    </Type>' +
+            '    <AnotherSection>' +
+            '        <FirstPart/>' +
+            '        <SecondPart/>' +
+            '    </AnotherSection>' +
             '</PhotoObject>';
 
-    var expectedEmpty =
+    var expectedPhotoTree =
     {
         name: 'PhotoObject',
         elements: [
@@ -36,13 +41,30 @@ describe('XML Operations', function () {
                     {
                         name: 'SecondPart',
                         textInput: {}
+                    },
+                    {
+                        name: 'ThirdPart',
+                        textInput: {}
+                    }
+                ]
+            },
+            {
+                name: 'AnotherSection',
+                elements: [
+                    {
+                        name: 'FirstPart',
+                        textInput: {}
+                    },
+                    {
+                        name: 'SecondPart',
+                        textInput: {}
                     }
                 ]
             }
         ]
     };
 
-    var expectedClean =
+    var exprectedPhotoObject =
     {
         PhotoObject: {
             IdentificationNumber: 'one',
@@ -54,7 +76,7 @@ describe('XML Operations', function () {
         }
     };
 
-    var expectedXml =
+    var expectedPhotoObjectXml =
         '<PhotoObject>' +
             '   <IdentificationNumber>one</IdentificationNumber>' +
             '   <Title>two</Title>' +
@@ -65,9 +87,9 @@ describe('XML Operations', function () {
             '</PhotoObject>';
 
     it('should parse an xml document and generate', function () {
-        var result = xmlToTree(xmlString);
+        var result = xmlToTree(photoXml);
         var jsonString = JSON.stringify(result);
-        var expectedString = JSON.stringify(expectedEmpty);
+        var expectedString = JSON.stringify(expectedPhotoTree);
 
 //        console.log(expectedString);
 //        console.log(jsonString);
@@ -82,13 +104,13 @@ describe('XML Operations', function () {
         var cleaned = treeToObject(result);
 
         var cleanedString = JSON.stringify(cleaned);
-        var expectedCleanedString = JSON.stringify(expectedClean);
+        var expectedCleanedString = JSON.stringify(exprectedPhotoObject);
         expect(cleanedString).toBe(expectedCleanedString);
 //        console.log(cleanedString);
 
         var xml = objectToXml(cleaned);
 //        console.log(xml);
-        expect(xml).toBe(expectedXml);
+        expect(xml).toBe(expectedPhotoObjectXml);
     });
 
     var xmlToBeObject =

@@ -146,7 +146,9 @@ function treeToObject(tree) {
             _.forEach(from.elements, function (element) {
                 clean(element, sub);
             });
-            out[from.name] = sub;
+            if (!_.isEmpty(sub)) {
+                out[from.name] = sub;
+            }
         }
         else if (from.value) {
             if (from.multiple) {
