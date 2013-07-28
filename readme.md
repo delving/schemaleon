@@ -1,7 +1,7 @@
 ![delving logo](http://delving.eu/sites/all/themes/delving_pool/logo.png)
 
 ---
-# OSCR
+# CULTURE-COLLECTOR (working title: OSCR)
 ***OSCR*** stands for "Open Source Collection Registration". It aims to ensure that data about collections and it's containing objects is recorded properly according to the [CIDOC-CRM](http://www.cidoc-crm.org/) model and practices.
 
 
@@ -38,7 +38,7 @@ You can get the Basex client application here: <http://basex.org/products/downlo
 	
 1. clone the OSCR source-code from this repository
 2. start up the previously installed Basex client application
-3. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/application</pre>
+3. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/culture-collector</pre>
 4. run the application: <pre>grunt run</pre>  
 Your default browser will load with the following url: <http://localhost:9000/#/>
 5. Any changes made and saved in the application code will trigger the browser to automatically reload the page so that your changes are immediately visible.
