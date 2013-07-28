@@ -40,7 +40,7 @@ You can get the Basex client application here: <http://basex.org/products/downlo
 2. start up the previously installed Basex client application
 3. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/application</pre>
 4. run the application: <pre>grunt run</pre>  
-Your default browser will load with the following url <http://localhost:9000/#/>
+Your default browser will load with the following url: <http://localhost:9000/#/>
 5. Any changes made and saved in the application code will trigger the browser to automatically reload the page so that your changes are immediately visible.
 
 
