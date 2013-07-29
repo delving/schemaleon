@@ -46,9 +46,13 @@ CultureCollectorApp.directive('focus',
 CultureCollectorApp.controller('DocumentController',
     ['$scope', '$routeParams', 'Document', 'I18N',
         function ($scope, $routeParams, Document, I18N) {
-
             $scope.panels = [];
             $scope.header = { SchemaName: 'Photograph' };
+            $scope.showingList = true;
+
+            Document.fetchList(function (xml) {
+                $scope.documentList = xmlToArray(xml);
+            });
 
             function useHeader(h) {
                 $scope.header.Identifier = h.Identifier ? h.Identifier : '#IDENTIFIER#';
@@ -66,10 +70,11 @@ CultureCollectorApp.controller('DocumentController',
 
                 if ($routeParams.id) {
                     $scope.header.Identifier = $routeParams.id;
-                    Document.fetchDocument($scope.header.Identifier, function(documentXml) {
+                    Document.fetchDocument($scope.header.Identifier, function (documentXml) {
                         var object = xmlToObject(documentXml);
                         populateTree($scope.tree, object.Document.Body);
                         useHeader(object.Document.Header);
+                        $scope.showingList = false;
                     });
                 }
                 else {
@@ -85,6 +90,11 @@ CultureCollectorApp.controller('DocumentController',
                     cleanTree($scope.tree, i18n);
                 }
             });
+
+            $scope.newDocument = function () {
+                $scope.showingList = false;
+                // todo: clean the tree or something
+            };
 
             $scope.choose = function (choice, parentIndex) {
                 $scope.selected = choice;
@@ -128,7 +138,7 @@ CultureCollectorApp.controller('DocumentController',
                 list.splice(index + 1, 0, fresh);
             };
 
-            $scope.saveDocument = function() {
+            $scope.saveDocument = function () {
                 var object = treeToObject($scope.tree);
                 var document = {
                     Document: {
@@ -143,11 +153,14 @@ CultureCollectorApp.controller('DocumentController',
                     header: $scope.header,
                     xml: documentXml
                 };
-                Document.saveXml(body, function(header) {
+                Document.saveXml(body, function (header) {
                     console.log('saved');
                     console.log(header);
                     useHeader(header);
-                    // todo: navigate somewhere!
+                    $scope.showingList = true;
+                    Document.fetchList(function (xml) {
+                        $scope.documentList = xmlToArray(xml);
+                    });
                 });
             }
         }]

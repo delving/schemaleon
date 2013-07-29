@@ -1,51 +1,84 @@
-<h1 class="page-header">
-    <span ng-bind="mainMenu.activeLabel"></span>
-    <span ng-show="header.Identifier">{{ header.Identifier }}</span>
-    <div class="controls btn-toolbar" ng-controller="ConfigurationController">
-        <div class="btn-group">
-            <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
-            <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-success"><span i18n="SaveObject">Save object</span></button>
-        </div>
-    </div>
-</h1>
-
-<div id="panel-container">
-
-    <table class="table panels" ng-controller="I18NController" id="panel-table">
+<div ng-show="showingList">
+    <h1 class="page-header"><span ng-bind="mainMenu.activeLabel"></span></h1>
+    <table class="table">
         <thead>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>STATUS</th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="object in documentList">
+            <td>{{ object.Identifier }}</td>
+            <td>{{ object.Title }}</td>
+            <td>
+                <span ng-show="object.status == 'complete'" class="badge badge-success">{{ object.status }}</span>
+                <span ng-show="object.status == 'incomplete'" class="badge badge-info">{{ object.status }}</span>
+            </td>
+            <td>
+                <a ng-href="#/object/{{ object.Identifier }}" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><span i18n="NewDocument"></span></td>
+            <td></td>
+            <td>
+                <a ng-href="#/object/" class="btn btn-primary" ng-click="newDocument()">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-hide="showingList">
+    <h1 class="page-header">
+        <span ng-bind="mainMenu.activeLabel"></span>
+        <span ng-show="header.Identifier">{{ header.Identifier }}</span>
+        <div class="controls btn-toolbar" ng-controller="ConfigurationController">
+            <div class="btn-group">
+                <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
+                <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" ng-click="saveObject()"><span i18n="SaveObject">Save object</span></button>
+            </div>
+        </div>
+    </h1>
+
+    <div id="panel-container">
+
+        <table class="table panels" ng-controller="I18NController" id="panel-table">
+            <thead>
             <tr>
                 <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
             </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td ng-repeat="panel in panels" ng-controller="PanelController" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" special-key="specialKeyPressed($key)">
+            </thead>
+            <tbody>
+            <tr>
+                <td ng-repeat="panel in panels" ng-controller="PanelController" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" special-key="specialKeyPressed($key)">
 
-                <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
-                    <li ng-repeat="element in el.elements">
-                        <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
-                            <!-- element title/label -->
-                            <div class="link-title">
-                                {{ element | elementTitle }}
-                                <!-- // Translation editor toggle -->
+                    <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
+                        <li ng-repeat="element in el.elements">
+                            <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                                <!-- element title/label -->
+                                <div class="link-title">
+                                    {{ element | elementTitle }}
+                                    <!-- // Translation editor toggle -->
                                 <span ng-show="config.showTranslationEditor"
                                       ng-click="openTitleDialog(element)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right">
                                       <i class="icon-translate icon-white"></i>
                                 </span>
-                            </div>
-                            <!-- element value -->
-                            <div class="link-value" ng-show="element.value && config.showInlinePreview">
-                                <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
-                                {{ element | elementDisplay }}
-                            </div>
-                        </a>
-                        <div class="icon-container">
-                            <!-- // Add sibling toggle -->
+                                </div>
+                                <!-- element value -->
+                                <div class="link-value" ng-show="element.value && config.showInlinePreview">
+                                    <!-- TODO: create line breaks for multiline content like textarea display for longer texts -->
+                                    {{ element | elementDisplay }}
+                                </div>
+                            </a>
+                            <div class="icon-container">
+                                <!-- // Add sibling toggle -->
                             <span ng-show="element.multiple"
                                   tooltip-placement="bottom"
                                   tooltip="Add {{ element | elementTitle }}"
@@ -53,95 +86,92 @@
                                   ng-click="addSibling(el.elements, $index, $parent.index)">
                                 <i class="icon-plus-sign icon-white"></i>
                             </span>
-                        </div>
-
-                    </li>
-                </ul>
-
-                <div class="panel-input">
-                    <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
-                        <div ng-hide="el.elements">
-                            <div ng-show="el.edit">
-                                <input focus id="vocabulary" type="text" ng-model="chosenState"
-                                       typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
-                                <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>  <span i18n="Yes">Yes</span></button>
-                                <button ng-show="!el.elements" ng-click="createNew($index, $parent.$index)" class="btn btn-warning btn-small"> <span i18n="New">New</span></button>
                             </div>
-                            <div ng-show="!el.edit && !el.elements && el.valueFields">
-                                <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
-                                    <ul class="unstyled kv-list">
-                                        <li ng-repeat="line in el.valueFields">
-                                            <!--todo: translation button-->
-                                            <span class="label">{{ line.prompt }}:</span>
-                                            <span class="value">{{ line.value }}</span>
-                                        </li>
-                                    </ul>
+
+                        </li>
+                    </ul>
+
+                    <div class="panel-input">
+                        <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
+                            <div ng-hide="el.elements">
+                                <div ng-show="el.edit">
+                                    <input focus id="vocabulary" type="text" ng-model="chosenState"
+                                           typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
+                                    <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>  <span i18n="Yes">Yes</span></button>
+                                    <button ng-show="!el.elements" ng-click="createNew($index, $parent.$index)" class="btn btn-warning btn-small"> <span i18n="New">New</span></button>
                                 </div>
-                                <br/>
-                                <button ng-click="enableClearedEditor()" class="btn btn-small">Edit</button>
+                                <div ng-show="!el.edit && !el.elements && el.valueFields">
+                                    <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
+                                        <ul class="unstyled kv-list">
+                                            <li ng-repeat="line in el.valueFields">
+                                                <!--todo: translation button-->
+                                                <span class="label">{{ line.prompt }}:</span>
+                                                <span class="value">{{ line.value }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <br/>
+                                    <button ng-click="enableClearedEditor()" class="btn btn-small">Edit</button>
+                                </div>
+                            </div>
+                            <div ng-show="el.elements">
+                                <button ng-click="cancelNew()" class="btn btn-small btn-warning">Cancel</button>
+                                <button ng-click="submitNew()" class="btn btn-small btn-success">Submit</button>
                             </div>
                         </div>
-                        <div ng-show="el.elements">
-                            <button ng-click="cancelNew()" class="btn btn-small btn-warning">Cancel</button>
-                            <button ng-click="submitNew()" class="btn btn-small btn-success">Submit</button>
-                        </div>
-                    </div>
 
-                    <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController" class="text-input">
-                        <div ng-show="el.edit" class="input-append">
-                            <input focus id="textInput" type="text" ng-model="el.value"/>
-                            <button ng-click="disableEditor()" class="btn"><i class="icon-ok-circle"></i> Yes</button>
-                        </div>
+                        <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController" class="text-input">
+                            <div ng-show="el.edit" class="input-append">
+                                <input focus id="textInput" type="text" ng-model="el.value"/>
+                                <button ng-click="disableEditor()" class="btn"><i class="icon-ok-circle"></i> Yes</button>
+                            </div>
 
-                        <div ng-hide="el.edit" class="input-append">
-                            <!--<div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">-->
+                            <div ng-hide="el.edit" class="input-append">
+                                <!--<div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">-->
                                 <!--<span>{{ el.value }}</span>-->
-                            <!--</div>-->
-                            <input type="text" ng-model="el.value" class="disabled" ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"/>
-                            <button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>
+                                <!--</div>-->
+                                <input type="text" ng-model="el.value" class="disabled" ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"/>
+                                <button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>
+                            </div>
+                            <div ng-show="invalidMessage">
+                                <span>{{ invalidMessage }}</span>
+                            </div>
                         </div>
-                        <div ng-show="invalidMessage">
-                            <span>{{ invalidMessage }}</span>
-                        </div>
-                    </div>
 
-
-                    <div ng-show="el.textArea && !el.elements" class="textarea-input" ng-controller="TextAreaController">
-                        <div ng-show="el.edit">
-                            <textarea focus id="textArea" ng-model="el.value" rows="5"></textarea>
-                            <br/>
-                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>Yes</button>
-                        </div>
-                        <div ng-hide="el.edit">
-                            <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
+                        <div ng-show="el.textArea && !el.elements" class="textarea-input" ng-controller="TextAreaController">
+                            <div ng-show="el.edit">
+                                <textarea focus id="textArea" ng-model="el.value" rows="5"></textarea>
+                                <br/>
+                                <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>Yes</button>
+                            </div>
+                            <div ng-hide="el.edit">
+                                <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
                                     <div ng-repeat="line in el.value.split('\n')">
                                         <span>{{ line }}</span><br/>
                                     </div>
+                                </div>
+                                <br/>
+                                <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
                             </div>
-                            <br/>
-                            <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
+                        </div>
+
+                        <div ng-hide="el.elements">
+                            <div ng-show="el.doc" class="element-documentation">
+                                <h5><i class="icon icon-question-sign"></i> {{ el.name }}</h5>
+                                <p>{{ el | elementDoc }}</p>
+                            </div>
+                            <div>
+                                <button ng-click="openDocDialog(el)" class="btn btn-small" i18n="EditExplanation"></button>
+                            </div>
                         </div>
                     </div>
 
-                    <div ng-hide="el.elements">
-                        <div ng-show="el.doc" class="element-documentation">
-                            <h5><i class="icon icon-question-sign"></i> {{ el.name }}</h5>
-                            <p>{{ el | elementDoc }}</p>
-                        </div>
-                        <div>
-                            <button ng-click="openDocDialog(el)" class="btn btn-small" i18n="EditExplanation"></button>
-                        </div>
-                    </div>
-                </div>
+                    <input id="hidden" ng-controller="HiddenController" focus/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-                <input id="hidden" ng-controller="HiddenController" focus/>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+    </div>
 </div>
 
-<div class="page-footer">
-    <button ng-click="saveDocument()" class="btn btn-large" i18n="SaveDocument"></button>
-</div>
