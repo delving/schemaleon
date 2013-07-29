@@ -191,6 +191,7 @@ describe('XML Operations', function () {
             '<ShortDescription>One</ShortDescription>' +
             '<ShortDescription>Two</ShortDescription>' +
             '<ShortDescription>Three</ShortDescription>' +
+            '<Deeper><Dive>Splash</Dive></Deeper>' +
             '</Photograph>' +
             '</Body>' +
             '</Document>';
@@ -199,6 +200,7 @@ describe('XML Operations', function () {
         '<Photograph>' +
             '   <Title/>' +
             '   <ShortDescription>{ "multiple":true }</ShortDescription>' +
+            '   <Deeper><Dive/></Deeper>' +
             '</Photograph>';
 
 
@@ -220,6 +222,8 @@ describe('XML Operations', function () {
         expect(short1.multiple).toBe(undefined);
         expect(short2.value).toBe('Three');
         expect(short2.multiple).toBe(true);
+        var splash = tree.elements[4].elements[0].value;
+        expect(splash).toBe('Splash');
     });
 
 });
