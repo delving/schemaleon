@@ -323,6 +323,10 @@ body {
   position: relative;
 }
 .page-header {
+  border-color: #151515;
+  position: relative;
+}
+.page-header h1 {
   font-weight: normal;
   font-size: 32px;
   line-height: 32px;
@@ -331,7 +335,9 @@ body {
 }
 .page-header .controls {
   font-size: 14px;
-  float: right;
+  position: absolute;
+  right: 0px;
+  top: 4px;
   margin: 0;
 }
 .page-header .controls form {

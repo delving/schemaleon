@@ -1,5 +1,10 @@
 <div ng-show="showingList">
-    <h1 class="page-header"><span ng-bind="mainMenu.activeLabel"></span></h1>
+    <div class="page-header">
+        <h1><span ng-bind="mainMenu.activeLabel"></span></h1>
+        <div class="controls btn-toolbar" ng-controller="ConfigurationController">
+            <a ng-href="#/object/" class="btn btn-primary" ng-click="newDocument()"><i class="icon icon-plus icon-white"></i> <span i18n="NewDocument"></span></a>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <th>ID</th>
@@ -19,21 +24,15 @@
                 <a ng-href="#/object/{{ object.Identifier }}" class="btn btn-primary">Edit</a>
             </td>
         </tr>
-        <tr>
-            <td></td>
-            <td><span i18n="NewDocument"></span></td>
-            <td></td>
-            <td>
-                <a ng-href="#/object/" class="btn btn-primary" ng-click="newDocument()">Edit</a>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
 <div ng-hide="showingList">
-    <h1 class="page-header">
-        <span ng-bind="mainMenu.activeLabel"></span>
-        <span ng-show="header.Identifier">{{ header.Identifier }}</span>
+    <div class="page-header">
+        <h1>
+            <span ng-bind="mainMenu.activeLabel"></span>
+            <small ng-show="header.Identifier">{{ header.Identifier }}</small>
+        </h1>
         <div class="controls btn-toolbar" ng-controller="ConfigurationController">
             <div class="btn-group">
                 <a href="/#/object" class="btn"><i class="icon icon-hand-left"></i> Document List</a>
@@ -41,10 +40,10 @@
                 <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
             </div>
             <div class="btn-group">
-                <button class="btn btn-success" ng-click="saveObject()"><span i18n="SaveObject">Save object</span></button>
+                <button class="btn btn-success" ng-click="saveObject()"><i class="icon icon-check icon-white"></i> <span i18n="SaveDocument">Save document</span></button>
             </div>
         </div>
-    </h1>
+    </div>
 
     <div id="panel-container">
 

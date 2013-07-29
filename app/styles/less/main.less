@@ -184,14 +184,20 @@ body {
 
 
 .page-header {
-  font-weight: normal;
-  font-size: 32px;
-  line-height: 32px;
   border-color: darken(@gray, 25%);
-  margin-top: 0;
+  position: relative;
+  h1 {
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 32px;
+    border-color: darken(@gray, 25%);
+    margin-top: 0;
+  }
   .controls {
     font-size: @baseFontSize;
-    float: right;
+    position: absolute;
+    right: 0px;
+    top: 4px;
     margin: 0;
     form {
       margin: 0 !important;
