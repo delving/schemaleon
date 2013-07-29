@@ -1,11 +1,11 @@
 <div ng-show="showingList">
     <div class="page-header">
-        <h1><span ng-bind="mainMenu.activeLabel"></span></h1>
+        <h1><span i18n="Documents"></span></h1>
         <div class="controls btn-toolbar" ng-controller="ConfigurationController">
             <a ng-href="#/object/" class="btn btn-primary" ng-click="newDocument()"><i class="icon icon-plus icon-white"></i> <span i18n="NewDocument"></span></a>
         </div>
     </div>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
         <th>ID</th>
         <th>NAME</th>
@@ -30,7 +30,7 @@
 <div ng-hide="showingList">
     <div class="page-header">
         <h1>
-            <span ng-bind="mainMenu.activeLabel"></span>
+            <span i18n="Document"></span>:
             <small ng-show="header.Identifier">{{ header.Identifier }}</small>
         </h1>
         <div class="controls btn-toolbar" ng-controller="ConfigurationController">
