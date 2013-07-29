@@ -36,6 +36,7 @@
         <span ng-show="header.Identifier">{{ header.Identifier }}</span>
         <div class="controls btn-toolbar" ng-controller="ConfigurationController">
             <div class="btn-group">
+                <a href="/#/object" class="btn"><i class="icon icon-hand-left"></i> Document List</a>
                 <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
                 <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
             </div>

@@ -346,7 +346,6 @@ body {
 /* MAIN NAVIGATION */
 .nav-pills > li > a {
   border-radius: 10px 0 0 10px;
-  color: #ffffff;
 }
 .nav-pills > li > a.selected-true {
   color: #ffffff;
@@ -397,11 +396,6 @@ ul.main-menu > .active > a:hover {
 .level5 {
   background: #959595;
 }
-#panel-container {
-  max-width: 100%;
-  min-width: 500px;
-  overflow-x: auto;
-}
 /* CRM LINKS */
 .link-value {
   background: linen;
@@ -420,12 +414,29 @@ ul.main-menu > .active > a:hover {
 .link-value p:first-of-type {
   margin: 0;
 }
-/* PANELS TABLE */
+/* DOCUMENT PANELS **************************************/
+/* panels container
+ / srollbars appear when content extends past max width
+*/
+#panel-container {
+  max-width: 100%;
+  min-width: 500px;
+  overflow-x: auto;
+}
+/* panels table */
 .panels {
   background: transparent;
   width: auto;
+  /* panel header */
+
+  /* panel body */
+
+  /* list with element labels */
+
+  /* panel on right for user input */
+
 }
-.panels .panel-header {
+.panels th.panel-header {
   background: #009ae0;
   border-radius: 16px 16px 0 0;
   color: #080808;
@@ -439,6 +450,20 @@ ul.main-menu > .active > a:hover {
   border-top: none;
   border-radius: 0 0 20px 20px;
 }
+.panels ul.panel-list li {
+  position: relative;
+  padding-left: 30px;
+}
+.panels ul.panel-list li a,
+.panels ul.panel-list li label {
+  padding-right: 10px;
+  color: #ffffff;
+}
+.panels ul.panel-list li a:hover,
+.panels ul.panel-list li label:hover {
+  background: #333333;
+  cursor: pointer;
+}
 .panels .panel-input {
   padding: 0 20px;
 }
@@ -449,19 +474,6 @@ ul.main-menu > .active > a:hover {
   border-radius: 4px;
   padding: 4px;
   margin: 0 0 10px 0;
-}
-ul.panel-list li {
-  position: relative;
-  padding-left: 30px;
-}
-ul.panel-list li a,
-ul.panel-list li label {
-  padding-right: 10px;
-}
-ul.panel-list li a:hover,
-ul.panel-list li label:hover {
-  background: #333333;
-  cursor: pointer;
 }
 input#hidden {
   background: transparent;
