@@ -186,8 +186,10 @@ describe('XML Operations', function () {
             '</Header>' +
             '<Body>' +
             '<Photograph>' +
-            '<Title>Test Document</Title>' +
-            '<ShortDescription>An attempt</ShortDescription>' +
+            '<Title>Pic</Title>' +
+            '<ShortDescription>One</ShortDescription>' +
+            '<ShortDescription>Two</ShortDescription>' +
+            '<ShortDescription>Three</ShortDescription>' +
             '</Photograph>' +
             '</Body>' +
             '</Document>';
@@ -195,20 +197,28 @@ describe('XML Operations', function () {
     var photographSchema =
         '<Photograph>' +
             '   <Title/>' +
-            '   <ShortDescription/>' +
+            '   <ShortDescription>{ "multiple":true }</ShortDescription>' +
             '</Photograph>';
 
 
     it('should be able to populate a tree from a retrieved document', function () {
         var tree = xmlToTree(photographSchema);
-        console.log(JSON.stringify(tree));
+//        console.log(JSON.stringify(tree));
         var object = xmlToObject(retrieved);
 //        expect(object.Document.Body.Photograph).tobe()
 //        console.log(JSON.stringify(object));
         var body = object.Document.Body;
-        console.log("body=" + JSON.stringify(body));
+//        console.log("body=" + JSON.stringify(body));
         populateTree(tree, body);
-        console.log(JSON.stringify(tree));
+//        console.log(JSON.stringify(tree));
+        var title = tree.elements[0];
+        var short1 = tree.elements[2];
+        var short2 = tree.elements[3];
+        expect(title.value).toBe('Pic');
+        expect(short1.value).toBe('Two');
+        expect(short1.multiple).toBe(undefined);
+        expect(short2.value).toBe('Three');
+        expect(short2.multiple).toBe(true);
     });
 
 });

@@ -192,35 +192,55 @@ function cleanTree(tree, i18n) {
 }
 
 function populateTree(tree, object) {
+
+    function createClones(element, valueArray) {
+        if (!element.multiple) {
+            throw "Multiple values for " + element.name + ":" + valueArray;
+        }
+        var stamp = JSON.stringify(element);
+        var lastOne = _.last(valueArray);
+        return _.map(valueArray, function (value) {
+            var clone = JSON.parse(stamp);
+            clone.value = value;
+            if (value != lastOne) {
+                delete clone.multiple;
+            }
+            return clone;
+        });
+    }
+
     function populate(el, key, node) {
-//        console.log(key+":"+JSON.stringify(el));
-//        console.log(key+":"+JSON.stringify(node));
         if (key == el.name) {
-//            console.log("match! " + key);// todo
             if (el.elements) {
                 var sub = node[key];
-                for (var subkey in sub) {
-                    _.forEach(el.elements, function (element) {
-                        if (subkey == element.name) {
-                            // todo: if multiple and value already exists??
-                            var value = sub[element.name];
-                            if (value) {
-//                                console.log("element.name="+element.name);// todo
-//                                console.log(value);// todo
-                                populate(element, subkey, sub);
+                for (var subKey in sub) {
+                    var elements = _.map(el.elements,
+                        (function (key) {
+                            return function (element) {
+                                if (key == element.name) {
+                                    var subValue = sub[key];
+                                    if (subValue) {
+                                        if (_.isArray(subValue)) {
+                                            return createClones(element, subValue);
+                                        }
+                                        else {
+                                            populate(element, key, sub);
+                                        }
+                                    }
+                                }
+                                return element;
                             }
-                        }
-                    });
+                        })(subKey)
+                    );
+                    el.elements = _.flatten(elements);
                 }
             }
             else {
-//                console.log("set value: "+el.name+"="+node[key]); // todo
-                // todo: if value already set
                 el.value = node[key];
             }
         }
         else {
-            throw "mismatch!";
+            throw "Mismatch during tree population! key=" + key + " name=" + el.name;
         }
     }
 
