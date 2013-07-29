@@ -8,8 +8,8 @@
     </thead>
     <tbody>
         <tr ng-repeat="object in objects">
-            <td>{{ object.identifier }}</td>
-            <td>{{ object.appellation }}</td>
+            <td>{{ object.Identifier }}</td>
+            <td>{{ object.Title }}</td>
             <td>
                 <span ng-show="object.status == 'complete'" class="badge badge-success">{{ object.status }}</span>
                 <span ng-show="object.status == 'incomplete'" class="badge badge-info">{{ object.status }}</span>

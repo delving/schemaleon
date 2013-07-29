@@ -253,6 +253,18 @@ function docPath(identifier) {
     return "doc('" + storage.database + docDocument(identifier) + "')/Document";
 }
 
+storage.getDocumentList = function(receiver) {
+    var query = "xquery collection('" + storage.database + "/documents')/Document/Header";
+    storage.session.execute(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
 storage.getDocument = function (identifier, receiver) {
     var query = "xquery " + docPath(identifier);
     storage.session.execute(query, function (error, reply) {

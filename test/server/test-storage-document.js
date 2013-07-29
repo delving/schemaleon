@@ -4,7 +4,7 @@ var fs = require('fs');
 var storage = require('../../server/storage');
 
 exports.createDatabase = function (test) {
-    console.log("create database");
+//    console.log("create database");
     test.expect(1);
     storage.session.execute('create db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem creating database');
@@ -17,7 +17,7 @@ exports.fillSchemas = function (test) {
     var contents = fs.readFileSync('test/data/DocumentSchemas.xml', 'utf8');
     storage.session.add('/DocumentSchemas', contents, function (error, reply) {
         if (reply.ok) {
-            console.log("Preloaded document schemas");
+//            console.log("Preloaded document schemas");
             test.done();
         }
         else {
@@ -39,7 +39,7 @@ exports.testFetchSchema = function (test) {
     });
 };
 
-var id = '?';
+var hdr = {};
 
 exports.testSaveDocument = function (test) {
     test.expect(1);
@@ -63,24 +63,49 @@ exports.testSaveDocument = function (test) {
             '</Body>' +
             '</Document>'
     };
-    storage.saveDocument(body, function (identifier) {
-        id = identifier;
-        test.ok(identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
+    storage.saveDocument(body, function (header) {
+        hdr = header;
+        test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
         test.done();
     });
 };
 
-exports.testSaveDocumentAgain = function(test) {
+exports.testSaveAnother = function (test) {
     test.expect(1);
     var body = {
         header: {
-            Identifier: id,
-            Title: 'Big Crazy Bang',
+            Identifier: '#IDENTIFIER#',
+            Title: 'Big Bunga Bunga',
             SchemaName: 'Photograph'
         },
         xml: '<Document>' +
             '<Header>' +
-            '<Identifier>'+id+'</Identifier>' +
+            '<Identifier>#IDENTIFIER#</Identifier>' +
+            '<Title>Big Bungasconi</Title>' +
+            '<SchemaName>Photograph</SchemaName>' +
+            '</Header>' +
+            '<Body>' +
+            '<Photograph>' +
+            '<Title>Incriminating</Title>' +
+            '<ShortDescription>Censored</ShortDescription>' +
+            '</Photograph>' +
+            '</Body>' +
+            '</Document>'
+    };
+    storage.saveDocument(body, function (header) {
+        test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
+        test.done();
+    });
+};
+
+exports.testSaveDocumentAgain = function (test) {
+    test.expect(1);
+    hdr.Title = 'Big Crazy Bang';
+    var body = {
+        header: hdr,
+        xml: '<Document>' +
+            '<Header>' +
+            '<Identifier>' + hdr.Identifier + '</Identifier>' +
             '<Title>Big Crazy Bang</Title>' +
             '<SchemaName>Photograph</SchemaName>' +
             '</Header>' +
@@ -88,22 +113,33 @@ exports.testSaveDocumentAgain = function(test) {
             '<Photograph>' +
             '<Title>Test Document</Title>' +
             '<ShortDescription>An attempt</ShortDescription>' +
+            '<ShortDescription>and more</ShortDescription>' +
             '</Photograph>' +
             '</Body>' +
             '</Document>'
     };
-    storage.saveDocument(body, function (identifier) {
-        test.equal(identifier, id, 'Different identifier');
+    storage.saveDocument(body, function (header) {
+        test.equal(header, hdr, 'Different header');
         test.done();
     });
 };
 
-exports.testGetDocument = function(test) {
+exports.testGetDocument = function (test) {
     test.expect(2);
-    storage.getDocument(id, function(xml) {
-        console.log(xml);
-        test.ok(xml.indexOf(id) >= 0, "Id not found");
+    storage.getDocument(hdr.Identifier, function (xml) {
+//        console.log(xml);
+        test.ok(xml.indexOf(hdr.Identifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
+        test.done();
+    })
+};
+
+exports.testGetDocumentList = function (test) {
+    test.expect(2);
+    storage.getDocumentList(function (xml) {
+        console.log(xml);
+        test.ok(xml, "No xml");
+        test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found");
         test.done();
     })
 };
@@ -112,7 +148,7 @@ exports.dropIt = function (test) {
     test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-        console.log("dropped oscrtest");
+//        console.log("dropped oscrtest");
         test.done();
     });
 };

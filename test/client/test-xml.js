@@ -177,6 +177,7 @@ describe('XML Operations', function () {
         expect(resultString).toBe(expectedString);
     });
 
+    // todo: make sure a deeper hierarchy works
     var retrieved =
         '<Document>' +
             '<Header>' +
