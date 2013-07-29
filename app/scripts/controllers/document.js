@@ -47,10 +47,19 @@ CultureCollectorApp.controller('DocumentController',
     ['$scope', 'Document', 'I18N',
         function ($scope, Document, I18N) {
 
+            var schemaName = 'Photograph';
+
             $scope.panels = [];
 
-            Document.fetchSchema('Photograph', function (schema) {
+            Document.fetchSchema(schemaName, function (schema) {
                 $scope.tree = xmlToTree(schema);
+                $scope.header = {
+                    // todo: fields in the schema will have to be
+                    // todo: marked as title, identifier
+                    Identifier: '#IDENTIFIER#',
+                    Title: "Big Bang",
+                    SchemaName: schemaName
+                };
                 $scope.panels[0] = {
                     selected: 0,
                     element: $scope.tree
@@ -110,19 +119,9 @@ CultureCollectorApp.controller('DocumentController',
 
             $scope.saveDocument = function() {
                 var object = treeToObject($scope.tree);
-                console.log('harvested');
-                console.log(JSON.stringify(object));
-
-                var header = {
-                    // todo: fields in the schema will have to be
-                    // todo: marked as title, identifier
-                    Identifier: '#IDENTIFIER#',
-                    Title: "Big Bang",
-                    SchemaName: "Photograph"
-                };
                 var document = {
                     Document: {
-                        Header: header,
+                        Header: $scope.header,
                         Body: object
                     }
                 };
@@ -130,12 +129,14 @@ CultureCollectorApp.controller('DocumentController',
                 console.log('turned to xml');
                 console.log(documentXml);
                 var body = {
-                    header: header,
+                    header: $scope.header,
                     xml: documentXml
                 };
-                Document.saveXml(body, function(savedXml) {
+                Document.saveXml(body, function(header) {
                     console.log('saved');
-                    console.log(savedXml);
+                    console.log(header);
+                    $scope.header.Identifier = header.Identifier;
+                    $scope.header.Title = header.Title;
                     // todo: navigate somewhere!
                 });
             }

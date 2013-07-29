@@ -142,5 +142,9 @@
 </div>
 
 <div class="page-footer">
+    <ul ng-show="header">
+        <li><span i18n="Identifier"></span>: {{ header.Identifier }}</li>
+        <li><span i18n="Title"></span>: {{ header.Title }}</li>
+    </ul>
     <button ng-click="saveDocument()" class="btn btn-large" i18n="SaveDocument"></button>
 </div>

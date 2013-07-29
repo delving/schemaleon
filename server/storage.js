@@ -269,10 +269,11 @@ storage.saveDocument = function (body, receiver) {
     var BLANK = '#IDENTIFIER#';
     if (body.header.Identifier === BLANK) {
         var identifier = generateId("OSCR-D");
+        body.header.Identifier = identifier;
         var documentWithIdentifier = body.xml.replace(BLANK, identifier);
         storage.session.add(docDocument(identifier), documentWithIdentifier, function (error, reply) {
             if (reply.ok) {
-                receiver(identifier);
+                receiver(body.header);
             }
             else {
                 throw error + "\n" + query;
@@ -283,7 +284,7 @@ storage.saveDocument = function (body, receiver) {
         // todo: move the current one to the backup collection
         storage.session.replace(docDocument(body.header.Identifier), body.xml, function (error, reply) {
             if (reply.ok) {
-                receiver(body.header.Identifier);
+                receiver(body.header);
             }
             else {
                 throw "Unable to replace " + docPath(body.header.Identifier);
