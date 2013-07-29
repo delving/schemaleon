@@ -44,29 +44,40 @@ CultureCollectorApp.directive('focus',
 );
 
 CultureCollectorApp.controller('DocumentController',
-    ['$scope', 'Document', 'I18N',
-        function ($scope, Document, I18N) {
-
-            var schemaName = 'Photograph';
+    ['$scope', '$routeParams', 'Document', 'I18N',
+        function ($scope, $routeParams, Document, I18N) {
 
             $scope.panels = [];
+            $scope.header = { SchemaName: 'Photograph' };
 
-            Document.fetchSchema(schemaName, function (schema) {
+            function useHeader(h) {
+                $scope.header.Identifier = h.Identifier ? h.Identifier : '#IDENTIFIER#';
+                $scope.header.Title = h.Title;
+                $scope.header.TimeStamp = new Date();
+            }
+
+            Document.fetchSchema($scope.header.SchemaName, function (schema) {
                 $scope.tree = xmlToTree(schema);
-                $scope.header = {
-                    // todo: fields in the schema will have to be
-                    // todo: marked as title, identifier
-                    Identifier: '#IDENTIFIER#',
-                    Title: "Big Bang",
-                    SchemaName: schemaName
-                };
                 $scope.panels[0] = {
                     selected: 0,
                     element: $scope.tree
                 };
-                // initialize with first element in first panel active
-                // for immediate keyboard navigation
                 $scope.choose(0, 0);
+
+                if ($routeParams.id) {
+                    $scope.header.Identifier = $routeParams.id;
+                    Document.fetchDocument($scope.header.Identifier, function(documentXml) {
+                        var object = xmlToObject(documentXml);
+                        populateTree($scope.tree, object.Document.Body);
+                        useHeader(object.Document.Header);
+                    });
+                }
+                else {
+                    $scope.header = {
+                        SchemaName: 'Photograph',
+                        Identifier: '#IDENTIFIER#'
+                    }
+                }
             });
 
             $scope.$watch('i18n', function (i18n, oldValue) {
@@ -135,8 +146,7 @@ CultureCollectorApp.controller('DocumentController',
                 Document.saveXml(body, function(header) {
                     console.log('saved');
                     console.log(header);
-                    $scope.header.Identifier = header.Identifier;
-                    $scope.header.Title = header.Title;
+                    useHeader(header);
                     // todo: navigate somewhere!
                 });
             }
