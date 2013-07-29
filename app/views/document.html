@@ -2,26 +2,28 @@
     <div class="page-header">
         <h1><span i18n="Documents"></span></h1>
         <div class="controls btn-toolbar" ng-controller="ConfigurationController">
-            <a ng-href="#/object/" class="btn btn-primary" ng-click="newDocument()"><i class="icon icon-plus icon-white"></i> <span i18n="NewDocument"></span></a>
+            <a ng-href="#/document/" class="btn btn-primary" ng-click="newDocument()"><i class="icon icon-plus icon-white"></i> <span i18n="NewDocument"></span></a>
         </div>
     </div>
     <table class="table table-striped">
         <thead>
         <th>ID</th>
-        <th>NAME</th>
+        <th>TITLE</th>
+        <th>SAVED</th>
         <th>STATUS</th>
         <th></th>
         </thead>
         <tbody>
-        <tr ng-repeat="object in documentList">
-            <td>{{ object.Identifier }}</td>
-            <td>{{ object.Title }}</td>
+        <tr ng-repeat="header in headerList">
+            <td>{{ header.Identifier }}</td>
+            <td>{{ header.Title }}</td>
+            <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
             <td>
-                <span ng-show="object.status == 'complete'" class="badge badge-success">{{ object.status }}</span>
-                <span ng-show="object.status == 'incomplete'" class="badge badge-info">{{ object.status }}</span>
+                <span ng-show="header.status == 'complete'" class="badge badge-success">{{ header.status }}</span>
+                <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
             </td>
             <td>
-                <a ng-href="#/object/{{ object.Identifier }}" class="btn btn-primary">Edit</a>
+                <a ng-href="#/document/{{ header.Identifier }}" class="btn btn-primary">Edit</a>
             </td>
         </tr>
         </tbody>
@@ -33,9 +35,10 @@
             <span i18n="Document"></span>:
             <small ng-show="header.Identifier">{{ header.Identifier }}</small>
         </h1>
+        <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
         <div class="controls btn-toolbar" ng-controller="ConfigurationController">
             <div class="btn-group">
-                <a href="/#/object" class="btn"><i class="icon icon-hand-left"></i> Document List</a>
+                <a href="/#/document" class="btn"><i class="icon icon-hand-left"></i> Document List</a>
                 <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
                 <button ng-click="toggleTranslationEditor()" ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"><i class="icon icon-translate"></i> <span i18n="ShowTranslationEditor">Show translation editor</span></button>
             </div>

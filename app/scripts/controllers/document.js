@@ -44,20 +44,31 @@ CultureCollectorApp.directive('focus',
 );
 
 CultureCollectorApp.controller('DocumentController',
-    ['$scope', '$routeParams', 'Document', 'I18N',
-        function ($scope, $routeParams, Document, I18N) {
+    ['$scope', '$routeParams', '$location', 'Document', 'I18N',
+        function ($scope, $routeParams, $location, Document, I18N) {
             $scope.panels = [];
             $scope.header = { SchemaName: 'Photograph' };
             $scope.showingList = true;
 
-            Document.fetchList(function (xml) {
-                $scope.documentList = xmlToArray(xml);
-            });
+            function fetchList() {
+                Document.fetchList(function (xml) {
+                    $scope.headerList = _.sortBy(xmlToArray(xml), function (val) {
+                        return -val.TimeStamp;
+                    });
+                    $scope.showingList = true;
+                });
+            }
+
+            fetchList();
 
             function useHeader(h) {
                 $scope.header.Identifier = h.Identifier ? h.Identifier : '#IDENTIFIER#';
                 $scope.header.Title = h.Title;
-                $scope.header.TimeStamp = new Date();
+                delete $scope.header.TimeStamp;
+                var millis = parseInt(h.TimeStamp);
+                if (!_.isNaN(millis)) {
+                    $scope.header.TimeStamp = millis;
+                }
             }
 
             Document.fetchSchema($scope.header.SchemaName, function (schema) {
@@ -69,8 +80,7 @@ CultureCollectorApp.controller('DocumentController',
                 $scope.choose(0, 0);
 
                 if ($routeParams.id) {
-                    $scope.header.Identifier = $routeParams.id;
-                    Document.fetchDocument($scope.header.Identifier, function (documentXml) {
+                    Document.fetchDocument($routeParams.id, function (documentXml) {
                         var object = xmlToObject(documentXml);
                         populateTree($scope.tree, object.Document.Body);
                         useHeader(object.Document.Header);
@@ -140,6 +150,7 @@ CultureCollectorApp.controller('DocumentController',
 
             $scope.saveDocument = function () {
                 var object = treeToObject($scope.tree);
+                $scope.header.TimeStamp = "#TIMESTAMP#";
                 var document = {
                     Document: {
                         Header: $scope.header,
@@ -147,20 +158,14 @@ CultureCollectorApp.controller('DocumentController',
                     }
                 };
                 var documentXml = objectToXml(document);
-                console.log('turned to xml');
-                console.log(documentXml);
                 var body = {
                     header: $scope.header,
                     xml: documentXml
                 };
                 Document.saveXml(body, function (header) {
-                    console.log('saved');
-                    console.log(header);
                     useHeader(header);
-                    $scope.showingList = true;
-                    Document.fetchList(function (xml) {
-                        $scope.documentList = xmlToArray(xml);
-                    });
+                    fetchList();
+                    $location.path('/document/');
                 });
             }
         }]

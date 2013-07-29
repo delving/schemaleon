@@ -6,11 +6,11 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html'
             })
-            .when('/object/', {
+            .when('/document/', {
                 templateUrl: 'views/document.html',
                 controller: 'DocumentController'
             })
-            .when('/object/:id', {
+            .when('/document/:id', {
                 templateUrl: 'views/document.html',
                 controller: 'DocumentController'
             })
