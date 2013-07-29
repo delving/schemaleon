@@ -41,8 +41,8 @@ CultureCollectorApp.service("Document",
         };
         this.saveXml = function (body, receiver) {
             $http.post('/document/save', body)
-                .success(function (savedXml, status, headers, config) {
-                    receiver(savedXml);
+                .success(function (identifier, status, headers, config) {
+                    receiver(identifier);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing documents");

@@ -168,7 +168,7 @@ function treeToObject(tree) {
     return out;
 }
 
-function cleanTree (tree, i18n) {
+function cleanTree(tree, i18n) {
     function clean(el) {
         if (el.elements) {
             _.forEach(el.elements, function (element) {
@@ -189,4 +189,45 @@ function cleanTree (tree, i18n) {
     }
 
     clean(tree);
+}
+
+function populateTree(tree, object) {
+    function populate(el, key, node) {
+//        console.log(key+":"+JSON.stringify(el));
+//        console.log(key+":"+JSON.stringify(node));
+        if (key == el.name) {
+//            console.log("match! " + key);// todo
+            if (el.elements) {
+                var sub = node[key];
+                for (var subkey in sub) {
+                    _.forEach(el.elements, function (element) {
+                        if (subkey == element.name) {
+                            // todo: if multiple and value already exists??
+                            var value = sub[element.name];
+                            if (value) {
+//                                console.log("element.name="+element.name);// todo
+//                                console.log(value);// todo
+                                populate(element, subkey, sub);
+                            }
+                        }
+                    });
+                }
+            }
+            else {
+//                console.log("set value: "+el.name+"="+node[key]); // todo
+                // todo: if value already set
+                el.value = node[key];
+            }
+        }
+        else {
+            throw "mismatch!";
+        }
+    }
+
+    for (var key in object) {
+        if (key != tree.name) {
+            throw "Mismatch: " + key + " != " + tree.name;
+        }
+        populate(tree, key, object);
+    }
 }

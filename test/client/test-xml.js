@@ -177,4 +177,38 @@ describe('XML Operations', function () {
         expect(resultString).toBe(expectedString);
     });
 
+    var retrieved =
+        '<Document>' +
+            '<Header>' +
+            '<Identifier>ID01</Identifier>' +
+            '<Title>Big Crazy Bang</Title>' +
+            '<SchemaName>Photograph</SchemaName>' +
+            '</Header>' +
+            '<Body>' +
+            '<Photograph>' +
+            '<Title>Test Document</Title>' +
+            '<ShortDescription>An attempt</ShortDescription>' +
+            '</Photograph>' +
+            '</Body>' +
+            '</Document>';
+
+    var photographSchema =
+        '<Photograph>' +
+            '   <Title/>' +
+            '   <ShortDescription/>' +
+            '</Photograph>';
+
+
+    it('should be able to populate a tree from a retrieved document', function () {
+        var tree = xmlToTree(photographSchema);
+        console.log(JSON.stringify(tree));
+        var object = xmlToObject(retrieved);
+//        expect(object.Document.Body.Photograph).tobe()
+//        console.log(JSON.stringify(object));
+        var body = object.Document.Body;
+        console.log("body=" + JSON.stringify(body));
+        populateTree(tree, body);
+        console.log(JSON.stringify(tree));
+    });
+
 });
