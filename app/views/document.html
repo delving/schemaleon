@@ -1,5 +1,6 @@
 <h1 class="page-header">
     <span ng-bind="mainMenu.activeLabel"></span>
+    <span ng-show="header.Identifier">{{ header.Identifier }}</span>
     <div class="controls btn-toolbar" ng-controller="ConfigurationController">
         <div class="btn-group">
             <button ng-click="toggleInlinePreview()" ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"><span i18n="ShowPreviews">Show previews</span></button>
@@ -142,9 +143,5 @@
 </div>
 
 <div class="page-footer">
-    <ul ng-show="header">
-        <li><span i18n="Identifier"></span>: {{ header.Identifier }}</li>
-        <li><span i18n="Title"></span>: {{ header.Title }}</li>
-    </ul>
     <button ng-click="saveDocument()" class="btn btn-large" i18n="SaveDocument"></button>
 </div>
