@@ -39,12 +39,15 @@
                 <div class="container-fluid">
                     <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
                     <ul class="nav">
-                        <li i18n-toggle="LoggedInAs">
-                            <a href="#"><i class="icon icon-white icon-user"></i> <span i18n="LoggedInAs">Logged in as</span>: Username</a>
+                        <li>
+                            <a href="#" i18n="LoggedInAs">
+                                <i class="icon icon-white icon-user"></i>
+                                <span class="i18n"></span>: Username
+                            </a>
                         </li>
                         <li>
-                            <a href="login.html" title="">
-                                <i class="icon icon-white icon-share-alt"></i> <span i18n-toggle2="Logout"></span>
+                            <a href="login.html" title="" i18n="Logout">
+                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"></span>
                             </a>
                         </li>
                     </ul>
@@ -70,28 +73,11 @@
             <div class="sidebar-nav">
                 <ul class="nav nav-pills nav-stacked main-menu">
                     <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">
-                    <span>
-                        <a href="{{ link.path }}">
+                        <a href="{{ link.path }}" i18n="{{ link.name }}">
                             <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                            {{ link | linkTitle }}
+                            <span class="i18n"/>
                         </a>
-                        <button ng-show="config.showTranslationEditor"
-                              ng-click="openLabelDialog(link)"
-                              tooltip="Click to translate"
-                              tooltip-placement="right"
-                              class="btn btn-mini btn-warning btn-i18n">
-                              <i class="icon-translate icon-white"></i>
-                        </button>
-                    </span>
                     </li>
-                    <!--<li i18n-toggle="LoggedInAs">-->
-                            <!--<a href="#"><i class="icon icon-white icon-user"></i> <span i18n="LoggedInAs">Logged in as</span>: Username</a>-->
-                    <!--</li>-->
-                    <!--<li  i18n-toggle="LoggedInAs">-->
-                        <!--<a href="login.html" title="">-->
-                            <!--<i class="icon icon-white icon-share-alt"></i> <span i18n="Logout">Logout</span>-->
-                        <!--</a>-->
-                    <!--</li>-->
                 </ul>
             </div>
             <!--/.sidebar-nav -->
@@ -101,7 +87,7 @@
     </div>
 
     <div id="mainBody">
-        <span i18n-toggle-2="LoggedInAs"><span i18n="LoggenInAs"></span></span>
+        <span i18n="LoggedInAs"></span>
         <div ng-view><!-- Angular views are rendered here --></div>
     </div>
 

@@ -2,63 +2,48 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-CultureCollectorApp.directive('i18nToggle', function () {
+CultureCollectorApp.directive('i18n', function () {
         return {
             restrict: 'A',
             replace: false,
             transclude: true,
             scope: true,
-            link: function ($scope, element, attrs) {
-                $scope.key = attrs['i18nToggle'];
-            },
-            templateUrl: 'template/i18n/i18n-toggle.html'
-        }
-    }
-);
-
-CultureCollectorApp.directive('i18nToggle2', function () {
-        return {
-            restrict: 'A',
-            replace: false,
-            transclude: true,
-            scope: true,
-            link: function ($scope, element, attrs) {
+            link: function ($scope, $element, $attrs) {
                 $scope.$watch('i18n', function (i18n, before) {
+                    function setText(text) {
+                        var find = $element.find('.i18n');
+                        if (find.length) {
+                            find.text(text);
+                        }
+                        else {
+                            $element.text(text);
+                        }
+                    }
+
                     if (i18n) {
-                        var msg = i18n.label[attrs.i18nToggle2];
+                        var msg = i18n.label[$attrs.i18n];
                         if (msg && msg != '?') {
-                            element.parent().find('.tc').text(msg);
+                            console.log('replacing: ' + $attrs.i18n); // todo
+                            console.log(msg);// todo
+                            setText(msg);
                             return;
                         }
                     }
-                    element.parent().find('.tc').text(msg);
+                    setText($attrs.i18n);
                 });
-                if (!$scope.key) {
-                    $scope.key = attrs['i18nToggle2'];
-                }
-                element.parent().on('click', function (e) {
+                $scope.key = $attrs.i18n;
+                $attrs.$observe('i18n', function (newValue) {
+                    $scope.key = newValue;
+                });
+                $element.on('click', function (e) {
                     e.preventDefault();
                 });
             },
-            template: '<span class="tc" ng-transclude></span>' +
-                '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">Trans</span>'
+            template: '<span ng-transclude></span> ' +
+                '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +
+                '<i class="icon-translate icon-white"></i>' +
+                '</span>'
         }
-    }
-);
-
-CultureCollectorApp.directive('i18n', function () {
-        return function (scope, elem, attrs) {
-            scope.$watch('i18n', function (i18n, before) {
-                if (i18n) {
-                    var msg = i18n.label[attrs.i18n];
-                    if (msg && msg != '?') {
-                        elem.text(msg);
-                        return;
-                    }
-                }
-                elem.text(attrs.i18n);
-            });
-        };
     }
 );
 
