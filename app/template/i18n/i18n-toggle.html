@@ -1,7 +1,8 @@
-<div class="i18n-editor-toggle show-{{ config.showTranslationEditor }}">
-    <div ng-transclude class="transcluded"></div>
-    <button class="btn btn-mini btn-warning btn-i18n"
-            ng-show="config.showTranslationEditor"
-            ng-click="openLabelDialog(key)"><i class="icon icon-white icon-translate"></i>
-    </button>
-</div>
+<!--<div class="i18n-editor-toggle show-{{ config.showTranslationEditor }}">-->
+    <!--<div ng-transclude class="transcluded"></div>-->
+    <!--<button class="btn btn-mini btn-warning btn-i18n"-->
+            <!--ng-show="config.showTranslationEditor"-->
+            <!--ng-click="openLabelDialog(key)"><i class="icon icon-white icon-translate"></i>-->
+    <!--</button>-->
+<!--</div>-->
+<span ng-transclude></span><span class="btn btn-mini btn-warning" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key);preventDef();">Trans</span>

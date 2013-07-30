@@ -124,17 +124,16 @@
                         </div>
 
                         <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController" class="text-input">
-                            <div ng-show="el.edit" class="input-append">
-                                <input focus id="textInput" type="text" ng-model="el.value"/>
-                                <button ng-click="disableEditor()" class="btn"><i class="icon-ok-circle"></i> Yes</button>
+                            <div ng-show="el.edit">
+                                <input focus id="textInput" class="input-block-level" type="text" ng-model="el.value"/>
                             </div>
 
                             <div ng-hide="el.edit" class="input-append">
                                 <!--<div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">-->
                                 <!--<span>{{ el.value }}</span>-->
                                 <!--</div>-->
-                                <input type="text" ng-model="el.value" class="disabled" ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"/>
-                                <button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>
+                                <input type="text" ng-model="el.value" class="input-large" ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"/>
+                                <!--<button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>-->
                             </div>
                             <div ng-show="invalidMessage">
                                 <span>{{ invalidMessage }}</span>

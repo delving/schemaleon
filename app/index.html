@@ -42,9 +42,9 @@
                         <li i18n-toggle="LoggedInAs">
                             <a href="#"><i class="icon icon-white icon-user"></i> <span i18n="LoggedInAs">Logged in as</span>: Username</a>
                         </li>
-                        <li  i18n-toggle="Logout">
+                        <li>
                             <a href="login.html" title="">
-                                <i class="icon icon-white icon-share-alt"></i> <span i18n="Logout">Logout</span>
+                                <i class="icon icon-white icon-share-alt"></i> <span i18n-toggle2="Logout"><span i18n="Logout">Logout</span></span>
                             </a>
                         </li>
                     </ul>
@@ -84,23 +84,34 @@
                         </button>
                     </span>
                     </li>
+                    <!--<li i18n-toggle="LoggedInAs">-->
+                            <!--<a href="#"><i class="icon icon-white icon-user"></i> <span i18n="LoggedInAs">Logged in as</span>: Username</a>-->
+                    <!--</li>-->
+                    <!--<li  i18n-toggle="LoggedInAs">-->
+                        <!--<a href="login.html" title="">-->
+                            <!--<i class="icon icon-white icon-share-alt"></i> <span i18n="Logout">Logout</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
                 </ul>
             </div>
             <!--/.sidebar-nav -->
             <div ng-include="getInclude()"></div>
         </div>
 
-        <div id="mainBody">
-            <div ng-view><!-- Angular views are rendered here --></div>
-        </div>
     </div>
+
+    <div id="mainBody">
+        <span i18n-toggle-2="LoggedInAs"><span i18n="LoggenInAs"></span></span>
+        <div ng-view><!-- Angular views are rendered here --></div>
+    </div>
+
 </div>
 <!-- // APPLICATION CONTAINER -->
 
 <!-- build:js scripts/scripts.js -->
 
-<script src="components/angular/angular.js"></script>
 <script src="components/jquery/jquery.min.js"></script>
+<script src="components/angular/angular.js"></script>
 <script src="components/underscore/underscore.js"></script>
 <script src="components/x2js/xml2json.js"></script>
 

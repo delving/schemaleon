@@ -16,6 +16,23 @@ CultureCollectorApp.directive('i18nToggle', function () {
     }
 );
 
+CultureCollectorApp.directive('i18nToggle2', function () {
+        return {
+            restrict: 'A',
+            replace: false,
+            transclude: true,
+            scope:true,
+            link: function ($scope, element, attrs) {
+                $scope.key = attrs['i18nToggle2'];
+                element.parent().on('click', function(e){
+                    e.preventDefault();
+                });
+            },
+            template: '<span ng-transclude></span><span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">Trans</span>'
+        }
+    }
+);
+
 CultureCollectorApp.directive('i18n', function () {
         return function (scope, elem, attrs) {
             scope.$watch('i18n', function (i18n, before) {
