@@ -226,15 +226,27 @@ ul.main-menu {
   padding-left: 20px;
   padding-top: @baseLineHeight*1.5;
   padding-bottom: @baseLineHeight*1.5;
-  &> li > a {
-    color: @grayDark;
-    .icon {
-      margin-right: 10px;
+  li {
+    margin-bottom: 3px;
+    a {
+      border-radius: @br-med 0 0 @br-med;
+      color: @grayDark;
+      display: block;
+      padding: 3px 15px;
+      padding-right: 12px;
+      padding-left: 12px;
+      .icon {
+        margin: 0 10px;
+      }
+      &:hover {
+        background: @bodyBackground;
+      }
     }
-
   }
-  &> .active > a,
-  &> .active > a:hover {
+
+  & .active a,
+  & .active a:hover {
+    display: block;
     background: @bodyBackground;
     color: @grayDark;
   }
@@ -489,13 +501,14 @@ ul.kv-list {
 }
 
 .i18n-editor-toggle {
-  position: relative;
-  a, button {
-//    float: left;
-    display: inline-block;
+//  position: relative;
+  &.show-true {
+    .transcluded {
+      display: inline-block;
+    }
   }
+
   .btn-i18n {
-  display: inline-block;
-//  float: right;
+    display: inline-block;
   }
 }
