@@ -5,16 +5,18 @@
 
             <div class="controls btn-toolbar" ng-controller="ConfigurationController">
                 <a ng-href="#/document/" class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument"><i
-                        class="icon icon-plus icon-white"></i> <span class="i18n">New Document</span></a>
+                        class="icon icon-plus icon-white"></i>
+                        <span class="i18n"/>
+                </a>
             </div>
         </div>
         <table class="table table-striped">
             <thead>
-            <th i18n="Identifier"></th>
-            <th i18n="Title"></th>
-            <th i18n="Stored"></th>
-            <th i18n="Status"></th>
-            <th i18n="Actions"></th>
+            <th i18n="Identifier"><span class="i18n"/></th>
+            <th i18n="Title"><span class="i18n"/></th>
+            <th i18n="Stored"><span class="i18n"/></th>
+            <th i18n="Status"><span class="i18n"/></th>
+            <th i18n="Actions"><span class="i18n"/></th>
             </thead>
             <tbody>
             <tr ng-repeat="header in headerList">
@@ -45,17 +47,17 @@
                 <div class="btn-group">
                     <a i18n="DocumentList" href="/#/document" class="btn">
                         <i class="icon icon-hand-left"></i>
-                        <span class="i18n"></span>
+                        <span class="i18n"/>
                     </a>
                     <a href i18n="ShowPreviews" ng-click="toggleInlinePreview()"
                        ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
-                        <span class="i18n"></span>
+                        <span class="i18n"/>
                     </a>
                 </div>
                 <div class="btn-group">
                     <a href class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
                         <i class="icon icon-check icon-white"></i>
-                        <span class="i18n"></span>
+                        <span class="i18n"/>
                     </a>
                 </div>
             </div>

@@ -42,12 +42,12 @@
                         <li>
                             <a href="#" i18n="LoggedInAs">
                                 <i class="icon icon-white icon-user"></i>
-                                <span class="i18n"></span>: Username
+                                <span class="i18n"/>: Username
                             </a>
                         </li>
                         <li>
                             <a href="login.html" title="" i18n="Logout">
-                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"></span>
+                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
                             </a>
                         </li>
                     </ul>
@@ -72,8 +72,8 @@
         <div id="sidebar">
             <div class="sidebar-nav">
                 <ul class="nav nav-pills nav-stacked main-menu">
-                    <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">
-                        <a href="{{ link.path }}">
+                    <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
+                        <a href="{{ link.path }}"  ng-click="choose($index)">
                             <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                             {{ link | linkTitle }}
                            <span ng-show="config.showTranslationEditor"

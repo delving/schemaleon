@@ -16,7 +16,7 @@ CultureCollectorApp.directive('i18n', function () {
                             find.text(text);
                         }
                         else {
-                            $element.text(text);
+                            $element.append(text);
                         }
                     }
 
