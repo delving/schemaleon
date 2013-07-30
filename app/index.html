@@ -51,10 +51,10 @@
 
                 <form class="navbar-form pull-right">
                     <button ng-click="toggleTranslationEditor()"
-                            ng-class="{'btn': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
+                            ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
                             tooltip="Translate"
                             tootip-placement="bottom">
-                        <i class="icon icon-translate pointer"></i>
+                        <i class="icon icon-white icon-translate pointer"></i>
                     </button>
                     <select id="language-select" class="span2" ng-controller="ConfigurationController"
                             ng-model="config.interfaceLanguage"

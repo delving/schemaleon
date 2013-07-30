@@ -426,7 +426,6 @@ ul.main-menu .active a:hover {
 */
 #panel-container {
   max-width: 100%;
-  min-width: 500px;
   overflow-x: auto;
 }
 /* panels table */
@@ -451,8 +450,7 @@ ul.main-menu .active a:hover {
 }
 .panels td.panel {
   padding: 20px 0 20px 10px;
-  min-width: 250px;
-  max-width: 350px;
+  width: 340px;
   border-top: none;
   border-radius: 0 0 20px 20px;
 }
