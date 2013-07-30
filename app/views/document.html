@@ -1,7 +1,7 @@
 <div ng-controller="I18NController">
     <div ng-show="showingList">
         <div class="page-header">
-            <h1><span i18n="Documents"></span></h1>
+            <h1 i18n="Documents"><span class="i18n"/></h1>
 
             <div class="controls btn-toolbar" ng-controller="ConfigurationController">
                 <a ng-href="#/document/" class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument"><i
@@ -37,8 +37,8 @@
     </div>
     <div ng-hide="showingList">
         <div class="page-header">
-            <h1>
-                <span i18n="Document"></span>:
+            <h1 i18n="Document">
+                <span class="i18n"/>:
                 <small ng-show="header.Identifier">{{ header.Identifier }}</small>
             </h1>
             <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
