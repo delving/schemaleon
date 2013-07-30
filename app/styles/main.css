@@ -293,24 +293,6 @@ body {
   margin-right: 8px;
   vertical-align: text-bottom;
 }
-.user-nav {
-  margin: 0;
-  position: absolute;
-  right: 30px;
-  top: 5px;
-  z-index: 20;
-}
-.user-nav > li > a {
-  display: block;
-  font-size: 14px;
-  padding: 0px 6px !important;
-}
-.user-nav li.active {
-  background: #7a43b6;
-}
-.user-nav li.active a {
-  background: transparent !important;
-}
 #sidebar {
   display: block;
   float: left;
@@ -321,6 +303,12 @@ body {
   margin-left: 260px;
   min-width: 500px;
   position: relative;
+}
+.navbar-inverse .nav li a {
+  color: #999999;
+  display: block;
+  padding: 10px 15px 10px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 .page-header {
   border-color: #151515;

@@ -39,10 +39,14 @@
             <div class="container-fluid">
                 <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
                 <ul class="nav">
-                    <li>
-                        <a href="#"><i class="icon icon-white icon-user"></i> Logged in as: Username</a>
+                    <li i18n-toggle="LoggedInAs">
+                            <a href="#"><i class="icon icon-white icon-user"></i> <span i18n="LoggedInAs">Logged in as</span>: Username</a>
                     </li>
-                    <li><a href="login.html" title=""><i class="icon icon-white icon-share-alt"></i> <span class="text">Logout</span></a></li>
+                    <li  i18n-toggle="LoggedInAs">
+                        <a href="login.html" title="">
+                            <i class="icon icon-white icon-share-alt"></i> <span i18n="Logout">Logout</span>
+                        </a>
+                    </li>
                 </ul>
 
                 <form class="navbar-form pull-right">
