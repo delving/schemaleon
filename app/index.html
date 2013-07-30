@@ -75,27 +75,6 @@
                 </li>
             </ul>
         </div>
-
-        <div class="sidebar-nav">
-            <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">
-                    <a href="{{ link.path }}">
-                        <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                        {{ link.label }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!--<div class="sidebar-nav">-->
-            <!--<ul class="nav nav-pills nav-stacked">-->
-                <!--<li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">-->
-                    <!--<a href="{{ link.path }}">-->
-                        <!--<i ng-show="link.icon" class="icon {{ link.icon }}"></i>-->
-                        <!--{{ link.label }}-->
-                    <!--</a>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
         <!--/.sidebar-nav -->
         <div ng-include="getInclude()"></div>
     </div>
