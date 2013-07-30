@@ -525,7 +525,7 @@ ul.kv-list li span.value {
 /* STRIPED TABLE */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: #555555;
+  background-color: #ffffff;
 }
 /* HELP PANEL */
 .legend {
@@ -580,6 +580,12 @@ ul.kv-list li span.value {
   padding: 4px 0;
 }
 .i18n-editor-toggle {
-  display: inline;
-  float: left;
+  position: relative;
+}
+.i18n-editor-toggle a,
+.i18n-editor-toggle button {
+  display: inline-block;
+}
+.i18n-editor-toggle .btn-i18n {
+  display: inline-block;
 }

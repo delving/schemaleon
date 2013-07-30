@@ -427,7 +427,7 @@ ul.kv-list {
 /* STRIPED TABLE */
 
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
-  background-color: @baseLight;
+  background-color: @white;
 }
 
 /* HELP PANEL */
@@ -489,6 +489,13 @@ ul.kv-list {
 }
 
 .i18n-editor-toggle {
-  display: inline;
-  float: left;
+  position: relative;
+  a, button {
+//    float: left;
+    display: inline-block;
+  }
+  .btn-i18n {
+  display: inline-block;
+//  float: right;
+  }
 }
