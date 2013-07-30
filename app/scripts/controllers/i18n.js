@@ -7,7 +7,7 @@ CultureCollectorApp.directive('i18nToggle', function () {
             restrict: 'A',
             replace: false,
             transclude: true,
-            scope:true,
+            scope: true,
             link: function ($scope, element, attrs) {
                 $scope.key = attrs['i18nToggle'];
             },
@@ -21,14 +21,27 @@ CultureCollectorApp.directive('i18nToggle2', function () {
             restrict: 'A',
             replace: false,
             transclude: true,
-            scope:true,
+            scope: true,
             link: function ($scope, element, attrs) {
-                $scope.key = attrs['i18nToggle2'];
-                element.parent().on('click', function(e){
+                $scope.$watch('i18n', function (i18n, before) {
+                    if (i18n) {
+                        var msg = i18n.label[attrs.i18nToggle2];
+                        if (msg && msg != '?') {
+                            element.parent().find('.tc').text(msg);
+                            return;
+                        }
+                    }
+                    element.parent().find('.tc').text(msg);
+                });
+                if (!$scope.key) {
+                    $scope.key = attrs['i18nToggle2'];
+                }
+                element.parent().on('click', function (e) {
                     e.preventDefault();
                 });
             },
-            template: '<span ng-transclude></span><span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">Trans</span>'
+            template: '<span class="tc" ng-transclude></span>' +
+                '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">Trans</span>'
         }
     }
 );
