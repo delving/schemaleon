@@ -579,3 +579,7 @@ ul.kv-list li span.value {
   font-size: small;
   padding: 4px 0;
 }
+.i18n-editor-toggle {
+  display: inline;
+  float: left;
+}
