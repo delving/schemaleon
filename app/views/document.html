@@ -39,14 +39,19 @@
             <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
             <div class="controls btn-toolbar" ng-controller="ConfigurationController">
                 <div class="btn-group">
-                    <a i18n="DocumentList" href="/#/document" class="btn"><i class="icon icon-hand-left"></i></a>
-                    <button i18n="ShowPreviews" ng-click="toggleInlinePreview()"
-                            ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}"></button>
+                    <a i18n="DocumentList" href="/#/document" class="btn">
+                        <i class="icon icon-hand-left"></i>
+                        <span class="i18n"></span>
+                    </a>
+                    <a href i18n="ShowPreviews" ng-click="toggleInlinePreview()"
+                            ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
+                        <span class="i18n"></span>
+                    </a>
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
+                    <a href class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
                         <i class="icon icon-check icon-white"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -74,7 +79,7 @@
                                               ng-click="openTitleDialog(element)"
                                               tooltip="Click to translate"
                                               tooltip-placement="right"
-                                              class="btn btn-mini btn-warning">
+                                              class="badge badge-warning badge-i18n">
                                               <i class="icon-translate icon-white"></i>
                                         </span>
                                     </div>

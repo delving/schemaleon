@@ -37,7 +37,9 @@ CultureCollectorApp.directive('i18n', function () {
                 });
                 $element.on('click', function (e) {
                     e.preventDefault();
+                    e.unbind('click');
                 });
+
             },
             template: '<span ng-transclude></span> ' +
                 '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +

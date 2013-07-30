@@ -73,9 +73,16 @@
             <div class="sidebar-nav">
                 <ul class="nav nav-pills nav-stacked main-menu">
                     <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">
-                        <a href="{{ link.path }}" i18n="{{ link.name }}">
+                        <a href="{{ link.path }}">
                             <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                            <span class="i18n"/>
+                            {{ link | linkTitle }}
+                           <span ng-show="config.showTranslationEditor"
+                                 ng-click="openLabelDialog(link)"
+                                 tooltip="Click to translate"
+                                 tooltip-placement="right"
+                                 class="badge badge-warning btn-i18n">
+                              <i class="icon-translate icon-white"></i>
+                            </span>
                         </a>
                     </li>
                 </ul>
@@ -87,7 +94,6 @@
     </div>
 
     <div id="mainBody">
-        <span i18n="LoggedInAs"></span>
         <div ng-view><!-- Angular views are rendered here --></div>
     </div>
 
