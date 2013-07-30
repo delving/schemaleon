@@ -33,6 +33,16 @@ app.post('/i18n/:lang/element', function (req, res) {
     }
 });
 
+app.post('/i18n/:lang/label', function (req, res) {
+    var lang = req.params.lang;
+    var key = req.body.key;
+    if (key) {
+        if (req.body.label) storage.setLabel(lang, key, req.body.label, function (ok) {
+            replyWithLanguage(lang, res);
+        });
+    }
+});
+
 app.get('/vocabulary/:vocab', function (req, res) {
     storage.getVocabularySchema(req.params.vocab, function(xml) {
         res.setHeader('Content-Type', 'text/xml');

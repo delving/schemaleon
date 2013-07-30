@@ -11,7 +11,7 @@
         <th i18n-toggle="TITLE"><span i18n="TITLE">TITLE</span></th>
         <th i18n-toggle="SAVED"><span i18n="SAVED">SAVED</span></th>
         <th i18n-toggle="STATUS"><span i18n="STATUS">STATUS</span></th>
-        <th i18n-toggle="ID"><span i18n="ACTIONS">ACTIONS</span></th>
+        <th i18n-toggle="ACTIONS"><span i18n="ACTIONS">ACTIONS</span></th>
         </thead>
         <tbody>
         <tr ng-repeat="header in headerList">
@@ -49,7 +49,7 @@
 
     <div id="panel-container">
 
-        <table class="table panels" ng-controller="I18NController" id="panel-table">
+        <table class="table panels" id="panel-table">
             <thead>
             <tr>
                 <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>

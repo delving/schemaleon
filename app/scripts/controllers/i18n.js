@@ -2,6 +2,20 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
+CultureCollectorApp.directive('i18nToggle', function () {
+        return {
+            restrict: 'A',
+            replace: false,
+            transclude: true,
+            scope:true,
+            link: function ($scope, element, attrs) {
+                $scope.key = attrs['i18nToggle'];
+            },
+            templateUrl: 'template/i18n/i18n-toggle.html'
+        }
+    }
+);
+
 CultureCollectorApp.directive('i18n', function () {
         return function (scope, elem, attrs) {
             scope.$watch('i18n', function (i18n, before) {
@@ -16,6 +30,20 @@ CultureCollectorApp.directive('i18n', function () {
             });
         };
     }
+);
+
+CultureCollectorApp.filter('linkTitle',
+    [ 'I18N',
+        function (I18N) {
+            return function (link) {
+                if (!link) return '';
+                if (I18N.isReady()) {
+                    var title = I18N.label(link.name);
+                    if (title) return title;
+                }
+                return link.name;
+            };
+        }]
 );
 
 CultureCollectorApp.filter('elementTitle',
@@ -68,6 +96,37 @@ CultureCollectorApp.controller('I18NController',
                 I18N.fetchList(newValue);
             });
 
+            $scope.openLabelDialog = function (keyHolder) {
+//                console.log('openLabelDialog'); // todo
+//                console.log(keyHolder);// todo
+                var dialog = $dialog.dialog({
+                    controller: 'LabelDialogController',
+                    dialogFade: true,
+                    backdrop: true,
+                    fadeBackdrop: true,
+                    keyboard: true,
+                    resolve: {
+                        key: function () {
+                            return _.isString(keyHolder) ? keyHolder : keyHolder.name;
+                        }
+                    },
+                    template: '<div class="modal-header"><h3>Label</h3></div>' +
+                        '<div class="modal-body">' +
+                        'Translate &quot;<span>{{ key }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
+                        '<input autofocus class="input-block-level" ng-model="label"/>' +
+                        '</div>' +
+                        '<div class="modal-footer">' +
+                        '<button ng-click="close(label)" class="btn btn-primary">Ok</button>' +
+                        '</div>'
+
+                });
+                dialog.open().then(function (labelEntry) {
+                    if (labelEntry && labelEntry.label) {
+                        I18N.setLabel(labelEntry.key, labelEntry.label);
+                    }
+                });
+            };
+
             $scope.openTitleDialog = function (element) {
                 var dialog = $dialog.dialog({
                     controller: 'TitleDialogController',
@@ -80,7 +139,7 @@ CultureCollectorApp.controller('I18NController',
                     } },
                     template: '<div class="modal-header"><h3>Title</h3></div>' +
                         '<div class="modal-body">' +
-                        'Translate &quot;<span>{{ element.name }}</span>&quot;<br/>' +
+                        'Translate &quot;<span>{{ element.name }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
                         '<input autofocus class="input-block-level" ng-model="title"/>' +
                         '</div>' +
                         '<div class="modal-footer">' +
@@ -108,7 +167,7 @@ CultureCollectorApp.controller('I18NController',
                     } },
                     template: '<div class="modal-header"><h3>Explanation</h3></div>' +
                         '<div class="modal-body">' +
-                        'Explain &quot;<span>{{ element.name }}</span>&quot;<br/>' +
+                        'Explain &quot;<span>{{ element.name }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
                         '<textarea autofocus rows="8" ng-model="doc" class="input-block-level"></textarea>' +
                         '</div>' +
                         '<div class="modal-footer">' +
@@ -128,6 +187,17 @@ CultureCollectorApp.controller('I18NController',
         }]
 );
 
+function LabelDialogController($scope, I18N, dialog, key) {
+    $scope.key = key;
+    if (I18N.isReady()) {
+        $scope.label = I18N.label(key);
+    }
+//    console.log("Key=" + key); // todo
+    $scope.close = function (label) {
+        dialog.close({ label: label, key: $scope.key });
+    };
+}
+
 function TitleDialogController($scope, dialog, element) {
     $scope.element = element;
     $scope.title = element.title;
@@ -144,12 +214,3 @@ function DocDialogController($scope, dialog, element) {
     };
 }
 
-CultureCollectorApp.directive('i18nToggle', function ($rootScope) {
-        return {
-            restrict: 'EA',
-            replace: false,
-            transclude: true,
-            templateUrl: 'template/i18n/i18n-toggle.html'
-        }
-    }
-);

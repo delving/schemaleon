@@ -46,6 +46,16 @@ CultureCollectorApp.service("I18N",
                 }
                 return null;
             },
+            setLabel: function (key, value) {
+                $http.post('/i18n/' + $rootScope.lang + '/label', { key: key, label: value })
+                    .success(function (data, status, headers, config) {
+                        var language = xmlToObject(data);
+                        $rootScope.i18n = language.Language;
+                    }
+                ).error(function (data, status, headers, config) {
+                        alert('Problem fetching i18n');
+                    });
+            },
             setTitle: function (key, value) {
                 $http.post('/i18n/' + $rootScope.lang + '/element', { key: key, title: value })
                     .success(function (data, status, headers, config) {
