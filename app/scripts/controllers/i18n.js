@@ -23,8 +23,8 @@ CultureCollectorApp.directive('i18n', function () {
                     if (i18n) {
                         var msg = i18n.label[$attrs.i18n];
                         if (msg && msg != '?') {
-                            console.log('replacing: ' + $attrs.i18n); // todo
-                            console.log(msg);// todo
+//                            console.log('replacing: ' + $attrs.i18n); // todo
+//                            console.log(msg);// todo
                             setText(msg);
                             return;
                         }
@@ -35,11 +35,19 @@ CultureCollectorApp.directive('i18n', function () {
                 $attrs.$observe('i18n', function (newValue) {
                     $scope.key = newValue;
                 });
-                $element.on('click', function (e) {
-                    e.preventDefault();
-                    e.unbind('click');
-                });
-
+                if ($element[0].localName == 'button') {
+                    // todo: this only works for buttons
+//                    console.log($element[0]); // todo
+//                    $scope.$watch('config.showTranslationEditor', function(show) {
+//                        if (show) {
+//                            console.log('ok disable the fucker '+$attrs.i18n);
+//                            $element.disable();
+//                        }
+//                        else {
+//                            console.log('back on` '+$attrs.i18n);
+//                        }
+//                    });
+                }
             },
             template: '<span ng-transclude></span> ' +
                 '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +
