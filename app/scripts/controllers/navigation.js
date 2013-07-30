@@ -7,8 +7,8 @@ CultureCollectorApp.controller('NavigationController',
         function ($scope, $location) {
             $scope.mainMenu = {
                 links: [
-                    {label: "Dashboard", path: "/#/dashboard", icon: 'icon-home', active: false},
-                    {label: "Documents", path: "/#/document/", icon: 'icon-th-list', active: false}
+                    {label: "Dashboard", messageKey: "Dashboard", path: "/#/dashboard", icon: 'icon-home', active: false},
+                    {label: "Documents", messageKey: "Documents", path: "/#/document/", icon: 'icon-th-list', active: false}
                 ],
                 activeLabel: 'Dashboard'
             };

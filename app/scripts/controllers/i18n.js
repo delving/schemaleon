@@ -143,3 +143,13 @@ function DocDialogController($scope, dialog, element) {
         dialog.close(result);
     };
 }
+
+CultureCollectorApp.directive('i18nToggle', function ($rootScope) {
+        return {
+            restrict: 'EA',
+            replace: false,
+            transclude: true,
+            templateUrl: 'template/i18n/i18n-toggle.html'
+        }
+    }
+);

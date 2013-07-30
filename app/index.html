@@ -60,10 +60,12 @@
         <div class="sidebar-nav">
             <ul class="nav nav-pills nav-stacked main-menu">
                 <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }" ng-click="choose($index)">
+                    <span i18n-toggle="{{ link.messageKey }}">
                     <a href="{{ link.path }}">
                         <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                         {{ link.label }}
                     </a>
+                    </span>
                 </li>
             </ul>
         </div>
