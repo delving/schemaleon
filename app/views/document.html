@@ -2,8 +2,10 @@
     <div ng-show="showingList">
         <div class="page-header">
             <h1><span i18n="Documents"></span></h1>
+
             <div class="controls btn-toolbar" ng-controller="ConfigurationController">
-                <a ng-href="#/document/" class="btn btn-primary" ng-click="newDocument()"><i class="icon icon-plus icon-white"></i> <span i18n="NewDocument"></span></a>
+                <a ng-href="#/document/" class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument"><i
+                        class="icon icon-plus icon-white"></i> <span class="i18n">New Document</span></a>
             </div>
         </div>
         <table class="table table-striped">
@@ -24,7 +26,8 @@
                     <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
                 </td>
                 <td>
-                    <a ng-href="#/document/{{ header.Identifier }}" class="btn btn-primary"><i class="icon icon-edit icon-white"></i> Edit</a>
+                    <a ng-href="#/document/{{ header.Identifier }}" class="btn btn-primary" i18n="Edit">
+                        <i class="icon icon-edit icon-white"></i><span class="i18n">Edit</span></a>
                 </td>
             </tr>
             </tbody>
@@ -37,6 +40,7 @@
                 <small ng-show="header.Identifier">{{ header.Identifier }}</small>
             </h1>
             <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
+
             <div class="controls btn-toolbar" ng-controller="ConfigurationController">
                 <div class="btn-group">
                     <a i18n="DocumentList" href="/#/document" class="btn">
@@ -44,13 +48,14 @@
                         <span class="i18n"></span>
                     </a>
                     <a href i18n="ShowPreviews" ng-click="toggleInlinePreview()"
-                            ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
+                       ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
                         <span class="i18n"></span>
                     </a>
                 </div>
                 <div class="btn-group">
                     <a href class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
                         <i class="icon icon-check icon-white"></i>
+                        <span class="i18n"></span>
                     </a>
                 </div>
             </div>
@@ -66,11 +71,14 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td ng-repeat="panel in panels" ng-controller="PanelController" class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}" special-key="specialKeyPressed($key)">
+                    <td ng-repeat="panel in panels" ng-controller="PanelController"
+                        class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}"
+                        special-key="specialKeyPressed($key)">
 
                         <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
                             <li ng-repeat="element in el.elements">
-                                <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                                <a class="level{{ element.classIndex }} link-{{ element.name }}"
+                                   ng-click="choose($index, $parent.$index)">
                                     <!-- element title/label -->
                                     <div class="link-title">
                                         {{ element | elementTitle }}
@@ -89,6 +97,7 @@
                                         {{ element | elementDisplay }}
                                     </div>
                                 </a>
+
                                 <div class="icon-container">
                                     <!-- // Add sibling toggle -->
                                 <span ng-show="element.multiple"
@@ -121,7 +130,8 @@
                                         </button>
                                     </div>
                                     <div ng-show="!el.edit && !el.elements && el.valueFields">
-                                        <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
+                                        <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"
+                                             class="pointer chosen-value" tabindex="0">
                                             <ul class="unstyled kv-list">
                                                 <li ng-repeat="line in el.valueFields">
                                                     <!--todo: translation button-->
@@ -140,16 +150,19 @@
                                 </div>
                             </div>
 
-                            <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController" class="text-input">
+                            <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController"
+                                 class="text-input">
                                 <div ng-show="el.edit">
-                                    <input focus id="textInput" class="input-block-level" type="text" ng-model="el.value"/>
+                                    <input focus id="textInput" class="input-block-level" type="text"
+                                           ng-model="el.value"/>
                                 </div>
 
                                 <div ng-hide="el.edit" class="input-append">
                                     <!--<div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">-->
                                     <!--<span>{{ el.value }}</span>-->
                                     <!--</div>-->
-                                    <input type="text" ng-model="el.value" class="input-large" ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"/>
+                                    <input type="text" ng-model="el.value" class="input-large" ng-click="enableEditor()"
+                                           tooltip-placement="right" tooltip="Click to edit"/>
                                     <!--<button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>-->
                                 </div>
                                 <div ng-show="invalidMessage">
@@ -157,14 +170,18 @@
                                 </div>
                             </div>
 
-                            <div ng-show="el.textArea && !el.elements" class="textarea-input" ng-controller="TextAreaController">
+                            <div ng-show="el.textArea && !el.elements" class="textarea-input"
+                                 ng-controller="TextAreaController">
                                 <div ng-show="el.edit">
                                     <textarea focus id="textArea" ng-model="el.value" rows="5"></textarea>
                                     <br/>
-                                    <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>Yes</button>
+                                    <button ng-click="disableEditor()" class="btn btn-small"><i
+                                            class="icon-ok-circle"></i>Yes
+                                    </button>
                                 </div>
                                 <div ng-hide="el.edit">
-                                    <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
+                                    <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"
+                                         class="pointer chosen-value" tabindex="0">
                                         <div ng-repeat="line in el.value.split('\n')">
                                             <span>{{ line }}</span><br/>
                                         </div>
@@ -177,6 +194,7 @@
                             <div ng-hide="el.elements">
                                 <div ng-show="el.doc" class="element-documentation">
                                     <h5><i class="icon icon-question-sign"></i> {{ el | elementTitle }}</h5>
+
                                     <p>{{ el | elementDoc }}</p>
                                 </div>
                                 <div>
