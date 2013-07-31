@@ -37,7 +37,8 @@ CultureCollectorApp.controller('NavigationController',
                         name: identifier,
                         path: path,
                         icon: 'icon-th-home',
-                        active: true
+                        active: true,
+                        recent: true
                     };
                     $scope.mainMenu.links.push(freshLabel);
                 }
