@@ -28,7 +28,7 @@
                     <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
                 </td>
                 <td>
-                    <a ng-href="#/document/{{ header.Identifier }}" class="btn btn-primary" i18n="Edit">
+                    <a href ng-click="choosePath('/document/'+ header.Identifier)" class="btn btn-primary" i18n="Edit">
                         <i class="icon icon-edit icon-white"></i> <span class="i18n"></span></a>
                 </td>
             </tr>
