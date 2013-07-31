@@ -70,6 +70,10 @@
         </div>
 
         <div id="sidebar">
+            <div ng-show="config.showTranslationEditor" class="alert">
+                <strong>Translation editor active! <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></strong></span>
+                <p>While translating all hyperlinks and buttons are disabled. To return to normal navigation of the document turn off the translation editor.</p>
+            </div>
             <div class="sidebar-nav">
                 <ul class="nav nav-pills nav-stacked main-menu">
                     <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
