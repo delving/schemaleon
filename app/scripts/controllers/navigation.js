@@ -29,7 +29,7 @@ CultureCollectorApp.controller('NavigationController',
                 }
                 var activeItem = false;
                 _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
-                    link.active = (link.path === path);
+                    link.active = (link.path == path);
                     if (link.active) activeItem = true;
                 });
                 if (!activeItem && path.indexOf('OSCR') > 0) {

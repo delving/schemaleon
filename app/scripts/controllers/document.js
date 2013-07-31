@@ -44,7 +44,7 @@ CultureCollectorApp.directive('focus',
 );
 
 CultureCollectorApp.controller('DocumentController',
-    ['$rootScope','$scope', '$routeParams', '$location', 'Document', 'I18N',
+    ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
         function ($rootScope, $scope, $routeParams, $location, Document, I18N) {
             $scope.panels = [];
             $scope.header = { SchemaName: 'Photograph' };
@@ -71,29 +71,33 @@ CultureCollectorApp.controller('DocumentController',
                 }
             }
 
-            Document.fetchSchema($scope.header.SchemaName, function (schema) {
-                $scope.tree = xmlToTree(schema);
-                $scope.panels[0] = {
-                    selected: 0,
-                    element: $scope.tree
-                };
-                $scope.choose(0, 0);
+            function fetchSchema() {
+                Document.fetchSchema($scope.header.SchemaName, function (schema) {
+                    $scope.tree = xmlToTree(schema);
+                    $scope.panels[0] = {
+                        selected: 0,
+                        element: $scope.tree
+                    };
+                    $scope.choose(0, 0);
 
-                if ($routeParams.id) {
-                    Document.fetchDocument($routeParams.id, function (documentXml) {
-                        var object = xmlToObject(documentXml);
-                        populateTree($scope.tree, object.Document.Body);
-                        useHeader(object.Document.Header);
-                        $scope.showingList = false;
-                    });
-                }
-                else {
-                    $scope.header = {
-                        SchemaName: 'Photograph',
-                        Identifier: '#IDENTIFIER#'
+                    if ($routeParams.id) {
+                        Document.fetchDocument($routeParams.id, function (documentXml) {
+                            var object = xmlToObject(documentXml);
+                            populateTree($scope.tree, object.Document.Body);
+                            useHeader(object.Document.Header);
+                            $scope.showingList = false;
+                        });
                     }
-                }
-            });
+                    else {
+                        $scope.header = {
+                            SchemaName: 'Photograph',
+                            Identifier: '#IDENTIFIER#'
+                        }
+                    }
+                });
+            }
+
+            fetchSchema();
 
             $scope.$watch('i18n', function (i18n, oldValue) {
                 if ($scope.tree && i18n) {
@@ -102,9 +106,10 @@ CultureCollectorApp.controller('DocumentController',
             });
 
             $scope.newDocument = function () {
-                if($rootScope.config.showTranslationEditor){ return; }
-                    $scope.showingList = false;
-                // todo: clean the tree or something
+                if ($rootScope.config.showTranslationEditor) return;
+                $scope.choosePath('/document/');
+                $scope.showingList = false;
+                fetchSchema();
             };
 
             $scope.choose = function (choice, parentIndex) {
@@ -150,7 +155,9 @@ CultureCollectorApp.controller('DocumentController',
             };
 
             $scope.saveDocument = function () {
-                if($rootScope.config.showTranslationEditor){  return; }
+                if ($rootScope.config.showTranslationEditor) {
+                    return;
+                }
                 var object = treeToObject($scope.tree);
                 $scope.header.TimeStamp = "#TIMESTAMP#";
                 var document = {

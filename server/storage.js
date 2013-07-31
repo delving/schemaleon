@@ -15,7 +15,7 @@ function generateId(prefix) {
 }
 
 function langDocument(language) {
-    return "/i18n/" + language;
+    return "/i18n/" + language + ".xml";
 }
 
 function langPath(language) {
@@ -30,21 +30,22 @@ function inXml(value) {
     return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-storage.useDatabase = function (name, receiver) {
-    storage.database = name;
-    storage.session.execute('open ' + name, function (error, reply) {
+storage.useDatabase = function (databaseName, receiver) {
+    storage.database = databaseName;
+    storage.session.execute('open ' + databaseName, function (error, reply) {
         if (reply.ok) {
             console.log(reply.info);
-            receiver(name);
+            receiver(databaseName);
         }
         else {
-            console.log('could not open database ' + name);
-            storage.session.execute('create db ' + name, function (error, reply) {
-                function preload(name, next) {
-                    var contents = fs.readFileSync('test/data/' + name + '.xml', 'utf8');
-                    storage.session.add('/' + name, contents, function (error, reply) {
+            console.log('could not open database ' + databaseName);
+            storage.session.execute('create db ' + databaseName, function (error, reply) {
+
+                function preload(fileName, next) {
+                    var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
+                    storage.session.add('/' + fileName, contents, function (error, reply) {
                         if (reply.ok) {
-                            console.log("Preloaded: " + name);
+                            console.log("Preloaded: " + fileName);
                             if (next) next();
                         }
                         else {
@@ -54,10 +55,10 @@ storage.useDatabase = function (name, receiver) {
                 }
 
                 if (reply.ok) {
-                    preload('VocabularySchemas', function () {
-                        preload('DocumentSchemas');
+                    preload('VocabularySchemas.xml', function () {
+                        preload('DocumentSchemas.xml');
                     });
-                    receiver(name);
+                    receiver(databaseName);
                 }
                 else {
                     throw error;
@@ -151,7 +152,7 @@ storage.getVocabularySchema = function (vocabName, receiver) {
 };
 
 function vocabDocument(vocabName) {
-    return "/vocabulary/" + vocabName;
+    return "/vocabulary/" + vocabName + ".xml";
 }
 
 function vocabPath(vocabName) {
@@ -234,7 +235,7 @@ storage.getVocabularyEntries = function (vocabName, search, receiver) {
 };
 
 storage.getDocumentSchema = function (schemaName, receiver) {
-    var query = storage.session.query("doc('" + storage.database + "/DocumentSchemas')/DocumentSchemas/" + schemaName);
+    var query = storage.session.query("doc('" + storage.database + "/DocumentSchemas.xml')/DocumentSchemas/" + schemaName);
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -246,7 +247,7 @@ storage.getDocumentSchema = function (schemaName, receiver) {
 };
 
 function docDocument(identifier) {
-    return "/documents/" + identifier;
+    return "/documents/" + identifier + ".xml";
 }
 
 function docPath(identifier) {
