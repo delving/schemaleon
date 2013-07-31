@@ -42,7 +42,7 @@ Before you can get to work on developing OSCR you will need to have the followin
 
     You can download and install Node.js directly from here: <http://nodejs.org/download/>, or if you have a package manager installed on your system you can follow the instructions found here: <https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>.
 
-1. **NPM** node package manager for handling server side dependencies
+1. **NPM**: node package manager for handling server side dependencies
 
     The Node Package Manager is included with your NodeJS installation
 
@@ -60,15 +60,29 @@ Before you can get to work on developing OSCR you will need to have the followin
 
 1. **BaseX**: database for persisting XML
 
-    You can get the Basex client application here: <http://basex.org/products/download/all-downloads/>
+    You can get the BaseX client application here: <http://basex.org/products/download/all-downloads/>
 
-## Running the development environment
+### Developing
 	
 1. clone the OSCR source-code from this repository
-1. start up the previously installed Basex client application
-1. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/culture-collector</pre>
-1. run the application: <pre>grunt run</pre>
-1. currently the Gruntfile.js in the root of the project is set to load Chrome with following url: <http://localhost:9000/#/> (edit Gruntfile.js for your own browser preference)
+1. start up the previously installed BaseX client application, start its server
+1. via the terminal navigate to the root of the application:
+
+        cd /path/to/cloned/culture-collector
+
+1. run the application:
+
+        grunt run
+
+1. currently the Gruntfile.js in the root of the project is set to load Chrome with following url:
+
+        http://localhost:9000/
+        
+    (edit Gruntfile.js for your own browser preference)        
+
+1. changes made and saved in the application code will trigger the browser to reload the page
+
+
 1. changes made and saved in the application code will trigger the browser to reload the page
 
 
