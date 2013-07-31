@@ -45,9 +45,9 @@ CultureCollectorApp.controller('VocabularyController',
 
             $scope.createNew = function (index, parentIndex) {
                 if ($scope.v.tree) {
-                    $scope.el.elements = _.map($scope.v.tree.elements, function (el) {
+                    $scope.el.elements = _.filter($scope.v.tree.elements, function (el) {
                         el.value = null;
-                        return el;
+                        return el.name != 'ID'; // todo: how do we know this?
                     });
                     $scope.choose(0, parentIndex);
                 }
@@ -55,10 +55,11 @@ CultureCollectorApp.controller('VocabularyController',
 
             $scope.submitNew = function () {
                 $scope.newValue = treeToObject($scope.v.tree);
-                Vocabulary.add($scope.v.name, $scope.newValue, function (entry) {
+                Vocabulary.add($scope.v.name, $scope.newValue, function (entryXml) {
                     $scope.panels.pop();
                     $scope.el.elements = null;
-                    $scope.setValue($scope.newValue.Entry);
+                    var entry = xmlToObject(entryXml);
+                    $scope.setValue(entry.Entry);
                     $scope.disableEditor();
                 });
             };
@@ -91,7 +92,7 @@ CultureCollectorApp.controller('VocabularyController',
             $scope.setValue = function (value) {
                 $scope.el.value = value;
                 $scope.el.valueFields = _.map($scope.v.tree.elements, function (element) {
-                    return { prompt: element.name, value: value[element.name] };
+                    return  { prompt: element.name, value: value[element.name] };
                 });
             };
         }]

@@ -140,7 +140,7 @@ storage.setElementDoc = function (language, key, value, receiver) {
 };
 
 storage.getVocabularySchema = function (vocabName, receiver) {
-    var query = storage.session.query("doc('" + storage.database + "/VocabularySchemas')/VocabularySchemas/" + vocabName);
+    var query = storage.session.query("doc('" + storage.database + "/VocabularySchemas.xml')/VocabularySchemas/" + vocabName);
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -202,7 +202,7 @@ storage.addVocabularyEntry = function (vocabName, entry, receiver) {
         });
     }
     else {
-        entry.ID = generateId("OSCR-V-" + vocabName);
+        entry.ID = generateId("OSCR-V");
         entryXml = entryToXML(entry);
         query = "xquery insert node " + entryXml + " into " + vocabPath(vocabName);
         storage.session.execute(query, function (error, reply) {

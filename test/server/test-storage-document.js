@@ -15,7 +15,7 @@ exports.createDatabase = function (test) {
 
 exports.fillSchemas = function (test) {
     var contents = fs.readFileSync('test/data/DocumentSchemas.xml', 'utf8');
-    storage.session.add('/DocumentSchemas', contents, function (error, reply) {
+    storage.session.add('/DocumentSchemas.xml', contents, function (error, reply) {
         if (reply.ok) {
 //            console.log("Preloaded document schemas");
             test.done();
@@ -47,7 +47,7 @@ exports.testSaveDocument = function (test) {
         header: {
             Identifier: '#IDENTIFIER#',
             Title: 'Big Bang',
-            SchemaName: 'Photograph'
+            SchemaName: 'Photograph.xml'
         },
         xml: '<Document>' +
             '<Header>' +
