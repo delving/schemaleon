@@ -44,8 +44,8 @@ CultureCollectorApp.directive('focus',
 );
 
 CultureCollectorApp.controller('DocumentController',
-    ['$scope', '$routeParams', '$location', 'Document', 'I18N',
-        function ($scope, $routeParams, $location, Document, I18N) {
+    ['$rootScope','$scope', '$routeParams', '$location', 'Document', 'I18N',
+        function ($rootScope, $scope, $routeParams, $location, Document, I18N) {
             $scope.panels = [];
             $scope.header = { SchemaName: 'Photograph' };
             $scope.showingList = true;
@@ -102,7 +102,9 @@ CultureCollectorApp.controller('DocumentController',
             });
 
             $scope.newDocument = function () {
-                $scope.showingList = false;
+                if(!$rootScope.config.showTranslationEditor){
+                    $scope.showingList = false;
+                }
                 // todo: clean the tree or something
             };
 
@@ -149,24 +151,26 @@ CultureCollectorApp.controller('DocumentController',
             };
 
             $scope.saveDocument = function () {
-                var object = treeToObject($scope.tree);
-                $scope.header.TimeStamp = "#TIMESTAMP#";
-                var document = {
-                    Document: {
-                        Header: $scope.header,
-                        Body: object
-                    }
-                };
-                var documentXml = objectToXml(document);
-                var body = {
-                    header: $scope.header,
-                    xml: documentXml
-                };
-                Document.saveXml(body, function (header) {
-                    useHeader(header);
-                    fetchList();
-                    $location.path('/document/');
-                });
+                if(!$rootScope.config.showTranslationEditor){
+                    var object = treeToObject($scope.tree);
+                    $scope.header.TimeStamp = "#TIMESTAMP#";
+                    var document = {
+                        Document: {
+                            Header: $scope.header,
+                            Body: object
+                        }
+                    };
+                    var documentXml = objectToXml(document);
+                    var body = {
+                        header: $scope.header,
+                        xml: documentXml
+                    };
+                    Document.saveXml(body, function (header) {
+                        useHeader(header);
+                        fetchList();
+                        $location.path('/document/');
+                    });
+                }
             }
         }]
 );
