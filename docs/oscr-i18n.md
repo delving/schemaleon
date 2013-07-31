@@ -54,4 +54,5 @@ deployment.
 
 ===
 
-Gerald de Jong, gerald@delving.eu
+* Gerald de Jong <gerald@delving.eu>
+

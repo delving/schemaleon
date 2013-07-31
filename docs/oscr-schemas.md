@@ -259,4 +259,5 @@ values appropriately.
 
 ===
 
-Gerald de Jong, gerald@delving.eu
+* Gerald de Jong <gerald@delving.eu>
+

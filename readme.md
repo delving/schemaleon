@@ -1,48 +1,81 @@
 ![delving logo](http://delving.eu/sites/all/themes/delving_pool/logo.png)
 
----
-# CULTURE-COLLECTOR (working title: OSCR)
-***OSCR*** stands for "Open Source Collection Registration". It aims to ensure that data about collections and it's containing objects is recorded properly according to the [CIDOC-CRM](http://www.cidoc-crm.org/) model and practices.
+----
 
+# CULTURE-COLLECTOR
 
+The culture collector is the result of project **OSCR**, for _Open Source Collection Registration_, dedicated to
+building a streamlined client and server side platform for capturing cultural heritage data.
 
-##Development environment setup
+The purpose is to capture data properly according to the [CIDOC Conceptual Reference Model](http://www.cidoc-crm.org/)
+and OSCR stores such data in an XML database.  The dominant theme in this approach to registering data is
+contextualization, which means that users choose from shared lists much more than they type field values.
 
-###Prerequisites
+The key feature of OSCR is the fact that it is schema-driven, in other words the user interface is actually
+generated rather than built by hand.  This means that it can support the creation and evolution of a series
+of schema descriptions for the documents it stores, and the database will contain objects built from any of
+these schemas.
+
+Tree-shaped documents are created and edited in a way that makes it possible for their parts to link explicitly
+to items from external authority lists and services. The intended user base for OSCR is the membership of local
+historical societies, so the user-friendliness is among the highest priorities.
+
+## Documentation
+
+In the docs directory you will find documents describing the various aspects of the OSCR system.
+
+* **oscr-i18n.md**: explains how OSCR multi-language interface works
+
+* **oscr-schemas.md**: explains the prototype-style schemas and how they work
+
+## Development Environment
+
+The development environment is end-to-end Javascript, with **Angular JS** as the framework for the client
+side and **Node JS** as the prototype back-end server providing a REST interface that interfaces to the
+**BaseX** database.
+
+### Prerequisites
+
 Before you can get to work on developing OSCR you will need to have the following installed on your system:
 
-1. Node JS
-2. Node Package Manager (npm)
-3. Bower
-4. Grunt
-5. Basex client
+1. **Node JS**: server side Javascript framework
 
-####NodeJS
-You can download and install Node.js directly from here: <http://nodejs.org/download/>, or if you have a package manager installed on your system you can follow the instructions found here: <https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>.
+    You can download and install Node.js directly from here: <http://nodejs.org/download/>, or if you have a package manager installed on your system you can follow the instructions found here: <https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>.
 
-####NPM
-The Node Package Manager is included with your NodeJS installation
+1. **NPM** node package manager for handling server side dependencies
 
-####Bower
-To install Bower open up the terminal and type the following (you will want to sudo this):
-<pre>npm install -g bower</pre>
-	
-####Grunt
-To install Grunt open up the terminal and type the following (you will want to sudo this):
-<pre>npm install -g grunt-cli</pre>
-	
-####Basex
-You can get the Basex client application here: <http://basex.org/products/download/all-downloads/>
+    The Node Package Manager is included with your NodeJS installation
 
-##Running the development environment
+1. **Bower**: package manager for client-side dependencies.
+
+    To install Bower open up the terminal and type the following (you will want to sudo this):
+
+        npm install -g bower
+
+1. **Grunt**: build tool
+
+    To install Grunt open up the terminal and type the following (you will want to sudo this):
+
+        npm install -g grunt-cli
+
+1. **BaseX**: database for persisting XML
+
+    You can get the Basex client application here: <http://basex.org/products/download/all-downloads/>
+
+## Running the development environment
 	
 1. clone the OSCR source-code from this repository
-2. start up the previously installed Basex client application
-3. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/culture-collector</pre>
-4. run the application: <pre>grunt run</pre>  
-Your default browser will load with the following url: <http://localhost:9000/#/>
-5. Any changes made and saved in the application code will trigger the browser to automatically reload the page so that your changes are immediately visible.
+1. start up the previously installed Basex client application
+1. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/culture-collector</pre>
+1. run the application: <pre>grunt run</pre>
+1. your default browser will load with the following url: <http://localhost:9000/#/>
+1. changes made and saved in the application code will trigger the browser to reload the page
 
+
+===
+
+* Eric van der Meulen <eric@delving.eu>
+* Gerald de Jong <gerald@delving.eu>
 
 	
 
