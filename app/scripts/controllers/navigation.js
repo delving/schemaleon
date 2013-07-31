@@ -13,7 +13,9 @@ CultureCollectorApp.controller('NavigationController',
                 activeLabel: 'Dashboard'
             };
             $scope.choose = function (path) {
-                if($rootScope.config.showTranslationEditor) return;
+                if($rootScope.config.showTranslationEditor) {
+                    return;
+                }
                 _.forEach($scope.mainMenu.links, function (link) {
                     link.active = (link.path == path);
                     if (link.active) {
