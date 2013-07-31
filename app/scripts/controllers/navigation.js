@@ -3,8 +3,8 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 CultureCollectorApp.controller('NavigationController',
-    ['$scope', '$location',
-        function ($scope, $location) {
+    ['$rootScope','$scope', '$location',
+        function ($rootScope, $scope, $location) {
             $scope.mainMenu = {
                 links: [
                     {name: "Dashboard", path: "/#/dashboard", icon: 'icon-home', active: false},
@@ -41,5 +41,13 @@ CultureCollectorApp.controller('NavigationController',
                 }
                 return "";
             };
+
+            $scope.onwards = function (loco) {
+                console.log('onwards');
+                if(!$rootScope.config.showTranslationEditor){
+                    $location.path(loco);
+                }
+            }
+
         }]
 );

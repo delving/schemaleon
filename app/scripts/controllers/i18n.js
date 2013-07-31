@@ -36,12 +36,20 @@ CultureCollectorApp.directive('i18n', function () {
                     $scope.key = newValue;
                 });
 
-                $element.on('click',function(e){  // todo: this only works if there is no ng-click in the ahref
+
+                $scope.$watch('config.showTranslationEditor', function(show) {
+                    if (show) {
+                        $element.on('click',function(e){  // todo: this only works if there is no ng-click in the ahref and a normal url without the #
 //                    console.log($attrs.ngClick);
 //                    $attrs.ngClick.bind('click', false);
-                    e.preventDefault();
+                            e.preventDefault();
+
+                        });
+                    }
 
                 });
+
+
 
 
 //                if ($element[0].localName == 'button') {// todo: this only works for buttons
