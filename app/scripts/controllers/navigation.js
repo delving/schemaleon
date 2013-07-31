@@ -12,6 +12,7 @@ CultureCollectorApp.controller('NavigationController',
                     {name: "Documents", path: "/document/", icon: 'icon-th-list', active: false}
                 ]
             };
+            $scope.recent = [];
 
             var anyActive = false;
             _.forEach($scope.mainMenu.links, function (link) {
@@ -27,7 +28,7 @@ CultureCollectorApp.controller('NavigationController',
                     return;
                 }
                 var activeItem = false;
-                _.forEach($scope.mainMenu.links, function (link) {
+                _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
                     link.active = (link.path === path);
                     if (link.active) activeItem = true;
                 });
@@ -40,7 +41,7 @@ CultureCollectorApp.controller('NavigationController',
                         active: true,
                         recent: true
                     };
-                    $scope.mainMenu.links.push(freshLabel);
+                    $scope.recent.push(freshLabel);
                 }
                 $location.path(path);
             };

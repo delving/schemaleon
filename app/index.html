@@ -86,6 +86,14 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="nav nav-pills nav-stacked main-menu">
+                    <li ng-repeat="link in recent" ng-class="{ active: link.active }">
+                        <a href ng-click="choosePath(link.path)">
+                            <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                            {{ link | linkTitle }}
+                        </a>
+                    </li>
+                </ul>
             </div>
             <!--/.sidebar-nav -->
             <div ng-include="getInclude()"></div>
