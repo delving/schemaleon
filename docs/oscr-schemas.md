@@ -94,7 +94,7 @@ It will produce records like this:
         <TechnicalDescription>
     </Photograph>
 
-The tags <Label>, <ID>, etc are derived by referring to the vocabulary schemas, which are defined elsewhere so they
+The tags _Label_, _ID_, etc are derived by referring to the vocabulary schemas, which are defined elsewhere so they
 can be reused, but in the same schema format. More about that later.
 
 ## Embedded JSON Properties in XML
