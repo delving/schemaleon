@@ -24,7 +24,7 @@ historical societies, so the user-friendliness is among the highest priorities.
 
 In the docs directory you will find documents describing the various aspects of the OSCR system.
 
-* **oscr-i18n.md**: explains how OSCR multi-language interface works
+* **oscr-i18n.md**: explains how the multi-language interface works
 
 * **oscr-schemas.md**: explains the prototype-style schemas and how they work
 
