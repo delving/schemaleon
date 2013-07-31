@@ -13,6 +13,7 @@ CultureCollectorApp.controller('NavigationController',
                 activeLabel: 'Dashboard'
             };
             $scope.choose = function (path) {
+                if($rootScope.config.showTranslationEditor) return;
                 _.forEach($scope.mainMenu.links, function (link) {
                     link.active = (link.path == path);
                     if (link.active) {
@@ -40,13 +41,5 @@ CultureCollectorApp.controller('NavigationController',
                 }
                 return "";
             };
-
-            $scope.onwards = function (loco) {
-                console.log('onwards');
-                if(!$rootScope.config.showTranslationEditor){
-                    $location.path(loco);
-                }
-            }
-
         }]
 );
