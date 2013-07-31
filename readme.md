@@ -68,7 +68,7 @@ Before you can get to work on developing OSCR you will need to have the followin
 1. start up the previously installed Basex client application
 1. via the terminal navigate to the root of the application: <pre>cd /path/to/cloned/culture-collector</pre>
 1. run the application: <pre>grunt run</pre>
-1. your default browser will load with the following url: <http://localhost:9000/#/>
+1. currently the Gruntfile.js in the root of the project is set to load Chrome with following url: <http://localhost:9000/#/> (edit Gruntfile.js for your own browser preference)
 1. changes made and saved in the application code will trigger the browser to reload the page
 
 
