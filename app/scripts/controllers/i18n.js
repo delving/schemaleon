@@ -35,7 +35,7 @@ CultureCollectorApp.directive('i18n', function () {
                 $attrs.$observe('i18n', function (newValue) {
                     $scope.key = newValue;
                 });
-                if ($element[0].localName == 'button') {
+//                if ($element[0].localName == 'button') {
                     // todo: this only works for buttons
 //                    console.log($element[0]); // todo
 //                    $scope.$watch('config.showTranslationEditor', function(show) {
@@ -47,7 +47,7 @@ CultureCollectorApp.directive('i18n', function () {
 //                            console.log('back on` '+$attrs.i18n);
 //                        }
 //                    });
-                }
+//                }
             },
             template: '<span ng-transclude></span> ' +
                 '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +

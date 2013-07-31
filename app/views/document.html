@@ -29,7 +29,7 @@
                 </td>
                 <td>
                     <a ng-href="#/document/{{ header.Identifier }}" class="btn btn-primary" i18n="Edit">
-                        <i class="icon icon-edit icon-white"></i><span class="i18n"></span></a>
+                        <i class="icon icon-edit icon-white"></i> <span class="i18n"></span></a>
                 </td>
             </tr>
             </tbody>
@@ -76,7 +76,7 @@
                     <td ng-repeat="panel in panels" ng-controller="PanelController"
                         class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}"
                         special-key="specialKeyPressed($key)">
-
+                        <!-- panel showing the document element titles -->
                         <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
                             <li ng-repeat="element in el.elements">
                                 <a class="level{{ element.classIndex }} link-{{ element.name }}"
@@ -99,36 +99,40 @@
                                         {{ element | elementDisplay }}
                                     </div>
                                 </a>
-
+                                <!-- indicator icons -->
                                 <div class="icon-container">
                                     <!-- // Add sibling toggle -->
-                                <span ng-show="element.multiple"
-                                      tooltip-placement="bottom"
-                                      tooltip="Add {{ element | elementTitle }}"
-                                      class="display-{{ element.multiple }} icon-item pointer"
-                                      ng-click="addSibling(el.elements, $index, $parent.index)">
-                                    <i class="icon-plus-sign icon-white"></i>
-                                </span>
+                                    <span ng-show="element.multiple"
+                                          tooltip-placement="bottom"
+                                          tooltip="Add {{ element | elementTitle }}"
+                                          class="display-{{ element.multiple }} icon-item pointer"
+                                          ng-click="addSibling(el.elements, $index, $parent.index)">
+                                        <i class="icon-plus-sign icon-white"></i>
+                                    </span>
                                 </div>
 
                             </li>
                         </ul>
 
+                        <!-- panel for user input -->
                         <div class="panel-input">
+                            <!-- vocabulary input -->
                             <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                                 <div ng-hide="el.elements">
                                     <div ng-show="el.edit">
-                                        <input focus id="vocabulary" type="text" ng-model="chosenState"
+                                        <input focus id="vocabulary" type="text" ng-model="chosenState" class="input-block-level"
                                                typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
-                                        <button ng-click="disableEditor()" class="btn btn-small">
+                                        <button ng-click="disableEditor()" class="btn btn-small" i18n="Select">
                                             <i class="icon-ok-circle"></i>
-                                            <span i18n="Select"></span>
+                                            <span class="i18n"/>
                                         </button>
                                         <button ng-show="!el.elements"
                                                 ng-click="createNew($index, $parent.$index)"
                                                 class="btn btn-warning btn-small"
                                                 i18n="New"
                                                 >
+                                            <i class="icon-white icon-plus-sign"></i>
+                                            <span class="i18n"/>
                                         </button>
                                     </div>
                                     <div ng-show="!el.edit && !el.elements && el.valueFields">
@@ -142,13 +146,12 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <br/>
-                                        <button ng-click="enableClearedEditor()" class="btn btn-small">Edit</button>
+                                        <button ng-click="enableClearedEditor()" class="btn btn-small"><i class="icon-edit"></i></button>
                                     </div>
                                 </div>
                                 <div ng-show="el.elements">
-                                    <button ng-click="cancelNew()" class="btn btn-small btn-warning">Cancel</button>
-                                    <button ng-click="submitNew()" class="btn btn-small btn-success">Submit</button>
+                                    <button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>
+                                    <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Create"><i class="icon-download-alt icon-white"></i> <span class="i18n"></span></button>
                                 </div>
                             </div>
 

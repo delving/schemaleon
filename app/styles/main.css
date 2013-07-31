@@ -351,28 +351,16 @@ ul.main-menu {
   padding-top: 30px;
   padding-bottom: 30px;
 }
-ul.main-menu li {
-  margin-bottom: 3px;
+ul.main-menu > li > a {
+  color: #000000;
 }
-ul.main-menu li a {
-  border-radius: 10px 0 0 10px;
-  color: #333333;
-  display: block;
-  padding: 3px 15px;
-  padding-right: 12px;
-  padding-left: 12px;
+ul.main-menu > li > a .icon {
+  margin: 0 10px 0 0;
 }
-ul.main-menu li a .icon {
-  margin: 0 10px;
-}
-ul.main-menu li a:hover {
+ul.main-menu > .active > a,
+ul.main-menu > .active > a:hover {
   background: #dddddd;
-}
-ul.main-menu .active a,
-ul.main-menu .active a:hover {
-  display: block;
-  background: #dddddd;
-  color: #333333;
+  color: #555555;
 }
 .pointer {
   cursor: pointer;

@@ -65,6 +65,7 @@ CultureCollectorApp.controller('VocabularyController',
 
             $scope.cancelNew = function () {
                 $scope.el.elements = null;
+                $scope.panels.pop(); // kill the new element input panel
             };
 
             $scope.enableClearedEditor = function () {

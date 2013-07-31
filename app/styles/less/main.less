@@ -22,6 +22,8 @@
 @br-med: 10px;
 @br-large: 16px;
 
+@baseBorderRadius: @br-med;
+
 
 //@blue: #009AE0;
 
@@ -220,6 +222,7 @@ body {
 
 /* MAIN NAVIGATION */
 
+
 .nav-pills > li > a {
   border-radius: @br-med 0 0 @br-med;
   &.selected-true {
@@ -233,31 +236,50 @@ ul.main-menu {
   padding-left: 20px;
   padding-top: @baseLineHeight*1.5;
   padding-bottom: @baseLineHeight*1.5;
-  li {
-    margin-bottom: 3px;
-    a {
-      border-radius: @br-med 0 0 @br-med;
-      color: @grayDark;
-      display: block;
-      padding: 3px 15px;
-      padding-right: 12px;
-      padding-left: 12px;
-      .icon {
-        margin: 0 10px;
-      }
-      &:hover {
-        background: @bodyBackground;
-      }
-    }
+  &> li > a {
+    color: @black;
+          .icon {
+            margin: 0 10px 0 0;
+          }
   }
-
-  & .active a,
-  & .active a:hover {
-    display: block;
+  &> .active > a,
+  &> .active > a:hover {
     background: @bodyBackground;
-    color: @grayDark;
+    color: @gray;
   }
 }
+//
+//ul.main-menu {
+//  background: @grayLight;
+//  border-radius: 20px;
+//  padding-left: 20px;
+//  padding-top: @baseLineHeight*1.5;
+//  padding-bottom: @baseLineHeight*1.5;
+//  li {
+//    margin-bottom: 3px;
+//    a {
+//      border-radius: @br-med 0 0 @br-med;
+//      color: @grayDark;
+//      display: block;
+//      padding: 3px 15px;
+//      padding-right: 12px;
+//      padding-left: 12px;
+//      .icon {
+//        margin: 0 10px;
+//      }
+//      &:hover {
+//        background: @bodyBackground;
+//      }
+//    }
+//  }
+//
+//  & .active a,
+//  & .active a:hover {
+//    display: block;
+//    background: @bodyBackground;
+//    color: @grayDark;
+//  }
+//}
 
 .pointer {
   cursor: pointer;
