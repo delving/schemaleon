@@ -73,7 +73,7 @@
             <div class="sidebar-nav">
                 <ul class="nav nav-pills nav-stacked main-menu">
                     <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
-                        <a href ng-click="onwards('{{ link.path }}'); choose($index)">
+                        <a href ng-click="choose(link.path)">
                             <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                             {{ link | linkTitle }}
                            <span ng-show="config.showTranslationEditor"

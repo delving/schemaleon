@@ -12,14 +12,13 @@ CultureCollectorApp.controller('NavigationController',
                 ],
                 activeLabel: 'Dashboard'
             };
-            $scope.choose = function (index) {
-                var walk = 0;
+            $scope.choose = function (path) {
                 _.forEach($scope.mainMenu.links, function (link) {
-                    link.active = (walk == index);
+                    link.active = (link.path == path);
                     if (link.active) {
                         $scope.mainMenu.activeLabel = link.label;
+                        $location.path(link.path);
                     }
-                    walk++;
                 });
             };
             var anyActive = false;
