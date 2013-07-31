@@ -257,6 +257,6 @@ a text field but was replaced by a reference to a vocabulary.
 The software implementation would reads the schema with a particular date "in mind" and then removes
 values appropriately.
 
-***
+===
 
-Gerald de Jong <gerald@delving.eu>
+Gerald de Jong, gerald@delving.eu
