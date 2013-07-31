@@ -85,11 +85,10 @@
                             </span>
                         </a>
                     </li>
-                </ul>
-                <ul class="nav nav-pills nav-stacked main-menu">
+                    <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/></li>
                     <li ng-repeat="link in recent" ng-class="{ active: link.active }">
                         <a href ng-click="choosePath(link.path)">
-                            <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                            <i class="icon-leaf"></i>
                             {{ link | linkTitle }}
                         </a>
                     </li>

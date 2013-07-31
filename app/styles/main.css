@@ -362,6 +362,10 @@ ul.main-menu > .active > a:hover {
   background: #dddddd;
   color: #555555;
 }
+ul.main-menu .nav-header {
+  color: #ffffff;
+  text-shadow: none;
+}
 .pointer {
   cursor: pointer;
 }
@@ -439,6 +443,7 @@ ul.main-menu > .active > a:hover {
 .panels td.panel {
   padding: 20px 0 20px 10px;
   width: 340px;
+  min-width: 340px;
   border-top: none;
   border-radius: 0 0 20px 20px;
 }
