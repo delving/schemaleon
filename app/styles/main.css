@@ -304,6 +304,13 @@ body {
   min-width: 500px;
   position: relative;
 }
+.loggedin-false #sidebar {
+  display: none;
+  width: 0px;
+}
+.loggedin-false #mainBody {
+  margin-left: 0px;
+}
 .navbar-inverse .nav li a {
   color: #999999;
   display: block;

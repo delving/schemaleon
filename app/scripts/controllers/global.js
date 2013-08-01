@@ -24,6 +24,26 @@ CultureCollectorApp.controller('GlobalController',
     ['$rootScope', '$scope', '$location',
         function ($rootScope, $scope, $location) {
 
+
+            // USER AUTHENTICATION ===================================================================
+
+            $rootScope.user = {
+                userName: 'Zemyatin',
+                fullName: 'Yvgeny Zemyatin',
+                loggedIn: false
+            };
+
+
+            $rootScope.login = function () {
+                $rootScope.user.loggedIn = true;
+                $location.path('/dashboard');
+            };
+
+            $rootScope.logout = function () {
+                $rootScope.user.loggedIn = false;
+                $location.path('/public');
+            };
+
             // CONFIGURATION SETTINGS ================================================================
 
             $rootScope.config = {
@@ -48,14 +68,6 @@ CultureCollectorApp.controller('GlobalController',
             $rootScope.translating = function () {
                 return $rootScope.config.showTranslationEditor;
             }
-
-            // USER AUTHENTICATION ===================================================================
-
-            $rootScope.user = {
-                userName: 'Zemyatin',
-                fullName: 'Yvgeny Zemyatin',
-                loggedIn: true
-            };
 
             // APPLICATION NAVIGATION ================================================================
 
@@ -103,6 +115,7 @@ CultureCollectorApp.controller('GlobalController',
                 }
                 return "";
             };
+
 
         }]
 

@@ -1,2 +1,6 @@
 <h1>Login</h1>
-        {{ user.userName }}
+<form method="post">
+    <input type="text" name="email" ng-required placeholder="Just Click Login"/>
+    <input type="password" name="password" ng-required value="YourPassWord"/>
+    <button class="btn" type="submit" ng-click="login()">Login</button>
+</form>

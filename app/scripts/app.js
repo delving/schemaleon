@@ -14,8 +14,11 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
                 templateUrl: 'views/document.html',
                 controller: 'DocumentController'
             })
-            .otherwise({
-                redirectTo: '/index.html',
+            .when('/login', {
                 templateUrl: 'views/login.html'
+            })
+            .otherwise({
+                redirectTo: 'views/index.html',
+                templateUrl: 'views/public.html'
             });
     }]);
