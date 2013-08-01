@@ -32,17 +32,19 @@
 <![endif]-->
 
 <!-- APPLICATION CONTAINER -->
-<div ng-app="CultureCollectorApp" ng-controller="NavigationController" ng-cloak class="ng-cloak">
+<div ng-app="CultureCollectorApp" ng-controller="GlobalController" ng-cloak class="ng-cloak">
     <div ng-controller="I18NController">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
+
                     <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
-                    <ul class="nav">
+
+                    <ul class="nav" ng-show="user.loggedIn">
                         <li>
                             <a href="#" i18n="LoggedInAs">
                                 <i class="icon icon-white icon-user"></i>
-                                <span class="i18n"/>: Username
+                                <span class="i18n"></span>: {{ user.userName }}
                             </a>
                         </li>
                         <li>
@@ -59,12 +61,13 @@
                                 tootip-placement="bottom">
                             <i class="icon icon-white icon-translate pointer"></i>
                         </button>
-                        <select id="language-select" class="span2" ng-controller="ConfigurationController"
+                        <select id="language-select" class="span2"
                                 ng-model="config.interfaceLanguage"
                                 ng-options="l.code as l.name for l in config.interfaceLanguages">
                             <option value="">-- Language --</option>
                         </select>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -99,7 +102,7 @@
                 </ul>
             </div>
             <!--/.sidebar-nav -->
-            <div ng-include="getInclude()"></div>
+            <!--<div ng-include="getInclude()"></div>-->
         </div>
 
     </div>
@@ -122,10 +125,8 @@
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
 
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/authentication.js"></script>
-<script src="scripts/controllers/configuration.js"></script>
+<script src="scripts/controllers/global.js"></script>
 <script src="scripts/controllers/i18n.js"></script>
-<script src="scripts/controllers/navigation.js"></script>
 <script src="scripts/controllers/document.js"></script>
 <script src="scripts/controllers/field.js"></script>
 <script src="scripts/services/i18n-service.js"></script>

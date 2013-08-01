@@ -3,7 +3,7 @@
         <div class="page-header">
             <h1 i18n="Documents"><span class="i18n"/></h1>
 
-            <div class="controls btn-toolbar" ng-controller="ConfigurationController">
+            <div class="controls btn-toolbar">
                 <a href class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument">
                     <i class="icon icon-plus icon-white"></i>
                     <span class="i18n"/>
@@ -40,7 +40,7 @@
             <h1 ng-show="header.Identifier">{{ header.Identifier }}</h1>
             <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
 
-            <div class="controls btn-toolbar" ng-controller="ConfigurationController">
+            <div class="controls btn-toolbar">
                 <div class="btn-group">
                     <a href i18n="ShowPreviews" ng-click="toggleInlinePreview()"
                        ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">

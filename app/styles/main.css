@@ -464,6 +464,9 @@ ul.main-menu .nav-header {
 .panels .panel-input {
   padding: 0 20px;
 }
+.panels .panel-input textarea {
+  width: 95%;
+}
 .panels .chosen-value {
   background: #eeeeee;
   -webkit-border-radius: 4px;
