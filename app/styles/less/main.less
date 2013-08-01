@@ -144,11 +144,27 @@ body {
   color: @textColor;
 }
 
-.brand img {
-  height: 24px;
-  margin-right: 8px;
-  vertical-align: text-bottom;
+.nav-bar {
+  &.navbar-inverse .nav li a {
+    color: #999999;
+    display: block;
+    padding: 10px 15px 10px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+
 }
+
+.brand {
+  width: 200px;
+  img {
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: text-bottom;
+  }
+}
+
+
+
 
 //.user-nav {
 //  margin: 0;
@@ -173,12 +189,12 @@ body {
   display: block;
   float: left;
   position: relative;
-  width: 180px;
+  width: 200px;
 }
 
 
 #mainBody {
-  margin-left: 200px;
+  margin-left: 220px;
   min-width: 500px;
 //  float: left;
   position: relative;
@@ -193,14 +209,6 @@ body {
     margin-left: 0px;
   }
 }
-
-.navbar-inverse .nav li a {
-  color: #999999;
-  display: block;
-  padding: 10px 15px 10px;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
 
 .page-header {
   border-color: darken(@gray, 25%);

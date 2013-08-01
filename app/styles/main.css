@@ -288,6 +288,15 @@ body {
   padding-top: 50px;
   color: #333333;
 }
+.nav-bar.navbar-inverse .nav li a {
+  color: #999999;
+  display: block;
+  padding: 10px 15px 10px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.brand {
+  width: 200px;
+}
 .brand img {
   height: 24px;
   margin-right: 8px;
@@ -297,10 +306,10 @@ body {
   display: block;
   float: left;
   position: relative;
-  width: 180px;
+  width: 200px;
 }
 #mainBody {
-  margin-left: 200px;
+  margin-left: 220px;
   min-width: 500px;
   position: relative;
 }
@@ -310,12 +319,6 @@ body {
 }
 .loggedin-false #mainBody {
   margin-left: 0px;
-}
-.navbar-inverse .nav li a {
-  color: #999999;
-  display: block;
-  padding: 10px 15px 10px;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 .page-header {
   border-color: #151515;

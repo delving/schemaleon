@@ -27,6 +27,8 @@ CultureCollectorApp.controller('GlobalController',
 
             // USER AUTHENTICATION ===================================================================
 
+            // VERY PSEUDO!!!!
+
             $rootScope.user = {
                 userName: 'Zemyatin',
                 fullName: 'Yvgeny Zemyatin',
@@ -43,6 +45,12 @@ CultureCollectorApp.controller('GlobalController',
                 $rootScope.user.loggedIn = false;
                 $location.path('/public');
             };
+
+            // just a little help to get rid of any logged in views for now
+            // todo: you are still able to navigate to all the pages via the location bar in the browser
+            if($rootScope.user.loggedIn == false) {
+                $location.path('/public');
+            }
 
             // CONFIGURATION SETTINGS ================================================================
 
