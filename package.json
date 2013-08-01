@@ -1,5 +1,5 @@
 {
-  "name": "culture-collector",
+  "name": "oscr",
   "version": "0.0.0",
   "dependencies": {
     "basex": "~0.6.1"

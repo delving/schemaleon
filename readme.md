@@ -2,10 +2,10 @@
 
 ----
 
-# CULTURE-COLLECTOR
+# OSCR: Open Source Collection Registration
 
-The culture collector is the result of project **OSCR**, for _Open Source Collection Registration_, dedicated to
-building a streamlined client and server side platform for capturing cultural heritage data.
+The OSCR project is dedicated to building a streamlined client and server side platform for properly capturing
+cultural heritage data.  Users will be young and old, expert and novice.
 
 The purpose is to capture data properly according to the [CIDOC Conceptual Reference Model](http://www.cidoc-crm.org/)
 and OSCR stores such data in an XML database.  The dominant theme in this approach to registering data is
@@ -65,10 +65,17 @@ Before you can get to work on developing OSCR you will need to have the followin
 ### Developing
 	
 1. clone the OSCR source-code from this repository
-1. start up the previously installed BaseX client application, start its server
+
+        git clone git@github.com:delving/oscr.git
+
+1. start up the BaseX application, start its server
+
+        go to Database / Server Administration...
+        click on Local Server "start" button
+
 1. via the terminal navigate to the root of the application:
 
-        cd /path/to/cloned/culture-collector
+        cd /path/to/cloned/oscr
 
 1. run the application:
 
@@ -78,13 +85,8 @@ Before you can get to work on developing OSCR you will need to have the followin
 
         http://localhost:9000/
         
-    (edit Gruntfile.js for your own browser preference)        
-
-1. changes made and saved in the application code will trigger the browser to reload the page
-
-
-1. changes made and saved in the application code will trigger the browser to reload the page
-
+    * edit Gruntfile.js for your own browser preference
+    * changes made and saved in the application code will trigger the browser to reload the page
 
 ===
 

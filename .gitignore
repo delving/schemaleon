@@ -24,3 +24,5 @@ syntax: glob
 .idea/*
 
 ._git
+
+dist
