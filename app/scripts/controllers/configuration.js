@@ -17,6 +17,7 @@ CultureCollectorApp.controller('ConfigurationController',
             };
 
             $rootScope.toggleInlinePreview = function () {
+                if ($rootScope.translating()) return;
                 $rootScope.config.showInlinePreview = !$rootScope.config.showInlinePreview;
             };
 
@@ -24,5 +25,8 @@ CultureCollectorApp.controller('ConfigurationController',
                 $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
             };
 
+            $rootScope.translating = function () {
+                return $rootScope.config.showTranslationEditor;
+            }
 
         }]);

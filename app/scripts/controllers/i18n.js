@@ -23,8 +23,6 @@ CultureCollectorApp.directive('i18n', function () {
                     if (i18n) {
                         var msg = i18n.label[$attrs.i18n];
                         if (msg && msg != '?') {
-//                            console.log('replacing: ' + $attrs.i18n); // todo
-//                            console.log(msg);// todo
                             setText(msg);
                             return;
                         }
@@ -35,35 +33,6 @@ CultureCollectorApp.directive('i18n', function () {
                 $attrs.$observe('i18n', function (newValue) {
                     $scope.key = newValue;
                 });
-
-
-                $scope.$watch('config.showTranslationEditor', function(show) {
-                    if (show) {
-                        $element.on('click',function(e){  // todo: this only works if there is no ng-click in the ahref and a normal url without the #
-//                    console.log($attrs.ngClick);
-//                    $attrs.ngClick.bind('click', false);
-                            e.preventDefault();
-
-                        });
-                    }
-
-                });
-
-
-
-
-//                if ($element[0].localName == 'button') {// todo: this only works for buttons
-//                    console.log($element[0]); // todo
-//                    $scope.$watch('config.showTranslationEditor', function(show) {
-//                        if (show) {
-//                            console.log('ok disable the fucker '+$attrs.i18n);
-//                            $element.disable();
-//                        }
-//                        else {
-//                            console.log('back on` '+$attrs.i18n);
-//                        }
-//                    });
-//                }
             },
             template: '<span ng-transclude></span> ' +
                 '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +

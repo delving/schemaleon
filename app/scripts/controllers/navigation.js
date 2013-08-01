@@ -24,9 +24,7 @@ CultureCollectorApp.controller('NavigationController',
             }
 
             $scope.choosePath = function (path) {
-                if ($rootScope.config.showTranslationEditor) {
-                    return;
-                }
+                if ($rootScope.translating()) return;
                 var activeItem = false;
                 _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
                     link.active = (link.path == path);

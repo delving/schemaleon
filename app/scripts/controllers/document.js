@@ -106,7 +106,7 @@ CultureCollectorApp.controller('DocumentController',
             });
 
             $scope.newDocument = function () {
-                if ($rootScope.config.showTranslationEditor) return;
+                if ($rootScope.translating()) return;
                 $scope.choosePath('/document/');
                 $scope.showingList = false;
                 fetchSchema();
@@ -155,9 +155,7 @@ CultureCollectorApp.controller('DocumentController',
             };
 
             $scope.saveDocument = function () {
-                if ($rootScope.config.showTranslationEditor) {
-                    return;
-                }
+                if ($rootScope.translating()) return;
                 var object = treeToObject($scope.tree);
                 $scope.header.TimeStamp = "#TIMESTAMP#";
                 var document = {
