@@ -1,3 +1,5 @@
+![delving logo](http://delving.eu/sites/all/themes/delving_pool/logo.png)
+
 # OSCR Internationalization
 
 There is no established i18n strategy built in to the Angular JS user interface technology used for OSCR, but

@@ -1,3 +1,5 @@
+![delving logo](http://delving.eu/sites/all/themes/delving_pool/logo.png)
+
 # OSCR Schemas
 
 OSCR is a flexible client-server _Open Source Collection Registration_ platform which stores its data
