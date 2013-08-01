@@ -16,6 +16,6 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
             })
             .otherwise({
                 redirectTo: '/index.html',
-                templateUrl: 'views/dashboard.html'
+                templateUrl: 'views/login.html'
             });
     }]);
