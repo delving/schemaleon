@@ -2,7 +2,9 @@
 
 ----
 
-# OSCR: Open Source Collection Registration
+# OSCR
+
+## Open Source Collection Registration
 
 The OSCR project is dedicated to building a streamlined client and server side platform for properly capturing
 cultural heritage data.  Users will be young and old, expert and novice.
