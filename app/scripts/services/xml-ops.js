@@ -191,6 +191,21 @@ function cleanTree(tree, i18n) {
     clean(tree);
 }
 
+function collectSummaryFields(tree, summary) {
+    function collect(el) {
+        if (el.elements) {
+            _.forEach(el.elements, function (element) {
+                collect(element);
+            });
+        }
+        else if (el.valueExpression && el.valueExpression.summaryField) {
+            summary[el.valueExpression.summaryField] = el.value ? el.value : '?';
+        }
+    }
+
+    collect(tree, summary);
+}
+
 function populateTree(tree, object) {
 
     function createClones(element, valueArray) {

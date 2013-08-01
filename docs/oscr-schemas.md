@@ -141,6 +141,11 @@ The input field should not be a single line of text, but rather consist of a blo
 may consider using the Markdown format so that there is an option to easily create richly formatted text rather
 than plain.
 
+### Property: summaryField
+
+True if you want this field to become part of the document header which is stored alongside the document's data
+and is shown in the document list.
+
 ## Vocabulary Handling
 
 The most important aspect of OSCR is that it links things together at every opportunity, which means that users

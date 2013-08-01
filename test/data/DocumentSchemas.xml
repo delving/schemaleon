@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <DocumentSchemas>
     <Photograph>
-        <Title>{ "required": true }</Title>
+        <Title>{ "required": true, "summaryField": "Title" }</Title>
         <Type>{ "vocabulary": "PhotoType" }</Type>
         <ShortDescription>{ "paragraph":true }</ShortDescription>
         <Authenticity>{ "vocabulary": "AuthenticityLevel" }</Authenticity>

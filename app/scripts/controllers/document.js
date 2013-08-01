@@ -156,6 +156,7 @@ CultureCollectorApp.controller('DocumentController',
 
             $scope.saveDocument = function () {
                 if ($rootScope.translating()) return;
+                collectSummaryFields($scope.tree, $scope.header);
                 var object = treeToObject($scope.tree);
                 $scope.header.TimeStamp = "#TIMESTAMP#";
                 var document = {
