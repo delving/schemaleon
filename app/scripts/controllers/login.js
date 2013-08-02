@@ -34,10 +34,10 @@ CultureCollectorApp.controller('LoginController',
                         $rootScope.user = user;
                     });
                 }
-                else {
+                if (!$rootScope.user) {
                     $rootScope.user = {
-                        userName: 'pretend',
-                        fullName: 'Pretend User'
+                        firstName: 'Joe',
+                        lastName: 'Imaginary'
                     };
                 }
                 $location.path('/dashboard');
