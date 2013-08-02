@@ -19,7 +19,7 @@ exports.testFetch = function (test) {
     var queryString = queryParams.join('&');
 
     var username = 'gerald';
-    var password = 'yeah right like i would tell you';
+    var password = 'mitch377';
 
     var sha = crypto.createHash('sha512');
     var hashedPassword = sha.update(new Buffer(password, 'utf-8')).digest('base64');
@@ -32,22 +32,41 @@ exports.testFetch = function (test) {
     console.log('hash:');
     console.log(hash);
 
-    var options = {
+    var authOptions = {
         method: 'GET',
         host: 'commons.delving.eu',
         port: 443,
         path: '/user/authenticate/' + hash + '?' + queryString
     };
 
-    console.log('options:');
-    console.log(options);
-
-    test.expect(1);
+    test.expect(2);
+    console.log('authOptions:');
+    console.log(authOptions);
     https.request(
-        options,
+        authOptions,
         function (response) {
             test.ok(response.statusCode == 200, "Response not ok, it's " + response.statusCode);
-            test.done();
+            var profileOptions = {
+                method: 'GET',
+                host: 'commons.delving.eu',
+                port: 443,
+                path: '/user/profile/'+username + '?' + queryString
+            };
+            console.log('profileOptions:');
+            console.log(profileOptions);
+            https.request(
+                profileOptions,
+                function (response) {
+                    test.ok(response.statusCode == 200, "Response not ok, it's " + response.statusCode);
+                    response.on('data', function(data) {
+                        var profile = JSON.parse(data);
+                        console.log(profile);
+                    });
+                    response.on('end', function() {
+                        test.done();
+                    });
+                }
+            ).end()
         }
     ).end()
 };

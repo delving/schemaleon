@@ -33,18 +33,18 @@
 
 <!-- APPLICATION CONTAINER -->
 <div ng-app="CultureCollectorApp" ng-controller="GlobalController" ng-cloak class="ng-cloak">
-    <div ng-controller="I18NController" class="loggedin-{{ user.loggedIn }}">
+    <div ng-controller="I18NController" class="loggedin-{{ user != undefined }}">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
 
                     <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
 
-                    <ul class="nav" ng-show="user.loggedIn">
+                    <ul class="nav" ng-show="user">
                         <li>
                             <a href="#" i18n="LoggedInAs">
                                 <i class="icon icon-white icon-user"></i>
-                                <span class="i18n"></span>: {{ user.userName }}
+                                <span class="i18n"></span>: {{ user.fullName }}
                             </a>
                         </li>
                         <li>
@@ -54,18 +54,12 @@
                         </li>
                     </ul>
 
-                    <ul class="nav" ng-show="!user.loggedIn">
-                        <li>
-                            <a href="#/login">Login</a>
-                        </li>
-                    </ul>
-
                     <form class="navbar-form pull-right">
                         <button ng-click="toggleTranslationEditor()"
                                 ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
                                 tooltip="Translate"
                                 tootip-placement="bottom"
-                                ng-show="user.loggedIn">
+                                ng-show="user">
                             <i class="icon icon-white icon-translate pointer"></i>
                         </button>
                         <select id="language-select" class="span2"
@@ -79,7 +73,7 @@
             </div>
         </div>
 
-        <div ng-show='user.loggedIn'>
+        <div ng-show='user'>
 
             <div id="sidebar">
                 <div ng-show="config.showTranslationEditor" class="alert">
@@ -136,6 +130,7 @@
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
 
 <script src="scripts/app.js"></script>
+<script src="scripts/controllers/login.js"></script>
 <script src="scripts/controllers/global.js"></script>
 <script src="scripts/controllers/i18n.js"></script>
 <script src="scripts/controllers/document.js"></script>
