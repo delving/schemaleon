@@ -30,9 +30,9 @@ CultureCollectorApp.controller('GlobalController',
             // VERY PSEUDO!!!!
 
             $rootScope.user = {
-                userName: 'Zemyatin',
+                userName: 'Your name here!!',
                 fullName: 'Yvgeny Zemyatin',
-                loggedIn: false
+                loggedIn: true
             };
 
 

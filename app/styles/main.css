@@ -306,10 +306,10 @@ body {
   display: block;
   float: left;
   position: relative;
-  width: 200px;
+  width: 220px;
 }
 #mainBody {
-  margin-left: 220px;
+  margin-left: 240px;
   min-width: 500px;
   position: relative;
 }
@@ -331,20 +331,7 @@ body {
   border-color: #151515;
   margin-top: 0;
 }
-.page-header .controls {
-  font-size: 14px;
-  position: absolute;
-  right: 0px;
-  top: 4px;
-  margin: 0;
-}
-.page-header .controls form {
-  margin: 0 !important;
-}
-.page-header .controls label {
-  margin-right: 20px;
-}
-.page-header .controls .btn.disabled {
+.controls .btn.disabled {
   cursor: pointer;
 }
 /* MAIN NAVIGATION */
