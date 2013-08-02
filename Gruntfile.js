@@ -134,14 +134,6 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
-        nodeunit: {
-            all: [
-                'test/server/*.js'
-            ],
-            storage: [
-                'test/server/test-storage-document.js'
-            ]
-        },
         less: {
             server: {
                 options: {
@@ -291,6 +283,14 @@ module.exports = function (grunt) {
                     }
                 ]
             }
+        },
+        nodeunit: {
+            all: [
+                'test/server/*.js'
+            ],
+            authenticate: [
+                'test/server/test-authenticate.js'
+            ]
         }
     });
 
@@ -323,8 +323,8 @@ module.exports = function (grunt) {
         'nodeunit:all'
     ]);
 
-    grunt.registerTask('test-storage', [
-        'nodeunit:storage'
+    grunt.registerTask('test-authenticate', [
+        'nodeunit:authenticate'
     ]);
 
     grunt.registerTask('test-e2e', [

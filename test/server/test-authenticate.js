@@ -1,0 +1,54 @@
+'use strict';
+
+var https = require('https');
+var crypto = require('crypto');
+
+
+exports.testFetch = function (test) {
+
+    var apiQueryParams = {
+        "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
+        "apiOrgId": "delving",
+        "apiNode": "playground"
+    };
+
+    var queryParams = [];
+    for (var key in apiQueryParams) {
+        queryParams.push(key + '=' + apiQueryParams[key]);
+    }
+    var queryString = queryParams.join('&');
+
+    var username = 'gerald';
+    var password = 'yeah right like i would tell you';
+
+    var sha = crypto.createHash('sha512');
+    var hashedPassword = sha.update(new Buffer(password, 'utf-8')).digest('base64');
+    console.log('hashed password: '+hashedPassword);
+
+    var hmac = crypto.createHmac('sha1', username);
+    var hash = hmac.update(hashedPassword).digest('hex');
+
+    console.log('');
+    console.log('hash:');
+    console.log(hash);
+
+    var options = {
+        method: 'GET',
+        host: 'commons.delving.eu',
+        port: 443,
+        path: '/user/authenticate/' + hash + '?' + queryString
+    };
+
+    console.log('options:');
+    console.log(options);
+
+    test.expect(1);
+    https.request(
+        options,
+        function (response) {
+            test.ok(response.statusCode == 200, "Response not ok, it's " + response.statusCode);
+            test.done();
+        }
+    ).end()
+};
+
