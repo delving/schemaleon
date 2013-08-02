@@ -2,3 +2,15 @@
     <h1 ng-show="header.Identifier">{{ header.Title }} <small>{{ header.Identifier }}</small></h1>
     <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
 </div>
+
+<div>
+    <h4>Only show when a value is present</h4>
+    <div ng-repeat="leaf in tree.elements"  ng-show="leaf.value">
+        {{ leaf.name }}: {{ leaf.value }}
+    </div>
+
+    <h4>Show all</h4>
+    <div ng-repeat="leaf in tree.elements">
+        {{ leaf.name }}: {{ leaf.value }}
+    </div>
+</div>

@@ -12,11 +12,11 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
             })
             .when('/document/:id', {
                 templateUrl: 'views/document.html',
-                controller: 'DocumentController'
+                controller: 'DocumentEditController'
             })
             .when('/document/view/:id', {
                templateUrl: 'views/document-view.html',
-                controller: 'DocumentController'
+                controller: 'DocumentViewController'
             })
             .when('/login', {
                 templateUrl: 'views/login.html'
