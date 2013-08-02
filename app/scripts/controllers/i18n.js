@@ -193,7 +193,6 @@ CultureCollectorApp.controller('I18NController',
                     }
                 });
             };
-
         }]
 );
 

@@ -21,36 +21,10 @@
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 CultureCollectorApp.controller('GlobalController',
-    ['$rootScope', '$scope', '$location',
+    [
+        '$rootScope', '$scope', '$location',
         function ($rootScope, $scope, $location) {
 
-
-            // USER AUTHENTICATION ===================================================================
-
-            // VERY PSEUDO!!!!
-
-            $rootScope.user = {
-                userName: 'Your name here!!',
-                fullName: 'Yvgeny Zemyatin',
-                loggedIn: true
-            };
-
-
-            $rootScope.login = function () {
-                $rootScope.user.loggedIn = true;
-                $location.path('/dashboard');
-            };
-
-            $rootScope.logout = function () {
-                $rootScope.user.loggedIn = false;
-                $location.path('/public');
-            };
-
-            // just a little help to get rid of any logged in views for now
-            // todo: you are still able to navigate to all the pages via the location bar in the browser
-            if($rootScope.user.loggedIn == false) {
-                $location.path('/public');
-            }
 
             // CONFIGURATION SETTINGS ================================================================
 
@@ -75,9 +49,15 @@ CultureCollectorApp.controller('GlobalController',
 
             $rootScope.translating = function () {
                 return $rootScope.config.showTranslationEditor;
-            }
+            };
 
             // APPLICATION NAVIGATION ================================================================
+
+            // just a little help to get rid of any logged in views for now
+            // todo: you are still able to navigate to all the pages via the location bar in the browser
+            if (!$rootScope.user) {
+                $location.path('/login');
+            }
 
             $scope.mainMenu = {
                 links: [
@@ -125,6 +105,6 @@ CultureCollectorApp.controller('GlobalController',
             };
 
 
-        }]
-
+        }
+    ]
 );
