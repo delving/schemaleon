@@ -159,6 +159,7 @@ CultureCollectorApp.controller('DocumentController',
                 collectSummaryFields($scope.tree, $scope.header);
                 var object = treeToObject($scope.tree);
                 $scope.header.TimeStamp = "#TIMESTAMP#";
+                $scope.header.EMail = $rootScope.user.email;
                 var document = {
                     Document: {
                         Header: $scope.header,

@@ -36,8 +36,9 @@ CultureCollectorApp.controller('LoginController',
                 }
                 if (!$rootScope.user) {
                     $rootScope.user = {
-                        firstName: 'Joe',
-                        lastName: 'Imaginary'
+                        firstName: 'Oscr',
+                        lastName: 'Wild',
+                        email: 'oscr@delving.eu'
                     };
                 }
                 $location.path('/dashboard');
