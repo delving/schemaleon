@@ -39,7 +39,7 @@
                     <a href ng-click="choosePath('/document/'+ header.Identifier)" class="btn btn-primary btn-small" i18n="Edit">
                         <i class="icon icon-edit icon-white"></i> <span class="i18n"></span>
                     </a>
-                    <a href ng-click="choosePath('/document/'+ header.Identifier)" class="btn btn-success btn-small" i18n="View">
+                    <a href ng-click="choosePath('/document/view/'+ header.Identifier)" class="btn btn-success btn-small" i18n="View">
                         <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
                     </a>
                 </td>
@@ -61,7 +61,7 @@
                 <!--</form>-->
                 <div class="controls">
                     <!--<div class="btn-group">-->
-                    <a href="/#/document/" class="btn">
+                    <a href ng-click="choosePath('/document/')" class="btn">
                         <i class="icon-hand-left"></i>
                         <!--<span class="i18n"></span>-->
                     </a>
