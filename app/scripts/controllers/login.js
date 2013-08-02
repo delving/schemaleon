@@ -22,15 +22,17 @@ var CultureCollectorApp = angular.module('CultureCollectorApp');
 
 CultureCollectorApp.controller('LoginController',
     [
-        '$rootScope', '$scope', '$location',
-        function ($rootScope, $scope, $location) {
+        '$rootScope', '$scope', '$location', 'Commons',
+        function ($rootScope, $scope, $location, Commons) {
+
+            $scope.username = '';
+            $scope.password = '';
 
             $rootScope.login = function () {
-                if ($scope.usename && $scope.username.length) {
-                    $rootScope.user = {
-                        userName: $scope.username,
-                        fullName: $scope.username
-                    };
+                if ($scope.username && $scope.username.length) {
+                    Commons.authenticate($scope.username, $scope.password, function(user) {
+                        $rootScope.user = user;
+                    });
                 }
                 else {
                     $rootScope.user = {

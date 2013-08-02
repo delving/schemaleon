@@ -44,8 +44,8 @@
                         <li>
                             <a href="#" i18n="LoggedInAs">
                                 <i class="icon icon-white icon-user"></i>
-                                <span class="i18n"></span>: {{ user.fullName }}
-                            </a>
+                                <span class="i18n"></span>: {{ user.firstName }} {{ user.lastName }}
+                            </a>                                                                 x
                         </li>
                         <li>
                             <a href ng-click="logout()" title="" i18n="Logout">
@@ -135,6 +135,7 @@
 <script src="scripts/controllers/i18n.js"></script>
 <script src="scripts/controllers/document.js"></script>
 <script src="scripts/controllers/field.js"></script>
+<script src="scripts/services/commons-service.js"></script>
 <script src="scripts/services/i18n-service.js"></script>
 <script src="scripts/services/vocabulary-service.js"></script>
 <script src="scripts/services/document-service.js"></script>

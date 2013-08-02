@@ -19,7 +19,7 @@ exports.testFetch = function (test) {
     var queryString = queryParams.join('&');
 
     var username = 'gerald';
-    var password = 'mitch377';
+    var password = '';
 
     var sha = crypto.createHash('sha512');
     var hashedPassword = sha.update(new Buffer(password, 'utf-8')).digest('base64');
