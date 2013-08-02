@@ -5,9 +5,9 @@
 
 <div>
     <h4>Only show when a value is present</h4>
-    <div ng-repeat="leaf in tree.elements"  ng-show="leaf.value">
-        {{ leaf.name }}: {{ leaf.value }}
-    </div>
+    <ul>
+        <li ng-repeat="data in tree.elements" ng-include="'tree_item_renderer.html'" ng-show="data.value"></li>
+    </ul>
 
     <h4>Show all</h4>
     <ul>
