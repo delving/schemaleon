@@ -23,6 +23,7 @@
             <th i18n="Identifier"><span class="i18n"/></th>
             <th i18n="Title"><span class="i18n"/></th>
             <th i18n="Stored"><span class="i18n"/></th>
+            <th i18n="StoredBy"><span class="i18n"/></th>
             <th i18n="Status"><span class="i18n"/></th>
             <th i18n="Actions"><span class="i18n"/></th>
             </thead>
@@ -31,6 +32,7 @@
                 <td>{{ header.Identifier }}</td>
                 <td>{{ header.Title }}</td>
                 <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
+                <td>{{ header.EMail }}</td>
                 <td>
                     <span ng-show="header.status == 'complete'" class="badge badge-success">{{ header.status }}</span>
                     <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
