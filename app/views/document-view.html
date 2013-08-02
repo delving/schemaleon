@@ -11,6 +11,9 @@
 
     <h4>Show all</h4>
     <div ng-repeat="leaf in tree.elements">
-        {{ leaf.name }}: {{ leaf.value }}
+        {{ leaf.name }}: {{ leaf.value }}<br/>
+        <div ng-repeat="insect in leaf.elements" ng-show="leaf.elements" class="offset1">
+            {{ insect.name }}: {{ insect.value }}
+        </div>
     </div>
 </div>
