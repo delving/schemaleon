@@ -12,7 +12,7 @@ angular.module('CultureCollectorApp', ['ui.bootstrap'])
             })
             .when('/document/:id', {
                 templateUrl: 'views/document.html',
-                controller: 'DocumentEditController'
+                controller: 'DocumentController'
             })
             .when('/document/view/:id', {
                templateUrl: 'views/document-view.html',

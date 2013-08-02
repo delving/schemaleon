@@ -56,7 +56,7 @@ CultureCollectorApp.controller('GlobalController',
             // just a little help to get rid of any logged in views for now
             // todo: you are still able to navigate to all the pages via the location bar in the browser
             if (!$rootScope.user) {
-                $location.path('/document/view/OSCR-D-791fouq-j9x');
+                $location.path('/login');
             }
 
             $scope.mainMenu = {
