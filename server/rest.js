@@ -2,15 +2,18 @@
 
 var _ = require("underscore");
 var express = require('express');
-var storage = require('./storage');
 var app = express();
 var https = require('https');
 var crypto = require('crypto');
+var Storage = require('./storage');
 
 app.use(express.bodyParser());
 
-storage.useDatabase('oscr', function (name) {
-    console.log('Yes we have ' + name);
+var storage = null;
+
+Storage('oscr', function (s) {
+    console.log('Yes we have ' + s.database);
+    storage = s;
 });
 
 function apiQueryString() {
@@ -106,7 +109,7 @@ app.post('/i18n/:lang/label', function (req, res) {
 });
 
 app.get('/vocabulary/:vocab', function (req, res) {
-    storage.I18N.getVocabularySchema(req.params.vocab, function (xml) {
+    storage.Vocab.getVocabularySchema(req.params.vocab, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });

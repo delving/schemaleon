@@ -1,28 +1,17 @@
 'use strict';
 
 var fs = require('fs');
-var storage = require('../../server/storage');
+var Storage = require('../../server/storage');
+
+var storage = null;
 
 exports.createDatabase = function (test) {
-    console.log("create database");
     test.expect(1);
-    storage.session.execute('create db oscrtest', function (error, reply) {
-        test.ok(reply.ok, 'problem creating database');
-        console.log("created oscrtest");
+    console.log("create database");
+    Storage('oscrtest', function(s) {
+        test.ok(s, 'problem creating database');
+        storage = s;
         test.done();
-    });
-};
-
-exports.fillSchemas = function (test) {
-    var contents = fs.readFileSync('test/data/VocabularySchemas.xml', 'utf8');
-    storage.session.add('/VocabularySchemas.xml', contents, function (error, reply) {
-        if (reply.ok) {
-            console.log("Preloaded vocabulary schemas");
-            test.done();
-        }
-        else {
-            throw error;
-        }
     });
 };
 

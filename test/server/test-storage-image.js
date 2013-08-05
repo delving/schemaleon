@@ -2,7 +2,9 @@
 
 var fs = require('fs');
 var _ = require('underscore');
-var storage = require('../../server/storage');
+var Storage = require('../../server/storage');
+
+var storage = null;
 
 exports.setUp = function (callback) {
 
@@ -39,10 +41,9 @@ exports.setUp = function (callback) {
         );
     }
 
-    clearDir(storage.imageRoot);
-
-    storage.useDatabase('oscrtest', function (name) {
-        console.log("using: " + name);
+    Storage('oscrtest', function(s) {
+        storage = s;
+        clearDir(storage.imageRoot);
         callback();
     });
 };
@@ -72,7 +73,6 @@ exports.testImage = function (test) {
 };
 
 exports.tearDown = function (callback) {
-
     storage.session.execute('drop db oscrtest', function (error, reply) {
         console.log("dropped oscrtest");
         callback();
