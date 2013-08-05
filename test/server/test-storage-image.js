@@ -12,11 +12,11 @@ exports.setUp = function (callback) {
 };
 
 exports.testImage = function (test) {
-    test.expect(2);
+    test.expect(4);
     var imageData = {
         filePath: 'test/data/zoomcat.jpg',
         mimeType: 'image/jpeg',
-        name: 'Zoom Cat',
+        title: 'Zoom Cat',
         uploadedBy: 'tester@delving.eu'
     };
     storage.saveImage(imageData, function (fileName) {
@@ -25,7 +25,12 @@ exports.testImage = function (test) {
         storage.listImages(function (err, results) {
             console.log(results);
             test.equals(results.length, 1, "should just be one file");
-            test.done();
+            test.equals(results[0], storage.getImagePath(fileName), "image path mismatch");
+            storage.getImageDocument(fileName, function(doc) {
+                console.log(doc);
+                test.ok(doc.indexOf("Zoom Cat") > 0, 'Image title not found');
+                test.done();
+            });
         });
     });
 };

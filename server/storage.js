@@ -27,11 +27,22 @@ var storage = {
     },
 
     quote: function (value) {
+        if (!value) return "''";
         return "'" + value.replace(/'/g, "\'\'") + "'";
     },
 
     inXml: function (value) {
+        if (!value) return '';
         return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    },
+
+    objectToXml: function (object, tag) {
+        var xml = "<" + tag + ">";
+        for (var key in object) {
+            xml += "<" + key + ">" + this.inXml(object[key]) + "</" + key + ">";
+        }
+        xml += "</" + tag + ">";
+        return xml;
     },
 
     langDocument: function (language) {
@@ -56,6 +67,14 @@ var storage = {
 
     docPath: function (identifier) {
         return "doc('" + storage.database + this.docDocument(identifier) + "')/Document";
+    },
+
+    imageDocument: function (fileName) {
+        return "/images/" + fileName + ".xml";
+    },
+
+    imagePath: function (fileName) {
+        return "doc('" + storage.database + this.imageDocument(fileName) + "')/Image";
     }
 
 };
@@ -197,22 +216,10 @@ storage.createVocabulary = function (vocabName, entryXml, receiver) {
 
 storage.addVocabularyEntry = function (vocabName, entry, receiver) {
     var self = this;
-    console.log('addVocabularyEntry'); // todo
-    console.log(entry); // todo
-
-    function entryToXML(entry) {
-        var xml = "<Entry>";
-        for (var key in entry) {
-            xml += "<" + key + ">" + self.inXml(entry[key]) + "</" + key + ">";
-        }
-        xml += "</Entry>";
-        return xml;
-    }
-
     var entryPath, entryXml, query;
     if (entry.ID) {
         entryPath = self.vocabPath(vocabName) + "[ID=" + this.quote(entry.ID) + "]";
-        entryXml = entryToXML(entry);
+        entryXml = storage.objectToXml(entry, 'Entry');
         query = "xquery replace value of node " + entryPath + " with " + entryXml;
         storage.session.execute(query, function (error, reply) {
             if (reply.ok) {
@@ -227,7 +234,7 @@ storage.addVocabularyEntry = function (vocabName, entry, receiver) {
     }
     else {
         entry.ID = this.generateId("OSCR-V");
-        entryXml = entryToXML(entry);
+        entryXml = storage.objectToXml(entry, 'Entry');
         query = "xquery insert node " + entryXml + " into " + self.vocabPath(vocabName);
         storage.session.execute(query, function (error, reply) {
             if (reply.ok) {
@@ -301,13 +308,11 @@ storage.saveDocument = function (body, receiver) {
     var time = new Date().getTime();
     body.header.TimeStamp = time;
     if (body.header.Identifier === IDENTIFIER) {
-        console.log("here we are in saveDocument");// todo
         var identifier = this.generateId("OSCR-D");
         body.header.Identifier = identifier;
         var withIdentifier = body.xml.replace(IDENTIFIER, identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
         storage.session.add(this.docDocument(identifier), withTimesStamp, function (error, reply) {
-            console.log("here we are in saveDocument adding " + error);// todo
             if (reply.ok) {
                 receiver(body.header);
             }
@@ -375,21 +380,41 @@ storage.saveImage = function (imageData, receiver) {
         return fileName;
     }
 
-    if (!fs.existsSync(imageData.filePath)) {
-        throw 'Cannot find image file ' + imageData.filePath;
-    }
-    if (!fs.existsSync(this.imageRoot)) {
-        fs.mkdirSync(this.imageRoot);
-    }
+    if (!fs.existsSync(imageData.filePath)) throw 'Cannot find image file ' + imageData.filePath;
+    if (!fs.existsSync(this.imageRoot)) fs.mkdirSync(this.imageRoot);
     var fileName = createFileName();
     var bucketName = storage.bucketName(fileName);
     var bucketPath = this.imageRoot + '/' + bucketName;
-    if (!fs.existsSync(bucketPath)) {
-        fs.mkdirSync(bucketPath);
-    }
+    if (!fs.existsSync(bucketPath)) fs.mkdirSync(bucketPath);
     copyFile(imageData.filePath, bucketPath + '/' + fileName, function (err) {
         if (err) throw err;
-        receiver(fileName);
+        imageData.fileName = fileName;
+        var entryXml = storage.objectToXml(imageData, "Image");
+        storage.session.add(storage.imageDocument(fileName), entryXml, function (error, reply) {
+            if (reply.ok) {
+                receiver(fileName);
+            }
+            else {
+                throw error + "\n" + query;
+            }
+        });
+    });
+};
+
+storage.getImagePath = function (fileName) {
+    var bucketName = storage.bucketName(fileName);
+    return this.imageRoot + '/' + bucketName + '/' + fileName;
+};
+
+storage.getImageDocument = function(fileName, receiver) {
+    var query = "xquery " + this.imagePath(fileName);
+    storage.session.execute(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
     });
 };
 
