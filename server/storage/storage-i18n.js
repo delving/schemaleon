@@ -6,7 +6,9 @@ function I18N(storage) {
     this.storage = storage;
 }
 
-I18N.prototype.getLanguage = function (language, receiver) {
+var P = I18N.prototype;
+
+P.getLanguage = function (language, receiver) {
     var s = this.storage;
     var query = s.session.query(s.langPath(language));
     query.results(function (error, reply) {
@@ -31,7 +33,7 @@ I18N.prototype.getLanguage = function (language, receiver) {
     });
 };
 
-I18N.prototype.setLabel = function (language, key, value, receiver) {
+P.setLabel = function (language, key, value, receiver) {
     var s = this.storage;
     var labelPath = s.langPath(language) + "/label";
     var keyPath = labelPath + '/' + key;
@@ -47,7 +49,7 @@ I18N.prototype.setLabel = function (language, key, value, receiver) {
     });
 };
 
-I18N.prototype.setElementTitle = function (language, key, value, receiver) {
+P.setElementTitle = function (language, key, value, receiver) {
     var s = this.storage;
     var elementPath = s.langPath(language) + "/element";
     var keyPath = elementPath + '/' + key;
@@ -64,7 +66,7 @@ I18N.prototype.setElementTitle = function (language, key, value, receiver) {
     });
 };
 
-I18N.prototype.setElementDoc = function (language, key, value, receiver) {
+P.setElementDoc = function (language, key, value, receiver) {
     var s = this.storage;
     var elementPath = s.langPath(language) + "/element";
     var keyPath = elementPath + '/' + key;

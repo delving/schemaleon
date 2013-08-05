@@ -6,7 +6,9 @@ function Document(storage) {
     this.storage = storage;
 }
 
-Document.prototype.getDocumentSchema = function (schemaName, receiver) {
+var P = Document.prototype;
+
+P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
     var query = s.session.query("doc('" + s.database + "/DocumentSchemas.xml')/DocumentSchemas/" + schemaName);
     query.results(function (error, reply) {
@@ -19,7 +21,7 @@ Document.prototype.getDocumentSchema = function (schemaName, receiver) {
     });
 };
 
-Document.prototype.getDocumentList = function (receiver) {
+P.getDocumentList = function (receiver) {
     var s = this.storage;
     var query = "xquery collection('" + s.database + "/documents')/Document/Header";
     s.session.execute(query, function (error, reply) {
@@ -32,7 +34,7 @@ Document.prototype.getDocumentList = function (receiver) {
     });
 };
 
-Document.prototype.getDocument = function (identifier, receiver) {
+P.getDocument = function (identifier, receiver) {
     var s = this.storage;
     var query = "xquery " + s.docPath(identifier);
     s.session.execute(query, function (error, reply) {
@@ -45,7 +47,7 @@ Document.prototype.getDocument = function (identifier, receiver) {
     });
 };
 
-Document.prototype.saveDocument = function (body, receiver) {
+P.saveDocument = function (body, receiver) {
     var s = this.storage;
     var IDENTIFIER = '#IDENTIFIER#';
     var TIMESTAMP = '#TIMESTAMP#';

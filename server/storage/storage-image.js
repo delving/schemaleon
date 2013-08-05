@@ -9,7 +9,9 @@ function Image(storage) {
     this.storage = storage;
 }
 
-Image.prototype.saveImage = function (imageData, receiver) {
+var P = Image.prototype;
+
+P.saveImage = function (imageData, receiver) {
 
     function copyFile(source, target, cb) {
         var cbCalled = false;
@@ -76,13 +78,13 @@ Image.prototype.saveImage = function (imageData, receiver) {
     });
 };
 
-Image.prototype.getImagePath = function (fileName) {
+P.getImagePath = function (fileName) {
     var s = this.storage;
     var bucketName = s.bucketName(fileName);
     return s.imageRoot + '/' + bucketName + '/' + fileName;
 };
 
-Image.prototype.getImageDocument = function(fileName, receiver) {
+P.getImageDocument = function(fileName, receiver) {
     var s = this.storage;
     var query = "xquery " + s.imagePath(fileName);
     s.session.execute(query, function (error, reply) {
@@ -95,7 +97,7 @@ Image.prototype.getImageDocument = function(fileName, receiver) {
     });
 };
 
-Image.prototype.listImages = function (done) {
+P.listImages = function (done) {
     var walk = function (dir, done) {
         var results = [];
         fs.readdir(dir, function (err, list) {

@@ -6,7 +6,9 @@ function Vocab(storage) {
     this.storage = storage;
 }
 
-Vocab.prototype.getVocabularySchema = function (vocabName, receiver) {
+var P = Vocab.prototype;
+
+P.getVocabularySchema = function (vocabName, receiver) {
     var s = this.storage;
     var query = s.session.query("doc('" + s.database + "/VocabularySchemas.xml')/VocabularySchemas/" + vocabName);
     query.results(function (error, reply) {
@@ -19,7 +21,7 @@ Vocab.prototype.getVocabularySchema = function (vocabName, receiver) {
     });
 };
 
-Vocab.prototype.createVocabulary = function (vocabName, entryXml, receiver) {
+P.createVocabulary = function (vocabName, entryXml, receiver) {
     var s = this.storage;
     var freshVocab = "<Entries>" + entryXml + "</Entries>";
     s.session.add(s.vocabDocument(vocabName), freshVocab, function (error, reply) {
@@ -33,7 +35,7 @@ Vocab.prototype.createVocabulary = function (vocabName, entryXml, receiver) {
     });
 };
 
-Vocab.prototype.addVocabularyEntry = function (vocabName, entry, receiver) {
+P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var s = this.storage;
     var vocab = this;
     var self = this;
@@ -70,7 +72,7 @@ Vocab.prototype.addVocabularyEntry = function (vocabName, entry, receiver) {
     }
 };
 
-Vocab.prototype.getVocabularyEntries = function (vocabName, search, receiver) {
+P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
     var searchPath = s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), " + s.quote(search) + ")]";
     var query = "xquery " + searchPath;
