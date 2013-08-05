@@ -290,6 +290,9 @@ module.exports = function (grunt) {
             ],
             authenticate: [
                 'test/server/test-authenticate.js'
+            ],
+            image: [
+                'test/server/test-storage-image.js'
             ]
         }
     });
@@ -323,8 +326,8 @@ module.exports = function (grunt) {
         'nodeunit:all'
     ]);
 
-    grunt.registerTask('test-authenticate', [
-        'nodeunit:authenticate'
+    grunt.registerTask('test-image', [
+        'nodeunit:image'
     ]);
 
     grunt.registerTask('test-e2e', [
