@@ -26,8 +26,9 @@
 
 
 //@blue: #009AE0;
-
 @bodyBackground: #ddd;
+
+
 
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -144,12 +145,17 @@ body {
   color: @textColor;
 }
 
-.nav-bar {
-  &.navbar-inverse .nav li a {
-    color: #999999;
-    display: block;
-    padding: 10px 15px 10px;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+.navbar {
+//  &.navbar-inverse .nav li a {
+//    color: #999999;
+//    display: block;
+//    padding: 10px 15px 10px;
+//    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+//  }
+  .navbar-form .input-append {
+    .btn {
+      margin-top: 0px;
+    }
   }
 
 }
@@ -565,5 +571,125 @@ ul.kv-list {
 
   .btn-i18n {
     display: inline-block;
+  }
+}
+
+/* WIDGET BOX */
+
+.widget-box {
+  background: none repeat scroll 0 0 #f6f6f6;
+  clear: both;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  position: relative;
+  .border-radius(@br-small);
+}
+
+.widget-title {
+  background-color: #efefef;
+  .border-top-radius(@br-small);
+  height: 36px;
+  .icon {
+    border-right: 1px solid #fff;
+    padding: 9px 10px 7px 11px;
+    float: left;
+    opacity: .7;
+  }
+  h5 {
+    color: #666666;
+    text-shadow: 0 1px 0 #ffffff;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px;
+    line-height: 12px;
+    margin: 0;
+  }
+  .buttons {
+    float: right;
+    margin: 8px 10px 0 0;
+  }
+}
+
+.widget-body {
+//  border-bottom: 1px solid #cdcdcd;
+  font-size: small;
+  padding: 12px 15px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+.widget-content {
+  padding: 12px 15px;
+}
+
+.widget-footer {
+  border-top: 1px solid #ccc;
+  padding: 4px;
+}
+
+/*
+ * jQuery File Upload UI Plugin CSS 8.1
+ * https://github.com/blueimp/jQuery-File-Upload
+ *
+ * Copyright 2010, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
+}
+.fileupload-buttonbar .btn,
+.fileupload-buttonbar .toggle {
+  margin-bottom: 5px;
+}
+.progress-animated .bar {
+  background: url(../img/progressbar.gif) !important;
+  filter: none;
+}
+.fileupload-loading {
+  float: right;
+  width: 32px;
+  height: 32px;
+  background: url(../img/loading.gif) center no-repeat;
+  background-size: contain;
+  display: none;
+}
+.fileupload-processing .fileupload-loading {
+  display: block;
+}
+.files audio,
+.files video {
+  max-width: 300px;
+}
+
+@media (max-width: 767px) {
+  .fileupload-buttonbar .toggle,
+  .files .toggle,
+  .files .btn span {
+    display: none;
+  }
+  .files .name {
+    width: 80px;
+    word-wrap: break-word;
+  }
+  .files audio,
+  .files video {
+    max-width: 80px;
   }
 }

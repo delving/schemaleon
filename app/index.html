@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -126,6 +131,30 @@
 <script src="components/underscore/underscore.js"></script>
 <script src="components/x2js/xml2json.js"></script>
 
+<!-- fileupload -->
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="components/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload.js"></script>
+<!-- The File Upload processing plugin -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
+<!-- The File Upload image preview & resize plugin -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
+<!-- The File Upload audio preview plugin -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload-audio.js"></script>
+<!-- The File Upload video preview plugin -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload-video.js"></script>
+<!-- The File Upload validation plugin -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
+<!-- The File Upload Angular JS module -->
+<script src="components/blueimp-file-upload/js/jquery.fileupload-angular.js"></script>
+
 <!--todo: note that gerald@delving.eu has modified this file:-->
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
 
@@ -135,12 +164,17 @@
 <script src="scripts/controllers/i18n.js"></script>
 <script src="scripts/controllers/document.js"></script>
 <script src="scripts/controllers/field.js"></script>
+<script src="scripts/controllers/file-upload.js"></script>
 <script src="scripts/services/commons-service.js"></script>
 <script src="scripts/services/i18n-service.js"></script>
 <script src="scripts/services/vocabulary-service.js"></script>
 <script src="scripts/services/document-service.js"></script>
 <script src="scripts/services/validator.js"></script>
 <script src="scripts/services/xml-ops.js"></script>
+
+
+
+
 <!-- endbuild -->
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

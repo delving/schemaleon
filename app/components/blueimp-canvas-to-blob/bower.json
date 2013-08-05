@@ -1,0 +1,43 @@
+{
+  "name": "blueimp-canvas-to-blob",
+  "version": "2.0.7",
+  "title": "JavaScript Canvas to Blob",
+  "description": "JavaScript Canvas to Blob is a function to convert canvas elements into Blob objects.",
+  "keywords": [
+    "javascript",
+    "canvas",
+    "blob",
+    "convert",
+    "conversion"
+  ],
+  "homepage": "https://github.com/blueimp/JavaScript-Canvas-to-Blob",
+  "author": {
+    "name": "Sebastian Tschan",
+    "url": "https://blueimp.net"
+  },
+  "maintainers": [
+    {
+      "name": "Sebastian Tschan",
+      "url": "https://blueimp.net"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/blueimp/JavaScript-Canvas-to-Blob.git"
+  },
+  "devDependencies": {
+    "uglify-js": "2.3.6"
+  },
+  "bugs": "https://github.com/blueimp/JavaScript-Canvas-to-Blob/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "js/canvas-to-blob.js",
+  "gitHead": "1a2fb2e4adfb7cecc7824c254fcf65018e85a913",
+  "readme": "# JavaScript Canvas to Blob\n\n## Description\nCanvas to Blob is a polyfill for the standard JavaScript [canvas.toBlob](http://www.w3.org/TR/html5/the-canvas-element.html#dom-canvas-toblob) method.\n\nIt can be used to create [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) objects from an HTML [canvas](https://developer.mozilla.org/en-US/docs/HTML/Canvas) element.\n\n## Usage\nInclude the (minified) JavaScript Canvas to Blob script in your HTML markup:\n\n```html\n<script src=\"js/canvas-to-blob.min.js\"></script>\n```\n\nThen use the *canvas.toBlob()* method in the same way as the native implementation:\n\n```js\nvar canvas = document.createElement('canvas'); \n/* ... your canvas manipulations ... */\nif (canvas.toBlob) {\n    canvas.toBlob(\n        function (blob) {\n            // Do something with the blob object,\n            // e.g. creating a multipart form for file uploads:\n            var formData = new FormData();\n            formData.append('file', blob, fileName);\n            /* ... */\n        },\n        'image/jpeg'\n    );\n}\n```\n\n## Requirements\nThe JavaScript Canvas to Blob function has zero dependencies.\n\nHowever, Canvas to Blob is a very suitable complement to the [JavaScript Load Image](https://github.com/blueimp/JavaScript-Load-Image) function.\n\n## API\nIn addition to the **canvas.toBlob** polyfill, the JavaScript Canvas to Blob script provides one additional function called **dataURLtoBlob**, which is added to the global window object if no AMD loader is used to load the script:\n\n```js\n// 80x60px GIF image (color black, base64 data):\nvar b64Data = 'R0lGODdhUAA8AIABAAAAAP///ywAAAAAUAA8AAACS4SPqcvtD6' +\n        'OctNqLs968+w+G4kiW5omm6sq27gvH8kzX9o3n+s73/g8MCofE' +\n        'ovGITCqXzKbzCY1Kp9Sq9YrNarfcrvcLDovH5PKsAAA7',\n    imageUrl = 'data:image/gif;base64,' + b64Data,\n    blob = window.dataURLtoBlob && window.dataURLtoBlob(imageUrl);\n```\n\n## Browsers\nThe following browsers support either the native or the polyfill *canvas.toBlob()* method:\n\n### Desktop browsers\n\n* Google Chrome (see [Chromium issue #67587](https://code.google.com/p/chromium/issues/detail?id=67587))\n* Apple Safari 6.0+ (see [Mozilla issue #648610](https://bugzilla.mozilla.org/show_bug.cgi?id=648610))\n* Mozilla Firefox 4.0+\n* Microsoft Internet Explorer 10.0+\n\n### Mobile browsers\n\n* Apple Safari Mobile on iOS 6.0+\n* Google Chrome on iOS 6.0+\n* Google Chrome on Android 4.0+\n\n## Test\n[JavaScript Canvas to Blob Test](http://blueimp.github.io/JavaScript-Canvas-to-Blob/test/)\n\n## License\nThe JavaScript Canvas to Blob script is released under the [MIT license](http://www.opensource.org/licenses/MIT).\n",
+  "readmeFilename": "README.md",
+  "_id": "blueimp-canvas-to-blob@2.0.7"
+}

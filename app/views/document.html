@@ -6,8 +6,10 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <form class="navbar-form pull-left">
-                    <input type="text" class="span2">
-                    <button type="submit" class="btn" i18n="Search"><i class="icon-search"></i> <span class="i18n"></span></button>
+                    <div class="input-append">
+                        <input type="text" class="span2">
+                        <button type="submit" class="btn" title="Search"><i class="icon-search"></i></button>
+                    </div>
                 </form>
                 <div class="controls pull-right">
                     <a href class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument">
@@ -141,10 +143,10 @@
                                     <div ng-show="el.edit">
                                         <input focus id="vocabulary" type="text" ng-model="chosenState" class="input-block-level"
                                                typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
-                                        <button ng-click="disableEditor()" class="btn btn-small" i18n="Select">
-                                            <i class="icon-ok-circle"></i>
-                                            <span class="i18n"/>
-                                        </button>
+                                        <!--<button ng-click="disableEditor()" class="btn btn-small" i18n="Select">-->
+                                            <!--<i class="icon-ok-circle"></i>-->
+                                            <!--<span class="i18n"/>-->
+                                        <!--</button>-->
                                         <button ng-show="!el.elements"
                                                 ng-click="createNew($index, $parent.$index)"
                                                 class="btn btn-warning btn-small"
@@ -175,7 +177,7 @@
                             </div>
 
                             <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController"
-                                 class="text-input">
+                                 class="input-block-level">
                                 <div ng-show="el.edit">
                                     <input focus id="textInput" class="input-block-level" type="text"
                                            ng-model="el.value"/>
@@ -216,16 +218,25 @@
                             </div>
 
                             <div ng-hide="el.elements">
-                                <div ng-show="el.doc" class="element-documentation">
-                                    <h5><i class="icon icon-question-sign"></i> {{ el | elementTitle }}</h5>
+                                <div class="widget-box">
+                                    <div class="widget-title">
+                                        <span class="icon"><i class=" icon-question-sign"></i></span>
+                                        <h5>{{ el | elementTitle }}</h5>
+                                    </div>
+                                   <div class="widget-body">
+                                       <!--{{ el.doc }}-->
+                                       <p ng-show="el.doc">{{ el | elementDoc }}</p>
+                                   </div>
+                                    <div class="widget-footer">
+                                        <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
+                                    </div>
 
-                                    <p>{{ el | elementDoc }}</p>
                                 </div>
-                                <div>
-                                    <span i18n="EditExplanation">
-                                        <button ng-click="openDocDialog(el)" class="btn btn-small i18n"></button>
-                                    </span>
-                                </div>
+                                <!--<div>-->
+
+
+
+                                <!--</div>-->
                             </div>
                         </div>
 

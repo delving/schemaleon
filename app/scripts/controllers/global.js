@@ -62,7 +62,8 @@ CultureCollectorApp.controller('GlobalController',
             $scope.mainMenu = {
                 links: [
                     {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
-                    {name: "Documents", path: "/document/", icon: 'icon-th-list', active: false}
+                    {name: "Documents", path: "/document/", icon: 'icon-th-list', active: false},
+                    {name: "File upload", path: "/fileupload", icon: 'icon-file', active: false}
                 ]
             };
             $scope.recent = [];
