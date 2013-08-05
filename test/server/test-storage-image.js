@@ -55,14 +55,14 @@ exports.testImage = function (test) {
         title: 'Zoom Cat',
         uploadedBy: 'tester@delving.eu'
     };
-    storage.saveImage(imageData, function (fileName) {
+    storage.Image.saveImage(imageData, function (fileName) {
         console.log(fileName);
         test.ok(fileName, 'no file name');
-        storage.listImages(function (err, results) {
+        storage.Image.listImages(function (err, results) {
             console.log(results);
             test.equals(results.length, 1, "should just be one file");
-            test.equals(results[0], storage.getImagePath(fileName), "image path mismatch");
-            storage.getImageDocument(fileName, function(doc) {
+            test.equals(results[0], storage.Image.getImagePath(fileName), "image path mismatch");
+            storage.Image.getImageDocument(fileName, function(doc) {
                 console.log(doc);
                 test.ok(doc.indexOf("Zoom Cat") > 0, 'Image title not found');
                 test.done();

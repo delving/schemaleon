@@ -14,7 +14,7 @@ exports.createDatabase = function (test) {
 
 exports.testFetch = function (test) {
     test.expect(1);
-    storage.getLanguage('en', function (xml) {
+    storage.I18N.getLanguage('en', function (xml) {
         test.ok(xml, "no xml");
         console.log("fetched:\n" + xml);
         test.done();
@@ -23,7 +23,7 @@ exports.testFetch = function (test) {
 
 exports.testSetLabel = function (test) {
     test.expect(1);
-    storage.setLabel('en', 'EditExplanation', 'Edit that explanation, dude!', function (ok) {
+    storage.I18N.setLabel('en', 'EditExplanation', 'Edit that explanation, dude!', function (ok) {
         test.ok(ok, "problem adding label");
         test.done();
     });
@@ -31,7 +31,7 @@ exports.testSetLabel = function (test) {
 
 exports.testAfterSetLabel = function (test) {
     test.expect(3);
-    storage.getLanguage('en', function (xml) {
+    storage.I18N.getLanguage('en', function (xml) {
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('dude') > 0, 'No dude appears');
@@ -42,7 +42,7 @@ exports.testAfterSetLabel = function (test) {
 
 exports.testSetLabelAgain = function (test) {
     test.expect(1);
-    storage.setLabel('en', 'EditExplanation', 'Edit that explanation, babe!', function (ok) {
+    storage.I18N.setLabel('en', 'EditExplanation', 'Edit that explanation, babe!', function (ok) {
         test.ok(ok, "problem adding label");
         test.done();
     });
@@ -50,7 +50,7 @@ exports.testSetLabelAgain = function (test) {
 
 exports.testAfterSetLabelAgain = function (test) {
     test.expect(3);
-    storage.getLanguage('en', function (xml) {
+    storage.I18N.getLanguage('en', function (xml) {
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('babe') > 0, 'No babe appears');
@@ -61,7 +61,7 @@ exports.testAfterSetLabelAgain = function (test) {
 
 exports.testSetElementTitle = function (test) {
     test.expect(1);
-    storage.setElementTitle('en', 'Identifier', "ID00001", function (ok) {
+    storage.I18N.setElementTitle('en', 'Identifier', "ID00001", function (ok) {
         test.ok(ok, 'Problem setting element title');
         test.done();
     });
@@ -69,7 +69,7 @@ exports.testSetElementTitle = function (test) {
 
 exports.testAfterSetElementTitle = function (test) {
     test.expect(3);
-    storage.getLanguage('en', function (xml) {
+    storage.I18N.getLanguage('en', function (xml) {
         console.log("fetched:\n" + xml);
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
@@ -80,7 +80,7 @@ exports.testAfterSetElementTitle = function (test) {
 
 exports.testSetElementTitleAgain = function (test) {
     test.expect(1);
-    storage.setElementTitle('en', 'Identifier', "ID00002", function (ok) {
+    storage.I18N.setElementTitle('en', 'Identifier', "ID00002", function (ok) {
         test.ok(ok, 'Problem setting element title');
         test.done();
     });
@@ -88,7 +88,7 @@ exports.testSetElementTitleAgain = function (test) {
 
 exports.testAfterSetElementTitleAgain = function (test) {
     test.expect(3);
-    storage.getLanguage('en', function (xml) {
+    storage.I18N.getLanguage('en', function (xml) {
         console.log("fetched:\n" + xml);
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
@@ -99,7 +99,7 @@ exports.testAfterSetElementTitleAgain = function (test) {
 
 exports.testSetElementDoc = function (test) {
     test.expect(1);
-    storage.setElementDoc('en', "Identifier", "Some \"nasty\" <documentation/> for y'all.", function(ok) {
+    storage.I18N.setElementDoc('en', "Identifier", "Some \"nasty\" <documentation/> for y'all.", function(ok) {
         test.ok(ok, 'Problem setting element doc');
         test.done();
     });
@@ -107,7 +107,7 @@ exports.testSetElementDoc = function (test) {
 
 exports.testAfterSetElementDoc = function (test) {
     test.expect(4);
-    storage.getLanguage('en', function (xml) {
+    storage.I18N.getLanguage('en', function (xml) {
         console.log("fetched:\n" + xml);
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");

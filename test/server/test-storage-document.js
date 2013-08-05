@@ -30,7 +30,7 @@ var schemaXml = '?';
 
 exports.testFetchSchema = function (test) {
     test.expect(2);
-    storage.getDocumentSchema('Photograph', function (xml) {
+    storage.Document.getDocumentSchema('Photograph', function (xml) {
         test.ok(xml, "no xml");
 //        console.log("fetched:\n" + xml);
         test.ok(xml[0].indexOf('<Photograph>') == 0, "Didn't retrieve");
@@ -63,7 +63,7 @@ exports.testSaveDocument = function (test) {
             '</Body>' +
             '</Document>'
     };
-    storage.saveDocument(body, function (header) {
+    storage.Document.saveDocument(body, function (header) {
         hdr = header;
         test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
         test.done();
@@ -92,7 +92,7 @@ exports.testSaveAnother = function (test) {
             '</Body>' +
             '</Document>'
     };
-    storage.saveDocument(body, function (header) {
+    storage.Document.saveDocument(body, function (header) {
         test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
         test.done();
     });
@@ -118,7 +118,7 @@ exports.testSaveDocumentAgain = function (test) {
             '</Body>' +
             '</Document>'
     };
-    storage.saveDocument(body, function (header) {
+    storage.Document.saveDocument(body, function (header) {
         test.equal(header, hdr, 'Different header');
         test.done();
     });
@@ -126,7 +126,7 @@ exports.testSaveDocumentAgain = function (test) {
 
 exports.testGetDocument = function (test) {
     test.expect(2);
-    storage.getDocument(hdr.Identifier, function (xml) {
+    storage.Document.getDocument(hdr.Identifier, function (xml) {
 //        console.log(xml);
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
@@ -136,7 +136,7 @@ exports.testGetDocument = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    storage.getDocumentList(function (xml) {
+    storage.Document.getDocumentList(function (xml) {
         console.log(xml);
         test.ok(xml, "No xml");
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found");

@@ -28,7 +28,7 @@ exports.fillSchemas = function (test) {
 
 exports.testFetchSchema = function (test) {
     test.expect(2);
-    storage.getVocabularySchema('PhotoType', function (xml) {
+    storage.Vocab.getVocabularySchema('PhotoType', function (xml) {
         test.ok(xml, "no xml");
         console.log("fetched:\n" + xml);
         test.ok(xml[0].indexOf('<PhotoType') == 0, "Didn't retrieve");
@@ -52,7 +52,7 @@ exports.testAddEntry1 = function (test) {
         Label: "Gumby",
         URI: "http://gumby.com"
     };
-    storage.addVocabularyEntry('PhotoType', entry, function (xml) {
+    storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
         console.log("added:\n" + xml);
         test.done();
@@ -65,7 +65,7 @@ exports.testAddEntry2 = function (test) {
         Label: "Pokey",
         URI: "http://pokey.com"
     };
-    storage.addVocabularyEntry('PhotoType', entry, function (xml) {
+    storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
         console.log("added:\n" + xml);
         test.done();
@@ -74,7 +74,7 @@ exports.testAddEntry2 = function (test) {
 
 exports.testFetchEntry = function(test) {
     test.expect(1);
-    storage.getVocabularyEntries('PhotoType', 'y', function(xml) {
+    storage.Vocab.getVocabularyEntries('PhotoType', 'y', function(xml) {
         test.ok(xml, "no xml");
         console.log("fetched:\n" + xml);
         test.done();
