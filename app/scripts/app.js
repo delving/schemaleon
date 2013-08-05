@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('CultureCollectorApp', ['ui.bootstrap'])
+angular.module('CultureCollectorApp', ['ui.bootstrap','blueimp.fileupload'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/dashboard', {
