@@ -145,7 +145,7 @@ app.get('/document/fetch/:identifier', function (req, res) {
 app.get('/document/list', function (req, res) {
     storage.Document.getDocumentList(function (xml) {
         res.setHeader('Content-Type', 'text/xml');
-        res.send("<Headers>" + xml + "</Headers>");
+        res.send(xml);
     });
 });
 
@@ -158,8 +158,9 @@ app.post('/document/save', function (req, res) {
 });
 
 app.get('/image/list', function (req, res) {
-    storage.Image.listImages(function(list) {
-        res.json(list);
+    storage.Image.listImages(function(xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
     });
 });
 

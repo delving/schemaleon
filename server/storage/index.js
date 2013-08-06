@@ -120,9 +120,9 @@ function open(databaseName, receiver) {
             console.log('could not open database ' + databaseName);
             storage.session.execute('create db ' + databaseName, function (error, reply) {
 
-                function preload(fileName, next) {
+                function loadXML(fileName, next) {
                     var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
-                    storage.session.add('/' + fileName, contents, function (error, reply) {
+                    storage.add('/' + fileName, contents, function (error, reply) {
                         if (reply.ok) {
                             console.log("Preloaded: " + fileName);
                             if (next) next();
@@ -133,11 +133,19 @@ function open(databaseName, receiver) {
                     });
                 }
 
-                console.log("created!"); // todo
                 if (reply.ok) {
-                    preload('VocabularySchemas.xml', function () {
-                        preload('DocumentSchemas.xml', function () {
-                            receiver(storage);
+                    loadXML('VocabularySchemas.xml', function () {
+                        loadXML('DocumentSchemas.xml', function () {
+                            var imageData = {
+                                filePath: 'test/data/zoomcat.jpg',
+                                mimeType: 'image/jpeg',
+                                title: 'Zoom Cat',
+                                uploadedBy: 'tester@delving.eu'
+                            };
+                            storage.Image.saveImage(imageData, function(fileName) {
+                                console.log('preloaded zoomcat');
+                                receiver(storage);
+                            });
                         });
                     });
                 }
