@@ -27,13 +27,10 @@ CultureCollectorApp.controller('TestFileUploadController', [
         $http.get(url)
             .then(
             function (response) {
-                console.log('a');
                 $scope.loadingFiles = false;
                 $scope.queue = response.data.files || [];
-                console.log($scope.queue);
             },
             function () {
-                console.log('b');
                 $scope.loadingFiles = false;
             }
         );
