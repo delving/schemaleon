@@ -2,6 +2,7 @@
 /*global language, console, $, _ */
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
+var uploader = require('./server/uploader');
 var mountFolder = function (connect, dir) {
     return connect.static(path.resolve(dir));
 };
@@ -42,34 +43,15 @@ module.exports = function (grunt) {
         },
         connect: {
             options: {
-                port: 9000,
+                port: 8888,
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname: 'localhost'
             },
-            livereload: {
+            upperload: {
                 options: {
                     middleware: function (connect) {
                         return [
-                            lrSnippet,
-                            mountFolder(connect, yeomanConfig.app)
-                        ];
-                    }
-                }
-            },
-            prod: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, yeomanConfig.dist)
-                        ];
-                    }
-                }
-            },
-            test: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, 'test')
+                            uploader
                         ];
                     }
                 }
@@ -97,7 +79,7 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                url: 'http://localhost:<%= connect.options.port %>'
+                url: 'http://localhost:<%= express.livereload.options.port %>'
             }
         },
         clean: {
@@ -303,6 +285,7 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'livereload-start',
+        'connect:upperload',
         'express:livereload',
         'open',
         'watch'
