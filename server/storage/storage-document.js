@@ -10,7 +10,7 @@ var P = Document.prototype;
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    var query = s.session.query("doc('" + s.database + "/DocumentSchemas.xml')/DocumentSchemas/" + schemaName);
+    var query = s.query("doc('" + s.database + "/DocumentSchemas.xml')/DocumentSchemas/" + schemaName);
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -23,8 +23,8 @@ P.getDocumentSchema = function (schemaName, receiver) {
 
 P.getDocumentList = function (receiver) {
     var s = this.storage;
-    var query = "xquery collection('" + s.database + "/documents')/Document/Header";
-    s.session.execute(query, function (error, reply) {
+    var query = s.docCollection() + "/Header";
+    s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
@@ -36,8 +36,8 @@ P.getDocumentList = function (receiver) {
 
 P.getDocument = function (identifier, receiver) {
     var s = this.storage;
-    var query = "xquery " + s.docPath(identifier);
-    s.session.execute(query, function (error, reply) {
+    var query = s.docPath(identifier);
+    s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
@@ -58,7 +58,7 @@ P.saveDocument = function (body, receiver) {
         body.header.Identifier = identifier;
         var withIdentifier = body.xml.replace(IDENTIFIER, identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
-        s.session.add(s.docDocument(identifier), withTimesStamp, function (error, reply) {
+        s.add(s.docDocument(identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
                 receiver(body.header);
             }
@@ -70,7 +70,7 @@ P.saveDocument = function (body, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = body.xml.replace(TIMESTAMP, time);
-        s.session.replace(s.docDocument(body.header.Identifier), stamped, function (error, reply) {
+        s.replace(s.docDocument(body.header.Identifier), stamped, function (error, reply) {
             if (reply.ok) {
                 receiver(body.header);
             }

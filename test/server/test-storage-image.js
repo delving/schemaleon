@@ -59,7 +59,7 @@ exports.testImage = function (test) {
     storage.Image.saveImage(imageData, function (fileName) {
         console.log(fileName);
         test.ok(fileName, 'no file name');
-        storage.Image.listImages(function (err, results) {
+        storage.Image.listImageFiles(function (err, results) {
             console.log(results);
             test.equals(results.length, 1, "should just be one file");
             test.equals(results[0], storage.Image.getImagePath(fileName), "image path mismatch");

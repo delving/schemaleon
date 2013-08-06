@@ -66,12 +66,36 @@ function Storage() {
         return "doc('" + this.database + this.docDocument(identifier) + "')/Document";
     };
 
+    this.docCollection = function () {
+        return "collection('" + this.database + "/documents')/Document";
+    };
+
     this.imageDocument = function (fileName) {
         return "/images/" + fileName + ".xml";
     };
 
     this.imagePath = function (fileName) {
         return "doc('" + this.database + this.imageDocument(fileName) + "')/Image";
+    };
+
+    this.imageCollection = function () {
+        return "collection('" + this.database + "/images')/Image";
+    };
+
+    this.xquery = function (query, callback) {
+        this.session.execute('xquery ' + query, callback);
+    };
+
+    this.query = function (query, callback) {
+        return this.session.query(query, callback);
+    };
+
+    this.add = function (path, content, callback) {
+        this.session.add(path, content, callback);
+    };
+
+    this.replace = function (path, content, callback) {
+        this.session.replace(path, content, callback);
     };
 
     this.Image = new Image(this);
@@ -112,7 +136,7 @@ function open(databaseName, receiver) {
                 console.log("created!"); // todo
                 if (reply.ok) {
                     preload('VocabularySchemas.xml', function () {
-                        preload('DocumentSchemas.xml', function() {
+                        preload('DocumentSchemas.xml', function () {
                             receiver(storage);
                         });
                     });

@@ -10,7 +10,7 @@ var P = Vocab.prototype;
 
 P.getVocabularySchema = function (vocabName, receiver) {
     var s = this.storage;
-    var query = s.session.query("doc('" + s.database + "/VocabularySchemas.xml')/VocabularySchemas/" + vocabName);
+    var query = s.query("doc('" + s.database + "/VocabularySchemas.xml')/VocabularySchemas/" + vocabName);
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -24,7 +24,7 @@ P.getVocabularySchema = function (vocabName, receiver) {
 P.createVocabulary = function (vocabName, entryXml, receiver) {
     var s = this.storage;
     var freshVocab = "<Entries>" + entryXml + "</Entries>";
-    s.session.add(s.vocabDocument(vocabName), freshVocab, function (error, reply) {
+    s.add(s.vocabDocument(vocabName), freshVocab, function (error, reply) {
         if (reply.ok) {
             console.log("Created vocabulary " + vocabName);
             receiver(entryXml);
@@ -43,8 +43,8 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     if (entry.ID) {
         entryPath = s.vocabPath(vocabName) + "[ID=" + s.quote(entry.ID) + "]";
         entryXml = s.objectToXml(entry, 'Entry');
-        query = "xquery replace value of node " + entryPath + " with " + entryXml;
-        s.session.execute(query, function (error, reply) {
+        query = "replace value of node " + entryPath + " with " + entryXml;
+        s.xquery(query, function (error, reply) {
             if (reply.ok) {
                 receiver(entryXml);
             }
@@ -58,8 +58,8 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     else {
         entry.ID = s.generateId("OSCR-V");
         entryXml = s.objectToXml(entry, 'Entry');
-        query = "xquery insert node " + entryXml + " into " + s.vocabPath(vocabName);
-        s.session.execute(query, function (error, reply) {
+        query = "insert node " + entryXml + " into " + s.vocabPath(vocabName);
+        s.xquery(query, function (error, reply) {
             if (reply.ok) {
                 receiver(entryXml);
             }
@@ -74,9 +74,8 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
 
 P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
-    var searchPath = s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), " + s.quote(search) + ")]";
-    var query = "xquery " + searchPath;
-    s.session.execute(query, function (error, reply) {
+    var query = s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), " + s.quote(search) + ")]";
+    s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }

@@ -6,6 +6,8 @@ var app = express();
 var https = require('https');
 var crypto = require('crypto');
 var Storage = require('./storage');
+var FileInfo = require('./file-info');
+var UploadHandler = require('./upload-handler');
 
 app.use(express.bodyParser());
 
@@ -16,7 +18,7 @@ Storage('oscr', function (s) {
     storage = s;
 });
 
-function apiQueryString() {
+function commonsQueryString() {
     var API_QUERY_PARAMS = {
         "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
         "apiOrgId": "delving",
@@ -29,12 +31,12 @@ function apiQueryString() {
     return queryParams.join('&');
 }
 
-function requestOptions(path) {
+function commonsRequest(path) {
     return {
         method: "GET",
         host: 'commons.delving.eu',
         port: 443,
-        path: path + '?' + apiQueryString()
+        path: path + '?' + commonsQueryString()
     }
 }
 
@@ -44,15 +46,15 @@ app.post('/authenticate', function (req, res) {
     var hmac = crypto.createHmac('sha1', req.body.username);
     var hash = hmac.update(hashedPassword).digest('hex');
     https.request(
-        requestOptions('/user/authenticate/' + hash),
+        commonsRequest('/user/authenticate/' + hash),
         function (authResponse) {
             if (authResponse.statusCode == 200) {
                 https.request(
-                    requestOptions('/user/profile/' + req.body.username),
-                    function(profileResponse) {
+                    commonsRequest('/user/profile/' + req.body.username),
+                    function (profileResponse) {
                         var data;
-                        profileResponse.on('data', function(data) {
-                            console.log("profile returned :"+data);
+                        profileResponse.on('data', function (data) {
+                            console.log("profile returned :" + data);
                             var profile = JSON.parse(data);
                             console.log("profile:");
                             console.log(profile);
@@ -153,6 +155,22 @@ app.post('/document/save', function (req, res) {
     storage.Document.saveDocument(req.body, function (header) {
         res.json(header);
     });
+});
+
+app.get('/image/list', function (req, res) {
+    storage.Image.listImages(function(list) {
+        res.json(list);
+    });
+});
+
+app.get('/image/fetch/:fileName', function (req, res) {
+    var fileName = req.params.fileName;
+    var filePath = storage.Image.getImagePath(fileName);
+    res.json({ hello: 'Congratulations!', filePath: filePath });
+});
+
+app.post('/image/save', function (req, res) {
+    res.json({ hello: 'Thank you!' });
 });
 
 module.exports = app;

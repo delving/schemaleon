@@ -31,7 +31,7 @@ P.saveImage = function (imageData, receiver) {
         }
         imageData.fileName = fileName;
         var entryXml = s.objectToXml(imageData, "Image");
-        s.session.add(s.imageDocument(fileName), entryXml, function (error, reply) {
+        s.add(s.imageDocument(fileName), entryXml, function (error, reply) {
             if (reply.ok) {
                 receiver(fileName);
             }
@@ -48,10 +48,10 @@ P.getImagePath = function (fileName) {
     return s.imageRoot + '/' + bucketName + '/' + fileName;
 };
 
-P.getImageDocument = function(fileName, receiver) {
+P.getImageDocument = function (fileName, receiver) {
     var s = this.storage;
-    var query = "xquery " + s.imagePath(fileName);
-    s.session.execute(query, function (error, reply) {
+    var query = s.imagePath(fileName);
+    s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
@@ -61,7 +61,21 @@ P.getImageDocument = function(fileName, receiver) {
     });
 };
 
-P.listImages = function (done) {
+P.listImageData = function (receiver) {
+    var s = this.storage;
+    var query = s.imageCollection();
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+
+};
+
+P.listImageFiles = function (done) {
     function walk(dir, done) {
         var results = [];
         fs.readdir(dir, function (err, list) {
@@ -93,6 +107,7 @@ P.listImages = function (done) {
             }
         });
     }
+
     walk(this.storage.imageRoot, done);
 };
 
