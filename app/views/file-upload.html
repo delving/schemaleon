@@ -66,6 +66,10 @@
                     <i class="icon-ban-circle icon-white"></i>
                     <span>Cancel</span>
                 </button>
+                <button type="button" class="btn btn-primary describe" data-ng-click="file.$describe()" ng-hide="!file.$destroy">
+                    <i class="icon-edit icon-white"></i>
+                    <span>Annotate</span>
+                </button>
                 <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy" data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
                     <i class="icon-ban-circle icon-white"></i>
                     <span>Delete</span>
