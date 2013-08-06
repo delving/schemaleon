@@ -21,8 +21,7 @@ angular.module('CultureCollectorApp', ['ui.bootstrap','blueimp.fileupload'])
             })
             .when('/fileupload', {
                 templateUrl: 'views/file-upload.html',
-//                controller: 'FileUploadController',
-                title: 'OSCR File Upload'
+                controller: 'TestFileUploadController'
             })
             .when('/login', {
                 templateUrl: 'views/login.html'

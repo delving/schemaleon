@@ -257,6 +257,7 @@
                     }
                 };
                 $scope.submit = function () {
+                    console.log('asdfasdf');
                     this.applyOnQueue('$submit');
                 };
                 $scope.cancel = function () {

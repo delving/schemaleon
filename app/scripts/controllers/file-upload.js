@@ -3,9 +3,8 @@
 
 var CultureCollectorApp = angular.module('CultureCollectorApp');
 
-var url = '/app/components/blueimp-file-upload/server/php/';
+var url = 'http://localhost:8888';
 
-// todo FileUploadController
 CultureCollectorApp.config([
     '$httpProvider', 'fileUploadProvider',
     function ($httpProvider, fileUploadProvider) {
@@ -17,7 +16,7 @@ CultureCollectorApp.config([
     }
 ]);
 
-CultureCollectorApp.controller('FileUploadController', [
+CultureCollectorApp.controller('TestFileUploadController', [
     '$scope', '$http', '$filter', '$window',
     function ($scope, $http) {
         $scope.options = {
@@ -28,10 +27,13 @@ CultureCollectorApp.controller('FileUploadController', [
         $http.get(url)
             .then(
             function (response) {
+                console.log('a');
                 $scope.loadingFiles = false;
                 $scope.queue = response.data.files || [];
+                console.log($scope.queue);
             },
             function () {
+                console.log('b');
                 $scope.loadingFiles = false;
             }
         );
@@ -70,5 +72,8 @@ CultureCollectorApp.controller('FileDestroyController', [
         }
     }
 ]);
+
+
+
 
 

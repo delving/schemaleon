@@ -469,6 +469,9 @@ ul.main-menu .nav-header {
   padding: 4px;
   margin: 0 0 10px 0;
 }
+.panels .contrast {
+  color: #999999;
+}
 input#hidden {
   background: transparent;
   border: none;
