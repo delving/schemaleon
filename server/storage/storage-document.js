@@ -26,7 +26,7 @@ P.getDocumentList = function (receiver) {
     var query = s.docCollection() + "/Header";
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver(reply.result);
+            receiver("<Headers>" + reply.result + "</Headers>");
         }
         else {
             throw error + "\n" + query;

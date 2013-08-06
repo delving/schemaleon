@@ -66,7 +66,7 @@ P.listImageData = function (receiver) {
     var query = s.imageCollection();
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver(reply.result);
+            receiver("<Images>\n" + reply.result + "\n</Images>");
         }
         else {
             throw error + "\n" + query;

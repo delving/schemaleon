@@ -6,8 +6,7 @@ var Storage = require('../../server/storage');
 
 var storage = null;
 
-exports.setUp = function (callback) {
-
+exports.createDatabase = function (test) {
     function clearDir(dirPath) {
         fs.readdir(dirPath,
             function (err, files) {
@@ -31,7 +30,8 @@ exports.setUp = function (callback) {
                                 }
 
                                 if (stats.isDirectory()) {
-                                    clearDir(filePath + '/');
+                                    clearDir(filePath);
+                                    fs.rmdir(filePath);
                                 }
                             }
                         });
@@ -41,40 +41,42 @@ exports.setUp = function (callback) {
         );
     }
 
+    var imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images'
+    clearDir(imageRoot);
+    console.log("cleaned " + imageRoot);
+    test.expect(1);
+    console.log("create database");
     Storage('oscrtest', function(s) {
+        test.ok(s, 'problem creating database');
         storage = s;
-        clearDir(storage.imageRoot);
-        callback();
+        test.done();
     });
 };
 
 exports.testImage = function (test) {
-    test.expect(4);
-    var imageData = {
-        filePath: 'test/data/zoomcat.jpg',
-        mimeType: 'image/jpeg',
-        title: 'Zoom Cat',
-        uploadedBy: 'tester@delving.eu'
-    };
-    storage.Image.saveImage(imageData, function (fileName) {
-        console.log(fileName);
-        test.ok(fileName, 'no file name');
+    test.expect(2);
+    storage.Image.listImageData(function (results) {
+        console.log('image data:'); // todo
+        console.log(results); // todo
+        test.ok(results.indexOf("Zoom Cat") > 0, 'Image title not found');
         storage.Image.listImageFiles(function (err, results) {
-            console.log(results);
-            test.equals(results.length, 1, "should just be one file");
-            test.equals(results[0], storage.Image.getImagePath(fileName), "image path mismatch");
-            storage.Image.getImageDocument(fileName, function(doc) {
-                console.log(doc);
-                test.ok(doc.indexOf("Zoom Cat") > 0, 'Image title not found');
-                test.done();
-            });
+            test.equals(results.length, 1, "should just be one file, but it's " + results.length);
+//            storage.Image.getImageDocument(results[0], function(doc) {
+//                console.log(doc); // todo
+//                test.ok(doc.indexOf("Zoom Cat") > 0, 'Image title not found');
+//                test.done();
+//            });
+            test.done();
         });
     });
 };
 
-exports.tearDown = function (callback) {
+exports.dropIt = function (test) {
+    test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
+        test.ok(reply.ok, 'problem dropping database');
         console.log("dropped oscrtest");
-        callback();
+        test.done();
     });
 };
+
