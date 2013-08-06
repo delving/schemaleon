@@ -10,7 +10,6 @@ var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
 
 function Storage() {
-    var self = this;
     this.session = new basex.Session();
     this.imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images';
 

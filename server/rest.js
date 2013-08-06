@@ -30,7 +30,7 @@ function apiQueryString() {
 }
 
 function requestOptions(path) {
-    return         {
+    return {
         method: "GET",
         host: 'commons.delving.eu',
         port: 443,
@@ -59,11 +59,6 @@ app.post('/authenticate', function (req, res) {
                             res.json(profile);
 
                         });
-//                        if (profileResponse.statusCode == 200) {
-//                        }
-//                        else {
-//                            res.json({error: "Failed to fetch profile"});
-//                        }
                     }
                 ).end();
             }
