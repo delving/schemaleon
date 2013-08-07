@@ -173,6 +173,9 @@ function Storage() {
     };
 
     this.xquery = function (query, callback) {
+        if (_.isArray(query)) {
+            query = query.join('\n');
+        }
         this.session.execute('xquery \n' + query, callback);
     };
 

@@ -61,6 +61,40 @@ P.getUser = function (email, receiver) {
     });
 };
 
+P.getUsersInGroup = function (identifier, receiver) {
+    var s = this.storage;
+    var query = [
+        '<Users>',
+        '    { ' + s.userCollection() + '[Memberships/Member/Group = ' + s.quote(identifier) + '] }',
+        '</Users>'
+    ];
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
+P.getUsers = function (search, receiver) {
+    var s = this.storage;
+    var query = [
+        '<Users>',
+        '    { ' + s.userCollection() + '[contains(lower-case(Profile/email), ' + s.quote(search) + ')] }',
+        '</Users>'
+    ];
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
 P.saveGroup = function (group, receiver) {
     var s = this.storage;
     group.SaveTime = new Date().getTime();
@@ -97,7 +131,7 @@ P.getGroups = function (search, receiver) {
         '<Groups>',
         '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + s.quote(search) + '))] }',
         '</Groups>'
-    ].join('\n');
+    ];
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -132,7 +166,7 @@ P.addUserRoleToGroup = function (email, role, identifier, receiver) {
         'else if (exists($user/Memberships))',
         'then insert node $mem into $user/Memberships',
         'else insert node <Memberships>{$mem}</Memberships> into $user'
-    ].join('\n');
+    ];
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
             s.xquery(s.userPath(email), function (e, r) {
@@ -153,40 +187,6 @@ P.removeUserRoleFromGroup = function (email, role, identifier, receiver) {
             s.xquery(s.userPath(email), function (e, r) {
                 receiver(r.result);
             });
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
-};
-
-P.getUsersInGroup = function (identifier, receiver) {
-    var s = this.storage;
-    var query = [
-        '<Users>',
-        '    { ' + s.userCollection() + '[Memberships/Member/Group = ' + s.quote(identifier) + '] }',
-        '</Users>'
-    ].join('\n');
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
-};
-
-P.getUsers = function (search, receiver) {
-    var s = this.storage;
-    var query = [
-        '<Users>',
-        '    { ' + s.userCollection() + '[contains(lower-case(Profile/email), ' + s.quote(search) + ')] }',
-        '</Users>'
-    ].join('\n');
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
         }
         else {
             throw error + "\n" + query;

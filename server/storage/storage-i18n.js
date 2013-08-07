@@ -41,7 +41,7 @@ P.setLabel = function (language, key, value, receiver) {
         "if (exists(" + keyPath + "))" ,
         "then replace value of node " + keyPath + " with " + s.quote(value),
         "else insert node <" + key + ">" + s.inXml(value) + "</" + key + "> into " + labelPath,
-    ].join('\n');
+    ];
     s.xquery(query, function (error, reply) {
         if (error) throw error + "\n" + query;
         receiver(reply.ok);
@@ -57,7 +57,7 @@ P.setElementTitle = function (language, key, value, receiver) {
         "if (exists(" + keyPath + "))",
         "then replace value of node " + titlePath + " with " + s.quote(value),
         "else insert node <" + key + "><title>" + s.inXml(value) + "</title><doc>?</doc></" + key + "> into " + elementPath
-    ].join('\n');
+    ];
     s.xquery(query, function (error, reply) {
         if (error) throw error + "\n" + query;
         receiver(reply.ok);
@@ -73,7 +73,7 @@ P.setElementDoc = function (language, key, value, receiver) {
         "if (exists(" + keyPath + "))",
         "then replace value of node " + docPath + " with " + s.quote(value),
         "else insert node <" + key + "><title>?</title><doc>" + s.inXml(value) + "</doc></" + key + "> into " + elementPath
-    ].join('\n');
+    ];
     s.xquery(query, function (error, reply) {
         if (error) throw error + "\n" + query;
         receiver(reply.ok);

@@ -43,6 +43,7 @@ app.post('/authenticate', function (req, res) {
     var hashedPassword = sha.update(new Buffer(req.body.password, 'utf-8')).digest('base64');
     var hmac = crypto.createHmac('sha1', req.body.username);
     var hash = hmac.update(hashedPassword).digest('hex');
+    res.setHeader('Content-Type', 'text/xml');
     https.request(
         commonsRequest('/user/authenticate/' + hash),
         function (authResponse) {
@@ -52,18 +53,19 @@ app.post('/authenticate', function (req, res) {
                     function (profileResponse) {
                         var data;
                         profileResponse.on('data', function (data) {
-                            console.log("profile returned :" + data);
+//                            console.log("profile returned :" + data);
                             var profile = JSON.parse(data);
-                            console.log("profile:");
-                            console.log(profile);
-                            res.json(profile);
-
+//                            console.log("profile:");
+//                            console.log(profile);
+                            storage.Person.getOrCreateUser(profile, function(xml) {
+                                res.send(xml);
+                            });
                         });
                     }
                 ).end();
             }
             else {
-                res.json({error: "Failed to contact CultureCommons"});
+                res.send("<Error>Failed to authenticate</Error>");
             }
         }
     ).end();
@@ -103,6 +105,51 @@ app.post('/i18n/:lang/label', function (req, res) {
     }
 });
 
+app.get('/person/user/fetch/:email', function(req, res) {
+    storage.Person.getUser(req.params.email, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.get('/person/user/select', function(req, res) {
+    var search = req.param('q').toLowerCase();
+    storage.Person.getUsers(search, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.get('/person/group/fetch/:identifier', function(req, res) {
+    storage.Person.getGroup(req.params.identifier, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.get('/person/group/select', function(req, res) {
+    var search = req.param('q').toLowerCase();
+    storage.Person.getGroups(search, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.post('/person/group/save', function (req, res) {
+    var entry = req.body.Group;
+    storage.Vocab.saveGroup(req.params.vocab, entry, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.get('/person/group/:identifier/users', function (req, res) {
+    storage.Vocab.getUsersInGroup(req.params.identifier, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
 app.get('/vocabulary/:vocab', function (req, res) {
     storage.Vocab.getVocabularySchema(req.params.vocab, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
@@ -114,7 +161,7 @@ app.get('/vocabulary/:vocab/select', function (req, res) {
     var search = req.param('q').toLowerCase();
     storage.Vocab.getVocabularyEntries(req.params.vocab, search, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
-        res.send("<Entries>" + xml + "</Entries>");
+        res.send("<Entries>" + xml + "</Entries>"); // todo: do it in the xquery
     });
 });
 
