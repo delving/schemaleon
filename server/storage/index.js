@@ -124,6 +124,10 @@ function Storage() {
         return "doc('" + this.database + this.groupDocument(identifier) + "')/Group";
     };
 
+    this.groupCollection = function () {
+        return "collection('" + this.database + "/people/groups')/Group";
+    };
+
     this.langDocument = function (language) {
         return "/i18n/" + language + ".xml";
     };

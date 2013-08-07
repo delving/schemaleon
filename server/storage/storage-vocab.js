@@ -74,7 +74,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
 
 P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
-    var query = s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), " + s.quote(search) + ")]";
+    var query = s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), lower-case(" + s.quote(search) + "))]";
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);

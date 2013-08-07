@@ -91,6 +91,23 @@ P.saveGroup = function (group, receiver) {
     }
 };
 
+P.getGroups = function (search, receiver) {
+    var s = this.storage;
+    var query = [
+        '<Groups>',
+        '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + s.quote(search) + '))] }',
+        '</Groups>'
+    ].join('\n');
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
 P.getGroup = function (identifier, receiver) {
     var s = this.storage;
     var query = s.groupPath(identifier);

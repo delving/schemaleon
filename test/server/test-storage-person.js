@@ -85,11 +85,50 @@ exports.testSaveAndFetchGroup = function (test) {
         test.ok(createdXml, "no createdXml");
         log("created group:\n" + createdXml);
         storage.Person.getGroup(group.Identifier, function (fetchedXml) {
-            test.ok(fetchedXml, "no createdXml");
+            test.ok(fetchedXml, "no fetchedXml");
             log("fetched group:\n" + fetchedXml);
             groupIdentifier = getFromXml(fetchedXml, "Identifier");
             log("group identifier:" + group.Identifier);
             test.equal(createdXml, fetchedXml, "Fetched was different!");
+            test.done();
+        });
+    });
+};
+
+exports.testSearchGroups = function (test) {
+    test.expect(1);
+    storage.Person.getGroups('dorm', function (fetchedXml) {
+        test.ok(fetchedXml, "no fetchedXml");
+        log("found groups:\n" + fetchedXml);
+        test.done();
+    });
+};
+
+var group2 = {
+    Name: 'History Club',
+    Address: 'Brabant'
+};
+
+exports.testSaveGroupAgain = function (test) {
+    test.expect(1);
+    storage.Person.saveGroup(group2, function (createdXml) {
+        test.ok(createdXml, "no createdXml");
+        log("created group:\n" + createdXml);
+        test.done();
+    });
+};
+
+exports.testSearchGroupsAgain = function (test) {
+    test.expect(5);
+    storage.Person.getGroups('dorm', function (dormXml) {
+        test.ok(dormXml, "no dormXml");
+        test.ok(dormXml.indexOf('Benidorm') > 0, 'Missing result');
+        log("fetched dorm groups:\n" + dormXml);
+        storage.Person.getGroups('hISTo', function (histoXml) {
+            test.ok(histoXml, "no histoXml");
+            log("fetched hISTo groups:\n" + histoXml);
+            test.ok(histoXml.indexOf('Brabant') > 0, 'Missing result');
+            test.ok(histoXml.indexOf('Benidorm') < 0, 'Too many results');
             test.done();
         });
     });
