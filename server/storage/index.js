@@ -1,24 +1,50 @@
 'use strict';
 
+var _ = require('underscore');
 var fs = require('fs');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
 
-var Image = require('./storage-image');
+var Person = require('./storage-person');
 var I18N = require('./storage-i18n');
 var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
+var Image = require('./storage-image');
 
 function Storage() {
     this.session = new basex.Session();
     this.imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images';
 
-    this.generateId = function (prefix) {
+    function generateId(prefix) {
         var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
-        return prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random() * 36 * 36 * 36).toString(36);
+        return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random() * 36 * 36 * 36).toString(36);
+    }
+
+    this.generateUserId = function() {
+        return generateId('US');
     };
 
-    this.bucketName = function (fileName) { // assumes file name is = generateId() + '.???'
+    this.generateGroupId = function() {
+        return generateId('GR');
+    };
+
+    this.generateDocumentId = function() {
+        return generateId('DO');
+    };
+
+    this.generateImageId = function() {
+        return generateId('IM');
+    };
+
+    this.generateVocabId = function() {
+        return generateId('VO');
+    };
+
+    this.generateCollectionId = function() {
+        return generateId('CO');
+    };
+
+    this.imageBucketName = function (fileName) { // assumes file name is = generateId() + '.???'
         var rx = /.*-.([a-z0-9]{2})\..../g;
         return rx.exec(fileName)[1];
     };
@@ -33,13 +59,69 @@ function Storage() {
         return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     };
 
-    this.objectToXml = function (object, tag) {
-        var xml = "<" + tag + ">";
-        for (var key in object) {
-            xml += "<" + key + ">" + this.inXml(object[key]) + "</" + key + ">";
+    this.emailToUserDocument = function (value) {
+        if (!value) throw 'Empty email';
+        return value.replace(/[^\w]/g, '_');
+    };
+
+    this.objectToXml = function(object, tag) {
+        var self = this;
+        var out = [];
+
+        function indent(string, level) {
+            return new Array(level).join('  ') + string;
         }
-        xml += "</" + tag + ">";
-        return xml;
+
+        function objectConvert(from, level) {
+            for (var key in from) {
+                var value = from[key];
+                if (_.isString(value)) {
+                    out.push(indent('<' + key + '>', level) + self.inXml(value) + '</' + key + '>');
+                }
+                else if (_.isArray(value)) {
+                    _.each(value, function (item) {
+                        if (_.isString(item)) {
+                            out.push(indent('<' + key + '>', level) + self.inXml(item) + '</' + key + '>');
+                        }
+                        else {
+                            out.push(indent('<' + key + '>', level));
+                            objectConvert(item, level + 1);
+                            out.push(indent('</' + key + '>', level));
+                        }
+                    });
+                }
+                else if (_.isObject(value)) {
+                    out.push(indent('<' + key + '>', level));
+                    objectConvert(value, level + 1);
+                    out.push(indent('</' + key + '>', level));
+                }
+            }
+        }
+
+        out.push("<" + tag + ">");
+        objectConvert(object, 2);
+        out.push("</" + tag + ">");
+        return out.join('\n');
+    };
+
+    this.userDocument = function (email) {
+        return "/people/users/" + this.emailToUserDocument(email) + ".xml";
+    };
+
+    this.userPath = function (email) {
+        return "doc('" + this.database + this.userDocument(email) + "')/User";
+    };
+
+    this.userCollection = function () {
+        return "collection('" + this.database + "/people/users')/User";
+    };
+
+    this.groupDocument = function (identifier) {
+        return "/people/groups/" + identifier + ".xml";
+    };
+
+    this.groupPath = function (identifier) {
+        return "doc('" + this.database + this.groupDocument(identifier) + "')/Group";
     };
 
     this.langDocument = function (language) {
@@ -56,6 +138,10 @@ function Storage() {
 
     this.vocabPath = function (vocabName) {
         return "doc('" + this.database + this.vocabDocument(vocabName) + "')/Entries";
+    };
+
+    this.docSchemasPath = function() {
+        return "doc('" + this.database + "/DocumentSchemas.xml')/DocumentSchemas/"
     };
 
     this.docDocument = function (identifier) {
@@ -98,13 +184,15 @@ function Storage() {
         this.session.replace(path, content, callback);
     };
 
-    this.Image = new Image(this);
+    this.Person = new Person(this);
 
     this.I18N = new I18N(this);
 
     this.Vocab = new Vocab(this);
 
     this.Document = new Document(this);
+
+    this.Image = new Image(this);
 
 }
 
@@ -113,18 +201,18 @@ function open(databaseName, receiver) {
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
         if (reply.ok) {
-            console.log(reply.info);
+//            console.log(reply.info);
             receiver(storage);
         }
         else {
-            console.log('could not open database ' + databaseName);
+//            console.log('could not open database ' + databaseName);
             storage.session.execute('create db ' + databaseName, function (error, reply) {
 
                 function loadXML(fileName, next) {
                     var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
                     storage.add('/' + fileName, contents, function (error, reply) {
                         if (reply.ok) {
-                            console.log("Preloaded: " + fileName);
+//                            console.log("Preloaded: " + fileName);
                             if (next) next();
                         }
                         else {
@@ -143,7 +231,11 @@ function open(databaseName, receiver) {
                                 uploadedBy: 'tester@delving.eu'
                             };
                             storage.Image.saveImage(imageData, function(fileName) {
-                                console.log('preloaded zoomcat');
+//                                console.log('preloaded zoomcat');
+                                storage.Image.listImageFiles(function(err, listy) {
+//                                    console.log('after preload'); // todo
+//                                    console.log(listy); // todo
+                                });
                                 receiver(storage);
                             });
                         });

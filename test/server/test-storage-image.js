@@ -41,11 +41,10 @@ exports.createDatabase = function (test) {
         );
     }
 
-    var imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images'
+    var imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images';
     clearDir(imageRoot);
-    console.log("cleaned " + imageRoot);
+//    console.log("cleaned " + imageRoot);
     test.expect(1);
-    console.log("create database");
     Storage('oscrtest', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
@@ -56,8 +55,8 @@ exports.createDatabase = function (test) {
 exports.testImage = function (test) {
     test.expect(2);
     storage.Image.listImageData(function (results) {
-        console.log('image data:'); // todo
-        console.log(results); // todo
+//        console.log('image data:'); // todo
+//        console.log(results); // todo
         test.ok(results.indexOf("Zoom Cat") > 0, 'Image title not found');
         storage.Image.listImageFiles(function (err, results) {
             test.equals(results.length, 1, "should just be one file, but it's " + results.length);
@@ -75,7 +74,6 @@ exports.dropIt = function (test) {
     test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-        console.log("dropped oscrtest");
         test.done();
     });
 };

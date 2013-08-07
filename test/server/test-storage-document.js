@@ -7,7 +7,6 @@ var storage = null;
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    console.log("create database");
     Storage('oscrtest', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
@@ -126,7 +125,7 @@ exports.testGetDocument = function (test) {
 exports.testGetDocumentList = function (test) {
     test.expect(2);
     storage.Document.getDocumentList(function (xml) {
-        console.log(xml);
+//        console.log(xml);
         test.ok(xml, "No xml");
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found");
         test.done();
@@ -137,7 +136,6 @@ exports.dropIt = function (test) {
     test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-//        console.log("dropped oscrtest");
         test.done();
     });
 };

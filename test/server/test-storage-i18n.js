@@ -6,7 +6,6 @@ var storage = null;
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    console.log("create database");
     Storage('oscrtest', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
@@ -18,7 +17,7 @@ exports.testFetch = function (test) {
     test.expect(1);
     storage.I18N.getLanguage('en', function (xml) {
         test.ok(xml, "no xml");
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.done();
     });
 };
@@ -37,7 +36,7 @@ exports.testAfterSetLabel = function (test) {
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('dude') > 0, 'No dude appears');
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.done();
     });
 };
@@ -56,7 +55,7 @@ exports.testAfterSetLabelAgain = function (test) {
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('babe') > 0, 'No babe appears');
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.done();
     });
 };
@@ -72,7 +71,7 @@ exports.testSetElementTitle = function (test) {
 exports.testAfterSetElementTitle = function (test) {
     test.expect(3);
     storage.I18N.getLanguage('en', function (xml) {
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('ID00001') > 0, 'No identifier appears');
@@ -91,7 +90,7 @@ exports.testSetElementTitleAgain = function (test) {
 exports.testAfterSetElementTitleAgain = function (test) {
     test.expect(3);
     storage.I18N.getLanguage('en', function (xml) {
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('ID00002') > 0, 'No identifier appears');
@@ -110,7 +109,7 @@ exports.testSetElementDoc = function (test) {
 exports.testAfterSetElementDoc = function (test) {
     test.expect(4);
     storage.I18N.getLanguage('en', function (xml) {
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.ok(xml, "no xml");
         test.ok(xml.length == 1, "should be one entry");
         test.ok(xml[0].indexOf('ID00002') > 0, 'No identifier appears');
@@ -123,7 +122,6 @@ exports.dropIt = function (test) {
     test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-        console.log("dropped oscrtest");
         test.done();
     });
 };

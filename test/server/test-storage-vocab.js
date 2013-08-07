@@ -7,7 +7,6 @@ var storage = null;
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    console.log("create database");
     Storage('oscrtest', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
@@ -19,7 +18,7 @@ exports.testFetchSchema = function (test) {
     test.expect(2);
     storage.Vocab.getVocabularySchema('PhotoType', function (xml) {
         test.ok(xml, "no xml");
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.ok(xml[0].indexOf('<PhotoType') == 0, "Didn't retrieve");
         test.done();
     });
@@ -43,7 +42,7 @@ exports.testAddEntry1 = function (test) {
     };
     storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
-        console.log("added:\n" + xml);
+//        console.log("added:\n" + xml);
         test.done();
     });
 };
@@ -56,7 +55,7 @@ exports.testAddEntry2 = function (test) {
     };
     storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
-        console.log("added:\n" + xml);
+//        console.log("added:\n" + xml);
         test.done();
     });
 };
@@ -65,7 +64,7 @@ exports.testFetchEntry = function(test) {
     test.expect(1);
     storage.Vocab.getVocabularyEntries('PhotoType', 'y', function(xml) {
         test.ok(xml, "no xml");
-        console.log("fetched:\n" + xml);
+//        console.log("fetched:\n" + xml);
         test.done();
     });
 };
@@ -74,7 +73,6 @@ exports.dropIt = function (test) {
     test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-        console.log("dropped oscrtest");
         test.done();
     });
 };

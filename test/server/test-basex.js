@@ -25,7 +25,7 @@ exports.testGoodQuery = function (test) {
     test.expect(1);
     var query = session.query('//person');
     query.results(function (error, reply) {
-        console.log(JSON.stringify(reply));
+//        console.log(JSON.stringify(reply));
         test.ok(true, "made it");
         query.close();
         test.done();
@@ -36,7 +36,7 @@ exports.testBadQuery = function (test) {
     test.expect(1);
     var query = session.query('//somethingNotThere');
     query.results(function (error, reply) {
-        console.log(JSON.stringify(reply));
+//        console.log(JSON.stringify(reply));
         test.ok(true, "made it");
         query.close();
         test.done();

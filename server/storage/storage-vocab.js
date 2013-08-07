@@ -26,7 +26,7 @@ P.createVocabulary = function (vocabName, entryXml, receiver) {
     var freshVocab = "<Entries>" + entryXml + "</Entries>";
     s.add(s.vocabDocument(vocabName), freshVocab, function (error, reply) {
         if (reply.ok) {
-            console.log("Created vocabulary " + vocabName);
+//            console.log("Created vocabulary " + vocabName);
             receiver(entryXml);
         }
         else {
@@ -56,7 +56,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         });
     }
     else {
-        entry.ID = s.generateId("OSCR-V");
+        entry.ID = s.generateVocabId();
         entryXml = s.objectToXml(entry, 'Entry');
         query = "insert node " + entryXml + " into " + s.vocabPath(vocabName);
         s.xquery(query, function (error, reply) {

@@ -10,7 +10,7 @@ var P = Document.prototype;
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    var query = s.query("doc('" + s.database + "/DocumentSchemas.xml')/DocumentSchemas/" + schemaName);
+    var query = s.query(s.docSchemasPath() + schemaName);
     query.results(function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -54,7 +54,7 @@ P.saveDocument = function (body, receiver) {
     var time = new Date().getTime();
     body.header.TimeStamp = time;
     if (body.header.Identifier === IDENTIFIER) {
-        var identifier = s.generateId("OSCR-D");
+        var identifier = s.generateDocumentId();
         body.header.Identifier = identifier;
         var withIdentifier = body.xml.replace(IDENTIFIER, identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);

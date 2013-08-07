@@ -20,7 +20,7 @@ P.saveImage = function (imageData, receiver) {
         fs.mkdirSync(s.imageRoot);
     }
     var fileName = createFileName(s, imageData);
-    var bucketName = s.bucketName(fileName);
+    var bucketName = s.imageBucketName(fileName);
     var bucketPath = s.imageRoot + '/' + bucketName;
     if (!fs.existsSync(bucketPath)) {
         fs.mkdirSync(bucketPath);
@@ -44,7 +44,7 @@ P.saveImage = function (imageData, receiver) {
 
 P.getImagePath = function (fileName) {
     var s = this.storage;
-    var bucketName = s.bucketName(fileName);
+    var bucketName = s.imageBucketName(fileName);
     return s.imageRoot + '/' + bucketName + '/' + fileName;
 };
 
@@ -136,7 +136,7 @@ function copyFile(source, target, cb) {
 }
 
 function createFileName(s, imageData) {
-    var fileName = s.generateId("OSCR-I");
+    var fileName = s.generateImageId();
     switch (imageData.mimeType) {
         case 'image/jpeg':
             fileName += '.jpg';
