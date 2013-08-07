@@ -294,6 +294,7 @@ module.exports = function (grunt) {
     grunt.registerTask('prod', [
         'clean:server',
         'less:server',
+        'connect:upperload',
 //        'livereload-start',
         'express:prod',
         'open',
@@ -333,8 +334,8 @@ module.exports = function (grunt) {
         'concat',
         'copy',
         'cdnify',
-        'ngmin',
-        'uglify',
+//        'ngmin',
+//        'uglify',
         'rev',
         'usemin'
     ]);

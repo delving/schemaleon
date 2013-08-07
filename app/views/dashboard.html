@@ -2,6 +2,18 @@
     <h1 class="page-header" i18n="Dashboard"><span class="i18n">Dashboard</span></h1>
     <!--<input type="file" accept="video/*" capture="camera">-->
     <div class="row-fluid">
+
+        <div class="span4">
+            <h4>Manage users</h4>
+            <ul>
+                <li>Lorem ipsum dolor sit amet consectetuer.</li>
+                <li>Aenean commodo ligula eget dolor.</li>
+                <li>Aenean massa cum sociis natoque penatibus.</li>
+            </ul>
+
+            <button class="btn"><a href ng-click="choosePath('/people')">Manage users</a></button>
+        </div>
+
         <div class="span4">
             <h4>Upload digital objects</h4>
             <ul>
@@ -10,18 +22,9 @@
                 <li>Aenean massa cum sociis natoque penatibus.</li>
             </ul>
 
-            <button class="btn"><a href="/#/fileupload">Upload digital object</a></button>
+            <button class="btn"><a href ng-click="choosePath('/fileupload')">Upload digital objects</a></button>
         </div>
-        <div class="span4">
-            <h4>Create CRM descriptions</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
 
-            <button class="btn btn-primary">Create new CRM description</button>
-        </div>
         <div class="span4">
             <h4>Do other stuff</h4>
             <ul>

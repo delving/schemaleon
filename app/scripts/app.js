@@ -23,6 +23,9 @@ angular.module('CultureCollectorApp', ['ui.bootstrap','blueimp.fileupload'])
                 templateUrl: 'views/file-upload.html',
                 controller: 'TestFileUploadController'
             })
+            .when('/people', {
+                templateUrl: 'views/people.html'
+            })
             .when('/login', {
                 templateUrl: 'views/login.html'
             })
