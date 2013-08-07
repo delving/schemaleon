@@ -1,8 +1,8 @@
 'use strict';
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
-CultureCollectorApp.service("Document",
+OSCR.service("Document",
     function ($http) {
         this.fetchSchema = function (schemaName, receiver) {
             $http.get('/document/schema/' + schemaName).success(receiver);

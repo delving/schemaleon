@@ -1,8 +1,8 @@
 'use strict';
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
-CultureCollectorApp.filter('elementDisplay',
+OSCR.filter('elementDisplay',
     function () {
         return function (element) {
             if (_.isObject(element.value)) {
@@ -15,7 +15,7 @@ CultureCollectorApp.filter('elementDisplay',
     }
 );
 
-CultureCollectorApp.controller('VocabularyController',
+OSCR.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary',
         function ($scope, $q, Vocabulary) {
             if (!$scope.el.vocabulary) {
@@ -98,7 +98,7 @@ CultureCollectorApp.controller('VocabularyController',
         }]
 );
 
-CultureCollectorApp.controller('TextInputController',
+OSCR.controller('TextInputController',
     ['$scope', 'Validator',
         function ($scope, Validator) {
             var ti = $scope.el.textInput;
@@ -121,7 +121,7 @@ CultureCollectorApp.controller('TextInputController',
         }]
 );
 
-CultureCollectorApp.controller('TextAreaController',
+OSCR.controller('TextAreaController',
     ['$scope',
         function ($scope) {
             var ta = $scope.el.textArea;
@@ -132,7 +132,7 @@ CultureCollectorApp.controller('TextAreaController',
         }]
 );
 
-CultureCollectorApp.controller('HiddenController',
+OSCR.controller('HiddenController',
     ['$scope',
         function ($scope) {
             if ($scope.el.elements) {

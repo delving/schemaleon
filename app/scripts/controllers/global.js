@@ -18,9 +18,9 @@
  * limitations under the License.
  * ========================================================== */
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
-CultureCollectorApp.controller('GlobalController',
+OSCR.controller('GlobalController',
     [
         '$rootScope', '$scope', '$location',
         function ($rootScope, $scope, $location) {

@@ -1,8 +1,8 @@
 'use strict';
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
-CultureCollectorApp.service("I18N",
+OSCR.service("I18N",
     function ($http, $rootScope) {
         return {
             isReady: function () {

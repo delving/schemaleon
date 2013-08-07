@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('CultureCollectorApp').service("Validator",
+angular.module('OSCR').service("Validator",
     function () {
         this.getFunction = function (name) {
             switch (name) {

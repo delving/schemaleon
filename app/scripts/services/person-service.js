@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('CultureCollectorApp').service(
+angular.module('OSCR').service(
     "Person",
     function ($http) {
         this.authenticate = function (username, password, receiver) {

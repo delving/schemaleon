@@ -1,8 +1,8 @@
 'use strict';
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
-CultureCollectorApp.directive('i18n', function () {
+OSCR.directive('i18n', function () {
         return {
             restrict: 'A',
             replace: false,
@@ -42,7 +42,7 @@ CultureCollectorApp.directive('i18n', function () {
     }
 );
 
-CultureCollectorApp.filter('linkTitle',
+OSCR.filter('linkTitle',
     [ 'I18N',
         function (I18N) {
             return function (link) {
@@ -56,7 +56,7 @@ CultureCollectorApp.filter('linkTitle',
         }]
 );
 
-CultureCollectorApp.filter('elementTitle',
+OSCR.filter('elementTitle',
     [ 'I18N',
         function (I18N) {
             return function (element) {
@@ -76,7 +76,7 @@ CultureCollectorApp.filter('elementTitle',
         }]
 );
 
-CultureCollectorApp.filter('elementDoc',
+OSCR.filter('elementDoc',
     [ 'I18N',
         function (I18N) {
             return function (element) {
@@ -96,7 +96,7 @@ CultureCollectorApp.filter('elementDoc',
         }]
 );
 
-CultureCollectorApp.controller('I18NController',
+OSCR.controller('I18NController',
     ['$rootScope', '$scope', '$dialog', '$window', 'I18N',
         function ($rootScope, $scope, $dialog, $window, I18N) {
 

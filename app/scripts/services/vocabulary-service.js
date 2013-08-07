@@ -1,8 +1,8 @@
 'use strict';
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
-CultureCollectorApp.service("Vocabulary",
+OSCR.service("Vocabulary",
     function ($http) {
 
         this.getSchema = function (vocab, acceptVocabulary) {

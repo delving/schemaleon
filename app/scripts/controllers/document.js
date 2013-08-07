@@ -1,11 +1,11 @@
 'use strict';
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
-CultureCollectorApp.directive('specialKey', function () {
+OSCR.directive('specialKey', function () {
     return {
         restrict: 'A',
         link: function (scope, elem, attr, ctrl) {
@@ -29,7 +29,7 @@ CultureCollectorApp.directive('specialKey', function () {
     };
 });
 
-CultureCollectorApp.directive('focus',
+OSCR.directive('focus',
     function () {
         return {
             restrict: 'A',
@@ -43,7 +43,7 @@ CultureCollectorApp.directive('focus',
     }
 );
 
-CultureCollectorApp.controller('DocumentController',
+OSCR.controller('DocumentController',
     ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
         function ($rootScope, $scope, $routeParams, $location, Document, I18N) {
             $scope.panels = [];
@@ -180,7 +180,7 @@ CultureCollectorApp.controller('DocumentController',
         }]
 );
 
-CultureCollectorApp.controller('PanelController',
+OSCR.controller('PanelController',
     ['$scope',
         function ($scope) {
             if (!$scope.panel) {
@@ -248,7 +248,7 @@ CultureCollectorApp.controller('PanelController',
         }]
 );
 
-CultureCollectorApp.controller('DocumentViewController',
+OSCR.controller('DocumentViewController',
     ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
         function ($rootScope, $scope, $routeParams, $location, Document, I18N) {
             $scope.header = { SchemaName: 'Photograph' };

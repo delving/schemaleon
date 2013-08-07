@@ -33,7 +33,7 @@ describe('Controller: ObjectEditController', function () {
 //    };
 //
 //    // load the controller's module
-//    beforeEach(module('CultureCollectorApp'));
+//    beforeEach(module('OSCR'));
 //
 //    var MainCtrl, scope;
 //

@@ -1,11 +1,11 @@
 'use strict';
 
 
-var CultureCollectorApp = angular.module('CultureCollectorApp');
+var OSCR = angular.module('OSCR');
 
 var url = 'http://localhost:8888';
 
-CultureCollectorApp.config([
+OSCR.config([
     '$httpProvider', 'fileUploadProvider',
     function ($httpProvider, fileUploadProvider) {
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -16,7 +16,7 @@ CultureCollectorApp.config([
     }
 ]);
 
-CultureCollectorApp.controller('TestFileUploadController', [
+OSCR.controller('TestFileUploadController', [
     '$scope', '$http', '$filter', '$window',
     function ($scope, $http) {
         $scope.options = {
@@ -38,7 +38,7 @@ CultureCollectorApp.controller('TestFileUploadController', [
     }
 ]);
 
-CultureCollectorApp.controller('FileDestroyController', [
+OSCR.controller('FileDestroyController', [
     '$scope', '$http',
     function ($scope, $http) {
         var file = $scope.file,
