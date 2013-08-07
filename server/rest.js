@@ -6,8 +6,6 @@ var app = express();
 var https = require('https');
 var crypto = require('crypto');
 var Storage = require('./storage');
-var FileInfo = require('./file-info');
-var UploadHandler = require('./upload-handler');
 
 app.use(express.bodyParser());
 
