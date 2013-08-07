@@ -61,6 +61,36 @@ P.getUser = function (email, receiver) {
     });
 };
 
+P.saveGroup = function (group, receiver) {
+    var s = this.storage;
+    group.SaveTime = new Date().getTime();
+    var existing = group.Identifier;
+    if (!existing) {
+        group.Identifier = s.generateGroupId();
+    }
+    var groupXml = s.objectToXml(group, "Group");
+    if (existing) {
+        s.replace(s.groupDocument(group.Identifier), groupXml, function (error, reply) {
+            if (reply.ok) {
+                receiver(groupXml);
+            }
+            else {
+                throw "Unable to replace " + self.docPath(body.header.Identifier);
+            }
+        });
+    }
+    else {
+        s.add(s.groupDocument(group.Identifier), groupXml, function (error, reply) {
+            if (reply.ok) {
+                receiver(groupXml);
+            }
+            else {
+                throw error + "\n" + query;
+            }
+        });
+    }
+};
+
 P.getGroup = function (identifier, receiver) {
     var s = this.storage;
     var query = s.groupPath(identifier);
@@ -74,25 +104,23 @@ P.getGroup = function (identifier, receiver) {
     });
 };
 
-P.getUsersInGroup = function (identifier, receiver) {
-    var s = this.storage;
-    var query = s.userCollection() + '/Memberships/MemberOf[Identifier = ' + s.quote() + ']';
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver("<Headers>" + reply.result + "</Headers>");
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
-};
-
 P.addUserRoleToGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
-    var query = s.userCollection() + '/Memberships/MemberOf[Identifier = ' + s.quote() + ']';
+    var query = [
+        'let $user := ' + s.userPath(email),
+        'let $mem := ' + '<Member><Group>' + identifier + '</Group><Role>' + role + "</Role></Member>",
+        'return',
+        'if (exists($user/Memberships/Member[Group=' + s.quote(identifier) + ']))',
+        'then ()',
+        'else if (exists($user/Memberships))',
+        'then insert node $mem into $user/Memberships',
+        'else insert node <Memberships>{$mem}</Memberships> into $user'
+    ].join('\n');
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver("<Headers>" + reply.result + "</Headers>");
+            s.xquery(s.userPath(email), function (e, r) {
+                receiver(r.result);
+            });
         }
         else {
             throw error + "\n" + query;
@@ -101,6 +129,19 @@ P.addUserRoleToGroup = function (email, role, identifier, receiver) {
 };
 
 P.removeUserRoleFromGroup = function (email, role, identifier, receiver) {
+    var s = this.storage;
+    var query = s.userCollection() + '/Memberships/MemberOf[Identifier = ' + s.quote() + ']';
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver("<Headers>" + reply.result + "</Headers>");
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
+P.getUsersInGroup = function (identifier, receiver) {
     var s = this.storage;
     var query = s.userCollection() + '/Memberships/MemberOf[Identifier = ' + s.quote() + ']';
     s.xquery(query, function (error, reply) {

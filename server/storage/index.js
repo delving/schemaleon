@@ -169,7 +169,7 @@ function Storage() {
     };
 
     this.xquery = function (query, callback) {
-        this.session.execute('xquery ' + query, callback);
+        this.session.execute('xquery \n' + query, callback);
     };
 
     this.query = function (query, callback) {
