@@ -1,3 +1,23 @@
 <div class="page-header">
     <h1 i18n="People"><span class="i18n">People</span></h1>
+    <div>
+        <div class="vocabulary-input">
+            <div>
+                <div>
+                    <span>Users:</span>
+                    <input focus type="text" ng-model="chosenUser" class="input-block-level"
+                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
+                </div>
+                <div>
+                    <span>Groups:</span>
+                    <input focus type="text" ng-model="chosenGroup" class="input-block-level"
+                           typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"/>
+                </div>
+            </div>
+            <div>
+                <button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>
+                <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Create"><i class="icon-download-alt icon-white"></i> <span class="i18n"></span></button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -24,7 +24,8 @@ angular.module('OSCR', ['ui.bootstrap','blueimp.fileupload'])
                 controller: 'TestFileUploadController'
             })
             .when('/people', {
-                templateUrl: 'views/people.html'
+                templateUrl: 'views/people.html',
+                controller: 'PeopleController'
             })
             .when('/login', {
                 templateUrl: 'views/login.html'
