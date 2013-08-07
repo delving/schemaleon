@@ -3,6 +3,10 @@
 var fs = require('fs');
 var Storage = require('../../server/storage');
 
+function log(message) {
+//    console.log(message);
+}
+
 var storage = null;
 
 exports.createDatabase = function (test) {
@@ -20,7 +24,7 @@ exports.testFetchSchema = function (test) {
     test.expect(2);
     storage.Document.getDocumentSchema('Photograph', function (xml) {
         test.ok(xml, "no xml");
-//        console.log("fetched:\n" + xml);
+//        log("fetched:\n" + xml);
         test.ok(xml[0].indexOf('<Photograph>') == 0, "Didn't retrieve");
         schemaXml = xml[0];
         test.done();
@@ -115,7 +119,7 @@ exports.testSaveDocumentAgain = function (test) {
 exports.testGetDocument = function (test) {
     test.expect(2);
     storage.Document.getDocument(hdr.Identifier, function (xml) {
-//        console.log(xml);
+//        log(xml);
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
         test.done();
@@ -125,7 +129,7 @@ exports.testGetDocument = function (test) {
 exports.testGetDocumentList = function (test) {
     test.expect(2);
     storage.Document.getDocumentList(function (xml) {
-//        console.log(xml);
+        log(xml);
         test.ok(xml, "No xml");
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found");
         test.done();

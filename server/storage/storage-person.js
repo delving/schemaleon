@@ -108,7 +108,7 @@ P.addUserRoleToGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
     var query = [
         'let $user := ' + s.userPath(email),
-        'let $mem := ' + '<Member><Group>' + identifier + '</Group><Role>' + role + "</Role></Member>",
+        'let $mem := ' + '<Member><Group>' + identifier + '</Group><Role>' + role + '</Role></Member>',
         'return',
         'if (exists($user/Memberships/Member[Group=' + s.quote(identifier) + ']))',
         'then ()',
@@ -130,10 +130,12 @@ P.addUserRoleToGroup = function (email, role, identifier, receiver) {
 
 P.removeUserRoleFromGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
-    var query = s.userCollection() + '/Memberships/MemberOf[Identifier = ' + s.quote() + ']';
+    var query = 'delete node ' + s.userPath(email) + '/Memberships/Member[Group=' + s.quote(identifier) + ']';
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver("<Headers>" + reply.result + "</Headers>");
+            s.xquery(s.userPath(email), function (e, r) {
+                receiver(r.result);
+            });
         }
         else {
             throw error + "\n" + query;
@@ -143,10 +145,31 @@ P.removeUserRoleFromGroup = function (email, role, identifier, receiver) {
 
 P.getUsersInGroup = function (identifier, receiver) {
     var s = this.storage;
-    var query = s.userCollection() + '/Memberships/MemberOf[Identifier = ' + s.quote() + ']';
+    var query = [
+        '<Users>',
+        '    { ' + s.userCollection() + '[Memberships/Member/Group = ' + s.quote(identifier) + '] }',
+        '</Users>'
+    ].join('\n');
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver("<Headers>" + reply.result + "</Headers>");
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
+P.getUsers = function (search, receiver) {
+    var s = this.storage;
+    var query = [
+        '<Users>',
+        '    { ' + s.userCollection() + '[contains(lower-case(Profile/email), ' + s.quote(search) + ')] }',
+        '</Users>'
+    ].join('\n');
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
         }
         else {
             throw error + "\n" + query;

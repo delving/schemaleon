@@ -23,10 +23,14 @@ P.getDocumentSchema = function (schemaName, receiver) {
 
 P.getDocumentList = function (receiver) {
     var s = this.storage;
-    var query = s.docCollection() + "/Header";
+    var query = [
+        '<Headers>',
+        '    { ' + s.docCollection() + '/Header }',
+        '</Headers>'
+    ].join('\n');
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver("<Headers>" + reply.result + "</Headers>");
+            receiver(reply.result);
         }
         else {
             throw error + "\n" + query;

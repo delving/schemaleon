@@ -10,11 +10,11 @@ function log(message) {
 }
 
 function getFromXml(xml, tag) {
-    var start = xml.indexOf('<'+tag+'>');
-    var end = xml.indexOf('</'+tag+'>');
+    var start = xml.indexOf('<' + tag + '>');
+    var end = xml.indexOf('</' + tag + '>');
     if (start > 0 && end > 0) {
-        start += tag.length+2;
-        return xml.substring(start,end);
+        start += tag.length + 2;
+        return xml.substring(start, end);
     }
     else {
         return '';
@@ -53,6 +53,22 @@ exports.testCreateThenGet = function (test) {
             log("user identifier:" + userIdentifier);
             test.done();
         });
+    });
+};
+
+var profile2 = {
+    isPublic: false,
+    firstName: 'Olivia',
+    lastName: 'Wild',
+    email: 'liv@delving.eu'
+};
+
+exports.testCreateAgain = function (test) {
+    test.expect(1);
+    storage.Person.getOrCreateUser(profile2, function (createdXml) {
+        test.ok(createdXml, "no createdXml");
+        log("created second user:\n" + createdXml);
+        test.done();
     });
 };
 
@@ -105,12 +121,52 @@ exports.testAddAnotherMembership = function (test) {
         '</User>';
 
     test.expect(2);
-    storage.Person.addUserRoleToGroup(profile.email, 'Member', group.Identifier, function (userXml) {
+    storage.Person.addUserRoleToGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log(userXml);
         log(expectedUserXml);
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("added user to group:\n" + userXml);
+        test.done();
+    });
+};
+
+exports.testUsersInGroup = function (test) {
+    test.expect(1);
+    storage.Person.getUsersInGroup(groupIdentifier, function (userXml) {
+        test.ok(userXml, "no userXml");
+        log("users in group group:\n" + userXml);
+        test.done();
+    });
+};
+
+exports.testSearchUsers = function (test) {
+    test.expect(3);
+    storage.Person.getUsers('liv', function (userXml) {
+        test.ok(userXml, "no userXml");
+        log("users matching 'liv':\n" + userXml);
+        test.ok(userXml.indexOf('Olivia') > 0, 'Olivia not present');
+        test.ok(userXml.indexOf('Oscr') < 0, 'Oscr not absent');
+        test.done();
+    });
+};
+
+exports.testRemoveMembership = function (test) {
+    var expectedUserXml = '<User>\n' +
+        '  <Identifier>' + userIdentifier + '</Identifier>\n' +
+        '  <Profile>\n' +
+        '    <firstName>Oscr</firstName>\n' +
+        '    <lastName>Wild</lastName>\n' +
+        '    <email>oscr@delving.eu</email>\n' +
+        '  </Profile>\n' +
+        '  <Memberships/>\n' +
+        '</User>';
+
+    test.expect(2);
+    storage.Person.removeUserRoleFromGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
+        test.ok(userXml, "no userXml");
+        test.equal(userXml, expectedUserXml, "xml mismatch!");
+        log("remove user from group:\n" + userXml);
         test.done();
     });
 };
