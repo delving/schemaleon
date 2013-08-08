@@ -34,11 +34,33 @@ angular.module('OSCR').service(
                 });
         };
 
+        this.getUser = function (email, acceptGroup) {
+            $http.get('/person/user/fetch/'+email)
+                .success(function (userXml, status, headers, config) {
+                    var userObject = xmlToObject(userXml);
+                    acceptGroup(userObject);
+                })
+                .error(function (data, status, headers, config) {
+                    alert("Problem accessing groups");
+                });
+        };
+
         this.selectGroups = function (query, acceptList) {
             $http.get('/person/group/select', {params: {q: query}})
-                .success(function (usersXml, status, headers, config) {
-                    var groupList = xmlToArray(usersXml);
+                .success(function (groupsXml, status, headers, config) {
+                    var groupList = xmlToArray(groupsXml);
                     acceptList(groupList);
+                })
+                .error(function (data, status, headers, config) {
+                    alert("Problem accessing groups");
+                });
+        };
+
+        this.getGroup = function (identifier, acceptGroup) {
+            $http.get('/person/group/fetch/'+identifier)
+                .success(function (groupXml, status, headers, config) {
+                    var groupObject = xmlToObject(groupXml);
+                    acceptGroup(groupObject);
                 })
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing groups");
