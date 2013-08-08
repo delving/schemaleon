@@ -47,9 +47,7 @@ OSCR.controller('DocumentListController',
     ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
         function ($rootScope, $scope, $routeParams, $location, Document) {
 
-            $scope.showingList = true;
-            $scope.header = { SchemaName: 'Photograph' };
-            $scope.tree = null;
+            $scope.header = {};
 
             function useHeader(h) {
                 $scope.header.Identifier = h.Identifier ? h.Identifier : '#IDENTIFIER#';
@@ -66,32 +64,22 @@ OSCR.controller('DocumentListController',
                     $scope.headerList = _.sortBy(list, function (val) {
                         return -val.TimeStamp;
                     });
-                    $scope.showingList = true;
                 });
             };
-
-            $scope.fetchSchema = function () {
-                Document.fetchSchema($scope.header.SchemaName, function (tree) {
-                    console.log("tree fetched");// todo
-                    $scope.tree = tree;
-                    if ($routeParams.id) {
-                        Document.fetchDocument($routeParams.id, function (document) {
-                            populateTree($scope.tree, document.Document.Body);
-                            useHeader(document.Document.Header);
-                            $scope.showingList = false;
-                        });
-                    }
-                    else {
-                        $scope.header = {
-                            SchemaName: 'Photograph',
-                            Identifier: '#IDENTIFIER#'
-                        }
-                    }
-                });
-            };
-
             $scope.fetchList();
-            $scope.fetchSchema();
+
+            if ($routeParams.id) {
+                Document.fetchDocument($routeParams.id, function (document) {
+                    $scope.document = document.Document;
+                    useHeader($scope.document.Header);
+                });
+            }
+            else {
+                useHeader({
+                    SchemaName: $scope.document,
+                    Identifier: '#IDENTIFIER#'
+                });
+            }
 
             $scope.saveDocument = function () {
                 if ($rootScope.translating()) return;
@@ -113,7 +101,8 @@ OSCR.controller('DocumentListController',
                 };
                 Document.saveXml(body, function (header) {
                     useHeader(header);
-                    fetchList();
+//                    fetchList();
+//                    $scope.document = null;
                     $location.path('/document');
                 });
             };
@@ -121,27 +110,53 @@ OSCR.controller('DocumentListController',
             $scope.newDocument = function () {
                 if ($rootScope.translating()) return;
                 $scope.choosePath('/document');
-                $scope.showingList = false;
-                $scope.fetchSchema();
+                $scope.document = 'Photograph';
             };
         }
     ]
 );
 
-OSCR.controller('DocumentController',
+OSCR.controller('ImageAnnotationController',
     ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
-        function ($rootScope, $scope) {
-            $scope.panels = [];
+        function ($rootScope, $scope, $routeParams, $location, Document) {
 
-            function setTree(tree) {
-                if (!tree) return;
-                $scope.tree = tree;
-                console.log("tree has been set");// todo
-                $scope.panels = [
-                    { selected: 0, element: $scope.tree }
-                ];
-                $scope.choose(0, 0);
+            function init() {
+                $scope.document = 'ImageMetadata';
             }
+            init();
+//            $scope.saveDocument = function () {
+//                if ($rootScope.translating()) return;
+//                collectSummaryFields($scope.tree, $scope.header);
+//                var object = treeToObject($scope.tree);
+//                $scope.header.TimeStamp = "#TIMESTAMP#";
+//                $scope.header.EMail = $rootScope.user.email;
+//
+//                var document = {
+//                    Document: {
+//                        Header: $scope.header,
+//                        Body: object
+//                    }
+//                };
+//                var documentXml = objectToXml(document);
+//                var body = {
+//                    header: $scope.header,
+//                    xml: documentXml
+//                };
+//                Document.saveXml(body, function (header) {
+//                    useHeader(header);
+//                    cleanTree();
+//                    $scope.document = null;
+//                });
+//            };
+        }
+    ]
+);
+
+OSCR.controller('DocumentController',
+    ['$rootScope', '$scope', 'Document',
+        function ($rootScope, $scope, Document) {
+
+            $scope.panels = [];
 
             $scope.$watch('i18n', function (i18n, oldValue) {
                 if ($scope.tree && i18n) {
@@ -150,21 +165,26 @@ OSCR.controller('DocumentController',
             });
 
             $scope.$watch('document', function (document, oldValue) {
-                // todo: maybe use old value for something like making sure they're not making a mistake
+                // maybe use old value for something like making sure they're not making a mistake
                 console.log("document has been set");// todo
+                console.log(document);// todo
                 if (!document) return;
-                var schema = document.Header.SchemaName;
+                var empty = _.isString(document);
+                var schema = empty ? document : document.Header.SchemaName;
                 if (!schema) return;
                 Document.fetchSchema(schema, function (tree) {
                     console.log("tree fetched");// todo
-                    populateTree(tree, document.Document.Body);
-                    setTree(tree);
+                    if (!empty) {
+                        populateTree(tree, document.Body);
+                    }
+                    if (!tree) return;
+                    $scope.tree = tree;
+                    console.log("tree has been set");// todo
+                    $scope.panels = [
+                        { selected: 0, element: $scope.tree }
+                    ];
+                    $scope.choose(0, 0);
                 });
-
-                $scope.panels = [
-                    { selected: 0, element: $scope.tree }
-                ];
-                $scope.choose(0, 0);
             });
 
             $scope.choose = function (choice, parentIndex) {

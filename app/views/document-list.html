@@ -1,5 +1,5 @@
 <div class="fade-in">
-    <div ng-show="showingList">
+    <div ng-hide="document">
         <div class="page-header">
             <h1 i18n="Documents"><span class="i18n"></span></h1>
         </div>
@@ -51,7 +51,7 @@
             </tbody>
         </table>
     </div>
-    <div ng-hide="showingList">
+    <div ng-show="document">
         <div class="page-header">
             <h1 ng-show="header.Identifier">{{ header.Identifier }}</h1>
             <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>

@@ -48,5 +48,10 @@
             </TechnicalDescription>
         </CreationEvent>
     </Photograph>
+    <ImageMetadata>
+        <Creator/>
+        <Description>{ "paragraph":true }</Description>
+        <Collection/>
+    </ImageMetadata>
 </DocumentSchemas>
 

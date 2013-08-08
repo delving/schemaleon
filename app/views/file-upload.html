@@ -1,12 +1,10 @@
-<div class="fade-in">
+<div class="fade-in" ng-controller="ImageAnnotationController">
 
     <div class="page-header">
         <h1 i18n="FileUpload"><span class="i18n">File Upload</span></h1>
     </div>
 
-    <div ng-include src="'views/includes/panels.html'"></div>
-
-    <div class="row-fluid">
+     <div class="row-fluid">
 
         <!-- The file upload form used as target for the file upload widget -->
         <form id="fileupload" action="#" method="POST" enctype="multipart/form-data" data-file-upload="options"
@@ -43,10 +41,6 @@
                     <div class="progress-extended">&nbsp;</div>
                 </div>
             </div>
-
-
-            <div ng-include src="'views/includes/panels.html'"></div>
-
 
             <!-- The table listing the files available for upload/download -->
             <table class="table table-striped files ng-cloak clearfix">
@@ -107,5 +101,7 @@
         </form>
 
     </div>
+
+    <div ng-include src="'views/includes/panels.html'"></div>
 
 </div>
