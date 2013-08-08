@@ -26,19 +26,17 @@ OSCR.controller('VocabularyController',
 
             if (!$scope.v.tree) {
                 Vocabulary.getSchema($scope.v.name, function(schema) {
-                    var treePlus = xmlToTree(schema);
                     $scope.v.tree = {
                         name: 'Entry',
-                        elements: treePlus.elements[0].elements
+                        elements: schema.elements[0].elements
                     };
                 });
             }
 
             $scope.getStates = function (query) {
                 var deferred = $q.defer();
-                Vocabulary.select($scope.v.name, query, function(xml) {
-                    var arr = xmlToArray(xml);
-                    deferred.resolve(arr);
+                Vocabulary.select($scope.v.name, query, function(list) {
+                    deferred.resolve(list);
                 });
                 return deferred.promise;
             };
@@ -55,10 +53,9 @@ OSCR.controller('VocabularyController',
 
             $scope.submitNew = function () {
                 $scope.newValue = treeToObject($scope.v.tree);
-                Vocabulary.add($scope.v.name, $scope.newValue, function (entryXml) {
+                Vocabulary.add($scope.v.name, $scope.newValue, function (entry) {
                     $scope.panels.pop();
                     $scope.el.elements = null;
-                    var entry = xmlToObject(entryXml);
                     $scope.setValue(entry.Entry);
                     $scope.disableEditor();
                 });

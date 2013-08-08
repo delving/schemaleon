@@ -51,8 +51,8 @@ OSCR.controller('DocumentController',
             $scope.showingList = true;
 
             function fetchList() {
-                Document.fetchList(function (xml) {
-                    $scope.headerList = _.sortBy(xmlToArray(xml), function (val) {
+                Document.fetchList(function (list) {
+                    $scope.headerList = _.sortBy(list, function (val) {
                         return -val.TimeStamp;
                     });
                     $scope.showingList = true;
@@ -72,8 +72,8 @@ OSCR.controller('DocumentController',
             }
 
             function fetchSchema() {
-                Document.fetchSchema($scope.header.SchemaName, function (schema) {
-                    $scope.tree = xmlToTree(schema);
+                Document.fetchSchema($scope.header.SchemaName, function (tree) {
+                    $scope.tree = tree;
                     $scope.panels[0] = {
                         selected: 0,
                         element: $scope.tree
@@ -81,10 +81,9 @@ OSCR.controller('DocumentController',
                     $scope.choose(0, 0);
 
                     if ($routeParams.id) {
-                        Document.fetchDocument($routeParams.id, function (documentXml) {
-                            var object = xmlToObject(documentXml);
-                            populateTree($scope.tree, object.Document.Body);
-                            useHeader(object.Document.Header);
+                        Document.fetchDocument($routeParams.id, function (document) {
+                            populateTree($scope.tree, document.Document.Body);
+                            useHeader(document.Document.Header);
                             $scope.showingList = false;
                         });
                     }

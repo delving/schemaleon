@@ -5,17 +5,6 @@ var OSCR = angular.module('OSCR');
 
 var url = 'http://localhost:8888';
 
-OSCR.config([
-    '$httpProvider', 'fileUploadProvider',
-    function ($httpProvider, fileUploadProvider) {
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        fileUploadProvider.defaults.redirect = window.location.href.replace(
-            /\/[^\/]*$/,
-            '/cors/result.html?%s'
-        );
-    }
-]);
-
 OSCR.controller('TestFileUploadController', [
     '$scope', '$http', '$filter', '$window',
     function ($scope, $http) {

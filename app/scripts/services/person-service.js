@@ -8,122 +8,62 @@ angular.module('OSCR').service(
             'Member', 'Administrator'
         ];
 
-        this.authenticate = function (username, password, receiver) {
-            $http.post('/authenticate', { username: username, password: password }).success(
-                function (userXml, status, headers, config) {
-                    var userObject = xmlToObject(userXml);
-//                    console.log("received user object");
-//                    console.log(userObject);
-                    receiver(userObject.User.Profile);
-                }
-            ).error(
-                function (data, status, headers, config) {
-                    alert('Problem authenticating');
-                }
-            );
+        this.authenticate = function (username, password, accept) {
+            $http.post('/authenticate', { username: username, password: password }).success(function (xml) {
+                var userObject = xmlToObject(xml);
+                accept(userObject.User.Profile);
+            });
         };
 
-        this.selectUsers = function (query, acceptList) {
-            $http.get('/person/user/select', {params: {q: query}})
-                .success(function (usersXml, status, headers, config) {
-                    var userList = xmlToArray(usersXml);
-                    acceptList(userList);
-                })
-                .error(function (data, status, headers, config) {
-                    alert("Problem accessing users");
-                });
+        this.selectUsers = function (query, accept) {
+            $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
+                accept(xmlToArray(xml));
+            });
         };
 
-        this.getUser = function (email, acceptGroup) {
-            $http.get('/person/user/fetch/'+email)
-                .success(function (userXml, status, headers, config) {
-                    var userObject = xmlToObject(userXml);
-                    acceptGroup(userObject);
-                })
-                .error(function (data, status, headers, config) {
-                    alert("Problem accessing groups");
-                });
+        this.getUser = function (email, accept) {
+            $http.get('/person/user/fetch/' + email).success(function (xml) {
+                accept(xmlToObject(xml));
+            });
         };
 
-        this.selectGroups = function (query, acceptList) {
-            $http.get('/person/group/select', {params: {q: query}})
-                .success(function (groupsXml, status, headers, config) {
-                    var groupList = xmlToArray(groupsXml);
-                    acceptList(groupList);
-                })
-                .error(function (data, status, headers, config) {
-                    alert("Problem accessing groups");
-                });
+        this.selectGroups = function (query, accept) {
+            $http.get('/person/group/select', {params: {q: query}}).success(function (xml) {
+                accept(xmlToArray(xml));
+            });
         };
 
-        this.getGroup = function (identifier, acceptGroup) {
-            $http.get('/person/group/fetch/'+identifier)
-                .success(function (groupXml, status, headers, config) {
-                    var groupObject = xmlToObject(groupXml);
-                    acceptGroup(groupObject);
-                })
-                .error(function (data, status, headers, config) {
-                    alert("Problem accessing groups");
-                });
+        this.getGroup = function (identifier, accept) {
+            $http.get('/person/group/fetch/' + identifier).success(function (xml) {
+                accept(xmlToObject(xml));
+            });
         };
 
-        this.saveGroup = function (group, acceptGroup) {
+        this.saveGroup = function (group, accept) {
             // group should have Name and Address (for now)
-            console.log('about to save group:');
-            console.log(group);
-            $http.post('/person/group/save', group).success(
-                function (groupXml, status, headers, config) {
-                    var groupObject = xmlToObject(groupXml);
-                    console.log("received group object just saved");
-                    console.log(groupObject);
-                    acceptGroup(groupObject);
-                }
-            ).error(
-                function (data, status, headers, config) {
-                    alert('Problem saving group');
-                }
-            );
+            $http.post('/person/group/save', group).success(function (xml) {
+                accept(xmlToObject(xml));
+            });
         };
 
-        this.getUsersInGroup = function (identifier, acceptList) {
-            $http.get('/person/group/' + identifier + '/users')
-                .success(function (usersXml, status, headers, config) {
-                    var groupList = xmlToArray(usersXml);
-                    acceptList(groupList);
-                })
-                .error(function (data, status, headers, config) {
-                    alert("Problem accessing groups/users");
-                });
+        this.getUsersInGroup = function (identifier, accept) {
+            $http.get('/person/group/' + identifier + '/users').success(function (xml) {
+                accept(xmlToArray(xml));
+            });
         };
 
-        this.addUserToGroup = function (identifier, role, email, acceptUser) {
-            $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(
-                function (userXml, status, headers, config) {
-                    var userObject = xmlToObject(userXml);
-                    console.log("received user object");
-                    console.log(userObject);
-                    acceptUser(userObject.User.Profile);
-                }
-            ).error(
-                function (data, status, headers, config) {
-                    alert('Problem assigning user to group');
-                }
-            );
+        this.addUserToGroup = function (identifier, role, email, accept) {
+            $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(function (xml) {
+                var userObject = xmlToObject(xml);
+                accept(userObject.User.Profile);
+            });
         };
 
-        this.removeUserFromGroup = function (identifier, role, email, acceptUser) {
-            $http.post('/person/group/' + identifier + '/remove', { role: role, email: email }).success(
-                function (userXml, status, headers, config) {
-                    var userObject = xmlToObject(userXml);
-                    console.log("received user object");
-                    console.log(userObject);
-                    acceptUser(userObject.User.Profile);
-                }
-            ).error(
-                function (data, status, headers, config) {
-                    alert('Problem removing user from group');
-                }
-            );
+        this.removeUserFromGroup = function (identifier, role, email, accept) {
+            $http.post('/person/group/' + identifier + '/remove', { role: role, email: email }).success(function (xml) {
+                var userObject = xmlToObject(xml);
+                accept(userObject.User.Profile);
+            });
         };
     }
 );
