@@ -28,9 +28,10 @@ angular.module('OSCR', ['ui.bootstrap','blueimp.fileupload'])
                 controller: 'PeopleController'
             })
             .when('/login', {
-                templateUrl: 'views/login.html'
+                templateUrl: 'views/login.html',
+                controller: 'LoginContoller'
             })
-            .otherwise({
+            .otherwise({ // todo: does this still exists?
                 redirectTo: 'index.html',
                 templateUrl: 'views/public.html'
             });

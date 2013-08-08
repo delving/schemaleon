@@ -4,6 +4,10 @@ angular.module('OSCR').service(
     "Person",
     function ($http) {
 
+        this.roles = [
+            'Member', 'Administrator'
+        ];
+
         this.authenticate = function (username, password, receiver) {
             $http.post('/authenticate', { username: username, password: password }).success(
                 function (userXml, status, headers, config) {
@@ -39,6 +43,63 @@ angular.module('OSCR').service(
                 .error(function (data, status, headers, config) {
                     alert("Problem accessing groups");
                 });
+        };
+
+        this.saveGroup = function (group, acceptList) {
+            // group should have Name and Address (for now)
+            $http.post('/person/group/save', group).success(
+                function (groupXml, status, headers, config) {
+                    var groupObject = xmlToObject(groupXml);
+                    console.log("received group object just saved");
+                    console.log(groupObject);
+                    receiver(groupObject);
+                }
+            ).error(
+                function (data, status, headers, config) {
+                    alert('Problem authenticating');
+                }
+            );
+        };
+
+        this.getUsersInGroup = function (identifier, acceptList) {
+            $http.get('/person/group/' + identifier + '/users')
+                .success(function (usersXml, status, headers, config) {
+                    var groupList = xmlToArray(usersXml);
+                    acceptList(groupList);
+                })
+                .error(function (data, status, headers, config) {
+                    alert("Problem accessing groups/users");
+                });
+        };
+
+        this.addUserRoleToGroup = function (identifier, role, email, acceptUser) {
+            $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(
+                function (userXml, status, headers, config) {
+                    var userObject = xmlToObject(userXml);
+                    console.log("received user object");
+                    console.log(userObject);
+                    acceptUser(userObject.User.Profile);
+                }
+            ).error(
+                function (data, status, headers, config) {
+                    alert('Problem assigning user to group');
+                }
+            );
+        };
+
+        this.removeUserRoleFromGroup = function (identifier, role, email, acceptUser) {
+            $http.post('/person/group/' + identifier + '/remove', { role: role, email: email }).success(
+                function (userXml, status, headers, config) {
+                    var userObject = xmlToObject(userXml);
+                    console.log("received user object");
+                    console.log(userObject);
+                    acceptUser(userObject.User.Profile);
+                }
+            ).error(
+                function (data, status, headers, config) {
+                    alert('Problem assigning user to group');
+                }
+            );
         };
     }
 );

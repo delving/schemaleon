@@ -136,15 +136,29 @@ app.get('/person/group/select', function(req, res) {
 });
 
 app.post('/person/group/save', function (req, res) {
-    var entry = req.body.Group;
-    storage.Vocab.saveGroup(req.params.vocab, entry, function (xml) {
+    var group = req.body.Group;
+    storage.Person.saveGroup(req.params.vocab, group, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
 });
 
 app.get('/person/group/:identifier/users', function (req, res) {
-    storage.Vocab.getUsersInGroup(req.params.identifier, function (xml) {
+    storage.Person.getUsersInGroup(req.params.identifier, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.post('/person/group/:identifier/add', function (req, res) {
+    storage.Person.addUserRoleToGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.post('/person/group/:identifier/remove', function (req, res) {
+    storage.Person.removeUserRoleFromGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
