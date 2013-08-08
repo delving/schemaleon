@@ -155,7 +155,7 @@ P.getGroup = function (identifier, receiver) {
     });
 };
 
-P.addUserRoleToGroup = function (email, role, identifier, receiver) {
+P.addUserToGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
     var query = [
         'let $user := ' + s.userPath(email),
@@ -179,7 +179,7 @@ P.addUserRoleToGroup = function (email, role, identifier, receiver) {
     });
 };
 
-P.removeUserRoleFromGroup = function (email, role, identifier, receiver) {
+P.removeUserFromGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
     var query = 'delete node ' + s.userPath(email) + '/Memberships/Member[Group=' + s.quote(identifier) + ']';
     s.xquery(query, function (error, reply) {

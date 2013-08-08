@@ -5,16 +5,21 @@
     </div>
 
     <div class="row-fluid">
-             <div class="span4">
+             <div class="span3">
                  <div class="widget-box">
                      <div class="widget-title">
                          <span class="icon"><i class="icon-user"></i></span>
-                         <h5>Create a group</h5>
+                         <h5>Create group</h5>
                      </div>
                      <div class="widget-body">
-                         <label>Group name:</label>
+                         <div ng-show="groupCreated" class="alert alert-success fade-in">
+                             <button type="button" class="close" data-dismiss="alert">&times;</button>
+                             Group was created successfully!
+                         </div>
+                         <!--<alert type="success" close="close()">Group was created successfully!</alert>-->
+                         <label>Name:</label>
                          <input focus type="text" ng-model="groupName" class="input-block-level"/>
-                         <label>Group adress:</label>
+                         <label>Adress:</label>
                          <input type="text" ng-model="groupAddress" class="input-block-level"/>
                      </div>
                      <div class="widget-footer">
@@ -24,14 +29,18 @@
                      </div>
                  </div>
              </div>
-        <div class="span4">
+        <div class="span3">
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-user"></i></span>
-                    <h5>Group assignment</h5>
+                    <h5>Assign user to group</h5>
                 </div>
                 <div class="widget-body">
                     <div>
+                        <div ng-show="userAssigned" class="alert alert-success fade-in">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            User successfully assigned to group!
+                        </div>
                         <label>User:</label>
                         <input focus type="text" ng-model="chosenUser" class="input-block-level"
                                typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
@@ -44,7 +53,7 @@
                 </div>
                 <div class="widget-footer">
                     <button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>
-                    <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Assign"><i class="icon-download-alt icon-white"></i> <span class="i18n"></span></button>
+                    <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Assign"><i class="icon-magnet icon-white"></i> <span class="i18n"></span></button>
                 </div>
             </div>
         </div>

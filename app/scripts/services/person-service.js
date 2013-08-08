@@ -96,7 +96,7 @@ angular.module('OSCR').service(
                 });
         };
 
-        this.addUserRoleToGroup = function (identifier, role, email, acceptUser) {
+        this.addUserToGroup = function (identifier, role, email, acceptUser) {
             $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(
                 function (userXml, status, headers, config) {
                     var userObject = xmlToObject(userXml);
@@ -111,7 +111,7 @@ angular.module('OSCR').service(
             );
         };
 
-        this.removeUserRoleFromGroup = function (identifier, role, email, acceptUser) {
+        this.removeUserFromGroup = function (identifier, role, email, acceptUser) {
             $http.post('/person/group/' + identifier + '/remove', { role: role, email: email }).success(
                 function (userXml, status, headers, config) {
                     var userObject = xmlToObject(userXml);

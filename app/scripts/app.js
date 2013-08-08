@@ -7,7 +7,7 @@ angular.module('OSCR', ['ui.bootstrap','blueimp.fileupload'])
                 templateUrl: 'views/dashboard.html',
                 title: 'OSCR Dashboard'
             })
-            .when('/document/', {
+            .when('/document', {
                 templateUrl: 'views/document.html',
                 controller: 'DocumentController'
             })

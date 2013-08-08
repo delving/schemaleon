@@ -152,14 +152,14 @@ app.get('/person/group/:identifier/users', function (req, res) {
 });
 
 app.post('/person/group/:identifier/add', function (req, res) {
-    storage.Person.addUserRoleToGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
+    storage.Person.addUserToGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
 });
 
 app.post('/person/group/:identifier/remove', function (req, res) {
-    storage.Person.removeUserRoleFromGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
+    storage.Person.removeUserFromGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });

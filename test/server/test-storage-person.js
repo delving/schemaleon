@@ -136,7 +136,7 @@ exports.testSearchGroupsAgain = function (test) {
 
 exports.testAddMembership = function (test) {
     test.expect(1);
-    storage.Person.addUserRoleToGroup(profile.email, 'Member', group.Identifier, function (userXml) {
+    storage.Person.addUserToGroup(profile.email, 'Member', group.Identifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log("added user to group:\n" + userXml);
         test.done();
@@ -160,7 +160,7 @@ exports.testAddAnotherMembership = function (test) {
         '</User>';
 
     test.expect(2);
-    storage.Person.addUserRoleToGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.addUserToGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log(userXml);
         log(expectedUserXml);
@@ -202,7 +202,7 @@ exports.testRemoveMembership = function (test) {
         '</User>';
 
     test.expect(2);
-    storage.Person.removeUserRoleFromGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.removeUserFromGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("remove user from group:\n" + userXml);

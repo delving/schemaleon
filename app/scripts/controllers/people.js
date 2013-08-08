@@ -22,8 +22,11 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller('PeopleController',
     [
-        '$rootScope', '$scope', '$q', '$location', 'Person',
-        function ($rootScope, $scope, $q, $location, Person) {
+        '$rootScope', '$scope', '$q', '$location', 'Person', '$timeout',
+        function ($rootScope, $scope, $q, $location, Person, $timeout) {
+
+            $scope.groupCreated = false;
+            $scope.userAssigned = false;
 
             $scope.typeAheadUsers = function (query) {
                 var deferred = $q.defer();
@@ -60,13 +63,24 @@ OSCR.controller('PeopleController',
                     Name: $scope.groupName,
                     Address: $scope.groupAddress
                 };
-                Person.saveGroup(group, function(groupXml) {
+                Person.saveGroup(group, function(groupObject) {
                     console.log('created group:');
-                    console.log(groupXml);
+                    console.log(groupObject);
+                    $scope.groupCreated = true;
                     $scope.groupName = '';
                     $scope.groupAddress = '';
+                    $timeout(function(){
+                        $scope.groupCreated = false;
+                    },3000);
+
                 });
             };
+
+            $scope.assignUserToGroup = function() {
+                Person.addUserToGroup(identifier, role, email, function(profile){
+
+                })
+            }
 
         }
     ]
