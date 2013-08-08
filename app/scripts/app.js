@@ -29,7 +29,7 @@ angular.module('OSCR', ['ui.bootstrap','blueimp.fileupload'])
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
-                controller: 'LoginContoller'
+                controller: 'LoginController'
             })
             .otherwise({ // todo: does this still exists?
                 redirectTo: 'index.html',

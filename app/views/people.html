@@ -3,6 +3,7 @@
     <div>
         <div class="vocabulary-input">
             <div>
+                <span>SEARCH:</span>
                 <div>
                     <span>Users:</span>
                     <input focus type="text" ng-model="chosenUser" class="input-block-level"
@@ -14,9 +15,17 @@
                            typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"/>
                 </div>
             </div>
+            <hr/>
             <div>
-                <button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>
-                <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Create"><i class="icon-download-alt icon-white"></i> <span class="i18n"></span></button>
+                <span>CREATE:</span>
+                <br/>
+                <span>Name:</span> <input focus type="text" ng-model="groupName" class="input-block-level"/>
+                <br/>
+                <span>Address</span> <input focus type="text" ng-model="groupAddress" class="input-block-level"/>
+                <br/>
+                <button ng-click="createGroup()" class="btn btn-small btn-success" data-i18n="CreateGroup">
+                    <i class="icon-download-alt icon-white"></i> <span class="i18n"></span>
+                </button>
             </div>
         </div>
     </div>

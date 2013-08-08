@@ -136,8 +136,9 @@ app.get('/person/group/select', function(req, res) {
 });
 
 app.post('/person/group/save', function (req, res) {
-    var group = req.body.Group;
-    storage.Person.saveGroup(req.params.vocab, group, function (xml) {
+    console.log('group save:');
+    console.log(req.body);
+    storage.Person.saveGroup(req.body, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });

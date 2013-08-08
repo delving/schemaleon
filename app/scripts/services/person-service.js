@@ -45,18 +45,20 @@ angular.module('OSCR').service(
                 });
         };
 
-        this.saveGroup = function (group, acceptList) {
+        this.saveGroup = function (group, acceptGroup) {
             // group should have Name and Address (for now)
+            console.log('about to save group:');
+            console.log(group);
             $http.post('/person/group/save', group).success(
                 function (groupXml, status, headers, config) {
                     var groupObject = xmlToObject(groupXml);
                     console.log("received group object just saved");
                     console.log(groupObject);
-                    receiver(groupObject);
+                    acceptGroup(groupObject);
                 }
             ).error(
                 function (data, status, headers, config) {
-                    alert('Problem authenticating');
+                    alert('Problem saving group');
                 }
             );
         };
@@ -97,7 +99,7 @@ angular.module('OSCR').service(
                 }
             ).error(
                 function (data, status, headers, config) {
-                    alert('Problem assigning user to group');
+                    alert('Problem removing user from group');
                 }
             );
         };

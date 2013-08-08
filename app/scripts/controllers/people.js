@@ -55,6 +55,18 @@ OSCR.controller('PeopleController',
                 return group.Name;
             };
 
+            $scope.createGroup = function() {
+                var group = {
+                    Name: $scope.groupName,
+                    Address: $scope.groupAddress
+                };
+                Person.saveGroup(group, function(groupXml) {
+                    console.log('created group:');
+                    console.log(groupXml);
+                    $scope.groupName = '';
+                    $scope.groupAddress = '';
+                });
+            };
 
         }
     ]
