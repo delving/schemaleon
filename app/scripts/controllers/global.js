@@ -55,7 +55,7 @@ OSCR.controller('GlobalController',
 
             // just a little help to get rid of any logged in views for now
             // todo: you are still able to navigate to all the pages via the location bar in the browser
-            if (!$rootScope.user) {
+            if (!$rootScope.user || $rootScope.user) {
                 $location.path('/login');
             }
 

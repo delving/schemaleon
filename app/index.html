@@ -78,19 +78,19 @@
             </div>
         </div>
 
-        <div ng-show='user'>
-
-            <div id="sidebar">
-                <div ng-show="config.showTranslationEditor" class="alert">
-                    <strong>Translation editor active! <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></strong></span>
-                    <p>While translating all hyperlinks and buttons are disabled. To return to normal navigation of the document turn off the translation editor.</p>
-                </div>
-                <div class="sidebar-nav">
-                    <ul class="nav nav-pills nav-stacked main-menu">
-                        <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
-                            <a href ng-click="choosePath(link.path)">
-                                <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
+        <!--<div class="container-fluid">-->
+            <div class="row-fluid">
+                <div id="sidebar" ng-show="user">
+                    <div ng-show="config.showTranslationEditor" class="alert">
+                        <strong>Translation editor active! <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></strong></span>
+                        <p>While translating all hyperlinks and buttons are disabled. To return to normal navigation of the document turn off the translation editor.</p>
+                    </div>
+                    <div class="sidebar-nav">
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
                                <span ng-show="config.showTranslationEditor"
                                      ng-click="openLabelDialog(link)"
                                      tooltip="Click to translate"
@@ -98,26 +98,27 @@
                                      class="badge badge-warning btn-i18n">
                                     <i class="icon-translate icon-white"></i>
                                 </span>
-                            </a>
-                        </li>
-                        <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/></li>
-                        <li ng-repeat="link in recent" ng-class="{ active: link.active }">
-                            <a href ng-click="choosePath(link.path)">
-                                <i class="icon-leaf"></i>
-                                {{ link | linkTitle }}
-                            </a>
-                        </li>
-                    </ul>
+                                </a>
+                            </li>
+                            <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/></li>
+                            <li ng-repeat="link in recent" ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i class="icon-leaf"></i>
+                                    {{ link | linkTitle }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.sidebar-nav -->
+                    <!--<div ng-include="getInclude()"></div>-->
                 </div>
-                <!--/.sidebar-nav -->
-                <!--<div ng-include="getInclude()"></div>-->
+
+                <div id="mainBody">
+                    <div ng-view id="view"><!-- Angular views are rendered here --></div>
+                </div>
             </div>
-
         </div>
 
-        <div id="mainBody">
-            <div ng-view><!-- Angular views are rendered here --></div>
-        </div>
 
     </div>
 

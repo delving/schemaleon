@@ -107,7 +107,7 @@ OSCR.controller('DocumentController',
 
             $scope.newDocument = function () {
                 if ($rootScope.translating()) return;
-                $scope.choosePath('/document/');
+                $scope.choosePath('/document');
                 $scope.showingList = false;
                 fetchSchema();
             };

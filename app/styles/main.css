@@ -300,15 +300,15 @@ body {
   vertical-align: text-bottom;
 }
 #sidebar {
-  display: block;
-  float: left;
-  position: relative;
+  position: fixed;
   width: 220px;
+  left: 20px;
+  bottom: 0;
+  top: 70px;
 }
 #mainBody {
   margin-left: 240px;
-  min-width: 500px;
-  position: relative;
+  min-width: 800px;
 }
 .loggedin-false #sidebar {
   display: none;

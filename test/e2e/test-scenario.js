@@ -1,12 +1,38 @@
+/*
 'use strict';
 
 describe('End2End Testing', function () {
 
-    describe('When loading the objects page', function () {
 
-        it("should open on the dashboard page", function () {
-            browser().navigateTo('/#/');
+    describe('When loggin in', function () {
+
+        it('it should go to the login page', function () {
+            browser().navigateTo('/#/login');
+            expect(browser().location().url()).toBe('/login');
         });
+
+        it('should log in a pseudo user', function () {
+            var btn = element('button#login');
+            btn.click();
+            expect(browser().location().url()).toBe('/dashboard');
+        });
+
+    });
+
+
+    describe('When going to the Documents section', function () {
+
+        it("should open on the document list page", function () {
+            browser().navigateTo('/#/document');
+            expect(browser().location().url()).toBe('/document');
+        });
+
+        describe('When clicking on the New Document button', function() {
+            it('should go to and empty document page', function(){
+                element('a[ng-click="newDocument()"').click();
+                expect($scope.showingList).toBe(true);
+            })
+        })
 
         it("should show one panel", function () {
             browser().navigateTo('/#/object');
@@ -55,3 +81,4 @@ describe('End2End Testing', function () {
     });
 
 });
+*/
