@@ -1,6 +1,6 @@
 'use strict';
 
-var OSCR = angular.module('OSCR', ['ui.bootstrap', 'blueimp.fileupload']);
+var OSCR = angular.module('OSCR', ['ngCookies', 'ui.bootstrap', 'blueimp.fileupload']);
 
 OSCR.config([
     '$routeProvider',

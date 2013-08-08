@@ -22,8 +22,8 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller('LoginController',
     [
-        '$rootScope', '$scope', '$location', 'Person',
-        function ($rootScope, $scope, $location, Person) {
+        '$rootScope', '$scope', '$location', '$cookieStore', 'Person',
+        function ($rootScope, $scope, $location, $cookieStore, Person) {
 
             $scope.username = '';
             $scope.password = '';

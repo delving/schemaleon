@@ -33,27 +33,31 @@
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-user"></i></span>
-                    <h5>Assign user to group</h5>
+                    <h5>Assign user group and role</h5>
                 </div>
                 <div class="widget-body">
-                    <div>
+
                         <div ng-show="userAssigned" class="alert alert-success fade-in">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             User successfully assigned to group!
                         </div>
-                        <label>User:</label>
+                        <label>User-email:</label>
                         <input focus type="text" ng-model="chosenUser" class="input-block-level"
                                typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
-                    </div>
-                    <div>
+
                         <label>Group:</label>
                         <input focus type="text" ng-model="chosenGroup" class="input-block-level"
                                typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"/>
-                    </div>
+                        <label>Role:</label>
+                        <select id="role-select"
+                                ng-model="chosenRole"
+                                ng-options="role.name for role in roles">
+                                <!--ng-options="l.code as l.name for l in config.interfaceLanguages">-->
+                        </select>
                 </div>
                 <div class="widget-footer">
-                    <button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>
-                    <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Assign"><i class="icon-magnet icon-white"></i> <span class="i18n"></span></button>
+                    <!--<button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>-->
+                    <button ng-click="assignUserToGroup()" class="btn btn-small btn-success" data-i18n="Assign"><i class="icon-magnet icon-white"></i> <span class="i18n"></span></button>
                 </div>
             </div>
         </div>

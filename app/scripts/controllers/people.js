@@ -27,6 +27,9 @@ OSCR.controller('PeopleController',
 
             $scope.groupCreated = false;
             $scope.userAssigned = false;
+            $scope.roles = _.map(Person.roles, function(role){
+                return { name: role }
+            });
 
             $scope.typeAheadUsers = function (query) {
                 var deferred = $q.defer();
@@ -40,7 +43,7 @@ OSCR.controller('PeopleController',
                 if (!user) {
                     return [];
                 }
-                return user.Profile.firstName + ' '+user.Profile.lastName;
+                return user.Profile.email + ' - ' +user.Profile.firstName + ' '+user.Profile.lastName;
             };
 
             $scope.typeAheadGroups = function (query) {
@@ -64,21 +67,23 @@ OSCR.controller('PeopleController',
                     Address: $scope.groupAddress
                 };
                 Person.saveGroup(group, function(groupObject) {
-                    console.log('created group:');
-                    console.log(groupObject);
                     $scope.groupCreated = true;
                     $scope.groupName = '';
                     $scope.groupAddress = '';
                     $timeout(function(){
                         $scope.groupCreated = false;
-                    },3000);
+                    },4000);
 
                 });
             };
 
             $scope.assignUserToGroup = function() {
-                Person.addUserToGroup(identifier, role, email, function(profile){
-
+                var profile = $scope.chosenUser.Profile;
+                Person.addUserToGroup($scope.chosenGroup.Identifier, $scope.chosenRole.name, profile.email, function(profile){
+                    $scope.userAssigned = true;
+                    $timeout(function(){
+                        $scope.userAssigned = false;
+                    },4000);
                 })
             }
 
