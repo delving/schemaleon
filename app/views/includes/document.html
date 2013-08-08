@@ -132,26 +132,26 @@
                     </div>
 
                     <div ng-hide="el.elements">
-                        <h5 class="contrast" i18n="FieldDocumentation"><span class="i18n">Field Documentation</span></h5>
-                        <div class="widget-box">
-                            <div class="widget-title">
-                                <span class="icon"><i class=" icon-info-sign"></i></span>
-                                <h5>{{ el | elementTitle }}</h5>
-                            </div>
-                            <div class="widget-body">
-                                <!--{{ el.doc }}-->
-                                <p ng-show="el.doc">{{ el | elementDoc }}</p>
-                            </div>
-                            <div class="widget-footer">
-                                <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
-                            </div>
+                        <div ng-hide="annotationMode">
+                            <h5 class="contrast" i18n="FieldDocumentation"><span class="i18n">Field Documentation</span></h5>
 
+                            <div class="widget-box">
+                                <div class="widget-title">
+                                    <span class="icon"><i class=" icon-info-sign"></i></span>
+                                    <h5>{{ el | elementTitle }}</h5>
+                                </div>
+                                <div class="widget-body">
+                                    <p ng-show="el.doc">{{ el | elementDoc }}</p>
+                                </div>
+                                <div class="widget-footer">
+                                    <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
+                                </div>
+                            </div>
                         </div>
-                        <!--<div>-->
 
-
-
-                        <!--</div>-->
+                        <div ng-show="annotationMode">
+                            <button ng-click="setValue()" class="btn btn-small"><span i18n="SetValueForSelected"/></button>
+                        </div>
                     </div>
                 </div>
 

@@ -81,8 +81,14 @@ OSCR.controller('DocumentListController',
                 });
             }
 
+            $scope.setTree = function(tree) {
+                $scope.tree = tree;
+            };
+
             $scope.saveDocument = function () {
                 if ($rootScope.translating()) return;
+                console.log('saveDocument');// todo
+                console.log($scope.tree);// todo
                 collectSummaryFields($scope.tree, $scope.header);
                 var object = treeToObject($scope.tree);
                 $scope.header.TimeStamp = "#TIMESTAMP#";
@@ -101,8 +107,8 @@ OSCR.controller('DocumentListController',
                 };
                 Document.saveXml(body, function (header) {
                     useHeader(header);
-//                    fetchList();
-//                    $scope.document = null;
+                    $scope.fetchList();
+                    $scope.document = null;
                     $location.path('/document');
                 });
             };
@@ -116,38 +122,18 @@ OSCR.controller('DocumentListController',
     ]
 );
 
-OSCR.controller('ImageAnnotationController',
-    ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
-        function ($rootScope, $scope, $routeParams, $location, Document) {
+OSCR.controller('OSCRImageAnnotationController',
+    ['$scope',
+        function ($scope) {
 
-            function init() {
-                $scope.document = 'ImageMetadata';
-            }
-            init();
-//            $scope.saveDocument = function () {
-//                if ($rootScope.translating()) return;
-//                collectSummaryFields($scope.tree, $scope.header);
-//                var object = treeToObject($scope.tree);
-//                $scope.header.TimeStamp = "#TIMESTAMP#";
-//                $scope.header.EMail = $rootScope.user.email;
-//
-//                var document = {
-//                    Document: {
-//                        Header: $scope.header,
-//                        Body: object
-//                    }
-//                };
-//                var documentXml = objectToXml(document);
-//                var body = {
-//                    header: $scope.header,
-//                    xml: documentXml
-//                };
-//                Document.saveXml(body, function (header) {
-//                    useHeader(header);
-//                    cleanTree();
-//                    $scope.document = null;
-//                });
-//            };
+            $scope.annotationMode = true;
+            $scope.document = 'ImageMetadata';
+
+            $scope.setValue = function() {
+                _.each($scope.queue, function(file) {
+                    console.log(file);
+                });
+            };
         }
     ]
 );
@@ -166,20 +152,16 @@ OSCR.controller('DocumentController',
 
             $scope.$watch('document', function (document, oldValue) {
                 // maybe use old value for something like making sure they're not making a mistake
-                console.log("document has been set");// todo
-                console.log(document);// todo
                 if (!document) return;
                 var empty = _.isString(document);
                 var schema = empty ? document : document.Header.SchemaName;
                 if (!schema) return;
                 Document.fetchSchema(schema, function (tree) {
-                    console.log("tree fetched");// todo
                     if (!empty) {
                         populateTree(tree, document.Body);
                     }
                     if (!tree) return;
-                    $scope.tree = tree;
-                    console.log("tree has been set");// todo
+                    $scope.setTree(tree);
                     $scope.panels = [
                         { selected: 0, element: $scope.tree }
                     ];
@@ -228,7 +210,6 @@ OSCR.controller('DocumentController',
                 existing.classIndex = parentIndex + 1;
                 list.splice(index + 1, 0, fresh);
             };
-
         }]
 );
 
