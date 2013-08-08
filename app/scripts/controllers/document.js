@@ -43,23 +43,13 @@ OSCR.directive('focus',
     }
 );
 
-OSCR.controller('DocumentController',
+OSCR.controller('DocumentListController',
     ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
-        function ($rootScope, $scope, $routeParams, $location, Document, I18N) {
-            $scope.panels = [];
-            $scope.header = { SchemaName: 'Photograph' };
+        function ($rootScope, $scope, $routeParams, $location, Document) {
+
             $scope.showingList = true;
-
-            function fetchList() {
-                Document.fetchList(function (list) {
-                    $scope.headerList = _.sortBy(list, function (val) {
-                        return -val.TimeStamp;
-                    });
-                    $scope.showingList = true;
-                });
-            }
-
-            fetchList();
+            $scope.header = { SchemaName: 'Photograph' };
+            $scope.tree = null;
 
             function useHeader(h) {
                 $scope.header.Identifier = h.Identifier ? h.Identifier : '#IDENTIFIER#';
@@ -71,15 +61,19 @@ OSCR.controller('DocumentController',
                 }
             }
 
-            function fetchSchema() {
-                Document.fetchSchema($scope.header.SchemaName, function (tree) {
-                    $scope.tree = tree;
-                    $scope.panels[0] = {
-                        selected: 0,
-                        element: $scope.tree
-                    };
-                    $scope.choose(0, 0);
+            $scope.fetchList = function () {
+                Document.fetchList(function (list) {
+                    $scope.headerList = _.sortBy(list, function (val) {
+                        return -val.TimeStamp;
+                    });
+                    $scope.showingList = true;
+                });
+            };
 
+            $scope.fetchSchema = function () {
+                Document.fetchSchema($scope.header.SchemaName, function (tree) {
+                    console.log("tree fetched");// todo
+                    $scope.tree = tree;
                     if ($routeParams.id) {
                         Document.fetchDocument($routeParams.id, function (document) {
                             populateTree($scope.tree, document.Document.Body);
@@ -94,9 +88,60 @@ OSCR.controller('DocumentController',
                         }
                     }
                 });
-            }
+            };
 
-            fetchSchema();
+            $scope.fetchList();
+            $scope.fetchSchema();
+
+            $scope.saveDocument = function () {
+                if ($rootScope.translating()) return;
+                collectSummaryFields($scope.tree, $scope.header);
+                var object = treeToObject($scope.tree);
+                $scope.header.TimeStamp = "#TIMESTAMP#";
+                $scope.header.EMail = $rootScope.user.email;
+
+                var document = {
+                    Document: {
+                        Header: $scope.header,
+                        Body: object
+                    }
+                };
+                var documentXml = objectToXml(document);
+                var body = {
+                    header: $scope.header,
+                    xml: documentXml
+                };
+                Document.saveXml(body, function (header) {
+                    useHeader(header);
+                    fetchList();
+                    $location.path('/document');
+                });
+            };
+
+            $scope.newDocument = function () {
+                if ($rootScope.translating()) return;
+                $scope.choosePath('/document');
+                $scope.showingList = false;
+                $scope.fetchSchema();
+            };
+        }
+    ]
+);
+
+OSCR.controller('DocumentController',
+    ['$rootScope', '$scope', '$routeParams', '$location', 'Document', 'I18N',
+        function ($rootScope, $scope) {
+            $scope.panels = [];
+
+            function setTree(tree) {
+                if (!tree) return;
+                $scope.tree = tree;
+                console.log("tree has been set");// todo
+                $scope.panels = [
+                    { selected: 0, element: $scope.tree }
+                ];
+                $scope.choose(0, 0);
+            }
 
             $scope.$watch('i18n', function (i18n, oldValue) {
                 if ($scope.tree && i18n) {
@@ -104,12 +149,23 @@ OSCR.controller('DocumentController',
                 }
             });
 
-            $scope.newDocument = function () {
-                if ($rootScope.translating()) return;
-                $scope.choosePath('/document');
-                $scope.showingList = false;
-                fetchSchema();
-            };
+            $scope.$watch('document', function (document, oldValue) {
+                // todo: maybe use old value for something like making sure they're not making a mistake
+                console.log("document has been set");// todo
+                if (!document) return;
+                var schema = document.Header.SchemaName;
+                if (!schema) return;
+                Document.fetchSchema(schema, function (tree) {
+                    console.log("tree fetched");// todo
+                    populateTree(tree, document.Document.Body);
+                    setTree(tree);
+                });
+
+                $scope.panels = [
+                    { selected: 0, element: $scope.tree }
+                ];
+                $scope.choose(0, 0);
+            });
 
             $scope.choose = function (choice, parentIndex) {
                 $scope.selected = choice;
@@ -153,29 +209,6 @@ OSCR.controller('DocumentController',
                 list.splice(index + 1, 0, fresh);
             };
 
-            $scope.saveDocument = function () {
-                if ($rootScope.translating()) return;
-                collectSummaryFields($scope.tree, $scope.header);
-                var object = treeToObject($scope.tree);
-                $scope.header.TimeStamp = "#TIMESTAMP#";
-                $scope.header.EMail = $rootScope.user.email;
-                var document = {
-                    Document: {
-                        Header: $scope.header,
-                        Body: object
-                    }
-                };
-                var documentXml = objectToXml(document);
-                var body = {
-                    header: $scope.header,
-                    xml: documentXml
-                };
-                Document.saveXml(body, function (header) {
-                    useHeader(header);
-                    fetchList();
-                    $location.path('/document/');
-                });
-            }
         }]
 );
 
@@ -193,7 +226,6 @@ OSCR.controller('PanelController',
             };
             $scope.el = $scope.panel.element;
 
-            // Panel Element Editor Toggles
             $scope.enableEditor = function (element) {
                 $scope.el.edit = true;
             };

@@ -5,7 +5,7 @@ var OSCR = angular.module('OSCR');
 
 var url = 'http://localhost:8888';
 
-OSCR.controller('TestFileUploadController', [
+OSCR.controller('DigitalObjectUploadController', [
     '$scope', '$http', '$filter', '$window',
     function ($scope, $http) {
         $scope.options = {
@@ -13,8 +13,7 @@ OSCR.controller('TestFileUploadController', [
         };
 
         $scope.loadingFiles = true;
-        $http.get(url)
-            .then(
+        $http.get(url).then(
             function (response) {
                 $scope.loadingFiles = false;
                 $scope.queue = response.data.files || [];
@@ -30,8 +29,7 @@ OSCR.controller('TestFileUploadController', [
 OSCR.controller('FileDestroyController', [
     '$scope', '$http',
     function ($scope, $http) {
-        var file = $scope.file,
-            state;
+        var file = $scope.file, state;
         if (file.url) {
             file.$state = function () {
                 return state;
@@ -51,7 +49,8 @@ OSCR.controller('FileDestroyController', [
                     }
                 );
             };
-        } else if (!file.$cancel && !file._index) {
+        }
+        else if (!file.$cancel && !file._index) {
             file.$cancel = function () {
                 $scope.clear(file);
             };

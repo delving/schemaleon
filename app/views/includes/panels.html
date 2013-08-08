@@ -1,5 +1,6 @@
-<div id="panel-container">
-    <table class="table panels" id="panel-table">
+<div id="panel-container" ng-controller="DocumentController">
+    <h1 ng-hide="panels" i18n="NoDocumentToEdit"></h1>
+    <table class="table panels" id="panel-table" ng-show="panels">
         <thead>
         <tr>
             <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>

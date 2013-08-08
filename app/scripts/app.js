@@ -11,12 +11,12 @@ OSCR.config([
                 title: 'OSCR Dashboard'
             })
             .when('/document', {
-                templateUrl: 'views/document.html',
-                controller: 'DocumentController'
+                templateUrl: 'views/document-list.html',
+                controller: 'DocumentListController'
             })
             .when('/document/:id', {
-                templateUrl: 'views/document.html',
-                controller: 'DocumentController'
+                templateUrl: 'views/document-list.html',
+                controller: 'DocumentListController'
             })
             .when('/document/view/:id', {
                 templateUrl: 'views/document-view.html',
@@ -24,7 +24,7 @@ OSCR.config([
             })
             .when('/fileupload', {
                 templateUrl: 'views/file-upload.html',
-                controller: 'TestFileUploadController'
+                controller: 'DigitalObjectUploadController'
             })
             .when('/people', {
                 templateUrl: 'views/people.html',
