@@ -195,14 +195,14 @@ app.get('/document/schema/:schema', function (req, res) {
     });
 });
 
-app.get('/document/fetch/:schema/:identifier', function (req, res) { // todo: change the caller to this
+app.get('/document/fetch/:schema/:identifier', function (req, res) {
     storage.Document.getDocument(req.params.schema, req.params.identifier, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
 });
 
-app.get('/document/list/:schema', function (req, res) { // todo: change the caller to this
+app.get('/document/list/:schema', function (req, res) {
     storage.Document.getDocumentList(req.params.schema, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);

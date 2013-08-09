@@ -60,7 +60,7 @@ OSCR.controller('DocumentListController',
             }
 
             $scope.fetchList = function () {
-                Document.fetchList(function (list) {
+                Document.fetchList('Photograph', function (list) { // todo: all schemas?
                     $scope.headerList = _.sortBy(list, function (val) {
                         return -val.TimeStamp;
                     });
@@ -69,7 +69,7 @@ OSCR.controller('DocumentListController',
             $scope.fetchList();
 
             if ($routeParams.id) {
-                Document.fetchDocument($routeParams.id, function (document) {
+                Document.fetchDocument('Photograph', $routeParams.id, function (document) { // todo: all schemas
                     $scope.document = document.Document;
                     useHeader($scope.document.Header);
                 });
@@ -91,6 +91,7 @@ OSCR.controller('DocumentListController',
                 console.log($scope.tree);// todo
                 collectSummaryFields($scope.tree, $scope.header);
                 var body = treeToObject($scope.tree);
+                $scope.header.SchemaName = 'Photograph';
                 $scope.header.TimeStamp = "#TIMESTAMP#";
                 $scope.header.EMail = $rootScope.user.email;
                 Document.saveDescriptiveXml($scope.header, body, function (header) {
@@ -273,7 +274,7 @@ OSCR.controller('DocumentViewController',
                     $scope.tree = xmlToTree(schema);
 
                     if ($routeParams.id) {
-                        Document.fetchDocument($routeParams.id, function (documentXml) {
+                        Document.fetchDocument('Photograph', $routeParams.id, function (documentXml) {
                             var object = xmlToObject(documentXml);
                             populateTree($scope.tree, object.Document.Body);
                             useHeader(object.Document.Header);
@@ -284,7 +285,7 @@ OSCR.controller('DocumentViewController',
                             SchemaName: 'Photograph',
                             Identifier: '#IDENTIFIER#',
                             Title: 'Document not found'
-                        }
+                        };
                         $scope.showingDocument = false;
                     }
                     console.log($scope.tree);

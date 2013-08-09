@@ -5,17 +5,17 @@ var OSCR = angular.module('OSCR');
 OSCR.service("Document",
     function ($http) {
         this.fetchSchema = function (schemaName, receiver) {
-            $http.get('/document/schema/' + schemaName).success(function(data) {
+            $http.get('/document/schema/' + schemaName).success(function (data) {
                 receiver(xmlToTree(data));
             });
         };
-        this.fetchList = function (receiver) {
-            $http.get('/document/list').success(function(data) {
+        this.fetchList = function (schemaName, receiver) { // todo: find users
+            $http.get('/document/list/' + schemaName).success(function (data) {
                 receiver(xmlToArray(data));
             });
         };
-        this.fetchDocument = function (identifier, receiver) {
-            $http.get('/document/fetch/' + identifier).success(function(data) {
+        this.fetchDocument = function (schemaName, identifier, receiver) { // todo: find users
+            $http.get('/document/fetch/' + schemaName + '/' + identifier).success(function (data) {
                 receiver(xmlToObject(data));
             });
         };
@@ -35,13 +35,13 @@ OSCR.service("Document",
         }
 
         this.saveDescriptiveXml = function (header, body, receiver) {
-            $http.post('/document/save', envelope(header, body)).success(function(data) {
+            $http.post('/document/save', envelope(header, body)).success(function (data) {
                 receiver(xmlToObject(data));
             });
         };
 
         this.saveDigitalObjectXml = function (header, body, receiver) {
-            $http.post('/document/save', envelope(header, body)).success(function(data) {
+            $http.post('/document/save', envelope(header, body)).success(function (data) {
                 receiver(xmlToObject(data));
             });
         }
