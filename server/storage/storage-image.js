@@ -1,6 +1,8 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
+var uploadDir = require('../oscr-public').uploadDir;
 var _ = require('underscore');
 
 module.exports = Image;
@@ -11,34 +13,26 @@ function Image(storage) {
 
 var P = Image.prototype;
 
-P.saveImage = function (imageData, receiver) {
+P.saveImage = function (digitalObject, receiver) {
     var s = this.storage;
-    if (!fs.existsSync(imageData.filePath)) {
-        throw 'Cannot find image file ' + imageData.filePath;
+    var imagePath = path.join(uploadDir, digitalObject.fileName);
+    if (!fs.existsSync(imagePath)) {
+        throw 'Cannot find image file ' + imagePath;
     }
     if (!fs.existsSync(s.imageRoot)) {
         fs.mkdirSync(s.imageRoot);
     }
-    var fileName = createFileName(s, imageData);
+    var fileName = createFileName(s, digitalObject);
     var bucketName = s.imageBucketName(fileName);
-    var bucketPath = s.imageRoot + '/' + bucketName;
+    var bucketPath = path.join(s.imageRoot, bucketName);
     if (!fs.existsSync(bucketPath)) {
         fs.mkdirSync(bucketPath);
     }
-    copyFile(imageData.filePath, bucketPath + '/' + fileName, function (err) {
+    copyFile(imagePath, path.join(bucketPath, fileName), function (err) {
         if (err) {
             throw err;
         }
-        imageData.fileName = fileName;
-        var entryXml = s.objectToXml(imageData, "Image");
-        s.add(s.imageDocument(fileName), entryXml, function (error, reply) {
-            if (reply.ok) {
-                receiver(fileName);
-            }
-            else {
-                throw error + "\n" + query;
-            }
-        });
+        receiver(fileName);
     });
 };
 
@@ -66,7 +60,7 @@ P.listImageData = function (receiver) {
     var query = s.imageCollection();
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver("<Images>\n" + reply.result + "\n</Images>");
+            receiver("<Images>\n" + reply.result + "\n</Images>"); // todo: do it in xquery
         }
         else {
             throw error + "\n" + query;
@@ -135,9 +129,9 @@ function copyFile(source, target, cb) {
     }
 }
 
-function createFileName(s, imageData) {
+function createFileName(s, digitalObject) {
     var fileName = s.generateImageId();
-    switch (imageData.mimeType) {
+    switch (digitalObject.mimeType) {
         case 'image/jpeg':
             fileName += '.jpg';
             break;
@@ -148,7 +142,7 @@ function createFileName(s, imageData) {
             fileName += '.gif';
             break;
         default:
-            throw "Unknown mime type: " + imageData.mimeType;
+            throw "Unknown mime type: " + digitalObject.mimeType;
             break;
     }
     return fileName;

@@ -90,22 +90,10 @@ OSCR.controller('DocumentListController',
                 console.log('saveDocument');// todo
                 console.log($scope.tree);// todo
                 collectSummaryFields($scope.tree, $scope.header);
-                var object = treeToObject($scope.tree);
+                var body = treeToObject($scope.tree);
                 $scope.header.TimeStamp = "#TIMESTAMP#";
                 $scope.header.EMail = $rootScope.user.email;
-
-                var document = {
-                    Document: {
-                        Header: $scope.header,
-                        Body: object
-                    }
-                };
-                var documentXml = objectToXml(document);
-                var body = {
-                    header: $scope.header,
-                    xml: documentXml
-                };
-                Document.saveXml(body, function (header) {
+                Document.saveDescriptiveXml($scope.header, body, function (header) {
                     useHeader(header);
                     $scope.fetchList();
                     $scope.document = null;
@@ -117,48 +105,6 @@ OSCR.controller('DocumentListController',
                 if ($rootScope.translating()) return;
                 $scope.choosePath('/document');
                 $scope.document = 'Photograph';
-            };
-        }
-    ]
-);
-
-OSCR.controller('OSCRImageAnnotationController',
-    ['$scope',
-        function ($scope) {
-
-            $scope.annotationMode = true;
-            $scope.document = 'ImageMetadata';
-            $scope.tree = null;
-            $scope.chosenElement = null;
-
-            $scope.setTree = function(tree) {
-                $scope.tree = tree;
-                $scope.treeJSON = JSON.stringify(tree);
-                if ($scope.queue) {
-                    _.each($scope.queue, function(file) {
-                        file.tree = JSON.parse($scope.treeJSON);
-                        console.log(file);
-                    });
-                }
-            };
-
-            $scope.setChoice = function(element) {
-                console.log('setChoice ');
-                console.log(element);
-                $scope.chosenElement = element;
-            };
-
-            $scope.setValue = function() {
-                if (!$scope.chosenElement) return;
-                _.each($scope.queue, function(file) {
-                    if (file.selected && file.tree) {
-                        _.each(file.tree.elements, function(element) {
-                            if (element.name == $scope.chosenElement.name) {
-                                element.value = $scope.chosenElement.value;
-                            }
-                        });
-                    }
-                });
             };
         }
     ]

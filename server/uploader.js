@@ -15,31 +15,18 @@
 
 'use strict';
 
-var fs = require('fs');
-
-function make(dir) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
-    return dir;
-}
-
-var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
-var publicDir =  make(homeDir + '/OSCR-Public');
-var uploadDir =  make(publicDir + '/files');
-make(uploadDir + '/thumbnail');
-var tmpDir =  make(publicDir + '/tmp');
-
-var path = require('path'),
-// Since Node 0.8, .existsSync() moved from path to fs:
+var fs = require('fs'),
+    oscrPublic = require('./oscr-public'),
+    path = require('path'),
+    // Since Node 0.8, .existsSync() moved from path to fs:
     _existsSync = fs.existsSync || path.existsSync,
     formidable = require('formidable'),
     nodeStatic = require('node-static'),
     imageMagick = require('imagemagick'),
     options = {
-        tmpDir: tmpDir,
-        publicDir: publicDir,
-        uploadDir: uploadDir,
+        tmpDir: oscrPublic.tmpDir,
+        publicDir: oscrPublic.publicDir,
+        uploadDir: oscrPublic.uploadDir,
         uploadUrl: '/files/',
         maxPostSize: 11000000000, // 11 GB
         minFileSize: 1,

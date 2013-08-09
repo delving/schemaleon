@@ -51,35 +51,51 @@ P.getDocument = function (identifier, receiver) {
     });
 };
 
-P.saveDocument = function (body, receiver) {
-    var s = this.storage;
-    var IDENTIFIER = '#IDENTIFIER#';
-    var TIMESTAMP = '#TIMESTAMP#';
-    var time = new Date().getTime();
-    body.header.TimeStamp = time;
-    if (body.header.Identifier === IDENTIFIER) {
-        var identifier = s.generateDocumentId();
-        body.header.Identifier = identifier;
-        var withIdentifier = body.xml.replace(IDENTIFIER, identifier);
+P.saveDocument = function (envelope, receiver) {
+    function addDocument() {
+        var withIdentifier = envelope.xml.replace(IDENTIFIER, envelope.header.Identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
-        s.add(s.docDocument(identifier), withTimesStamp, function (error, reply) {
+        s.add(s.docDocument(envelope.header.Identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
-                receiver(body.header);
+                receiver(envelope.header);
             }
             else {
                 throw error + "\n" + query;
             }
         });
     }
+
+    var s = this.storage;
+    var IDENTIFIER = '#IDENTIFIER#';
+    var TIMESTAMP = '#TIMESTAMP#';
+    var time = new Date().getTime();
+    envelope.header.TimeStamp = time;
+
+    if (envelope.header.Identifier === IDENTIFIER) {
+        if (envelope.header.DigitalObject) {
+            console.log('header had a digital object');
+            // expects fileName, mimeType
+            s.Image.saveImage(envelope.header.DigitalObject, function (fileName) {
+                envelope.header.Identifier = fileName;
+                console.log('saved image ' + fileName);
+                addDocument();
+            });
+        }
+        else {
+            console.log('header had no digital object');
+            envelope.header.Identifier = s.generateDocumentId();
+            addDocument();
+        }
+    }
     else {
         // todo: move the current one to the backup collection
-        var stamped = body.xml.replace(TIMESTAMP, time);
-        s.replace(s.docDocument(body.header.Identifier), stamped, function (error, reply) {
+        var stamped = envelope.xml.replace(TIMESTAMP, time);
+        s.replace(s.docDocument(envelope.header.Identifier), stamped, function (error, reply) {
             if (reply.ok) {
-                receiver(body.header);
+                receiver(envelope.header);
             }
             else {
-                throw "Unable to replace " + self.docPath(body.header.Identifier);
+                throw "Unable to replace " + self.docPath(envelope.header.Identifier);
             }
         });
     }

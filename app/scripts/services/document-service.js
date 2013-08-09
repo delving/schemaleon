@@ -19,8 +19,29 @@ OSCR.service("Document",
                 receiver(xmlToObject(data));
             });
         };
-        this.saveXml = function (body, receiver) {
-            $http.post('/document/save', body).success(function(data) {
+
+        function envelope(header, body) {
+            var document = {
+                Document: {
+                    Header: header,
+                    Body: body
+                }
+            };
+            var documentXml = objectToXml(document);
+            return {
+                header: header,
+                xml: documentXml
+            };
+        }
+
+        this.saveDescriptiveXml = function (header, body, receiver) {
+            $http.post('/document/save', envelope(header, body)).success(function(data) {
+                receiver(xmlToObject(data));
+            });
+        };
+
+        this.saveDigitalObjectXml = function (header, body, receiver) {
+            $http.post('/document/save', envelope(header, body)).success(function(data) {
                 receiver(xmlToObject(data));
             });
         }

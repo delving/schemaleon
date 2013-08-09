@@ -161,15 +161,15 @@ function Storage() {
     };
 
     this.imageDocument = function (fileName) {
-        return "/images/" + fileName + ".xml";
+        return "/documents/" + fileName + ".xml";
     };
 
     this.imagePath = function (fileName) {
-        return "doc('" + this.database + this.imageDocument(fileName) + "')/Image";
+        return "doc('" + this.database + this.imageDocument(fileName) + "')/Document"; //todo: separate place for images?
     };
 
     this.imageCollection = function () {
-        return "collection('" + this.database + "/images')/Image";
+        return "collection('" + this.database + "/documents')/Document";  //todo: separate place for images?
     };
 
     this.xquery = function (query, callback) {
@@ -230,22 +230,7 @@ function open(databaseName, receiver) {
 
                 if (reply.ok) {
                     loadXML('VocabularySchemas.xml', function () {
-                        loadXML('DocumentSchemas.xml', function () {
-                            var imageData = {
-                                filePath: 'test/data/zoomcat.jpg',
-                                mimeType: 'image/jpeg',
-                                title: 'Zoom Cat',
-                                uploadedBy: 'tester@delving.eu'
-                            };
-                            storage.Image.saveImage(imageData, function(fileName) {
-//                                console.log('preloaded zoomcat');
-                                storage.Image.listImageFiles(function(err, listy) {
-//                                    console.log('after preload'); // todo
-//                                    console.log(listy); // todo
-                                });
-                                receiver(storage);
-                            });
-                        });
+                        loadXML('DocumentSchemas.xml');
                     });
                 }
                 else {

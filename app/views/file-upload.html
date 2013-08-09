@@ -106,20 +106,17 @@
                         </table>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary start" data-ng-click="file.$submit()"
-                                data-ng-hide="!file.$submit">
+                        <button type="button" class="btn btn-primary start" data-ng-click="file.$submit()" data-ng-hide="!file.$submit">
                             <i class="icon-upload icon-white"></i>
                             <span>Start</span>
                         </button>
-                        <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()"
-                                data-ng-hide="!file.$cancel">
+                        <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
                             <i class="icon-ban-circle icon-white"></i>
                             <span>Cancel</span>
                         </button>
-                        <button type="button" class="btn btn-primary describe" data-ng-click="file.$describe()"
-                                ng-hide="!file.$destroy">
+                        <button type="button" class="btn btn-primary commit" data-ng-click="commit(file)" ng-show="file.complete">
                             <i class="icon-edit icon-white"></i>
-                            <span>Annotate</span>
+                            <span>Commit</span>
                         </button>
                         <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
                                 data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
@@ -128,13 +125,17 @@
                         </button>
                     </td>
                 </tr>
+                <tr>
+                    <td><button type="button" data-ng-click="selectAllFiles(true)">Select All</button></td>
+                    <td><button type="button" data-ng-click="selectAllFiles(false)">Clear All</button></td>
+                </tr>
                 </tbody>
             </table>
         </form>
 
     </div>
 
-    <div ng-controller="OSCRImageAnnotationController">
+    <div>
         <div ng-include src="'views/includes/document.html'"></div>
     </div>
 

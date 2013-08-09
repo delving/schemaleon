@@ -12,19 +12,105 @@ OSCR.controller('DigitalObjectUploadController', [
             url: url
         };
 
-        $scope.loadingFiles = true;
-        $http.get(url).then(
-            function (response) {
-                $scope.loadingFiles = false;
-                $scope.queue = response.data.files || [];
-            },
-            function () {
-                $scope.loadingFiles = false;
-            }
-        );
+        function loadFiles() {
+            $scope.loadingFiles = true;
+            $http.get(url).then(
+                function (response) {
+                    $scope.loadingFiles = false;
+                    $scope.queue = response.data.files || [];
+                },
+                function () {
+                    $scope.loadingFiles = false;
+                }
+            );
+        }
 
+        loadFiles();
+
+        $scope.annotationMode = true;
+        $scope.document = 'ImageMetadata';
+        $scope.tree = null;
+        $scope.chosenElement = null;
+
+        $scope.setTree = function (tree) {
+            $scope.tree = tree;
+            $scope.treeJSON = JSON.stringify(tree);
+            if ($scope.queue) {
+                _.each($scope.queue, function (file) {
+                    file.tree = JSON.parse($scope.treeJSON);
+                });
+            }
+        };
+
+        $scope.setChoice = function (element) {
+            $scope.chosenElement = element;
+        };
+
+        $scope.setValue = function () {
+            if (!$scope.chosenElement) return;
+            _.each($scope.queue, function (file) {
+                if (file.selected && file.tree) {
+                    var complete = true;
+                    _.each(file.tree.elements, function (element) {
+                        if (element.name == $scope.chosenElement.name) {
+                            element.value = $scope.chosenElement.value;
+                        }
+                        if (!element.value) {
+                            complete = false;
+                        }
+                    });
+                    file.complete = complete;
+                }
+            });
+        };
+
+        $scope.selectAllFiles = function (value) {
+            _.each($scope.queue, function (file) {
+                file.selected = value;
+            });
+        };
+
+        function getMimeType(fileName) {
+            var matches = fileName.match(/\.(...)$/);
+            var extension = matches[1].toLowerCase();
+            switch (extension) {
+                case 'jpg':
+                    return 'image/jpeg';
+                case 'png':
+                    return 'image/png';
+                case 'gif':
+                    return 'image/gif';
+                default:
+                    console.log("UNRECOGNIZED extension: " + extension);
+                    return 'image/jpeg';
+            }
+        }
+
+        $scope.commit = function (file) {
+            if ($rootScope.translating()) return;
+            console.log('commit');
+            console.log(file);
+            var header = {
+                SchemaName: $scope.document,
+                TimeStamp: "#TIMESTAMP#",
+                EMail: $rootScope.user.email,
+                DigitalObject: {
+                    fileName: file.name,
+                    mimeType: getMimeType(file.name)
+                }
+            };
+            collectSummaryFields(file.tree, header);
+            var body = treeToObject(tree);
+            Document.saveDigitalObjectXml(header, body, function (header) {
+                console.log("saved image");
+                console.log(header);
+                file.$destroy();
+            });
+        };
     }
-]);
+
+])
+;
 
 OSCR.controller('FileDestroyController', [
     '$scope', '$http',
