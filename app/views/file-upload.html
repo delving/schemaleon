@@ -54,6 +54,13 @@
                         <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
                     </td>
                     <td>
+                        <table ng-show="file.tree">
+                            <tr ng-repeat="element in file.tree.elements" ng-show="element.value">
+                                <td><b>{{ element.name }}</b></td><td>{{ element.value }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
                         <p class="name" data-ng-switch data-on="!!file.url">
                         <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
                             <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}"

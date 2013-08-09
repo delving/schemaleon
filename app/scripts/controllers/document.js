@@ -128,10 +128,42 @@ OSCR.controller('OSCRImageAnnotationController',
 
             $scope.annotationMode = true;
             $scope.document = 'ImageMetadata';
+            $scope.tree = null;
+            $scope.chosenElement = null;
+
+            $scope.setTree = function(tree) {
+                $scope.tree = tree;
+                $scope.treeJSON = JSON.stringify(tree);
+                if ($scope.queue) {
+                    _.each($scope.queue, function(file) {
+                        file.tree = JSON.parse($scope.treeJSON);
+                        console.log(file);
+                    });
+                }
+            };
+
+            $scope.setChoice = function(element) {
+                console.log('setChoice ');
+                console.log(element);
+                $scope.chosenElement = element;
+            };
 
             $scope.setValue = function() {
+                console.log('setValue');
+                console.log($scope.chosenElement);
+                if (!$scope.chosenElement) return;
                 _.each($scope.queue, function(file) {
+                    console.log('file');
                     console.log(file);
+                    if (file.tree) {
+                        _.each(file.tree.elements, function(element) {
+                            console.log('element');
+                            console.log(element);
+                            if (element.name == $scope.chosenElement.name) {
+                                element.value = $scope.chosenElement.value;
+                            }
+                        });
+                    }
                 });
             };
         }
@@ -181,7 +213,7 @@ OSCR.controller('DocumentController',
                         el.classIndex++;
                     }
                 });
-                $scope.panels[parentIndex + 1] = {
+                var childPanel = $scope.panels[parentIndex + 1] = {
                     selected: 0,
                     element: chosen
                 };
@@ -199,6 +231,10 @@ OSCR.controller('DocumentController',
                     leftPos = scroller.scrollLeft();
 
                 scroller.animate({scrollLeft: leftPos + wTable}, 800);
+
+                if ($scope.setChoice) {
+                    $scope.setChoice(childPanel.element);
+                }
             };
 
             $scope.addSibling = function (list, index, parentIndex) {
