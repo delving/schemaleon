@@ -160,18 +160,6 @@ function Storage() {
         return "collection('" + this.database + "/documents')/Document";
     };
 
-    this.imageDocument = function (fileName) {
-        return "/documents/" + fileName + ".xml";
-    };
-
-    this.imagePath = function (fileName) {
-        return "doc('" + this.database + this.imageDocument(fileName) + "')/Document"; //todo: separate place for images?
-    };
-
-    this.imageCollection = function () {
-        return "collection('" + this.database + "/documents')/Document";  //todo: separate place for images?
-    };
-
     this.xquery = function (query, callback) {
         if (_.isArray(query)) {
             query = query.join('\n');
@@ -230,7 +218,9 @@ function open(databaseName, receiver) {
 
                 if (reply.ok) {
                     loadXML('VocabularySchemas.xml', function () {
-                        loadXML('DocumentSchemas.xml');
+                        loadXML('DocumentSchemas.xml', function() {
+                            receiver(storage);
+                        });
                     });
                 }
                 else {

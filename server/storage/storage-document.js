@@ -73,18 +73,17 @@ P.saveDocument = function (envelope, receiver) {
 
     if (envelope.header.Identifier === IDENTIFIER) {
         if (envelope.header.DigitalObject) {
-            console.log('header had a digital object');
             // expects fileName, mimeType
             s.Image.saveImage(envelope.header.DigitalObject, function (fileName) {
                 envelope.header.Identifier = fileName;
-                console.log('saved image ' + fileName);
-                addDocument();
+//                console.log('saved image ' + fileName);
+                addDocument(s, envelope);
             });
         }
         else {
             console.log('header had no digital object');
             envelope.header.Identifier = s.generateDocumentId();
-            addDocument();
+            addDocument(s, envelope);
         }
     }
     else {

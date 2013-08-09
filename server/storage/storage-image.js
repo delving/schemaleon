@@ -44,7 +44,7 @@ P.getImagePath = function (fileName) {
 
 P.getImageDocument = function (fileName, receiver) {
     var s = this.storage;
-    var query = s.imagePath(fileName);
+    var query = s.docPath(fileName);
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -57,10 +57,14 @@ P.getImageDocument = function (fileName, receiver) {
 
 P.listImageData = function (receiver) {
     var s = this.storage;
-    var query = s.imageCollection();
+    var query = [
+        '<Images>',
+        '    { ' + s.docCollection() + '}',
+        '</Images>'
+    ];
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
-            receiver("<Images>\n" + reply.result + "\n</Images>"); // todo: do it in xquery
+            receiver(reply.result);
         }
         else {
             throw error + "\n" + query;

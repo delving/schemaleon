@@ -45,7 +45,6 @@ exports.createDatabase = function (test) {
 
     var imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images';
     clearDir(imageRoot);
-//    console.log("cleaned " + imageRoot);
     test.expect(1);
     Storage('oscrtest', function (s) {
         test.ok(s, 'problem creating database');
@@ -56,20 +55,18 @@ exports.createDatabase = function (test) {
 
 function envelope(header, body) {
     var document = {
-        Document: {
-            Header: header,
-            Body: body
-        }
+        Header: header,
+        Body: body
     };
-    var documentXml = storage.objectToXml(document);
+    var documentXml = storage.objectToXml(document, 'Document');
     return {
         header: header,
         xml: documentXml
     };
 }
 
-exports.testImage = function (test) {
-    test.expect(3);
+exports.testImageIngestion = function (test) {
+    test.expect(4);
     var fileName = 'zoomcat.jpg';
     copyFile(path.join('test/data', fileName), path.join(uploadDir, fileName), function () {
         var body = {
@@ -87,21 +84,16 @@ exports.testImage = function (test) {
                 mimeType: 'image/jpeg'
             }
         };
-        storage.Document.saveDocument(envelope(header, body), function (header) {
+        var envel = envelope(header, body);
+        storage.Document.saveDocument(envel, function (header) {
             test.ok(header, "no header");
-            console.log('saved!');
-            console.log(header);
             storage.Image.listImageData(function (results) {
-                console.log('image data:'); // todo
-                console.log(results); // todo
-                test.ok(results.indexOf("Zoom Cat") > 0, 'Image title not found');
+                test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
                 storage.Image.listImageFiles(function (err, results) {
                     test.equals(results.length, 1, "should just be one file, but it's " + results.length);
-                    console.log("getImageDocument for "+results[0]);
                     var newFileName = path.basename(results[0]);
                     storage.Image.getImageDocument(newFileName, function (doc) {
-                        console.log(doc); // todo
-                        test.ok(doc.indexOf("Zoom Cat") > 0, 'Image title not found');
+                        test.ok(doc.indexOf("zoomy") > 0, 'zoomy not found');
                         test.done();
                     });
                 });
@@ -120,7 +112,6 @@ exports.dropIt = function (test) {
 };
 
 function copyFile(source, target, cb) {
-    console.log('copyFile ' + source + " " + target);//todo
     var cbCalled = false;
 
     var rd = fs.createReadStream(source);
