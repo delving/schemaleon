@@ -27,7 +27,6 @@ OSCR.controller('DigitalObjectUploadController', [
 
         loadFiles();
 
-        $scope.annotationMode = true;
         $scope.document = 'ImageMetadata';
         $scope.tree = null;
         $scope.chosenElement = null;
@@ -71,6 +70,13 @@ OSCR.controller('DigitalObjectUploadController', [
             _.each($scope.queue, function (file) {
                 file.selected = $scope.allFilesSelected;
             });
+        };
+
+        $scope.annotationMode = false;
+
+        $scope.toggleAnnotationMode = function () {
+            $scope.annotationMode = !$scope.annotationMode;
+            return false;
         };
 
         function getMimeType(fileName) {

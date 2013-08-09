@@ -41,6 +41,7 @@
 
 
             </div>
+        </form>
 
             <!-- The global progress information -->
             <div class="fade" data-ng-class="{in: active()}">
@@ -52,6 +53,8 @@
                 <!-- The extended global progress information -->
                 <div class="progress-extended">&nbsp;</div>
             </div>
+
+            <button class="btn" data-ng-click="toggleAnnotationMode()"><i class="icon-edit"></i></button>
 
             <!-- The table listing the files available for upload/download -->
             <table class="table table-striped files ng-cloak clearfix">
@@ -121,7 +124,7 @@
                             <span>Cancel</span>
                         </button>
                         <button type="button" class="btn btn-primary commit" data-ng-click="commit(file)" ng-show="file.complete">
-                            <i class="icon-edit icon-white"></i>
+                            <i class="icon-hdd icon-white"></i>
                             <span>Commit</span>
                         </button>
                         <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
@@ -134,11 +137,11 @@
 
                 </tbody>
             </table>
-        </form>
+
 
     </div>
 
-    <div>
+    <div data-ng-show="annotationMode" class="fade-in">
         <div ng-include src="'views/includes/document.html'"></div>
     </div>
 
