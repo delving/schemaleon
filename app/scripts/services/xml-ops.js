@@ -6,7 +6,10 @@ function xmlToTree(xml) {
         if (_.isString(string)) {
             var vx = JSON.parse(string);
             fresh.valueExpression = vx;
-            if (vx.vocabulary) {
+            if (vx.media) {
+                fresh.media = { schemaName: vx.media };
+            }
+            else if (vx.vocabulary) {
                 fresh.vocabulary = { name: vx.vocabulary };
             }
             else if (vx.paragraph) {

@@ -9,12 +9,17 @@ OSCR.service("Document",
                 receiver(xmlToTree(data));
             });
         };
-        this.fetchList = function (schemaName, receiver) { // todo: find users
-            $http.get('/document/list/' + schemaName).success(function (data) {
+        this.fetchHeaders = function (schemaName, receiver) {
+            $http.get('/document/list/headers/' + schemaName).success(function (data) {
                 receiver(xmlToArray(data));
             });
         };
-        this.fetchDocument = function (schemaName, identifier, receiver) { // todo: find users
+        this.fetchDocuments = function (schemaName, receiver) {
+            $http.get('/document/list/documents/' + schemaName).success(function (data) {
+                receiver(xmlToArray(data));
+            });
+        };
+        this.fetchDocument = function (schemaName, identifier, receiver) {
             $http.get('/document/fetch/' + schemaName + '/' + identifier).success(function (data) {
                 receiver(xmlToObject(data));
             });

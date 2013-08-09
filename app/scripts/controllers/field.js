@@ -15,6 +15,33 @@ OSCR.filter('elementDisplay',
     }
 );
 
+OSCR.controller('MediaController',
+    ['$scope', '$q', 'Document', 'Image',
+        function ($scope, $q, Document, Image) {
+
+            $scope.getMediaList = function (schemaName, query) {
+                console.log("ignoring query still: "+query); // todo
+                var deferred = $q.defer();
+                Document.fetchDocuments(schemaName, function (list) {
+//                    console.log('list fetched'); // todo
+//                    console.log(list);
+                    deferred.resolve(list);
+                });
+                return deferred.promise;
+            };
+
+            $scope.mediaToString = function (media) {
+                if (!media) {
+                    return [];
+                }
+//                console.log('media to string');
+//                console.log(media);
+                return media.Body.ImageMetadata.Description;
+            };
+        }
+    ]
+);
+
 OSCR.controller('VocabularyController',
     ['$scope', '$q', 'Vocabulary',
         function ($scope, $q, Vocabulary) {
@@ -25,7 +52,7 @@ OSCR.controller('VocabularyController',
             $scope.setActive('vocabulary');
 
             if (!$scope.v.tree) {
-                Vocabulary.getSchema($scope.v.name, function(schema) {
+                Vocabulary.getSchema($scope.v.name, function (schema) {
                     $scope.v.tree = {
                         name: 'Entry',
                         elements: schema.elements[0].elements
@@ -35,7 +62,7 @@ OSCR.controller('VocabularyController',
 
             $scope.getStates = function (query) {
                 var deferred = $q.defer();
-                Vocabulary.select($scope.v.name, query, function(list) {
+                Vocabulary.select($scope.v.name, query, function (list) {
                     deferred.resolve(list);
                 });
                 return deferred.promise;

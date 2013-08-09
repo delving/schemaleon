@@ -159,7 +159,7 @@ function Storage() {
     };
 
     this.docCollection = function (schemaName) {
-        return "collection('" + this.database + "/documents/'+schemaName)/Document";
+        return "collection('" + this.database + "/documents/" + schemaName + "')/Document";
     };
 
     this.xquery = function (query, callback) {

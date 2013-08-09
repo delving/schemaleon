@@ -202,8 +202,15 @@ app.get('/document/fetch/:schema/:identifier', function (req, res) {
     });
 });
 
-app.get('/document/list/:schema', function (req, res) {
-    storage.Document.getDocumentList(req.params.schema, function (xml) {
+app.get('/document/list/headers/:schema', function (req, res) {
+    storage.Document.getDocumentHeaders(req.params.schema, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.get('/document/list/documents/:schema', function (req, res) {
+    storage.Document.getDocuments(req.params.schema, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
@@ -214,13 +221,6 @@ app.post('/document/save', function (req, res) {
 //    console.log(req.body);
     storage.Document.saveDocument(req.body, function (header) {
         res.json(header);
-    });
-});
-
-app.get('/image/list', function (req, res) {
-    storage.Image.listImages(function(xml) {
-        res.setHeader('Content-Type', 'text/xml');
-        res.send(xml);
     });
 });
 

@@ -21,12 +21,29 @@ P.getDocumentSchema = function (schemaName, receiver) {
     });
 };
 
-P.getDocumentList = function (schemaName, receiver) {
+P.getDocumentHeaders = function (schemaName, receiver) {
     var s = this.storage;
     var query = [
         '<Headers>',
         '    { ' + s.docCollection(schemaName) + '/Header }',
         '</Headers>'
+    ];
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
+P.getDocuments = function (schemaName, receiver) {
+    var s = this.storage;
+    var query = [
+        '<Documents>',
+        '    { ' + s.docCollection(schemaName) + ' }',
+        '</Documents>'
     ];
     s.xquery(query, function (error, reply) {
         if (reply.ok) {

@@ -51,6 +51,15 @@
 
                 <!-- panel for user input -->
                 <div class="panel-input">
+                    <!-- file input -->
+                    <div ng-show="el.media" ng-controller="MediaController" class="digital-object-input">
+                        <div ng-hide="el.elements">
+                            <div ng-show="el.edit">
+                                <input focus id="media" type="text" ng-model="chosenMedia" class="input-block-level"
+                                       typeahead="media as mediaToString(media) for media in getMediaList(el.media.schemaName, $viewValue)"/>
+                            </div>
+                        </div>
+                    </div>
                     <!-- vocabulary input -->
                     <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                         <div ng-hide="el.elements">

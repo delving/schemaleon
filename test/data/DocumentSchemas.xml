@@ -9,7 +9,7 @@
         <Purpose/>
         <Collection/>
         <DigitalFile>
-            <File/>
+            <File>{ "media": "ImageMetadata" }</File>
             <Comment/>
         </DigitalFile>
         <DigitalRights>{ "vocabulary": "DigitalRights" }</DigitalRights>

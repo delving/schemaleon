@@ -60,7 +60,7 @@ OSCR.controller('DocumentListController',
             }
 
             $scope.fetchList = function () {
-                Document.fetchList('Photograph', function (list) { // todo: all schemas?
+                Document.fetchHeaders('Photograph', function (list) { // todo: all schemas?
                     $scope.headerList = _.sortBy(list, function (val) {
                         return -val.TimeStamp;
                     });
