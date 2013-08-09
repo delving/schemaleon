@@ -133,7 +133,8 @@ function createFileName(s, digitalObject) {
             fileName += '.gif';
             break;
         default:
-            throw "Unknown mime type: " + digitalObject.mimeType;
+            console.log("UNKOWN MIME" + digitalObject.mimeType);
+            fileName += '.jpg';
             break;
     }
     return fileName;

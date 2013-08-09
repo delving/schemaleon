@@ -6,8 +6,8 @@ var OSCR = angular.module('OSCR');
 var url = 'http://localhost:8888';
 
 OSCR.controller('DigitalObjectUploadController', [
-    '$scope', '$http', '$filter', '$window',
-    function ($scope, $http) {
+    '$rootScope', '$scope', '$http', 'Document',
+    function ($rootScope, $scope, $http, Document) {
         $scope.options = {
             url: url
         };
@@ -95,6 +95,7 @@ OSCR.controller('DigitalObjectUploadController', [
             console.log(file);
             var header = {
                 SchemaName: $scope.document,
+                Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#",
                 EMail: $rootScope.user.email,
                 DigitalObject: {
@@ -103,8 +104,8 @@ OSCR.controller('DigitalObjectUploadController', [
                 }
             };
             collectSummaryFields(file.tree, header);
-            var body = treeToObject(tree);
-            Document.saveDigitalObjectXml(header, body, function (header) {
+            var body = treeToObject(file.tree);
+            Document.saveDocument(header, body, function (header) {
                 console.log("saved image");
                 console.log(header);
                 file.$destroy();

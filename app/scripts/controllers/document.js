@@ -94,7 +94,7 @@ OSCR.controller('DocumentListController',
                 $scope.header.SchemaName = 'Photograph';
                 $scope.header.TimeStamp = "#TIMESTAMP#";
                 $scope.header.EMail = $rootScope.user.email;
-                Document.saveDescriptiveXml($scope.header, body, function (header) {
+                Document.saveDocument($scope.header, body, function (header) {
                     useHeader(header);
                     $scope.fetchList();
                     $scope.document = null;

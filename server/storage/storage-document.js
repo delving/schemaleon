@@ -56,6 +56,7 @@ P.saveDocument = function (envelope, receiver) {
         var header = envelope.header;
         var withIdentifier = envelope.xml.replace(IDENTIFIER, header.Identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
+        console.log("addDocument "+ header.SchemaName +' ' + header.Identifier)
         s.add(s.docDocument(header.SchemaName, header.Identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
                 receiver(header);
@@ -75,14 +76,16 @@ P.saveDocument = function (envelope, receiver) {
     if (envelope.header.Identifier === IDENTIFIER) {
         if (envelope.header.DigitalObject) {
             // expects fileName, mimeType
+            console.log('save image');
+            console.log(envelope.header.DigitalObject);
             s.Image.saveImage(envelope.header.DigitalObject, function (fileName) {
                 envelope.header.Identifier = fileName;
-                addDocument(s, envelope);
+                addDocument();
             });
         }
         else {
             envelope.header.Identifier = s.generateDocumentId();
-            addDocument(s, envelope);
+            addDocument();
         }
     }
     else {

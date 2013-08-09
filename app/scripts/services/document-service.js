@@ -34,16 +34,10 @@ OSCR.service("Document",
             };
         }
 
-        this.saveDescriptiveXml = function (header, body, receiver) {
+        this.saveDocument = function (header, body, receiver) {
             $http.post('/document/save', envelope(header, body)).success(function (data) {
                 receiver(xmlToObject(data));
             });
         };
-
-        this.saveDigitalObjectXml = function (header, body, receiver) {
-            $http.post('/document/save', envelope(header, body)).success(function (data) {
-                receiver(xmlToObject(data));
-            });
-        }
     }
 );
