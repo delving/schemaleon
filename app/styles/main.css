@@ -278,9 +278,6 @@
   background-position: 0 -164px;
 }
 /* grid */
-.row-fluid {
-  margin-bottom: 40px;
-}
 /* color definitions */
 body {
   background: #dddddd;
@@ -517,6 +514,13 @@ ul.kv-list li span.value {
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #ffffff;
+}
+.table-striped tbody tr:nth-child(even) td,
+.table-striped tbody tr:nth-child(even) th {
+  background-color: #eeeeee;
+}
+table.files th input[type=checkbox] {
+  margin-top: -3px;
 }
 /* HELP PANEL */
 .legend {

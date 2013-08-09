@@ -4,65 +4,68 @@
         <h1 i18n="FileUpload"><span class="i18n">File Upload</span></h1>
     </div>
 
-     <div class="row-fluid">
-         <form id="fileupload" action="#" method="POST" enctype="multipart/form-data" data-file-upload="options"
-               data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+    <div class="row-fluid">
+        <form id="fileupload" action="#" method="POST" enctype="multipart/form-data" data-file-upload="options"
+              data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
 
-         <div class="span12 navbar">
-             <div class="navbar-inner">
+            <div class="navbar">
+                <div class="navbar-inner">
 
-                 <!-- The file upload form used as target for the file upload widget -->
+                        <!-- The file upload form used as target for the file upload widget -->
 
-                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
-                 <noscript><input type="hidden" name="redirect" value="/"></noscript>
-                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                 <div class="fileupload-buttonbar">
-                     <div class="span7">
-                         <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
-                    <i class="icon-plus icon-white"></i>
-                    <span>Add files...</span>
-                    <input type="file" name="files[]" multiple ng-disabled="disabled">
-                </span>
-                         <button type="button" class="btn btn-primary start" data-ng-click="submit()">
-                             <i class="icon-upload icon-white"></i>
-                             <span>Start upload</span>
-                         </button>
-                         <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
-                             <i class="icon-ban-circle icon-white"></i>
-                             <span>Cancel upload</span>
-                         </button>
-                         <!-- The loading indicator is shown during file processing -->
-                         <div class="fileupload-loading"></div>
-                     </div>
-                     <!-- The global progress information -->
-                     <div class="span5 fade" data-ng-class="{in: active()}">
-                         <!-- The global progress bar -->
-                         <div class="progress progress-success progress-striped active" data-file-upload-progress="progress()">
-                             <div class="bar" data-ng-style="{width: num + '%'}"></div>
-                         </div>
-                         <!-- The extended global progress information -->
-                         <div class="progress-extended">&nbsp;</div>
-                     </div>
-                 </div>
+                        <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                        <noscript><input type="hidden" name="redirect" value="/"></noscript>
+                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                        <div class="fileupload-buttonbar">
+                                <div class="btn-group">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+                                    <i class="icon-plus icon-white"></i>
+                                    <span i18n="AddFiles"><span class="i18n">Add files</span></span>
+                                    <input type="file" name="files[]" multiple ng-disabled="disabled">
+                                </span>
+                                <button type="button" class="btn btn-primary start" data-ng-click="submit()">
+                                    <i class="icon-upload icon-white"></i>
+                                    <span i18n="StartUpload"><span class="i18n">Start upload</span></span>
+                                </button>
+                                <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
+                                    <i class="icon-ban-circle icon-white"></i>
+                                    <span i18n="CancelUpload"><span class="i18n">Cancel upload</span></span>
+                                </button>
+                                </div>
+                                <!-- The loading indicator is shown during file processing -->
+                                <div class="fileupload-loading"></div>
+                            </div>
 
-             </div>
+                </div>
 
 
+            </div>
 
-         </div>
+            <!-- The global progress information -->
+            <div class="fade" data-ng-class="{in: active()}">
+                <!-- The global progress bar -->
+                <div class="progress progress-success progress-striped active"
+                     data-file-upload-progress="progress()">
+                    <div class="bar" data-ng-style="{width: num + '%'}"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
 
             <!-- The table listing the files available for upload/download -->
             <table class="table table-striped files ng-cloak clearfix">
                 <thead>
-                   <tr>
-                       <th i18n="Select"><span class="i18n">Select</span></th>
-                       <th i18n="Thumb"><span class="i18n">Thumb</span></th>
-                       <th i18n="Size"><span class="i18n">Size</span></th>
-                       <th i18n="Name"><span class="i18n">Name</span></th>
-                       <th i18n="Annotations"><span class="i18n">Annotations</span></th>
-                       <th i18n="Actions"><span class="i18n">Actions</span></th>
-                   </tr>
+                <tr>
+                    <th i18n="Select">
+                        <input type="checkbox" data-ng-model="allFilesSelected" data-ng-click="selectAllFiles()"/> <span class="i18n">Select</span>
+                    </th>
+                    <th i18n="Thumb"><span class="i18n">Thumb</span></th>
+                    <th i18n="Size"><span class="i18n">Size</span></th>
+                    <th i18n="Name"><span class="i18n">Name</span></th>
+                    <th i18n="Annotations"><span class="i18n">Annotations</span></th>
+                    <th i18n="Actions"><span class="i18n">Actions</span></th>
+                </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="file in queue">
@@ -81,7 +84,8 @@
                         <p class="size">{{file.size | formatFileSize}}</p>
 
                         <div class="progress progress-success progress-striped active fade"
-                             data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()">
+                             data-ng-class="{pending: 'in'}[file.$state()]"
+                             data-file-upload-progress="file.$progress()">
                             <div class="bar" data-ng-style="{width: num + '%'}"></div>
                         </div>
                     </td>
@@ -96,12 +100,14 @@
                             <span data-ng-switch-default>{{file.name}}</span>
                         </p>
 
-                        <div data-ng-show="file.error"><span class="label label-important">Error</span> {{file.error}}</div>
+                        <div data-ng-show="file.error"><span class="label label-important">Error</span> {{file.error}}
+                        </div>
                     </td>
                     <td>
                         <table ng-show="file.tree">
                             <tr ng-repeat="element in file.tree.elements" ng-show="element.value">
-                                <td><b>{{ element.name }}</b></td><td>{{ element.value }}</td>
+                                <td><b>{{ element.name }}</b></td>
+                                <td>{{ element.value }}</td>
                             </tr>
                         </table>
                     </td>
@@ -125,10 +131,7 @@
                         </button>
                     </td>
                 </tr>
-                <tr>
-                    <td><button type="button" data-ng-click="selectAllFiles(true)">Select All</button></td>
-                    <td><button type="button" data-ng-click="selectAllFiles(false)">Clear All</button></td>
-                </tr>
+
                 </tbody>
             </table>
         </form>

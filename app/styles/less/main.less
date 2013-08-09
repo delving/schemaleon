@@ -133,9 +133,9 @@
 
 /* grid */
 
-.row-fluid {
-  margin-bottom: @baseLineHeight*2;
-}
+//.row-fluid {
+//  margin-bottom: @baseLineHeight*2;
+//}
 
 /* color definitions */
 body {
@@ -486,6 +486,13 @@ ul.kv-list {
 
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
   background-color: @white;
+}
+.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
+  background-color: @grayLighter;
+}
+
+table.files th input[type=checkbox]{
+  margin-top: -3px;
 }
 
 /* HELP PANEL */

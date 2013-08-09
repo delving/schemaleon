@@ -64,9 +64,12 @@ OSCR.controller('DigitalObjectUploadController', [
             });
         };
 
+        $scope.allFilesSelected = false;
+
         $scope.selectAllFiles = function (value) {
+            $scope.allFilesSelected = !$scope.allFilesSelected;
             _.each($scope.queue, function (file) {
-                file.selected = value;
+                file.selected = $scope.allFilesSelected;
             });
         };
 
