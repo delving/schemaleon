@@ -5,8 +5,14 @@ var OSCR = angular.module('OSCR');
 OSCR.filter('elementDisplay',
     function () {
         return function (element) {
-            if (_.isObject(element.value)) {
-                return element.value.Label;
+            if (!element.value) {
+                return 'empty';
+            }
+            else if (element.vocabulary) {
+                return element.value.Label; // todo
+            }
+            else if (element.media) {
+                return element.value.Body.ImageMetadata.Description; // todo
             }
             else {
                 return element.value;
@@ -18,6 +24,21 @@ OSCR.filter('elementDisplay',
 OSCR.controller('MediaController',
     ['$scope', '$q', 'Document', 'Image',
         function ($scope, $q, Document, Image) {
+
+            if (!$scope.el.media) {
+                return;
+            }
+            $scope.m = $scope.elx.media;
+            $scope.setActive('media');
+
+            if (!$scope.m.tree) {
+                Document.fetchSchema($scope.m.schemaName, function (schema) {
+                    $scope.m.tree = {
+                        name: 'Entry',
+                        elements: schema.elements[0].elements
+                    };
+                });
+            }
 
             $scope.getMediaList = function (schemaName, query) {
                 console.log("ignoring query still: "+query); // todo
@@ -36,7 +57,26 @@ OSCR.controller('MediaController',
                 }
 //                console.log('media to string');
 //                console.log(media);
-                return media.Body.ImageMetadata.Description;
+                return media.Body.ImageMetadata.Description; // todo
+            };
+
+            $scope.$watch('chosenMedia', function (after, before) {
+                if (_.isObject(after)) {
+                    $scope.setValue(after);
+                }
+            });
+
+            $scope.setValue = function (value) {
+                $scope.el.value = value.Body.ImageMetadata;
+                console.log('setValue');
+                console.log($scope.m);
+                if ($scope.m.tree) {
+                    $scope.el.valueFields = _.map($scope.m.tree.elements, function (element) {
+                        return  { prompt: element.name, value: $scope.el.value[element.name] };
+                    });
+                    console.log('valueFields');
+                    console.log($scope.el.valueFields);
+                }
             };
         }
     ]
@@ -110,14 +150,16 @@ OSCR.controller('VocabularyController',
                 if (!state) {
                     return [];
                 }
-                return state.Label;
+                return state.Label; // todo
             };
 
             $scope.setValue = function (value) {
                 $scope.el.value = value;
-                $scope.el.valueFields = _.map($scope.v.tree.elements, function (element) {
-                    return  { prompt: element.name, value: value[element.name] };
-                });
+                if ($scope.v.tree) {
+                    $scope.el.valueFields = _.map($scope.v.tree.elements, function (element) {
+                        return  { prompt: element.name, value: value[element.name] };
+                    });
+                }
             };
         }]
 );

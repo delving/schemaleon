@@ -49,7 +49,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
                 receiver(entryXml);
             }
             else {
-                s.createVocabulary(vocabName, entryXml, function (xml) {
+                s.Vocab.createVocabulary(vocabName, entryXml, function (xml) {
                     receiver(xml);
                 });
             }
@@ -64,7 +64,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
                 receiver(entryXml);
             }
             else {
-                vocab.createVocabulary(vocabName, entryXml, function (xml) {
+                s.Vocab.createVocabulary(vocabName, entryXml, function (xml) {
                     receiver(xml);
                 });
             }
@@ -81,7 +81,7 @@ P.getVocabularyEntries = function (vocabName, search, receiver) {
         }
         else {
             // todo: make sure there's not one already and the problem was something else
-            s.createVocabulary(vocabName, '', function (xml) {
+            s.Vocab.createVocabulary(vocabName, '', function (xml) {
                 receiver('');
             });
         }
