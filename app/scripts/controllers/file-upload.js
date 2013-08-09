@@ -74,9 +74,12 @@ OSCR.controller('DigitalObjectUploadController', [
 
         $scope.annotationMode = false;
 
-        $scope.toggleAnnotationMode = function () {
+        $scope.toggleAnnotationMode = function (file) {
             $scope.annotationMode = !$scope.annotationMode;
-            return false;
+            if(file){
+                file.selected = !file.selected;
+                $scope.annotationMode = true;
+            }
         };
 
         function getMimeType(fileName) {
