@@ -45,6 +45,9 @@
             <!-- The table listing the files available for upload/download -->
             <table class="table table-striped files ng-cloak clearfix">
                 <tr ng-repeat="file in queue">
+                    <td>
+                        <input type="checkbox" ng-model="file.selected"/>
+                    </td>
                     <td data-ng-switch data-on="!!file.thumbnailUrl">
                         <div class="preview" data-ng-switch-when="true">
                             <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>

@@ -149,16 +149,10 @@ OSCR.controller('OSCRImageAnnotationController',
             };
 
             $scope.setValue = function() {
-                console.log('setValue');
-                console.log($scope.chosenElement);
                 if (!$scope.chosenElement) return;
                 _.each($scope.queue, function(file) {
-                    console.log('file');
-                    console.log(file);
-                    if (file.tree) {
+                    if (file.selected && file.tree) {
                         _.each(file.tree.elements, function(element) {
-                            console.log('element');
-                            console.log(element);
                             if (element.name == $scope.chosenElement.name) {
                                 element.value = $scope.chosenElement.value;
                             }
