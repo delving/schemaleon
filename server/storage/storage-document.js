@@ -21,11 +21,11 @@ P.getDocumentSchema = function (schemaName, receiver) {
     });
 };
 
-P.getDocumentList = function (receiver) {
+P.getDocumentList = function (schemaName, receiver) {
     var s = this.storage;
     var query = [
         '<Headers>',
-        '    { ' + s.docCollection() + '/Header }',
+        '    { ' + s.docCollection(schemaName) + '/Header }',
         '</Headers>'
     ];
     s.xquery(query, function (error, reply) {
@@ -38,9 +38,9 @@ P.getDocumentList = function (receiver) {
     });
 };
 
-P.getDocument = function (identifier, receiver) {
+P.getDocument = function (schemaName, identifier, receiver) { // todo: find usages
     var s = this.storage;
-    var query = s.docPath(identifier);
+    var query = s.docPath(schemaName, identifier);
     s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
@@ -53,11 +53,12 @@ P.getDocument = function (identifier, receiver) {
 
 P.saveDocument = function (envelope, receiver) {
     function addDocument() {
-        var withIdentifier = envelope.xml.replace(IDENTIFIER, envelope.header.Identifier);
+        var header = envelope.header;
+        var withIdentifier = envelope.xml.replace(IDENTIFIER, header.Identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
-        s.add(s.docDocument(envelope.header.Identifier), withTimesStamp, function (error, reply) {
+        s.add(s.docDocument(header.SchemaName, header.Identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
-                receiver(envelope.header);
+                receiver(header);
             }
             else {
                 throw error + "\n" + query;
@@ -76,12 +77,10 @@ P.saveDocument = function (envelope, receiver) {
             // expects fileName, mimeType
             s.Image.saveImage(envelope.header.DigitalObject, function (fileName) {
                 envelope.header.Identifier = fileName;
-//                console.log('saved image ' + fileName);
                 addDocument(s, envelope);
             });
         }
         else {
-            console.log('header had no digital object');
             envelope.header.Identifier = s.generateDocumentId();
             addDocument(s, envelope);
         }
@@ -89,12 +88,13 @@ P.saveDocument = function (envelope, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace(s.docDocument(envelope.header.Identifier), stamped, function (error, reply) {
+        var header = envelope.header;
+        s.replace(s.docDocument(header.SchemaName, header.Identifier), stamped, function (error, reply) {
             if (reply.ok) {
-                receiver(envelope.header);
+                receiver(header);
             }
             else {
-                throw "Unable to replace " + self.docPath(envelope.header.Identifier);
+                throw "Unable to replace " + s.docDocument(header.SchemaName, header.Identifier);
             }
         });
     }

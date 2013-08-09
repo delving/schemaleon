@@ -118,7 +118,7 @@ exports.testSaveDocumentAgain = function (test) {
 
 exports.testGetDocument = function (test) {
     test.expect(2);
-    storage.Document.getDocument(hdr.Identifier, function (xml) {
+    storage.Document.getDocument(hdr.SchemaName, hdr.Identifier, function (xml) {
 //        log(xml);
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
@@ -128,7 +128,7 @@ exports.testGetDocument = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    storage.Document.getDocumentList(function (xml) {
+    storage.Document.getDocumentList('Photograph', function (xml) {
         log(xml);
         test.ok(xml, "No xml");
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found");

@@ -87,12 +87,12 @@ exports.testImageIngestion = function (test) {
         var envel = envelope(header, body);
         storage.Document.saveDocument(envel, function (header) {
             test.ok(header, "no header");
-            storage.Image.listImageData(function (results) {
+            storage.Image.listImageData(header.schemaName, function (results) {
                 test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
                 storage.Image.listImageFiles(function (err, results) {
                     test.equals(results.length, 1, "should just be one file, but it's " + results.length);
                     var newFileName = path.basename(results[0]);
-                    storage.Image.getImageDocument(newFileName, function (doc) {
+                    storage.Document.getDocument(header.SchemaName, newFileName, function (doc) {
                         test.ok(doc.indexOf("zoomy") > 0, 'zoomy not found');
                         test.done();
                     });

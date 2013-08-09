@@ -20,27 +20,27 @@ function Storage() {
         return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random() * 36 * 36 * 36).toString(36);
     }
 
-    this.generateUserId = function() {
+    this.generateUserId = function () {
         return generateId('US');
     };
 
-    this.generateGroupId = function() {
+    this.generateGroupId = function () {
         return generateId('GR');
     };
 
-    this.generateDocumentId = function() {
+    this.generateDocumentId = function () {
         return generateId('DO');
     };
 
-    this.generateImageId = function() {
+    this.generateImageId = function () {
         return generateId('IM');
     };
 
-    this.generateVocabId = function() {
+    this.generateVocabId = function () {
         return generateId('VO');
     };
 
-    this.generateCollectionId = function() {
+    this.generateCollectionId = function () {
         return generateId('CO');
     };
 
@@ -64,7 +64,7 @@ function Storage() {
         return value.replace(/[^\w]/g, '_');
     };
 
-    this.objectToXml = function(object, tag) {
+    this.objectToXml = function (object, tag) {
         var self = this;
         var out = [];
 
@@ -144,20 +144,22 @@ function Storage() {
         return "doc('" + this.database + this.vocabDocument(vocabName) + "')/Entries";
     };
 
-    this.docSchemasPath = function() {
+    this.docSchemasPath = function () {
         return "doc('" + this.database + "/DocumentSchemas.xml')/DocumentSchemas/"
     };
 
-    this.docDocument = function (identifier) {
-        return "/documents/" + identifier + ".xml";
+    this.docDocument = function (schemaName, identifier) {
+        if (!schemaName) throw new Error("No schema name!");
+        if (!identifier) throw new Error("No identifier!");
+        return "/documents/" + schemaName + "/" + identifier + ".xml";
     };
 
-    this.docPath = function (identifier) {
-        return "doc('" + this.database + this.docDocument(identifier) + "')/Document";
+    this.docPath = function (schemaName, identifier) {
+        return "doc('" + this.database + this.docDocument(schemaName, identifier) + "')/Document";
     };
 
-    this.docCollection = function () {
-        return "collection('" + this.database + "/documents')/Document";
+    this.docCollection = function (schemaName) {
+        return "collection('" + this.database + "/documents/'+schemaName)/Document";
     };
 
     this.xquery = function (query, callback) {
@@ -218,7 +220,7 @@ function open(databaseName, receiver) {
 
                 if (reply.ok) {
                     loadXML('VocabularySchemas.xml', function () {
-                        loadXML('DocumentSchemas.xml', function() {
+                        loadXML('DocumentSchemas.xml', function () {
                             receiver(storage);
                         });
                     });

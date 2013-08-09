@@ -42,24 +42,11 @@ P.getImagePath = function (fileName) {
     return s.imageRoot + '/' + bucketName + '/' + fileName;
 };
 
-P.getImageDocument = function (fileName, receiver) {
-    var s = this.storage;
-    var query = s.docPath(fileName);
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
-};
-
-P.listImageData = function (receiver) {
+P.listImageData = function (schemaName, receiver) {
     var s = this.storage;
     var query = [
         '<Images>',
-        '    { ' + s.docCollection() + '}',
+        '    { ' + s.docCollection(schemaName) + '}',
         '</Images>'
     ];
     s.xquery(query, function (error, reply) {

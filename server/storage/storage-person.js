@@ -109,7 +109,7 @@ P.saveGroup = function (group, receiver) {
                 receiver(groupXml);
             }
             else {
-                throw "Unable to replace " + self.docPath(body.header.Identifier);
+                throw "Unable to replace " + s.groupDocument(group.Identifier);
             }
         });
     }

@@ -68,10 +68,10 @@ P.setElementDoc = function (language, key, value, receiver) {
     var s = this.storage;
     var elementPath = s.langPath(language) + "/element";
     var keyPath = elementPath + '/' + key;
-    var docPath = keyPath + '/doc';
+    var entryPath = keyPath + '/doc';
     var query = [
         "if (exists(" + keyPath + "))",
-        "then replace value of node " + docPath + " with " + s.quote(value),
+        "then replace value of node " + entryPath + " with " + s.quote(value),
         "else insert node <" + key + "><title>?</title><doc>" + s.inXml(value) + "</doc></" + key + "> into " + elementPath
     ];
     s.xquery(query, function (error, reply) {
