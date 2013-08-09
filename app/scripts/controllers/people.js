@@ -22,8 +22,10 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller('PeopleController',
     [
-        '$rootScope', '$scope', '$q', '$location', 'Person', '$timeout',
-        function ($rootScope, $scope, $q, $location, Person, $timeout) {
+        '$rootScope', '$scope', '$q', '$location', 'Person', '$timeout', '$cookieStore',
+        function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
+
+            console.log($cookieStore.get('oscr'));
 
             $scope.groupCreated = false;
             $scope.userAssigned = false;

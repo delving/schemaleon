@@ -3,7 +3,6 @@
     <div class="page-header">
         <h1 i18n="People"><span class="i18n">People</span></h1>
     </div>
-
     <div class="row-fluid">
              <div class="span3">
                  <div class="widget-box">
@@ -42,17 +41,16 @@
                             User successfully assigned to group!
                         </div>
                         <label>User-email:</label>
-                        <input focus type="text" ng-model="chosenUser" class="input-block-level"
+                        <input type="text" ng-model="chosenUser" class="input-block-level"
                                typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
 
                         <label>Group:</label>
-                        <input focus type="text" ng-model="chosenGroup" class="input-block-level"
+                        <input type="text" ng-model="chosenGroup" class="input-block-level"
                                typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"/>
                         <label>Role:</label>
                         <select id="role-select"
                                 ng-model="chosenRole"
-                                ng-options="role.name for role in roles">
-                                <!--ng-options="l.code as l.name for l in config.interfaceLanguages">-->
+                                ng-options="role.value as role.name for role in roles">
                         </select>
                 </div>
                 <div class="widget-footer">
