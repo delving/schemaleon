@@ -63,7 +63,7 @@ OSCR.controller(
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
                 {name: "People", path: "/people", icon: 'icon-user', active: false},
                 {name: "Documents", path: "/document", icon: 'icon-th-list', active: false},
-                {name: "File upload", path: "/fileupload", icon: 'icon-file', active: false}
+                {name: "Media", path: "/media", icon: 'icon-file', active: false}
             ]
         };
         $scope.recent = [];

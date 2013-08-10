@@ -6,7 +6,7 @@ var OSCR = angular.module('OSCR');
 var url = 'http://localhost:8888';
 
 OSCR.controller(
-    'DigitalObjectUploadController',
+    'MediaUploadController',
     function ($rootScope, $scope, $http, Document) {
         $scope.options = {
             url: url
@@ -154,8 +154,3 @@ OSCR.controller(
         }
     }
 );
-
-
-
-
-

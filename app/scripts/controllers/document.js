@@ -135,11 +135,11 @@ OSCR.controller(
         };
         $scope.el = $scope.panel.element;
 
-        $scope.enableEditor = function (element) {
+        $scope.enableEditor = function () {
             $scope.el.edit = true;
         };
 
-        $scope.disableEditor = function (element) {
+        $scope.disableEditor = function () {
             $scope.checkEmpty();
             $scope.el.edit = ($scope.el.value === undefined);
         };

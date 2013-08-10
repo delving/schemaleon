@@ -12,7 +12,9 @@ OSCR.filter('elementDisplay',
                 return element.value.Label; // todo
             }
             else if (element.media) {
-                return element.value.Body.ImageMetadata.Description; // todo
+//                console.log('elementDisplay');
+//                console.log(element.value);
+                return element.value.Identifier;
             }
             else {
                 return element.value;
@@ -28,14 +30,14 @@ OSCR.controller(
         if (!$scope.el.media) {
             return;
         }
-        $scope.m = $scope.elx.media;
+        $scope.m = $scope.el.media;
         $scope.setActive('media');
 
         if (!$scope.m.tree) {
             Document.fetchSchema($scope.m.schemaName, function (schema) {
                 $scope.m.tree = {
                     name: 'Entry',
-                    elements: schema.elements[0].elements
+                    elements: schema.elements
                 };
             });
         }
@@ -67,16 +69,14 @@ OSCR.controller(
         });
 
         $scope.setValue = function (value) {
-            $scope.el.value = value.Body.ImageMetadata;
-            console.log('setValue');
-            console.log($scope.m);
+            $scope.el.value = angular.copy(value.Body.ImageMetadata);
+            $scope.el.value.Identifier = value.Header.Identifier;
             if ($scope.m.tree) {
                 $scope.el.valueFields = _.map($scope.m.tree.elements, function (element) {
                     return  { prompt: element.name, value: $scope.el.value[element.name] };
                 });
-                console.log('valueFields');
-                console.log($scope.el.valueFields);
             }
+            $scope.disableEditor();
         };
     }
 );

@@ -21,9 +21,9 @@ OSCR.config(
                 templateUrl: 'views/document-view.html',
                 controller: 'DocumentViewController'
             })
-            .when('/fileupload', {
-                templateUrl: 'views/file-upload.html',
-                controller: 'DigitalObjectUploadController'
+            .when('/media', {
+                templateUrl: 'views/media.html',
+                controller: 'MediaUploadController'
             })
             .when('/people', {
                 templateUrl: 'views/people.html',
