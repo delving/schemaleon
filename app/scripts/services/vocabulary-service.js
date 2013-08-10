@@ -2,7 +2,8 @@
 
 var OSCR = angular.module('OSCR');
 
-OSCR.service("Vocabulary",
+OSCR.service(
+    "Vocabulary",
     function ($http) {
 
         this.getSchema = function (vocab, accept) {

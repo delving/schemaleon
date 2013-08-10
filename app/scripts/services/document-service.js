@@ -2,7 +2,8 @@
 
 var OSCR = angular.module('OSCR');
 
-OSCR.service("Document",
+OSCR.service(
+    "Document",
     function ($http) {
         this.fetchSchema = function (schemaName, receiver) {
             $http.get('/document/schema/' + schemaName).success(function (data) {

@@ -2,7 +2,9 @@
 
 var OSCR = angular.module('OSCR');
 
-OSCR.directive('i18n', function () {
+OSCR.directive(
+    'i18n',
+    function () {
         return {
             restrict: 'A',
             replace: false,
@@ -42,22 +44,22 @@ OSCR.directive('i18n', function () {
     }
 );
 
-OSCR.filter('linkTitle',
-    [ 'I18N',
-        function (I18N) {
-            return function (link) {
-                if (!link) return '';
-                if (I18N.isReady()) {
-                    var title = I18N.label(link.name);
-                    if (title) return title;
-                }
-                return link.name;
-            };
-        }]
+OSCR.filter(
+    'linkTitle',
+    function (I18N) {
+        return function (link) {
+            if (!link) return '';
+            if (I18N.isReady()) {
+                var title = I18N.label(link.name);
+                if (title) return title;
+            }
+            return link.name;
+        };
+    }
 );
 
-OSCR.filter('elementTitle',
-    [ 'I18N',
+OSCR.filter(
+    'elementTitle',
         function (I18N) {
             return function (element) {
                 if (!element) return '';
@@ -73,11 +75,11 @@ OSCR.filter('elementTitle',
                 }
                 return element.name;
             };
-        }]
+        }
 );
 
-OSCR.filter('elementDoc',
-    [ 'I18N',
+OSCR.filter(
+    'elementDoc',
         function (I18N) {
             return function (element) {
                 if (!element) return '';
@@ -93,11 +95,11 @@ OSCR.filter('elementDoc',
                 }
                 return element.name;
             };
-        }]
+        }
 );
 
-OSCR.controller('I18NController',
-    ['$rootScope', '$scope', '$dialog', '$window', 'I18N',
+OSCR.controller(
+    'I18NController',
         function ($rootScope, $scope, $dialog, $window, I18N) {
 
 //            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
@@ -193,7 +195,7 @@ OSCR.controller('I18NController',
                     }
                 });
             };
-        }]
+        }
 );
 
 function LabelDialogController($scope, I18N, dialog, key) {

@@ -2,8 +2,7 @@
 
 var OSCR = angular.module('OSCR', ['ngCookies', 'ui.bootstrap', 'blueimp.fileupload']);
 
-OSCR.config([
-    '$routeProvider',
+OSCR.config(
     function ($routeProvider) {
         $routeProvider
             .when('/dashboard', {
@@ -39,10 +38,9 @@ OSCR.config([
                 templateUrl: 'views/public.html'
             });
     }
-]);
+);
 
-OSCR.config([
-    "$httpProvider", "fileUploadProvider",
+OSCR.config(
     function ($httpProvider, fileUploadProvider) {
 
         // for fileUploadProvider
@@ -95,4 +93,4 @@ OSCR.config([
             };
         });
     }
-]);
+);

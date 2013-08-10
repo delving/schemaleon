@@ -5,8 +5,8 @@ var OSCR = angular.module('OSCR');
 
 var url = 'http://localhost:8888';
 
-OSCR.controller('DigitalObjectUploadController', [
-    '$rootScope', '$scope', '$http', 'Document',
+OSCR.controller(
+    'DigitalObjectUploadController',
     function ($rootScope, $scope, $http, Document) {
         $scope.options = {
             url: url
@@ -76,7 +76,7 @@ OSCR.controller('DigitalObjectUploadController', [
 
         $scope.toggleAnnotationMode = function (file) {
             $scope.annotationMode = !$scope.annotationMode;
-            if(file){
+            if (file) {
                 file.selected = !file.selected;
                 $scope.annotationMode = true;
             }
@@ -121,12 +121,10 @@ OSCR.controller('DigitalObjectUploadController', [
             });
         };
     }
+);
 
-])
-;
-
-OSCR.controller('FileDestroyController', [
-    '$scope', '$http',
+OSCR.controller(
+    'FileDestroyController',
     function ($scope, $http) {
         var file = $scope.file, state;
         if (file.url) {
@@ -155,7 +153,7 @@ OSCR.controller('FileDestroyController', [
             };
         }
     }
-]);
+);
 
 
 

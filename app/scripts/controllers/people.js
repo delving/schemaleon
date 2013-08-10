@@ -20,75 +20,73 @@
 
 var OSCR = angular.module('OSCR');
 
-OSCR.controller('PeopleController',
-    [
-        '$rootScope', '$scope', '$q', '$location', 'Person', '$timeout', '$cookieStore',
-        function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
+OSCR.controller(
+    'PeopleController',
+    function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
 
-            console.log($cookieStore.get('oscr'));
+        console.log($cookieStore.get('oscr'));
 
-            $scope.groupCreated = false;
-            $scope.userAssigned = false;
-            $scope.roles = _.map(Person.roles, function(role){
-                return { name: role }
+        $scope.groupCreated = false;
+        $scope.userAssigned = false;
+        $scope.roles = _.map(Person.roles, function (role) {
+            return { name: role }
+        });
+
+        $scope.typeAheadUsers = function (query) {
+            var deferred = $q.defer();
+            Person.selectUsers(query, function (list) {
+                deferred.resolve(list);
             });
+            return deferred.promise;
+        };
 
-            $scope.typeAheadUsers = function (query) {
-                var deferred = $q.defer();
-                Person.selectUsers(query, function(list) {
-                    deferred.resolve(list);
-                });
-                return deferred.promise;
-            };
-
-            $scope.userToString = function (user) {
-                if (!user) {
-                    return [];
-                }
-                return user.Profile.email + ' - ' +user.Profile.firstName + ' '+user.Profile.lastName;
-            };
-
-            $scope.typeAheadGroups = function (query) {
-                var deferred = $q.defer();
-                Person.selectGroups(query, function(list) {
-                    deferred.resolve(list);
-                });
-                return deferred.promise;
-            };
-
-            $scope.groupToString = function (group) {
-                if (!group) {
-                    return [];
-                }
-                return group.Name;
-            };
-
-            $scope.createGroup = function() {
-                var group = {
-                    Name: $scope.groupName,
-                    Address: $scope.groupAddress
-                };
-                Person.saveGroup(group, function(groupObject) {
-                    $scope.groupCreated = true;
-                    $scope.groupName = '';
-                    $scope.groupAddress = '';
-                    $timeout(function(){
-                        $scope.groupCreated = false;
-                    },4000);
-
-                });
-            };
-
-            $scope.assignUserToGroup = function() {
-                var profile = $scope.chosenUser.Profile;
-                Person.addUserToGroup($scope.chosenGroup.Identifier, $scope.chosenRole.name, profile.email, function(profile){
-                    $scope.userAssigned = true;
-                    $timeout(function(){
-                        $scope.userAssigned = false;
-                    },4000);
-                })
+        $scope.userToString = function (user) {
+            if (!user) {
+                return [];
             }
+            return user.Profile.email + ' - ' + user.Profile.firstName + ' ' + user.Profile.lastName;
+        };
 
+        $scope.typeAheadGroups = function (query) {
+            var deferred = $q.defer();
+            Person.selectGroups(query, function (list) {
+                deferred.resolve(list);
+            });
+            return deferred.promise;
+        };
+
+        $scope.groupToString = function (group) {
+            if (!group) {
+                return [];
+            }
+            return group.Name;
+        };
+
+        $scope.createGroup = function () {
+            var group = {
+                Name: $scope.groupName,
+                Address: $scope.groupAddress
+            };
+            Person.saveGroup(group, function (groupObject) {
+                $scope.groupCreated = true;
+                $scope.groupName = '';
+                $scope.groupAddress = '';
+                $timeout(function () {
+                    $scope.groupCreated = false;
+                }, 4000);
+
+            });
+        };
+
+        $scope.assignUserToGroup = function () {
+            var profile = $scope.chosenUser.Profile;
+            Person.addUserToGroup($scope.chosenGroup.Identifier, $scope.chosenRole.name, profile.email, function (profile) {
+                $scope.userAssigned = true;
+                $timeout(function () {
+                    $scope.userAssigned = false;
+                }, 4000);
+            })
         }
-    ]
+
+    }
 );

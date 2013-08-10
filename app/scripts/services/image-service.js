@@ -2,7 +2,8 @@
 
 var OSCR = angular.module('OSCR');
 
-OSCR.service("Image",
+OSCR.service(
+    'Image',
     function ($http) {
 
         this.select = function (vocab, query, accept) {

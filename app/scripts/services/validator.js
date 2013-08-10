@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('OSCR').service("Validator",
+angular.module('OSCR').service(
+    "Validator",
     function () {
         this.getFunction = function (name) {
             switch (name) {

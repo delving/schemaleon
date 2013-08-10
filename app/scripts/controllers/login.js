@@ -20,34 +20,32 @@
 
 var OSCR = angular.module('OSCR');
 
-OSCR.controller('LoginController',
-    [
-        '$rootScope', '$scope', '$location', '$cookieStore', 'Person',
-        function ($rootScope, $scope, $location, $cookieStore, Person) {
+OSCR.controller(
+    'LoginController',
+    function ($rootScope, $scope, $location, $cookieStore, Person) {
 
-            $scope.username = '';
-            $scope.password = '';
+        $scope.username = '';
+        $scope.password = '';
 
-            $rootScope.login = function () {
-                if ($scope.username && $scope.username.length) {
-                    Person.authenticate($scope.username, $scope.password, function(user) {
-                        $rootScope.user = user;
-                    });
-                }
-                if (!$rootScope.user) {
-                    $rootScope.user = {
-                        firstName: 'Oscr',
-                        lastName: 'Wild',
-                        email: 'oscr@delving.eu'
-                    };
-                }
-                $location.path('/dashboard');
-            };
+        $rootScope.login = function () {
+            if ($scope.username && $scope.username.length) {
+                Person.authenticate($scope.username, $scope.password, function (user) {
+                    $rootScope.user = user;
+                });
+            }
+            if (!$rootScope.user) {
+                $rootScope.user = {
+                    firstName: 'Oscr',
+                    lastName: 'Wild',
+                    email: 'oscr@delving.eu'
+                };
+            }
+            $location.path('/dashboard');
+        };
 
-            $rootScope.logout = function () {
-                delete $rootScope.user;
-                $location.path('/login');
-            };
-        }
-    ]
+        $rootScope.logout = function () {
+            delete $rootScope.user;
+            $location.path('/login');
+        };
+    }
 );
