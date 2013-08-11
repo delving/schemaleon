@@ -25,7 +25,7 @@ OSCR.filter('elementDisplay',
 
 OSCR.controller(
     'MediaController',
-    function ($scope, $q, Document, Image) {
+    function ($scope, $q, Document) {
 
         if (!$scope.el.media) {
             return;

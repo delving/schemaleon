@@ -6,8 +6,12 @@ var app = express();
 var https = require('https');
 var crypto = require('crypto');
 var Storage = require('./storage');
+var uploader = require('./uploader');
 
 app.use(express.bodyParser());
+
+// takes all paths which start with /media
+app.use(uploader);
 
 var storage = null;
 

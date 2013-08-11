@@ -3,7 +3,7 @@
 
 var OSCR = angular.module('OSCR');
 
-var url = 'http://localhost:8888';
+var url = '/media';
 
 OSCR.controller(
     'MediaUploadController',

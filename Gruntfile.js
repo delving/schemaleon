@@ -2,7 +2,7 @@
 /*global language, console, $, _ */
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
-var uploader = require('./server/uploader');
+var uploader = require('./server/uploader'); // todo: integrated in rest.js
 var mountFolder = function (connect, dir) {
     return connect.static(path.resolve(dir));
 };
@@ -46,15 +46,6 @@ module.exports = function (grunt) {
                 port: 8888,
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname: 'localhost'
-            },
-            upperload: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            uploader
-                        ];
-                    }
-                }
             }
         },
         express: {
@@ -285,7 +276,6 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'livereload-start',
-        'connect:upperload',
         'express:livereload',
         'open',
         'watch'
@@ -295,7 +285,6 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'connect:upperload',
-//        'livereload-start',
         'express:prod',
         'open',
         'watch'

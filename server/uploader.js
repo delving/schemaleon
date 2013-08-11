@@ -18,7 +18,7 @@
 var fs = require('fs'),
     oscrPublic = require('./oscr-public'),
     path = require('path'),
-    // Since Node 0.8, .existsSync() moved from path to fs:
+// Since Node 0.8, .existsSync() moved from path to fs:
     _existsSync = fs.existsSync || path.existsSync,
     formidable = require('formidable'),
     nodeStatic = require('node-static'),
@@ -27,7 +27,7 @@ var fs = require('fs'),
         tmpDir: oscrPublic.tmpDir,
         publicDir: oscrPublic.publicDir,
         uploadDir: oscrPublic.uploadDir,
-        uploadUrl: '/files/',
+        uploadUrl: '/media/files/',
         maxPostSize: 11000000000, // 11 GB
         minFileSize: 1,
         maxFileSize: 10000000000, // 10 GB
@@ -76,70 +76,77 @@ var fs = require('fs'),
         this.res = res;
         this.callback = callback;
     },
+    urlPath = '/media',
     serve = function (req, res, next) {
-        res.setHeader(
-            'Access-Control-Allow-Origin',
-            options.accessControl.allowOrigin
-        );
-        res.setHeader(
-            'Access-Control-Allow-Methods',
-            options.accessControl.allowMethods
-        );
-        res.setHeader(
-            'Access-Control-Allow-Headers',
-            options.accessControl.allowHeaders
-        );
-        var handleResult = function (result, redirect) {
-                if (redirect) {
-                    res.writeHead(302, {
-                        'Location': redirect.replace(
-                            /%s/,
-                            encodeURIComponent(JSON.stringify(result))
-                        )
-                    });
-                    res.end();
-                } else {
-                    res.writeHead(200, {
-                        'Content-Type': req.headers.accept
-                            .indexOf('application/json') !== -1 ?
-                            'application/json' : 'text/plain'
-                    });
-                    res.end(JSON.stringify(result));
-                }
-            },
-            setNoCacheHeaders = function () {
-                res.setHeader('Pragma', 'no-cache');
-                res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-                res.setHeader('Content-Disposition', 'inline; filename="files.json"');
-            },
-            handler = new UploadHandler(req, res, handleResult);
-        switch (req.method) {
-            case 'OPTIONS':
-                res.end();
-                break;
-            case 'HEAD':
-            case 'GET':
-                if (req.url === '/') {
-                    setNoCacheHeaders();
-                    if (req.method === 'GET') {
-                        handler.get();
-                    } else {
+        if (req.url.indexOf('/media') != 0) {
+            next();
+        }
+        else {
+            req.url = req.url.substring('/media'.length);
+            if (!req.url) req.url = '/';
+            res.setHeader(
+                'Access-Control-Allow-Origin',
+                options.accessControl.allowOrigin
+            );
+            res.setHeader(
+                'Access-Control-Allow-Methods',
+                options.accessControl.allowMethods
+            );
+            res.setHeader(
+                'Access-Control-Allow-Headers',
+                options.accessControl.allowHeaders
+            );
+            var handleResult = function (result, redirect) {
+                    if (redirect) {
+                        res.writeHead(302, {
+                            'Location': redirect.replace(/%s/, encodeURIComponent(JSON.stringify(result)))
+                        });
                         res.end();
                     }
-                } else {
-                    fileServer.serve(req, res);
-                }
-                break;
-            case 'POST':
-                setNoCacheHeaders();
-                handler.post();
-                break;
-            case 'DELETE':
-                handler.destroy();
-                break;
-            default:
-                res.statusCode = 405;
-                res.end();
+                    else {
+                        res.writeHead(200, {
+                            'Content-Type': req.headers.accept
+                                .indexOf('application/json') !== -1 ? 'application/json' : 'text/plain'
+                        });
+                        res.end(JSON.stringify(result));
+                    }
+                },
+                setNoCacheHeaders = function () {
+                    res.setHeader('Pragma', 'no-cache');
+                    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+                    res.setHeader('Content-Disposition', 'inline; filename="files.json"');
+                },
+                handler = new UploadHandler(req, res, handleResult);
+            switch (req.method) {
+                case 'OPTIONS':
+                    res.end();
+                    break;
+                case 'HEAD':
+                case 'GET':
+                    if (req.url === '/') {
+                        setNoCacheHeaders();
+                        if (req.method === 'GET') {
+                            handler.get();
+                        }
+                        else {
+                            res.end();
+                        }
+                    }
+                    else {
+                        fileServer.serve(req, res);
+                    }
+                    break;
+                case 'POST':
+                    setNoCacheHeaders();
+                    handler.post();
+                    break;
+                case 'DELETE':
+                    handler.destroy();
+                    break;
+                default:
+                    res.statusCode = 405;
+                    res.end();
+            }
         }
     };
 fileServer.respond = function (pathname, status, _headers, files, stat, req, res, finish) {
@@ -148,8 +155,7 @@ fileServer.respond = function (pathname, status, _headers, files, stat, req, res
     if (!options.inlineFileTypes.test(files[0])) {
         // Force a download dialog for unsafe file extensions:
         _headers['Content-Type'] = 'application/octet-stream';
-        _headers['Content-Disposition'] = 'attachment; filename="' +
-            utf8encode(path.basename(files[0])) + '"';
+        _headers['Content-Disposition'] = 'attachment; filename="' + utf8encode(path.basename(files[0])) + '"';
     }
     nodeStatic.Server.prototype.respond
         .call(this, pathname, status, _headers, files, stat, req, res, finish);
@@ -157,9 +163,11 @@ fileServer.respond = function (pathname, status, _headers, files, stat, req, res
 FileInfo.prototype.validate = function () {
     if (options.minFileSize && options.minFileSize > this.size) {
         this.error = 'File is too small';
-    } else if (options.maxFileSize && options.maxFileSize < this.size) {
+    }
+    else if (options.maxFileSize && options.maxFileSize < this.size) {
         this.error = 'File is too big';
-    } else if (!options.acceptFileTypes.test(this.name)) {
+    }
+    else if (!options.acceptFileTypes.test(this.name)) {
         this.error = 'Filetype not allowed';
     }
     return !this.error;
@@ -179,9 +187,7 @@ FileInfo.prototype.initUrls = function (req) {
                 '//' + req.headers.host + options.uploadUrl;
         this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
         Object.keys(options.imageVersions).forEach(function (version) {
-            if (_existsSync(
-                options.uploadDir + '/' + version + '/' + that.name
-            )) {
+            if (_existsSync(options.uploadDir + '/' + version + '/' + that.name)) {
                 that[version + 'Url'] = baseUrl + version + '/' +
                     encodeURIComponent(that.name);
             }
