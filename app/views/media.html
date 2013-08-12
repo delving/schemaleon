@@ -65,8 +65,8 @@
                         <!--&lt;!&ndash;<input type="checkbox" data-ng-model="allFilesSelected" data-ng-click="selectAllFiles()"/> <span class="i18n">Select</span>&ndash;&gt;-->
                         <!--<span class="btn pointer" data-ng-click="selectAllFiles()" ng-class="{'disabled': !allFilesSelected}"><i class="icon-check"></i></span>-->
                     <!--</th>-->
-                    <th i18n="Thumb" width="160"><span class="i18n"/></th>
-                    <th i18n="Annotations" width="200"><span class="i18n"/></th>
+                    <th i18n="Thumb" width="120"><span class="i18n"/></th>
+                    <th i18n="Description" width="200"><span class="i18n"/></th>
                     <th i18n="Name" width="180"><span class="i18n"/></th>
                     <th i18n="Actions"><span class="i18n"/></th>
                 </tr>
@@ -87,9 +87,10 @@
                             <p class="size">{{file.size | formatFileSize}}</p>
                         </div>
                         <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+                        <!--<div class="progress progress-success progress-striped active fade" data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()"><div class="bar" data-ng-style="{width: num + '%'}"></div></div>-->
                     </td>
                     <td>
-                        <textarea data-ng-model="file.description"></textarea>
+                        <textarea data-ng-hide="!file.$destroy" data-ng-model="file.description"></textarea>
                     </td>
                     <td>
                         <p class="name" data-ng-switch data-on="!!file.url">
@@ -102,7 +103,8 @@
                             <span data-ng-switch-default>{{file.name}}</span>
                         </p>
 
-                        <div data-ng-show="file.error"><span class="label label-important">Error</span> {{file.error}}
+                        <div data-ng-show="file.error">
+                            <span class="label label-important">Error</span> {{file.error}}
                         </div>
                     </td>
                     <!--<td>-->
@@ -124,7 +126,7 @@
                             <i class="icon-ban-circle icon-white"></i>
                             <span>Cancel</span>
                         </button>
-                        <button type="button" class="btn btn-primary commit fade-in" data-ng-click="commit(file)" ng-show="file.description">
+                        <button type="button" class="btn btn-primary commit fade-in" data-ng-click="commit(file)" data-ng-hide="!file.$destroy">
                             <i class="icon-hdd icon-white"></i>
                             <span>Commit</span>
                         </button>
