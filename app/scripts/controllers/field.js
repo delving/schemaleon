@@ -55,6 +55,10 @@ OSCR.controller(
             });
         }
 
+        if ($scope.el.value === undefined) {
+            $scope.enableEditor();
+        }
+
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
                 Document.fetchDocument($scope.m.schemaName, $scope.el.value.Identifier, function (fetchedValue) {
@@ -107,6 +111,7 @@ OSCR.controller(
             }
             $scope.disableEditor();
         };
+
     }
 );
 
@@ -118,6 +123,9 @@ OSCR.controller(
         }
         $scope.v = $scope.el.vocabulary;
         $scope.setActive('vocabulary');
+        if ($scope.el.value === undefined) {
+            $scope.enableEditor();
+        }
 
         if (!$scope.v.tree) {
             Vocabulary.getSchema($scope.v.name, function (schema) {
@@ -126,6 +134,17 @@ OSCR.controller(
                     elements: schema.elements[0].elements
                 };
             });
+        }
+
+        if (!$scope.valueChecked) {
+            if ($scope.el.value) {
+                Document.fetchDocument($scope.v.name, $scope.el.value.ID    , function (fetchedValue) {
+//                    console.log('fetched media record');
+//                    console.log(fetchedValue.Document);
+                    $scope.setValue(fetchedValue.Document);
+                });
+            }
+            $scope.valueChecked = true;
         }
 
         $scope.getStates = function (query) {

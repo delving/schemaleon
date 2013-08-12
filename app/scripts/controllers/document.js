@@ -163,7 +163,7 @@ OSCR.controller(
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;
-//                case 'enter':
+                case 'enter':
 //                    if (!$scope.el.edit) {
 //                        $scope.enableEditor();
 //                    }
