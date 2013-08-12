@@ -9,18 +9,6 @@ function log(message) {
 //    console.log(message);
 }
 
-function getFromXml(xml, tag) {
-    var start = xml.indexOf('<' + tag + '>');
-    var end = xml.indexOf('</' + tag + '>');
-    if (start > 0 && end > 0) {
-        start += tag.length + 2;
-        return xml.substring(start, end);
-    }
-    else {
-        return '';
-    }
-}
-
 exports.createDatabase = function (test) {
     test.expect(1);
     Storage('oscrtest', function (s) {
@@ -49,7 +37,7 @@ exports.testCreateThenGet = function (test) {
             test.ok(fetchedXml, "no fetchedXml");
             log("fetched user again:\n" + fetchedXml);
             test.equal(createdXml, fetchedXml, "Fetched was different!");
-            userIdentifier = getFromXml(fetchedXml, "Identifier");
+            userIdentifier = storage.getFromXml(fetchedXml, "Identifier");
             log("user identifier:" + userIdentifier);
             test.done();
         });
@@ -87,7 +75,7 @@ exports.testSaveAndFetchGroup = function (test) {
         storage.Person.getGroup(group.Identifier, function (fetchedXml) {
             test.ok(fetchedXml, "no fetchedXml");
             log("fetched group:\n" + fetchedXml);
-            groupIdentifier = getFromXml(fetchedXml, "Identifier");
+            groupIdentifier = storage.getFromXml(fetchedXml, "Identifier");
             log("group identifier:" + group.Identifier);
             test.equal(createdXml, fetchedXml, "Fetched was different!");
             test.done();

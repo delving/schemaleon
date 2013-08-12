@@ -49,6 +49,18 @@ function Storage() {
         return rx.exec(fileName)[1];
     };
 
+    this.getFromXml = function (xml, tag) {
+        var start = xml.indexOf('<' + tag + '>');
+        if (start >= 0) {
+            var end = xml.indexOf('</' + tag + '>', start);
+            if (end > 0) {
+                start += tag.length + 2;
+                return xml.substring(start, end);
+            }
+        }
+        return '';
+    };
+
     this.quote = function (value) {
         if (!value) return "''";
         return "'" + value.replace(/'/g, "\'\'") + "'";
@@ -136,7 +148,7 @@ function Storage() {
         return "doc('" + this.database + this.langDocument(language) + "')/Language";
     };
 
-    this.schemaPath = function() {
+    this.schemaPath = function () {
         return "doc('" + this.database + "/Schemas.xml')/Schemas";
     };
 

@@ -78,7 +78,7 @@ P.saveDocument = function (envelope, receiver) {
     var hdr = _.clone(envelope.header);
 
     function finish() {
-        console.trace('finishing save document');
+//        console.trace('finishing save document');
         receiver(s.objectToXml(hdr, 'Header'));
     }
 

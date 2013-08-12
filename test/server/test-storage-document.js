@@ -4,7 +4,7 @@ var fs = require('fs');
 var Storage = require('../../server/storage');
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 var storage = null;
@@ -31,7 +31,7 @@ exports.testFetchSchema = function (test) {
     });
 };
 
-var hdr = {};
+var headerIdentifier;
 
 exports.testSaveDocument = function (test) {
     test.expect(1);
@@ -56,8 +56,8 @@ exports.testSaveDocument = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (xml) {
-        hdr = header;
-        test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
+        headerIdentifier = storage.getFromXml(xml, 'Identifier');
+        test.ok(headerIdentifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
         test.done();
     });
 };
@@ -84,21 +84,24 @@ exports.testSaveAnother = function (test) {
             '</Body>' +
             '</Document>'
     };
-    storage.Document.saveDocument(body, function (header) {
-        test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
+    storage.Document.saveDocument(body, function (xml) {
+        var identifier = storage.getFromXml(xml, 'Identifier');
+        test.ok(identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
         test.done();
     });
 };
 
 exports.testSaveDocumentAgain = function (test) {
     test.expect(1);
-    hdr.Title = 'Big Crazy Bang';
     var body = {
-        header: hdr,
+        header: {
+            Identifier: headerIdentifier,
+            Title: 'Big Crazy Bang',
+            SchemaName: 'Photograph'
+        },
         xml: '<Document>' +
             '<Header>' +
-            '<Identifier>' + hdr.Identifier + '</Identifier>' +
-            '<TimeStamp>' + hdr.Timestamp + '</TimeStamp>' +
+            '<Identifier>' + headerIdentifier + '</Identifier>' +
             '<Title>Big Crazy Bang</Title>' +
             '<SchemaName>Photograph</SchemaName>' +
             '</Header>' +
@@ -112,18 +115,16 @@ exports.testSaveDocumentAgain = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (header) {
-        delete header.TimeStamp;
-        delete hdr.TimeStamp;
-        test.equal(JSON.stringify(header), JSON.stringify(hdr), 'Different header');
+        test.equal(headerIdentifier, storage.getFromXml(header, 'Identifier'), 'Different header');
         test.done();
     });
 };
 
 exports.testGetDocument = function (test) {
     test.expect(2);
-    storage.Document.getDocument(hdr.SchemaName, hdr.Identifier, function (xml) {
+    storage.Document.getDocument('Photograph', headerIdentifier, function (xml) {
         log(xml);
-        test.ok(xml.indexOf(hdr.Identifier) >= 0, "Id not found");
+        test.ok(xml.indexOf(headerIdentifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
         test.done();
     })
@@ -133,9 +134,9 @@ exports.testGetDocumentList = function (test) {
     test.expect(2);
     storage.Document.getDocuments('Photograph', function (xml) {
         log('testGetDocumentList');
-        log(xml);
+//        log(xml);
         test.ok(xml, "No xml");
-        test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found to match " + hdr.Identifier);
+        test.ok(xml.indexOf(headerIdentifier) >= 0, "No identifier found to match " + headerIdentifier);
         test.done();
     })
 };

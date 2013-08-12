@@ -82,18 +82,19 @@ exports.testImageIngestion = function (test) {
             }
         };
         var envel = envelope(header, body);
-        storage.Document.saveDocument(envel, function (header) {
-            test.ok(header, "no header");
-            log('header:');
-            log(header);
-            storage.Image.listImageData(header.SchemaName, function (results) {
-                log('listImageData for ' + header.SchemaName);
+        storage.Document.saveDocument(envel, function (xml) {
+            test.ok(xml, "no xml");
+            log('xml:');
+            log(xml);
+            var schemaName = storage.getFromXml(xml, "SchemaName");
+            storage.Image.listImageData(schemaName, function (results) {
+                log('listImageData for ' + schemaName);
                 log(results);
                 test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
                 storage.Image.listImageFiles(function (err, results) {
                     test.equals(results.length, 1, "should just be one file, but it's " + results.length);
                     var newFileName = path.basename(results[0]);
-                    storage.Document.getDocument(header.SchemaName, newFileName, function (doc) {
+                    storage.Document.getDocument(schemaName, newFileName, function (doc) {
                         test.ok(doc.indexOf("zoomy") > 0, 'zoomy not found');
                         test.done();
                     });
