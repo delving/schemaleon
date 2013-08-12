@@ -6,6 +6,10 @@ var _ = require('underscore');
 var Storage = require('../../server/storage');
 var uploadDir = require('../../server/oscr-public').uploadDir;
 
+function log(message) {
+//    console.log(message);
+}
+
 var storage = null;
 
 exports.createDatabase = function (test) {
@@ -22,19 +26,12 @@ exports.createDatabase = function (test) {
                             if (err) {
                                 console.log(JSON.stringify(err));
                             }
-                            else {
-                                if (stats.isFile()) {
-                                    fs.unlink(filePath, function (err) {
-                                        if (err) {
-                                            console.log(JSON.stringify(err));
-                                        }
-                                    });
-                                }
-
-                                if (stats.isDirectory()) {
-                                    clearDir(filePath);
-                                    fs.rmdir(filePath);
-                                }
+                            else if (stats.isFile()) {
+                                fs.unlinkSync(filePath);
+                            }
+                            else if (stats.isDirectory()) {
+                                clearDir(filePath);
+//                                fs.rmdirSync(filePath);
                             }
                         });
                     });
@@ -87,7 +84,11 @@ exports.testImageIngestion = function (test) {
         var envel = envelope(header, body);
         storage.Document.saveDocument(envel, function (header) {
             test.ok(header, "no header");
-            storage.Image.listImageData(header.schemaName, function (results) {
+            log('header:');
+            log(header);
+            storage.Image.listImageData(header.SchemaName, function (results) {
+                log('listImageData for ' + header.SchemaName);
+                log(results);
                 test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
                 storage.Image.listImageFiles(function (err, results) {
                     test.equals(results.length, 1, "should just be one file, but it's " + results.length);

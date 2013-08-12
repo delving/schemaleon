@@ -11,7 +11,7 @@ var storage = null;
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    Storage('oscrtest', function(s) {
+    Storage('oscrtest', function (s) {
         test.ok(s, 'problem creating database');
         storage = s;
         test.done();
@@ -25,8 +25,8 @@ exports.testFetchSchema = function (test) {
     storage.Document.getDocumentSchema('Photograph', function (xml) {
         test.ok(xml, "no xml");
 //        log("fetched:\n" + xml);
-        test.ok(xml[0].indexOf('<Photograph>') == 0, "Didn't retrieve");
-        schemaXml = xml[0];
+        test.ok(xml.indexOf('<Photograph>') == 0, "Didn't retrieve");
+        schemaXml = xml;
         test.done();
     });
 };
@@ -39,7 +39,7 @@ exports.testSaveDocument = function (test) {
         header: {
             Identifier: '#IDENTIFIER#',
             Title: 'Big Bang',
-            SchemaName: 'Photograph.xml'
+            SchemaName: 'Photograph'
         },
         xml: '<Document>' +
             '<Header>' +
@@ -98,6 +98,7 @@ exports.testSaveDocumentAgain = function (test) {
         xml: '<Document>' +
             '<Header>' +
             '<Identifier>' + hdr.Identifier + '</Identifier>' +
+            '<TimeStamp>' + hdr.Timestamp + '</TimeStamp>' +
             '<Title>Big Crazy Bang</Title>' +
             '<SchemaName>Photograph</SchemaName>' +
             '</Header>' +
@@ -111,7 +112,9 @@ exports.testSaveDocumentAgain = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (header) {
-        test.equal(header, hdr, 'Different header');
+        delete header.TimeStamp;
+        delete hdr.TimeStamp;
+        test.equal(JSON.stringify(header), JSON.stringify(hdr), 'Different header');
         test.done();
     });
 };
@@ -119,7 +122,7 @@ exports.testSaveDocumentAgain = function (test) {
 exports.testGetDocument = function (test) {
     test.expect(2);
     storage.Document.getDocument(hdr.SchemaName, hdr.Identifier, function (xml) {
-//        log(xml);
+        log(xml);
         test.ok(xml.indexOf(hdr.Identifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
         test.done();
@@ -128,10 +131,11 @@ exports.testGetDocument = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    storage.Document.getDocumentList('Photograph', function (xml) {
+    storage.Document.getDocuments('Photograph', function (xml) {
+        log('testGetDocumentList');
         log(xml);
         test.ok(xml, "No xml");
-        test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found");
+        test.ok(xml.indexOf(hdr.Identifier) >= 0, "No identifier found to match " + hdr.Identifier);
         test.done();
     })
 };

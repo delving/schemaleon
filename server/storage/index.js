@@ -136,16 +136,16 @@ function Storage() {
         return "doc('" + this.database + this.langDocument(language) + "')/Language";
     };
 
+    this.schemaPath = function() {
+        return "doc('" + this.database + "/Schemas.xml')/Schemas";
+    };
+
     this.vocabDocument = function (vocabName) {
         return "/vocabulary/" + vocabName + ".xml";
     };
 
     this.vocabPath = function (vocabName) {
         return "doc('" + this.database + this.vocabDocument(vocabName) + "')/Entries";
-    };
-
-    this.docSchemasPath = function () {
-        return "doc('" + this.database + "/DocumentSchemas.xml')/DocumentSchemas/"
     };
 
     this.docDocument = function (schemaName, identifier) {
@@ -219,12 +219,10 @@ function open(databaseName, receiver) {
                 }
 
                 if (reply.ok) {
-                    loadXML('VocabularySchemas.xml', function () {
-                        loadXML('DocumentSchemas.xml', function () {
-                            receiver(storage);
-                        });
+                    loadXML('Schemas.xml', function () {
+                        receiver(storage);
                     });
-                }
+bewe                }
                 else {
                     throw error;
                 }

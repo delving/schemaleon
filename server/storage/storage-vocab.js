@@ -10,8 +10,18 @@ var P = Vocab.prototype;
 
 P.getVocabularySchema = function (vocabName, receiver) {
     var s = this.storage;
-    var query = s.query("doc('" + s.database + "/VocabularySchemas.xml')/VocabularySchemas/" + vocabName);
-    query.results(function (error, reply) {
+    var query = [
+        '<' + vocabName + '>',
+        '  <Entry>' +
+            '  <Label/>' +
+            '  <ID/>' +
+            '   { ' +
+            "     doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/*" +
+            '   }',
+        '  </Entry>',
+        '</' + vocabName + '>'
+    ];
+    s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }

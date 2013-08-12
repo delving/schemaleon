@@ -19,7 +19,7 @@ exports.testFetchSchema = function (test) {
     storage.Vocab.getVocabularySchema('PhotoType', function (xml) {
         test.ok(xml, "no xml");
 //        console.log("fetched:\n" + xml);
-        test.ok(xml[0].indexOf('<PhotoType') == 0, "Didn't retrieve");
+        test.ok(xml.indexOf('<PhotoType') == 0, "Didn't retrieve");
         test.done();
     });
 };

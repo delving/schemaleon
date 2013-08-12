@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('underscore');
+
 module.exports = Document;
 
 function Document(storage) {
@@ -10,8 +12,8 @@ var P = Document.prototype;
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    var query = s.query(s.docSchemasPath() + schemaName);
-    query.results(function (error, reply) {
+    var query = s.schemaPath() + "/Document/" + schemaName;
+    s.xquery(query, function (error, reply) {
         if (reply.ok) {
             receiver(reply.result);
         }
@@ -69,14 +71,19 @@ P.getDocument = function (schemaName, identifier, receiver) { // todo: find usag
 };
 
 P.saveDocument = function (envelope, receiver) {
+    var s = this.storage;
+    var IDENTIFIER = '#IDENTIFIER#';
+    var TIMESTAMP = '#TIMESTAMP#';
+    var time = new Date().getTime();
+    var hdr = _.clone(envelope.header);
+
     function addDocument() {
-        var header = envelope.header;
-        var withIdentifier = envelope.xml.replace(IDENTIFIER, header.Identifier);
+        var withIdentifier = envelope.xml.replace(IDENTIFIER, hdr.Identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
-        console.log("addDocument "+ header.SchemaName +' ' + header.Identifier)
-        s.add(s.docDocument(header.SchemaName, header.Identifier), withTimesStamp, function (error, reply) {
+//        console.trace("addDocument " + hdr.SchemaName + ' ' + hdr.Identifier);
+        s.add(s.docDocument(hdr.SchemaName, hdr.Identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
-                receiver(header);
+                receiver(hdr);
             }
             else {
                 throw error + "\n" + query;
@@ -84,37 +91,31 @@ P.saveDocument = function (envelope, receiver) {
         });
     }
 
-    var s = this.storage;
-    var IDENTIFIER = '#IDENTIFIER#';
-    var TIMESTAMP = '#TIMESTAMP#';
-    var time = new Date().getTime();
-    envelope.header.TimeStamp = time;
-
-    if (envelope.header.Identifier === IDENTIFIER) {
+    hdr.TimeStamp = time;
+    if (hdr.Identifier === IDENTIFIER) {
         if (envelope.header.DigitalObject) {
             // expects fileName, mimeType
-            console.log('save image');
-            console.log(envelope.header.DigitalObject);
-            s.Image.saveImage(envelope.header.DigitalObject, function (fileName) {
-                envelope.header.Identifier = fileName;
+//            console.log('save image');
+//            console.log(hdr.DigitalObject);
+            s.Image.saveImage(hdr.DigitalObject, function (fileName) {
+                hdr.Identifier = fileName;
                 addDocument();
             });
         }
         else {
-            envelope.header.Identifier = s.generateDocumentId();
+            hdr.Identifier = s.generateDocumentId();
             addDocument();
         }
     }
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        var header = envelope.header;
-        s.replace(s.docDocument(header.SchemaName, header.Identifier), stamped, function (error, reply) {
+        s.replace(s.docDocument(hdr.SchemaName, hdr.Identifier), stamped, function (error, reply) {
             if (reply.ok) {
-                receiver(header);
+                receiver(hdr);
             }
             else {
-                throw "Unable to replace " + s.docDocument(header.SchemaName, header.Identifier);
+                throw "Unable to replace " + s.docDocument(hdr.SchemaName, hdr.Identifier);
             }
         });
     }
