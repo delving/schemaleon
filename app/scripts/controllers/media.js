@@ -42,11 +42,12 @@ OSCR.controller(
             return file.tree;
         }
 
-
         $scope.document = 'ImageMetadata';
-        $scope.tree = null;
-        $scope.chosenElement = null;
-        $scope.annotationMode = true;
+
+        Document.fetchSchema($scope.document, function (tree) {
+            $scope.setTree(tree);
+        });
+
 
         $scope.setTree = function (tree) {
             log('setTree');
@@ -57,9 +58,13 @@ OSCR.controller(
             });
         };
 
-        $scope.setChoice = function (element) {
-            $scope.chosenElement = element;
-        };
+// this is only for the document controller within
+//        $scope.chosenElement = null;
+//        $scope.annotationMode = true;
+//        $scope.tree = null;
+//        $scope.setChoice = function (element) {
+//            $scope.chosenElement = element;
+//        };
 
         $scope.setValue = function () {
             log('setValue');
@@ -126,15 +131,19 @@ OSCR.controller(
                 Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#",
                 EMail: $rootScope.user.email,
-                Description: file.description,
                 DigitalObject: {
                     fileName: file.name,
                     mimeType: getMimeType(file.name)
                 }
             };
-//            collectSummaryFields(file.tree, header);
-//            var body = treeToObject(file.tree);
-            var body = "<ImageMetadata/>";
+            var fileTree = treeOf(file);
+            _.each(fileTree.elements, function(el) { // cheat
+                if (el.name === 'Description') {
+                    el.value = file.description;
+                }
+            });
+            collectSummaryFields(fileTree, header);
+            var body = treeToObject(fileTree);
             Document.saveDocument(header, body, function (header) {
                 log("saved image");
                 log(header);

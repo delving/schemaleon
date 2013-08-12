@@ -77,7 +77,7 @@
 
         <ImageMetadata>
             <Collection>{ "vocabulary": "MediaCollection" }</Collection>
-            <Description>{ "paragraph":true, "summaryField":true }</Description>
+            <Description>{ "paragraph":true, "summaryField":"Label" }</Description>
         </ImageMetadata>
 
     </Document>

@@ -12,9 +12,9 @@ OSCR.filter('elementDisplay',
                 return element.value.Label; // todo
             }
             else if (element.media) {
-//                console.log('elementDisplay');
-//                console.log(element.value);
-                return element.value.Identifier;
+                console.log('elementDisplay');
+                console.log(element.value);
+                return element.value.Description;
             }
             else {
                 return element.value;
@@ -57,9 +57,9 @@ OSCR.controller(
             if (!media) {
                 return [];
             }
-//                console.log('media to string');
-//                console.log(media);
-            return media.Body.ImageMetadata.Description; // todo
+            console.log('media to string');
+            console.log(media);
+            return media.Header.Label; // todo
         };
 
         $scope.$watch('chosenMedia', function (after, before) {
