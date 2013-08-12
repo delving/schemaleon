@@ -3,6 +3,10 @@
 
 var OSCR = angular.module('OSCR');
 
+function log(message) {
+    console.log(message);
+}
+
 var url = 'http://localhost:8888';
 // todo: var url = '/media';
 
@@ -19,7 +23,6 @@ OSCR.controller(
                 function (response) {
                     $scope.loadingFiles = false;
                     $scope.queue = response.data.files || [];
-                    $scope.cloneTree();
                 },
                 function () {
                     $scope.loadingFiles = false;
@@ -29,46 +32,44 @@ OSCR.controller(
 
         loadFiles();
 
+        function treeOf(file) {
+            if (!file.tree) {
+                if (!$scope.treeJSON) {
+                    log('Could not add tree!');
+                }
+                file.tree = JSON.parse($scope.treeJSON);
+            }
+            return file.tree;
+        }
+
+
         $scope.document = 'ImageMetadata';
         $scope.tree = null;
         $scope.chosenElement = null;
         $scope.annotationMode = true;
 
-
-        $scope.cloneTree = function () {
-            console.log('cloneTree');
-            if ($scope.queue && $scope.treeJSON) {
-                _.each($scope.queue, function (file) {
-                    file.tree = JSON.parse($scope.treeJSON);
-                });
-            }
-        };
-
-
         $scope.setTree = function (tree) {
-            console.log('setTree');
+            log('setTree');
             $scope.tree = tree;
             $scope.treeJSON = JSON.stringify(tree);
-            $scope.cloneTree();
-            if ($scope.queue) {
-                _.each($scope.queue, function (file) {
-                    file.tree = JSON.parse($scope.treeJSON);
-                });
-            }
+            _.each($scope.queue, function (file) {
+                treeOf(file);
+            });
         };
-
-
 
         $scope.setChoice = function (element) {
             $scope.chosenElement = element;
         };
 
         $scope.setValue = function () {
+            log('setValue');
+            log($scope.chosenElement);
             if (!$scope.chosenElement) return;
             _.each($scope.queue, function (file) {
-                if (file.selected && file.tree) {
+                log(file);
+                if (file.selected && treeOf(file)) {
                     var complete = true;
-                    _.each(file.tree.elements, function (element) {
+                    _.each(treeOf(file).elements, function (element) {
                         if (element.name == $scope.chosenElement.name) {
                             element.value = $scope.chosenElement.value;
                         }
@@ -91,10 +92,8 @@ OSCR.controller(
             });
         };
 
-
-
         $scope.toggleAnnotationPanel = function (file) {
-            console.log(' toggle ');
+            log(' toggle ');
             $scope.showAnnotationPanel = !$scope.showAnnotationPanel;
             if (file) {
                 file.selected = !file.selected;
@@ -113,15 +112,15 @@ OSCR.controller(
                 case 'gif':
                     return 'image/gif';
                 default:
-                    console.log("UNRECOGNIZED extension: " + extension);
+                    log("UNRECOGNIZED extension: " + extension);
                     return 'image/jpeg';
             }
         }
 
         $scope.commit = function (file) {
             if ($rootScope.translating()) return;
-            console.log('commit');
-            console.log(file);
+            log('commit');
+            log(file);
             var header = {
                 SchemaName: $scope.document,
                 Identifier: '#IDENTIFIER#',
@@ -135,8 +134,8 @@ OSCR.controller(
             collectSummaryFields(file.tree, header);
             var body = treeToObject(file.tree);
             Document.saveDocument(header, body, function (header) {
-                console.log("saved image");
-                console.log(header);
+                log("saved image");
+                log(header);
                 file.$destroy();
             });
         };
