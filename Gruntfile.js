@@ -46,6 +46,15 @@ module.exports = function (grunt) {
                 port: 8888,
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname: 'localhost'
+            },
+            upperload: {
+                options: {
+                    middleware: function (connect) {
+                        return [
+                            uploader
+                        ];
+                    }
+                }
             }
         },
         express: {
@@ -276,7 +285,8 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'livereload-start',
-        'express:livereload',
+        'connect:upperload', // port 8888
+        'express:livereload', // port 9000
         'open',
         'watch'
     ]);

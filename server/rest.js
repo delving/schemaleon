@@ -11,7 +11,7 @@ var uploader = require('./uploader');
 app.use(express.bodyParser());
 
 // takes all paths which start with /media
-app.use(uploader);
+// todo: app.use(uploader);
 
 var storage = null;
 
