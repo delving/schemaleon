@@ -19,6 +19,7 @@ OSCR.controller(
                 function (response) {
                     $scope.loadingFiles = false;
                     $scope.queue = response.data.files || [];
+                    $scope.cloneTree();
                 },
                 function () {
                     $scope.loadingFiles = false;
@@ -31,16 +32,32 @@ OSCR.controller(
         $scope.document = 'ImageMetadata';
         $scope.tree = null;
         $scope.chosenElement = null;
+        $scope.annotationMode = true;
+
+
+        $scope.cloneTree = function () {
+            console.log('cloneTree');
+            if ($scope.queue && $scope.treeJSON) {
+                _.each($scope.queue, function (file) {
+                    file.tree = JSON.parse($scope.treeJSON);
+                });
+            }
+        };
+
 
         $scope.setTree = function (tree) {
+            console.log('setTree');
             $scope.tree = tree;
             $scope.treeJSON = JSON.stringify(tree);
+            $scope.cloneTree();
             if ($scope.queue) {
                 _.each($scope.queue, function (file) {
                     file.tree = JSON.parse($scope.treeJSON);
                 });
             }
         };
+
+
 
         $scope.setChoice = function (element) {
             $scope.chosenElement = element;
@@ -64,6 +81,7 @@ OSCR.controller(
             });
         };
 
+        $scope.showAnnotationPanel = false;
         $scope.allFilesSelected = false;
 
         $scope.selectAllFiles = function (value) {
@@ -73,13 +91,14 @@ OSCR.controller(
             });
         };
 
-        $scope.annotationMode = false;
 
-        $scope.toggleAnnotationMode = function (file) {
-            $scope.annotationMode = !$scope.annotationMode;
+
+        $scope.toggleAnnotationPanel = function (file) {
+            console.log(' toggle ');
+            $scope.showAnnotationPanel = !$scope.showAnnotationPanel;
             if (file) {
                 file.selected = !file.selected;
-                $scope.annotationMode = true;
+//                $scope.showAnnotationPanel = true;
             }
         };
 

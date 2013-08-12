@@ -30,10 +30,10 @@
                                         <span i18n="CancelUpload"><span class="i18n">Cancel upload</span></span>
                                     </button>
                                 </div>
-                                <div class="btn-group">
-                                    <span class="btn pointer" data-ng-click="selectAllFiles()" ng-class="{'disabled': !allFilesSelected}"><i class="icon-check"></i></span>
-                                    <span class="btn pointer" data-ng-click="toggleAnnotationMode()" ng-class="{'disabled': !annotationMode}"><i class="icon-edit"></i></span>
-                                </div>
+                                <!--<div class="btn-group">-->
+                                    <!--<span class="btn pointer" data-ng-click="selectAllFiles()" ng-class="{'disabled': !allFilesSelected}"><i class="icon-check"></i></span>-->
+                                    <!--<span class="btn pointer" data-ng-click="toggleAnnotationPanel()" ng-class="{'disabled': !showAnnotationPanel}"><i class="icon-edit"></i></span>-->
+                                <!--</div>-->
                                 <!-- The loading indicator is shown during file processing -->
                                 <!--<div class="fileupload-loading"></div>-->
                        </div>
@@ -53,7 +53,7 @@
                 <div class="progress-extended">&nbsp;</div>
             </div>
 
-        <div data-ng-show="annotationMode" class="fade-in">
+        <div class="fade-in">
             <div ng-include src="'views/includes/document.html'"></div>
         </div>
 
@@ -61,8 +61,9 @@
             <table class="table table-striped files ng-cloak clearfix">
                 <thead>
                 <tr>
-                    <th i18n="Select">
-                        <input type="checkbox" data-ng-model="allFilesSelected" data-ng-click="selectAllFiles()"/> <span class="i18n">Select</span>
+                    <th>
+                        <!--<input type="checkbox" data-ng-model="allFilesSelected" data-ng-click="selectAllFiles()"/> <span class="i18n">Select</span>-->
+                        <span class="btn pointer" data-ng-click="selectAllFiles()" ng-class="{'disabled': !allFilesSelected}"><i class="icon-check"></i></span>
                     </th>
                     <th i18n="Thumb"><span class="i18n">Thumb</span></th>
                     <th i18n="Size"><span class="i18n">Size</span></th>
@@ -74,7 +75,8 @@
                 <tbody>
                 <tr ng-repeat="file in queue">
                     <td>
-                        <input type="checkbox" ng-model="file.selected"/>
+                        <input type="checkbox" ng-model="file.selected" data-ng-hide="file.$submit"/>
+                        <span class="label label-success" data-ng-show="file.selected">Annotating</span>
                     </td>
                     <td data-ng-switch data-on="!!file.thumbnailUrl">
                         <div class="preview" data-ng-switch-when="true">
@@ -116,7 +118,8 @@
                         </table>
                     </td>
                     <td>
-                        <span class="btn pointer" data-ng-click="toggleAnnotationMode(file);"  ng-class="{'btn-primary btn-success': file.selected}"><i class="icon-edit"></i></span>
+                        <!--<span class="btn pointer" data-ng-click="toggleAnnotationPanel(file);"  ng-class="{'btn-primary btn-success': file.selected}"><i class="icon-edit"></i></span>-->
+                        <input type="checkbox" ng-model="file.selected" data-ng-show="file.$submit"/>
                         <button type="button" class="btn btn-primary start" data-ng-click="file.$submit()" data-ng-hide="!file.$submit">
                             <i class="icon-upload icon-white"></i>
                             <span>Start</span>
