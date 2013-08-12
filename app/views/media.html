@@ -19,11 +19,11 @@
                                     <span i18n="AddFiles"><span class="i18n">Add files</span></span>
                                     <input type="file" name="files[]" multiple ng-disabled="disabled">
                                 </span>
-                                <button type="button" class="btn btn-primary start" data-ng-click="submit()">
+                                <button type="button" class="btn btn-primary start" data-ng-click="submit()" data-ng-class="{'disabled': !queue.length}">
                                     <i class="icon-upload icon-white"></i>
                                     <span i18n="UploadAllFiles"><span class="i18n">Upload all files</span></span>
                                 </button>
-                                <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
+                                <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()"  data-ng-class="{'disabled': !queue.length}">
                                     <i class="icon-ban-circle icon-white"></i>
                                     <span i18n="CancelUpload"><span class="i18n">Cancel upload</span></span>
                                 </button>
@@ -52,12 +52,17 @@
                 <thead>
                 <tr>
                     <th i18n="Thumb" width="120"><span class="i18n"/></th>
-                    <th i18n="Description" width="200"><span class="i18n"/></th>
+                    <th i18n="ShortDescription" width="200"><span class="i18n"/></th>
                     <th i18n="Name" width="180"><span class="i18n"/></th>
                     <th i18n="Actions"><span class="i18n"/></th>
                 </tr>
                 </thead>
                 <tbody>
+                <tr ng-hide="queue.length">
+                    <td colspan="4">
+                        Currently no files uploaded
+                    </td>
+                </tr>
                 <tr ng-repeat="file in queue">
                     <td data-ng-switch data-on="!!file.thumbnailUrl">
                         <div class="preview" data-ng-switch-when="true">

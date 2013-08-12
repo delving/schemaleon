@@ -30,7 +30,12 @@
             <th i18n="Actions"><span class="i18n"/></th>
             </thead>
             <tbody>
-            <tr ng-repeat="header in headerList">
+            <tr data-ng-hide="headerList.length">
+                <td colspan="6">
+                    Currently no documents saved
+                </td>
+            </tr>
+            <tr data-ng-repeat="header in headerList">
                 <td>{{ header.Identifier }}</td>
                 <td>{{ header.Title }}</td>
                 <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
