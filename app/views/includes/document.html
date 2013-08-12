@@ -67,6 +67,9 @@
                                             <span class="label">{{ line.prompt }}:</span>
                                             <span class="value">{{ line.value }}</span>
                                         </li>
+                                        <li ng-show="el.value.Identifier">
+                                            <img ng-src="{{ el | imageDisplay }}"/>
+                                        </li>
                                     </ul>
                                 </div>
                                 <button ng-click="enableClearedEditor()" class="btn btn-small"><i class="icon-edit"></i></button>

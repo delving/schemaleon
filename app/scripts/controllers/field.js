@@ -12,12 +12,25 @@ OSCR.filter('elementDisplay',
                 return element.value.Label; // todo
             }
             else if (element.media) {
-                console.log('elementDisplay');
-                console.log(element.value);
+//                console.log('elementDisplay');
+//                console.log(element.value);
                 return element.value.Description;
             }
             else {
                 return element.value;
+            }
+        };
+    }
+);
+
+OSCR.filter('imageDisplay',
+    function () {
+        return function (element) {
+            if (element.value && element.media) {
+                return '/image/fetch/'+element.value.Identifier;
+            }
+            else {
+                return '';
             }
         };
     }
@@ -42,12 +55,21 @@ OSCR.controller(
             });
         }
 
+        if (!$scope.valueChecked) {
+            if ($scope.el.value) {
+                Document.fetchDocument($scope.m.schemaName, $scope.el.value.Identifier, function (fetchedValue) {
+//                    console.log('fetched media record');
+//                    console.log(fetchedValue.Document);
+                    $scope.setValue(fetchedValue.Document);
+                });
+            }
+            $scope.valueChecked = true;
+        }
+
         $scope.getMediaList = function (schemaName, query) {
             console.log("ignoring query still: " + query); // todo
             var deferred = $q.defer();
             Document.fetchDocuments(schemaName, function (list) {
-//                    console.log('list fetched'); // todo
-//                    console.log(list);
                 deferred.resolve(list);
             });
             return deferred.promise;
@@ -67,6 +89,13 @@ OSCR.controller(
                 $scope.setValue(after);
             }
         });
+
+        $scope.enableClearedEditor = function () {
+            $scope.chosenState = null;
+            $scope.el.value = null;
+            $scope.el.valueFields = null;
+            $scope.enableEditor();
+        };
 
         $scope.setValue = function (value) {
             $scope.el.value = angular.copy(value.Body.ImageMetadata);
