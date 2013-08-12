@@ -39,8 +39,8 @@ var fs = require('fs'),
         imageTypes: /\.(gif|jpe?g|png)$/i,
         imageVersions: {
             'thumbnail': {
-                width: 80,
-                height: 80
+                width: 160,
+                height: 160
             }
         },
         accessControl: {
