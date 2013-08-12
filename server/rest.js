@@ -232,7 +232,7 @@ app.post('/document/save', function (req, res) {
 app.get('/image/fetch/:fileName', function (req, res) {
     var fileName = req.params.fileName;
     var filePath = storage.Image.getImagePath(fileName);
-    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('Content-Type', 'image/jpeg'); // todo
     res.sendfile(filePath);
 });
 

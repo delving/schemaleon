@@ -128,11 +128,6 @@ OSCR.controller(
             return;
         }
 
-        $scope.checkEmpty = function () {
-            if (!$scope.el.value || /^\s*$/.test($scope.el.value)) {
-                $scope.el.value = undefined;
-            }
-        };
         $scope.el = $scope.panel.element;
 
         $scope.enableEditor = function () {
@@ -140,8 +135,7 @@ OSCR.controller(
         };
 
         $scope.disableEditor = function () {
-            $scope.checkEmpty();
-            $scope.el.edit = ($scope.el.value === undefined);
+            $scope.el.edit = false; //($scope.el.value === undefined);
         };
 
         $scope.disableEditor();
@@ -169,19 +163,19 @@ OSCR.controller(
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;
-                case 'enter':
-                    if (!$scope.el.edit) {
-                        $scope.enableEditor();
-                    }
-                    else if ($scope.active === 'textInput' || $scope.active === 'vocabulary') {
-                        $scope.disableEditor();
-                    }
-                    break;
-                case 'escape':
-                    if ($scope.el.edit) {
-                        $scope.disableEditor();
-                    }
-                    break;
+//                case 'enter':
+//                    if (!$scope.el.edit) {
+//                        $scope.enableEditor();
+//                    }
+//                    else if ($scope.active === 'textInput' || $scope.active === 'vocabulary' || scope.active === 'media' ) {
+//                        $scope.disableEditor();
+//                    }
+//                    break;
+//                case 'escape':
+//                    if ($scope.el.edit) {
+//                        $scope.disableEditor();
+//                    }
+//                    break;
             }
         };
 

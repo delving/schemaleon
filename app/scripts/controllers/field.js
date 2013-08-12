@@ -79,8 +79,8 @@ OSCR.controller(
             if (!media) {
                 return [];
             }
-            console.log('media to string');
-            console.log(media);
+//            console.log('media to string');
+//            console.log(media);
             return media.Header.Label; // todo
         };
 
