@@ -53,31 +53,33 @@
                 <div class="progress-extended">&nbsp;</div>
             </div>
 
-        <div class="fade-in">
-            <div ng-include src="'views/includes/document.html'"></div>
-        </div>
+        <!--<div class="fade-in">-->
+            <!--<div ng-include src="'views/includes/document.html'"></div>-->
+        <!--</div>-->
 
             <!-- The table listing the files available for upload/download -->
             <table class="table table-striped files ng-cloak clearfix">
                 <thead>
                 <tr>
-                    <th>
-                        <!--<input type="checkbox" data-ng-model="allFilesSelected" data-ng-click="selectAllFiles()"/> <span class="i18n">Select</span>-->
-                        <span class="btn pointer" data-ng-click="selectAllFiles()" ng-class="{'disabled': !allFilesSelected}"><i class="icon-check"></i></span>
-                    </th>
-                    <th i18n="Thumb"><span class="i18n">Thumb</span></th>
-                    <th i18n="Size"><span class="i18n">Size</span></th>
-                    <th i18n="Name"><span class="i18n">Name</span></th>
-                    <th i18n="Annotations"><span class="i18n">Annotations</span></th>
+                    <!--<th>-->
+                        <!--&lt;!&ndash;<input type="checkbox" data-ng-model="allFilesSelected" data-ng-click="selectAllFiles()"/> <span class="i18n">Select</span>&ndash;&gt;-->
+                        <!--<span class="btn pointer" data-ng-click="selectAllFiles()" ng-class="{'disabled': !allFilesSelected}"><i class="icon-check"></i></span>-->
+                    <!--</th>-->
+                    <th i18n="Thumb" width="80"><span class="i18n">Thumb</span></th>
+                    <th i18n="Annotations" width="200"><span class="i18n">Annotations</span></th>
+                    <th i18n="Size" width="100"><span class="i18n">Size</span></th>
+                    <th i18n="Name" width="180"><span class="i18n">Name</span></th>
                     <th i18n="Actions"><span class="i18n">Actions</span></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="file in queue">
-                    <td>
-                        <input type="checkbox" ng-model="file.selected" data-ng-hide="file.$submit"/>
-                        <span class="label label-success" data-ng-show="file.selected">Annotating</span>
-                    </td>
+                    <!--<td>-->
+                        <!--<div data-ng-hide="!file.$destroy">-->
+                        <!--<input type="checkbox" ng-model="file.selected" />-->
+                        <!--<span class="label label-success" data-ng-show="file.selected">Annotating</span>-->
+                        <!--</div>-->
+                    <!--</td>-->
                     <td data-ng-switch data-on="!!file.thumbnailUrl">
                         <div class="preview" data-ng-switch-when="true">
                             <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>
@@ -85,6 +87,9 @@
                             </a>
                         </div>
                         <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+                    </td>
+                    <td>
+                        <textarea data-ng-model="file.description"></textarea>
                     </td>
                     <td>
                         <p class="size">{{file.size | formatFileSize}}</p>
@@ -109,30 +114,30 @@
                         <div data-ng-show="file.error"><span class="label label-important">Error</span> {{file.error}}
                         </div>
                     </td>
-                    <td>
-                        <table ng-show="file.tree">
-                            <tr ng-repeat="element in file.tree.elements" ng-show="element.value">
-                                <td><b>{{ element.name }}</b></td>
-                                <td>{{ element.value }}</td>
-                            </tr>
-                        </table>
-                    </td>
+                    <!--<td>-->
+                        <!--<table ng-show="file.tree">-->
+                            <!--<tr ng-repeat="element in file.tree.elements" ng-show="element.value">-->
+                                <!--<td><b>{{ element.name }}</b></td>-->
+                                <!--<td>{{ element.value }}</td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                    <!--</td>-->
                     <td>
                         <!--<span class="btn pointer" data-ng-click="toggleAnnotationPanel(file);"  ng-class="{'btn-primary btn-success': file.selected}"><i class="icon-edit"></i></span>-->
                         <input type="checkbox" ng-model="file.selected" data-ng-show="file.$submit"/>
                         <button type="button" class="btn btn-primary start" data-ng-click="file.$submit()" data-ng-hide="!file.$submit">
                             <i class="icon-upload icon-white"></i>
-                            <span>Start</span>
+                            <span>Start Upload</span>
                         </button>
                         <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
                             <i class="icon-ban-circle icon-white"></i>
                             <span>Cancel</span>
                         </button>
-                        <button type="button" class="btn btn-primary commit" data-ng-click="commit(file)" ng-show="file.complete">
+                        <button type="button" class="btn btn-primary commit fade-in" data-ng-click="commit(file)" ng-show="file.description">
                             <i class="icon-hdd icon-white"></i>
                             <span>Commit</span>
                         </button>
-                        <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
+                        <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy" data-ng-hide="!file.$destroy"
                                 data-ng-click="file.$destroy()">
                             <i class="icon-ban-circle icon-white"></i>
                             <span>Delete</span>
