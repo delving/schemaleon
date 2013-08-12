@@ -495,6 +495,12 @@ table.files th input[type=checkbox]{
   margin-top: -3px;
 }
 
+.table-grid {
+  th {
+    #gradient .vertical(@white, @grayLighter);
+  }
+}
+
 /* HELP PANEL */
 
 .legend {
@@ -629,6 +635,15 @@ table.files th input[type=checkbox]{
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
+
+form#fileupload {
+  .navbar {
+    .progress{
+      margin-top: 20px;
+      margin-bottom: 0px;
+    }
+  }
+}
 
 .fileinput-button {
   position: relative;

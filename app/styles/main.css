@@ -522,6 +522,16 @@ ul.kv-list li span.value {
 table.files th input[type=checkbox] {
   margin-top: -3px;
 }
+.table-grid th {
+  background-color: #f8f8f8;
+  background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -o-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: linear-gradient(to bottom, #ffffff, #eeeeee);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
+}
 /* HELP PANEL */
 .legend {
   background: #555555;
@@ -644,6 +654,10 @@ table.files th input[type=checkbox] {
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
+form#fileupload .navbar .progress {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
 .fileinput-button {
   position: relative;
   overflow: hidden;
