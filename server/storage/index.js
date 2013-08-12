@@ -222,7 +222,7 @@ function open(databaseName, receiver) {
                     loadXML('Schemas.xml', function () {
                         receiver(storage);
                     });
-bewe                }
+                }
                 else {
                     throw error;
                 }

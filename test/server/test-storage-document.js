@@ -4,7 +4,7 @@ var fs = require('fs');
 var Storage = require('../../server/storage');
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
 var storage = null;
@@ -55,7 +55,7 @@ exports.testSaveDocument = function (test) {
             '</Body>' +
             '</Document>'
     };
-    storage.Document.saveDocument(body, function (header) {
+    storage.Document.saveDocument(body, function (xml) {
         hdr = header;
         test.ok(header.Identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
         test.done();

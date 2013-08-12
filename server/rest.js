@@ -224,7 +224,8 @@ app.post('/document/save', function (req, res) {
     // kind of interesting to receive xml within json, but seems to work
 //    console.log(req.body);
     storage.Document.saveDocument(req.body, function (header) {
-        res.json(header);
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(header);
     });
 });
 

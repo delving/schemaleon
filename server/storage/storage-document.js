@@ -77,13 +77,18 @@ P.saveDocument = function (envelope, receiver) {
     var time = new Date().getTime();
     var hdr = _.clone(envelope.header);
 
+    function finish() {
+        console.trace('finishing save document');
+        receiver(s.objectToXml(hdr, 'Header'));
+    }
+
     function addDocument() {
         var withIdentifier = envelope.xml.replace(IDENTIFIER, hdr.Identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
 //        console.trace("addDocument " + hdr.SchemaName + ' ' + hdr.Identifier);
         s.add(s.docDocument(hdr.SchemaName, hdr.Identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
-                receiver(hdr);
+                finish();
             }
             else {
                 throw error + "\n" + query;
@@ -112,7 +117,7 @@ P.saveDocument = function (envelope, receiver) {
         var stamped = envelope.xml.replace(TIMESTAMP, time);
         s.replace(s.docDocument(hdr.SchemaName, hdr.Identifier), stamped, function (error, reply) {
             if (reply.ok) {
-                receiver(hdr);
+                finish();
             }
             else {
                 throw "Unable to replace " + s.docDocument(hdr.SchemaName, hdr.Identifier);
