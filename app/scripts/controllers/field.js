@@ -219,6 +219,10 @@ OSCR.controller(
             return;
         }
         $scope.setActive('textInput');
+        if ($scope.el.value === undefined) {
+            $scope.enableEditor();
+        }
+
         if (ti.validator) {
             var func = Validator.getFunction(ti.validator);
             if (func) {
@@ -242,6 +246,9 @@ OSCR.controller(
             return;
         }
         $scope.setActive('textArea');
+        if ($scope.el.value === undefined) {
+            $scope.enableEditor();
+        }
     }
 );
 
