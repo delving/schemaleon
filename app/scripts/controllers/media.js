@@ -126,13 +126,15 @@ OSCR.controller(
                 Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#",
                 EMail: $rootScope.user.email,
+                Description: file.description,
                 DigitalObject: {
                     fileName: file.name,
                     mimeType: getMimeType(file.name)
                 }
             };
-            collectSummaryFields(file.tree, header);
-            var body = treeToObject(file.tree);
+//            collectSummaryFields(file.tree, header);
+//            var body = treeToObject(file.tree);
+            var body = "<ImageMetadata/>";
             Document.saveDocument(header, body, function (header) {
                 log("saved image");
                 log(header);
