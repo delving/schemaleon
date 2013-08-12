@@ -23,7 +23,7 @@
                                     </span>
                                     <button type="button" class="btn btn-primary start" data-ng-click="submit()">
                                         <i class="icon-upload icon-white"></i>
-                                        <span i18n="StartUpload"><span class="i18n">Start upload</span></span>
+                                        <span i18n="UploadAllFiles"><span class="i18n">Upload all files</span></span>
                                     </button>
                                     <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
                                         <i class="icon-ban-circle icon-white"></i>
@@ -120,13 +120,13 @@
                         <input type="checkbox" ng-model="file.selected" data-ng-show="file.$submit"/>
                         <button type="button" class="btn btn-primary start" data-ng-click="file.$submit()" data-ng-hide="!file.$submit">
                             <i class="icon-upload icon-white"></i>
-                            <span>Start Upload</span>
+                            <span>Upload file</span>
                         </button>
                         <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
                             <i class="icon-ban-circle icon-white"></i>
                             <span>Cancel</span>
                         </button>
-                        <button type="button" class="btn btn-primary commit fade-in" data-ng-click="commit(file)" data-ng-hide="!file.$destroy">
+                        <button type="button" class="btn btn-primary commit fade-in" data-ng-click="commit(file)" data-ng-show="file.description">
                             <i class="icon-hdd icon-white"></i>
                             <span>Commit</span>
                         </button>
