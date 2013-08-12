@@ -67,7 +67,6 @@
                     <!--</th>-->
                     <th i18n="Thumb" width="80"><span class="i18n">Thumb</span></th>
                     <th i18n="Annotations" width="200"><span class="i18n">Annotations</span></th>
-                    <th i18n="Size" width="100"><span class="i18n">Size</span></th>
                     <th i18n="Name" width="180"><span class="i18n">Name</span></th>
                     <th i18n="Actions"><span class="i18n">Actions</span></th>
                 </tr>
@@ -85,20 +84,12 @@
                             <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>
                                 <img data-ng-src="{{file.thumbnailUrl}}" alt="" ng-style="{height:'50px'}">
                             </a>
+                            <p class="size">{{file.size | formatFileSize}}</p>
                         </div>
                         <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
                     </td>
                     <td>
                         <textarea data-ng-model="file.description"></textarea>
-                    </td>
-                    <td>
-                        <p class="size">{{file.size | formatFileSize}}</p>
-
-                        <div class="progress progress-success progress-striped active fade"
-                             data-ng-class="{pending: 'in'}[file.$state()]"
-                             data-file-upload-progress="file.$progress()">
-                            <div class="bar" data-ng-style="{width: num + '%'}"></div>
-                        </div>
                     </td>
                     <td>
                         <p class="name" data-ng-switch data-on="!!file.url">
