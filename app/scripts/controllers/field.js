@@ -2,6 +2,10 @@
 
 var OSCR = angular.module('OSCR');
 
+function log(message) {
+//    console.log(message);
+}
+
 OSCR.filter('elementDisplay',
     function () {
         return function (element) {
@@ -12,8 +16,8 @@ OSCR.filter('elementDisplay',
                 return element.value.Label; // todo
             }
             else if (element.media) {
-//                console.log('elementDisplay');
-//                console.log(element.value);
+                log('elementDisplay');
+                log(element.value);
                 return element.value.Description;
             }
             else {
@@ -62,8 +66,8 @@ OSCR.controller(
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
                 Document.fetchDocument($scope.m.schemaName, $scope.el.value.Identifier, function (fetchedValue) {
-//                    console.log('fetched media record');
-//                    console.log(fetchedValue.Document);
+                    log('fetched media record');
+                    log(fetchedValue.Document);
                     $scope.setValue(fetchedValue.Document);
                 });
             }
@@ -82,8 +86,8 @@ OSCR.controller(
             if (!media) {
                 return [];
             }
-//            console.log('media to string');
-//            console.log(media);
+            log('media to string');
+            log(media);
             return media.Header.Label; // todo
         };
 
@@ -94,7 +98,7 @@ OSCR.controller(
         });
 
         $scope.enableClearedEditor = function () {
-            $scope.chosenState = null;
+            $scope.chosenMedia = null;
             $scope.el.value = null;
             $scope.el.valueFields = null;
             $scope.enableEditor();
@@ -138,8 +142,8 @@ OSCR.controller(
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
                 Document.fetchDocument($scope.v.name, $scope.el.value.ID    , function (fetchedValue) {
-//                    console.log('fetched media record');
-//                    console.log(fetchedValue.Document);
+                    log('fetched media record');
+                    log(fetchedValue.Document);
                     $scope.setValue(fetchedValue.Document);
                 });
             }
