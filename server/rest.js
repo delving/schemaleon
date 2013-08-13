@@ -139,6 +139,13 @@ app.get('/person/group/select', function(req, res) {
     });
 });
 
+app.get('/person/group/all', function(req, res) {
+    storage.Person.getAllGroups(function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
 app.post('/person/group/save', function (req, res) {
     console.log('group save:');
     console.log(req.body);

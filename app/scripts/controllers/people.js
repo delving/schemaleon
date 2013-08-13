@@ -24,7 +24,7 @@ OSCR.controller(
     'PeopleController',
     function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
 
-        console.log($cookieStore.get('oscr'));
+//        console.log($cookieStore.get('oscr'));
 
         $scope.groupCreated = false;
         $scope.userAssigned = false;
@@ -32,6 +32,17 @@ OSCR.controller(
             return { name: role }
         });
 
+        function getAllGroups() {
+
+            Person.getAllGroups(function(list){
+                $scope.groupList = list;
+                console.log($scope.groupList);
+            });
+        }
+
+        getAllGroups();
+
+        
         $scope.typeAheadUsers = function (query) {
             var deferred = $q.defer();
             Person.selectUsers(query, function (list) {
@@ -47,12 +58,26 @@ OSCR.controller(
             return user.Profile.email + ' - ' + user.Profile.firstName + ' ' + user.Profile.lastName;
         };
 
+//        $scope.typeAheadGroups = function (query) {
+//            var deferred = $q.defer();
+//            Person.selectGroups(query, function (list) {
+//                deferred.resolve(list);
+//            });
+//            return deferred.promise;
+//        };
+
         $scope.typeAheadGroups = function (query) {
-            var deferred = $q.defer();
-            Person.selectGroups(query, function (list) {
-                deferred.resolve(list);
+            var search = query.toLowerCase();
+            var selectedGroups = _.filter($scope.groupList, function(group) {
+
+                return group.Name.toLowerCase().indexOf(search) >= 0;
+
             });
-            return deferred.promise;
+            if (!selectedGroups.length){
+                selectedGroups = $scope.groupList;
+            }
+
+            return selectedGroups;
         };
 
         $scope.groupToString = function (group) {
@@ -76,6 +101,7 @@ OSCR.controller(
                 }, 4000);
 
             });
+            getAllGroups();
         };
 
         $scope.assignUserToGroup = function () {
@@ -87,6 +113,9 @@ OSCR.controller(
                 }, 4000);
             })
         }
+        
+//        $scope.users = Person.getUsers();
+//        console.log($scope.users);
 
     }
 );

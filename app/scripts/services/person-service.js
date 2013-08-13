@@ -33,6 +33,12 @@ angular.module('OSCR').service(
             });
         };
 
+        this.getAllGroups = function (accept) {
+            $http.get('/person/group/all').success(function (xml) {
+                accept(xmlToArray(xml));
+            });
+        };
+
         this.getGroup = function (identifier, accept) {
             $http.get('/person/group/fetch/' + identifier).success(function (xml) {
                 accept(xmlToObject(xml));
