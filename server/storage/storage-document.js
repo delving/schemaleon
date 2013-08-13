@@ -10,6 +10,10 @@ function Document(storage) {
 
 var P = Document.prototype;
 
+function log(message) {
+//    console.log(message);
+}
+
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
     var query = s.schemaPath() + "/Document/" + schemaName;
@@ -66,8 +70,8 @@ P.selectDocuments = function (schemaName, search, receiver) {
     var query = [
         '<Documents>',
         '    { ',
-        '        for $doc in '+ s.docCollection(schemaName)+'/Document',
-        '        where $doc/Body//*[contains(lower-case(text()), lower-case('+ s.quote(search) + '))]',
+        '        for $doc in ' + s.docCollection(schemaName) + '/Document',
+        '        where $doc/Body//*[contains(lower-case(text()), lower-case(' + s.quote(search) + '))]',
         '        order by $doc/Header/TimeStamp descending',
         '        return $doc',
         '    }',
@@ -107,14 +111,14 @@ P.saveDocument = function (envelope, receiver) {
     var hdr = _.clone(envelope.header);
 
     function finish() {
-//        console.trace('finishing save document');
+        log('finishing save document');
         receiver(s.objectToXml(hdr, 'Header'));
     }
 
     function addDocument() {
         var withIdentifier = envelope.xml.replace(IDENTIFIER, hdr.Identifier);
         var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
-//        console.trace("addDocument " + hdr.SchemaName + ' ' + hdr.Identifier);
+        log("addDocument " + hdr.SchemaName + ' ' + hdr.Identifier);
         s.add(s.docDocument(hdr.SchemaName, hdr.Identifier), withTimesStamp, function (error, reply) {
             if (reply.ok) {
                 finish();
@@ -129,8 +133,8 @@ P.saveDocument = function (envelope, receiver) {
     if (hdr.Identifier === IDENTIFIER) {
         if (envelope.header.MediaObject) {
             // expects fileName, mimeType
-//            console.log('save image');
-//            console.log(hdr.MediaObject);
+            log('save image');
+            log(hdr.MediaObject);
             s.Media.saveMedia(hdr.MediaObject, function (fileName) {
                 hdr.Identifier = fileName;
                 addDocument();

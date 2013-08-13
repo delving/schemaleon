@@ -13,10 +13,11 @@ app.use(express.bodyParser());
 // takes all paths which start with /media
 // todo: app.use(uploader);
 
+var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 var storage = null;
 
-Storage('oscr', function (s) {
-    console.log('Yes we have ' + s.database);
+Storage('oscr', homeDir, function (s) {
+    console.log('We have database ' + s.database + ', and home directory ' + homeDir);
     storage = s;
 });
 

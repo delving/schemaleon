@@ -15,8 +15,10 @@
 
 'use strict';
 
+var Directories = require('./directories');
+var directories = new Directories();
+
 var fs = require('fs'),
-    oscrPublic = require('./oscr-public'),
     path = require('path'),
 // Since Node 0.8, .existsSync() moved from path to fs:
     _existsSync = fs.existsSync || path.existsSync,
@@ -24,9 +26,9 @@ var fs = require('fs'),
     nodeStatic = require('node-static'),
     imageMagick = require('imagemagick'),
     options = {
-        tmpDir: oscrPublic.tmpDir,
-        publicDir: oscrPublic.publicDir,
-        uploadDir: oscrPublic.uploadDir,
+        tmpDir: directories.mediaTempDir,
+        publicDir: directories.mediaUpload,
+        uploadDir: directories.mediaUploadDir,
         uploadUrl: '/files/',
 // todo:        uploadUrl: '/media/files/',
         maxPostSize: 11000000000, // 11 GB

@@ -2,10 +2,7 @@
 /*global language, console, $, _ */
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
-var uploader = require('./server/uploader'); // todo: integrated in rest.js
-var mountFolder = function (connect, dir) {
-    return connect.static(path.resolve(dir));
-};
+var uploader = require('./server/uploader'); // todo: integrate in rest.js
 
 // This is a comment
 

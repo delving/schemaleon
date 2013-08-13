@@ -7,7 +7,7 @@ var storage = null;
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    Storage('oscrtest', function(s) {
+    Storage('oscrtest', '/tmp', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
         test.done();

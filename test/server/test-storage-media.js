@@ -4,7 +4,6 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 var Storage = require('../../server/storage');
-var uploadDir = require('../../server/oscr-public').uploadDir;
 
 function log(message) {
 //    console.log(message);
@@ -12,38 +11,28 @@ function log(message) {
 
 var storage = null;
 
-exports.createDatabase = function (test) {
-    function clearDir(dirPath) {
-        fs.readdir(dirPath,
-            function (err, files) {
-                if (err) {
-                    console.log(JSON.stringify(err));
-                }
-                else if (files.length) {
-                    _.each(files, function (file) {
-                        var filePath = dirPath + '/' + file;
-                        fs.stat(filePath, function (err, stats) {
-                            if (err) {
-                                console.log(JSON.stringify(err));
-                            }
-                            else if (stats.isFile()) {
-                                fs.unlinkSync(filePath);
-                            }
-                            else if (stats.isDirectory()) {
-                                clearDir(filePath);
-//                                fs.rmdirSync(filePath);
-                            }
-                        });
-                    });
-                }
+function rmdir(dir) {
+    var list = fs.readdirSync(dir);
+    _.each(list, function (entry) {
+        if (entry[0] != '.') {
+            var fileName = path.join(dir, entry);
+            var stat = fs.statSync(fileName);
+            if (stat.isDirectory()) {
+                rmdir(fileName);
             }
-        );
-    }
+            else {
+                fs.unlinkSync(fileName);
+                log('removed ' + fileName);
+            }
+        }
+    });
+    fs.rmdirSync(dir);
+    log('removed ' + dir);
+}
 
-    var imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images';
-    clearDir(imageRoot);
+exports.createDatabase = function (test) {
     test.expect(1);
-    Storage('oscrtest', function (s) {
+    Storage('oscrtest', '/tmp', function (s) {
         test.ok(s, 'problem creating database');
         storage = s;
         test.done();
@@ -65,7 +54,7 @@ function envelope(header, body) {
 exports.testImageIngestion = function (test) {
     test.expect(4);
     var fileName = 'zoomcat.jpg';
-    copyFile(path.join('test/data', fileName), path.join(uploadDir, fileName), function () {
+    copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaUploadDir, fileName), function () {
         var body = {
             Creator: 'zoomy',
             Description: 'disturbing',
@@ -82,6 +71,8 @@ exports.testImageIngestion = function (test) {
             }
         };
         var envel = envelope(header, body);
+        log('about to save document');
+        log(envel);
         storage.Document.saveDocument(envel, function (xml) {
             test.ok(xml, "no xml");
             log('xml:');
@@ -107,6 +98,8 @@ exports.testImageIngestion = function (test) {
 
 exports.dropIt = function (test) {
     test.expect(1);
+    rmdir(storage.directories.mediaStorage);
+    rmdir(storage.directories.mediaUpload);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
         test.done();
@@ -114,6 +107,8 @@ exports.dropIt = function (test) {
 };
 
 function copyFile(source, target, cb) {
+    log('copy file ' + source + " " + target);//
+
     var cbCalled = false;
 
     var rd = fs.createReadStream(source);

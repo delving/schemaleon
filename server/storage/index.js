@@ -2,6 +2,7 @@
 
 var _ = require('underscore');
 var fs = require('fs');
+var path = require('path');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
 
@@ -10,10 +11,11 @@ var I18N = require('./storage-i18n');
 var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
 var Media = require('./storage-media');
+var Directories = require('../directories');
 
-function Storage() {
+function Storage(home) {
     this.session = new basex.Session();
-    this.imageRoot = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/OSCR-Images';
+    this.directories = new Directories(home);
 
     function generateId(prefix) {
         var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
@@ -209,8 +211,8 @@ function Storage() {
 
 }
 
-function open(databaseName, receiver) {
-    var storage = new Storage();
+function open(databaseName, homeDir, receiver) {
+    var storage = new Storage(homeDir);
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
         if (reply.ok) {
