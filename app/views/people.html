@@ -7,7 +7,7 @@
              <div class="span3">
                  <div class="widget-box">
                      <div class="widget-title">
-                         <span class="icon"><i class="icon-user"></i></span>
+                         <span class="icon"><i class="icon-users"></i></span>
                          <h5>Create group</h5>
                      </div>
                      <div class="widget-body">
@@ -48,9 +48,9 @@
                         <input type="text" ng-model="chosenGroup" class="input-block-level"
                                typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"/>
                         <label>Role:</label>
-                        <select id="role-select"
-                                ng-model="chosenRole"
-                                ng-options="role.value as role.name for role in roles">
+                        <select id="role-select" ng-model="chosenRole">
+                            <option value="">---------</option>
+                            <option ng-repeat="role in roles">{{ role.name }}</option>
                         </select>
                 </div>
                 <div class="widget-footer">
@@ -60,9 +60,32 @@
             </div>
         </div>
 
+        <div class="span3">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"></span>
+                    <h5>Available Groups</h5>
+                </div>
+                <div class="widget-body">
+
+                    <accordion>
+                        <accordion-group ng-repeat="group in groupList">
+                            <accordion-heading><i class="icon icon-users"></i> {{ group.Name }}</accordion-heading>
+                            {{ group.Identifier }}
+                        </accordion-group>
+                    </accordion>
+
+                </div>
+            </div>
+        </div>
 
 
 
+    </div>
 
+    <div class="row-fluid">
+        <div class="span3">
+
+        </div>
     </div>
 </div>
