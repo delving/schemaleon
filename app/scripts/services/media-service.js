@@ -3,7 +3,7 @@
 var OSCR = angular.module('OSCR');
 
 OSCR.service(
-    'Image',
+    'Media',
     function ($http) {
 
 //        this.select = function (vocab, query, accept) {

@@ -9,7 +9,7 @@ var Person = require('./storage-person');
 var I18N = require('./storage-i18n');
 var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
-var Image = require('./storage-image');
+var Media = require('./storage-media');
 
 function Storage() {
     this.session = new basex.Session();
@@ -46,7 +46,11 @@ function Storage() {
 
     this.imageBucketName = function (fileName) { // assumes file name is = generateId() + '.???'
         var rx = /.*-.([a-z0-9]{2})\..../g;
-        return rx.exec(fileName)[1];
+        var results = rx.exec(fileName);
+        if (!results) {
+            throw "Bucket could not be extracted from file name " + fileName;
+        }
+        return results[1];
     };
 
     this.getFromXml = function (xml, tag) {
@@ -171,7 +175,7 @@ function Storage() {
     };
 
     this.docCollection = function (schemaName) {
-        return "collection('" + this.database + "/documents/" + schemaName + "')/Document";
+        return "collection('" + this.database + "/documents/" + schemaName + "')";
     };
 
     this.xquery = function (query, callback) {
@@ -201,7 +205,7 @@ function Storage() {
 
     this.Document = new Document(this);
 
-    this.Image = new Image(this);
+    this.Media = new Media(this);
 
 }
 

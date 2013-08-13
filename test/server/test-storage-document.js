@@ -50,7 +50,7 @@ exports.testSaveDocument = function (test) {
             '<Body>' +
             '<Photograph>' +
             '<Title>Test Document</Title>' +
-            '<ShortDescription>An attempt</ShortDescription>' +
+            '<Description>Big Bang</Description>' +
             '</Photograph>' +
             '</Body>' +
             '</Document>'
@@ -79,7 +79,7 @@ exports.testSaveAnother = function (test) {
             '<Body>' +
             '<Photograph>' +
             '<Title>Incriminating</Title>' +
-            '<ShortDescription>Censored</ShortDescription>' +
+            '<Description>Censored</Description>' +
             '</Photograph>' +
             '</Body>' +
             '</Document>'
@@ -108,8 +108,8 @@ exports.testSaveDocumentAgain = function (test) {
             '<Body>' +
             '<Photograph>' +
             '<Title>Test Document</Title>' +
-            '<ShortDescription>An attempt</ShortDescription>' +
-            '<ShortDescription>and more</ShortDescription>' +
+            '<Description>Big Bang</Description>' +
+            '<Description>and more</Description>' +
             '</Photograph>' +
             '</Body>' +
             '</Document>'
@@ -132,9 +132,19 @@ exports.testGetDocument = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    storage.Document.getDocuments('Photograph', function (xml) {
-        log('testGetDocumentList');
-//        log(xml);
+    storage.Document.getAllDocuments('Photograph', function (xml) {
+        log(xml);
+        test.ok(xml, "No xml");
+        test.ok(xml.indexOf(headerIdentifier) >= 0, "No identifier found to match " + headerIdentifier);
+        test.done();
+    })
+};
+
+exports.testSelectDocuments = function (test) {
+    test.expect(2);
+    storage.Document.selectDocuments('Photograph', 'bang', function (xml) {
+        log('testSelectDocuments:');
+        log(xml);
         test.ok(xml, "No xml");
         test.ok(xml.indexOf(headerIdentifier) >= 0, "No identifier found to match " + headerIdentifier);
         test.done();

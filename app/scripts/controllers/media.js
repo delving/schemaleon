@@ -4,7 +4,7 @@
 var OSCR = angular.module('OSCR');
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 var url = 'http://localhost:8888';
@@ -131,7 +131,7 @@ OSCR.controller(
                 Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#",
                 EMail: $rootScope.user.email,
-                DigitalObject: {
+                MediaObject: {
                     fileName: file.name,
                     mimeType: getMimeType(file.name)
                 }

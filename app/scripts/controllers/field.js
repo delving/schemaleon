@@ -23,11 +23,11 @@ OSCR.filter('elementDisplay',
     }
 );
 
-OSCR.filter('imageDisplay',
+OSCR.filter('mediaDisplay',
     function () {
         return function (element) {
             if (element.value && element.media) {
-                return '/image/fetch/'+element.value.Identifier;
+                return '/media/fetch/'+element.value.Identifier;
             }
             else {
                 return '';
@@ -70,10 +70,9 @@ OSCR.controller(
             $scope.valueChecked = true;
         }
 
-        $scope.getMediaList = function (schemaName, query) {
-            console.log("ignoring query still: " + query); // todo
+        $scope.getMediaList = function (schemaName, search) {
             var deferred = $q.defer();
-            Document.fetchDocuments(schemaName, function (list) {
+            Document.selectDocuments(schemaName, search, function (list) {
                 deferred.resolve(list);
             });
             return deferred.promise;

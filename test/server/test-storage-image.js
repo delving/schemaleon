@@ -76,7 +76,7 @@ exports.testImageIngestion = function (test) {
             SchemaName: 'ImageMetadata',
             TimeStamp: "#TIMESTAMP#",
             EMail: 'oscr@delving.eu',
-            DigitalObject: {
+            MediaObject: {
                 fileName: fileName,
                 mimeType: 'image/jpeg'
             }
@@ -87,11 +87,11 @@ exports.testImageIngestion = function (test) {
             log('xml:');
             log(xml);
             var schemaName = storage.getFromXml(xml, "SchemaName");
-            storage.Image.listImageData(schemaName, function (results) {
+            storage.Document.getAllDocuments(schemaName, function (results) {
                 log('listImageData for ' + schemaName);
                 log(results);
                 test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
-                storage.Image.listImageFiles(function (err, results) {
+                storage.Media.listMediaFiles(function (err, results) {
                     test.equals(results.length, 1, "should just be one file, but it's " + results.length);
                     var newFileName = path.basename(results[0]);
                     storage.Document.getDocument(schemaName, newFileName, function (doc) {

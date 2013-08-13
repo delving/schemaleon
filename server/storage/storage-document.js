@@ -23,11 +23,11 @@ P.getDocumentSchema = function (schemaName, receiver) {
     });
 };
 
-P.getDocumentHeaders = function (schemaName, receiver) {
+P.getAllDocumentHeaders = function (schemaName, receiver) {
     var s = this.storage;
     var query = [
         '<Headers>',
-        '    { ' + s.docCollection(schemaName) + '/Header }',
+        '    { ' + s.docCollection(schemaName) + '/Document/Header }',
         '</Headers>'
     ];
     s.xquery(query, function (error, reply) {
@@ -40,11 +40,11 @@ P.getDocumentHeaders = function (schemaName, receiver) {
     });
 };
 
-P.getDocuments = function (schemaName, receiver) {
+P.getAllDocuments = function (schemaName, receiver) {
     var s = this.storage;
     var query = [
         '<Documents>',
-        '    { ' + s.docCollection(schemaName) + ' }',
+        '    { ' + s.docCollection(schemaName) + '/Document }',
         '</Documents>'
     ];
     s.xquery(query, function (error, reply) {
@@ -53,6 +53,31 @@ P.getDocuments = function (schemaName, receiver) {
         }
         else {
             throw error + "\n" + query;
+        }
+    });
+};
+
+P.selectDocuments = function (schemaName, search, receiver) {
+    var s = this.storage;
+    var query = [
+        '<Documents>',
+        '    { ',
+        '        for $doc in '+ s.docCollection(schemaName)+'/Document',
+        '        where $doc/Body//*[contains(lower-case(text()), lower-case('+ s.quote(search) + '))]',
+        '        order by $doc/Header/Timestamp',
+        '        return $doc',
+        '    }',
+        '</Documents>'
+    ];
+    s.xquery(query, function (error, reply) {
+//        console.log(query);
+//        console.log(reply);
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            console.log('THROW');
+            receiver('');
         }
     });
 };
@@ -98,11 +123,11 @@ P.saveDocument = function (envelope, receiver) {
 
     hdr.TimeStamp = time;
     if (hdr.Identifier === IDENTIFIER) {
-        if (envelope.header.DigitalObject) {
+        if (envelope.header.MediaObject) {
             // expects fileName, mimeType
 //            console.log('save image');
-//            console.log(hdr.DigitalObject);
-            s.Image.saveImage(hdr.DigitalObject, function (fileName) {
+//            console.log(hdr.MediaObject);
+            s.Media.saveMedia(hdr.MediaObject, function (fileName) {
                 hdr.Identifier = fileName;
                 addDocument();
             });

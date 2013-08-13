@@ -187,7 +187,7 @@ app.get('/vocabulary/:vocab/select', function (req, res) {
     var search = req.param('q').toLowerCase();
     storage.Vocab.getVocabularyEntries(req.params.vocab, search, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
-        res.send("<Entries>" + xml + "</Entries>"); // todo: do it in the xquery
+        res.send(xml);
     });
 });
 
@@ -214,14 +214,24 @@ app.get('/document/fetch/:schema/:identifier', function (req, res) {
 });
 
 app.get('/document/list/headers/:schema', function (req, res) {
-    storage.Document.getDocumentHeaders(req.params.schema, function (xml) {
+    storage.Document.getAllDocumentHeaders(req.params.schema, function (xml) {
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
 });
 
 app.get('/document/list/documents/:schema', function (req, res) {
-    storage.Document.getDocuments(req.params.schema, function (xml) {
+    storage.Document.getAllDocuments(req.params.schema, function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
+app.get('/document/select/:schema', function (req, res) {
+    var search = req.param('q').toLowerCase();
+    storage.Document.selectDocuments(req.params.schema, search, function (xml) {
+//        console.log('Documents:'); // todo
+//        console.log(xml);
         res.setHeader('Content-Type', 'text/xml');
         res.send(xml);
     });
@@ -236,11 +246,19 @@ app.post('/document/save', function (req, res) {
     });
 });
 
-app.get('/image/fetch/:fileName', function (req, res) {
+app.get('/media/fetch/:fileName', function (req, res) {
     var fileName = req.params.fileName;
-    var filePath = storage.Image.getImagePath(fileName);
+    var filePath = storage.Media.getMediaPath(fileName);
     res.setHeader('Content-Type', 'image/jpeg'); // todo
     res.sendfile(filePath);
+});
+
+app.get('/media/list', function (req, res) {
+    var q = req.param('q');
+    if (q) {
+        var search = q.toLowerCase();
+//        storage.Image.
+    }
 });
 
 module.exports = app;

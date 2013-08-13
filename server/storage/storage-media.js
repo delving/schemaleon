@@ -5,24 +5,24 @@ var path = require('path');
 var uploadDir = require('../oscr-public').uploadDir;
 var _ = require('underscore');
 
-module.exports = Image;
+module.exports = Media;
 
-function Image(storage) {
+function Media(storage) {
     this.storage = storage;
 }
 
-var P = Image.prototype;
+var P = Media.prototype;
 
-P.saveImage = function (digitalObject, receiver) {
+P.saveMedia = function (mediaObject, receiver) {
     var s = this.storage;
-    var imagePath = path.join(uploadDir, digitalObject.fileName);
+    var imagePath = path.join(uploadDir, mediaObject.fileName);
     if (!fs.existsSync(imagePath)) {
         throw 'Cannot find image file ' + imagePath;
     }
     if (!fs.existsSync(s.imageRoot)) {
         fs.mkdirSync(s.imageRoot);
     }
-    var fileName = createFileName(s, digitalObject);
+    var fileName = createFileName(s, mediaObject);
     var bucketName = s.imageBucketName(fileName);
     var bucketPath = path.join(s.imageRoot, bucketName);
     if (!fs.existsSync(bucketPath)) {
@@ -36,31 +36,15 @@ P.saveImage = function (digitalObject, receiver) {
     });
 };
 
-P.getImagePath = function (fileName) {
+P.getMediaPath = function (fileName) {
     var s = this.storage;
     var bucketName = s.imageBucketName(fileName);
     return s.imageRoot + '/' + bucketName + '/' + fileName;
 };
 
-P.listImageData = function (schemaName, receiver) {
-    var s = this.storage;
-    var query = [
-        '<Images>',
-        '    { ' + s.docCollection(schemaName) + '}',
-        '</Images>'
-    ];
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
+// ============= for testing only:
 
-};
-
-P.listImageFiles = function (done) {
+P.listMediaFiles = function (done) {
     function walk(dir, done) {
         var results = [];
         fs.readdir(dir, function (err, list) {
