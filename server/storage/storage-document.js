@@ -44,7 +44,11 @@ P.getAllDocuments = function (schemaName, receiver) {
     var s = this.storage;
     var query = [
         '<Documents>',
-        '    { ' + s.docCollection(schemaName) + '/Document }',
+        '    {',
+        '        for $doc in ' + s.docCollection(schemaName) + '/Document',
+        '        order by $doc/Header/TimeStamp descending',
+        '        return $doc',
+        '    }',
         '</Documents>'
     ];
     s.xquery(query, function (error, reply) {
@@ -64,7 +68,7 @@ P.selectDocuments = function (schemaName, search, receiver) {
         '    { ',
         '        for $doc in '+ s.docCollection(schemaName)+'/Document',
         '        where $doc/Body//*[contains(lower-case(text()), lower-case('+ s.quote(search) + '))]',
-        '        order by $doc/Header/Timestamp',
+        '        order by $doc/Header/TimeStamp descending',
         '        return $doc',
         '    }',
         '</Documents>'

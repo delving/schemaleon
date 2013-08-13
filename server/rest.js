@@ -253,12 +253,4 @@ app.get('/media/fetch/:fileName', function (req, res) {
     res.sendfile(filePath);
 });
 
-app.get('/media/list', function (req, res) {
-    var q = req.param('q');
-    if (q) {
-        var search = q.toLowerCase();
-//        storage.Image.
-    }
-});
-
 module.exports = app;

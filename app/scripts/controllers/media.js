@@ -43,11 +43,25 @@ OSCR.controller(
         }
 
         $scope.document = 'ImageMetadata';
+        $scope.ingestedHeaders = [];
+
+        function fetchIngested() {
+            Document.fetchAllDocuments($scope.document, function (list) {
+                console.log('ingestedDocuments'); // todo
+                console.log(list);
+                $scope.ingestedHeaders = _.map(list, function (doc) {
+                    var header = doc.Header;
+                    header.thumbnail = '/media/fetch/' + header.Identifier;
+                    header.date = new Date(parseInt(header.TimeStamp));
+                    return  header;
+                });
+            });
+        }
 
         Document.fetchSchema($scope.document, function (tree) {
             $scope.setTree(tree);
+            fetchIngested();
         });
-
 
         $scope.setTree = function (tree) {
             log('setTree');
@@ -137,7 +151,7 @@ OSCR.controller(
                 }
             };
             var fileTree = treeOf(file);
-            _.each(fileTree.elements, function(el) { // cheat
+            _.each(fileTree.elements, function (el) { // cheat
                 if (el.name === 'Description') {
                     el.value = file.description;
                 }
@@ -148,6 +162,7 @@ OSCR.controller(
                 log("saved image");
                 log(header);
                 file.$destroy();
+                fetchIngested();
             });
         };
     }

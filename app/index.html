@@ -79,18 +79,20 @@
         </div>
 
         <!--<div class="container-fluid">-->
-            <div class="row-fluid">
-                <div id="sidebar" ng-show="user">
-                    <div ng-show="config.showTranslationEditor" class="alert">
-                        <strong>Translation editor active! <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></strong></span>
-                        <p>While translating all hyperlinks and buttons are disabled. To return to normal navigation of the document turn off the translation editor.</p>
-                    </div>
-                    <div class="sidebar-nav">
-                        <ul class="nav nav-pills nav-stacked main-menu">
-                            <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
-                                <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                    {{ link | linkTitle }}
+        <div class="row-fluid">
+            <div id="sidebar" ng-show="user">
+                <div ng-show="config.showTranslationEditor" class="alert">
+                    <strong>Translation editor active! <span class="btn btn-small btn-warning"><i
+                            class="icon-translate icon-white"></i></span></strong>
+                    <p>While translating all hyperlinks and buttons are disabled. To return to normal navigation of the
+                        document turn off the translation editor.</p>
+                </div>
+                <div class="sidebar-nav">
+                    <ul class="nav nav-pills nav-stacked main-menu">
+                        <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
+                            <a href ng-click="choosePath(link.path)">
+                                <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                {{ link | linkTitle }}
                                <span ng-show="config.showTranslationEditor"
                                      ng-click="openLabelDialog(link)"
                                      tooltip="Click to translate"
@@ -98,31 +100,31 @@
                                      class="badge badge-warning btn-i18n">
                                     <i class="icon-translate icon-white"></i>
                                 </span>
-                                </a>
-                            </li>
-                            <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/></li>
-                            <li ng-repeat="link in recent" ng-class="{ active: link.active }">
-                                <a href ng-click="choosePath(link.path)">
-                                    <i class="icon-leaf"></i>
-                                    {{ link | linkTitle }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--/.sidebar-nav -->
-                    <!--<div ng-include="getInclude()"></div>-->
+                            </a>
+                        </li>
+                        <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
+                        </li>
+                        <li ng-repeat="link in recent" ng-class="{ active: link.active }">
+                            <a href ng-click="choosePath(link.path)">
+                                <i class="icon-leaf"></i>
+                                {{ link | linkTitle }}
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+                <!--/.sidebar-nav -->
+                <!--<div ng-include="getInclude()"></div>-->
+            </div>
 
-                <div id="mainBody">
-                    <div ng-view id="view"><!-- Angular views are rendered here --></div>
-                </div>
+            <div id="mainBody">
+                <div ng-view id="view"><!-- Angular views are rendered here --></div>
             </div>
         </div>
-
-
     </div>
 
+
 </div>
+
 <!-- // APPLICATION CONTAINER -->
 
 <!-- build:js scripts/scripts.js -->
@@ -149,7 +151,6 @@
 <script src="scripts/controllers/media.js"></script>
 <script src="scripts/controllers/field.js"></script>
 <script src="scripts/services/person-service.js"></script>
-<script src="scripts/services/media-service.js"></script>
 <script src="scripts/services/i18n-service.js"></script>
 <script src="scripts/services/vocabulary-service.js"></script>
 <script src="scripts/services/document-service.js"></script>
@@ -162,21 +163,13 @@
 <!-- build:js scripts/fileupload.js -->
 
 <!-- fileupload -->
-<!-- The File Upload image preview & resize plugin -->
 <script src="components/blueimp-load-image/js/load-image.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="components/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
 <script src="components/blueimp-file-upload/js/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
 <script src="components/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
-<!-- The File Upload image preview & resize plugin -->
 <script src="components/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
-<!-- The File Upload validation plugin -->
 <script src="components/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
-<!-- The File Upload Angular JS module -->
 <script src="components/blueimp-file-upload/js/jquery.fileupload-angular.js"></script>
 
 <script src="scripts/controllers/media.js"></script>
