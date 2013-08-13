@@ -70,19 +70,12 @@
 
                     <accordion>
                         <accordion-group ng-repeat="group in groupList">
-                            <accordion-heading><i class="icon icon-users"></i> {{ group.Name }}</accordion-heading>
-                            {{ group.Identifier }}
+                            <accordion-heading><i class="icon icon-users"></i> <span ng-click="populateGroup(group)">{{ group.Name }}</span></accordion-heading>
+                            <ul ng-show="group.userList">
+                                <li ng-repeat="user in group.userList">{{ user.Profile.email }}</li>
+                            </ul>
                         </accordion-group>
                     </accordion>
-
-                    <ul>
-                        <li ng-repeat="group in groupList">
-                            <span ng-click="populateGroup(group)">{{ group.Name }}</span>
-                            <ul ng-show="userList.length">
-                                <li ng-repeat="user in userList"></li>
-                            </ul>
-                        </li>
-                    </ul>
 
                 </div>
             </div>

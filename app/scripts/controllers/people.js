@@ -52,7 +52,6 @@ OSCR.controller(
         $scope.populateGroup = function (group){
             Person.getUsersInGroup(group.Identifier, function(list){
                 group.userList = list;
-
             });
         }
 
@@ -119,6 +118,9 @@ OSCR.controller(
             var profile = $scope.chosenUser.Profile;
             Person.addUserToGroup($scope.chosenGroup.Identifier, $scope.chosenRole.name, profile.email, function (profile) {
                 $scope.userAssigned = true;
+                $scope.chosenUser = '';
+                $scope.chosenGroup = '';
+                $scope.chosenRole = '';
                 $timeout(function () {
                     $scope.userAssigned = false;
                 }, 4000);
