@@ -51,7 +51,7 @@ OSCR.controller(
                 console.log(list);
                 $scope.ingestedHeaders = _.map(list, function (doc) {
                     var header = doc.Header;
-                    header.thumbnail = '/media/fetch/' + header.Identifier;
+                    header.thumbnail = '/media/thumbnail/' + header.Identifier;
                     header.date = new Date(parseInt(header.TimeStamp));
                     return  header;
                 });

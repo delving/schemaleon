@@ -20,28 +20,37 @@ P.saveMedia = function (mediaObject, receiver) {
     log('saveMedia');
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, mediaObject.fileName);
-    if (!fs.existsSync(imagePath)) {
-        throw 'Cannot find image file ' + imagePath;
+    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, mediaObject.fileName);
+    if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
+        throw 'Cannot find image file ' + imagePath + ' or ' + thumbnailPath;
     }
     var fileName = createFileName(s, mediaObject);
-    var bucketName = s.imageBucketName(fileName);
-    var bucketPath = path.join(s.directories.mediaStorage, bucketName);
-    if (!fs.existsSync(bucketPath)) {
-        fs.mkdirSync(bucketPath);
-    }
+    var bucketPath = s.directories.mediaBucketDir(fileName);
+    var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
     copyFile(imagePath, path.join(bucketPath, fileName), function (err) {
         if (err) {
             throw err;
         }
         log('file has been copied ' + fileName);
-        receiver(fileName);
+        copyFile(thumbnailPath, path.join(thumbnailBucketPath, fileName), function (err) {
+            if (err) {
+                throw err;
+            }
+            receiver(fileName);
+        });
     });
 };
 
 P.getMediaPath = function (fileName) {
     var s = this.storage;
-    var bucketName = s.imageBucketName(fileName);
-    return s.directories.mediaStorage + '/' + bucketName + '/' + fileName;
+    var bucketPath = s.directories.mediaBucketDir(fileName);
+    return path.join(bucketPath, fileName);
+};
+
+P.getThumbnailPath = function (fileName) {
+    var s = this.storage;
+    var bucketPath = s.directories.thumbnailBucketDir(fileName);
+    return path.join(bucketPath, fileName);
 };
 
 // ============= for testing only:

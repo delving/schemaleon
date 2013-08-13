@@ -20,5 +20,16 @@ module.exports = function(home) {
     this.mediaUploadDir = make(this.mediaUpload, 'files');
     this.mediaThumbnailDir = make(this.mediaUploadDir, 'thumbnail')
     this.mediaTempDir = make(this.mediaUpload, 'temp');
+    this.mediaBucketDir = function (fileName) { // assumes file name is = generateId() + '.???'
+        var rx = /.*-.([a-z0-9]{2})\..../g;
+        var results = rx.exec(fileName);
+        if (!results) {
+            throw "Bucket could not be extracted from file name " + fileName;
+        }
+        return make(this.mediaUploadDir, results[1]);
+    };
+    this.thumbnailBucketDir = function(fileName) {
+        return make(this.mediaBucketDir(fileName), 'thumbnail');
+    }
 };
 

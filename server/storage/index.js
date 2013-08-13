@@ -46,15 +46,6 @@ function Storage(home) {
         return generateId('CO');
     };
 
-    this.imageBucketName = function (fileName) { // assumes file name is = generateId() + '.???'
-        var rx = /.*-.([a-z0-9]{2})\..../g;
-        var results = rx.exec(fileName);
-        if (!results) {
-            throw "Bucket could not be extracted from file name " + fileName;
-        }
-        return results[1];
-    };
-
     this.getFromXml = function (xml, tag) {
         var start = xml.indexOf('<' + tag + '>');
         if (start >= 0) {

@@ -31,7 +31,7 @@ OSCR.filter('mediaDisplay',
     function () {
         return function (element) {
             if (element.value && element.media) {
-                return '/media/fetch/'+element.value.Identifier;
+                return '/media/thumbnail/'+element.value.Identifier;
             }
             else {
                 return '';

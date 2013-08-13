@@ -261,4 +261,11 @@ app.get('/media/fetch/:fileName', function (req, res) {
     res.sendfile(filePath);
 });
 
+app.get('/media/thumbnail/:fileName', function (req, res) {
+    var fileName = req.params.fileName;
+    var filePath = storage.Media.getThumbnailPath(fileName);
+    res.setHeader('Content-Type', 'image/jpeg'); // todo
+    res.sendfile(filePath);
+});
+
 module.exports = app;
