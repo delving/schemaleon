@@ -24,8 +24,6 @@ OSCR.controller(
     'PeopleController',
     function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
 
-//        console.log($cookieStore.get('oscr'));
-
         $scope.groupCreated = false;
         $scope.userAssigned = false;
         $scope.roles = _.map(Person.roles, function (role) {
@@ -33,16 +31,41 @@ OSCR.controller(
         });
 
         function getAllGroups() {
-
             Person.getAllGroups(function(list){
                 $scope.groupList = list;
-                console.log($scope.groupList);
+                console.log(list);
             });
         }
 
         getAllGroups();
 
-        
+        function getAllUsers() {
+            Person.getAllUsers(function(list){
+                $scope.allUsers = list;
+            });
+        };
+
+        getAllUsers();
+
+        $scope.getUsersFromGroup = function (identifier) {
+            Person.getUsersInGroup(identifier, function(list){
+                return list;
+                console.log(list);
+            });
+        }
+
+//        getUsers('OSCR-GR-7oi1vbw-3gg');
+
+        $scope.getUsersForGroup = function (identifier){
+            Person.getUsersInGroup(identifier, function(list){
+                return list;
+                console.log(list);
+            });
+        }
+
+
+
+
         $scope.typeAheadUsers = function (query) {
             var deferred = $q.defer();
             Person.selectUsers(query, function (list) {
@@ -65,18 +88,16 @@ OSCR.controller(
 //            });
 //            return deferred.promise;
 //        };
-
         $scope.typeAheadGroups = function (query) {
             var search = query.toLowerCase();
+            // create a list of groups matching the user input
             var selectedGroups = _.filter($scope.groupList, function(group) {
-
                 return group.Name.toLowerCase().indexOf(search) >= 0;
-
             });
+            // if no groups match the typed input then return all available groups
             if (!selectedGroups.length){
                 selectedGroups = $scope.groupList;
             }
-
             return selectedGroups;
         };
 
@@ -112,10 +133,7 @@ OSCR.controller(
                     $scope.userAssigned = false;
                 }, 4000);
             })
-        }
-        
-//        $scope.users = Person.getUsers();
-//        console.log($scope.users);
+        };
 
     }
 );

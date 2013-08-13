@@ -125,6 +125,13 @@ app.get('/person/user/select', function(req, res) {
     });
 });
 
+app.get('/person/user/all', function(req, res) {
+    storage.Person.getAllUsers(function (xml) {
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(xml);
+    });
+});
+
 app.get('/person/group/fetch/:identifier', function(req, res) {
     storage.Person.getGroup(req.params.identifier, function (xml) {
         res.setHeader('Content-Type', 'text/xml');

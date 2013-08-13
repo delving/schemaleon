@@ -95,6 +95,23 @@ P.getUsers = function (search, receiver) {
     });
 };
 
+P.getAllUsers = function (receiver) {
+    var s = this.storage;
+    var query = [
+        '<Users>',
+        '    { ' + s.userCollection() + ' }',
+        '</Users>'
+    ];
+    s.xquery(query, function (error, reply) {
+        if (reply.ok) {
+            receiver(reply.result);
+        }
+        else {
+            throw error + "\n" + query;
+        }
+    });
+};
+
 P.saveGroup = function (group, receiver) {
     var s = this.storage;
     group.SaveTime = new Date().getTime();

@@ -27,6 +27,12 @@ angular.module('OSCR').service(
             });
         };
 
+        this.getAllUsers = function(accept){
+            $http.get('/person/user/all').success(function (xml) {
+                accept(xmlToArray(xml));
+            });
+        };
+
         this.selectGroups = function (query, accept) {
             $http.get('/person/group/select', {params: {q: query}}).success(function (xml) {
                 accept(xmlToArray(xml));

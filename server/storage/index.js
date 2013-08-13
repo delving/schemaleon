@@ -239,6 +239,47 @@ function open(databaseName, homeDir, receiver) {
                 if (reply.ok) {
                     loadXML('Schemas.xml', function () {
                         receiver(storage);
+
+                        //todo: remove for production - creates fake users and groups
+                        //--------------------------------------------------------
+
+                        var group = {
+                            Name: '',
+                            Address: ''
+                        }
+
+                        for(var gr=0; gr < 4; gr++) {
+                            group.Name = 'GroupName_' + gr;
+                            group.Address = 'GroupAdress_' + gr;
+                            storage.Person.saveGroup(_.clone(group), function(xml){
+                                console.log(xml);
+                            })
+                        }
+
+                        var profile = {
+                            isPublic: false,
+                            firstName: '',
+                            lastName: '',
+                            email: '',
+                            websites: []
+                        };
+
+                        for(var user=0; user < 10; user++){
+                            profile.firstName = "FirstName_"+user;
+                            profile.lastName = "LastName_"+user;
+                            profile.email = "email_"+user+"@delving.eu";
+                            // use _.clone to deal with async
+                            storage.Person.getOrCreateUser(_.clone(profile), function(xml){
+                               console.log(xml);
+                            });
+                        }
+                        
+
+
+
+                        //--------------------------------------------------------
+
+
                     });
                 }
                 else {
