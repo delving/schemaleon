@@ -42,20 +42,19 @@ OSCR.controller(
         function getAllUsers() {
             Person.getAllUsers(function(list){
                 $scope.allUsers = list;
+                console.log($scope.allUsers);
+
             });
         };
 
-//        getAllUsers();
+        getAllUsers();
 
-        $scope.getUsersForGroup = function (identifier){
-            Person.getUsersInGroup(identifier, function(list){
-                return list;
-                console.log(list);
+        $scope.populateGroup = function (group){
+            Person.getUsersInGroup(group.Identifier, function(list){
+                group.userList = list;
+
             });
         }
-
-
-
 
         $scope.typeAheadUsers = function (query) {
             var deferred = $q.defer();
