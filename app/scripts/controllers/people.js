@@ -45,16 +45,7 @@ OSCR.controller(
             });
         };
 
-        getAllUsers();
-
-        $scope.getUsersFromGroup = function (identifier) {
-            Person.getUsersInGroup(identifier, function(list){
-                return list;
-                console.log(list);
-            });
-        }
-
-//        getUsers('OSCR-GR-7oi1vbw-3gg');
+//        getAllUsers();
 
         $scope.getUsersForGroup = function (identifier){
             Person.getUsersInGroup(identifier, function(list){
