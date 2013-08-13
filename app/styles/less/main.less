@@ -706,3 +706,19 @@ form#fileupload {
     max-width: 80px;
   }
 }
+
+/* ACCORDION */
+
+.user-accordion {
+  .accordion-heading .accordion-toggle {
+    // kill the padding so that the span's ng-click event has all the real-estate
+    padding: 0;
+    span {
+      display: block;
+      padding: 8px 15px;
+    }
+  }
+  .accordion-group .accordion-inner {
+    border-top: 1px solid @grayLighter;
+  }
+}

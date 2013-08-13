@@ -722,3 +722,14 @@ form#fileupload .navbar .progress {
     max-width: 80px;
   }
 }
+/* ACCORDION */
+.user-accordion .accordion-heading .accordion-toggle {
+  padding: 0;
+}
+.user-accordion .accordion-heading .accordion-toggle span {
+  display: block;
+  padding: 8px 15px;
+}
+.user-accordion .accordion-group .accordion-inner {
+  border-top: 1px solid #eeeeee;
+}
