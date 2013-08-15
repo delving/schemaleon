@@ -7,12 +7,13 @@ function log(message) {
 //    console.log(message);
 }
 
-var url = 'http://localhost:8888';
-// todo: var url = '/media';
+//var url = 'http://localhost:8888';
+var url = '/files';
 
 OSCR.controller(
     'MediaUploadController',
     function ($rootScope, $scope, $http, Document) {
+
         $scope.options = {
             url: url
         };

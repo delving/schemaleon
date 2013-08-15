@@ -1,10 +1,9 @@
 'use strict';
+
 /*global language, console, $, _ */
+
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
-var uploader = require('./server/uploader'); // todo: integrate in rest.js
-
-// This is a comment
 
 module.exports = function (grunt) {
     // load all grunt tasks
@@ -44,15 +43,6 @@ module.exports = function (grunt) {
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname: 'localhost'
             },
-            upperload: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            uploader
-                        ];
-                    }
-                }
-            }
         },
         express: {
             livereload: {
@@ -282,7 +272,6 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'livereload-start',
-        'connect:upperload', // port 8888
         'express:livereload', // port 9000
         'open',
         'watch'
@@ -291,7 +280,6 @@ module.exports = function (grunt) {
     grunt.registerTask('prod', [
         'clean:server',
         'less:server',
-        'connect:upperload',
         'express:prod',
         'open',
         'watch'

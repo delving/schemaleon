@@ -5,14 +5,13 @@ var express = require('express');
 var https = require('https');
 var crypto = require('crypto');
 var Storage = require('./storage');
-var uploader = require('./uploader');
+var upload = require('./upload');
 
 var app = express();
+app.use(upload);
 app.use(express.bodyParser());
-module.exports = app;
 
-// takes all paths which start with /media
-// todo: app.use(uploader);
+module.exports = app;
 
 var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
