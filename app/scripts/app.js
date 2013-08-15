@@ -53,7 +53,8 @@ OSCR.config(
         // for general intercepting
         $httpProvider.responseInterceptors.push(function ($q) {
             function showNetworkProblem(problem) {
-                alert("Network problem: " + problem);
+                alert("Network problem. See console for details.");
+                console.log(problem);
             }
 
             function onSuccess(response) {
