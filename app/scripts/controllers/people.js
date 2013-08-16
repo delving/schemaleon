@@ -53,7 +53,7 @@ OSCR.controller(
                 var memberships = $rootScope.user.Memberships.Member;
                 if (memberships) {
                     var membership = _.filter(xmlArray(memberships), function(membership) {
-                        return membership.Group === groupIdentifier;
+                        return membership.Group === groupIdentifier && membership.Role === 'Administrator';
                     });
                     if (membership.length) return true;
                     membership = _.filter(xmlArray(memberships), function(membership) {
