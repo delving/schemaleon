@@ -1,7 +1,10 @@
 'use strict';
 
 function xmlArray(node) {
-    if (_.isArray(node)) {
+    if (!node) {
+        return [];
+    }
+    else if (_.isArray(node)) {
         return(node);
     }
     else {

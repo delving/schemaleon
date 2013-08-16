@@ -68,18 +68,12 @@ OSCR.controller(
         $scope.populateGroup = function (group) {
             Person.getUsersInGroup(group.Identifier, function (list) {
                 _.each(list, function (user) {
-                    if (_.isArray(user.Memberships.Member)) {
-                        _.each(user.Memberships.Member, function (membership) {
+                    if (user.Memberships) {
+                        _.each(xmlArray(user.Memberships.Member), function (membership) {
                             if (membership.Group === group.Identifier) {
                                 user.GroupMember = membership;
                             }
                         });
-                    }
-                    else {
-                        var membership = user.Memberships.Member;
-                        if (membership.Group === group.Identifier) {
-                            user.GroupMember = membership;
-                        }
                     }
                 });
                 group.userList = list;
