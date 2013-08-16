@@ -22,6 +22,7 @@
         <div class="widget-title">
             <span class="icon"><i class="icon-users"></i></span>
             <h5>Create group</h5>
+            <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="newGroupToggle()">&times;</button></span>
         </div>
         <div class="widget-body">
             <div ng-show="groupCreated" class="alert alert-success fade-in">
@@ -47,20 +48,24 @@
         <div class="widget-title">
             <span class="icon"><i class="icon-user"></i></span>
             <h5>Assign user to <span ng-bind="selectedGroup.Name"></span> as <span ng-bind="selectedGroup.Role"></span></h5>
+            <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="addUserToggle()">&times;</button></span>
         </div>
         <div class="widget-body">
             <div ng-show="userAssigned" class="alert alert-success fade-in">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 User successfully assigned to group!
             </div>
-            <label>User-email:</label>
+            <label i18n="UserEmail"><span class="i18n">User-email</span>:</label>
+            <div class="input-append">
             <input type="text" ng-model="chosenUser" class="input-large"
                    typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
+                <span class="add-on pointer" ng-show="chosenUser" ng-click="clearChosenUser()"><i class="icon-ban-circle"></i></span>
+            </div>
         </div>
         <div class="widget-footer">
             <!--<button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>-->
             <!--<input type="hidden" ng-model="chosenGroup"/>-->
-            <button ng-click="assignUserToGroup()" class="btn btn-success" data-i18n="Assign"><i class="icon-magnet icon-white"></i> <span class="i18n"></span></button>
+            <button ng-click="assignUserToGroup()" class="btn btn-success" data-i18n="Assign"><i class="icon-magnet icon-white"></i> <span class="i18n"></span> : <span ng-bind="selectedGroup.Name"></span> : <span ng-bind="selectedGroup.Role"></span></button>
         </div>
     </div>
 
@@ -91,7 +96,7 @@
                 <tbody>
                     <tr ng-repeat="user in group.userList">
                         <td>{{ user.Profile.email }}</td>
-                        <td>{{ user.Profile.firstName }} {{ user.Profile.lastName }}</td>
+                        <td><span class="eclipse">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</span></td>
                         <td><span class="label {{ user.GroupMember.Role}}">{{ user.GroupMember.Role}}</span></td>
                         <td private="canUserAdministrate(group.Identifier)">
                             <button class="btn btn-mini btn-danger" ng-click="removeUserFromGroup(user)"><i class="icon-trash icon-white"></i></button>

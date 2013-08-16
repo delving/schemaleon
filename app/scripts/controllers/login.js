@@ -39,7 +39,14 @@ OSCR.controller(
                         firstName: 'Oscr',
                         lastName: 'Wild',
                         email: 'oscr@delving.eu'
+                    },
+                    Memberships: {
+                        Member: {
+                            Group: 'OSCR',
+                            Role: 'Administrator'
+                        }
                     }
+
                 };
             }
             $location.path('/dashboard');

@@ -535,6 +535,12 @@ table.files th input[type=checkbox] {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
 }
+.eclipse {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 /* HELP PANEL */
 .legend {
   background: #555555;
@@ -626,6 +632,11 @@ table.files th input[type=checkbox] {
   padding: 9px 10px 7px 11px;
   float: left;
   opacity: .7;
+}
+.widget-title .action {
+  border-left: 1px solid #fff;
+  padding: 9px 10px 7px 11px;
+  float: right;
 }
 .widget-title h5 {
   color: #666666;
@@ -739,7 +750,6 @@ form#fileupload .navbar .progress {
 }
 .action-accordion .accordion-group .accordion-inner {
   border-top: 1px solid #eeeeee;
-  min-height: 140px;
   padding: 0px;
 }
 .action-accordion .accordion-group .accordion-inner .table-bordered {

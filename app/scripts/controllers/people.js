@@ -82,7 +82,6 @@ OSCR.controller(
                         }
                     }
                 });
-
                 group.userList = list;
             });
 
@@ -127,15 +126,22 @@ OSCR.controller(
 
 
         $scope.creatingGroup = false;
-        $scope.newGroupToggle = function () {
+        $scope.addingUser = false;
+
+        $scope.newGroupToggle = function(){
             $scope.creatingGroup = !$scope.creatingGroup;
+            $scope.addingUser = false;
         };
 
-        $scope.addingUser = false;
-        $scope.addUserToggle = function (role) {
-            console.log(role);
+        $scope.addUserToggle = function(role){
+            if(!role){
+                $scope.addingUser = false;
+                return;
+            }
             $scope.selectedGroup.Role = role;
-            $scope.addingUser = !$scope.addingUser;
+            $scope.addingUser = true;
+            $scope.creatingGroup = false;
+
         };
 
         $scope.createGroup = function () {
@@ -174,6 +180,10 @@ OSCR.controller(
                 }, 4000);
             })
         };
+
+        $scope.clearChosenUser = function(){
+            $scope.chosenUser = '';
+        }
 
         $scope.removeUserFromGroup = function (user) {
             Person.removeUserFromGroup($scope.selectedGroup.Identifier, user.GroupMember.Role, user.Profile.email, function () {
