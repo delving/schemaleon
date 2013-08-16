@@ -607,6 +607,9 @@ table.files th input[type=checkbox]{
     padding: 12px;
     line-height: 12px;
     margin: 0;
+    span {
+      color: @green;
+    }
   }
   .buttons {
     float: right;
@@ -709,16 +712,32 @@ form#fileupload {
 
 /* ACCORDION */
 
-.user-accordion {
-  .accordion-heading .accordion-toggle {
-    // kill the padding so that the span's ng-click event has all the real-estate
-    padding: 0;
-    span {
-      display: block;
-      padding: 8px 15px;
+.action-accordion {
+  .accordion-heading {
+    .accordion-toggle {
+      // kill the padding so that the span's ng-click event has all the real-estate
+      padding: 0;
+      font-weight: bold;
+      span {
+        display: block;
+        padding: 8px 15px;
+      }
     }
   }
-  .accordion-group .accordion-inner {
-    border-top: 1px solid @grayLighter;
+  .accordion-group {
+
+    border: 1px solid #bbb;
+
+    .accordion-inner {
+      border-top: 1px solid @grayLighter;
+      min-height: 140px;
+      padding: 0px;
+      .table-bordered {
+        .border-radius(0) !important;
+      }
+    }
+
+
+
   }
 }

@@ -637,6 +637,9 @@ table.files th input[type=checkbox] {
   line-height: 12px;
   margin: 0;
 }
+.widget-title h5 span {
+  color: #46a546;
+}
 .widget-title .buttons {
   float: right;
   margin: 8px 10px 0 0;
@@ -723,13 +726,24 @@ form#fileupload .navbar .progress {
   }
 }
 /* ACCORDION */
-.user-accordion .accordion-heading .accordion-toggle {
+.action-accordion .accordion-heading .accordion-toggle {
   padding: 0;
+  font-weight: bold;
 }
-.user-accordion .accordion-heading .accordion-toggle span {
+.action-accordion .accordion-heading .accordion-toggle span {
   display: block;
   padding: 8px 15px;
 }
-.user-accordion .accordion-group .accordion-inner {
+.action-accordion .accordion-group {
+  border: 1px solid #bbb;
+}
+.action-accordion .accordion-group .accordion-inner {
   border-top: 1px solid #eeeeee;
+  min-height: 140px;
+  padding: 0px;
+}
+.action-accordion .accordion-group .accordion-inner .table-bordered {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
 }
