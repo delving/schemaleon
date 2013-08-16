@@ -60,6 +60,18 @@ exports.testCreateAgain = function (test) {
     });
 };
 
+var oscrGroupIdentifier = '?';
+
+exports.testFetchGroupsFirstTime = function (test) {
+    test.expect(2);
+    storage.Person.getAllGroups(function (xml) {
+        test.ok(xml, "No xml");
+        test.ok(xml.indexOf("OSCR") > 0, "Missing default OSCR group");
+        oscrGroupIdentifier = storage.getFromXml(xml, "Identifier");
+        test.done();
+    });
+};
+
 var group = {
     Name: 'Benidorm Bastards',
     Address: 'Downtown Benidorm'
@@ -141,6 +153,10 @@ exports.testAddAnotherMembership = function (test) {
         '  </Profile>\n' +
         '  <Memberships>\n' +
         '    <Member>\n' +
+        '      <Group>' + oscrGroupIdentifier + '</Group>\n' +
+        '      <Role>Administrator</Role>\n' +
+        '    </Member>\n' +
+        '    <Member>\n' +
         '      <Group>' + groupIdentifier + '</Group>\n' +
         '      <Role>Member</Role>\n' +
         '    </Member>\n' +
@@ -186,7 +202,12 @@ exports.testRemoveMembership = function (test) {
         '    <lastName>Wild</lastName>\n' +
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
-        '  <Memberships/>\n' +
+        '  <Memberships>\n' +
+        '    <Member>\n' +
+        '      <Group>'+oscrGroupIdentifier+'</Group>\n' +
+        '      <Role>Administrator</Role>\n' +
+        '    </Member>\n' +
+        '  </Memberships>\n' +
         '</User>';
 
     test.expect(2);

@@ -9,7 +9,7 @@ function Person(storage) {
 var P = Person.prototype;
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 /*
@@ -26,9 +26,23 @@ P.roles = [
 
 P.getOrCreateUser = function (profile, receiver) {
     var s = this.storage;
+    var self = this;
     if (!profile.email) {
         throw new Error('No email in profile');
     }
+
+    function addUser(userObject) {
+        var userXml = s.objectToXml(userObject, 'User');
+        s.add(s.userDocument(profile.email), userXml, function (error, reply) {
+            if (reply.ok) {
+                receiver(userXml);
+            }
+            else {
+                throw error + "\n" + query;
+            }
+        });
+    }
+
     this.getUser(profile.email, function (xml) {
         if (xml) {
             receiver(xml);
@@ -39,13 +53,28 @@ P.getOrCreateUser = function (profile, receiver) {
                 Profile: profile,
                 SaveTime: new Date().getTime()
             };
-            var userXml = s.objectToXml(userObject, 'User');
-            s.add(s.userDocument(profile.email), userXml, function (error, reply) {
-                if (reply.ok) {
-                    receiver(userXml);
+            s.xquery('count(' + s.userCollection() + ')', function (error, reply) {
+                var count = reply.result;
+                if (count === '0') {
+                    var oscrGroup = {
+                        Name: 'OSCR',
+                        Identifier: s.generateGroupId(),
+                        SaveTime: new Date().getTime()
+                    };
+                    self.saveGroup(oscrGroup, function (xml) {
+                        log('created group ' + xml);
+                        var groupIdentifier = s.getFromXml(xml, 'Identifier');
+                        userObject.Memberships = {
+                            Member: {
+                                Group: groupIdentifier,
+                                Role: 'Administrator'
+                            }
+                        };
+                        addUser(userObject)
+                    });
                 }
                 else {
-                    throw error + "\n" + query;
+                    addUser(userObject);
                 }
             });
         }
