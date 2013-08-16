@@ -66,6 +66,7 @@ exports.testFetchGroupsFirstTime = function (test) {
     test.expect(2);
     storage.Person.getAllGroups(function (xml) {
         test.ok(xml, "No xml");
+//        console.log(xml);
         test.ok(xml.indexOf("OSCR") > 0, "Missing default OSCR group");
         oscrGroupIdentifier = storage.getFromXml(xml, "Identifier");
         test.done();

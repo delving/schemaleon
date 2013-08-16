@@ -33,48 +33,57 @@ OSCR.controller(
         });
 
         function getAllGroups() {
-            Person.getAllGroups(function(list){
+            Person.getAllGroups(function (list) {
                 $scope.groupList = list;
-                console.log(list);
+//                console.log(list);
             });
         }
 
         getAllGroups();
 
         function getAllUsers() {
-            Person.getAllUsers(function(list){
+            Person.getAllUsers(function (list) {
                 $scope.allUsers = list;
                 console.log($scope.allUsers);
-
             });
+        }
+
+        $scope.canUserAdministrate = function(groupIdentifier) {
+            if ($rootScope.user && $rootScope.user.Memberships) {
+                var memberships = $rootScope.user.Memberships.Member;
+                if (memberships) {
+                    var membership = _.filter(xmlArray(memberships), function(membership) {
+                        return membership.Group === groupIdentifier;
+                    });
+                    if (membership.length) return true;
+                    membership = _.filter(xmlArray(memberships), function(membership) {
+                        return membership.Group === 'OSCR' && membership.Role === 'Administrator'; // true if they are god
+                    });
+                    if (membership.length) return true;
+                }
+            }
+            return false;
         };
 
-//        getAllUsers();
-
-        $scope.populateGroup = function (group){
-
-            Person.getUsersInGroup(group.Identifier, function(list){
-
-
-                _.each(list, function(user){
+        $scope.populateGroup = function (group) {
+            Person.getUsersInGroup(group.Identifier, function (list) {
+                _.each(list, function (user) {
                     if (_.isArray(user.Memberships.Member)) {
-                        _.each(user.Memberships.Member, function(membership){
+                        _.each(user.Memberships.Member, function (membership) {
                             if (membership.Group === group.Identifier) {
-                                user.GroupMember  = membership;
+                                user.GroupMember = membership;
                             }
                         });
                     }
                     else {
                         var membership = user.Memberships.Member;
                         if (membership.Group === group.Identifier) {
-                            user.GroupMember  = membership;
+                            user.GroupMember = membership;
                         }
                     }
-//                    console.log(user.GroupMember);
                 });
 
                 group.userList = list;
-                console.log(list);
             });
 
             $scope.selectedGroup.Identifier = group.Identifier;
@@ -99,11 +108,11 @@ OSCR.controller(
         $scope.typeAheadGroups = function (query) {
             var search = query.toLowerCase();
             // create a list of groups matching the user input
-            var selectedGroups = _.filter($scope.groupList, function(group) {
+            var selectedGroups = _.filter($scope.groupList, function (group) {
                 return group.Name.toLowerCase().indexOf(search) >= 0;
             });
             // if no groups match the typed input then return all available groups
-            if (!selectedGroups.length){
+            if (!selectedGroups.length) {
                 selectedGroups = $scope.groupList;
             }
             return selectedGroups;
@@ -118,19 +127,18 @@ OSCR.controller(
 
 
         $scope.creatingGroup = false;
-        $scope.newGroupToggle = function(){
+        $scope.newGroupToggle = function () {
             $scope.creatingGroup = !$scope.creatingGroup;
         };
 
         $scope.addingUser = false;
-        $scope.addUserToggle = function(role){
+        $scope.addUserToggle = function (role) {
             console.log(role);
             $scope.selectedGroup.Role = role;
             $scope.addingUser = !$scope.addingUser;
         };
 
         $scope.createGroup = function () {
-
             var group = {
                 Name: $scope.groupName,
                 Address: $scope.groupAddress
@@ -155,8 +163,8 @@ OSCR.controller(
             Person.addUserToGroup($scope.selectedGroup.Identifier, $scope.selectedGroup.Role, profile.email, function (profile) {
                 $scope.userAssigned = true;
                 $scope.chosenUser = '';
-                _.each($scope.groupList, function(group){
-                    if(group.Identifier === identifier){
+                _.each($scope.groupList, function (group) {
+                    if (group.Identifier === identifier) {
                         $scope.populateGroup(group);
                     }
                 });
@@ -167,12 +175,11 @@ OSCR.controller(
             })
         };
 
-        $scope.removeUserFromGroup = function (user){
-
-            Person.removeUserFromGroup($scope.selectedGroup.Identifier, user.GroupMember.Role, user.Profile.email, function(){
+        $scope.removeUserFromGroup = function (user) {
+            Person.removeUserFromGroup($scope.selectedGroup.Identifier, user.GroupMember.Role, user.Profile.email, function () {
                 console.log("user removed");
-                _.each($scope.groupList, function(group){
-                    if(group.Identifier === $scope.selectedGroup.Identifier){
+                _.each($scope.groupList, function (group) {
+                    if (group.Identifier === $scope.selectedGroup.Identifier) {
                         $scope.populateGroup(group);
                     }
                 });

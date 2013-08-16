@@ -52,7 +52,7 @@ OSCR.controller(
             var body = treeToObject($scope.tree);
             $scope.header.SchemaName = 'Photograph';
             $scope.header.TimeStamp = "#TIMESTAMP#";
-            $scope.header.EMail = $rootScope.user.email;
+            $scope.header.EMail = $rootScope.user.Profile.email;
             Document.saveDocument($scope.header, body, function (header) {
                 useHeader(header);
                 $scope.fetchList();

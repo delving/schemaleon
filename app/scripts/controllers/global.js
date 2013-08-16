@@ -20,6 +20,21 @@
 
 var OSCR = angular.module('OSCR');
 
+OSCR.directive('private',
+    function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                scope.$watch(attrs.private, function (ok) {
+                    if (!ok) {
+                        element.text('');
+                    }
+                });
+            }
+        };
+    }
+);
+
 OSCR.controller(
     'GlobalController',
     function ($rootScope, $scope, $location) {

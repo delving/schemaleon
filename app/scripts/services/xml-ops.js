@@ -1,5 +1,14 @@
 'use strict';
 
+function xmlArray(node) {
+    if (_.isArray(node)) {
+        return(node);
+    }
+    else {
+        return [ node ];
+    }
+}
+
 function xmlToTree(xml) {
     function parse(key, string, to) {
         var fresh = { name: key };

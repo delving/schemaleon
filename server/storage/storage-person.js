@@ -79,7 +79,7 @@ P.getOrCreateUser = function (profile, receiver) {
                 if (count === '0') {
                     var oscrGroup = {
                         Name: 'OSCR',
-                        Identifier: s.generateGroupId(),
+                        Identifier: 'OSCR',
                         SaveTime: new Date().getTime()
                     };
                     self.saveGroup(oscrGroup, function (xml) {
@@ -175,7 +175,7 @@ P.saveGroup = function (group, receiver) {
         group.Identifier = s.generateGroupId();
     }
     var groupXml = s.objectToXml(group, "Group");
-    if (existing) {
+    if (existing && group.Identifier != 'OSCR') {
         s.replace(s.groupDocument(group.Identifier), groupXml, function (error, reply) {
             if (reply.ok) {
                 receiver(groupXml);

@@ -7,10 +7,12 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="controls pull-right">
-                <a href class="btn btn-primary" ng-click="newGroupToggle()" i18n="NewGroup">
-                    <i class="icon icon-plus icon-white"></i>
-                    <span class="i18n"></span>
-                </a>
+                <div private="canUserAdministrate('OSCR')">
+                    <a href class="btn btn-primary" ng-click="newGroupToggle()" i18n="NewGroup">
+                        <i class="icon icon-plus icon-white"></i>
+                        <span class="i18n"></span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -33,9 +35,11 @@
             <input type="text" ng-model="groupAddress" class="input-large"/>
         </div>
         <div class="widget-footer">
-            <button ng-click="createGroup()" class="btn btn-success" data-i18n="CreateGroup">
-                <i class="icon-download-alt icon-white"></i> <span class="i18n"></span>
-            </button>
+            <div private="canUserAdministrate('OSCR')">
+                <button ng-click="createGroup()" class="btn btn-success" data-i18n="CreateGroup">
+                    <i class="icon-download-alt icon-white"></i> <span class="i18n"></span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -45,7 +49,6 @@
             <h5>Assign user to <span ng-bind="selectedGroup.Name"></span> as <span ng-bind="selectedGroup.Role"></span></h5>
         </div>
         <div class="widget-body">
-
             <div ng-show="userAssigned" class="alert alert-success fade-in">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 User successfully assigned to group!
@@ -75,15 +78,13 @@
                         <th width="250" i18n="Email"><span class="i18n">Email</span></th>
                         <th width="250" i18n="Name"><span class="i18n">Name</span></th>
                         <th i18n="Role"><span class="i18n">Role</span></th>
-                        <th width="300">
-
+                        <th width="300" private="canUserAdministrate(group.Identifier)">
                             <a class="btn btn-small btn-primary" href ng-click="addUserToggle('Member')" i18n="AddMember">
                                 <span class="i18n">Add Member</span>
                             </a>
                             <a href class="btn btn-small btn-info" ng-click="addUserToggle('Administrator')" i18n="AddAdministrator">
                                 <span class="i18n">Add Administrator</span>
                             </a>
-
                         </th>
                     </tr>
                 </thead>
@@ -92,7 +93,7 @@
                         <td>{{ user.Profile.email }}</td>
                         <td>{{ user.Profile.firstName }} {{ user.Profile.lastName }}</td>
                         <td><span class="label {{ user.GroupMember.Role}}">{{ user.GroupMember.Role}}</span></td>
-                        <td>
+                        <td private="canUserAdministrate(group.Identifier)">
                             <button class="btn btn-mini btn-danger" ng-click="removeUserFromGroup(user)"><i class="icon-trash icon-white"></i></button>
                         </td>
                     </tr>

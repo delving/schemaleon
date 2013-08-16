@@ -35,9 +35,11 @@ OSCR.controller(
             }
             if (!$rootScope.user) {
                 $rootScope.user = {
-                    firstName: 'Oscr',
-                    lastName: 'Wild',
-                    email: 'oscr@delving.eu'
+                    Profile: {
+                        firstName: 'Oscr',
+                        lastName: 'Wild',
+                        email: 'oscr@delving.eu'
+                    }
                 };
             }
             $location.path('/dashboard');
