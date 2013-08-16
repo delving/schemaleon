@@ -747,3 +747,12 @@ form#fileupload .navbar .progress {
   -moz-border-radius: 0 !important;
   border-radius: 0 !important;
 }
+.label.Member {
+  background: #049cdb;
+}
+.label.Administrator {
+  background: #000000;
+}
+.label.Translator {
+  background: #f89406;
+}
