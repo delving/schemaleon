@@ -24,6 +24,8 @@ OSCR.controller(
     'PeopleController',
     function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
 
+        $scope.selectedGroup = {};
+
         $scope.groupCreated = false;
         $scope.userAssigned = false;
         $scope.roles = _.map(Person.roles, function (role) {
@@ -47,12 +49,36 @@ OSCR.controller(
             });
         };
 
-        getAllUsers();
+//        getAllUsers();
 
         $scope.populateGroup = function (group){
+
             Person.getUsersInGroup(group.Identifier, function(list){
+
+
+                _.each(list, function(user){
+                    if (_.isArray(user.Memberships.Member)) {
+                        _.each(user.Memberships.Member, function(membership){
+                            if (membership.Group === group.Identifier) {
+                                user.GroupMember  = membership;
+                            }
+                        });
+                    }
+                    else {
+                        var membership = user.Memberships.Member;
+                        if (membership.Group === group.Identifier) {
+                            user.GroupMember  = membership;
+                        }
+                    }
+//                    console.log(user.GroupMember);
+                });
+
                 group.userList = list;
+                console.log(list);
             });
+
+            $scope.selectedGroup.Identifier = group.Identifier;
+            $scope.selectedGroup.Name = group.Name;
         }
 
         $scope.typeAheadUsers = function (query) {
@@ -70,13 +96,6 @@ OSCR.controller(
             return user.Profile.email + ' - ' + user.Profile.firstName + ' ' + user.Profile.lastName;
         };
 
-//        $scope.typeAheadGroups = function (query) {
-//            var deferred = $q.defer();
-//            Person.selectGroups(query, function (list) {
-//                deferred.resolve(list);
-//            });
-//            return deferred.promise;
-//        };
         $scope.typeAheadGroups = function (query) {
             var search = query.toLowerCase();
             // create a list of groups matching the user input
@@ -97,7 +116,21 @@ OSCR.controller(
             return group.Name;
         };
 
+
+        $scope.creatingGroup = false;
+        $scope.newGroupToggle = function(){
+            $scope.creatingGroup = !$scope.creatingGroup;
+        };
+
+        $scope.addingUser = false;
+        $scope.addUserToggle = function(role){
+            console.log(role);
+            $scope.selectedGroup.Role = role;
+            $scope.addingUser = !$scope.addingUser;
+        };
+
         $scope.createGroup = function () {
+
             var group = {
                 Name: $scope.groupName,
                 Address: $scope.groupAddress
@@ -108,6 +141,7 @@ OSCR.controller(
                 $scope.groupAddress = '';
                 $timeout(function () {
                     $scope.groupCreated = false;
+                    $scope.creatingGroup = false;
                 }, 4000);
 
             });
@@ -116,14 +150,32 @@ OSCR.controller(
 
         $scope.assignUserToGroup = function () {
             var profile = $scope.chosenUser.Profile;
-            Person.addUserToGroup($scope.chosenGroup.Identifier, $scope.chosenRole.name, profile.email, function (profile) {
+            console.log($scope.selectedGroup);
+            var identifier = $scope.selectedGroup.Identifier;
+            Person.addUserToGroup($scope.selectedGroup.Identifier, $scope.selectedGroup.Role, profile.email, function (profile) {
                 $scope.userAssigned = true;
                 $scope.chosenUser = '';
-                $scope.chosenGroup = '';
-                $scope.chosenRole = '';
+                _.each($scope.groupList, function(group){
+                    if(group.Identifier === identifier){
+                        $scope.populateGroup(group);
+                    }
+                });
                 $timeout(function () {
                     $scope.userAssigned = false;
+                    $scope.addingUser = false;
                 }, 4000);
+            })
+        };
+
+        $scope.removeUserFromGroup = function (user){
+
+            Person.removeUserFromGroup($scope.selectedGroup.Identifier, user.GroupMember.Role, user.Profile.email, function(){
+                console.log("user removed");
+                _.each($scope.groupList, function(group){
+                    if(group.Identifier === $scope.selectedGroup.Identifier){
+                        $scope.populateGroup(group);
+                    }
+                });
             })
         };
 

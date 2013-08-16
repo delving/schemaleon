@@ -308,7 +308,7 @@ body {
 }
 #mainBody {
   margin-left: 240px;
-  min-width: 800px;
+  min-width: 820px;
 }
 .loggedin-false #sidebar {
   display: none;
