@@ -22,7 +22,7 @@ P.saveMedia = function (mediaObject, receiver) {
     var imagePath = path.join(s.directories.mediaUploadDir, mediaObject.fileName);
     var thumbnailPath = path.join(s.directories.mediaThumbnailDir, mediaObject.fileName);
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
-        throw 'Cannot find image file ' + imagePath + ' or ' + thumbnailPath;
+        throw 'Missing a media file: ' + imagePath + ' or ' + thumbnailPath;
     }
     var fileName = createFileName(s, mediaObject);
     var bucketPath = s.directories.mediaBucketDir(fileName);
@@ -31,11 +31,12 @@ P.saveMedia = function (mediaObject, receiver) {
         if (err) {
             throw err;
         }
-        log('file has been copied ' + fileName);
+        log('File has been copied ' + fileName);
         copyFile(thumbnailPath, path.join(thumbnailBucketPath, fileName), function (err) {
             if (err) {
                 throw err;
             }
+            log('Thumbnail has been copied ' + fileName);
             receiver(fileName);
         });
     });
@@ -93,7 +94,7 @@ P.listMediaFiles = function (done) {
 
 function copyFile(source, target, cb) {
 
-    log('copy file ' + source + ' ' + target);
+    log('Copy file ' + source + ' ' + target);
     var cbCalled = false;
 
     var rd = fs.createReadStream(source);

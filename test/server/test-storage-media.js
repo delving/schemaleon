@@ -55,39 +55,44 @@ exports.testImageIngestion = function (test) {
     test.expect(4);
     var fileName = 'zoomcat.jpg';
     copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaUploadDir, fileName), function () {
-        var body = {
-            Creator: 'zoomy',
-            Description: 'disturbing',
-            Collection: 'lolcats'
-        };
-        var header = {
-            Identifier: '#IDENTIFIER#',
-            SchemaName: 'ImageMetadata',
-            TimeStamp: "#TIMESTAMP#",
-            EMail: 'oscr@delving.eu',
-            MediaObject: {
-                fileName: fileName,
-                mimeType: 'image/jpeg'
-            }
-        };
-        var envel = envelope(header, body);
-        log('about to save document');
-        log(envel);
-        storage.Document.saveDocument(envel, function (xml) {
-            test.ok(xml, "no xml");
-            log('xml:');
-            log(xml);
-            var schemaName = storage.getFromXml(xml, "SchemaName");
-            storage.Document.getAllDocuments(schemaName, function (results) {
-                log('listImageData for ' + schemaName);
-                log(results);
-                test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
-                storage.Media.listMediaFiles(function (err, results) {
-                    test.equals(results.length, 1, "should just be one file, but it's " + results.length);
-                    var newFileName = path.basename(results[0]);
-                    storage.Document.getDocument(schemaName, newFileName, function (doc) {
-                        test.ok(doc.indexOf("zoomy") > 0, 'zoomy not found');
-                        test.done();
+        copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaThumbnailDir, fileName), function () {
+
+            var body = {
+                Creator: 'zoomy',
+                Description: 'disturbing',
+                Collection: 'lolcats'
+            };
+            var header = {
+                Identifier: '#IDENTIFIER#',
+                SchemaName: 'ImageMetadata',
+                TimeStamp: "#TIMESTAMP#",
+                EMail: 'oscr@delving.eu',
+                MediaObject: {
+                    fileName: fileName,
+                    mimeType: 'image/jpeg'
+                }
+            };
+            var envel = envelope(header, body);
+            log('about to save document');
+            log(envel);
+            storage.Document.saveDocument(envel, function (xml) {
+                test.ok(xml, "no xml");
+                log('xml:');
+                log(xml);
+                var schemaName = storage.getFromXml(xml, "SchemaName");
+                storage.Document.getAllDocuments(schemaName, function (results) {
+                    log('listImageData for ' + schemaName);
+                    log(results);
+                    test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
+                    storage.Media.listMediaFiles(function (err, results) {
+                        log('list media file results');
+                        log(results);
+                        test.equals(results.length, 2, "should just be 2 files, but it's " + results.length);
+                        var newFileName = path.basename(results[0]);
+                        storage.Document.getDocument(schemaName, newFileName, function (doc) {
+                            test.ok(doc.indexOf("zoomy") > 0, 'zoomy not found');
+                            test.done();
+                        });
                     });
                 });
             });

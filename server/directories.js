@@ -26,7 +26,7 @@ module.exports = function(home) {
         if (!results) {
             throw "Bucket could not be extracted from file name " + fileName;
         }
-        return make(this.mediaUploadDir, results[1]);
+        return make(this.mediaStorage, results[1]);
     };
     this.thumbnailBucketDir = function(fileName) {
         return make(this.mediaBucketDir(fileName), 'thumbnail');

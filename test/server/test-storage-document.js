@@ -24,7 +24,7 @@ exports.testFetchSchema = function (test) {
     test.expect(2);
     storage.Document.getDocumentSchema('Photograph', function (xml) {
         test.ok(xml, "no xml");
-//        log("fetched:\n" + xml);
+        log("fetched:\n" + xml);
         test.ok(xml.indexOf('<Photograph>') == 0, "Didn't retrieve");
         schemaXml = xml;
         test.done();

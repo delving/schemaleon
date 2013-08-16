@@ -5,6 +5,10 @@ var Storage = require('../../server/storage');
 
 var storage = null;
 
+function log(message) {
+//    console.log(message);
+}
+
 exports.createDatabase = function (test) {
     test.expect(1);
     Storage('oscrtest', '/tmp', function(s) {
@@ -55,7 +59,7 @@ exports.testAddEntry2 = function (test) {
     };
     storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
-//        console.log("added:\n" + xml);
+        log("added:\n" + xml);
         test.done();
     });
 };
@@ -64,7 +68,7 @@ exports.testFetchEntry = function(test) {
     test.expect(1);
     storage.Vocab.getVocabularyEntries('PhotoType', 'y', function(xml) {
         test.ok(xml, "no xml");
-//        console.log("fetched:\n" + xml);
+        log("fetched:\n" + xml);
         test.done();
     });
 };

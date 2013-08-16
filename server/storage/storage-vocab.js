@@ -8,6 +8,10 @@ function Vocab(storage) {
 
 var P = Vocab.prototype;
 
+function log(message) {
+//    console.log(message);
+}
+
 P.getVocabularySchema = function (vocabName, receiver) {
     var s = this.storage;
     var query = [
@@ -68,7 +72,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     else {
         entry.ID = s.generateVocabId();
         entryXml = s.objectToXml(entry, 'Entry');
-        query = "insert node " + entryXml + " into " + s.vocabPath(vocabName);
+        query = "insert node (" + entryXml + ") into " + s.vocabPath(vocabName);
         s.xquery(query, function (error, reply) {
             if (reply.ok) {
                 receiver(entryXml);
@@ -86,7 +90,7 @@ P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
     var query = [
         '<Entries>',
-        '    { ' + s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), lower-case(" + s.quote(search) + "))]}",
+        '    { ' + s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), lower-case(" + s.quote(search) + "))] }",
         '</Entries>'
     ];
     s.xquery(query, function (error, reply) {

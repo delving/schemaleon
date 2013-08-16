@@ -8,6 +8,10 @@ function Person(storage) {
 
 var P = Person.prototype;
 
+function log(message) {
+    console.log(message);
+}
+
 /*
  { isPublic: false,
  firstName: 'Gerald',
@@ -184,7 +188,7 @@ P.getGroup = function (identifier, receiver) {
             receiver(reply.result);
         }
         else {
-            throw error + "\n" + query;
+            console.error(error + "\n" + query);
         }
     });
 };
@@ -197,9 +201,11 @@ P.addUserToGroup = function (email, role, identifier, receiver) {
         'return',
         'if (exists($user/Memberships/Member[Group=' + s.quote(identifier) + ']))',
         'then ()',
-        'else if (exists($user/Memberships))',
-        'then insert node $mem into $user/Memberships',
-        'else insert node <Memberships>{$mem}</Memberships> into $user'
+        'else (',
+        'if (exists($user/Memberships))',
+        'then (insert node $mem into $user/Memberships)',
+        'else (insert node <Memberships>{$mem}</Memberships> into $user)',
+        ')'
     ];
     s.xquery(query, function (error, reply) {
         if (reply.ok) {

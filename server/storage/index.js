@@ -237,13 +237,13 @@ function open(databaseName, homeDir, receiver) {
                         var group = {
                             Name: '',
                             Address: ''
-                        }
+                        };
 
                         for(var gr=0; gr < 4; gr++) {
                             group.Name = 'GroupName_' + gr;
                             group.Address = 'GroupAdress_' + gr;
                             storage.Person.saveGroup(_.clone(group), function(xml){
-                                console.log(xml);
+//                                console.log(xml);
                             })
                         }
 
@@ -261,7 +261,7 @@ function open(databaseName, homeDir, receiver) {
                             profile.email = "email_"+user+"@delving.eu";
                             // use _.clone to deal with async
                             storage.Person.getOrCreateUser(_.clone(profile), function(xml){
-                               console.log(xml);
+//                               console.log(xml);
                             });
                         }
                         

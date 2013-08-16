@@ -71,12 +71,12 @@ exports.testSaveAndFetchGroup = function (test) {
     test.expect(3);
     storage.Person.saveGroup(group, function (createdXml) {
         test.ok(createdXml, "no createdXml");
+        groupIdentifier = storage.getFromXml(createdXml, "Identifier");
+        log("group identifier:" + groupIdentifier);
         log("created group:\n" + createdXml);
-        storage.Person.getGroup(group.Identifier, function (fetchedXml) {
-            test.ok(fetchedXml, "no fetchedXml");
+        storage.Person.getGroup(groupIdentifier, function (fetchedXml) {
             log("fetched group:\n" + fetchedXml);
-            groupIdentifier = storage.getFromXml(fetchedXml, "Identifier");
-            log("group identifier:" + group.Identifier);
+            test.ok(fetchedXml, "no fetchedXml");
             test.equal(createdXml, fetchedXml, "Fetched was different!");
             test.done();
         });
@@ -124,7 +124,7 @@ exports.testSearchGroupsAgain = function (test) {
 
 exports.testAddMembership = function (test) {
     test.expect(1);
-    storage.Person.addUserToGroup(profile.email, 'Member', group.Identifier, function (userXml) {
+    storage.Person.addUserToGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log("added user to group:\n" + userXml);
         test.done();
