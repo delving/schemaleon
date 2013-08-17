@@ -19,7 +19,12 @@ function Storage(home) {
 
     function generateId(prefix) {
         var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
-        return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + Math.floor(Math.random() * 36 * 36 * 36).toString(36);
+        var randomNumber = 0;//Math.floor(Math.random() * 36 * 36 * 36);
+        var randomString = randomNumber.toString(36);
+        while (randomString.length < 3) {
+            randomString = '0' + randomString;
+        }
+        return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + randomString;
     }
 
     this.generateUserId = function () {
@@ -171,23 +176,65 @@ function Storage(home) {
         return "collection('" + this.database + "/documents/" + schemaName + "')";
     };
 
-    this.xquery = function (query, callback) {
+    function reportError(errorMessage, error) {
+        if (errorMessage) {
+            console.error(errorMessage);
+            console.error(error);
+        }
+    }
+
+    this.query = function (query, errorMessage, receiver) {
         if (_.isArray(query)) {
             query = query.join('\n');
         }
-        this.session.execute('xquery \n' + query, callback);
+        this.session.execute('xquery \n' + query, function (error, reply) {
+            if (reply.ok) {
+                receiver(reply.result);
+            }
+            else {
+                reportError(errorMessage, error);
+                receiver(null);
+            }
+        });
     };
 
-    this.query = function (query, callback) {
-        return this.session.query(query, callback);
+    this.update = function (query, errorMessage, receiver) {
+        if (_.isArray(query)) {
+            query = query.join('\n');
+        }
+        this.session.execute('xquery \n' + query, function (error, reply) {
+            if (reply.ok) {
+                receiver(true);
+            }
+            else {
+                reportError(errorMessage, error);
+                receiver(false);
+            }
+        });
     };
 
-    this.add = function (path, content, callback) {
-        this.session.add(path, content, callback);
+    this.add = function (path, content, errorMessage, receiver) {
+        this.session.add(path, content, function (error, reply) {
+            if (reply.ok) {
+                receiver(content);
+            }
+            else {
+                reportError(errorMessage, error);
+                receiver(null);
+            }
+        });
     };
 
-    this.replace = function (path, content, callback) {
-        this.session.replace(path, content, callback);
+    this.replace = function (path, content, errorMessage, receiver) {
+        this.session.replace(path, content, function (error, reply) {
+            if (reply.ok) {
+                receiver(content);
+            }
+            else {
+                reportError(errorMessage, error);
+                receiver(null);
+            }
+        });
     };
 
     this.Person = new Person(this);
@@ -207,22 +254,21 @@ function open(databaseName, homeDir, receiver) {
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
         if (reply.ok) {
-//            console.log(reply.info);
             receiver(storage);
         }
         else {
-//            console.log('could not open database ' + databaseName);
             storage.session.execute('create db ' + databaseName, function (error, reply) {
 
                 function loadXML(fileName, next) {
                     var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
-                    storage.add('/' + fileName, contents, function (error, reply) {
+                    storage.session.add('/' + fileName, contents, function (error, reply) {
                         if (reply.ok) {
 //                            console.log("Preloaded: " + fileName);
                             if (next) next();
                         }
                         else {
-                            throw error;
+                            console.error('Unable to create database ' + databaseName);
+                            console.error(error);
                         }
                     });
                 }
@@ -233,7 +279,9 @@ function open(databaseName, homeDir, receiver) {
                     });
                 }
                 else {
-                    throw error;
+                    console.error('Unable to create database ' + databaseName);
+                    console.error(error);
+                    receiver(null);
                 }
             });
         }

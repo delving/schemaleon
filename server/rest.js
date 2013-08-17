@@ -74,9 +74,9 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     function replyWithLanguage(lang, res) {
-        storage.I18N.getLanguage(lang, function (language) {
+        storage.I18N.getLanguage(lang, function (xml) {
             res.setHeader('Content-Type', 'text/xml');
-            res.send(language);
+            res.send(xml);
         });
     }
 

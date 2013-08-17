@@ -25,26 +25,19 @@ P.getVocabularySchema = function (vocabName, receiver) {
         '  </Entry>',
         '</' + vocabName + '>'
     ];
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw 'No vocabulary schema found with name ' + vocabName;
-        }
-    });
+    s.query(query, 'get vocabulary schema ' + vocabName, receiver);
 };
 
 P.createVocabulary = function (vocabName, entryXml, receiver) {
     var s = this.storage;
     var freshVocab = "<Entries>" + entryXml + "</Entries>";
-    s.add(s.vocabDocument(vocabName), freshVocab, function (error, reply) {
-        if (reply.ok) {
+    s.add(s.vocabDocument(vocabName), freshVocab, 'create vocabulary ' + vocabName, function (result) {
+        if (result) {
 //            console.log("Created vocabulary " + vocabName);
-            receiver(entryXml);
+            receiver(entryXml); // maybe use the result instead?
         }
         else {
-            throw 'Unable to create vocabulary ' + vocabName + " with entry " + entryXml;
+            receiver(null);
         }
     });
 };
@@ -58,14 +51,12 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         entryPath = s.vocabPath(vocabName) + "[ID=" + s.quote(entry.ID) + "]";
         entryXml = s.objectToXml(entry, 'Entry');
         query = "replace value of node " + entryPath + " with " + entryXml;
-        s.xquery(query, function (error, reply) {
-            if (reply.ok) {
-                receiver(entryXml);
+        s.update(query, null, function (result) {
+            if (result) {
+                receiver(entryXml); // use the result?
             }
             else {
-                s.Vocab.createVocabulary(vocabName, entryXml, function (xml) {
-                    receiver(xml);
-                });
+                s.Vocab.createVocabulary(vocabName, entryXml, receiver);
             }
         });
     }
@@ -73,14 +64,12 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         entry.ID = s.generateVocabId();
         entryXml = s.objectToXml(entry, 'Entry');
         query = "insert node (" + entryXml + ") into " + s.vocabPath(vocabName);
-        s.xquery(query, function (error, reply) {
-            if (reply.ok) {
-                receiver(entryXml);
+        s.update(query, null, function (result) {
+            if (result) {
+                receiver(entryXml); // use the result?
             }
             else {
-                s.Vocab.createVocabulary(vocabName, entryXml, function (xml) {
-                    receiver(xml);
-                });
+                s.Vocab.createVocabulary(vocabName, entryXml, receiver);
             }
         });
     }
@@ -93,15 +82,13 @@ P.getVocabularyEntries = function (vocabName, search, receiver) {
         '    { ' + s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), lower-case(" + s.quote(search) + "))] }",
         '</Entries>'
     ];
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
+    s.query(query, null, function (result) {
+        if (result) {
+            receiver(result);
         }
         else {
             // todo: make sure there's not one already and the problem was something else
-            s.Vocab.createVocabulary(vocabName, '', function (xml) {
-                receiver('');
-            });
+            s.Vocab.createVocabulary(vocabName, '', receiver);
         }
     });
 };

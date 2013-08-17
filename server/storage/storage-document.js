@@ -16,15 +16,8 @@ function log(message) {
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    var query = s.schemaPath() + "/Document/" + schemaName;
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw 'No document schema found with name ' + schemaName;
-        }
-    });
+    var query = s.schemaPath() + '/Document/' + schemaName;
+    s.query(query, 'get document schema', receiver);
 };
 
 P.getAllDocumentHeaders = function (schemaName, receiver) {
@@ -34,14 +27,7 @@ P.getAllDocumentHeaders = function (schemaName, receiver) {
         '    { ' + s.docCollection(schemaName) + '/Document/Header }',
         '</Headers>'
     ];
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
+    s.query(query, 'get all document headers', receiver);
 };
 
 P.getAllDocuments = function (schemaName, receiver) {
@@ -55,14 +41,7 @@ P.getAllDocuments = function (schemaName, receiver) {
         '    }',
         '</Documents>'
     ];
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
+    s.query(query, 'get all documents', receiver);
 };
 
 P.selectDocuments = function (schemaName, search, receiver) {
@@ -77,30 +56,13 @@ P.selectDocuments = function (schemaName, search, receiver) {
         '    }',
         '</Documents>'
     ];
-    s.xquery(query, function (error, reply) {
-//        console.log(query);
-//        console.log(reply);
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            console.log('THROW');
-            receiver('');
-        }
-    });
+    s.query(query, 'select documents: ' + search, receiver);
 };
 
-P.getDocument = function (schemaName, identifier, receiver) { // todo: find usages
+P.getDocument = function (schemaName, identifier, receiver) {
     var s = this.storage;
     var query = s.docPath(schemaName, identifier);
-    s.xquery(query, function (error, reply) {
-        if (reply.ok) {
-            receiver(reply.result);
-        }
-        else {
-            throw error + "\n" + query;
-        }
-    });
+    s.query(query, 'get document ' + identifier, receiver);
 };
 
 P.saveDocument = function (envelope, receiver) {
@@ -110,23 +72,10 @@ P.saveDocument = function (envelope, receiver) {
     var time = new Date().getTime();
     var hdr = _.clone(envelope.header);
 
-    function finish() {
-        log('finishing save document');
-        receiver(s.objectToXml(hdr, 'Header'));
-    }
-
     function addDocument() {
-        var withIdentifier = envelope.xml.replace(IDENTIFIER, hdr.Identifier);
-        var withTimesStamp = withIdentifier.replace(TIMESTAMP, time);
+        var xml = envelope.xml.replace(IDENTIFIER, hdr.Identifier).replace(TIMESTAMP, time);
         log("addDocument " + hdr.SchemaName + ' ' + hdr.Identifier);
-        s.add(s.docDocument(hdr.SchemaName, hdr.Identifier), withTimesStamp, function (error, reply) {
-            if (reply.ok) {
-                finish();
-            }
-            else {
-                throw error + "\n" + query;
-            }
-        });
+        s.add(s.docDocument(hdr.SchemaName, hdr.Identifier), xml, 'add document ' + hdr.Identifier, receiver);
     }
 
     hdr.TimeStamp = time;
@@ -148,13 +97,6 @@ P.saveDocument = function (envelope, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace(s.docDocument(hdr.SchemaName, hdr.Identifier), stamped, function (error, reply) {
-            if (reply.ok) {
-                finish();
-            }
-            else {
-                throw "Unable to replace " + s.docDocument(hdr.SchemaName, hdr.Identifier);
-            }
-        });
+        s.replace(s.docDocument(hdr.SchemaName, hdr.Identifier), stamped, 'replace document '+ hdr.Identifier, receiver);
     }
 };
