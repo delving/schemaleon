@@ -187,7 +187,7 @@ function Storage(home) {
         if (_.isArray(query)) {
             query = query.join('\n');
         }
-        this.session.execute('xquery \n' + query, function (error, reply) {
+        this.session.execute('<xquery><![CDATA[\n'+query+'\n]]></xquery>', function (error, reply) {
             if (reply.ok) {
                 receiver(reply.result);
             }
@@ -202,7 +202,7 @@ function Storage(home) {
         if (_.isArray(query)) {
             query = query.join('\n');
         }
-        this.session.execute('xquery \n' + query, function (error, reply) {
+        this.session.execute('<xquery><![CDATA[\n'+query+'\n]]></xquery>', function (error, reply) {
             if (reply.ok) {
                 receiver(true);
             }
