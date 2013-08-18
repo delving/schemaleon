@@ -19,7 +19,7 @@ function Storage(home) {
 
     function generateId(prefix) {
         var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
-        var randomNumber = 0;//Math.floor(Math.random() * 36 * 36 * 36);
+        var randomNumber = Math.floor(Math.random() * 36 * 36 * 36);
         var randomString = randomNumber.toString(36);
         while (randomString.length < 3) {
             randomString = '0' + randomString;
@@ -176,38 +176,42 @@ function Storage(home) {
         return "collection('" + this.database + "/documents/" + schemaName + "')";
     };
 
-    function reportError(errorMessage, error) {
+    function wrapQuery(query) {
+        if (_.isArray(query)) {
+            query = query.join('\n');
+        }
+        return '<xquery><![CDATA[\n'+query+'\n]]></xquery>';
+    }
+
+    function reportError(errorMessage, error, query) {
         if (errorMessage) {
             console.error(errorMessage);
             console.error(error);
+            console.error(query);
         }
     }
 
     this.query = function (query, errorMessage, receiver) {
-        if (_.isArray(query)) {
-            query = query.join('\n');
-        }
-        this.session.execute('<xquery><![CDATA[\n'+query+'\n]]></xquery>', function (error, reply) {
+        query = wrapQuery(query);
+        this.session.execute(query, function (error, reply) {
             if (reply.ok) {
                 receiver(reply.result);
             }
             else {
-                reportError(errorMessage, error);
+                reportError(errorMessage, error, query);
                 receiver(null);
             }
         });
     };
 
     this.update = function (query, errorMessage, receiver) {
-        if (_.isArray(query)) {
-            query = query.join('\n');
-        }
-        this.session.execute('<xquery><![CDATA[\n'+query+'\n]]></xquery>', function (error, reply) {
+        query = wrapQuery(query);
+        this.session.execute(query, function (error, reply) {
             if (reply.ok) {
                 receiver(true);
             }
             else {
-                reportError(errorMessage, error);
+                reportError(errorMessage, error, query);
                 receiver(false);
             }
         });
