@@ -33,7 +33,11 @@ P.getOrCreateUser = function (profile, receiver) {
 
     function addUser(userObject) {
         var userXml = s.objectToXml(userObject, 'User');
-        s.add(s.userDocument(profile.email), userXml, 'add user ' + userXml, receiver);
+        s.add('add user ' + profile.email,
+            s.userDocument(profile.email),
+            userXml,
+            receiver
+        );
     }
 
     function createTestUsers() { //todo: remove for production - creates fake users and groups
@@ -59,7 +63,7 @@ P.getOrCreateUser = function (profile, receiver) {
         }
     }
 
-    s.query(s.userPath(profile.email), null, function (result) {
+    s.query(null, s.userPath(profile.email), function (result) {
         if (result) {
             receiver(result);
         }
@@ -69,68 +73,79 @@ P.getOrCreateUser = function (profile, receiver) {
                 Profile: profile,
                 SaveTime: new Date().getTime()
             };
-            s.query('count(' + s.userCollection() + ')', 'count users', function (result) {
-                if (result === '0') {
-                    var oscrGroup = {
-                        Name: 'OSCR',
-                        Identifier: 'OSCR',
-                        SaveTime: new Date().getTime()
-                    };
-                    self.saveGroup(oscrGroup, function (result) {
-                        log('created group ' + result);
-                        var groupIdentifier = s.getFromXml(result, 'Identifier');
-                        userObject.Memberships = {
-                            Member: {
-                                Group: groupIdentifier,
-                                Role: 'Administrator'
-                            }
+            s.query('count users',
+                'count(' + s.userCollection() + ')',
+                function (result) {
+                    if (result === '0') {
+                        var oscrGroup = {
+                            Name: 'OSCR',
+                            Identifier: 'OSCR',
+                            SaveTime: new Date().getTime()
                         };
+                        self.saveGroup(oscrGroup, function (result) {
+                            log('created group ' + result);
+                            var groupIdentifier = s.getFromXml(result, 'Identifier');
+                            userObject.Memberships = {
+                                Member: {
+                                    Group: groupIdentifier,
+                                    Role: 'Administrator'
+                                }
+                            };
+                            addUser(userObject);
+                            createTestUsers();
+                        });
+                    }
+                    else {
                         addUser(userObject);
-                        createTestUsers();
-                    });
+                    }
                 }
-                else {
-                    addUser(userObject);
-                }
-            });
+            );
         }
     });
 };
 
 P.getUser = function (email, receiver) {
     var s = this.storage;
-    var query = s.userPath(email);
-    s.query(query, 'get user ' + email, receiver);
+    s.query('get user ' + email,
+        s.userPath(email),
+        receiver
+    );
 };
 
 P.getUsersInGroup = function (identifier, receiver) {
     var s = this.storage;
-    var query = [
-        '<Users>',
-        '    { ' + s.userCollection() + '[Memberships/Member/Group = ' + s.quote(identifier) + '] }',
-        '</Users>'
-    ];
-    s.query(query, 'get users in group ' + identifier, receiver);
+    s.query('get users in group ' + identifier,
+        [
+            '<Users>',
+            '    { ' + s.userCollection() + '[Memberships/Member/Group = ' + s.quote(identifier) + '] }',
+            '</Users>'
+        ],
+        receiver
+    );
 };
 
 P.getUsers = function (search, receiver) {
     var s = this.storage;
-    var query = [
-        '<Users>',
-        '    { ' + s.userCollection() + '[contains(lower-case(Profile/email), ' + s.quote(search) + ')] }',
-        '</Users>'
-    ];
-    s.query(query, 'get users ' + search, receiver);
+    s.query('get users ' + search,
+        [
+            '<Users>',
+            '    { ' + s.userCollection() + '[contains(lower-case(Profile/email), ' + s.quote(search) + ')] }',
+            '</Users>'
+        ],
+        receiver
+    );
 };
 
 P.getAllUsers = function (receiver) {
     var s = this.storage;
-    var query = [
-        '<Users>',
-        '    { ' + s.userCollection() + ' }',
-        '</Users>'
-    ];
-    s.query(query, 'get all users', receiver);
+    s.query('get all users',
+        [
+            '<Users>',
+            '    { ' + s.userCollection() + ' }',
+            '</Users>'
+        ],
+        receiver
+    );
 };
 
 P.saveGroup = function (group, receiver) {
@@ -142,73 +157,96 @@ P.saveGroup = function (group, receiver) {
     }
     var groupXml = s.objectToXml(group, "Group");
     if (existing && group.Identifier != 'OSCR') {
-        s.replace(s.groupDocument(group.Identifier), groupXml, 'save existing group ' + group.Identifier, receiver);
+        s.replace('save existing group ' + group.Identifier,
+            s.groupDocument(group.Identifier), groupXml,
+            receiver
+        );
     }
     else {
-        s.add(s.groupDocument(group.Identifier), groupXml, 'add group ' + group.Identifier, receiver);
+        s.add('add group ' + group.Identifier,
+            s.groupDocument(group.Identifier), groupXml,
+            receiver
+        );
     }
 };
 
 P.getGroups = function (search, receiver) {
     var s = this.storage;
-    var query = [
-        '<Groups>',
-        '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + s.quote(search) + '))] }',
-        '</Groups>'
-    ];
-    s.query(query, 'get groups ' + search, receiver);
+    s.query('get groups ' + search,
+        [
+            '<Groups>',
+            '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + s.quote(search) + '))] }',
+            '</Groups>'
+        ],
+        receiver
+    );
 };
 
 P.getAllGroups = function (receiver) {
     var s = this.storage;
-    var query = [
-        '<Groups>',
-        '    { ' + s.groupCollection() + ' }',
-        '</Groups>'
-    ];
-    s.query(query, 'get all groups', receiver);
+    s.query('get all groups',
+        [
+            '<Groups>',
+            '    { ' + s.groupCollection() + ' }',
+            '</Groups>'
+        ],
+        receiver
+    );
 };
 
 P.getGroup = function (identifier, receiver) {
     var s = this.storage;
-    var query = s.groupPath(identifier);
-    s.query(query, 'get group ' + identifier, receiver);
+    s.query('get group ' + identifier,
+        s.groupPath(identifier),
+        receiver
+    );
 };
 
 P.addUserToGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
-    var query = [
-        'let $user := ' + s.userPath(email),
-        'let $mem := ' + '<Member><Group>' + identifier + '</Group><Role>' + role + '</Role></Member>',
-        'return',
-        'if (exists($user/Memberships/Member[Group=' + s.quote(identifier) + ']))',
-        'then ()',
-        'else (',
-        'if (exists($user/Memberships))',
-        'then (insert node $mem into $user/Memberships)',
-        'else (insert node <Memberships>{$mem}</Memberships> into $user)',
-        ')'
-    ];
-    s.update(query, 'add user to group ' + email + ' ' + role + ' ' + identifier, function (result) {
-        if (result) {
-            s.query(s.userPath(email), 're-fetch user ' + email + ' ' + role + ' ' + identifier, receiver);
+    var addition = email + ' ' + role + ' ' + identifier;
+    s.update('add user to group ' + addition,
+        [
+            'let $user := ' + s.userPath(email),
+            'let $mem := ' + '<Member><Group>' + identifier + '</Group><Role>' + role + '</Role></Member>',
+            'return',
+            'if (exists($user/Memberships/Member[Group=' + s.quote(identifier) + ']))',
+            'then ()',
+            'else ( if (exists($user/Memberships))',
+            'then (insert node $mem into $user/Memberships)',
+            'else (insert node <Memberships>{$mem}</Memberships> into $user))'
+        ],
+        function (result) {
+            if (result) {
+                s.query(
+                    're-fetch user ' + addition,
+                    s.userPath(email),
+                    receiver
+                );
+            }
+            else {
+                receiver(null);
+            }
         }
-        else {
-            receiver(null);
-        }
-    });
+    );
 };
 
 P.removeUserFromGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
-    var query = 'delete node ' + s.userPath(email) + '/Memberships/Member[Group=' + s.quote(identifier) + ']';
-    s.update(query, 'remove user from group ' + email + ' ' + role + ' ' + identifier, function (result) {
-        if (result) {
-            s.query(s.userPath(email), 're-fetch user after remove membership ' + email + ' ' + role + ' ' + identifier, receiver);
+    var addition = email + ' ' + role + ' ' + identifier;
+    s.update('remove user from group ' + addition,
+        'delete node ' + s.userPath(email) + '/Memberships/Member[Group=' + s.quote(identifier) + ']',
+        function (result) {
+            if (result) {
+                s.query('re-fetch user after remove membership ' + addition,
+                    s.userPath(email),
+                    receiver
+                );
+            }
+            else {
+                receiver(null);
+            }
         }
-        else {
-            receiver(null);
-        }
-    });
+    );
 };
 

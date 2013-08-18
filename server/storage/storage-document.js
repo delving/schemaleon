@@ -16,53 +16,63 @@ function log(message) {
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    var query = s.schemaPath() + '/Document/' + schemaName;
-    s.query(query, 'get document schema', receiver);
+    s.query('get document schema',
+        s.schemaPath() + '/Document/' + schemaName,
+        receiver
+    );
 };
 
 P.getAllDocumentHeaders = function (schemaName, receiver) {
     var s = this.storage;
-    var query = [
-        '<Headers>',
-        '    { ' + s.docCollection(schemaName) + '/Document/Header }',
-        '</Headers>'
-    ];
-    s.query(query, 'get all document headers', receiver);
+    s.query('get all document headers',
+        [
+            '<Headers>',
+            '    { ' + s.docCollection(schemaName) + '/Document/Header }',
+            '</Headers>'
+        ],
+        receiver
+    );
 };
 
 P.getAllDocuments = function (schemaName, receiver) {
     var s = this.storage;
-    var query = [
-        '<Documents>',
-        '    {',
-        '        for $doc in ' + s.docCollection(schemaName) + '/Document',
-        '        order by $doc/Header/TimeStamp descending',
-        '        return $doc',
-        '    }',
-        '</Documents>'
-    ];
-    s.query(query, 'get all documents', receiver);
+    s.query('get all documents',
+        [
+            '<Documents>',
+            '    {',
+            '        for $doc in ' + s.docCollection(schemaName) + '/Document',
+            '        order by $doc/Header/TimeStamp descending',
+            '        return $doc',
+            '    }',
+            '</Documents>'
+        ],
+        receiver
+    );
 };
 
 P.selectDocuments = function (schemaName, search, receiver) {
     var s = this.storage;
-    var query = [
-        '<Documents>',
-        '    { ',
-        '        for $doc in ' + s.docCollection(schemaName) + '/Document',
-        '        where $doc/Body//*[contains(lower-case(text()), lower-case(' + s.quote(search) + '))]',
-        '        order by $doc/Header/TimeStamp descending',
-        '        return $doc',
-        '    }',
-        '</Documents>'
-    ];
-    s.query(query, 'select documents: ' + search, receiver);
+    s.query('select documents: ' + schemaName + ' ' + search,
+        [
+            '<Documents>',
+            '    { ',
+            '        for $doc in ' + s.docCollection(schemaName) + '/Document',
+            '        where $doc/Body//*[contains(lower-case(text()), lower-case(' + s.quote(search) + '))]',
+            '        order by $doc/Header/TimeStamp descending',
+            '        return $doc',
+            '    }',
+            '</Documents>'
+        ],
+        receiver
+    );
 };
 
 P.getDocument = function (schemaName, identifier, receiver) {
     var s = this.storage;
-    var query = s.docPath(schemaName, identifier);
-    s.query(query, 'get document ' + identifier, receiver);
+    s.query('get document ' + schemaName + ' ' + identifier,
+        s.docPath(schemaName, identifier),
+        receiver
+    );
 };
 
 P.saveDocument = function (envelope, receiver) {
@@ -74,8 +84,11 @@ P.saveDocument = function (envelope, receiver) {
 
     function addDocument() {
         var xml = envelope.xml.replace(IDENTIFIER, hdr.Identifier).replace(TIMESTAMP, time);
-        log("addDocument " + hdr.SchemaName + ' ' + hdr.Identifier);
-        s.add(s.docDocument(hdr.SchemaName, hdr.Identifier), xml, 'add document ' + hdr.Identifier, receiver);
+        s.add('add document ' + hdr.Identifier,
+            s.docDocument(hdr.SchemaName, hdr.Identifier),
+            xml,
+            receiver
+        );
     }
 
     hdr.TimeStamp = time;
@@ -97,6 +110,10 @@ P.saveDocument = function (envelope, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace(s.docDocument(hdr.SchemaName, hdr.Identifier), stamped, 'replace document '+ hdr.Identifier, receiver);
+        s.replace('replace document '+ hdr.Identifier,
+            s.docDocument(hdr.SchemaName, hdr.Identifier),
+            stamped,
+            receiver
+        );
     }
 };

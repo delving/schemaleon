@@ -13,6 +13,10 @@ var Document = require('./storage-document');
 var Media = require('./storage-media');
 var Directories = require('../directories');
 
+function log(message) {
+//    console.log(message);
+}
+
 function Storage(home) {
     this.session = new basex.Session();
     this.directories = new Directories(home);
@@ -180,62 +184,65 @@ function Storage(home) {
         if (_.isArray(query)) {
             query = query.join('\n');
         }
+        log(query);
         return '<xquery><![CDATA[\n'+query+'\n]]></xquery>';
     }
 
-    function reportError(errorMessage, error, query) {
-        if (errorMessage) {
-            console.error(errorMessage);
+    function reportError(message, error, query) {
+        if (message) {
+            console.error(message);
             console.error(error);
             console.error(query);
         }
     }
 
-    this.query = function (query, errorMessage, receiver) {
+    this.query = function (message, query, receiver) {
         query = wrapQuery(query);
         this.session.execute(query, function (error, reply) {
             if (reply.ok) {
                 receiver(reply.result);
             }
             else {
-                reportError(errorMessage, error, query);
+                reportError(message, error, query);
                 receiver(null);
             }
         });
     };
 
-    this.update = function (query, errorMessage, receiver) {
+    this.update = function (message, query, receiver) {
         query = wrapQuery(query);
         this.session.execute(query, function (error, reply) {
             if (reply.ok) {
                 receiver(true);
             }
             else {
-                reportError(errorMessage, error, query);
+                reportError(message, error, query);
                 receiver(false);
             }
         });
     };
 
-    this.add = function (path, content, errorMessage, receiver) {
+    this.add = function (message, path, content, receiver) {
         this.session.add(path, content, function (error, reply) {
             if (reply.ok) {
+                log('add ' + path + ': '+content);
                 receiver(content);
             }
             else {
-                reportError(errorMessage, error);
+                reportError(message, error, path + ': ' + content);
                 receiver(null);
             }
         });
     };
 
-    this.replace = function (path, content, errorMessage, receiver) {
+    this.replace = function (message, path, content, receiver) {
         this.session.replace(path, content, function (error, reply) {
             if (reply.ok) {
+                log('replace ' + path + ': '+content);
                 receiver(content);
             }
             else {
-                reportError(errorMessage, error);
+                reportError(message, error);
                 receiver(null);
             }
         });
