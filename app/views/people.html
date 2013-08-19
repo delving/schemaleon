@@ -57,7 +57,7 @@
             </div>
             <label i18n="UserEmail"><span class="i18n">User-email</span>:</label>
             <div class="input-append">
-            <input type="text" ng-model="chosenUser" class="input-large"
+            <input id="cu" type="text" ng-model="chosenUser" class="input-large"
                    typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
                 <span class="add-on pointer" ng-show="chosenUser" ng-click="clearChosenUser()"><i class="icon-ban-circle"></i></span>
             </div>

@@ -54,7 +54,7 @@
             </StorageLocation>
             <CreationEvent>
                 <CreationDate>{ "validator": "date" }</CreationDate>
-                <Creator>{ "vocabulary": "Actor", "multiple":true }</Creator>
+                <Creator>{ "required": true, "vocabulary": "Actor", "multiple":true }</Creator>
                 <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>
                 <Technique>{ "vocabulary": "Technique" }</Technique>
                 <Material>{ "vocabulary": "Material" }</Material>

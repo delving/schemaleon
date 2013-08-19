@@ -177,6 +177,7 @@ OSCR.controller(
 
         $scope.clearChosenUser = function(){
             $scope.chosenUser = '';
+            $('input#cu').focus();
         }
 
         $scope.removeUserFromGroup = function (user) {

@@ -172,6 +172,7 @@ OSCR.controller(
 OSCR.controller(
     'FileDestroyController',
     function ($scope, $http) {
+        console.log('Destroy');
         var file = $scope.file, state;
         if (file.url) {
             file.$state = function () {
