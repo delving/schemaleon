@@ -239,7 +239,8 @@ OSCR.controller(
                 });
             }
         }
-        if ($scope.el.valueExpression.required) {
+
+        if ($scope.el.valueExpression && $scope.el.valueExpression.required) {
             $scope.$watch('el.value', function (after, before) {
                 $scope.invalidMessage = $scope.el.value ? '' : '[[absent]]';
                 $scope.el.invalid = $scope.invalidMessage ? 1 : 0
