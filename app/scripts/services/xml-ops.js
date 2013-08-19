@@ -285,13 +285,22 @@ function populateTree(tree, object) {
 function validateTree(tree) {
     function validateNode(el) {
         if (el.elements) {
+            var maxInvalid = 0;
             _.forEach(el.elements, function (element) {
-                validateNode(element);
+                var invalid = validateNode(element);
+                if (invalid > maxInvalid) {
+                    maxInvalid = invalid;
+                }
             });
+            el.invalid = maxInvalid;
         }
         else if (el.valueExpression && el.valueExpression.required) {
             el.invalid = el.value ? 0 : 1;
         }
+        else {
+            el.invalid = 0;
+        }
+        return el.invalid;
     }
 
     validateNode(tree);
