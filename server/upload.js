@@ -232,20 +232,18 @@ UHP.post = function () {
 
 UHP.destroy = function () {
     var self = this;
-    if (self.req.url.slice(0, uploadUrl.length) === uploadUrl) {
-        var fileName = path.basename(decodeURIComponent(self.req.url));
-        if (fileName[0] !== '.') {
-            fs.unlink(
-                uploadDir + '/' + fileName,
-                function (ex) {
-                    Object.keys(options.imageVersions).forEach(function (version) {
-                        fs.unlink(uploadDir + '/' + version + '/' + fileName);
-                    });
-                    self.callback({success: !ex});
-                }
-            );
-            return;
-        }
+    var fileName = path.basename(decodeURIComponent(self.req.url));
+    if (fileName[0] !== '.') {
+        fs.unlink(
+            uploadDir + '/' + fileName,
+            function (ex) {
+                Object.keys(options.imageVersions).forEach(function (version) {
+                    fs.unlink(uploadDir + '/' + version + '/' + fileName);
+                });
+                self.callback({success: !ex});
+            }
+        );
+        return;
     }
     self.callback({success: false});
 };
@@ -309,7 +307,6 @@ var serve = function (req, res, next) {
                 break;
             case 'GET':
                 get();
-                break;
                 break;
             case 'POST':
                 setNoCacheHeaders();
