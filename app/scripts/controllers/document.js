@@ -65,6 +65,7 @@ OSCR.controller(
                     populateTree(tree, document.Body);
                 }
                 if (!tree) return;
+                validateTree(tree);
                 $scope.setTree(tree);
                 $scope.panels = [
                     { selected: 0, element: $scope.tree }

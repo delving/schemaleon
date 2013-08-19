@@ -31,7 +31,7 @@ OSCR.filter('mediaDisplay',
     function () {
         return function (element) {
             if (element.value && element.media) {
-                return '/media/thumbnail/'+element.value.Identifier;
+                return '/media/thumbnail/' + element.value.Identifier;
             }
             else {
                 return '';
@@ -141,7 +141,7 @@ OSCR.controller(
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
-                Document.fetchDocument($scope.v.name, $scope.el.value.ID    , function (fetchedValue) {
+                Document.fetchDocument($scope.v.name, $scope.el.value.ID, function (fetchedValue) {
                     log('fetched media record');
                     log(fetchedValue.Document);
                     $scope.setValue(fetchedValue.Document);
@@ -235,8 +235,15 @@ OSCR.controller(
                 $scope.invalidMessage = 'Nothing yet';
                 $scope.$watch('el.value', function (after, before) {
                     $scope.invalidMessage = $scope.validator();
+                    $scope.el.invalid = $scope.invalidMessage ? 1 : 0
                 });
             }
+        }
+        if ($scope.el.valueExpression.required) {
+            $scope.$watch('el.value', function (after, before) {
+                $scope.invalidMessage = $scope.el.value ? '' : '[[absent]]';
+                $scope.el.invalid = $scope.invalidMessage ? 1 : 0
+            });
         }
     }
 );

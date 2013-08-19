@@ -51,6 +51,9 @@
 
                 <!-- panel for user input -->
                 <div class="panel-input">
+                    <div ng-show="el.invalid">
+                        <h1 class="btn-warning">{{ el.invalid }}</h1>
+                    </div>
                     <!--chose file input -->
                     <div ng-show="el.media" ng-controller="MediaController" class="digital-object-input">
                         <div ng-hide="el.elements">

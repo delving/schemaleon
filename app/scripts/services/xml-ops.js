@@ -281,3 +281,20 @@ function populateTree(tree, object) {
         populate(tree, key, object);
     }
 }
+
+function validateTree(tree) {
+    function validateNode(el) {
+        if (el.elements) {
+            _.forEach(el.elements, function (element) {
+                validateNode(element);
+            });
+        }
+        else if (el.valueExpression && el.valueExpression.required) {
+            el.invalid = el.value ? 0 : 1;
+        }
+    }
+
+    validateNode(tree);
+}
+
+
