@@ -12,10 +12,10 @@ OSCR.filter('elementDisplay',
             if (!element.value) {
                 return 'empty';
             }
-            else if (element.vocabulary) {
+            else if (element.config.vocabulary) {
                 return element.value.Label; // todo
             }
-            else if (element.media) {
+            else if (element.config.media) {
                 log('elementDisplay');
                 log(element.value);
                 return element.value.Description;
@@ -119,7 +119,7 @@ OSCR.controller(
 
 OSCR.controller(
     'VocabularyController',
-    function ($scope, $q, Vocabulary) {
+    function ($scope, $q, Vocabulary, Document) {
         if (!$scope.el.config.vocabulary) {
             return;
         }
