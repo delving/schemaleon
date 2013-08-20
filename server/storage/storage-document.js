@@ -16,7 +16,7 @@ function log(message) {
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    s.query('get document schema',
+    s.query('get document schema '+schemaName,
         s.schemaPath() + '/Document/' + schemaName,
         receiver
     );
@@ -24,7 +24,7 @@ P.getDocumentSchema = function (schemaName, receiver) {
 
 P.getAllDocumentHeaders = function (schemaName, receiver) {
     var s = this.storage;
-    s.query('get all document headers',
+    s.query('get all document headers ' + schemaName,
         [
             '<Headers>',
             '    { ' + s.docCollection(schemaName) + '/Document/Header }',
@@ -36,7 +36,7 @@ P.getAllDocumentHeaders = function (schemaName, receiver) {
 
 P.getAllDocuments = function (schemaName, receiver) {
     var s = this.storage;
-    s.query('get all documents',
+    s.query('get all documents '+schemaName,
         [
             '<Documents>',
             '    {',

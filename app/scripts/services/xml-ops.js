@@ -155,14 +155,22 @@ function xmlToArray(xml) {
 }
 
 function treeToObject(tree) {
-    function clean(from, out) {
+    function toObject(from, out) {
         if (from.elements) {
             var sub = {};
             _.forEach(from.elements, function (element) {
-                clean(element, sub);
+                toObject(element, sub);
             });
             if (!_.isEmpty(sub)) {
-                out[from.name] = sub;
+                if (from.config.multiple) {
+                    if (!out[from.name]) {
+                        out[from.name] = [];
+                    }
+                    out[from.name].push(sub);
+                }
+                else {
+                    out[from.name] = sub;
+                }
             }
         }
         else if (from.value) {
@@ -179,15 +187,15 @@ function treeToObject(tree) {
     }
 
     var out = {};
-    clean(tree, out);
+    toObject(tree, out);
     return out;
 }
 
-function cleanTree(tree, i18n) {
-    function clean(el) {
+function i18nTree(tree, i18n) {
+    function internationalize(el) {
         if (el.elements) {
             _.forEach(el.elements, function (element) {
-                clean(element, i18n);
+                internationalize(element, i18n);
             });
         }
         else {
@@ -203,7 +211,25 @@ function cleanTree(tree, i18n) {
         }
     }
 
-    clean(tree);
+    internationalize(tree);
+}
+
+function cloneTree(tree) {
+    function clearNode(el) {
+        if (el.elements) {
+            _.forEach(el.elements, function (element) {
+                clearNode(element);
+            });
+        }
+        else {
+            delete el.value;
+            delete el.valueFields; // only media and vocab use these
+        }
+    }
+
+    var clone = JSON.parse(JSON.stringify(tree));
+    clearNode(clone);
+    return clone;
 }
 
 function collectSummaryFields(tree, summary) {

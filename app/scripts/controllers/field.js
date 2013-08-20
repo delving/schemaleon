@@ -30,7 +30,7 @@ OSCR.filter('elementDisplay',
 OSCR.filter('mediaDisplay',
     function () {
         return function (element) {
-            if (element.value && element.media) {
+            if (element.value && element.config.media) {
                 return '/media/thumbnail/' + element.value.Identifier;
             }
             else {
@@ -47,11 +47,11 @@ OSCR.controller(
             return;
         }
         $scope.setActive('media');
-        $scope.schama = $scope.el.config.media;
+        $scope.schema = $scope.el.config.media;
 
-        if (!$scope.m.tree) {
+        if (!$scope.el.tree) {
             Document.fetchSchema($scope.schema, function (schema) {
-                $scope.m.tree = {
+                $scope.el.tree = {
                     name: 'Entry',
                     elements: schema.elements
                 };
@@ -106,8 +106,8 @@ OSCR.controller(
         $scope.setValue = function (value) {
             $scope.el.value = angular.copy(value.Body.ImageMetadata);
             $scope.el.value.Identifier = value.Header.Identifier;
-            if ($scope.m.tree) {
-                $scope.el.valueFields = _.map($scope.m.tree.elements, function (element) {
+            if ($scope.el.tree) {
+                $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
                     return  { prompt: element.name, value: $scope.el.value[element.name] };
                 });
             }
@@ -142,7 +142,7 @@ OSCR.controller(
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
                 Document.fetchDocument($scope.schema, $scope.el.value.ID, function (fetchedValue) { // todo: ID and Identifier?
-                    log('fetched media record');
+                    log('fetched vocabulary record');
                     log(fetchedValue.Document);
                     $scope.setValue(fetchedValue.Document);
                 });
@@ -241,7 +241,6 @@ OSCR.controller(
         }
 
         if ($scope.validators.length) {
-            console.log('validators! '+$scope.validators.length);
             $scope.$watch('el.value', function (after, before) {
                 var invalid = 0;
                 $scope.invalidMessage = '';

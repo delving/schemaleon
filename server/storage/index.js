@@ -200,6 +200,7 @@ function Storage(home) {
         query = wrapQuery(query);
         this.session.execute(query, function (error, reply) {
             if (reply.ok) {
+                log(message);
                 receiver(reply.result);
             }
             else {
@@ -213,6 +214,7 @@ function Storage(home) {
         query = wrapQuery(query);
         this.session.execute(query, function (error, reply) {
             if (reply.ok) {
+                log(message);
                 receiver(true);
             }
             else {

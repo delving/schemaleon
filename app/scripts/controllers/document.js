@@ -50,7 +50,7 @@ OSCR.controller(
 
         $scope.$watch('i18n', function (i18n, oldValue) {
             if ($scope.tree && i18n) {
-                cleanTree($scope.tree, i18n);
+                i18nTree($scope.tree, i18n);
             }
         });
 
@@ -119,10 +119,8 @@ OSCR.controller(
         $scope.addSibling = function (list, index, parentIndex) {
             // should be some kind of deep copy
             var existing = list[index];
-            var fresh = JSON.parse(JSON.stringify(existing));
-            fresh.value = '';
-            existing.config.multiple = false;
-            existing.classIndex = parentIndex + 1;
+            var fresh = cloneTree(existing);
+            existing.classIndex = parentIndex + 1; // todo: what?
             list.splice(index + 1, 0, fresh);
         };
     }
@@ -229,7 +227,7 @@ OSCR.controller(
 
         $scope.$watch('i18n', function (i18n, oldValue) {
             if ($scope.tree && i18n) {
-                cleanTree($scope.tree, i18n);
+                i18nTree($scope.tree, i18n);
             }
         });
 

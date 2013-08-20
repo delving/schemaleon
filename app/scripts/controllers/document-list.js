@@ -2,6 +2,10 @@
 
 var OSCR = angular.module('OSCR');
 
+function log(message) {
+    console.log(message);
+}
+
 OSCR.controller(
     'DocumentListController',
     function ($rootScope, $scope, $routeParams, $location, Document) {

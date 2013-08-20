@@ -6,7 +6,7 @@ describe('XML Operations', function () {
         '<PhotoObject>' +
             '    <Name></Name>' +
             '    <Title>{ "multiple": true, "summaryField": "Title" }</Title>' +
-            '    <Type>' +
+            '    <Type>{ "multiple": true }' +
             '        <FirstPart/>' +
             '        <SecondPart/>' +
             '        <ThirdPart/>' +
@@ -45,7 +45,7 @@ describe('XML Operations', function () {
                         config: {"line": true}
                     }
                 ],
-                config: {}
+                config: { multiple: true }
             },
             {
                 name: 'AnotherSection',
@@ -65,15 +65,21 @@ describe('XML Operations', function () {
         config: {}
     };
 
-    var expectedPhotoObject =
+    var photoObject =
     {
         PhotoObject: {
             Name: 'one',
             Title: [ 'two' ],
-            Type: {
-                FirstPart: 'threeA',
-                SecondPart: 'threeB'
-            }
+            Type: [
+                {
+                    FirstPart: 'threeA',
+                    SecondPart: 'threeB'
+                },
+                {
+                    FirstPart: 'fourA',
+                    SecondPart: 'fourB'
+                }
+            ]
         }
     };
 
@@ -84,6 +90,10 @@ describe('XML Operations', function () {
             '   <Type>' +
             '      <FirstPart>threeA</FirstPart>' +
             '      <SecondPart>threeB</SecondPart>' +
+            '   </Type>' +
+            '   <Type>' +
+            '      <FirstPart>fourA</FirstPart>' +
+            '      <SecondPart>fourB</SecondPart>' +
             '   </Type>' +
             '</PhotoObject>';
 
@@ -97,15 +107,16 @@ describe('XML Operations', function () {
 
         expect(jsonString).toBe(expectedString);
 
-        tree.elements[0].value = 'one';
-        tree.elements[1].value = 'two';
-        tree.elements[2].elements[0].value = 'threeA';
-        tree.elements[2].elements[1].value = 'threeB';
+        populateTree(tree, photoObject);
+//        tree.elements[0].value = 'one';
+//        tree.elements[1].value = 'two';
+//        tree.elements[2].elements[0].value = 'threeA';
+//        tree.elements[2].elements[1].value = 'threeB';
 
         var object = treeToObject(tree);
 
         var objectString = JSON.stringify(object);
-        var expectedObjectString = JSON.stringify(expectedPhotoObject);
+        var expectedObjectString = JSON.stringify(photoObject);
 
 //        console.log(object);
 //        console.log(expectedPhotoObject);
