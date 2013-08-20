@@ -69,7 +69,7 @@ describe('XML Operations', function () {
     {
         PhotoObject: {
             Name: 'one',
-            Title: 'two',
+            Title: [ 'two' ],
             Type: {
                 FirstPart: 'threeA',
                 SecondPart: 'threeB'
@@ -189,18 +189,23 @@ describe('XML Operations', function () {
     var retrieved =
         '<Document>' +
             '<Header>' +
-            '<Identifier>ID01</Identifier>' +
-            '<Title>Big Crazy Bang</Title>' +
-            '<SchemaName>Photograph</SchemaName>' +
+            ' <Identifier>ID01</Identifier>' +
+            ' <Title>Big Crazy Bang</Title>' +
+            ' <SchemaName>Photograph</SchemaName>' +
             '</Header>' +
             '<Body>' +
-            '<Photograph>' +
-            '<Title>Pic</Title>' +
-            '<ShortDescription>One</ShortDescription>' +
-            '<ShortDescription>Two</ShortDescription>' +
-            '<ShortDescription>Three</ShortDescription>' +
-            '<Deeper><Dive>Splash</Dive></Deeper>' +
-            '</Photograph>' +
+            ' <Photograph>' +
+            '  <Title>Pic</Title>' +
+            '  <ShortDescription>One</ShortDescription>' +
+            '  <ShortDescription>Two</ShortDescription>' +
+            '  <ShortDescription>Three</ShortDescription>' +
+            '  <Deeper>' +
+            '    <Dive>Splash</Dive>' +
+            '  </Deeper>' +
+            '  <Deeper>' +
+            '    <Dive>Splurge</Dive>' +
+            '  </Deeper>' +
+            ' </Photograph>' +
             '</Body>' +
             '</Document>';
 
@@ -208,29 +213,39 @@ describe('XML Operations', function () {
         '<Photograph>' +
             '   <Title/>' +
             '   <ShortDescription>{ "multiple":true }</ShortDescription>' +
-            '   <Deeper><Dive/></Deeper>' +
+            '   <Deeper>' +
+            '      { "multiple":true }' +
+            '      <Dive/>' +
+            '   </Deeper>' +
             '</Photograph>';
 
 
     it('should be able to populate a tree from a retrieved document', function () {
         var tree = xmlToTree(photographSchema);
-//        console.log(JSON.stringify(tree));
+
+//        console.log(tree);
+
         var object = xmlToObject(retrieved);
 //        console.log(JSON.stringify(object));
         var body = object.Document.Body;
 //        console.log("body=" + JSON.stringify(body));
         populateTree(tree, body);
+
+//        console.log(tree);
 //        console.log(JSON.stringify(tree));
+
         var title = tree.elements[0];
         var short1 = tree.elements[2];
         var short2 = tree.elements[3];
         expect(title.value).toBe('Pic');
         expect(short1.value).toBe('Two');
-        expect(short1.config.multiple).toBe(undefined);
+        expect(short1.config.multiple).toBe(true); // perhaps undefined if we end up using delete again for non-last ones
         expect(short2.value).toBe('Three');
         expect(short2.config.multiple).toBe(true);
         var splash = tree.elements[4].elements[0].value;
         expect(splash).toBe('Splash');
+        var splurge = tree.elements[5].elements[0].value;
+        expect(splurge).toBe('Splurge');
     });
 
 });

@@ -12,6 +12,12 @@ function xmlArray(node) {
     }
 }
 
+if (!String.prototype.trim) {
+    String.prototype.trim = function (s) {
+        return s.replace(/^\s+|\s+$/g, '');
+    }
+}
+
 function xmlToTree(xml) {
     function parse(key, string, to) {
         var fresh = { name: key };
@@ -23,7 +29,7 @@ function xmlToTree(xml) {
             }
         }
         else {
-            fresh.config = { line:true }; // todo: maybe a mid-element?
+            fresh.config = { line: true }; // todo: maybe a mid-element?
         }
 
         to.elements.push(fresh);
@@ -32,6 +38,14 @@ function xmlToTree(xml) {
     function generate(from, to, path) {
         var generated = false;
         for (var key in from) {
+            if (key == '__text') {
+                _.each(from[key], function (string) {
+                    string = string.trim();
+                    if (string) {
+                        to.config = JSON.parse(string);
+                    }
+                });
+            }
             if (key == '__cnt' || key == '__text' || key.indexOf('_asArray') >= 0 || key.indexOf('toString') >= 0) {
                 continue;
             }
@@ -48,7 +62,7 @@ function xmlToTree(xml) {
                 }
             }
             else if (_.isObject(value)) {
-                var subDoc = { name: key, elements: [], config: {} }; // todo: parse the config of mid-elements
+                var subDoc = { name: key, elements: [], config: {} };
                 if (!generate(value, subDoc, path)) {
                     parse(key, null, to);
                 }
@@ -152,7 +166,7 @@ function treeToObject(tree) {
             }
         }
         else if (from.value) {
-            if (from.multiple) {
+            if (from.config.multiple) {
                 if (!out[from.name]) {
                     out[from.name] = [];
                 }
@@ -214,15 +228,35 @@ function populateTree(tree, object) {
             throw "Multiple values for " + element.name + ":" + valueArray;
         }
         var stamp = JSON.stringify(element);
-        var lastOne = _.last(valueArray);
         return _.map(valueArray, function (value) {
             var clone = JSON.parse(stamp);
-            clone.value = value;
-            if (value != lastOne) {
-                delete clone.config.multiple;
+            if (_.isObject(value)) {
+                var node = {};
+                node[element.name] = value;
+                populate(clone, element.name, node);
+            }
+            else {
+                clone.value = value;
             }
             return clone;
         });
+    }
+
+    function createPopulator(sub, key) {
+        return function (element) {
+            if (key == element.name) {
+                var subValue = sub[key];
+                if (subValue) {
+                    if (_.isArray(subValue)) {
+                        return createClones(element, subValue);
+                    }
+                    else {
+                        populate(element, key, sub);
+                    }
+                }
+            }
+            return element;
+        }
     }
 
     function populate(el, key, node) {
@@ -230,25 +264,7 @@ function populateTree(tree, object) {
             if (el.elements) {
                 var sub = node[key];
                 for (var subKey in sub) {
-                    var elements = _.map(el.elements,
-                        (function (key) {
-                            return function (element) {
-                                if (key == element.name) {
-                                    var subValue = sub[key];
-                                    if (subValue) {
-                                        if (_.isArray(subValue)) {
-                                            return createClones(element, subValue);
-                                        }
-                                        else {
-                                            populate(element, key, sub);
-                                        }
-                                    }
-                                }
-                                return element;
-                            }
-                        })(subKey)
-                    );
-                    el.elements = _.flatten(elements);
+                    el.elements = _.flatten(_.map(el.elements, createPopulator(sub, subKey)));
                 }
             }
             else {
