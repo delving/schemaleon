@@ -235,8 +235,6 @@ Storage('oscr', homeDir, function (storage) {
     app.get('/document/select/:schema', function (req, res) {
         var search = req.param('q').toLowerCase();
         storage.Document.selectDocuments(req.params.schema, search, function (xml) {
-//        console.log('Documents:'); // todo
-//        console.log(xml);
             res.setHeader('Content-Type', 'text/xml');
             res.send(xml);
         });
@@ -244,7 +242,6 @@ Storage('oscr', homeDir, function (storage) {
 
     app.post('/document/save', function (req, res) {
         // kind of interesting to receive xml within json, but seems to work
-//    console.log(req.body);
         storage.Document.saveDocument(req.body, function (header) {
             res.setHeader('Content-Type', 'text/xml');
             res.send(header);
@@ -254,14 +251,16 @@ Storage('oscr', homeDir, function (storage) {
     app.get('/media/fetch/:fileName', function (req, res) {
         var fileName = req.params.fileName;
         var filePath = storage.Media.getMediaPath(fileName);
-        res.setHeader('Content-Type', 'image/jpeg'); // todo
+        var mimeType = storage.Media.getMimeType(fileName);
+        res.setHeader('Content-Type', mimeType);
         res.sendfile(filePath);
     });
 
     app.get('/media/thumbnail/:fileName', function (req, res) {
         var fileName = req.params.fileName;
         var filePath = storage.Media.getThumbnailPath(fileName);
-        res.setHeader('Content-Type', 'image/jpeg'); // todo
+        var mimeType = storage.Media.getMimeType(fileName);
+        res.setHeader('Content-Type', mimeType);
         res.sendfile(filePath);
     });
 

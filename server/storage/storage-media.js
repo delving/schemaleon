@@ -24,7 +24,7 @@ P.saveMedia = function (mediaObject, receiver) {
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         throw 'Missing a media file: ' + imagePath + ' or ' + thumbnailPath;
     }
-    var fileName = createFileName(s, mediaObject);
+    var fileName = P.createFileName(mediaObject);
     var bucketPath = s.directories.mediaBucketDir(fileName);
     var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
     copyFile(imagePath, path.join(bucketPath, fileName), function (err) {
@@ -92,6 +92,46 @@ P.listMediaFiles = function (done) {
     walk(this.storage.directories.mediaStorage, done);
 };
 
+P.createFileName = function (mediaObject) {
+    var s = this.storage;
+    var fileName = s.generateImageId();
+    switch (mediaObject.mimeType) {
+        case 'image/jpeg':
+            fileName += '.jpg';
+            break;
+        case 'image/png':
+            fileName += '.png';
+            break;
+        case 'image/gif':
+            fileName += '.gif';
+            break;
+        default:
+            console.log("UNKOWN MIME" + mediaObject.mimeType);
+            fileName += '.jpg';
+            break;
+    }
+    return fileName;
+};
+
+P.getMimeType = function(fileName) {
+    var mimeType;
+    switch(path.extname(fileName)) {
+        case '.jpg':
+            mimeType = 'image/jpeg';
+            break;
+        case '.png':
+            mimeType = 'image/png';
+            break;
+        case 'gif':
+            mimeType = 'image/gif';
+            break;
+        default:
+            console.error('No mime type for extension '+path.extname(fileName));
+            break;
+    }
+    return mimeType;
+};
+
 function copyFile(source, target, cb) {
 
     log('Copy file ' + source + ' ' + target);
@@ -118,22 +158,3 @@ function copyFile(source, target, cb) {
     }
 }
 
-function createFileName(s, digitalObject) {
-    var fileName = s.generateImageId();
-    switch (digitalObject.mimeType) {
-        case 'image/jpeg':
-            fileName += '.jpg';
-            break;
-        case 'image/png':
-            fileName += '.png';
-            break;
-        case 'image/gif':
-            fileName += '.gif';
-            break;
-        default:
-            console.log("UNKOWN MIME" + digitalObject.mimeType);
-            fileName += '.jpg';
-            break;
-    }
-    return fileName;
-}
