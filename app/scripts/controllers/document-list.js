@@ -12,8 +12,13 @@ OSCR.controller(
 
         $scope.header = {};
 
+        $scope.schema = 'Photograph'; // this will have to become adjustable
+        $scope.blankIdentifier = '#IDENTIFIER#';
+        $scope.blankTimeStamp = '#TIMESTAMP#';
+
         function useHeader(h) {
-            $scope.header.Identifier = h.Identifier ? h.Identifier : '#IDENTIFIER#';
+            $scope.header.Identifier = h.Identifier;
+            $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
             $scope.header.Title = h.Title;
             delete $scope.header.TimeStamp;
             var millis = parseInt(h.TimeStamp);
@@ -23,7 +28,7 @@ OSCR.controller(
         }
 
         $scope.fetchList = function () {
-            Document.fetchHeaders('Photograph', function (list) { // todo: all schemas?
+            Document.fetchHeaders($scope.schema, function (list) {
                 $scope.headerList = _.sortBy(list, function (val) {
                     return -val.TimeStamp;
                 });
@@ -32,15 +37,15 @@ OSCR.controller(
         $scope.fetchList();
 
         if ($routeParams.id) {
-            Document.fetchDocument('Photograph', $routeParams.id, function (document) { // todo: all schemas
+            Document.fetchDocument($scope.schema, $routeParams.id, function (document) {
                 $scope.document = document.Document;
                 useHeader($scope.document.Header);
             });
         }
         else {
             useHeader({
-                SchemaName: $scope.document,
-                Identifier: '#IDENTIFIER#'
+                SchemaName: $scope.schema,
+                Identifier: $scope.blankIdentifier
             });
         }
 
@@ -50,12 +55,10 @@ OSCR.controller(
 
         $scope.saveDocument = function () {
             if ($rootScope.translating()) return;
-//            console.log('saveDocument');// todo
-//            console.log($scope.tree);// todo
             collectSummaryFields($scope.tree, $scope.header);
             var body = treeToObject($scope.tree);
-            $scope.header.SchemaName = 'Photograph';
-            $scope.header.TimeStamp = "#TIMESTAMP#";
+            $scope.header.SchemaName = $scope.schema;
+            $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.EMail = $rootScope.user.Profile.email;
             Document.saveDocument($scope.header, body, function (header) {
                 useHeader(header);
@@ -68,7 +71,7 @@ OSCR.controller(
         $scope.newDocument = function () {
             if ($rootScope.translating()) return;
             $scope.choosePath('/document');
-            $scope.document = 'Photograph';
+            $scope.document = $scope.schema;
         };
     }
 );

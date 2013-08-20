@@ -98,7 +98,6 @@ P.getVocabularyEntries = function (vocabName, search, receiver) {
                 receiver(result);
             }
             else {
-                // todo: make sure there's not one already and the problem was something else
                 s.Vocab.createVocabulary(vocabName, '', receiver);
             }
         }

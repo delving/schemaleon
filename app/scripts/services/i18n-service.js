@@ -4,7 +4,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.service(
     "I18N",
-    function ($http, $rootScope) {  // todo: a service should touch root scope?
+    function ($http, $rootScope) {
         return {
             isReady: function () {
                 return $rootScope.i18n;

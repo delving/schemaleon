@@ -120,7 +120,7 @@ OSCR.controller(
             // should be some kind of deep copy
             var existing = list[index];
             var fresh = cloneTree(existing);
-            existing.classIndex = parentIndex + 1; // todo: what?
+            existing.classIndex = parentIndex + 1; // what does this do?
             list.splice(index + 1, 0, fresh);
         };
     }

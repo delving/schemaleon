@@ -58,7 +58,8 @@
     </div>
     <div ng-show="document">
         <div class="page-header">
-            <h1 ng-show="header.Identifier">{{ header.Identifier }}</h1>
+            <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
+            <h1 ng-hide="headerDisplay" i18n="New"></h1>
             <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
         </div>
 

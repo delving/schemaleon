@@ -10,6 +10,10 @@ var upload = require('./upload');
 var app = express();
 app.use(upload);
 app.use(express.bodyParser());
+app.response.__proto__.xml = function(xmlString) {
+    this.setHeader('Content-Type', 'text/xml');
+    this.send(xmlString);
+};
 
 module.exports = app;
 
@@ -75,8 +79,7 @@ Storage('oscr', homeDir, function (storage) {
 
     function replyWithLanguage(lang, res) {
         storage.I18N.getLanguage(lang, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     }
 
@@ -109,45 +112,39 @@ Storage('oscr', homeDir, function (storage) {
 
     app.get('/person/user/fetch/:email', function (req, res) {
         storage.Person.getUser(req.params.email, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/person/user/select', function (req, res) {
         var search = req.param('q').toLowerCase();
         storage.Person.getUsers(search, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/person/user/all', function (req, res) {
         storage.Person.getAllUsers(function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/person/group/fetch/:identifier', function (req, res) {
         storage.Person.getGroup(req.params.identifier, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/person/group/select', function (req, res) {
         var search = req.param('q').toLowerCase();
         storage.Person.getGroups(search, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/person/group/all', function (req, res) {
         storage.Person.getAllGroups(function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
@@ -155,96 +152,83 @@ Storage('oscr', homeDir, function (storage) {
         console.log('group save:');
         console.log(req.body);
         storage.Person.saveGroup(req.body, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/person/group/:identifier/users', function (req, res) {
         storage.Person.getUsersInGroup(req.params.identifier, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.post('/person/group/:identifier/add', function (req, res) {
         storage.Person.addUserToGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.post('/person/group/:identifier/remove', function (req, res) {
         storage.Person.removeUserFromGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/vocabulary/:vocab', function (req, res) {
         storage.Vocab.getVocabularySchema(req.params.vocab, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/vocabulary/:vocab/select', function (req, res) {
         var search = req.param('q').toLowerCase();
         storage.Vocab.getVocabularyEntries(req.params.vocab, search, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.post('/vocabulary/:vocab/add', function (req, res) {
         var entry = req.body.Entry;
         storage.Vocab.addVocabularyEntry(req.params.vocab, entry, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/document/schema/:schema', function (req, res) {
         storage.Document.getDocumentSchema(req.params.schema, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/document/fetch/:schema/:identifier', function (req, res) {
         storage.Document.getDocument(req.params.schema, req.params.identifier, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/document/list/headers/:schema', function (req, res) {
         storage.Document.getAllDocumentHeaders(req.params.schema, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/document/list/documents/:schema', function (req, res) {
         storage.Document.getAllDocuments(req.params.schema, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.get('/document/select/:schema', function (req, res) {
         var search = req.param('q').toLowerCase();
         storage.Document.selectDocuments(req.params.schema, search, function (xml) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(xml);
+            res.xml(xml);
         });
     });
 
     app.post('/document/save', function (req, res) {
         // kind of interesting to receive xml within json, but seems to work
         storage.Document.saveDocument(req.body, function (header) {
-            res.setHeader('Content-Type', 'text/xml');
-            res.send(header);
+            res.xml(header);
         });
     });
 
