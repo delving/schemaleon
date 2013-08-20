@@ -37,10 +37,10 @@
                         <!-- indicator icons -->
                         <div class="icon-container">
                             <!-- // Add sibling toggle -->
-                                    <span ng-show="element.multiple"
+                                    <span ng-show="element.config.multiple"
                                           tooltip-placement="bottom"
                                           tooltip="Add {{ element | elementTitle }}"
-                                          class="display-{{ element.multiple }} icon-item pointer"
+                                          class="display-{{ element.config.multiple }} icon-item pointer"
                                           ng-click="addSibling(el.elements, $index, $parent.index)">
                                         <i class="icon-plus-sign icon-white"></i>
                                     </span>
@@ -55,11 +55,11 @@
                 <!-- panel for user input -->
                 <div class="panel-input">
                     <!--chose file input -->
-                    <div ng-show="el.media" ng-controller="MediaController" class="digital-object-input">
+                    <div ng-show="el.config.media" ng-controller="MediaController" class="digital-object-input">
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
                                 <input focus id="media" type="text" ng-model="chosenMedia" class="input-block-level"
-                                       typeahead="media as mediaToString(media) for media in getMediaList(el.media.schemaName, $viewValue)"/>
+                                       typeahead="media as mediaToString(media) for media in getMediaList($viewValue)"/>
                             </div>
                             <div ng-show="!el.edit && el.valueFields">
                                 <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <!-- vocabulary input -->
-                    <div ng-show="el.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
+                    <div ng-show="el.config.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
                                 <input focus id="vocabulary" type="text" ng-model="chosenState" class="input-block-level"
@@ -119,7 +119,7 @@
                         </div>
                     </div>
 
-                    <div ng-show="el.textInput && !el.elements" ng-controller="TextInputController"
+                    <div ng-show="el.config.line && !el.elements" ng-controller="TextInputController"
                          class="input-block-level">
                         <div ng-show="el.edit">
                             <input focus id="textInput" class="input-block-level" type="text"
@@ -135,11 +135,11 @@
                             <!--<button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>-->
                         </div>
                         <div ng-show="invalidMessage">
-                            <span>{{ invalidMessage }}</span>
+                            <span class="btn-warning">{{ invalidMessage }}</span>
                         </div>
                     </div>
 
-                    <div ng-show="el.textArea && !el.elements" class="textarea-input"
+                    <div ng-show="el.config.paragraph && !el.elements" class="textarea-input"
                          ng-controller="TextAreaController">
                         <div ng-show="el.edit">
                             <textarea focus id="textArea" ng-model="el.value" rows="5"></textarea>

@@ -5,12 +5,16 @@ angular.module('OSCR').service(
     function () {
         this.getFunction = function (name) {
             switch (name) {
+                case 'required':
+                    return function(value) {
+                        return value ? null: '2:Required'
+                    };
                 case 'date' :
                     break;
                 case 'pixels' :
                     return function (value) {
                         if (value && !value.match(/^[0-9]+[Xx][0-9]+$/)) {
-                            return 'Value should be WIDTHxHEIGHT, like 640x480';
+                            return 'MustBeWidthTimesHeight';
                         }
                         return null;
                     };

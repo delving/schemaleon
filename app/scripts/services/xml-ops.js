@@ -16,30 +16,16 @@ function xmlToTree(xml) {
     function parse(key, string, to) {
         var fresh = { name: key };
         if (_.isString(string)) {
-            var vx = JSON.parse(string);
-            fresh.valueExpression = vx;
-            if (vx.media) {
-                fresh.media = { schemaName: vx.media };
-            }
-            else if (vx.vocabulary) {
-                fresh.vocabulary = { name: vx.vocabulary };
-            }
-            else if (vx.paragraph) {
-                fresh.textArea = {  };
-            }
-            else {
-                fresh.textInput = { };
-                if (vx.validator) {
-                    fresh.textInput.validator = vx.validator;
-                }
-            }
-            if (vx.multiple) {
-                fresh.multiple = true;
+            fresh.config = JSON.parse(string);
+            var c = fresh.config;
+            if (!(c.media || c.vocabulary || c.paragraph)) {
+                c.line = true;
             }
         }
         else {
-            fresh.textInput = {  };
+            fresh.config = { line:true };
         }
+
         to.elements.push(fresh);
     }
 
@@ -62,7 +48,7 @@ function xmlToTree(xml) {
                 }
             }
             else if (_.isObject(value)) {
-                var subDoc = { name: key, elements: [] };
+                var subDoc = { name: key, elements: [], config: {} }; // todo: parse the config of mid-elements
                 if (!generate(value, subDoc, path)) {
                     parse(key, null, to);
                 }
@@ -213,8 +199,8 @@ function collectSummaryFields(tree, summary) {
                 collect(element);
             });
         }
-        else if (el.valueExpression && el.valueExpression.summaryField) {
-            summary[el.valueExpression.summaryField] = el.value ? el.value : '?';
+        else if (el.config.summaryField) {
+            summary[el.config.summaryField] = el.value ? el.value : '?';
         }
     }
 
@@ -294,7 +280,7 @@ function validateTree(tree) {
             });
             el.invalid = maxInvalid;
         }
-        else if (el.valueExpression && el.valueExpression.required) {
+        else if (el.config.required) {
             el.invalid = el.value ? 0 : 1;
         }
         else {

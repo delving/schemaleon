@@ -54,6 +54,12 @@ OSCR.controller(
             }
         });
 
+        $scope.setInvalid = function (invalid) { // called by fields for live validation bubbling up
+            _.each($scope.panels, function (panel) {
+                panel.element.invalid = invalid;
+            });
+        };
+
         $scope.$watch('document', function (document, oldValue) {
             // maybe use old value for something like making sure they're not making a mistake
             if (!document) return;
@@ -115,7 +121,7 @@ OSCR.controller(
             var existing = list[index];
             var fresh = JSON.parse(JSON.stringify(existing));
             fresh.value = '';
-            existing.multiple = false;
+            existing.config.multiple = false;
             existing.classIndex = parentIndex + 1;
             list.splice(index + 1, 0, fresh);
         };

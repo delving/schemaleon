@@ -43,15 +43,14 @@ OSCR.filter('mediaDisplay',
 OSCR.controller(
     'MediaController',
     function ($scope, $q, Document) {
-
-        if (!$scope.el.media) {
+        if (!$scope.el.config.media) {
             return;
         }
-        $scope.m = $scope.el.media;
         $scope.setActive('media');
+        $scope.schama = $scope.el.config.media;
 
         if (!$scope.m.tree) {
-            Document.fetchSchema($scope.m.schemaName, function (schema) {
+            Document.fetchSchema($scope.schema, function (schema) {
                 $scope.m.tree = {
                     name: 'Entry',
                     elements: schema.elements
@@ -65,7 +64,7 @@ OSCR.controller(
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
-                Document.fetchDocument($scope.m.schemaName, $scope.el.value.Identifier, function (fetchedValue) {
+                Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
                     log('fetched media record');
                     log(fetchedValue.Document);
                     $scope.setValue(fetchedValue.Document);
@@ -74,9 +73,9 @@ OSCR.controller(
             $scope.valueChecked = true;
         }
 
-        $scope.getMediaList = function (schemaName, search) {
+        $scope.getMediaList = function (search) {
             var deferred = $q.defer();
-            Document.selectDocuments(schemaName, search, function (list) {
+            Document.selectDocuments($scope.schema, search, function (list) {
                 deferred.resolve(list);
             });
             return deferred.promise;
@@ -121,18 +120,19 @@ OSCR.controller(
 OSCR.controller(
     'VocabularyController',
     function ($scope, $q, Vocabulary) {
-        if (!$scope.el.vocabulary) {
+        if (!$scope.el.config.vocabulary) {
             return;
         }
-        $scope.v = $scope.el.vocabulary;
         $scope.setActive('vocabulary');
+        $scope.schema = $scope.el.config.vocabulary;
+
         if ($scope.el.value === undefined) {
             $scope.enableEditor();
         }
 
-        if (!$scope.v.tree) {
-            Vocabulary.getSchema($scope.v.name, function (schema) {
-                $scope.v.tree = {
+        if (!$scope.el.tree) {
+            Vocabulary.getSchema($scope.schema, function (schema) {
+                $scope.el.tree = {
                     name: 'Entry',
                     elements: schema.elements[0].elements
                 };
@@ -141,7 +141,7 @@ OSCR.controller(
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
-                Document.fetchDocument($scope.v.name, $scope.el.value.ID, function (fetchedValue) {
+                Document.fetchDocument($scope.schema, $scope.el.value.ID, function (fetchedValue) { // todo: ID and Identifier?
                     log('fetched media record');
                     log(fetchedValue.Document);
                     $scope.setValue(fetchedValue.Document);
@@ -152,15 +152,15 @@ OSCR.controller(
 
         $scope.getStates = function (query) {
             var deferred = $q.defer();
-            Vocabulary.select($scope.v.name, query, function (list) {
+            Vocabulary.select($scope.schema, query, function (list) {
                 deferred.resolve(list);
             });
             return deferred.promise;
         };
 
         $scope.createNew = function (index, parentIndex) {
-            if ($scope.v.tree) {
-                $scope.el.elements = _.filter($scope.v.tree.elements, function (el) {
+            if ($scope.el.tree) {
+                $scope.el.elements = _.filter($scope.el.tree.elements, function (el) {
                     el.value = null;
                     return el.name != 'ID'; // todo: how do we know this?
                 });
@@ -169,8 +169,8 @@ OSCR.controller(
         };
 
         $scope.submitNew = function () {
-            $scope.newValue = treeToObject($scope.v.tree);
-            Vocabulary.add($scope.v.name, $scope.newValue, function (entry) {
+            $scope.newValue = treeToObject($scope.el.tree);
+            Vocabulary.add($scope.schema, $scope.newValue, function (entry) {
                 $scope.panels.pop();
                 $scope.el.elements = null;
                 $scope.setValue(entry.Entry);
@@ -205,8 +205,8 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             $scope.el.value = value;
-            if ($scope.v.tree) {
-                $scope.el.valueFields = _.map($scope.v.tree.elements, function (element) {
+            if ($scope.el.tree) {
+                $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
                     return  { prompt: element.name, value: value[element.name] };
                 });
             }
@@ -217,33 +217,50 @@ OSCR.controller(
 OSCR.controller(
     'TextInputController',
     function ($scope, Validator) {
-        var ti = $scope.el.textInput;
-        if (!ti) {
+        if (!$scope.el.config.line) {
             return;
         }
         $scope.setActive('textInput');
         if ($scope.el.value === undefined) {
             $scope.enableEditor();
         }
+        $scope.validators = [];
 
-        if (ti.validator) {
-            var func = Validator.getFunction(ti.validator);
+        if ($scope.el.config.validator) {
+            var func = Validator.getFunction($scope.el.config.validator);
             if (func) {
-                $scope.validator = function () {
-                    return func($scope.el.value);
-                };
-                $scope.invalidMessage = 'Nothing yet';
-                $scope.$watch('el.value', function (after, before) {
-                    $scope.invalidMessage = $scope.validator();
-                    $scope.el.invalid = $scope.invalidMessage ? 1 : 0
-                });
+                $scope.validators.push(func);
+            }
+            else {
+                console.warn('Validator not found: ' + $scope.el.config.validator);
             }
         }
 
-        if ($scope.el.valueExpression && $scope.el.valueExpression.required) {
+        if ($scope.el.config.required) {
+            $scope.validators.push(Validator.getFunction('required'));
+        }
+
+        if ($scope.validators.length) {
+            console.log('validators! '+$scope.validators.length);
             $scope.$watch('el.value', function (after, before) {
-                $scope.invalidMessage = $scope.el.value ? '' : '[[absent]]';
-                $scope.el.invalid = $scope.invalidMessage ? 1 : 0
+                var invalid = 0;
+                $scope.invalidMessage = '';
+                _.each($scope.validators, function (validator) {
+                    if ($scope.invalid) return;
+                    var message = validator(after);
+                    if (message) {
+                        var colon = message.indexOf(':');
+                        if (colon > 0) {
+                            invalid = parseInt(message.substring(0, colon));
+                            message = message.substring(colon + 1);
+                        }
+                        else {
+                            invalid = 1;
+                        }
+                        $scope.invalidMessage = message;
+                    }
+                });
+                $scope.setInvalid(invalid); // in PanelController, for all panels
             });
         }
     }
@@ -252,8 +269,7 @@ OSCR.controller(
 OSCR.controller(
     'TextAreaController',
     function ($scope) {
-        var ta = $scope.el.textArea;
-        if (!ta) {
+        if (!$scope.el.config.paragraph) {
             return;
         }
         $scope.setActive('textArea');
