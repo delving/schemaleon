@@ -36,6 +36,9 @@
                         </a>
                         <!-- indicator icons -->
                         <div class="icon-container">
+                            <span class="icon-item status status-{{ element.invalid }}"
+                                  tooltip="Redlight, orange, green"
+                                  tooltip-placement="right"></span>
                             <!-- // Add sibling toggle -->
                                     <span ng-show="element.config.multiple"
                                           tooltip-placement="bottom"
@@ -44,9 +47,15 @@
                                           ng-click="addSibling(el.elements, $index, $parent.index)">
                                         <i class="icon-plus-sign icon-white"></i>
                                     </span>
-                            <span class="icon-item status status-{{ element.invalid }}"
-                                  tooltip="Redlight, orange, greeeen"
-                                  tooltip-placement="right"></span>
+
+                            <!-- // Add sibling toggle -->
+                            <!--<span ng-show="element.multiple"-->
+                                  <!--tooltip-placement="bottom"-->
+                                  <!--tooltip="Add {{ element | elementTitle }}"-->
+                                  <!--class="display-{{ element.multiple }} icon-item pointer"-->
+                                  <!--ng-click="addSibling(el.elements, $index, $parent.index)">-->
+                                <!--<i class="icon-plus-sign icon-white"></i>-->
+                            <!--</span>-->
                         </div>
 
                     </li>
@@ -84,12 +93,7 @@
                     <div ng-show="el.config.vocabulary" ng-controller="VocabularyController" class="vocabulary-input">
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
-                                <input focus id="vocabulary" type="text" ng-model="chosenState" class="input-block-level"
-                                       typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
-                                <!--<button ng-click="disableEditor()" class="btn btn-small" i18n="Select">-->
-                                <!--<i class="icon-ok-circle"></i>-->
-                                <!--<span class="i18n"/>-->
-                                <!--</button>-->
+                                <input focus id="vocabulary" type="text" ng-model="chosenState" class="input-block-level" typeahead="state as stateToString(state) for state in getStates($viewValue)"/>
                                 <button ng-show="!el.elements"
                                         ng-click="createNew($index, $parent.$index)"
                                         class="btn btn-warning btn-small"

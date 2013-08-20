@@ -46,8 +46,8 @@ OSCR.controller(
 
         $scope.saveDocument = function () {
             if ($rootScope.translating()) return;
-            console.log('saveDocument');// todo
-            console.log($scope.tree);// todo
+//            console.log('saveDocument');// todo
+//            console.log($scope.tree);// todo
             collectSummaryFields($scope.tree, $scope.header);
             var body = treeToObject($scope.tree);
             $scope.header.SchemaName = 'Photograph';

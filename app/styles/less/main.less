@@ -28,28 +28,6 @@
 //@blue: #009AE0;
 @bodyBackground: #ddd;
 
-//
-.status {
-  background: @gray;
-  .border-radius(100%);
-//  border: 2px solid @white;
-  content: ' ';
-  display: inline-block;
-  color: @grayLight;
-}
-
-.status-1 {
-  background: @red;
-}
-
-.status-2 {
-  background: @orange;
-}
-
-.status-3 {
-  background: @green;
-}
-
 
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -325,28 +303,6 @@ ul.main-menu {
 
 
 
-/* CRM LINKS */
-
-.link-title {
-    margin-left: 20px;
-}
-
-.link-value {
-  background: linen;
-  .border-radius(@br-small);
-  color: @grayDarker;
-  font-size: smaller;
-  word-wrap: break-word;
-  margin-top: @baseLineHeight/2;
-  padding: 4px;
-  p {
-    margin: 8px 0 0 0;
-    &:first-of-type{
-      margin: 0;
-    }
-  }
-}
-
 /* DOCUMENT PANELS **************************************/
 /* panels container
  / srollbars appear when content extends past max width
@@ -382,35 +338,19 @@ ul.main-menu {
   ul.panel-list {
     li {
       position: relative;
-      padding-left: 20px;
+      padding-left: 40px;
       a, label {
+//        background: @green;
         padding-right: 10px;
         color: @white;
         &:hover {
-          background: @grayDark;
+          background: transparent;
           cursor: pointer;
+          text-decoration: underline;
         }
       }
     }
-    .tooltip {
-      display: block !important;
-      visibility: visible !important;
-      max-width: 300px;
-      &.in {
-        .opacity(100);
-      }
-      .tooltip-arrow {
-        //        color: @white;
-      }
-      .tooltip-inner {
-        background: @white;
-        border: 1px solid @grayDark;
-        color: @gray;
-        font-size: @baseFontSize;
-        width: 300px !important;
-        padding: 8px;
-      }
-    }
+
   }
   /* panel on right for user input */
   .panel-input {
@@ -451,17 +391,91 @@ ul.main-menu {
   }
 
 
+/* CRM LINKS */
 
+.link-title {
+  margin-left: 0px;
+}
+
+.link-value {
+  background: linen;
+  .border-radius(@br-small);
+  color: @grayDarker;
+  font-size: smaller;
+  word-wrap: break-word;
+  margin-top: @baseLineHeight/2;
+  padding: 4px;
+  p {
+    margin: 8px 0 0 0;
+    &:first-of-type{
+      margin: 0;
+    }
+  }
+}
 
 .icon-container {
   position: absolute;
   left: 0px;
   top: 5px;
   width: 40px;
-  text-align: right;
+//  text-align: right;
   .icon-item {
     display: inline-block;
   }
+  .status + .tooltip {
+    @tooltipArrowColor: @white;
+    max-width: 300px;
+    &.top .tooltip-arrow {
+      border-top-color: @tooltipArrowColor;
+    }
+    &.right .tooltip-arrow {
+      border-right-color: @tooltipArrowColor;
+    }
+    &.left .tooltip-arrow {
+      border-left-color: @tooltipArrowColor;
+    }
+    &.bottom .tooltip-arrow {
+      border-bottom-color: @tooltipArrowColor;
+    }
+    &.in {
+      .opacity(100);
+    }
+    .tooltip-arrow {
+      //        color: @white;
+    }
+    .tooltip-inner {
+      background: @white;
+      border: 1px solid @white;
+      color: @gray;
+      font-size: @baseFontSize;
+      width: 300px !important;
+      padding: 8px;
+    }
+  }
+}
+
+//
+.status {
+  background: @grayLight;
+//  .opacity(.5);
+  .border-radius(100%);
+//    border: 1px solid @white;
+//  content: ' ';
+  .square(14px);
+  display: inline-block;
+  color: @grayLight;
+}
+
+.status-1 {
+  background: @red;
+}
+
+.status-2 {
+  background: @orange;
+}
+
+.status-3 {
+  background: @green;
 }
 
 
