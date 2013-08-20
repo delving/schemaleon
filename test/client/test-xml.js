@@ -23,52 +23,53 @@ describe('XML Operations', function () {
         elements: [
             {
                 name: 'Name',
-                textInput: {}
+                config: {"line": true}
             },
             {
                 name: 'Title',
-                valueExpression: {"multiple": true, "summaryField": "Title"},
-                textInput: {},
-                multiple: true
+                config: {"multiple": true, "summaryField": "Title", "line": true}
             },
             {
                 name: 'Type',
                 elements: [
                     {
                         name: 'FirstPart',
-                        textInput: {}
+                        config: {"line": true}
                     },
                     {
                         name: 'SecondPart',
-                        textInput: {}
+                        config: {"line": true}
                     },
                     {
                         name: 'ThirdPart',
-                        textInput: {}
+                        config: {"line": true}
                     }
-                ]
+                ],
+                config: {}
             },
             {
                 name: 'AnotherSection',
                 elements: [
                     {
                         name: 'FirstPart',
-                        textInput: {}
+                        config: {"line": true}
                     },
                     {
                         name: 'SecondPart',
-                        textInput: {}
+                        config: {"line": true}
                     }
-                ]
+                ],
+                config: {}
             }
-        ]
+        ],
+        config: {}
     };
 
-    var exprectedPhotoObject =
+    var expectedPhotoObject =
     {
         PhotoObject: {
             Name: 'one',
-            Title: ['two'],
+            Title: 'two',
             Type: {
                 FirstPart: 'threeA',
                 SecondPart: 'threeB'
@@ -101,14 +102,17 @@ describe('XML Operations', function () {
         tree.elements[2].elements[0].value = 'threeA';
         tree.elements[2].elements[1].value = 'threeB';
 
-        var cleaned = treeToObject(tree);
+        var object = treeToObject(tree);
 
-        var cleanedString = JSON.stringify(cleaned);
-        var expectedCleanedString = JSON.stringify(exprectedPhotoObject);
-        expect(cleanedString).toBe(expectedCleanedString);
-//        console.log(cleanedString);
+        var objectString = JSON.stringify(object);
+        var expectedObjectString = JSON.stringify(expectedPhotoObject);
 
-        var xml = objectToXml(cleaned);
+//        console.log(object);
+//        console.log(expectedPhotoObject);
+
+        expect(objectString).toBe(expectedObjectString);
+
+        var xml = objectToXml(object);
 //        console.log(xml);
         expect(xml).toBe(expectedPhotoObjectXml);
 
@@ -212,7 +216,6 @@ describe('XML Operations', function () {
         var tree = xmlToTree(photographSchema);
 //        console.log(JSON.stringify(tree));
         var object = xmlToObject(retrieved);
-//        expect(object.Document.Body.Photograph).tobe()
 //        console.log(JSON.stringify(object));
         var body = object.Document.Body;
 //        console.log("body=" + JSON.stringify(body));
@@ -223,9 +226,9 @@ describe('XML Operations', function () {
         var short2 = tree.elements[3];
         expect(title.value).toBe('Pic');
         expect(short1.value).toBe('Two');
-        expect(short1.multiple).toBe(undefined);
+        expect(short1.config.multiple).toBe(undefined);
         expect(short2.value).toBe('Three');
-        expect(short2.multiple).toBe(true);
+        expect(short2.config.multiple).toBe(true);
         var splash = tree.elements[4].elements[0].value;
         expect(splash).toBe('Splash');
     });

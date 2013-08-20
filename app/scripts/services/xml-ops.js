@@ -23,7 +23,7 @@ function xmlToTree(xml) {
             }
         }
         else {
-            fresh.config = { line:true };
+            fresh.config = { line:true }; // todo: maybe a mid-element?
         }
 
         to.elements.push(fresh);
@@ -210,7 +210,7 @@ function collectSummaryFields(tree, summary) {
 function populateTree(tree, object) {
 
     function createClones(element, valueArray) {
-        if (!element.multiple) {
+        if (!element.config.multiple) {
             throw "Multiple values for " + element.name + ":" + valueArray;
         }
         var stamp = JSON.stringify(element);
@@ -219,7 +219,7 @@ function populateTree(tree, object) {
             var clone = JSON.parse(stamp);
             clone.value = value;
             if (value != lastOne) {
-                delete clone.multiple;
+                delete clone.config.multiple;
             }
             return clone;
         });
@@ -279,9 +279,6 @@ function validateTree(tree) {
                 }
             });
             el.invalid = maxInvalid;
-        }
-        else if (el.config.required) {
-            el.invalid = el.value ? 0 : 1;
         }
         else {
             el.invalid = 0;
