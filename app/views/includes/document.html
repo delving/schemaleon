@@ -36,9 +36,7 @@
                         </a>
                         <!-- indicator icons -->
                         <div class="icon-container">
-                            <span class="icon-item status status-{{ element.invalid }}"
-                                  tooltip="Redlight, orange, green"
-                                  tooltip-placement="right"></span>
+                            <span class="icon-item status status-{{ element.invalid }}"></span>
                             <!-- // Add sibling toggle -->
                                     <span ng-show="element.config.multiple"
                                           tooltip-placement="bottom"
@@ -131,15 +129,11 @@
                         </div>
 
                         <div ng-hide="el.edit" class="input-append">
-                            <!--<div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">-->
-                            <!--<span>{{ el.value }}</span>-->
-                            <!--</div>-->
                             <input type="text" ng-model="el.value" class="input-large" ng-click="enableEditor()"
                                    tooltip-placement="right" tooltip="Click to edit"/>
-                            <!--<button ng-click="enableEditor()" class="btn"><i class="icon icon-edit"></i></button>-->
                         </div>
                         <div ng-show="invalidMessage">
-                            <span class="btn-warning">{{ invalidMessage }}</span>
+                            <span class="label label">{{ invalidMessage }}</span>
                         </div>
                     </div>
 

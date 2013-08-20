@@ -114,8 +114,8 @@ OSCR.controller(
         };
 
         $scope.getInclude = function () {
-            if ($location.path().indexOf('/object/') >= 0) {
-                return "views/legend.html";
+            if ($location.path().indexOf('/document/OSCR-') >= 0) {
+                return "views/includes/legend.html";
             }
             return "";
         };
