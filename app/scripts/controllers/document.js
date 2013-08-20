@@ -4,7 +4,7 @@ var OSCR = angular.module('OSCR');
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
-OSCR.directive('specialKey', function () {
+OSCR.directive('documentNavigation', function () {
     return {
         restrict: 'A',
         link: function (scope, elem, attr, ctrl) {
@@ -19,7 +19,7 @@ OSCR.directive('specialKey', function () {
                 ], function (pair) {
                     if (pair.code === e.keyCode) {
                         scope.$apply(function (s) {
-                            s.$eval(attr.specialKey, { $key: pair.name });
+                            s.$eval(attr.documentNavigation, { $key: pair.name });
                         });
                     }
                 });
@@ -149,7 +149,7 @@ OSCR.controller(
             $scope.active = field;
         };
 
-        $scope.specialKeyPressed = function (key) {
+        $scope.navigationKeyPressed = function (key) {
             var size = $scope.panels[$scope.selectedWhere].element.elements.length;
             switch (key) {
                 case 'up':
@@ -168,7 +168,7 @@ OSCR.controller(
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;
-                case 'enter':
+//                case 'enter':
 //                    if (!$scope.el.edit) {
 //                        $scope.enableEditor();
 //                    }
@@ -201,11 +201,10 @@ OSCR.controller(
 
         function fetchSchema() {
             Document.fetchSchema($scope.header.SchemaName, function (schema) {
-                $scope.tree = xmlToTree(schema);
+                $scope.tree = schema;
 
                 if ($routeParams.id) {
-                    Document.fetchDocument('Photograph', $routeParams.id, function (documentXml) {
-                        var object = xmlToObject(documentXml);
+                    Document.fetchDocument('Photograph', $routeParams.id, function (object) {
                         populateTree($scope.tree, object.Document.Body);
                         useHeader(object.Document.Header);
                     });

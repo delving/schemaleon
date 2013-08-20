@@ -10,7 +10,7 @@
         <tr>
             <td ng-repeat="panel in panels" ng-controller="PanelController"
                 class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}"
-                special-key="specialKeyPressed($key)">
+                document-navigation="navigationKeyPressed($key)">
                 <!-- panel showing the document element titles -->
                 <ul ng-show="el.elements" class="nav nav-pills nav-stacked panel-list">
                     <li ng-repeat="element in el.elements">
@@ -20,13 +20,13 @@
                             <div class="link-title">
                                 {{ element | elementTitle }}
                                 <!-- // Translation editor toggle -->
-                                        <span ng-show="config.showTranslationEditor"
-                                              ng-click="openTitleDialog(element)"
-                                              tooltip="Click to translate"
-                                              tooltip-placement="right"
-                                              class="badge badge-warning badge-i18n">
-                                              <i class="icon-translate icon-white"></i>
-                                        </span>
+                                <span ng-show="config.showTranslationEditor"
+                                      ng-click="openTitleDialog(element)"
+                                      tooltip="Click to translate"
+                                      tooltip-placement="right"
+                                      class="badge badge-warning badge-i18n">
+                                      <i class="icon-translate icon-white"></i>
+                                </span>
                             </div>
                             <!-- element value -->
                             <div class="link-value" ng-show="element.value && config.showInlinePreview">
@@ -37,23 +37,13 @@
                         <!-- indicator icons -->
                         <div class="icon-container">
                             <span class="icon-item status status-{{ element.invalid }}"></span>
-                            <!-- // Add sibling toggle -->
-                                    <span ng-show="element.config.multiple"
-                                          tooltip-placement="bottom"
-                                          tooltip="Add {{ element | elementTitle }}"
-                                          class="display-{{ element.config.multiple }} icon-item pointer"
-                                          ng-click="addSibling(el.elements, $index, $parent.index)">
-                                        <i class="icon-plus-sign icon-white"></i>
-                                    </span>
-
-                            <!-- // Add sibling toggle -->
-                            <!--<span ng-show="element.multiple"-->
-                                  <!--tooltip-placement="bottom"-->
-                                  <!--tooltip="Add {{ element | elementTitle }}"-->
-                                  <!--class="display-{{ element.multiple }} icon-item pointer"-->
-                                  <!--ng-click="addSibling(el.elements, $index, $parent.index)">-->
-                                <!--<i class="icon-plus-sign icon-white"></i>-->
-                            <!--</span>-->
+                            <span ng-show="element.config.multiple"
+                                  tooltip-placement="bottom"
+                                  tooltip="Add {{ element | elementTitle }}"
+                                  class="display-{{ element.config.multiple }} icon-item pointer"
+                                  ng-click="addSibling(el.elements, $index, $parent.index)">
+                                <i class="icon-plus-sign icon-white"></i>
+                            </span>
                         </div>
 
                     </li>
