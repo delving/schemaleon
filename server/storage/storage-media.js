@@ -22,9 +22,9 @@ P.saveMedia = function (mediaObject, receiver) {
     var imagePath = path.join(s.directories.mediaUploadDir, mediaObject.fileName);
     var thumbnailPath = path.join(s.directories.mediaThumbnailDir, mediaObject.fileName);
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
-        throw 'Missing a media file: ' + imagePath + ' or ' + thumbnailPath;
+        console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
-    var fileName = P.createFileName(mediaObject);
+    var fileName = s.Media.createFileName(mediaObject);
     var bucketPath = s.directories.mediaBucketDir(fileName);
     var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
     copyFile(imagePath, path.join(bucketPath, fileName), function (err) {

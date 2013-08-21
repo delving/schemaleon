@@ -537,13 +537,13 @@ input#hidden {
   color: #999999;
 }
 .status-1 {
-  background: #9d261d;
+  background: #46a546;
 }
 .status-2 {
   background: #f89406;
 }
 .status-3 {
-  background: #46a546;
+  background: #9d261d;
 }
 ul.kv-list {
   display: table;

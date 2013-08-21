@@ -85,6 +85,14 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     }
 };
 
+P.getVocabularyEntry = function (vocabName, identifier, receiver) {
+    var s = this.storage;
+    s.query(null,
+        s.vocabPath(vocabName) + "/Entry[ID=" + s.quote(identifier) + "]",
+        receiver
+    );
+};
+
 P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
     s.query(null,

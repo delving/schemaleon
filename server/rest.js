@@ -187,6 +187,12 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
+    app.get('/vocabulary/:vocab/fetch/:identifier', function (req, res) {
+        storage.Vocab.getVocabularyEntry(req.params.vocab, req.params.identifier, function (xml) {
+            res.xml(xml);
+        });
+    });
+
     app.post('/vocabulary/:vocab/add', function (req, res) {
         var entry = req.body.Entry;
         storage.Vocab.addVocabularyEntry(req.params.vocab, entry, function (xml) {

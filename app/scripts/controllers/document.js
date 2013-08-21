@@ -16,10 +16,11 @@ OSCR.controller(
             }
         });
 
-        $scope.setDirty = function () { // called by fields for live validation bubbling up
+        $scope.revalidate = function () { // called by fields for live validation bubbling up
             _.each($scope.panels, function (panel) {
                 panel.element.dirty = true;
             });
+            $scope.validateTree();
         };
 
         $scope.$watch('document', function (document, oldValue) {
@@ -30,7 +31,6 @@ OSCR.controller(
             if (!schema) return;
             Document.fetchSchema(schema, function (tree) {
                 if (!tree) return;
-                installValidators(tree);
                 $scope.setTree(tree);
                 $scope.panels = [
                     { selected: 0, element: $scope.tree }
@@ -39,6 +39,7 @@ OSCR.controller(
                 if (!empty) {
                     populateTree(tree, document.Body);
                 }
+                installValidators(tree);
                 validateTree(tree);
             });
         });
@@ -83,6 +84,7 @@ OSCR.controller(
             // should be some kind of deep copy
             var existing = list[index];
             var fresh = cloneTree(existing);
+            validateTree(fresh);
             existing.classIndex = parentIndex + 1; // what does this do?
             list.splice(index + 1, 0, fresh);
         };

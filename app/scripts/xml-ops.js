@@ -157,7 +157,7 @@ function treeToObject(tree) {
     function toObject(from, out) {
         if (from.elements) {
             var sub = {};
-            _.forEach(from.elements, function (element) {
+            _.each(from.elements, function (element) {
                 toObject(element, sub);
             });
             if (!_.isEmpty(sub)) {
@@ -172,7 +172,7 @@ function treeToObject(tree) {
                 }
             }
         }
-        else if (from.value) {
+        else if (!_.isEmpty(from.value)) {
             if (from.config.multiple) {
                 if (!out[from.name]) {
                     out[from.name] = [];
@@ -187,7 +187,7 @@ function treeToObject(tree) {
 
     var out = {};
     toObject(tree, out);
-    return out;
+    return _.isEmpty(out) ? undefined : out;
 }
 
 function i18nTree(tree, i18n) {
@@ -220,14 +220,14 @@ function cloneTree(tree) {
                 clearNode(element);
             });
         }
-        else {
-            delete el.value;
-            delete el.valueFields; // only media and vocab use these
-        }
+        delete el.value;
+        delete el.valueVisible; // only used in line
+        delete el.valueFields; // only used in media and vocab
     }
 
     var clone = JSON.parse(JSON.stringify(tree));
     clearNode(clone);
+    installValidators(clone);
     return clone;
 }
 
@@ -255,6 +255,7 @@ function populateTree(tree, object) {
         var stamp = JSON.stringify(element);
         return _.map(valueArray, function (value) {
             var clone = JSON.parse(stamp);
+            installValidators(clone);
             if (_.isObject(value)) {
                 var node = {};
                 node[element.name] = value;
@@ -286,14 +287,11 @@ function populateTree(tree, object) {
 
     function populate(el, key, node) {
         if (key == el.name) {
+            el.value = node[key];
             if (el.elements) {
-                var sub = node[key];
-                for (var subKey in sub) {
-                    el.elements = _.flatten(_.map(el.elements, createPopulator(sub, subKey)));
+                for (var subKey in el.value) {
+                    el.elements = _.flatten(_.map(el.elements, createPopulator(el.value, subKey)));
                 }
-            }
-            else {
-                el.value = node[key];
             }
         }
         else {
