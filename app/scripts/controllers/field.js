@@ -148,7 +148,7 @@ OSCR.controller(
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
-                Vocabulary.fetchEntry($scope.schema, $scope.el.value.ID, function (fetchedValue) { // todo: ID and Identifier?
+                Vocabulary.fetchEntry($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
                     $scope.chosenEntry = fetchedValue.Entry;
                 });
             }
@@ -168,7 +168,7 @@ OSCR.controller(
                 $scope.el.elements = _.filter($scope.el.tree.elements, function (el) {
                     el.value = null;
                     el.suspendValidation = true;
-                    return el.name != 'ID'; // todo: how do we know this?
+                    return el.name != 'Identifier';
                 });
                 $scope.choose(0, parentIndex);
             }

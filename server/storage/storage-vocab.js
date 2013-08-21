@@ -19,7 +19,7 @@ P.getVocabularySchema = function (vocabName, receiver) {
             '<' + vocabName + '>',
             '  <Entry>' +
                 '  <Label/>' +
-                '  <ID/>' +
+                '  <Identifier/>' +
                 '   { ' +
                 "     doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/*" +
                 '   }',
@@ -53,8 +53,8 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var vocab = this;
     var self = this;
     var entryPath, entryXml, query;
-    if (entry.ID) {
-        entryPath = s.vocabPath(vocabName) + "[ID=" + s.quote(entry.ID) + "]";
+    if (entry.Identifier) {
+        entryPath = s.vocabPath(vocabName) + "[Identifier=" + s.quote(entry.Identifier) + "]";
         entryXml = s.objectToXml(entry, 'Entry');
         s.update(null,
             "replace value of node " + entryPath + " with " + entryXml,
@@ -69,7 +69,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         );
     }
     else {
-        entry.ID = s.generateVocabId();
+        entry.Identifier = s.generateVocabId();
         entryXml = s.objectToXml(entry, 'Entry');
         s.update(null,
             "insert node (" + entryXml + ") into " + s.vocabPath(vocabName),
@@ -88,7 +88,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
 P.getVocabularyEntry = function (vocabName, identifier, receiver) {
     var s = this.storage;
     s.query(null,
-        s.vocabPath(vocabName) + "/Entry[ID=" + s.quote(identifier) + "]",
+        s.vocabPath(vocabName) + "/Entry[Identifier=" + s.quote(identifier) + "]",
         receiver
     );
 };
