@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $location) {
+    function ($rootScope, $scope, $location, $routeParams) {
 
 
         // CONFIGURATION SETTINGS ================================================================
@@ -114,7 +114,7 @@ OSCR.controller(
         };
 
         $scope.getInclude = function () {
-            if ($location.path().indexOf('/document/OSCR-') >= 0) {
+            if ($routeParams.id) {
                 return "views/includes/legend.html";
             }
             return "";
