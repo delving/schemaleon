@@ -8,7 +8,7 @@
         </thead>
         <tbody>
         <tr>
-            <td ng-repeat="panel in panels" ng-controller="PanelController"
+            <td ng-repeat="panel in panels" ng-controller="DocumentPanelController"
                 class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}"
                 document-navigation="navigationKeyPressed($key)">
                 <!-- panel showing the document element titles -->
@@ -122,9 +122,6 @@
                             <input type="text" ng-model="el.value" class="input-large" ng-click="enableEditor()"
                                    tooltip-placement="right" tooltip="Click to edit"/>
                         </div>
-                        <div ng-show="invalidMessage">
-                            <span class="label label">{{ invalidMessage }}</span>
-                        </div>
                     </div>
 
                     <div ng-show="el.config.paragraph && !el.elements" class="textarea-input"
@@ -145,6 +142,12 @@
                             </div>
                             <br/>
                             <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
+                        </div>
+                    </div>
+
+                    <div ng-show="el.invalidMessage">
+                        <div ng-show="el.invalidMessage">
+                            <span class="label label" i18n="{{ el.invalidMessage }}"></span>
                         </div>
                     </div>
 

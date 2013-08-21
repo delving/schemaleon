@@ -216,7 +216,7 @@ OSCR.controller(
 
 OSCR.controller(
     'TextInputController',
-    function ($scope, Validator) {
+    function ($scope) {
         if (!$scope.el.config.line) {
             return;
         }
@@ -224,42 +224,11 @@ OSCR.controller(
         if ($scope.el.value === undefined) {
             $scope.enableEditor();
         }
-        $scope.validators = [];
 
-        if ($scope.el.config.validator) {
-            var func = Validator.getFunction($scope.el.config.validator);
-            if (func) {
-                $scope.validators.push(func);
-            }
-            else {
-                console.warn('Validator not found: ' + $scope.el.config.validator);
-            }
-        }
-
-        if ($scope.el.config.required) {
-            $scope.validators.push(Validator.getFunction('required'));
-        }
-
-        if ($scope.validators.length) {
+        if ($scope.el.validators.length) {
             $scope.$watch('el.value', function (after, before) {
-                var invalid = 0;
-                $scope.invalidMessage = '';
-                _.each($scope.validators, function (validator) {
-                    if ($scope.invalid) return;
-                    var message = validator(after);
-                    if (message) {
-                        var colon = message.indexOf(':');
-                        if (colon > 0) {
-                            invalid = parseInt(message.substring(0, colon));
-                            message = message.substring(colon + 1);
-                        }
-                        else {
-                            invalid = 1;
-                        }
-                        $scope.invalidMessage = message;
-                    }
-                });
-                $scope.setInvalid(invalid); // in PanelController, for all panels
+                $scope.setDirty();
+                $scope.validateTree();
             });
         }
     }

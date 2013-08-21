@@ -31,7 +31,6 @@ function xmlToTree(xml) {
         else {
             fresh.config = { line: true }; // todo: maybe a mid-element?
         }
-
         to.elements.push(fresh);
     }
 
@@ -309,26 +308,4 @@ function populateTree(tree, object) {
         populate(tree, key, object);
     }
 }
-
-function validateTree(tree) {
-    function validateNode(el) {
-        if (el.elements) {
-            var maxInvalid = 0;
-            _.forEach(el.elements, function (element) {
-                var invalid = validateNode(element);
-                if (invalid > maxInvalid) {
-                    maxInvalid = invalid;
-                }
-            });
-            el.invalid = maxInvalid;
-        }
-        else {
-            el.invalid = 0;
-        }
-        return el.invalid;
-    }
-
-    validateNode(tree);
-}
-
 

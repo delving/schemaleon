@@ -53,6 +53,12 @@ OSCR.controller(
             $scope.tree = tree;
         };
 
+        $scope.validateTree = function() {
+            if ($scope.tree) {
+                validateTree($scope.tree);
+            }
+        };
+
         $scope.saveDocument = function () {
             if ($rootScope.translating()) return;
             collectSummaryFields($scope.tree, $scope.header);
