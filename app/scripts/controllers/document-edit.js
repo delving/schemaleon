@@ -22,18 +22,22 @@ OSCR.controller(
         };
 
         $scope.showCommit = function (file) {
+            var coll = file.tree.elements[1];
+            coll.value = $scope.tree.value;
             if (file.description) {
-                var collectionPresent = !!$scope.tree.value;
-                if (collectionPresent) {
+                if (!!coll.value) {
+                    file.collection = coll.value;
                     file.selectCollectionWarning = false;
-                    file.collectionLabel = $scope.tree.value.Label;
                     return true;
                 }
                 else {
                     file.selectCollectionWarning = true;
+                    return false;
                 }
             }
-            return false;
+            else {
+                return false;
+            }
         };
 
         $scope.showDestroy = function (file) {

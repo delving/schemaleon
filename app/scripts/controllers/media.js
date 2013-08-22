@@ -151,8 +151,13 @@ OSCR.controller(
             };
             var fileTree = treeOf(file);
             _.each(fileTree.elements, function (el) { // cheat
-                if (el.name === 'Description') {
-                    el.value = file.description;
+                switch(el.name) {
+                    case 'Description':
+                        el.value = file.description;
+                        break;
+                    case 'Collection':
+                        el.value = file.collection;
+                        break;
                 }
             });
             collectSummaryFields(fileTree, header);
