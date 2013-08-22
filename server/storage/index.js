@@ -40,7 +40,7 @@ function Storage(home) {
     };
 
     this.generateDocumentId = function (schemaName) {
-        return generateId('DO-'+schemaName);
+        return generateId('DO-' + schemaName);
     };
 
     this.generateImageId = function () {
@@ -185,7 +185,7 @@ function Storage(home) {
             query = query.join('\n');
         }
         log(query);
-        return '<xquery><![CDATA[\n'+query+'\n]]></xquery>';
+        return '<xquery><![CDATA[\n' + query + '\n]]></xquery>';
     }
 
     function reportError(message, error, query) {
@@ -227,7 +227,7 @@ function Storage(home) {
     this.add = function (message, path, content, receiver) {
         this.session.add(path, content, function (error, reply) {
             if (reply.ok) {
-                log('add ' + path + ': '+content);
+                log('add ' + path + ': ' + content);
                 receiver(content);
             }
             else {
@@ -240,7 +240,7 @@ function Storage(home) {
     this.replace = function (message, path, content, receiver) {
         this.session.replace(path, content, function (error, reply) {
             if (reply.ok) {
-                log('replace ' + path + ': '+content);
+                log('replace ' + path + ': ' + content);
                 receiver(content);
             }
             else {
@@ -265,17 +265,17 @@ function Storage(home) {
             [
                 '<Statistics>',
                 '  <People>',
-                '    <Person>666</Person>',
-                '    <Group>666</Group>',
+                '    <Person>{ count(' + this.userCollection() + ') }</Person>',
+                '    <Group>{ count(' + this.groupCollection() + ') }</Group>',
                 '  </People>',
                 '  <Documents>',
                 '    <Schema>',
                 '       <Name>PhotographCount</Name>',
-                '       <Count>666</Count>',
+                '       <Count>{ count(' + this.docCollection('Photograph') + ') }</Count>',
                 '    </Schema>',
                 '    <Schema>',
                 '      <Name>ImageMetadataCount</Name>',
-                '      <Count>666</Count>',
+                '       <Count>{ count(' + this.docCollection('ImageMetadata') + ') }</Count>',
                 '    </Schema>',
                 '  </Documents>',
                 '</Statistics>'
