@@ -9,15 +9,15 @@ OSCR.config(
                 templateUrl: 'views/dashboard.html',
                 title: 'OSCR Dashboard'
             })
-            .when('/document', {
+            .when('/document/:schema', {
                 templateUrl: 'views/document-list.html',
                 controller: 'DocumentListController'
             })
-            .when('/document/:id', {
-                templateUrl: 'views/document-list.html',
-                controller: 'DocumentListController'
+            .when('/document/:schema/edit/:identifier', {
+                templateUrl: 'views/document-edit.html',
+                controller: 'DocumentEditController'
             })
-            .when('/document/view/:id', {
+            .when('/document/:schema/view/:identifier', {
                 templateUrl: 'views/document-view.html',
                 controller: 'DocumentViewController'
             })

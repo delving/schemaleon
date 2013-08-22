@@ -39,8 +39,8 @@ function Storage(home) {
         return generateId('GR');
     };
 
-    this.generateDocumentId = function () {
-        return generateId('DO');
+    this.generateDocumentId = function (schemaName) {
+        return generateId('DO-'+schemaName);
     };
 
     this.generateImageId = function () {

@@ -103,7 +103,7 @@ P.saveDocument = function (envelope, receiver) {
             });
         }
         else {
-            hdr.Identifier = s.generateDocumentId();
+            hdr.Identifier = s.generateDocumentId(hdr.SchemaName);
             addDocument();
         }
     }

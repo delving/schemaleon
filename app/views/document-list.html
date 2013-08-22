@@ -1,96 +1,58 @@
 <div class="fade-in">
-    <div ng-hide="document">
-        <div class="page-header">
-            <h1 i18n="Documents"><span class="i18n"></span></h1>
-        </div>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <form class="navbar-form pull-left">
-                    <div class="input-append">
-                        <input type="text">
-                        <button type="submit" class="btn" title="Search"><i class="icon-search"></i></button>
-                    </div>
-                </form>
-                <div class="controls pull-right">
-                    <a href class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument">
-                        <i class="icon icon-plus icon-white"></i>
-                        <span class="i18n"></span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-        <table class="table table-striped table-bordered table-grid">
-            <thead>
-            <th i18n="Identifier"><span class="i18n"/></th>
-            <th i18n="Title"><span class="i18n"/></th>
-            <th i18n="Stored"><span class="i18n"/></th>
-            <th i18n="StoredBy"><span class="i18n"/></th>
-            <th i18n="Status"><span class="i18n"/></th>
-            <th i18n="Actions"><span class="i18n"/></th>
-            </thead>
-            <tbody>
-            <tr data-ng-hide="headerList.length">
-                <td colspan="6">
-                    Currently no documents saved
-                </td>
-            </tr>
-            <tr data-ng-repeat="header in headerList">
-                <td>{{ header.Identifier }}</td>
-                <td>{{ header.Title }}</td>
-                <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
-                <td>{{ header.EMail }}</td>
-                <td>
-                    <span ng-show="header.status == 'complete'" class="badge badge-success">{{ header.status }}</span>
-                    <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
-                </td>
-                <td>
-                    <a href ng-click="choosePath('/document/'+ header.Identifier)" class="btn btn-primary btn-small" i18n="Edit">
-                        <i class="icon icon-edit icon-white"></i> <span class="i18n"></span>
-                    </a>
-                    <a href ng-click="choosePath('/document/view/'+ header.Identifier)" class="btn btn-success btn-small" i18n="View">
-                        <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="page-header">
+        <h1 i18n="Documents"><span class="i18n"></span></h1>
     </div>
-    <div ng-show="document">
-        <div class="page-header">
-            <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
-            <h1 ng-hide="headerDisplay" i18n="New"></h1>
-            <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
-        </div>
-
-        <div class="navbar">
-            <div class="navbar-inner">
-                <!--<form class="navbar-form pull-left">-->
-                    <!--<input type="text" class="span2">-->
-                    <!--<button type="submit" class="btn">Submit</button>-->
-                <!--</form>-->
-                <div class="controls">
-                    <!--<div class="btn-group">-->
-                    <a href ng-click="choosePath('/document/')" class="btn">
-                        <i class="icon-hand-left"></i>
-                        <!--<span class="i18n"></span>-->
-                    </a>
-                        <a href ng-click="toggleInlinePreview()"
-                           ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
-                            <i class="icon-eye-open"></i>
-                            <!--<span class="i18n"></span>-->
-                        </a>
-                        <a href class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
-                            <i class="icon icon-check icon-white"></i>
-                            <span class="i18n"></span>
-                        </a>
-                    <!--</div>-->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <form class="navbar-form pull-left">
+                <div class="input-append">
+                    <input type="text">
+                    <button type="submit" class="btn" title="Search"><i class="icon-search"></i></button>
                 </div>
+            </form>
+            <div class="controls pull-right">
+                <a href class="btn btn-primary" ng-click="newDocument()" i18n="NewDocument">
+                    <i class="icon icon-plus icon-white"></i>
+                    <span class="i18n"></span>
+                </a>
             </div>
-
         </div>
 
-        <div ng-include src="'views/includes/document.html'"></div>
     </div>
+    <table class="table table-striped table-bordered table-grid">
+        <thead>
+        <th i18n="Identifier"><span class="i18n"/></th>
+        <th i18n="Title"><span class="i18n"/></th>
+        <th i18n="Stored"><span class="i18n"/></th>
+        <th i18n="StoredBy"><span class="i18n"/></th>
+        <th i18n="Status"><span class="i18n"/></th>
+        <th i18n="Actions"><span class="i18n"/></th>
+        </thead>
+        <tbody>
+        <tr data-ng-hide="headerList.length">
+            <td colspan="6">
+                Currently no documents saved
+            </td>
+        </tr>
+        <tr data-ng-repeat="header in headerList">
+            <td>{{ header.Identifier }}</td>
+            <td>{{ header.Title }}</td>
+            <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
+            <td>{{ header.EMail }}</td>
+            <td>
+                <span ng-show="header.status == 'complete'" class="badge badge-success">{{ header.status }}</span>
+                <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
+            </td>
+            <td>
+                <a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier)" class="btn btn-primary btn-small" i18n="Edit">
+                    <i class="icon icon-edit icon-white"></i> <span class="i18n"></span>
+                </a>
+                <a href ng-click="choosePath('/document/'+schema+'/view/'+ header.Identifier)" class="btn btn-success btn-small" i18n="View">
+                    <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 

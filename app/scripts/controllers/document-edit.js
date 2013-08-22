@@ -4,8 +4,75 @@ var OSCR = angular.module('OSCR');
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
+
 OSCR.controller(
-    'DocumentController',
+    'DocumentEditController',
+    function ($rootScope, $scope, $routeParams, $location, Document) {
+
+        $scope.blankIdentifier = '#IDENTIFIER#';
+        $scope.blankTimeStamp = '#TIMESTAMP#';
+        $scope.headerDisplay = '';
+        $scope.schema = $routeParams.schema;
+        $scope.identifier = $routeParams.identifier;
+        $scope.header = {};
+        $scope.tree = null;
+
+        function useHeader(h) {
+            $scope.header.SchemaName = $scope.schema;
+            $scope.header.Identifier = h.Identifier;
+            $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
+            $scope.header.Title = h.Title;
+            delete $scope.header.TimeStamp;
+            var millis = parseInt(h.TimeStamp);
+            if (!_.isNaN(millis)) {
+                $scope.header.TimeStamp = millis;
+            }
+        }
+
+        if ($scope.identifier === 'create') {
+            useHeader({
+                SchemaName: $scope.schema,
+                Identifier: $scope.blankIdentifier
+            });
+            $scope.document = $scope.schema; // just a name triggers schema fetch
+        }
+        else {
+            Document.fetchDocument($scope.schema, $scope.identifier, function (document) {
+                console.log(document);
+                useHeader(document.Document.Header);
+                $scope.document = document.Document; // triggers the editor
+            });
+        }
+
+        $scope.setTree = function (tree) {
+            $scope.tree = tree;
+        };
+
+        $scope.validateTree = function () {
+            validateTree($scope.tree);
+        };
+
+        $scope.saveDocument = function () {
+            if ($rootScope.translating()) return;
+            collectSummaryFields($scope.tree, $scope.header);
+            $scope.header.TimeStamp = $scope.blankTimeStamp;
+            $scope.header.EMail = $rootScope.user.Profile.email;
+            Document.saveDocument($scope.header, treeToObject($scope.tree), function (header) {
+                $scope.choosePath('/document/' + $scope.schema);
+            });
+        };
+    }
+);
+
+/**
+ * The document panel array controller handles the set of panels and manages them
+ * as a group.
+ *
+ * It expects a $scope.document variable from a surrounding controller
+ */
+
+OSCR.controller(
+    'DocumentPanelArrayController',
     function ($rootScope, $scope, Document) {
 
         $scope.panels = [];
@@ -90,6 +157,12 @@ OSCR.controller(
         };
     }
 );
+
+/**
+ * There is a document panel controller for each panel in the display
+ *
+ * It puts "el" in scope, and holds which field is active.
+ */
 
 OSCR.controller(
     'DocumentPanelController',

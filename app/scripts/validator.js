@@ -120,10 +120,12 @@ function validateTree(tree) {
         el.dirty = true;
     }
 
-    if (!tree.dirty) {
-        setDirty(tree);
+    if (tree) {
+        if (!tree.dirty) {
+            setDirty(tree);
+        }
+        validateNode(tree);
     }
-    validateNode(tree);
 }
 
 

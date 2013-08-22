@@ -31,6 +31,7 @@ OSCR.service(
         };
 
         this.fetchDocument = function (schemaName, identifier, receiver) {
+            // todo make it /document/schemaName/fetch/identifier
             $http.get('/document/fetch/' + schemaName + '/' + identifier).success(function (data) {
                 receiver(xmlToObject(data));
             });

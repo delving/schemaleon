@@ -5,7 +5,10 @@ var OSCR = angular.module('OSCR');
 OSCR.controller(
     'DocumentViewController',
     function ($rootScope, $scope, $routeParams, $location, Document) {
-        $scope.header = { SchemaName: 'Photograph' };
+
+        $scope.schema = $routeParams.schema;
+        $scope.identifier = $routeParams.identifier;
+        $scope.header = { };
         $scope.showingDocument = true;
 
         function useHeader(h) {
@@ -14,36 +17,18 @@ OSCR.controller(
             $scope.header.TimeStamp = h.TimeStamp;
         }
 
-        function fetchSchema() {
-            Document.fetchSchema($scope.header.SchemaName, function (schema) {
+        Document.fetchDocument($scope.schema, $scope.identifier, function (document) {
+            useHeader(document.Document.Header);
+            Document.fetchSchema($scope.schema, function (schema) {
                 $scope.tree = schema;
-
-                if ($routeParams.id) {
-                    Document.fetchDocument('Photograph', $routeParams.id, function (object) {
-                        populateTree($scope.tree, object.Document.Body);
-                        useHeader(object.Document.Header);
-                    });
-                }
-                else {
-                    $scope.header = {
-                        SchemaName: 'Photograph',
-                        Identifier: '#IDENTIFIER#',
-                        Title: 'Document not found'
-                    };
-                    $scope.showingDocument = false;
-                }
-                console.log($scope.tree);
-
+                populateTree($scope.tree, document.Document.Body);
             });
-        }
-
-        fetchSchema();
+        });
 
         $scope.$watch('i18n', function (i18n, oldValue) {
             if ($scope.tree && i18n) {
                 i18nTree($scope.tree, i18n);
             }
         });
-
     }
 );
