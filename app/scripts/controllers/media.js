@@ -48,8 +48,6 @@ OSCR.controller(
 
         function fetchIngested() {
             Document.fetchAllDocuments($scope.document, function (list) {
-                console.log('ingestedDocuments'); // todo
-                console.log(list);
                 $scope.ingestedHeaders = _.map(list, function (doc) {
                     var header = doc.Header;
                     header.thumbnail = '/media/thumbnail/' + header.Identifier;
@@ -172,7 +170,6 @@ OSCR.controller(
 OSCR.controller(
     'FileDestroyController',
     function ($scope, $http) {
-        console.log('Destroy');
         var file = $scope.file, state;
         if (file.url) {
             file.$state = function () {

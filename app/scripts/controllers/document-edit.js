@@ -4,6 +4,43 @@ var OSCR = angular.module('OSCR');
 
 /* CRM OBJECT RELATED CONTROLLERS */
 
+OSCR.controller(
+    'ImageCollectionController',
+    function ($rootScope, $scope, $routeParams, $location, Document) {
+        $scope.annotationMode = true;
+        $scope.schema = 'ImageMetadata';
+        $scope.tree = null;
+
+        $scope.document = $scope.schema; // just a name triggers schema fetch
+
+        $scope.setTree = function (tree) {
+            return $scope.tree = tree.elements[0]; // i happen to know that this is collection from Schemas.xml
+        };
+
+        $scope.validateTree = function () {
+            validateTree($scope.tree);
+        };
+
+        $scope.showCommit = function (file) {
+            if (file.description) {
+                var collectionPresent = !!$scope.tree.value;
+                if (collectionPresent) {
+                    file.selectCollectionWarning = false;
+                    file.collectionLabel = $scope.tree.value.Label;
+                    return true;
+                }
+                else {
+                    file.selectCollectionWarning = true;
+                }
+            }
+            return false;
+        };
+
+        $scope.showDestroy = function (file) {
+            return !!file.description && !!file.$destroy;
+        };
+    }
+);
 
 OSCR.controller(
     'DocumentEditController',
@@ -45,7 +82,7 @@ OSCR.controller(
         }
 
         $scope.setTree = function (tree) {
-            $scope.tree = tree;
+            return $scope.tree = tree;
         };
 
         $scope.validateTree = function () {
@@ -98,11 +135,13 @@ OSCR.controller(
             if (!schema) return;
             Document.fetchSchema(schema, function (tree) {
                 if (!tree) return;
-                $scope.setTree(tree);
+                tree = $scope.setTree(tree);
                 $scope.panels = [
-                    { selected: 0, element: $scope.tree }
+                    { selected: 0, element: tree }
                 ];
-                $scope.choose(0, 0);
+                if (!$scope.annotationMode) {
+                    $scope.choose(0, 0);
+                }
                 if (!empty) {
                     populateTree(tree, document.Body);
                 }
@@ -189,6 +228,7 @@ OSCR.controller(
         };
 
         $scope.navigationKeyPressed = function (key) {
+            if (!$scope.selectedWhere) return;
             var size = $scope.panels[$scope.selectedWhere].element.elements.length;
             switch (key) {
                 case 'up':

@@ -6,7 +6,6 @@ OSCR.controller(
 
         Statistics.getGlobalStatistics(function(statistics) {
             $scope.statistics = statistics;
-            console.log(statistics);
         });
 
     }
