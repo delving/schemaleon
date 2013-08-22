@@ -64,11 +64,11 @@
                                     <ul class="unstyled kv-list">
                                         <li ng-repeat="line in el.valueFields">
                                             <span class="label" i18n="{{ line.prompt }}">Prompt</span>
-                                            <span class="value">{{ line.value }}</span>
+                                            <span class="value">{{ line | mediaLabel }}</span>
                                         </li>
                                         <li ng-show="el.value.Identifier">
                                             <span class="label" i18n="Thumbnail"/>
-                                            <img ng-src="{{ el | mediaDisplay }}"/>
+                                            <img ng-src="{{ el | mediaThumbnail }}"/>
                                         </li>
                                     </ul>
                                 </div>

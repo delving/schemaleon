@@ -117,6 +117,7 @@ OSCR.controller(
     function ($rootScope, $scope, Document) {
 
         $scope.panels = [];
+        $scope.selectedWhere = 0;
 
         $scope.$watch('i18n', function (i18n, oldValue) {
             if ($scope.tree && i18n) {
@@ -232,7 +233,6 @@ OSCR.controller(
         };
 
         $scope.navigationKeyPressed = function (key) {
-            if (!$scope.selectedWhere) return;
             var size = $scope.panels[$scope.selectedWhere].element.elements.length;
             switch (key) {
                 case 'up':

@@ -23,11 +23,27 @@ OSCR.filter('elementDisplay',
     }
 );
 
-OSCR.filter('mediaDisplay',
+OSCR.filter('mediaThumbnail',
     function () {
         return function (element) {
             if (element.value && element.config.media) {
                 return '/media/thumbnail/' + element.value.Identifier;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('mediaLabel',
+    function () {
+        return function (element) {
+            if (_.isString(element.value)) {
+                return element.value;
+            }
+            else if (element.value) {
+                return element.value.Label;
             }
             else {
                 return '';
