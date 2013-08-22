@@ -169,7 +169,7 @@ OSCR.controller(
                 });
                 $timeout(function () {
                     $scope.userAssigned = false;
-                    $scope.addingUser = false;
+//                    $scope.addingUser = false;
                 }, 4000);
                 $rootScope.refreshUser();
             })

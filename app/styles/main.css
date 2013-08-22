@@ -378,6 +378,7 @@ body {
   color: #555555;
   margin: 4px 0;
   position: relative;
+  cursor: defaul;
 }
 .dashboard-header .statistics .btn:first-child,
 .dashboard-header .statistics btn.ng-scope:first-child {
@@ -418,11 +419,14 @@ ul.stats {
 ul.stats li {
   background-color: #F5F5F5;
   border: 1px solid #DDDDDD;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   margin: 0 0 10px;
   padding: 13px 20px 10px;
   position: relative;
   font-size: larger;
-  color: #999999;
+  color: #555555;
   font-style: italic;
   *zoom: 1;
 }
@@ -435,6 +439,12 @@ ul.stats li:after {
 ul.stats li:after {
   clear: both;
 }
+ul.stats li .icon {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  float: left;
+  margin: 2px 8px 0 0;
+}
 ul.stats li .type {
   float: left;
 }
@@ -443,6 +453,18 @@ ul.stats li .count {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
   float: right;
   font-style: normal;
+}
+ul.stats.stats-condensed li {
+  margin: 0 0 5px;
+  padding: 8px 10px 5px;
+  font-size: small;
+}
+ol.striped {
+  padding: 0;
+}
+ol.striped li {
+  border-bottom: 1px solid #999999;
+  line-height: 24px;
 }
 /* MAIN NAVIGATION */
 .nav-pills > li > a {
