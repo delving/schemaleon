@@ -86,10 +86,12 @@ P.getOrCreateUser = function (profile, receiver) {
                             log('created group ' + result);
                             var groupIdentifier = s.getFromXml(result, 'Identifier');
                             userObject.Memberships = {
-                                Member: {
-                                    Group: groupIdentifier,
-                                    Role: 'Administrator'
-                                }
+                                Membership: [
+                                    {
+                                        GroupIdentifier: groupIdentifier,
+                                        Role: 'Administrator'
+                                    }
+                                ]
                             };
                             addUser(userObject);
                             createTestUsers();
@@ -117,7 +119,7 @@ P.getUsersInGroup = function (identifier, receiver) {
     s.query('get users in group ' + identifier,
         [
             '<Users>',
-            '    { ' + s.userCollection() + '[Memberships/Member/Group = ' + s.quote(identifier) + '] }',
+            '    { ' + s.userCollection() + '[Memberships/Membership/GroupIdentifier=' + s.quote(identifier) + '] }',
             '</Users>'
         ],
         receiver
@@ -208,9 +210,9 @@ P.addUserToGroup = function (email, role, identifier, receiver) {
     s.update('add user to group ' + addition,
         [
             'let $user := ' + s.userPath(email),
-            'let $mem := ' + '<Member><Group>' + identifier + '</Group><Role>' + role + '</Role></Member>',
+            'let $mem := ' + '<Membership><GroupIdentifier>' + identifier + '</GroupIdentifier><Role>' + role + '</Role></Membership>',
             'return',
-            'if (exists($user/Memberships/Member[Group=' + s.quote(identifier) + ']))',
+            'if (exists($user/Memberships/Membership[GroupIdentifier=' + s.quote(identifier) + ']))',
             'then ()',
             'else ( if (exists($user/Memberships))',
             'then (insert node $mem into $user/Memberships)',
@@ -235,7 +237,7 @@ P.removeUserFromGroup = function (email, role, identifier, receiver) {
     var s = this.storage;
     var addition = email + ' ' + role + ' ' + identifier;
     s.update('remove user from group ' + addition,
-        'delete node ' + s.userPath(email) + '/Memberships/Member[Group=' + s.quote(identifier) + ']',
+        'delete node ' + s.userPath(email) + '/Memberships/Membership[GroupIdentifier=' + s.quote(identifier) + ']',
         function (result) {
             if (result) {
                 s.query('re-fetch user after remove membership ' + addition,

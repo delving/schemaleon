@@ -27,10 +27,17 @@ OSCR.controller(
         $scope.username = '';
         $scope.password = '';
 
+        function setUser(user) {
+            if (user) {
+                $rootScope.user = user;
+                $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
+            }
+        }
+
         $rootScope.login = function () {
             if ($scope.username && $scope.username.length) {
                 Person.authenticate($scope.username, $scope.password, function (user) {
-                    $rootScope.user = user;
+                    setUser(user);
                 });
             }
             if (!$rootScope.user) {
@@ -41,16 +48,32 @@ OSCR.controller(
                         email: 'oscr@delving.eu'
                     },
                     Memberships: {
-                        Member: {
-                            Group: 'OSCR',
-                            Role: 'Administrator'
-                        }
+                        Membership: []
                     }
-
                 };
             }
             $location.path('/dashboard');
         };
+
+        $rootScope.refreshUser = function() {
+            if ($rootScope.user) {
+                Person.getUser($rootScope.user.Profile.email, function(user) {
+                    setUser(user);
+                });
+            }
+        };
+
+        $rootScope.$watch('user', function(after, before) {
+            if (!after) return;
+            _.each(after.Memberships.Membership, function(membership) {
+                Person.getGroup(membership.GroupIdentifier, function(group) {
+                    membership.group = group.Group;
+                    Person.getUsersInGroup(membership.group.Identifier, function (list) {
+                        membership.group.userList = list;
+                    });
+                });
+            });
+        });
 
         $rootScope.logout = function () {
             delete $rootScope.user;

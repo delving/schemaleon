@@ -3,33 +3,59 @@
         <h1 i18n="Dashboard"><span class="i18n">Dashboard</span></h1>
     </div>
 
-    <div class="dashboard-header">
-        <div class="btn-group">
+    <!--<div class="dashboard-header">-->
+        <!--<div class="btn-group">-->
 
-            <div class="btn btn-large">
-                <i class="icon icon-large icon-upload"></i>
-                <h5 i18n="UploadDigitalMedia"><span class="i18n">Upload digital media</span></h5>
-            </div>
+            <!--<div class="btn btn-large">-->
+                <!--<i class="icon icon-large icon-upload"></i>-->
+                <!--<h5 i18n="UploadDigitalMedia"><span class="i18n">Upload digital media</span></h5>-->
+            <!--</div>-->
 
-            <div class="btn btn-large">
-                <i class="icon icon-large icon-file"></i>
-                <h5 i18n="ManageDocuments"><span class="i18n">Manage documents</span></h5>
-            </div>
+            <!--<div class="btn btn-large">-->
+                <!--<i class="icon icon-large icon-file"></i>-->
+                <!--<h5 i18n="ManageDocuments"><span class="i18n">Manage documents</span></h5>-->
+            <!--</div>-->
 
-            <div class="btn btn-large">
-                <i class="icon icon-large icon-users"></i>
-                <h5 i18n="ManageUsers"><span class="i18n">Manage users</span></h5>
-            </div>
+            <!--<div class="btn btn-large">-->
+                <!--<i class="icon icon-large icon-users"></i>-->
+                <!--<h5 i18n="ManageUsers"><span class="i18n">Manage users</span></h5>-->
+            <!--</div>-->
 
-        </div>
-    </div>
-
-
-
-
+        <!--</div>-->
+    <!--</div>-->
 
     <!--<input type="file" accept="video/*" capture="camera">-->
     <div class="row-fluid">
+        <div class="span4">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class="icon-user"></i></span>
+                    <h5 i18n="YourProfile"><span class="i18n"></span></h5>
+                </div>
+                <div class="widget-body">
+                    <dl>
+                        <dt i18n="Name"></dt>
+                        <dd>
+                            <span>{{ user.Profile.firstName }}</span>
+                            <span>{{ user.Profile.lastName }}</span>
+                            <span>&lt;{{ user.Profile.email }}&gt;</span>
+                        </dd>
+                        <dt i18n="Groups"></dt>
+                        <dd ng-repeat="membership in user.Memberships.Membership">
+                            <span>{{ membership.Role }}</span>: <span ng-show="membership.group">{{ membership.group.Name }}</span>
+                            <ul class="">
+                                <li ng-repeat="groupUser in membership.group.userList">
+                                    <span>{{ groupUser.Profile.firstName }}</span>
+                                    <span>{{ groupUser.Profile.lastName }}</span>
+                                    <span>&lt;{{ groupUser.Profile.email }}&gt;</span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="widget-footer"></div>
+            </div>
+        </div>
         <div class="span4">
             <div class="widget-box">
                 <div class="widget-title">
@@ -42,28 +68,6 @@
                             <span class="type">{{ stats.type }}</span><span class="count label label-info">{{ stats.count }}</span>
                         </li>
                     </ul>
-                </div>
-                <div class="widget-footer"></div>
-            </div>
-        </div>
-        <div class="span4">
-            <div class="widget-box">
-                <div class="widget-title">
-                    <span class="icon"><i class="icon-user"></i></span>
-                    <h5 i18n="CurrentUser"><span class="i18n">CurrentUser</span></h5>
-                </div>
-                <div class="widget-body">
-                    <dl>
-                        <dt>Name</dt>
-                        <dd>{{ currentUserStats.username }}</dd>
-                        <dt>Member of group(s)</dt>
-                        <dd>
-                            <ul class="">
-                                <li  ng-repeat="member in currentUserStats.memberships">{{ member.groupName }}</li>
-                            </ul>
-                        </dd>
-                    </dl>
-
                 </div>
                 <div class="widget-footer"></div>
             </div>
@@ -96,74 +100,6 @@
                 <div class="widget-footer"></div>
             </div>
 
-        </div>
-    </div>
-    <div class="row-fluid">
-
-        <div class="span4">
-            <h4>Manage users</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
-
-            <button class="btn"><a href ng-click="choosePath('/people')">Manage users</a></button>
-        </div>
-
-        <div class="span4">
-            <h4>Upload digital objects</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
-
-            <button class="btn"><a href ng-click="choosePath('/fileupload')">Upload digital objects</a></button>
-        </div>
-
-        <div class="span4">
-            <h4>Do other stuff</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
-
-            <button class="btn btn-primary">Do Something Else</button>
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <div class="span4">
-            <h4>Upload digital objects</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
-
-            <button class="btn btn-primary">Upload digital object</button>
-        </div>
-        <div class="span4">
-            <h4>Create CRM descriptions</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
-
-            <button class="btn btn-primary">Create new CRM description</button>
-        </div>
-        <div class="span4">
-            <h4>Do other stuff</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet consectetuer.</li>
-                <li>Aenean commodo ligula eget dolor.</li>
-                <li>Aenean massa cum sociis natoque penatibus.</li>
-            </ul>
-
-            <button class="btn btn-primary">Do Something Else</button>
         </div>
     </div>
 

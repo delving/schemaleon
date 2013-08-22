@@ -23,7 +23,7 @@ angular.module('OSCR').service(
 
         this.getUser = function (email, accept) {
             $http.get('/person/user/fetch/' + email).success(function (xml) {
-                accept(xmlToObject(xml));
+                accept(xmlToObject(xml).User);
             });
         };
 
@@ -67,6 +67,8 @@ angular.module('OSCR').service(
         this.addUserToGroup = function (identifier, role, email, accept) {
             $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(function (xml) {
                 var userObject = xmlToObject(xml);
+                console.log('received fresh user object'); // todo" remove
+                console.log(userObject); // todo" remove
                 accept(userObject.User.Profile);
                 var activity = {"section": "People", "user": email, "action": "Added to a group"};
                 $rootScope.recentActivity.push(activity);

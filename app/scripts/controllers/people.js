@@ -23,7 +23,7 @@ var OSCR = angular.module('OSCR');
 OSCR.controller(
     'PeopleController',
     function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
-
+        $scope.administratorRole = 'Administrator';
         $scope.selectedGroup = {};
 
         $scope.groupCreated = false;
@@ -48,16 +48,16 @@ OSCR.controller(
             });
         }
 
-        $scope.canUserAdministrate = function(groupIdentifier) {
+        $scope.canUserAdministrate = function (groupIdentifier) {
             if ($rootScope.user && $rootScope.user.Memberships) {
-                var memberships = $rootScope.user.Memberships.Member;
+                var memberships = $rootScope.user.Memberships.Membership;
                 if (memberships) {
-                    var membership = _.filter(xmlArray(memberships), function(membership) {
-                        return membership.Group === groupIdentifier && membership.Role === 'Administrator';
+                    var membership = _.filter(memberships, function (membership) {
+                        return membership.GroupIdentifier === groupIdentifier && membership.Role === $scope.administratorRole;
                     });
                     if (membership.length) return true;
-                    membership = _.filter(xmlArray(memberships), function(membership) {
-                        return membership.Group === 'OSCR' && membership.Role === 'Administrator'; // true if they are god
+                    membership = _.filter(memberships, function (membership) {
+                        return membership.GroupIdentifier === 'OSCR' && membership.Role === $scope.administratorRole; // true if they are god
                     });
                     if (membership.length) return true;
                 }
@@ -69,8 +69,8 @@ OSCR.controller(
             Person.getUsersInGroup(group.Identifier, function (list) {
                 _.each(list, function (user) {
                     if (user.Memberships) {
-                        _.each(xmlArray(user.Memberships.Member), function (membership) {
-                            if (membership.Group === group.Identifier) {
+                        _.each(xmlArray(user.Memberships.Membership), function (membership) {
+                            if (membership.GroupIdentifier === group.Identifier) {
                                 user.GroupMember = membership;
                             }
                         });
@@ -81,7 +81,7 @@ OSCR.controller(
 
             $scope.selectedGroup.Identifier = group.Identifier;
             $scope.selectedGroup.Name = group.Name;
-        }
+        };
 
         $scope.typeAheadUsers = function (query) {
             var deferred = $q.defer();
@@ -122,13 +122,13 @@ OSCR.controller(
         $scope.creatingGroup = false;
         $scope.addingUser = false;
 
-        $scope.newGroupToggle = function(){
+        $scope.newGroupToggle = function () {
             $scope.creatingGroup = !$scope.creatingGroup;
             $scope.addingUser = false;
         };
 
-        $scope.addUserToggle = function(role){
-            if(!role){
+        $scope.addUserToggle = function (role) {
+            if (!role) {
                 $scope.addingUser = false;
                 return;
             }
@@ -158,7 +158,6 @@ OSCR.controller(
 
         $scope.assignUserToGroup = function () {
             var profile = $scope.chosenUser.Profile;
-            console.log($scope.selectedGroup);
             var identifier = $scope.selectedGroup.Identifier;
             Person.addUserToGroup($scope.selectedGroup.Identifier, $scope.selectedGroup.Role, profile.email, function (profile) {
                 $scope.userAssigned = true;
@@ -172,13 +171,14 @@ OSCR.controller(
                     $scope.userAssigned = false;
                     $scope.addingUser = false;
                 }, 4000);
+                $rootScope.refreshUser();
             })
         };
 
-        $scope.clearChosenUser = function(){
+        $scope.clearChosenUser = function () {
             $scope.chosenUser = '';
             $('input#cu').focus();
-        }
+        };
 
         $scope.removeUserFromGroup = function (user) {
             Person.removeUserFromGroup($scope.selectedGroup.Identifier, user.GroupMember.Role, user.Profile.email, function () {
@@ -188,6 +188,7 @@ OSCR.controller(
                         $scope.populateGroup(group);
                     }
                 });
+                $rootScope.refreshUser();
             })
         };
 
