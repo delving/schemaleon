@@ -49,6 +49,28 @@
         <div class="span4">
             <div class="widget-box">
                 <div class="widget-title">
+                    <span class="icon"><i class="icon-user"></i></span>
+                    <h5 i18n="CurrentUser"><span class="i18n">CurrentUser</span></h5>
+                </div>
+                <div class="widget-body">
+                    <dl>
+                        <dt>Name</dt>
+                        <dd>{{ currentUserStats.username }}</dd>
+                        <dt>Member of group(s)</dt>
+                        <dd>
+                            <ul class="">
+                                <li  ng-repeat="member in currentUserStats.memberships">{{ member.groupName }}</li>
+                            </ul>
+                        </dd>
+                    </dl>
+
+                </div>
+                <div class="widget-footer"></div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="widget-box">
+                <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
                     <h5 i18n="RecentActivity"><span class="i18n">Recent activity</span></h5>
                     <span class="label label-info" data-ng-bind="recentActivity.length"></span>

@@ -739,6 +739,9 @@ table.files th input[type=checkbox] {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
+.widget-box dl {
+  margin-top: 0px;
+}
 .widget-title {
   background-color: #f8f8f8;
   background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
