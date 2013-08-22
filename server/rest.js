@@ -110,6 +110,12 @@ Storage('oscr', homeDir, function (storage) {
         }
     });
 
+    app.get('/statistics', function (req, res) {
+        storage.getStatistics(function (xml) {
+            res.xml(xml);
+        });
+    });
+
     app.get('/person/user/fetch/:email', function (req, res) {
         storage.Person.getUser(req.params.email, function (xml) {
             res.xml(xml);

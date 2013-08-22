@@ -63,11 +63,25 @@
                     <h5 i18n="Statistics"><span class="i18n">Statistics</span></h5>
                 </div>
                 <div class="widget-body">
-                    <ul class="unstyled oscr-statistics">
-                        <li data-ng-repeat="stats in counts">
-                            <span class="type">{{ stats.type }}</span><span class="count label label-info">{{ stats.count }}</span>
-                        </li>
-                    </ul>
+                    <dl>
+                        <dt i18n="People"></dt>
+                        <dd>
+                            <ul>
+                                <li ng-repeat="statistic in statistics.People.Statistic">
+                                    <span i18n="{{ statistic.Name }}"/>: <span>{{ statistic.Count }}</span>
+                                </li>
+                            </ul>
+                        </dd>
+                        <dt i18n="Documents"></dt>
+                        <dd>
+                            <ul>
+                                <li ng-repeat="statistic in statistics.Documents.Statistic">
+                                    <span i18n="{{ statistic.Name }}"/>: <span>{{ statistic.Count }}</span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+
                 </div>
                 <div class="widget-footer"></div>
             </div>

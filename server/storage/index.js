@@ -260,6 +260,23 @@ function Storage(home) {
 
     this.Media = new Media(this);
 
+    this.getStatistics = function (receiver) {
+        this.query('get global statistics',
+            [
+                '<Statistics>',
+                '  <People>',
+                '    <Statistic><Name>PersonCount</Name><Count>666</Count></Statistic>',
+                '    <Statistic><Name>GroupCount</Name><Count>667</Count></Statistic>',
+                '  </People>',
+                '  <Documents>',
+                '    <Statistic><Name>PhotographCount</Name><Count>666</Count></Statistic>',
+                '    <Statistic><Name>ImageMetadataCount</Name><Count>667</Count></Statistic>',
+                '  </Documents>',
+                '</Statistics>'
+            ],
+            receiver
+        );
+    };
 }
 
 function open(databaseName, homeDir, receiver) {

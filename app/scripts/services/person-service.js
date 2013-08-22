@@ -15,6 +15,12 @@ angular.module('OSCR').service(
             });
         };
 
+        this.getStats = function(accept) {
+            $http.get('/person/stats').success(function (xml) {
+                accept(xmlToObject(xml));
+            });
+        };
+
         this.selectUsers = function (query, accept) {
             $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
                 accept(xmlToArray(xml));

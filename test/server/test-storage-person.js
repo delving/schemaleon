@@ -153,14 +153,14 @@ exports.testAddAnotherMembership = function (test) {
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
         '  <Memberships>\n' +
-        '    <Member>\n' +
-        '      <Group>' + oscrGroupIdentifier + '</Group>\n' +
+        '    <Membership>\n' +
+        '      <GroupIdentifier>' + oscrGroupIdentifier + '</GroupIdentifier>\n' +
         '      <Role>Administrator</Role>\n' +
-        '    </Member>\n' +
-        '    <Member>\n' +
-        '      <Group>' + groupIdentifier + '</Group>\n' +
+        '    </Membership>\n' +
+        '    <Membership>\n' +
+        '      <GroupIdentifier>' + groupIdentifier + '</GroupIdentifier>\n' +
         '      <Role>Member</Role>\n' +
-        '    </Member>\n' +
+        '    </Membership>\n' +
         '  </Memberships>\n' +
         '</User>';
 
@@ -204,10 +204,10 @@ exports.testRemoveMembership = function (test) {
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
         '  <Memberships>\n' +
-        '    <Member>\n' +
-        '      <Group>'+oscrGroupIdentifier+'</Group>\n' +
+        '    <Membership>\n' +
+        '      <GroupIdentifier>'+oscrGroupIdentifier+'</GroupIdentifier>\n' +
         '      <Role>Administrator</Role>\n' +
-        '    </Member>\n' +
+        '    </Membership>\n' +
         '  </Memberships>\n' +
         '</User>';
 
@@ -216,6 +216,14 @@ exports.testRemoveMembership = function (test) {
         test.ok(userXml, "no userXml");
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("remove user from group:\n" + userXml);
+        test.done();
+    });
+};
+
+exports.testStatistics = function(test) {
+    test.expect(1);
+    storage.getStatistics(function(s) {
+        test.ok(s, "No stats");
         test.done();
     });
 };

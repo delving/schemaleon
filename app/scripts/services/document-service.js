@@ -6,7 +6,11 @@ OSCR.service(
     "Document",
     function ($rootScope, $http) {
 
-
+        this.getStats = function(accept) {
+            $http.get('/document/stats').success(function (xml) {
+                accept(xmlToObject(xml));
+            });
+        };
 
         this.fetchSchema = function (schemaName, receiver) {
             $http.get('/document/schema/' + schemaName).success(function (data) {
