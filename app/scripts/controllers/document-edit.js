@@ -22,6 +22,7 @@ OSCR.controller(
         };
 
         $scope.showCommit = function (file) {
+            if (!file || !file.tree || !$scope.tree) return false;
             var coll = file.tree.elements[1];
             coll.value = $scope.tree.value;
             if (file.description) {
@@ -251,14 +252,10 @@ OSCR.controller(
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;
-//                case 'enter':
-//                    if (!$scope.el.edit) {
-//                        $scope.enableEditor();
-//                    }
-//                    else if ($scope.active === 'textInput' || $scope.active === 'vocabulary' || scope.active === 'media' ) {
-//                        $scope.disableEditor();
-//                    }
-//                    break;
+                case 'enter':
+                    if ($scope.el.config.paragraph && $scope.el.edit) break;
+                    $scope.choose(($scope.selected + 1) % size, $scope.selectedWhere);
+                    break;
 //                case 'escape':
 //                    if ($scope.el.edit) {
 //                        $scope.disableEditor();

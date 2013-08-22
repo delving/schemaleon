@@ -110,8 +110,7 @@
                         </div>
                     </div>
 
-                    <div ng-show="el.config.line && !el.elements" ng-controller="TextInputController"
-                         class="input-block-level">
+                    <div ng-show="el.config.line && !el.elements" ng-controller="TextInputController" class="input-block-level">
                         <input focus id="textInput" class="input-block-level" type="text" ng-model="el.value"/>
                         <!--<div ng-show="el.edit">-->
                         <!--<input focus id="textInput" class="input-block-level" type="text"-->
@@ -129,9 +128,7 @@
                         <div ng-show="el.edit">
                             <textarea focus id="textArea" ng-model="el.value" rows="5"></textarea>
                             <br/>
-                            <button ng-click="disableEditor()" class="btn btn-small"><i
-                                    class="icon-ok-circle"></i>Yes
-                            </button>
+                            <button ng-click="disableEditor()" class="btn btn-small"><i class="icon-ok-circle"></i>Yes</button>
                         </div>
                         <div ng-hide="el.edit">
                             <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"
@@ -140,8 +137,6 @@
                                     <span>{{ line }}</span><br/>
                                 </div>
                             </div>
-                            <br/>
-                            <button ng-click="enableEditor()" class="btn btn-small">Edit</button>
                         </div>
                     </div>
 
