@@ -3,8 +3,22 @@
 //@import "/app/styles/less/oscr-variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
-// Sprite icons path
-// -------------------------
+/* CUSTOM MIXINS */
+
+.makeFluidRow(){
+  width: 100%;
+  .clearfix();
+}
+
+.makeFluidCol(@span:1,@offset:0){
+  float: left;
+  #grid > .fluid > .span(@span);
+  #grid > .fluid > .offset(@offset);
+  &:first-child {
+    margin-left: 0;
+    #grid > .fluid > .offsetFirstChild(@offset);
+  }
+}
 
 
 
@@ -175,7 +189,7 @@ body {
 
 #sidebar {
   position: fixed;
-  width: 220px;
+  width: 260px;
   left: 20px;
   bottom: 0;
   top: 70px;
@@ -184,7 +198,7 @@ body {
 
 
 #mainBody {
-  margin-left: 240px;
+  margin-left: 300px;
   min-width: 820px;
 //  float: left;
 //  position: absolute;
@@ -203,28 +217,30 @@ body {
 .page-header {
   border-color: darken(@gray, 25%);
   position: relative;
+  border-color: @grayLight;
   h1 {
-    font-weight: normal;
+    color: @gray;
+    font-weight: 200;
     font-size: 32px;
+    letter-spacing: 1px;
     line-height: 32px;
-    border-color: darken(@gray, 25%);
+//    border-color: darken(@gray, 25%);
+
     margin-top: 0;
   }
 }
 .controls {
-  //    font-size: @baseFontSize;
-  //    position: absolute;
-  //    right: 0px;
-  //    top: 4px;
-  //    margin: 0;
-  //    form {
-  //      margin: 0 !important;
-  //    }
-  //    label {
-  //      margin-right: 20px;
-  //    }
   .btn.disabled {
     cursor: pointer;
+  }
+}
+
+.dashboard-header {
+  .makeFluidRow();
+  margin-bottom: @baseLineHeight;
+  .btn-group {
+    .makeFluidCol(12);
+    text-align: center;
   }
 }
 /* MAIN NAVIGATION */
@@ -632,6 +648,12 @@ table.files th input[type=checkbox]{
     padding: 9px 10px 7px 11px;
     float: right;
 //    opacity: .7;
+  }
+  .label {
+    padding: 3px 5px 2px;
+    float: right;
+    margin: 9px 15px 0 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset, 0 1px 0 #ffffff;
   }
   h5 {
     color: #666666;

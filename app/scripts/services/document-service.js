@@ -4,7 +4,9 @@ var OSCR = angular.module('OSCR');
 
 OSCR.service(
     "Document",
-    function ($http) {
+    function ($rootScope, $http) {
+
+
 
         this.fetchSchema = function (schemaName, receiver) {
             $http.get('/document/schema/' + schemaName).success(function (data) {
@@ -55,6 +57,11 @@ OSCR.service(
 
             $http.post('/document/save', envelope(header, body)).success(function (data) {
                 receiver(xmlToObject(data));
+
+                var activity = {"section": "Documents", "user": header.Email, "action": "Saved document"};
+                $rootScope.recentActivity.push(activity);
+               
+
             });
         };
     }

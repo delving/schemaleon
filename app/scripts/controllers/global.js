@@ -52,6 +52,8 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
+        $rootScope.recentActivity = [];
+
         $rootScope.toggleInlinePreview = function () {
             if ($rootScope.translating()) return;
             $rootScope.config.showInlinePreview = !$rootScope.config.showInlinePreview;

@@ -26,6 +26,7 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+/* CUSTOM MIXINS */
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -301,13 +302,13 @@ body {
 }
 #sidebar {
   position: fixed;
-  width: 220px;
+  width: 260px;
   left: 20px;
   bottom: 0;
   top: 70px;
 }
 #mainBody {
-  margin-left: 240px;
+  margin-left: 300px;
   min-width: 820px;
 }
 .loggedin-false #sidebar {
@@ -320,16 +321,45 @@ body {
 .page-header {
   border-color: #151515;
   position: relative;
+  border-color: #999999;
 }
 .page-header h1 {
-  font-weight: normal;
+  color: #555555;
+  font-weight: 200;
   font-size: 32px;
+  letter-spacing: 1px;
   line-height: 32px;
-  border-color: #151515;
   margin-top: 0;
 }
 .controls .btn.disabled {
   cursor: pointer;
+}
+.dashboard-header {
+  width: 100%;
+  *zoom: 1;
+  margin-bottom: 20px;
+}
+.dashboard-header:before,
+.dashboard-header:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.dashboard-header:after {
+  clear: both;
+}
+.dashboard-header .btn-group {
+  float: left;
+  width: 100%;
+  *width: 99.94680851063829%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+  text-align: center;
+}
+.dashboard-header .btn-group:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
 }
 /* MAIN NAVIGATION */
 .nav-pills > li > a {
@@ -687,6 +717,12 @@ table.files th input[type=checkbox] {
   border-left: 1px solid #fff;
   padding: 9px 10px 7px 11px;
   float: right;
+}
+.widget-title .label {
+  padding: 3px 5px 2px;
+  float: right;
+  margin: 9px 15px 0 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
 }
 .widget-title h5 {
   color: #666666;

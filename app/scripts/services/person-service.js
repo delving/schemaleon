@@ -2,7 +2,7 @@
 
 angular.module('OSCR').service(
     "Person",
-    function ($http) {
+    function ($rootScope, $http) {
 
         this.roles = [
             'Administrator', 'Member'
@@ -68,6 +68,8 @@ angular.module('OSCR').service(
             $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(function (xml) {
                 var userObject = xmlToObject(xml);
                 accept(userObject.User.Profile);
+                var activity = {"section": "People", "user": email, "action": "Added to a group"};
+                $rootScope.recentActivity.push(activity);
             });
         };
 
