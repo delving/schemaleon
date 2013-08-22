@@ -241,6 +241,38 @@ body {
   .btn-group {
     .makeFluidCol(12);
     text-align: center;
+    .icon {
+      .opacity(50);
+    }
+    .btn:first-of-type {
+      .border-left-radius(@borderRadiusLarge);
+    }
+    .btn:last-of-type {
+      .border-right-radius(@borderRadiusLarge);
+    }
+  }
+}
+
+.oscr-statistics li {
+  background-color: #F5F5F5;
+  border: 1px solid #DDDDDD;
+  margin: 0 0 10px;
+  padding: 13px 20px 10px;
+  position: relative;
+  font-size: larger;
+  color: @grayLight;
+  font-style: italic;
+  .clearfix();
+  .type {
+    float: left;
+  }
+  .count {
+    color: @grayDark;
+    float: right;
+    font-style: normal;
+    font-weight: 700;
+    text-align: right;
+//    width: 300px;
   }
 }
 /* MAIN NAVIGATION */

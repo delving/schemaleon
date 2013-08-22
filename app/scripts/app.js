@@ -7,6 +7,7 @@ OSCR.config(
         $routeProvider
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
+                controller: 'DashboardController',
                 title: 'OSCR Dashboard'
             })
             .when('/document/:schema', {

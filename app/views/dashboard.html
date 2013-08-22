@@ -34,6 +34,22 @@
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
+                    <h5 i18n="Statistics"><span class="i18n">Statistics</span></h5>
+                </div>
+                <div class="widget-body">
+                    <ul class="unstyled oscr-statistics">
+                        <li data-ng-repeat="stats in counts">
+                            <span class="type">{{ stats.type }}</span><span class="count">{{ stats.count }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget-footer"></div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class="icon-signal"></i></span>
                     <h5 i18n="RecentActivity"><span class="i18n">Recent activity</span></h5>
                     <span class="label label-info" data-ng-bind="recentActivity.length"></span>
                 </div>
