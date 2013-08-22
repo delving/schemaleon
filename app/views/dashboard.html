@@ -3,26 +3,29 @@
         <h1 i18n="Dashboard"><span class="i18n">Dashboard</span></h1>
     </div>
 
-    <!--<div class="dashboard-header">-->
-        <!--<div class="btn-group">-->
+    <div class="dashboard-header">
+        <div class="statistics">
 
-            <!--<div class="btn btn-large">-->
-                <!--<i class="icon icon-large icon-upload"></i>-->
-                <!--<h5 i18n="UploadDigitalMedia"><span class="i18n">Upload digital media</span></h5>-->
-            <!--</div>-->
+            <div class="btn btn-large">
+                <i class="icon icon-users"></i>
+                <h5 i18n="Groups"><span class="i18n">Groups</span></h5>
+                <span class="badge badge-info">{{ statistics.People.Group }}</span>
+            </div>
 
-            <!--<div class="btn btn-large">-->
-                <!--<i class="icon icon-large icon-file"></i>-->
-                <!--<h5 i18n="ManageDocuments"><span class="i18n">Manage documents</span></h5>-->
-            <!--</div>-->
+            <div class="btn btn-large">
+                <i class="icon icon-user"></i>
+                <h5 i18n="People"><span class="i18n">People</span></h5>
+                <span class="badge badge-info">{{ statistics.People.Person }}</span>
+            </div>
 
-            <!--<div class="btn btn-large">-->
-                <!--<i class="icon icon-large icon-users"></i>-->
-                <!--<h5 i18n="ManageUsers"><span class="i18n">Manage users</span></h5>-->
-            <!--</div>-->
+            <div class="btn btn-large" data-ng-repeat="schema in statistics.Documents.Schema">
+                <i class="icon icon-file"></i>
+                <h5><span>{{ schema.Name }}</span></h5>
+                <span class="badge badge-info">{{ schema.Count }}</span>
+            </div>
 
-        <!--</div>-->
-    <!--</div>-->
+        </div>
+    </div>
 
     <!--<input type="file" accept="video/*" capture="camera">-->
     <div class="row-fluid">
@@ -38,7 +41,10 @@
                         <dd>
                             <span>{{ user.Profile.firstName }}</span>
                             <span>{{ user.Profile.lastName }}</span>
-                            <span>&lt;{{ user.Profile.email }}&gt;</span>
+                        </dd>
+                        <dt i18n="Email"></dt>
+                        <dd>
+                            <span>{{ user.Profile.email }}</span>
                         </dd>
                         <dt i18n="Groups"></dt>
                         <dd ng-repeat="membership in user.Memberships.Membership">
@@ -47,7 +53,7 @@
                                 <li ng-repeat="groupUser in membership.group.userList">
                                     <span>{{ groupUser.Profile.firstName }}</span>
                                     <span>{{ groupUser.Profile.lastName }}</span>
-                                    <span>&lt;{{ groupUser.Profile.email }}&gt;</span>
+                                    <span>{{ groupUser.Profile.email }}</span>
                                 </li>
                             </ul>
                         </dd>
@@ -63,25 +69,11 @@
                     <h5 i18n="Statistics"><span class="i18n">Statistics</span></h5>
                 </div>
                 <div class="widget-body">
-                    <dl>
-                        <dt i18n="People"></dt>
-                        <dd>
-                            <ul>
-                                <li ng-repeat="statistic in statistics.People.Statistic">
-                                    <span i18n="{{ statistic.Name }}"/>: <span>{{ statistic.Count }}</span>
-                                </li>
-                            </ul>
-                        </dd>
-                        <dt i18n="Documents"></dt>
-                        <dd>
-                            <ul>
-                                <li ng-repeat="statistic in statistics.Documents.Statistic">
-                                    <span i18n="{{ statistic.Name }}"/>: <span>{{ statistic.Count }}</span>
-                                </li>
-                            </ul>
-                        </dd>
-                    </dl>
-
+                    <ul class="stats">
+                        <li><span class="type" i18n="Groups"></span><span class="label label-info count">{{ statistics.People.Group }}</span></li>
+                        <li><span class="type" i18n="People"></span><span class="label label-info count">{{ statistics.People.Person }}</span></li>
+                        <li ng-repeat="schema in statistics.Documents.Schema"><span class="type">{{ schema.Name }}</span><span class="label label-info count">{{ schema.Count }}</span></li>
+                    </ul>
                 </div>
                 <div class="widget-footer"></div>
             </div>

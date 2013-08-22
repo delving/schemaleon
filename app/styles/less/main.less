@@ -238,39 +238,65 @@ body {
 .dashboard-header {
   .makeFluidRow();
   margin-bottom: @baseLineHeight;
-  .btn-group {
+  .statistics {
     .makeFluidCol(12);
     text-align: center;
     .icon {
       .opacity(50);
     }
-    .btn:first-of-type {
-      .border-left-radius(@borderRadiusLarge);
+    .btn, btn.ng-scope {
+      .ie7-restore-left-whitespace(); // Give IE7 some love
+      .box-shadow(~"inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)");
+      min-width: 150px;
+      .border-radius(@borderRadiusLarge);
+      color: @gray;
+      margin: 4px 0;
+      position: relative;
+      h5 {
+        margin: 2px 0;
+      }
+      .badge {
+        padding: 10px 14px;
+        position: absolute;
+        top: -15px;
+        right: 10px;
+      }
     }
-    .btn:last-of-type {
-      .border-right-radius(@borderRadiusLarge);
+    .btn-group {
+      .btn:first-of-type {
+        .border-left-radius(@borderRadiusLarge);
+      }
+      .btn:last-of-type {
+        .border-right-radius(@borderRadiusLarge);
+      }
     }
+
   }
 }
 
-.oscr-statistics li {
-  background-color: #F5F5F5;
-  border: 1px solid #DDDDDD;
-  margin: 0 0 10px;
-  padding: 13px 20px 10px;
-  position: relative;
-  font-size: larger;
-  color: @grayLight;
-  font-style: italic;
-  .clearfix();
-  .type {
-    float: left;
-  }
-  .count {
-    padding: 3px 5px 2px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset, 0 1px 0 #ffffff;
-    float: right;
-    font-style: normal;
+ul.stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    margin: 0 0 10px;
+    padding: 13px 20px 10px;
+    position: relative;
+    font-size: larger;
+    color: @grayLight;
+    font-style: italic;
+    .clearfix();
+    .type {
+      float: left;
+    }
+    .count {
+      padding: 3px 5px 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset, 0 1px 0 #ffffff;
+      float: right;
+      font-style: normal;
+    }
   }
 }
 /* MAIN NAVIGATION */
