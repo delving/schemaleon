@@ -4,7 +4,8 @@
     </div>
 
     <!--<input type="file" accept="video/*" capture="camera">-->
-    <div class="row-fluid">
+    <div>
+    <!--<div class="row-fluid">-->
         <div class="span3">
             <div class="widget-box">
                 <div class="widget-title">
@@ -73,7 +74,15 @@
                         <dd>
                             <ul class="stats stats-condensed">
                                 <li ng-repeat="membership in user.Memberships.Membership">
-                                    <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span><span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
+                                    <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
+                                    <span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
+                                    <br/>
+                                    <ul>
+                                        <li ng-repeat="user in membership.group.userList">
+                                            <span>{{ user.Profile.firstName }}</span>
+                                            <span>{{ user.Profile.lastName }}</span>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </dd>
