@@ -6,6 +6,8 @@ OSCR.controller(
     'DocumentListController',
     function ($rootScope, $scope, $routeParams, Document) {
 
+        $rootScope.checkLoggedIn();
+
         $scope.schema = $routeParams.schema;
 
         Document.fetchHeaders($scope.schema, function (list) {

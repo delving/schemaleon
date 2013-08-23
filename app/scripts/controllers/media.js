@@ -14,6 +14,8 @@ OSCR.controller(
     'MediaUploadController',
     function ($rootScope, $scope, $http, Document) {
 
+        $rootScope.checkLoggedIn();
+
         $scope.options = {
             url: url
         };

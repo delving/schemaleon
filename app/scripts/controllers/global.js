@@ -39,11 +39,6 @@ OSCR.controller(
     'GlobalController',
     function ($rootScope, $scope, $location, $routeParams) {
 
-        // not logged in
-        if ($location.path() != '/login' && !$rootScope.user) {
-            $location.path('/login');
-        }
-
         // CONFIGURATION SETTINGS ================================================================
 
         $rootScope.config = {
@@ -72,6 +67,12 @@ OSCR.controller(
         };
 
         // APPLICATION NAVIGATION ================================================================
+
+        $rootScope.checkLoggedIn = function() {
+            if ($location.path() != '/login' && !$rootScope.user) {
+                $location.path('/login');
+            }
+        };
 
         $scope.mainMenu = {
             links: [

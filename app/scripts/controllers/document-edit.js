@@ -51,6 +51,8 @@ OSCR.controller(
     'DocumentEditController',
     function ($rootScope, $scope, $routeParams, $location, Document) {
 
+        $rootScope.checkLoggedIn();
+
         $scope.blankIdentifier = '#IDENTIFIER#';
         $scope.blankTimeStamp = '#TIMESTAMP#';
         $scope.headerDisplay = '';

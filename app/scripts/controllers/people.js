@@ -23,6 +23,9 @@ var OSCR = angular.module('OSCR');
 OSCR.controller(
     'PeopleController',
     function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
+
+        $rootScope.checkLoggedIn();
+
         $scope.administratorRole = 'Administrator';
         $scope.selectedGroup = {};
 

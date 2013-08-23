@@ -34,9 +34,8 @@ OSCR.config(
                 templateUrl: 'views/login.html',
                 controller: 'LoginController'
             })
-            .otherwise({ // todo: does this still exists?
-                redirectTo: 'index.html',
-                templateUrl: 'views/public.html'
+            .otherwise({
+                redirectTo: '/login'
             });
     }
 );

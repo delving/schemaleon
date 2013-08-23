@@ -6,6 +6,8 @@ OSCR.controller(
     'DocumentViewController',
     function ($rootScope, $scope, $routeParams, $location, Document) {
 
+        $rootScope.checkLoggedIn();
+
         $scope.schema = $routeParams.schema;
         $scope.identifier = $routeParams.identifier;
         $scope.header = { };
