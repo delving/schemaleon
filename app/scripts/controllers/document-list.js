@@ -10,6 +10,10 @@ OSCR.controller(
 
         $scope.schema = $routeParams.schema;
 
+        if ($scope.schema) {
+
+        }
+
         Document.fetchHeaders($scope.schema, function (list) {
             $scope.headerList = _.sortBy(list, function (val) {
                 return -val.TimeStamp;

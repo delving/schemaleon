@@ -2,31 +2,26 @@
     <div class="page-header">
         <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
         <h1 ng-hide="headerDisplay" i18n="New"></h1>
-        <p ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</p>
+        <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
+        <span ng-show="timeString">
+            <span> ({{ timeString }}</span> <span i18n="TimeAgo"/><span>)</span>
+        </span>
     </div>
 
     <div class="navbar">
         <div class="navbar-inner">
-            <!--<form class="navbar-form pull-left">-->
-            <!--<input type="text" class="span2">-->
-            <!--<button type="submit" class="btn">Submit</button>-->
-            <!--</form>-->
             <div class="controls">
-                <!--<div class="btn-group">-->
-                <a href ng-click="choosePath('/document/')" class="btn">
+                <a href ng-click="choosePath('/document/'+schema)" class="btn">
                     <i class="icon-hand-left"></i>
-                    <!--<span class="i18n"></span>-->
                 </a>
                 <a href ng-click="toggleInlinePreview()"
                    ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
                     <i class="icon-eye-open"></i>
-                    <!--<span class="i18n"></span>-->
                 </a>
                 <a href class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
                     <i class="icon icon-check icon-white"></i>
                     <span class="i18n"></span>
                 </a>
-                <!--</div>-->
             </div>
         </div>
     </div>
