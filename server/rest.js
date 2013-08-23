@@ -10,7 +10,9 @@ var upload = require('./upload');
 var app = express();
 app.use(upload);
 app.use(express.bodyParser());
-app.response.__proto__.xml = function(xmlString) {
+app.use(express.cookieParser());
+app.use(express.cookieSession({secret: 'oscr'}));
+app.response.__proto__.xml = function (xmlString) {
     this.setHeader('Content-Type', 'text/xml');
     this.send(xmlString);
 };
@@ -44,6 +46,22 @@ Storage('oscr', homeDir, function (storage) {
         }
     }
 
+    function replyWithLanguage(lang, res) {
+        storage.I18N.getLanguage(lang, function (xml) {
+            res.xml(xml);
+        });
+    }
+
+    function activityLog(req, message) {
+        if (req.session) {
+            var email = req.session.profile.email;
+            console.log(email + ": " + message);
+        }
+        else {
+            console.log('NO SESSION');
+        }
+    }
+
     app.post('/authenticate', function (req, res) {
         var sha = crypto.createHash('sha512');
         var hashedPassword = sha.update(new Buffer(req.body.password, 'utf-8')).digest('base64');
@@ -61,10 +79,12 @@ Storage('oscr', homeDir, function (storage) {
                             profileResponse.on('data', function (data) {
 //                            console.log("profile returned :" + data);
                                 var profile = JSON.parse(data);
+                                req.session.profile = profile;
+                                activityLog(req, 'logged in');
 //                            console.log("profile:");
 //                            console.log(profile);
                                 storage.Person.getOrCreateUser(profile, function (xml) {
-                                    res.send(xml);
+                                    res.xml(xml);
                                 });
                             });
                         }
@@ -77,12 +97,6 @@ Storage('oscr', homeDir, function (storage) {
         ).end();
     });
 
-    function replyWithLanguage(lang, res) {
-        storage.I18N.getLanguage(lang, function (xml) {
-            res.xml(xml);
-        });
-    }
-
     app.get('/i18n/:lang', function (req, res) {
         replyWithLanguage(req.params.lang, res);
     });
@@ -91,11 +105,14 @@ Storage('oscr', homeDir, function (storage) {
         var lang = req.params.lang;
         var key = req.body.key;
         if (key) {
-            if (req.body.title) storage.I18N.setElementTitle(lang, key, req.body.title, function (ok) {
+            var title = req.body.title;
+            if (title) storage.I18N.setElementTitle(lang, key, title, function (ok) {
                 replyWithLanguage(lang, res);
+                activityLog(req, 'translated title ' + key + ' to ' + title + ' for ' + lang);
             });
             if (req.body.doc) storage.I18N.setElementDoc(lang, key, req.body.doc, function (ok) {
                 replyWithLanguage(lang, res);
+                activityLog(req, 'translated doc ' + key + ' to ' + req.body.doc + ' for ' + lang);
             });
         }
     });
@@ -104,7 +121,9 @@ Storage('oscr', homeDir, function (storage) {
         var lang = req.params.lang;
         var key = req.body.key;
         if (key) {
-            if (req.body.label) storage.I18N.setLabel(lang, key, req.body.label, function (ok) {
+            var label = req.body.label;
+            if (label) storage.I18N.setLabel(lang, key, label, function (ok) {
+                activityLog(req, 'translated label ' + key + ' to ' + label + ' for ' + lang);
                 replyWithLanguage(lang, res);
             });
         }
@@ -155,10 +174,9 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/person/group/save', function (req, res) {
-        console.log('group save:');
-        console.log(req.body);
         storage.Person.saveGroup(req.body, function (xml) {
             res.xml(xml);
+            activityLog(req, 'saved group ' + JSON.stringify(req.body));
         });
     });
 
@@ -171,12 +189,14 @@ Storage('oscr', homeDir, function (storage) {
     app.post('/person/group/:identifier/add', function (req, res) {
         storage.Person.addUserToGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
             res.xml(xml);
+            activityLog(req, 'added user ' + req.body.email + ' as ' + req.body.role + ' to group ' + req.params.identifier);
         });
     });
 
     app.post('/person/group/:identifier/remove', function (req, res) {
         storage.Person.removeUserFromGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
             res.xml(xml);
+            activityLog(req, 'removed user ' + req.body.email + ' as ' + req.body.role + ' from group ' + req.params.identifier);
         });
     });
 
@@ -203,6 +223,7 @@ Storage('oscr', homeDir, function (storage) {
         var entry = req.body.Entry;
         storage.Vocab.addVocabularyEntry(req.params.vocab, entry, function (xml) {
             res.xml(xml);
+            activityLog(req, 'added vocabulary entry ' + JSON.stringify(entry) + ' to ' + req.params.vocab);
         });
     });
 
@@ -241,6 +262,7 @@ Storage('oscr', homeDir, function (storage) {
         // kind of interesting to receive xml within json, but seems to work
         storage.Document.saveDocument(req.body, function (header) {
             res.xml(header);
+            activityLog(req, 'saved ' + req.body.header.SchemaName + ' ' + req.body.header.Identifier);
         });
     });
 
