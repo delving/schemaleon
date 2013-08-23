@@ -3,8 +3,14 @@
         <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
         <h1 ng-hide="headerDisplay" i18n="New"></h1>
         <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
-        <span ng-show="timeString">
-            <span> ({{ timeString }}</span> <span i18n="TimeAgo"/><span>)</span>
+        <span ng-show="time">
+            <span>(</span>
+            <span ng-show="time.days"><span>{{ time.days }}</span> <span i18n="Days"/></span>
+            <span ng-show="time.hours"><span>{{ time.hours }}</span> <span i18n="Hours"/></span>
+            <span ng-show="time.minutes"><span>{{ time.minutes }}</span> <span i18n="Minutes"/></span>
+            <span ng-show="time.seconds"><span>{{ time.seconds }}</span> <span i18n="Seconds"/></span>
+            <span i18n="Ago"/>
+            <span>)</span>
         </span>
     </div>
 

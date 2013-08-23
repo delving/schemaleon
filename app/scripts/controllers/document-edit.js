@@ -47,15 +47,6 @@ OSCR.controller(
     }
 );
 
-String.prototype.format = function () {
-    var formatted = this;
-    for (var i = 0; i < arguments.length; i++) {
-        var regexp = new RegExp('\\{' + i + '\\}', 'gi');
-        formatted = formatted.replace(regexp, arguments[i]);
-    }
-    return formatted;
-};
-
 OSCR.controller(
     'DocumentEditController',
     function ($rootScope, $scope, $routeParams, $location, $timeout, Document) {
@@ -70,7 +61,7 @@ OSCR.controller(
         $scope.header = {};
         $scope.tree = null;
 
-        function getTimeString(millis) {
+        function getTime(millis) {
             var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
             var days = Math.floor(millis / ONE_DAY);
             var hourMillis = Math.floor(millis - ONE_DAY * days);
@@ -79,33 +70,38 @@ OSCR.controller(
             var minutes = Math.floor(minuteMillis / ONE_MINUTE);
             var secondMillis = Math.floor(minuteMillis - minutes * ONE_MINUTE);
             var seconds = Math.floor(secondMillis / ONE_SECOND);
+            var time = {};
             if (days > 0) {
-                return "{0}d {1}h".format(days, hours);
+                time.days = days;
+                time.hours = hours;
             }
             else if (hours > 0) {
-                return "{0}h {1}m".format(hours, minutes);
+                time.hours = hours;
+                time.minutes = minutes;
             }
             else if (minutes > 0) {
-                if (minutes > 10) {
-                    return "{0}m".format(minutes);
-                }
-                else {
-                    return "{0}m {1}s".format(minutes, seconds);
+                time.minutes = minutes;
+                if (minutes < 10) {
+                    time.seconds = seconds;
                 }
             }
             else {
-                return "{0}s".format(seconds);
+                time.seconds = seconds;
             }
+            return time;
         }
 
         function updateTimeString() {
-            if (!$scope.header.TimeStamp) return;
-            var timeStamp = $scope.header.TimeStamp;
-            var now = new Date().getTime();
-            var elapsed = now - timeStamp;
-            var timeString = getTimeString(elapsed);
-            if (timeString === $scope.timeString) return;
-            $scope.timeString = timeString;
+            if (!$scope.header.TimeStamp) {
+                delete $scope.time;
+            }
+            else {
+                var timeStamp = $scope.header.TimeStamp;
+                var now = new Date().getTime();
+                var elapsed = now - timeStamp;
+                var timeString = getTime(elapsed);
+                $scope.time = getTime(elapsed);
+            }
         }
 
         function tick() {
