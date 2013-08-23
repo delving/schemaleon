@@ -6,7 +6,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'ImageCollectionController',
-    function ($rootScope, $scope, $routeParams, $location, Document) {
+    function ($rootScope, $scope) {
         $scope.annotationMode = true;
         $scope.schema = 'ImageMetadata';
         $scope.tree = null;
