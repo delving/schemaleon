@@ -422,6 +422,7 @@ ul.stats li {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  list-style: none;
   margin: 0 0 10px;
   padding: 13px 20px 10px;
   position: relative;
@@ -785,6 +786,9 @@ table.files th input[type=checkbox] {
   display: inline-block;
 }
 /* WIDGET BOX */
+.widget-row .widget-box {
+  min-height: 300px;
+}
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
   clear: both;

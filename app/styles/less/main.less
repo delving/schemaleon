@@ -286,6 +286,7 @@ ul.stats {
     background-color: #F5F5F5;
     border: 1px solid #DDDDDD;
     .border-radius(@borderRadiusSmall);
+    list-style: none;
     margin: 0 0 10px;
     padding: 13px 20px 10px;
     position: relative;
@@ -309,6 +310,7 @@ ul.stats {
     }
   }
   &.stats-condensed li {
+
     margin: 0 0 5px;
     padding: 8px 10px 5px;
     font-size: small;
@@ -704,6 +706,12 @@ table.files th input[type=checkbox]{
 }
 
 /* WIDGET BOX */
+
+.widget-row {
+  .widget-box {
+    min-height: 300px;
+  }
+}
 
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
