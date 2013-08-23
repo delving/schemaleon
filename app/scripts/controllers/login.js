@@ -32,16 +32,28 @@ OSCR.controller(
                 $rootScope.user = user;
                 $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
             }
+            else {
+                delete $rootScope.user;
+            }
         }
 
         $rootScope.login = function () {
+            $scope.loginFailed = false;
             if ($scope.username && $scope.username.length) {
                 Person.authenticate($scope.username, $scope.password, function (user) {
                     setUser(user);
+                    if (user) {
+                        $location.path('/dashboard');
+                    }
+                    else {
+                        $scope.loginFailed = true;
+                        $scope.password = '';
+                        $location.path('/login');
+                    }
                 });
             }
-            if (!$rootScope.user) {
-                $rootScope.user = {
+            else {
+                setUser({
                     Profile: {
                         firstName: 'Oscr',
                         lastName: 'Wild',
@@ -50,9 +62,9 @@ OSCR.controller(
                     Memberships: {
                         Membership: []
                     }
-                };
+                });
+                $location.path('/dashboard');
             }
-            $location.path('/dashboard');
         };
 
         $rootScope.refreshUser = function() {
@@ -81,3 +93,18 @@ OSCR.controller(
         };
     }
 );
+
+OSCR.directive('enterKey', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attr, ctrl) {
+            elem.bind('keydown', function (e) {
+                if (e.keyCode === 13) {
+                    scope.$apply(function (s) {
+                        s.$eval(attr.enterKey);
+                    });
+                }
+            });
+        }
+    };
+});

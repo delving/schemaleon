@@ -12,13 +12,18 @@
     <tr>
         <th><span i18n="Password"></span></th>
         <td>
-            <input type="password" ng-model="password" name="password" id="password" ng-required/>
+            <input type="password" ng-model="password" name="password" id="password" ng-required enter-key="login()"/>
         </td>
     </tr>
     <tr>
         <td></td>
         <td align="right">
             <button class="btn" ng-click="login()" id="login" name="login"><span i18n="Login"></span></button>
+        </td>
+    </tr>
+    <tr ng-show="loginFailed">
+        <td>
+            <span i18n="LoginFailed"></span>
         </td>
     </tr>
 </table>
