@@ -40,7 +40,7 @@ function Storage(home) {
     };
 
     this.generateDocumentId = function (schemaName) {
-        return generateId('DO-' + schemaName);
+        return generateId(schemaName);
     };
 
     this.generateImageId = function () {
