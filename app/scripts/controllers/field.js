@@ -174,8 +174,6 @@ OSCR.controller(
         $scope.getEntries = function (query) {
             var deferred = $q.defer();
             Vocabulary.select($scope.schema, query, function (list) {
-                console.log('vocab entries');
-                console.log(list);
                 deferred.resolve(list);
             });
             return deferred.promise;

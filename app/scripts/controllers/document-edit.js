@@ -151,7 +151,6 @@ OSCR.controller(
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.EMail = $rootScope.user.Profile.email;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
-                $scope.documentJSON = JSON.stringify(document.Document);
                 useHeader(document.Header);
             });
         };
@@ -286,6 +285,7 @@ OSCR.controller(
         };
 
         $scope.navigationKeyPressed = function (key) {
+            if ($scope.annotationMode) return; // is there maybe a better way?
             var size = $scope.panels[$scope.selectedWhere].element.elements.length;
             switch (key) {
                 case 'up':
