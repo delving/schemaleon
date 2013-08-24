@@ -99,28 +99,28 @@
                             <td>
                                 <input type="checkbox" ng-model="file.selected" data-ng-show="file.$submit"/>
                                 <button type="button" class="btn btn-primary start"
-                                        data-ng-click="file.$submit()" data-ng-hide="!file.$submit">
+                                        data-ng-click="file.$submit()" data-ng-hide="!file.$submit" i18n="Upload">
                                     <i class="icon-upload icon-white"></i>
-                                    <span>Upload file</span>
+                                    <span class="i18n"/>
                                 </button>
                                 <button type="button" class="btn btn-warning cancel"
-                                        data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+                                        data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel" i18n="Cancel">
                                     <i class="icon-ban-circle icon-white"></i>
-                                    <span>Cancel</span>
+                                    <span class="i18n"/>
                                 </button>
                                 <button type="button" class="btn btn-primary commit fade-in"
-                                        data-ng-click="commit(file)" data-ng-show="showCommit(file)">
+                                        data-ng-click="commit(file)" data-ng-show="showCommit(file)" i18n="CommitTo">
                                     <i class="icon-hdd icon-white"></i>
-                                    <span i18n="CommitTo"></span>: <span>{{ file.collection.Label }}</span>
+                                    <span class="i18n"/>: <span>{{ file.collection.Label }}</span>
                                 </button>
-                                <div ng-show="file.selectCollectionWarning" class="badge-warning">
-                                    <span i18n="SelectACollectionFirstPlease"></span>
+                                <div ng-show="file.selectCollectionWarning" class="badge-warning" i18n="SelectACollectionFirstPlease">
+                                    <span class="i18n"/>
                                 </div>
                                 <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
                                         data-ng-hide="showDestroy(file)"
-                                        data-ng-click="file.$destroy()">
+                                        data-ng-click="file.$destroy()" i18n="Delete">
                                     <i class="icon-ban-circle icon-white"></i>
-                                    <span i18n="Delete"/>
+                                    <span class="i18n"/>
                                 </button>
                             </td>
                         </tr>

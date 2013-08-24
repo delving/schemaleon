@@ -7,9 +7,6 @@ function log(message) {
 //    console.log(message);
 }
 
-//var url = 'http://localhost:8888';
-var url = '/files';
-
 OSCR.controller(
     'MediaUploadController',
     function ($rootScope, $scope, $http, Document) {
@@ -17,12 +14,12 @@ OSCR.controller(
         $rootScope.checkLoggedIn();
 
         $scope.options = {
-            url: url
+            url: '/files'
         };
 
         function loadFiles() {
             $scope.loadingFiles = true;
-            $http.get(url).then(
+            $http.get($scope.options.url).then(
                 function (response) {
                     $scope.loadingFiles = false;
                     $scope.queue = response.data.files || [];
@@ -72,14 +69,6 @@ OSCR.controller(
                 treeOf(file);
             });
         };
-
-// this is only for the document controller within
-//        $scope.chosenElement = null;
-//        $scope.annotationMode = true;
-//        $scope.tree = null;
-//        $scope.setChoice = function (element) {
-//            $scope.chosenElement = element;
-//        };
 
         $scope.setValue = function () {
             log('setValue');

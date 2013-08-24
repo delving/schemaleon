@@ -1,6 +1,6 @@
 <div class="fade-in">
     <div class="page-header">
-        <h1 i18n="Dashboard"><span class="i18n">Dashboard</span></h1>
+        <h1 i18n="Dashboard"><span class="i18n"/></h1>
     </div>
 
     <!--<input type="file" accept="video/*" capture="camera">-->
@@ -10,7 +10,7 @@
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
-                    <h5 i18n="Statistics"><span class="i18n">Statistics</span></h5>
+                    <h5 i18n="Statistics"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
                     <ul class="stats">
@@ -19,7 +19,6 @@
                         <li ng-repeat="schema in statistics.Documents.Schema"><i class="icon icon-file"></i><span class="type">{{ schema.Name }}</span><span class="label label-info count">{{ schema.Count }}</span></li>
                     </ul>
                 </div>
-
             </div>
         </div>
 
@@ -27,16 +26,16 @@
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
-                    <h5 i18n="RecentActivity"><span class="i18n">Recent activity</span></h5>
+                    <h5 i18n="RecentActivity"><span class="i18n"/></h5>
                     <span class="label label-info" data-ng-bind="recentActivity.length"></span>
                 </div>
                 <div class="widget-body">
                     <table class="table table-striped table-bordered table-grid">
                         <thead>
                         <tr>
-                            <th>Section</th>
-                            <th>User</th>
-                            <th>Activity</th>
+                            <th i18n="Section"><span class="i18n"/></th>
+                            <th i18n="Person"><span class="i18n"/></th>
+                            <th i18n="Activity"><span class="i18n"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -48,9 +47,7 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
         </div>
 
         <div class="span3">
