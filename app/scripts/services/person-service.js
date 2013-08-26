@@ -27,8 +27,8 @@ angular.module('OSCR').service(
             });
         };
 
-        this.getUser = function (email, accept) {
-            $http.get('/person/user/fetch/' + email).success(function (xml) {
+        this.getUser = function (identifier, accept) {
+            $http.get('/person/user/fetch/' + identifier).success(function (xml) {
                 accept(xmlToObject(xml).User);
             });
         };
@@ -70,19 +70,17 @@ angular.module('OSCR').service(
             });
         };
 
-        this.addUserToGroup = function (identifier, role, email, accept) {
-            $http.post('/person/group/' + identifier + '/add', { role: role, email: email }).success(function (xml) {
+        this.addUserToGroup = function (userIdentifier, userRole, groupIdentifier, accept) {
+            $http.post('/person/group/' + groupIdentifier + '/add', { userRole: userRole, userIdentifier: userIdentifier }).success(function (xml) {
                 var userObject = xmlToObject(xml);
                 console.log('received fresh user object'); // todo" remove
                 console.log(userObject); // todo" remove
                 accept(userObject.User.Profile);
-                var activity = {"section": "People", "user": email, "action": "Added to a group"};
-                $rootScope.recentActivity.push(activity);
             });
         };
 
-        this.removeUserFromGroup = function (identifier, role, email, accept) {
-            $http.post('/person/group/' + identifier + '/remove', { role: role, email: email }).success(function (xml) {
+        this.removeUserFromGroup = function (userIdentifier, userRole, groupIdentifier, accept) {
+            $http.post('/person/group/' + groupIdentifier + '/remove', { userRole: userRole, userIdentifier: userIdentifier }).success(function (xml) {
                 var userObject = xmlToObject(xml);
                 accept(userObject.User.Profile);
             });

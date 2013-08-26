@@ -30,7 +30,9 @@ OSCR.controller(
         function setUser(user) {
             if (user) {
                 $rootScope.user = user;
-                $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
+                if ($rootScope.user.Memberships) {
+                    $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
+                }
             }
             else {
                 delete $rootScope.user;
@@ -43,17 +45,18 @@ OSCR.controller(
                 Person.authenticate($scope.username, $scope.password, function (user) {
                     setUser(user);
                     if (user) {
-                        $location.path('/dashboard');
+                        $scope.choosePath('/dashboard');
                     }
                     else {
                         $scope.loginFailed = true;
                         $scope.password = '';
-                        $location.path('/login');
+                        $scope.choosePath('/login');
                     }
                 });
             }
             else {
                 setUser({
+                    Identifier: 'OSCR-US-fakey-id',
                     Profile: {
                         firstName: 'Oscr',
                         lastName: 'Wild',
@@ -64,13 +67,13 @@ OSCR.controller(
                         ]
                     }
                 });
-                $location.path('/dashboard');
+                $scope.choosePath('/dashboard');
             }
         };
 
         $rootScope.refreshUser = function() {
             if ($rootScope.user) {
-                Person.getUser($rootScope.user.Profile.email, function(user) {
+                Person.getUser($rootScope.user.Identifier, function(user) {
                     setUser(user);
                 });
             }
@@ -78,19 +81,21 @@ OSCR.controller(
 
         $rootScope.$watch('user', function(after, before) {
             if (!after) return;
-            _.each(after.Memberships.Membership, function(membership) {
-                Person.getGroup(membership.GroupIdentifier, function(group) {
-                    membership.group = group.Group;
-                    Person.getUsersInGroup(membership.group.Identifier, function (list) {
-                        membership.group.userList = list;
+            if (after.Memberships) {
+                _.each(after.Memberships.Membership, function(membership) {
+                    Person.getGroup(membership.GroupIdentifier, function(group) {
+                        membership.group = group.Group;
+                        Person.getUsersInGroup(membership.group.Identifier, function (list) {
+                            membership.group.userList = list;
+                        });
                     });
                 });
-            });
+            }
         });
 
         $rootScope.logout = function () {
             delete $rootScope.user;
-            $location.path('/login');
+            $scope.choosePath('/login');
         };
     }
 );

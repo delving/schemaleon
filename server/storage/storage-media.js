@@ -94,7 +94,7 @@ P.listMediaFiles = function (done) {
 
 P.createFileName = function (mediaObject) {
     var s = this.storage;
-    var fileName = s.generateImageId();
+    var fileName = s.ID.generateImageId();
     switch (mediaObject.mimeType) {
         case 'image/jpeg':
             fileName += '.jpg';

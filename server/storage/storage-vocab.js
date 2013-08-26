@@ -55,7 +55,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var entryPath, entryXml, query;
     if (entry.Identifier) {
         entryPath = s.vocabPath(vocabName) + "[Identifier=" + s.quote(entry.Identifier) + "]";
-        entryXml = s.objectToXml(entry, 'Entry');
+        entryXml = s.Util.objectToXml(entry, 'Entry');
         s.update(null,
             "replace value of node " + entryPath + " with " + entryXml,
             function (result) {
@@ -69,8 +69,8 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         );
     }
     else {
-        entry.Identifier = s.generateVocabId();
-        entryXml = s.objectToXml(entry, 'Entry');
+        entry.Identifier = s.ID.generateVocabId();
+        entryXml = s.Util.objectToXml(entry, 'Entry');
         s.update(null,
             "insert node (" + entryXml + ") into " + s.vocabPath(vocabName),
             function (result) {
