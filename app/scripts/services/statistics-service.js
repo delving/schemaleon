@@ -11,5 +11,11 @@ OSCR.service(
                 accept(xmlToObject(xml).Statistics);
             });
         };
+
+        this.getLogEntries = function(accept) {
+            $http.get('/log').success(function (xml) {
+                accept(xmlToArray(xml));
+            });
+        };
     }
 );

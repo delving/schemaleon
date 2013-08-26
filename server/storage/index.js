@@ -13,6 +13,7 @@ var Document = require('./storage-document');
 var Media = require('./storage-media');
 var ID = require('./storage-id');
 var Util = require('./storage-util');
+var Log = require('./storage-log');
 var Directories = require('../directories');
 
 function log(message) {
@@ -29,6 +30,7 @@ function Storage(home) {
     this.Vocab = new Vocab(this);
     this.Document = new Document(this);
     this.Media = new Media(this);
+    this.Log = new Log(this);
 
     this.quote = function (value) {
         if (!value) return "''";
@@ -96,6 +98,15 @@ function Storage(home) {
 
     this.docCollection = function (schemaName) {
         return "collection('" + this.database + "/documents/" + schemaName + "')";
+    };
+
+    this.logDocument = function () {
+        var now = new Date();
+        return "/log/" + now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + ".xml";
+    };
+
+    this.logPath = function () {
+        return "doc('" + this.database + this.logDocument() + "')";
     };
 
     function wrapQuery(query) {

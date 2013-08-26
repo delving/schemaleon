@@ -9,5 +9,9 @@ OSCR.controller(
             $scope.statistics = statistics;
         });
 
+        Statistics.getLogEntries(function(entries) {
+            $scope.logEntries = entries;
+        });
+
     }
 );

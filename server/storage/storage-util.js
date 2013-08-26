@@ -36,6 +36,9 @@ P.objectToXml = function (object, tag) {
             if (_.isString(value)) {
                 out.push(indent('<' + key + '>', level) + s.inXml(value) + '</' + key + '>');
             }
+            else if (_.isNumber(value)) {
+                out.push(indent('<' + key + '>', level) + value + '</' + key + '>');
+            }
             else if (_.isArray(value)) {
                 _.each(value, function (item) {
                     if (_.isString(item)) {

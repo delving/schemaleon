@@ -24,15 +24,6 @@ var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFIL
 Storage('oscr', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
-    function activityLog(req, message) {
-        if (req.session) {
-            console.log(req.session.Identifier+ ": " + message);
-        }
-        else {
-            console.log('NO SESSION');
-        }
-    }
-
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
             "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
@@ -82,11 +73,11 @@ Storage('oscr', homeDir, function (storage) {
                                 profile.username = username;
                                 req.session.profile = profile;
                                 storage.Person.getOrCreateUser(profile, function (xml) {
-                                    console.log("!! get Identifier from this?:");
-                                    console.log(xml);
                                     req.session.Identifier = storage.Util.getFromXml(xml, 'Identifier');
                                     res.xml(xml);
-                                    activityLog(req, 'logged in');
+                                    storage.Log.add(req, {
+                                        Op: "Authenticate"
+                                    });
                                 });
                             });
                         }
@@ -110,11 +101,22 @@ Storage('oscr', homeDir, function (storage) {
             var title = req.body.title;
             if (title) storage.I18N.setElementTitle(lang, key, title, function (ok) {
                 replyWithLanguage(lang, res);
-                activityLog(req, 'translated title ' + key + ' to ' + title + ' for ' + lang);
+                storage.Log.add(req, {
+                    Op: "TranslateTitle",
+                    Lang: lang,
+                    Key: key,
+                    Value: title
+                });
+
             });
             if (req.body.doc) storage.I18N.setElementDoc(lang, key, req.body.doc, function (ok) {
                 replyWithLanguage(lang, res);
-                activityLog(req, 'translated doc ' + key + ' to ' + req.body.doc + ' for ' + lang);
+                storage.Log.add(req, {
+                    Op: "TranslateDoc",
+                    Lang: lang,
+                    Key: key,
+                    Value: req.body.doc
+                });
             });
         }
     });
@@ -125,8 +127,13 @@ Storage('oscr', homeDir, function (storage) {
         if (key) {
             var label = req.body.label;
             if (label) storage.I18N.setLabel(lang, key, label, function (ok) {
-                activityLog(req, 'translated label ' + key + ' to ' + label + ' for ' + lang);
                 replyWithLanguage(lang, res);
+                storage.Log.add(req, {
+                    Op: "TranslateLabel",
+                    Lang: lang,
+                    Key: key,
+                    Value: label
+                });
             });
         }
     });
@@ -178,7 +185,10 @@ Storage('oscr', homeDir, function (storage) {
     app.post('/person/group/save', function (req, res) {
         storage.Person.saveGroup(req.body, function (xml) {
             res.xml(xml);
-            activityLog(req, 'saved group ' + JSON.stringify(req.body));
+            storage.Log.add(req, {
+                Op: "SaveGroup",
+                Group: req.body
+            });
         });
     });
 
@@ -194,7 +204,13 @@ Storage('oscr', homeDir, function (storage) {
         var groupIdentifier = req.params.identifier;
         storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
             res.xml(xml);
-            activityLog(req, 'added user ' + userIdentifier + ' as ' + userRole + ' to group ' + groupIdentifier);
+            storage.Log.add(req, {
+                Op: "AddUserToGroup",
+                UserIdentifier: userIdentifier,
+                UserRole: userRole,
+                GroupIdentifier: groupIdentifier
+            });
+
         });
     });
 
@@ -204,7 +220,13 @@ Storage('oscr', homeDir, function (storage) {
         var groupIdentifier = req.params.identifier;
         storage.Person.removeUserFromGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
             res.xml(xml);
-            activityLog(req, 'removed user ' + userIdentifier + ' as ' + userRole + ' from group ' + groupIdentifier);
+            storage.Log.add(req, {
+                Op: "RemoveUserFromGroup",
+                UserIdentifier: userIdentifier,
+                UserRole: userRole,
+                GroupIdentifier: groupIdentifier
+            })
+
         });
     });
 
@@ -229,9 +251,15 @@ Storage('oscr', homeDir, function (storage) {
 
     app.post('/vocabulary/:vocab/add', function (req, res) {
         var entry = req.body.Entry;
-        storage.Vocab.addVocabularyEntry(req.params.vocab, entry, function (xml) {
+        var vocabName = req.params.vocab;
+        storage.Vocab.addVocabularyEntry(vocabName, entry, function (xml) {
             res.xml(xml);
-            activityLog(req, 'added vocabulary entry ' + JSON.stringify(entry) + ' to ' + req.params.vocab);
+            storage.Log.add(req, {
+                Op: "AddVocabularyEntry",
+                Vocabulary: vocabName,
+                Entry: entry
+            })
+
         });
     });
 
@@ -270,7 +298,12 @@ Storage('oscr', homeDir, function (storage) {
         // kind of interesting to receive xml within json, but seems to work
         storage.Document.saveDocument(req.body, function (header) {
             res.xml(header);
-            activityLog(req, 'saved ' + req.body.header.SchemaName + ' ' + req.body.header.Identifier);
+            if (header) {
+                storage.Log.add(req, {
+                    Op: "SaveDocument",
+                    Identifier: storage.Util.getFromXml(header, "Identifier")
+                })
+            }
         });
     });
 
@@ -288,6 +321,12 @@ Storage('oscr', homeDir, function (storage) {
         var mimeType = storage.Media.getMimeType(fileName);
         res.setHeader('Content-Type', mimeType);
         res.sendfile(filePath);
+    });
+
+    app.get('/log', function (req, res) {
+        storage.Log.getEntries(function(xml) {
+            res.xml(xml);
+        });
     });
 
 });
