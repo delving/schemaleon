@@ -24,6 +24,15 @@ var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFIL
 Storage('oscr', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
+    function activityLog(req, message) {
+        if (req.session) {
+            console.log(req.session.Identifier+ ": " + message);
+        }
+        else {
+            console.log('NO SESSION');
+        }
+    }
+
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
             "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
@@ -52,20 +61,12 @@ Storage('oscr', homeDir, function (storage) {
         });
     }
 
-    function activityLog(req, message) {
-        if (req.session) {
-            var email = req.session.profile.email;
-            console.log(email + ": " + message);
-        }
-        else {
-            console.log('NO SESSION');
-        }
-    }
-
     app.post('/authenticate', function (req, res) {
+        var username = req.body.username;
+        var password = req.body.password;
         var sha = crypto.createHash('sha512');
-        var hashedPassword = sha.update(new Buffer(req.body.password, 'utf-8')).digest('base64');
-        var hmac = crypto.createHmac('sha1', req.body.username);
+        var hashedPassword = sha.update(new Buffer(password, 'utf-8')).digest('base64');
+        var hmac = crypto.createHmac('sha1', username);
         var hash = hmac.update(hashedPassword).digest('hex');
         res.setHeader('Content-Type', 'text/xml');
         https.request(
@@ -73,18 +74,19 @@ Storage('oscr', homeDir, function (storage) {
             function (authResponse) {
                 if (authResponse.statusCode == 200) {
                     https.request(
-                        commonsRequest('/user/profile/' + req.body.username),
+                        commonsRequest('/user/profile/' + username),
                         function (profileResponse) {
                             var data;
                             profileResponse.on('data', function (data) {
-//                            console.log("profile returned :" + data);
                                 var profile = JSON.parse(data);
+                                profile.username = username;
                                 req.session.profile = profile;
-                                activityLog(req, 'logged in');
-//                            console.log("profile:");
-//                            console.log(profile);
                                 storage.Person.getOrCreateUser(profile, function (xml) {
+                                    console.log("!! get Identifier from this?:");
+                                    console.log(xml);
+                                    req.session.Identifier = storage.Util.getFromXml(xml, 'Identifier');
                                     res.xml(xml);
+                                    activityLog(req, 'logged in');
                                 });
                             });
                         }
@@ -135,8 +137,8 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/person/user/fetch/:email', function (req, res) {
-        storage.Person.getUser(req.params.email, function (xml) {
+    app.get('/person/user/fetch/:identifier', function (req, res) {
+        storage.Person.getUser(req.params.identifier, function (xml) {
             res.xml(xml);
         });
     });
@@ -187,16 +189,22 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/person/group/:identifier/add', function (req, res) {
-        storage.Person.addUserToGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
+        var userIdentifier = req.body.userIdentifier;
+        var userRole = req.body.userRole;
+        var groupIdentifier = req.params.identifier;
+        storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
             res.xml(xml);
-            activityLog(req, 'added user ' + req.body.email + ' as ' + req.body.role + ' to group ' + req.params.identifier);
+            activityLog(req, 'added user ' + userIdentifier + ' as ' + userRole + ' to group ' + groupIdentifier);
         });
     });
 
     app.post('/person/group/:identifier/remove', function (req, res) {
-        storage.Person.removeUserFromGroup(req.body.email, req.body.role, req.params.identifier, function (xml) {
+        var userIdentifier = req.body.userIdentifier;
+        var userRole = req.body.userRole;
+        var groupIdentifier = req.params.identifier;
+        storage.Person.removeUserFromGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
             res.xml(xml);
-            activityLog(req, 'removed user ' + req.body.email + ' as ' + req.body.role + ' from group ' + req.params.identifier);
+            activityLog(req, 'removed user ' + userIdentifier + ' as ' + userRole + ' from group ' + groupIdentifier);
         });
     });
 

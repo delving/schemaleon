@@ -149,7 +149,7 @@ OSCR.controller(
             if ($rootScope.translating()) return;
             collectSummaryFields($scope.tree, $scope.header);
             $scope.header.TimeStamp = $scope.blankTimeStamp;
-            $scope.header.EMail = $rootScope.user.Profile.email;
+            $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 useHeader(document.Header);
             });

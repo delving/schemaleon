@@ -40,17 +40,12 @@ function Storage(home) {
         return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     };
 
-    this.emailToUserDocument = function (value) {
-        if (!value) throw 'Empty email';
-        return value.replace(/[^\w]/g, '_');
+    this.userDocument = function (identifier) {
+        return "/people/users/" + identifier + ".xml";
     };
 
-    this.userDocument = function (email) {
-        return "/people/users/" + this.emailToUserDocument(email) + ".xml";
-    };
-
-    this.userPath = function (email) {
-        return "doc('" + this.database + this.userDocument(email) + "')/User";
+    this.userPath = function (identifier) {
+        return "doc('" + this.database + this.userDocument(identifier) + "')/User";
     };
 
     this.userCollection = function () {

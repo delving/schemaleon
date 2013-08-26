@@ -22,6 +22,7 @@ var profile = {
     isPublic: false,
     firstName: 'Oscr',
     lastName: 'Wild',
+    username: 'oscr',
     email: 'oscr@delving.eu',
     websites: []
 };
@@ -32,7 +33,6 @@ exports.testCreateThenGet = function (test) {
     test.expect(3);
     log('get or create user');
     storage.Person.getOrCreateUser(profile, function (createdXml) {
-        log('get or create user');
         test.ok(createdXml, "no createdXml");
         log("created user:\n" + createdXml);
         storage.Person.getOrCreateUser(profile, function (fetchedXml) {
@@ -50,6 +50,7 @@ var profile2 = {
     isPublic: false,
     firstName: 'Olivia',
     lastName: 'Wild',
+    username: 'ow',
     email: 'liv@delving.eu'
 };
 
@@ -139,7 +140,7 @@ exports.testSearchGroupsAgain = function (test) {
 
 exports.testAddMembership = function (test) {
     test.expect(1);
-    storage.Person.addUserToGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.addUserToGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log("added user to group:\n" + userXml);
         test.done();
@@ -152,6 +153,7 @@ exports.testAddAnotherMembership = function (test) {
         '  <Profile>\n' +
         '    <firstName>Oscr</firstName>\n' +
         '    <lastName>Wild</lastName>\n' +
+        '    <username>oscr</username>\n' +
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
         '  <Memberships>\n' +
@@ -167,7 +169,7 @@ exports.testAddAnotherMembership = function (test) {
         '</User>';
 
     test.expect(2);
-    storage.Person.addUserToGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.addUserToGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log(userXml);
         log(expectedUserXml);
@@ -188,9 +190,9 @@ exports.testUsersInGroup = function (test) {
 
 exports.testSearchUsers = function (test) {
     test.expect(3);
-    storage.Person.getUsers('liv', function (userXml) {
+    storage.Person.getUsers('ow', function (userXml) {
         test.ok(userXml, "no userXml");
-        log("users matching 'liv':\n" + userXml);
+        log("users matching 'ow':\n" + userXml);
         test.ok(userXml.indexOf('Olivia') > 0, 'Olivia not present');
         test.ok(userXml.indexOf('Oscr') < 0, 'Oscr not absent');
         test.done();
@@ -203,6 +205,7 @@ exports.testRemoveMembership = function (test) {
         '  <Profile>\n' +
         '    <firstName>Oscr</firstName>\n' +
         '    <lastName>Wild</lastName>\n' +
+        '    <username>oscr</username>\n' +
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
         '  <Memberships>\n' +
@@ -214,7 +217,7 @@ exports.testRemoveMembership = function (test) {
         '</User>';
 
     test.expect(2);
-    storage.Person.removeUserFromGroup(profile.email, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.removeUserFromGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("remove user from group:\n" + userXml);
