@@ -27,7 +27,12 @@ OSCR.controller(
         var user = $cookieStore.get('user');
         if (user) {
             setUser(user);
-            $scope.choosePath('/dashboard'); // todo: path cookie!
+            if($cookieStore.get('oscr-path')){
+                $scope.choosePath($cookieStore.get('oscr-path'));
+            }
+            else {
+                $scope.choosePath('/dashboard');
+            }
         }
 
         $scope.username = '';

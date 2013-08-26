@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $location, $routeParams) {
+    function ($rootScope, $cookieStore, $scope, $location, $routeParams) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -110,6 +110,7 @@ OSCR.controller(
                 $scope.recent.push(freshLabel);
             }
             $location.path(path);
+            $cookieStore.put('oscr-path', path);
         };
 
         $scope.getInclude = function () {
