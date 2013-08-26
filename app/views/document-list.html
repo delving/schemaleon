@@ -26,7 +26,6 @@
         <th i18n="Stored"><span class="i18n"/></th>
         <th i18n="SavedBy"><span class="i18n"/></th>
         <th i18n="Status"><span class="i18n"/></th>
-        <th i18n="Actions"><span class="i18n"/></th>
         </thead>
         <tbody>
         <tr data-ng-hide="headerList.length">
@@ -35,21 +34,17 @@
             </td>
         </tr>
         <tr data-ng-repeat="header in headerList">
-            <td>{{ header.Identifier }}</td>
+            <td>
+                <a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier)" class="btn btn-primary btn-small">
+                    <i class="icon icon-edit icon-white"></i> {{ header.Identifier }}</span>
+                </a>
+            </td>
             <td>{{ header.Title }}</td>
             <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
             <td>{{ header.SavedBy }}</td>
             <td>
                 <span ng-show="header.status == 'complete'" class="badge badge-success">{{ header.status }}</span>
                 <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
-            </td>
-            <td>
-                <a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier)" class="btn btn-primary btn-small" i18n="Edit">
-                    <i class="icon icon-edit icon-white"></i> <span class="i18n"></span>
-                </a>
-                <a href ng-click="choosePath('/document/'+schema+'/view/'+ header.Identifier)" class="btn btn-success btn-small" i18n="View">
-                    <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
-                </a>
             </td>
         </tr>
         </tbody>

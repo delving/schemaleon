@@ -18,10 +18,6 @@ OSCR.config(
                 templateUrl: 'views/document-edit.html',
                 controller: 'DocumentEditController'
             })
-            .when('/document/:schema/view/:identifier', {
-                templateUrl: 'views/document-view.html',
-                controller: 'DocumentViewController'
-            })
             .when('/media', {
                 templateUrl: 'views/media.html',
                 controller: 'MediaUploadController'
