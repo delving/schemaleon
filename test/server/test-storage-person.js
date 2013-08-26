@@ -30,14 +30,16 @@ var userIdentifier = '?';
 
 exports.testCreateThenGet = function (test) {
     test.expect(3);
+    log('get or create user');
     storage.Person.getOrCreateUser(profile, function (createdXml) {
+        log('get or create user');
         test.ok(createdXml, "no createdXml");
         log("created user:\n" + createdXml);
         storage.Person.getOrCreateUser(profile, function (fetchedXml) {
             test.ok(fetchedXml, "no fetchedXml");
             log("fetched user again:\n" + fetchedXml);
             test.equal(createdXml, fetchedXml, "Fetched was different!");
-            userIdentifier = storage.getFromXml(fetchedXml, "Identifier");
+            userIdentifier = storage.Util.getFromXml(fetchedXml, "Identifier");
             log("user identifier:" + userIdentifier);
             test.done();
         });
@@ -68,7 +70,7 @@ exports.testFetchGroupsFirstTime = function (test) {
         test.ok(xml, "No xml");
 //        console.log(xml);
         test.ok(xml.indexOf("OSCR") > 0, "Missing default OSCR group");
-        oscrGroupIdentifier = storage.getFromXml(xml, "Identifier");
+        oscrGroupIdentifier = storage.Util.getFromXml(xml, "Identifier");
         test.done();
     });
 };
@@ -84,7 +86,7 @@ exports.testSaveAndFetchGroup = function (test) {
     test.expect(3);
     storage.Person.saveGroup(group, function (createdXml) {
         test.ok(createdXml, "no createdXml");
-        groupIdentifier = storage.getFromXml(createdXml, "Identifier");
+        groupIdentifier = storage.Util.getFromXml(createdXml, "Identifier");
         log("group identifier:" + groupIdentifier);
         log("created group:\n" + createdXml);
         storage.Person.getGroup(groupIdentifier, function (fetchedXml) {

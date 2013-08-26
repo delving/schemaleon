@@ -32,7 +32,7 @@ P.getOrCreateUser = function (profile, receiver) {
     }
 
     function addUser(userObject) {
-        var userXml = s.objectToXml(userObject, 'User');
+        var userXml = s.Util.objectToXml(userObject, 'User');
         s.add('add user ' + profile.email,
             s.userDocument(profile.email),
             userXml,
@@ -69,7 +69,7 @@ P.getOrCreateUser = function (profile, receiver) {
         }
         else {
             var userObject = {
-                Identifier: s.generateUserId(),
+                Identifier: s.ID.generateUserId(),
                 Profile: profile,
                 SaveTime: new Date().getTime()
             };
@@ -84,7 +84,7 @@ P.getOrCreateUser = function (profile, receiver) {
                         };
                         self.saveGroup(oscrGroup, function (result) {
                             log('created group ' + result);
-                            var groupIdentifier = s.getFromXml(result, 'Identifier');
+                            var groupIdentifier = s.Util.getFromXml(result, 'Identifier');
                             userObject.Memberships = {
                                 Membership: [
                                     {
@@ -155,9 +155,9 @@ P.saveGroup = function (group, receiver) {
     group.SaveTime = new Date().getTime();
     var existing = group.Identifier;
     if (!existing) {
-        group.Identifier = s.generateGroupId();
+        group.Identifier = s.ID.generateGroupId();
     }
-    var groupXml = s.objectToXml(group, "Group");
+    var groupXml = s.Util.objectToXml(group, "Group");
     if (existing && group.Identifier != 'OSCR') {
         s.replace('save existing group ' + group.Identifier,
             s.groupDocument(group.Identifier), groupXml,

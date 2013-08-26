@@ -44,7 +44,7 @@ function envelope(header, body) {
         Header: header,
         Body: body
     };
-    var documentXml = storage.objectToXml(document, 'Document');
+    var documentXml = storage.Util.objectToXml(document, 'Document');
     return {
         header: header,
         xml: documentXml
@@ -79,7 +79,7 @@ exports.testImageIngestion = function (test) {
                 test.ok(xml, "no xml");
                 log('xml:');
                 log(xml);
-                var schemaName = storage.getFromXml(xml, "SchemaName");
+                var schemaName = storage.Util.getFromXml(xml, "SchemaName");
                 storage.Document.getAllDocuments(schemaName, function (results) {
                     log('listImageData for ' + schemaName);
                     log(results);

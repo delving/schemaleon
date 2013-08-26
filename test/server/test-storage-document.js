@@ -56,8 +56,8 @@ exports.testSaveDocument = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (xml) {
-        headerIdentifier = storage.getFromXml(xml, 'Identifier');
-        test.ok(headerIdentifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
+        headerIdentifier = storage.Util.getFromXml(xml, 'Identifier');
+        test.ok(headerIdentifier.indexOf('OSCR-') >= 0, "Didn't retrieve");
         test.done();
     });
 };
@@ -85,8 +85,8 @@ exports.testSaveAnother = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (xml) {
-        var identifier = storage.getFromXml(xml, 'Identifier');
-        test.ok(identifier.indexOf('OSCR-D') >= 0, "Didn't retrieve");
+        var identifier = storage.Util.getFromXml(xml, 'Identifier');
+        test.ok(identifier.indexOf('OSCR-') >= 0, "Didn't retrieve");
         test.done();
     });
 };
@@ -115,7 +115,7 @@ exports.testSaveDocumentAgain = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (header) {
-        test.equal(headerIdentifier, storage.getFromXml(header, 'Identifier'), 'Different header');
+        test.equal(headerIdentifier, storage.Util.getFromXml(header, 'Identifier'), 'Different header');
         test.done();
     });
 };
