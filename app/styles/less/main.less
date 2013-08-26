@@ -1,16 +1,16 @@
 /* IMPORT USEFULL BOOTSTRAP LESS FILES */
 @import "/app/components/bootstrap/less/variables.less";
-//@import "/app/styles/less/oscr-variables.less";
+  //@import "/app/styles/less/oscr-variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 
 /* CUSTOM MIXINS */
 
-.makeFluidRow(){
+.makeFluidRow() {
   width: 100%;
   .clearfix();
 }
 
-.makeFluidCol(@span:1,@offset:0){
+.makeFluidCol(@span:1,@offset:0) {
   float: left;
   #grid > .fluid > .span(@span);
   #grid > .fluid > .offset(@offset);
@@ -19,9 +19,6 @@
     #grid > .fluid > .offsetFirstChild(@offset);
   }
 }
-
-
-
 
 /* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
@@ -38,10 +35,8 @@
 
 @baseBorderRadius: @br-med;
 
-
 //@blue: #009AE0;
 @bodyBackground: #ddd;
-
 
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -163,12 +158,12 @@ body {
 }
 
 .navbar {
-//  &.navbar-inverse .nav li a {
-//    color: #999999;
-//    display: block;
-//    padding: 10px 15px 10px;
-//    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-//  }
+  //  &.navbar-inverse .nav li a {
+  //    color: #999999;
+  //    display: block;
+  //    padding: 10px 15px 10px;
+  //    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  //  }
   .navbar-form .input-append {
     .btn {
       margin-top: 0px;
@@ -186,7 +181,6 @@ body {
   }
 }
 
-
 #sidebar {
   position: fixed;
   width: 260px;
@@ -195,13 +189,11 @@ body {
   top: 70px;
 }
 
-
-
 #mainBody {
   margin-left: 300px;
   min-width: 820px;
-//  float: left;
-//  position: absolute;
+  //  float: left;
+  //  position: absolute;
 }
 
 .loggedin-false {
@@ -224,11 +216,12 @@ body {
     font-size: 32px;
     letter-spacing: 1px;
     line-height: 32px;
-//    border-color: darken(@gray, 25%);
+    //    border-color: darken(@gray, 25%);
 
     margin-top: 0;
   }
 }
+
 .controls {
   .btn.disabled {
     cursor: pointer;
@@ -304,7 +297,7 @@ ul.stats {
     }
     .count {
       padding: 3px 5px 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset, 0 1px 0 #ffffff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
       float: right;
       font-style: normal;
     }
@@ -318,17 +311,17 @@ ul.stats {
 }
 
 ol.striped {
-//  list-style: none;
-//  margin: 0;
+  //  list-style: none;
+  //  margin: 0;
   padding: 0;
   li {
     border-bottom: 1px solid @grayLight;
     line-height: @baseLineHeight*1.2;
-//    .clearfix();
+    //    .clearfix();
   }
 }
-/* MAIN NAVIGATION */
 
+/* MAIN NAVIGATION */
 
 .nav-pills > li > a {
   border-radius: @br-med 0 0 @br-med;
@@ -345,9 +338,9 @@ ul.main-menu {
   padding-bottom: @baseLineHeight*1.5;
   &> li > a {
     color: @black;
-          .icon {
-            margin: 0 10px 0 0;
-          }
+    .icon {
+      margin: 0 10px 0 0;
+    }
   }
   &> .active > a,
   &> .active > a:hover {
@@ -401,17 +394,16 @@ ul.main-menu {
   background: lighten(@baseLighter, 15%);
 }
 
-
-
 /* DOCUMENT PANELS **************************************/
 /* panels container
  / srollbars appear when content extends past max width
 */
 #panel-container {
   max-width: 100%;
-//  min-width: 500px;
+  //  min-width: 500px;
   overflow-x: auto;
 }
+
 /* panels table */
 .panels {
   background: transparent;
@@ -427,8 +419,8 @@ ul.main-menu {
   /* panel body */
   td.panel {
     padding: 20px 0 20px 10px;
-//    min-width: 350px;
-//    max-width: 350px;
+    //    min-width: 350px;
+    //    max-width: 350px;
     width: 340px;
     min-width: 340px;
     border-top: none;
@@ -440,7 +432,7 @@ ul.main-menu {
       position: relative;
       padding-left: 40px;
       a, label {
-//        background: @green;
+        //        background: @green;
         padding-right: 10px;
         color: @white;
         &:hover {
@@ -473,23 +465,20 @@ ul.main-menu {
 
 }
 
+input#hidden {
+  background: transparent;
+  border: none;
+  border-color: transparent;
+  border-width: 0px;
+  height: 10px;
+  width: 10px;
+  .opacity(0);
+  position: absolute;
+}
 
-
-  input#hidden {
-    background: transparent;
-    border: none;
-    border-color: transparent;
-    border-width: 0px;
-    height: 10px;
-    width: 10px;
-    .opacity(0);
-    position: absolute;
-  }
-
-  .input-append ul {
-    font-size: @baseFontSize;
-  }
-
+.input-append ul {
+  font-size: @baseFontSize;
+}
 
 /* CRM LINKS */
 
@@ -507,7 +496,7 @@ ul.main-menu {
   padding: 4px;
   p {
     margin: 8px 0 0 0;
-    &:first-of-type{
+    &:first-of-type {
       margin: 0;
     }
   }
@@ -518,7 +507,7 @@ ul.main-menu {
   left: 0px;
   top: 5px;
   width: 40px;
-//  text-align: right;
+  //  text-align: right;
   .icon-item {
     display: inline-block;
   }
@@ -557,10 +546,10 @@ ul.main-menu {
 //
 .status {
   background: @grayLight;
-//  .opacity(.5);
+  //  .opacity(.5);
   .border-radius(100%);
-//    border: 1px solid @white;
-//  content: ' ';
+  //    border: 1px solid @white;
+  //  content: ' ';
   .square(14px);
   display: inline-block;
   color: @grayLight;
@@ -578,21 +567,17 @@ ul.main-menu {
   background: @red;
 }
 
-
-
-
-
 // key:value list
 ul.kv-list {
   display: table;
   li {
-//    display: table-row;
+    //    display: table-row;
     span {
-//      display: table-cell;
-        display: block;
+      //      display: table-cell;
+      display: block;
       position: relative;
       &.key {
-//        background: green;
+        //        background: green;
         color: @grayDark;
         text-align: right;
         margin-right: 10px;
@@ -602,30 +587,30 @@ ul.kv-list {
       &.value {
         color: @gray;
         margin-left: 60px;
-//        margin-left: 10px;
+        //        margin-left: 10px;
       }
     }
   }
 }
-
-
 
 /* STRIPED TABLE */
 
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
   background-color: @white;
 }
+
 .table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
   background-color: @grayLighter;
 }
 
-table.files th input[type=checkbox]{
+table.files th input[type=checkbox] {
   margin-top: -3px;
 }
 
 .table-grid {
   th {
-    #gradient .vertical(@white, @grayLighter);
+    #gradient .vertical
+  (@white, @grayLighter);
   }
 }
 
@@ -641,16 +626,6 @@ table.files th input[type=checkbox]{
   border: none;
   .border-radius(@br-med);
   color: @black;
-}
-
-.accordion-group {
-  background: @white;
-  border: 1px solid transparent;
-//  border: none;
-  .border-radius(@br-med);
-  .accordion-inner {
-    border-top: 1px solid @gray;
-  }
 }
 
 /* EXPLANATIONS */
@@ -675,7 +650,7 @@ table.files th input[type=checkbox]{
 
 .element-documentation {
   background: @grayLighter;
-//  background: lighten(@yellow, 35%);
+  //  background: lighten(@yellow, 35%);
   border: 1px solid @grayLighter;
   .border-radius(6px);
   margin: @baseLineHeight 0;
@@ -693,7 +668,7 @@ table.files th input[type=checkbox]{
 }
 
 .i18n-editor-toggle {
-//  position: relative;
+  //  position: relative;
   &.show-true {
     .transcluded {
       display: inline-block;
@@ -716,7 +691,7 @@ table.files th input[type=checkbox]{
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
   clear: both;
-  margin-top: 10px;
+  //  margin-top: 10px;
   margin-bottom: 16px;
   position: relative;
   .border-radius(@br-small);
@@ -726,8 +701,9 @@ table.files th input[type=checkbox]{
 }
 
 .widget-title {
-//  background-color: #efefef;
-  #gradient .vertical(@white, @grayLighter);
+  //  background-color: #efefef;
+  #gradient .vertical
+(@white, @grayLighter);
   .border-top-radius(@br-small);
   height: 36px;
   .icon {
@@ -740,13 +716,13 @@ table.files th input[type=checkbox]{
     border-left: 1px solid #fff;
     padding: 9px 10px 7px 11px;
     float: right;
-//    opacity: .7;
+    //    opacity: .7;
   }
   .label {
     padding: 3px 5px 2px;
     float: right;
     margin: 9px 15px 0 0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset, 0 1px 0 #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
   }
   h5 {
     color: #666666;
@@ -768,18 +744,19 @@ table.files th input[type=checkbox]{
 }
 
 .widget-body {
-//  border-bottom: 1px solid #cdcdcd;
+  //  border-bottom: 1px solid #cdcdcd;
   font-size: small;
   padding: 12px 15px;
   overflow-y: auto;
   max-height: 300px;
 }
+
 .widget-content {
   padding: 12px 15px;
 }
 
 .widget-footer {
-//  #gradient .vertical(@white, @grayLighter);
+  //  #gradient .vertical(@white, @grayLighter);
   border-top: 1px solid #ccc;
   padding: 4px;
 }
@@ -797,7 +774,7 @@ table.files th input[type=checkbox]{
 
 form#fileupload {
   .navbar {
-    .progress{
+    .progress {
       margin-top: 20px;
       margin-bottom: 0px;
     }
@@ -808,6 +785,7 @@ form#fileupload {
   position: relative;
   overflow: hidden;
 }
+
 .fileinput-button input {
   position: absolute;
   top: 0;
@@ -820,14 +798,17 @@ form#fileupload {
   direction: ltr;
   cursor: pointer;
 }
+
 .fileupload-buttonbar .btn,
 .fileupload-buttonbar .toggle {
   margin-bottom: 5px;
 }
+
 .progress-animated .bar {
   background: url(../img/progressbar.gif) !important;
   filter: none;
 }
+
 .fileupload-loading {
   float: right;
   width: 32px;
@@ -836,9 +817,11 @@ form#fileupload {
   background-size: contain;
   display: none;
 }
+
 .fileupload-processing .fileupload-loading {
   display: block;
 }
+
 .files audio,
 .files video {
   max-width: 300px;
@@ -850,10 +833,12 @@ form#fileupload {
   .files .btn span {
     display: none;
   }
+
   .files .name {
     width: 80px;
     word-wrap: break-word;
   }
+
   .files audio,
   .files video {
     max-width: 80px;
@@ -863,9 +848,24 @@ form#fileupload {
 /* ACCORDION */
 
 .action-accordion {
+
+  .accordion-group {
+    background: @white;
+    margin-bottom: 0px;
+    .border-radius(0px);
+    &:first-of-type {
+      .border-top-radius(@br-small);
+    }
+    &:last-of-type {
+      .border-bottom-radius(@br-small);
+    }
+    .accordion-inner {
+      border-top: 1px solid @grayLighter;
+    }
+  }
+
   .accordion-heading {
     .accordion-toggle {
-      // kill the padding so that the span's ng-click event has all the real-estate
       padding: 0;
       font-weight: bold;
       span {
@@ -874,22 +874,15 @@ form#fileupload {
       }
     }
   }
-  .accordion-group {
 
-    border: 1px solid #bbb;
-
-    .accordion-inner {
-      border-top: 1px solid @grayLighter;
-//      min-height: 140px;
-      padding: 0px;
-      .table-bordered {
-        .border-radius(0) !important;
-      }
+  .accordion-inner {
+    border-top: 1px solid @grayLighter;
+    padding: 0px;
+    .table-bordered {
+      .border-radius(0) !important;
     }
-
-
-
   }
+
 }
 
 .label {
@@ -903,3 +896,20 @@ form#fileupload {
     background: @orange;
   }
 }
+
+/* PAGE STRUCTURES ***********************/
+
+/* User management -people */
+
+.user-management {
+  .makeFluidRow();
+}
+
+.group-list {
+  .makeFluidCol(8);
+}
+
+.adding-users {
+  .makeFluidCol(4);
+}
+

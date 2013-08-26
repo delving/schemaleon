@@ -60,7 +60,8 @@ OSCR.controller(
                         email: 'oscr@delving.eu'
                     },
                     Memberships: {
-                        Membership: []
+                        Membership: [
+                        ]
                     }
                 });
                 $location.path('/dashboard');
