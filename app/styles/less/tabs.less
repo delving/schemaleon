@@ -1,0 +1,18 @@
+.tabbable {
+  margin-bottom: @baseLineHeight*2;
+  .nav-tabs {
+    margin-bottom: 0px;
+    li:hover{
+      cursor: pointer;
+    }
+    > .active > a {
+      background: @tabContentBackground;
+    }
+  }
+  .tab-content {
+    background: @tabContentBackground;
+    padding: 10px;
+    .border-top-right-radius(@baseBorderRadius);
+    .border-bottom-radius(@baseBorderRadius);
+  }
+}
