@@ -736,16 +736,6 @@ table.files th input[type=checkbox] {
   border-radius: 10px;
   color: #000000;
 }
-.accordion-group {
-  background: #ffffff;
-  border: 1px solid transparent;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-}
-.accordion-group .accordion-inner {
-  border-top: 1px solid #555555;
-}
 /* EXPLANATIONS */
 .explanation textarea {
   width: 98%;
@@ -792,7 +782,6 @@ table.files th input[type=checkbox] {
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
   clear: both;
-  margin-top: 10px;
   margin-bottom: 16px;
   position: relative;
   -webkit-border-radius: 4px;
@@ -935,6 +924,32 @@ form#fileupload .navbar .progress {
   }
 }
 /* ACCORDION */
+.action-accordion .accordion-group {
+  background: #ffffff;
+  margin-bottom: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+.action-accordion .accordion-group:first-of-type {
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  border-top-left-radius: 4px;
+}
+.action-accordion .accordion-group:last-of-type {
+  -webkit-border-bottom-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  border-bottom-left-radius: 4px;
+}
+.action-accordion .accordion-group .accordion-inner {
+  border-top: 1px solid #eeeeee;
+}
 .action-accordion .accordion-heading .accordion-toggle {
   padding: 0;
   font-weight: bold;
@@ -943,14 +958,11 @@ form#fileupload .navbar .progress {
   display: block;
   padding: 8px 15px;
 }
-.action-accordion .accordion-group {
-  border: 1px solid #bbb;
-}
-.action-accordion .accordion-group .accordion-inner {
+.action-accordion .accordion-inner {
   border-top: 1px solid #eeeeee;
   padding: 0px;
 }
-.action-accordion .accordion-group .accordion-inner .table-bordered {
+.action-accordion .accordion-inner .table-bordered {
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
   border-radius: 0 !important;
@@ -963,4 +975,43 @@ form#fileupload .navbar .progress {
 }
 .label.Translator {
   background: #f89406;
+}
+/* PAGE STRUCTURES ***********************/
+/* User management -people */
+.user-management {
+  width: 100%;
+  *zoom: 1;
+}
+.user-management:before,
+.user-management:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.user-management:after {
+  clear: both;
+}
+.group-list {
+  float: left;
+  width: 65.95744680851064%;
+  *width: 65.90425531914893%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+.group-list:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+.adding-users {
+  float: left;
+  width: 31.914893617021278%;
+  *width: 31.861702127659576%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+.adding-users:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
 }
