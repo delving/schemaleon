@@ -30,6 +30,7 @@ OSCR.controller(
         function setUser(user) {
             if (user) {
                 $rootScope.user = user;
+                $cookieStore.put('user', user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
                 }
@@ -55,18 +56,24 @@ OSCR.controller(
                 });
             }
             else {
-                setUser({
-                    Identifier: 'OSCR-US-fakey-id',
-                    Profile: {
-                        firstName: 'Oscr',
-                        lastName: 'Wild',
-                        email: 'oscr@delving.eu'
-                    },
-                    Memberships: {
-                        Membership: [
-                        ]
-                    }
-                });
+                var user = $cookieStore.get('user');
+                if (user) {
+                    setUser(user);
+                }
+                else {
+                    setUser({
+                        Identifier: 'OSCR-US-fakey-id',
+                        Profile: {
+                            firstName: 'Oscr',
+                            lastName: 'Wild',
+                            email: 'oscr@delving.eu'
+                        },
+                        Memberships: {
+                            Membership: [
+                            ]
+                        }
+                    });
+                }
                 $scope.choosePath('/dashboard');
             }
         };
