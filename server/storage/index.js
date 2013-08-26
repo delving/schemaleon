@@ -11,6 +11,8 @@ var I18N = require('./storage-i18n');
 var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
 var Media = require('./storage-media');
+var ID = require('./storage-id');
+var Util = require('./storage-util');
 var Directories = require('../directories');
 
 function log(message) {
@@ -20,52 +22,13 @@ function log(message) {
 function Storage(home) {
     this.session = new basex.Session();
     this.directories = new Directories(home);
-
-    function generateId(prefix) {
-        var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
-        var randomNumber = Math.floor(Math.random() * 36 * 36 * 36);
-        var randomString = randomNumber.toString(36);
-        while (randomString.length < 3) {
-            randomString = '0' + randomString;
-        }
-        return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + randomString;
-    }
-
-    this.generateUserId = function () {
-        return generateId('US');
-    };
-
-    this.generateGroupId = function () {
-        return generateId('GR');
-    };
-
-    this.generateDocumentId = function (schemaName) {
-        return generateId(schemaName);
-    };
-
-    this.generateImageId = function () {
-        return generateId('IM');
-    };
-
-    this.generateVocabId = function () {
-        return generateId('VO');
-    };
-
-    this.generateCollectionId = function () {
-        return generateId('CO');
-    };
-
-    this.getFromXml = function (xml, tag) {
-        var start = xml.indexOf('<' + tag + '>');
-        if (start >= 0) {
-            var end = xml.indexOf('</' + tag + '>', start);
-            if (end > 0) {
-                start += tag.length + 2;
-                return xml.substring(start, end);
-            }
-        }
-        return '';
-    };
+    this.Util = new Util(this);
+    this.ID = new ID(this);
+    this.Person = new Person(this);
+    this.I18N = new I18N(this);
+    this.Vocab = new Vocab(this);
+    this.Document = new Document(this);
+    this.Media = new Media(this);
 
     this.quote = function (value) {
         if (!value) return "''";
@@ -77,57 +40,12 @@ function Storage(home) {
         return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     };
 
-    this.emailToUserDocument = function (value) {
-        if (!value) throw 'Empty email';
-        return value.replace(/[^\w]/g, '_');
+    this.userDocument = function (identifier) {
+        return "/people/users/" + identifier + ".xml";
     };
 
-    this.objectToXml = function (object, tag) {
-        var self = this;
-        var out = [];
-
-        function indent(string, level) {
-            return new Array(level).join('  ') + string;
-        }
-
-        function objectConvert(from, level) {
-            for (var key in from) {
-                var value = from[key];
-                if (_.isString(value)) {
-                    out.push(indent('<' + key + '>', level) + self.inXml(value) + '</' + key + '>');
-                }
-                else if (_.isArray(value)) {
-                    _.each(value, function (item) {
-                        if (_.isString(item)) {
-                            out.push(indent('<' + key + '>', level) + self.inXml(item) + '</' + key + '>');
-                        }
-                        else {
-                            out.push(indent('<' + key + '>', level));
-                            objectConvert(item, level + 1);
-                            out.push(indent('</' + key + '>', level));
-                        }
-                    });
-                }
-                else if (_.isObject(value)) {
-                    out.push(indent('<' + key + '>', level));
-                    objectConvert(value, level + 1);
-                    out.push(indent('</' + key + '>', level));
-                }
-            }
-        }
-
-        out.push("<" + tag + ">");
-        objectConvert(object, 2);
-        out.push("</" + tag + ">");
-        return out.join('\n');
-    };
-
-    this.userDocument = function (email) {
-        return "/people/users/" + this.emailToUserDocument(email) + ".xml";
-    };
-
-    this.userPath = function (email) {
-        return "doc('" + this.database + this.userDocument(email) + "')/User";
+    this.userPath = function (identifier) {
+        return "doc('" + this.database + this.userDocument(identifier) + "')/User";
     };
 
     this.userCollection = function () {
@@ -249,16 +167,6 @@ function Storage(home) {
             }
         });
     };
-
-    this.Person = new Person(this);
-
-    this.I18N = new I18N(this);
-
-    this.Vocab = new Vocab(this);
-
-    this.Document = new Document(this);
-
-    this.Media = new Media(this);
 
     this.getStatistics = function (receiver) {
         this.query('get global statistics',
