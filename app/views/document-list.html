@@ -17,15 +17,14 @@
                 </a>
             </div>
         </div>
-
     </div>
+
     <table class="table table-striped table-bordered table-grid">
         <thead>
-        <th i18n="Identifier"><span class="i18n"/></th>
+        <th i18n="Identifier" width="250"><span class="i18n"/></th>
         <th i18n="Title"><span class="i18n"/></th>
-        <th i18n="Stored"><span class="i18n"/></th>
-        <th i18n="SavedBy"><span class="i18n"/></th>
-        <th i18n="Status"><span class="i18n"/></th>
+        <th i18n="Stored" width="150"><span class="i18n"/></th>
+        <th i18n="SavedBy" width="200"><span class="i18n"/></th>
         </thead>
         <tbody>
         <tr data-ng-hide="headerList.length">
@@ -42,10 +41,6 @@
             <td>{{ header.Title }}</td>
             <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
             <td>{{ header.SavedBy }}</td>
-            <td>
-                <span ng-show="header.status == 'complete'" class="badge badge-success">{{ header.status }}</span>
-                <span ng-show="header.status == 'incomplete'" class="badge badge-info">{{ header.status }}</span>
-            </td>
         </tr>
         </tbody>
     </table>

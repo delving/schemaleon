@@ -210,6 +210,7 @@ body {
   border-color: darken(@gray, 25%);
   position: relative;
   border-color: @grayLight;
+  margin-bottom: @baseLineHeight;
   h1 {
     color: @gray;
     font-weight: 200;
@@ -323,12 +324,7 @@ ol.striped {
 
 /* MAIN NAVIGATION */
 
-.nav-pills > li > a {
-  border-radius: @br-med 0 0 @br-med;
-  &.selected-true {
-    color: @white;
-  }
-}
+
 
 ul.main-menu {
   background: @grayLight;
@@ -336,6 +332,12 @@ ul.main-menu {
   padding-left: 20px;
   padding-top: @baseLineHeight*1.5;
   padding-bottom: @baseLineHeight*1.5;
+ &.nav-pills > li > a {
+   border-radius: @br-med 0 0 @br-med;
+   &.selected-true {
+     color: @white;
+   }
+ }
   &> li > a {
     color: @black;
     .icon {
@@ -847,6 +849,15 @@ form#fileupload {
 
 /* ACCORDION */
 
+.accordion-group {
+  background: @white;
+}
+
+.accordion-heading .accordion-toggle {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .action-accordion {
 
   .accordion-group {
@@ -897,6 +908,18 @@ form#fileupload {
   }
 }
 
+/* DOCUMENT TABS */
+//.document-tabs {
+//  .nav-tabs {
+//    border: none;
+//    > li > a{
+//      .border-radius(@baseBorderRadius);
+//      text-decoration: none;
+//    }
+//  }
+//
+//}
+
 /* PAGE STRUCTURES ***********************/
 
 /* User management -people */
@@ -912,4 +935,6 @@ form#fileupload {
 .adding-users {
   .makeFluidCol(4);
 }
+
+
 
