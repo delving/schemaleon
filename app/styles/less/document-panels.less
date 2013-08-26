@@ -1,0 +1,242 @@
+/* LEVEL COLORS */
+
+.level0 {
+  background: @black;
+}
+
+.level1 {
+  background: @baseDark;
+}
+
+.level2 {
+  background: @baseLight;
+}
+
+.level3 {
+  background: @baseLighter;
+}
+
+.level4 {
+  background: lighten(@baseLighter, 10%);
+}
+
+.level5 {
+  background: lighten(@baseLighter, 15%);
+}
+
+/* DOCUMENT PANELS **************************************/
+
+#panel-container {
+  max-width: 100%;
+  overflow-x: auto; // horizontal scrollbars appear when needed
+}
+
+/* panels table */
+.panels {
+  background: transparent;
+  width: auto;
+  margin-bottom: @baseLineHeight;
+  /* panel header */
+  th.panel-header {
+    background: #009ae0;
+    border-radius: @br-med @br-med 0 0;
+    color: @baseDarkest;
+    font-weight: normal;
+    padding-left: 40px;
+  }
+  /* panel body */
+  td.panel {
+    padding: 20px 0 20px 10px;
+    width: 340px;
+    border-top: none;
+    border-radius: 0 0 @br-med @br-med;
+  }
+  /* list with element labels */
+  ul.panel-list {
+    > li > a {
+      .border-right-radius(0);
+    }
+    li {
+      position: relative;
+      padding-left: 40px;
+      a, label {
+        padding-right: 10px;
+        color: @white;
+        &:hover {
+          background: transparent;
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+
+  }
+  /* panel on right for user input */
+  .panel-input {
+    padding: 0 20px;
+    textarea {
+      width: 95%;
+    }
+  }
+
+  .chosen-value {
+    background: @grayLighter;
+    .border-radius(@br-small);
+    padding: 4px;
+    margin: 0 0 10px 0;
+  }
+
+  .contrast {
+    color: @grayLight;
+  }
+
+}
+
+input#hidden {
+  background: transparent;
+  border: none;
+  border-color: transparent;
+  border-width: 0px;
+  height: 10px;
+  width: 10px;
+  .opacity(0);
+  position: absolute;
+}
+
+.input-append ul {
+  font-size: @baseFontSize;
+}
+
+/* CRM LINKS */
+
+.link-title {
+  margin-left: 0px;
+}
+
+.link-value {
+  background: linen;
+  .border-radius(@br-small);
+  color: @grayDarker;
+  font-size: smaller;
+  word-wrap: break-word;
+  margin-top: @baseLineHeight/2;
+  padding: 4px;
+  p {
+    margin: 8px 0 0 0;
+    &:first-of-type {
+      margin: 0;
+    }
+  }
+}
+
+.icon-container {
+  position: absolute;
+  left: 0px;
+  top: 5px;
+  width: 40px;
+  //  text-align: right;
+  .icon-item {
+    display: inline-block;
+  }
+  .status + .tooltip {
+    @tooltipArrowColor: @white;
+    max-width: 300px;
+    &.top .tooltip-arrow {
+      border-top-color: @tooltipArrowColor;
+    }
+    &.right .tooltip-arrow {
+      border-right-color: @tooltipArrowColor;
+    }
+    &.left .tooltip-arrow {
+      border-left-color: @tooltipArrowColor;
+    }
+    &.bottom .tooltip-arrow {
+      border-bottom-color: @tooltipArrowColor;
+    }
+    &.in {
+      .opacity(100);
+    }
+    .tooltip-arrow {
+      //        color: @white;
+    }
+    .tooltip-inner {
+      background: @white;
+      border: 1px solid @white;
+      color: @gray;
+      font-size: @baseFontSize;
+      width: 300px !important;
+      padding: 8px;
+    }
+  }
+}
+
+//
+.status {
+  background: @grayLight;
+  //  .opacity(.5);
+  .border-radius(100%);
+  //    border: 1px solid @white;
+  //  content: ' ';
+  .square(14px);
+  display: inline-block;
+  color: @grayLight;
+}
+
+.status-1 {
+  background: @green;
+}
+
+.status-2 {
+  background: @orange;
+}
+
+.status-3 {
+  background: @red;
+}
+
+// key:value list
+ul.kv-list {
+//  display: table;
+  li {
+    span {
+//      display: block;
+      position: relative;
+      &.key {
+        color: @grayDark;
+//        text-align: right;
+//        margin-right: 10px;
+//        width: 50px;
+//        float: left;
+      }
+      &.value {
+        color: @gray;
+//        margin-left: 60px;
+      }
+    }
+  }
+}
+
+.collection {
+  /* panels table */
+  .panels {
+    background: transparent;
+    width: auto;
+    /* panel header */
+    th.panel-header {
+      #gradient .vertical(@white, @grayLighter);
+      border-radius: @br-small @br-small 0 0;
+      color: @baseDarkest;
+      font-weight: normal;
+      padding-left: 40px;
+    }
+    /* panel body */
+    td.panel {
+      padding: 20px 0 20px 10px;
+      width: 340px;
+      min-width: 340px;
+      border-top: none;
+      border-radius: 0 0 @br-small @br-small;
+    }
+}
+
+}

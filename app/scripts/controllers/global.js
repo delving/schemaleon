@@ -115,7 +115,7 @@ OSCR.controller(
 
         $scope.getInclude = function () {
             if ($routeParams.identifier) { //todo: differently
-                return "views/includes/legend.html";
+                return "views/include/legend.html";
             }
             return "";
         };

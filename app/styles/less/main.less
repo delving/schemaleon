@@ -2,7 +2,9 @@
 @import "/app/components/bootstrap/less/variables.less";
   //@import "/app/styles/less/oscr-variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
-
+@import "/app/styles/less/document-panels.less";
+@import "/app/styles/less/tabs.less";
+@import "/app/styles/less/widget-box.less";
 /* CUSTOM MIXINS */
 
 .makeFluidRow() {
@@ -37,6 +39,7 @@
 
 //@blue: #009AE0;
 @bodyBackground: #ddd;
+@tabContentBackground: none repeat scroll 0 0 #f6f6f6;
 
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -328,7 +331,7 @@ ol.striped {
 
 ul.main-menu {
   background: @grayLight;
-  border-radius: 20px;
+  border-radius: @br-med;
   padding-left: 20px;
   padding-top: @baseLineHeight*1.5;
   padding-bottom: @baseLineHeight*1.5;
@@ -370,230 +373,6 @@ ul.main-menu {
   }
 }
 
-/* LEVEL COLORS */
-
-.level0 {
-  background: @baseDarkest;
-}
-
-.level1 {
-  background: @baseDark;
-}
-
-.level2 {
-  background: @baseLight;
-}
-
-.level3 {
-  background: @baseLighter;
-}
-
-.level4 {
-  background: lighten(@baseLighter, 10%);
-}
-
-.level5 {
-  background: lighten(@baseLighter, 15%);
-}
-
-/* DOCUMENT PANELS **************************************/
-/* panels container
- / srollbars appear when content extends past max width
-*/
-#panel-container {
-  max-width: 100%;
-  //  min-width: 500px;
-  overflow-x: auto;
-}
-
-/* panels table */
-.panels {
-  background: transparent;
-  width: auto;
-  /* panel header */
-  th.panel-header {
-    background: #009ae0;
-    border-radius: @br-large @br-large 0 0;
-    color: @baseDarkest;
-    font-weight: normal;
-    padding-left: 40px;
-  }
-  /* panel body */
-  td.panel {
-    padding: 20px 0 20px 10px;
-    //    min-width: 350px;
-    //    max-width: 350px;
-    width: 340px;
-    min-width: 340px;
-    border-top: none;
-    border-radius: 0 0 20px 20px;
-  }
-  /* list with element labels */
-  ul.panel-list {
-    li {
-      position: relative;
-      padding-left: 40px;
-      a, label {
-        //        background: @green;
-        padding-right: 10px;
-        color: @white;
-        &:hover {
-          background: transparent;
-          cursor: pointer;
-          text-decoration: underline;
-        }
-      }
-    }
-
-  }
-  /* panel on right for user input */
-  .panel-input {
-    padding: 0 20px;
-    textarea {
-      width: 95%;
-    }
-  }
-
-  .chosen-value {
-    background: @grayLighter;
-    .border-radius(@br-small);
-    padding: 4px;
-    margin: 0 0 10px 0;
-  }
-
-  .contrast {
-    color: @grayLight;
-  }
-
-}
-
-input#hidden {
-  background: transparent;
-  border: none;
-  border-color: transparent;
-  border-width: 0px;
-  height: 10px;
-  width: 10px;
-  .opacity(0);
-  position: absolute;
-}
-
-.input-append ul {
-  font-size: @baseFontSize;
-}
-
-/* CRM LINKS */
-
-.link-title {
-  margin-left: 0px;
-}
-
-.link-value {
-  background: linen;
-  .border-radius(@br-small);
-  color: @grayDarker;
-  font-size: smaller;
-  word-wrap: break-word;
-  margin-top: @baseLineHeight/2;
-  padding: 4px;
-  p {
-    margin: 8px 0 0 0;
-    &:first-of-type {
-      margin: 0;
-    }
-  }
-}
-
-.icon-container {
-  position: absolute;
-  left: 0px;
-  top: 5px;
-  width: 40px;
-  //  text-align: right;
-  .icon-item {
-    display: inline-block;
-  }
-  .status + .tooltip {
-    @tooltipArrowColor: @white;
-    max-width: 300px;
-    &.top .tooltip-arrow {
-      border-top-color: @tooltipArrowColor;
-    }
-    &.right .tooltip-arrow {
-      border-right-color: @tooltipArrowColor;
-    }
-    &.left .tooltip-arrow {
-      border-left-color: @tooltipArrowColor;
-    }
-    &.bottom .tooltip-arrow {
-      border-bottom-color: @tooltipArrowColor;
-    }
-    &.in {
-      .opacity(100);
-    }
-    .tooltip-arrow {
-      //        color: @white;
-    }
-    .tooltip-inner {
-      background: @white;
-      border: 1px solid @white;
-      color: @gray;
-      font-size: @baseFontSize;
-      width: 300px !important;
-      padding: 8px;
-    }
-  }
-}
-
-//
-.status {
-  background: @grayLight;
-  //  .opacity(.5);
-  .border-radius(100%);
-  //    border: 1px solid @white;
-  //  content: ' ';
-  .square(14px);
-  display: inline-block;
-  color: @grayLight;
-}
-
-.status-1 {
-  background: @green;
-}
-
-.status-2 {
-  background: @orange;
-}
-
-.status-3 {
-  background: @red;
-}
-
-// key:value list
-ul.kv-list {
-  display: table;
-  li {
-    //    display: table-row;
-    span {
-      //      display: table-cell;
-      display: block;
-      position: relative;
-      &.key {
-        //        background: green;
-        color: @grayDark;
-        text-align: right;
-        margin-right: 10px;
-        width: 50px;
-        float: left;
-      }
-      &.value {
-        color: @gray;
-        margin-left: 60px;
-        //        margin-left: 10px;
-      }
-    }
-  }
-}
 
 /* STRIPED TABLE */
 
@@ -682,86 +461,6 @@ table.files th input[type=checkbox] {
   }
 }
 
-/* WIDGET BOX */
-
-.widget-row {
-  .widget-box {
-    min-height: 300px;
-  }
-}
-
-.widget-box {
-  background: none repeat scroll 0 0 #f6f6f6;
-  clear: both;
-  //  margin-top: 10px;
-  margin-bottom: 16px;
-  position: relative;
-  .border-radius(@br-small);
-  dl {
-    margin-top: 0px;
-  }
-}
-
-.widget-title {
-  //  background-color: #efefef;
-  #gradient .vertical
-(@white, @grayLighter);
-  .border-top-radius(@br-small);
-  height: 36px;
-  .icon {
-    border-right: 1px solid #fff;
-    padding: 9px 10px 7px 11px;
-    float: left;
-    opacity: .7;
-  }
-  .action {
-    border-left: 1px solid #fff;
-    padding: 9px 10px 7px 11px;
-    float: right;
-    //    opacity: .7;
-  }
-  .label {
-    padding: 3px 5px 2px;
-    float: right;
-    margin: 9px 15px 0 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
-  }
-  h5 {
-    color: #666666;
-    text-shadow: 0 1px 0 #ffffff;
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px;
-    line-height: 12px;
-    margin: 0;
-    span {
-      color: @green;
-    }
-  }
-  .buttons {
-    float: right;
-    margin: 8px 10px 0 0;
-  }
-}
-
-.widget-body {
-  //  border-bottom: 1px solid #cdcdcd;
-  font-size: small;
-  padding: 12px 15px;
-  overflow-y: auto;
-  max-height: 300px;
-}
-
-.widget-content {
-  padding: 12px 15px;
-}
-
-.widget-footer {
-  //  #gradient .vertical(@white, @grayLighter);
-  border-top: 1px solid #ccc;
-  padding: 4px;
-}
 
 /*
  * jQuery File Upload UI Plugin CSS 8.1
