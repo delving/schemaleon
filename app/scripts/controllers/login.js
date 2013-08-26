@@ -24,6 +24,12 @@ OSCR.controller(
     'LoginController',
     function ($rootScope, $scope, $location, $cookieStore, Person) {
 
+        var user = $cookieStore.get('user');
+        if (user) {
+            setUser(user);
+            $scope.choosePath('/dashboard'); // todo: path cookie!
+        }
+
         $scope.username = '';
         $scope.password = '';
 
@@ -56,41 +62,35 @@ OSCR.controller(
                 });
             }
             else {
-                var user = $cookieStore.get('user');
-                if (user) {
-                    setUser(user);
-                }
-                else {
-                    setUser({
-                        Identifier: 'OSCR-US-fakey-id',
-                        Profile: {
-                            firstName: 'Oscr',
-                            lastName: 'Wild',
-                            email: 'oscr@delving.eu'
-                        },
-                        Memberships: {
-                            Membership: [
-                            ]
-                        }
-                    });
-                }
+                setUser({
+                    Identifier: 'OSCR-US-fakey-id',
+                    Profile: {
+                        firstName: 'Oscr',
+                        lastName: 'Wild',
+                        email: 'oscr@delving.eu'
+                    },
+                    Memberships: {
+                        Membership: [
+                        ]
+                    }
+                });
                 $scope.choosePath('/dashboard');
             }
         };
 
-        $rootScope.refreshUser = function() {
+        $rootScope.refreshUser = function () {
             if ($rootScope.user) {
-                Person.getUser($rootScope.user.Identifier, function(user) {
+                Person.getUser($rootScope.user.Identifier, function (user) {
                     setUser(user);
                 });
             }
         };
 
-        $rootScope.$watch('user', function(after, before) {
+        $rootScope.$watch('user', function (after, before) {
             if (!after) return;
             if (after.Memberships) {
-                _.each(after.Memberships.Membership, function(membership) {
-                    Person.getGroup(membership.GroupIdentifier, function(group) {
+                _.each(after.Memberships.Membership, function (membership) {
+                    Person.getGroup(membership.GroupIdentifier, function (group) {
                         membership.group = group.Group;
                         Person.getUsersInGroup(membership.group.Identifier, function (list) {
                             membership.group.userList = list;
