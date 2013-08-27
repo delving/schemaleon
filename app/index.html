@@ -37,7 +37,7 @@
 <![endif]-->
 
 <!-- APPLICATION CONTAINER -->
-<div ng-app="OSCR" ng-controller="GlobalController" ng-cloak class="ng-cloak" id="ng-app" >
+<div ng-app="OSCR" ng-controller="GlobalController" ng-cloak class="ng-cloak" id="ng-app">
     <div ng-controller="I18NController" class="loggedin-{{ user != undefined }}">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
@@ -78,14 +78,17 @@
             </div>
         </div>
 
-        <!--<div class="container-fluid">-->
         <div class="row-fluid">
-            <div id="sidebar" ng-show="user">
+            <div id="sidebar" ng-show="sidebarShowing()">
                 <div ng-show="config.showTranslationEditor" class="alert">
-                    <strong>Translation editor active! <span class="btn btn-small btn-warning"><i
-                            class="icon-translate icon-white"></i></span></strong>
-                    <p>While translating all hyperlinks and buttons are disabled. To return to normal navigation of the
-                        document turn off the translation editor.</p>
+                    <strong>
+                        Translation editor active!
+                        <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></span>
+                    </strong>
+                    <p>
+                        While translating all hyperlinks and buttons are disabled. To return to normal navigation of the
+                        document turn off the translation editor.
+                    </p>
                 </div>
                 <div class="sidebar-nav">
                     <ul class="nav nav-pills nav-stacked main-menu">
@@ -115,7 +118,8 @@
                 <!--/.sidebar-nav -->
                 <div ng-include="getInclude()"></div>
             </div>
-
+        </div>
+        <div class="row-fluid">
             <div id="mainBody">
                 <div ng-view id="view"><!-- Angular views are rendered here --></div>
             </div>
@@ -151,6 +155,7 @@
 <script src="scripts/controllers/document-edit.js"></script>
 <script src="scripts/controllers/media.js"></script>
 <script src="scripts/controllers/field.js"></script>
+<script src="scripts/controllers/x.js"></script>
 <script src="scripts/services/statistics-service.js"></script>
 <script src="scripts/services/person-service.js"></script>
 <script src="scripts/services/i18n-service.js"></script>

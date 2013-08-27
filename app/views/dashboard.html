@@ -14,9 +14,13 @@
                 </div>
                 <div class="widget-body">
                     <ul class="stats">
-                        <li><i class="icon icon-users"></i><span class="type" i18n="Groups"></span><span class="label label-info count">{{ statistics.People.Group }}</span></li>
-                        <li><i class="icon icon-user"></i><span class="type" i18n="People"></span><span class="label label-info count">{{ statistics.People.Person }}</span></li>
-                        <li ng-repeat="schema in statistics.Documents.Schema"><i class="icon icon-file"></i><span class="type">{{ schema.Name }}</span><span class="label label-info count">{{ schema.Count }}</span></li>
+                        <li><i class="icon icon-users"></i><span class="type" i18n="Groups"></span><span
+                                class="label label-info count">{{ statistics.People.Group }}</span></li>
+                        <li><i class="icon icon-user"></i><span class="type" i18n="People"></span><span
+                                class="label label-info count">{{ statistics.People.Person }}</span></li>
+                        <li ng-repeat="schema in statistics.Documents.Schema"><i class="icon icon-file"></i><span
+                                class="type">{{ schema.Name }}</span><span class="label label-info count">{{ schema.Count }}</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -47,10 +51,10 @@
                                     <span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
                                     <!--<br/>-->
                                     <!--<ul>-->
-                                        <!--<li ng-repeat="user in membership.group.userList">-->
-                                            <!--<span>{{ user.Profile.firstName }}</span>-->
-                                            <!--<span>{{ user.Profile.lastName }}</span>-->
-                                        <!--</li>-->
+                                    <!--<li ng-repeat="user in membership.group.userList">-->
+                                    <!--<span>{{ user.Profile.firstName }}</span>-->
+                                    <!--<span>{{ user.Profile.lastName }}</span>-->
+                                    <!--</li>-->
                                     <!--</ul>-->
                                 </li>
                             </ul>
@@ -83,9 +87,9 @@
                     <tbody>
                     <tr data-ng-repeat="entry in logEntries">
                         <td>{{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</td>
-                        <td><a ng-href="{{ entry | logDetails:'whoHref' }}">{{ entry.Who }}</a></td>
+                        <td><a href ng-click="logEntryWho(entry)">{{ entry.Who }}</a></td>
                         <td><span i18n="{{ entry.Op }}"><span class="i18n"/></span></td>
-                        <td><a ng-href="{{ entry | logDetails:'detailHref' }}">{{ entry | logDetails }}</a></td>
+                        <td><a href ng-click="logEntryDetail(entry)">{{ entry | logDetails }}</a></td>
                     </tbody>
                 </table>
             </div>

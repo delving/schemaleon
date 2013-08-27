@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams) {
+    function ($rootScope, $cookieStore, $scope, $location, $routeParams, $timeout) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -92,7 +92,8 @@ OSCR.controller(
             $scope.mainMenu.links[0].active = true;
         }
 
-        $scope.choosePath = function (path) {
+        $scope.choosePath = function (path, fromCookieStore) {
+            console.log('PATH '+path);
             if ($rootScope.translating()) return;
             var activeItem = false;
             _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
@@ -111,7 +112,16 @@ OSCR.controller(
                 $scope.recent.push(freshLabel);
             }
             $location.path(path);
-            $cookieStore.put('oscr-path', path);
+            if (fromCookieStore) {
+                $cookieStore.remove('oscr-path');
+            }
+            else {
+                $cookieStore.put('oscr-path', path);
+            }
+        };
+
+        $scope.sidebarShowing = function() {
+            return $location.path() !== '/login';
         };
 
         $scope.getInclude = function () {

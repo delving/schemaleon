@@ -13,6 +13,38 @@ OSCR.controller(
             $scope.logEntries = entries;
         });
 
+        $scope.logEntryWho = function (entry) { // todo: popup? update the label?
+            $scope.choosePath('/people/user/' + entry.Who);
+        };
+
+        $scope.logEntryDetail = function (entry) { // todo: popup? update the label?
+            var path = null;
+            switch (entry.Op) {
+                case 'Authenticate':
+                    break;
+                case 'TranslateTitle':
+                case 'TranslateDoc':
+                case 'TranslateLabel':
+                    path = '/lang/' + entry.Lang;
+                    break;
+                case 'SaveGroup':
+                    path = '/people/group/' + entry.Identifier;
+                    break;
+                case 'AddUserToGroup':
+                case 'RemoveUserFromGroup':
+                    path = '/people/group/' + entry.GroupIdentifier;
+                    break;
+                case 'AddVocabularyEntry':
+                    path = '/vocab/' + entry.Vocabulary;
+                    break;
+                case 'SaveDocument':
+                    path = '/document/' + entry.SchemaName + '/edit/' + entry.Identifier;
+                    break;
+            }
+            if (path) {
+                $scope.choosePath(path);
+            }
+        };
     }
 );
 
@@ -21,48 +53,23 @@ OSCR.filter(
     function () {
         return function (entry, type) {
             if (entry) {
-                switch (type) {
-                    case 'whoHref':
-                        return '/user/' + entry.Who;
-                    case 'detailHref':
-                        switch (entry.Op) {
-                            case 'Authenticate':
-                                return '-';
-                            case 'TranslateTitle':
-                            case 'TranslateDoc':
-                            case 'TranslateLabel':
-                                return '/lang/' + entry.Lang;
-                            case 'SaveGroup':
-                                return '/group/' + entry.Identifier;
-                            case 'AddUserToGroup':
-                            case 'RemoveUserFromGroup':
-                                return '/group/' + entry.GroupIdentifier;
-                            case 'AddVocabularyEntry':
-                                return '/vocab/' + entry.Vocabulary;
-                            case 'SaveDocument':
-                                return '/document/' + entry.Identifier;
-                        }
+                switch (entry.Op) {
+                    case 'Authenticate':
+                        return '-';
+                    case 'TranslateTitle':
+                    case 'TranslateDoc':
+                    case 'TranslateLabel':
+                        return entry.Lang + ':' + entry.Key + '=' + entry.Value.replace(/\n/g, ' ');
                         break;
-                    default:
-                        switch (entry.Op) {
-                            case 'Authenticate':
-                                return '-';
-                            case 'TranslateTitle':
-                            case 'TranslateDoc':
-                            case 'TranslateLabel':
-                                return entry.Lang + ':' + entry.Key + '=' + entry.Value.replace(/\n/g, ' ');
-                                break;
-                            case 'SaveGroup':
-                                return entry.Identifier;
-                            case 'AddUserToGroup':
-                            case 'RemoveUserFromGroup':
-                                return entry.UserIdentifier + ':' + entry.UserRole + ' ' + entry.GroupIdentifier;
-                            case 'AddVocabularyEntry':
-                                return entry.Vocabulary + ':' + entry.Entry.Identifier;
-                            case 'SaveDocument':
-                                return entry.Identifier;
-                        }
-                        break;
+                    case 'SaveGroup':
+                        return entry.Identifier;
+                    case 'AddUserToGroup':
+                    case 'RemoveUserFromGroup':
+                        return entry.UserIdentifier + ':' + entry.UserRole + ' ' + entry.GroupIdentifier;
+                    case 'AddVocabularyEntry':
+                        return entry.Vocabulary + ':' + entry.Entry.Identifier;
+                    case 'SaveDocument':
+                        return entry.Identifier;
                 }
             }
             return '??';

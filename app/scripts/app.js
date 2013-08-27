@@ -18,6 +18,14 @@ OSCR.config(
                 templateUrl: 'views/document-edit.html',
                 controller: 'DocumentEditController'
             })
+            .when('/vocab/:identifier', {
+                templateUrl: 'views/vocab.html',
+                controller: 'XController'
+            })
+            .when('/lang/:identifier', {
+                templateUrl: 'views/vocab.html',
+                controller: 'XController'
+            })
             .when('/media', {
                 templateUrl: 'views/media.html',
                 controller: 'MediaUploadController'
@@ -26,12 +34,16 @@ OSCR.config(
                 templateUrl: 'views/people.html',
                 controller: 'PeopleController'
             })
-            .when('/login', {
-                templateUrl: 'views/login.html',
-                controller: 'LoginController'
+            .when('/people/group/:identifier', {
+                templateUrl: 'views/group.html',
+                controller: 'XController'
+            })
+            .when('/people/user/:identifier', {
+                templateUrl: 'views/user.html',
+                controller: 'XController'
             })
             .otherwise({
-                redirectTo: '/login'
+                templateUrl: 'views/login.html'
             });
     }
 );

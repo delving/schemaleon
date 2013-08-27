@@ -22,18 +22,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'LoginController',
-    function ($rootScope, $scope, $location, $cookieStore, Person) {
-
-        var user = $cookieStore.get('user');
-        if (user) {
-            setUser(user);
-            if($cookieStore.get('oscr-path')){
-                $scope.choosePath($cookieStore.get('oscr-path'));
-            }
-            else {
-                $scope.choosePath('/dashboard');
-            }
-        }
+    function ($rootScope, $scope, $location, $cookieStore, $timeout, Person) {
 
         $scope.username = '';
         $scope.password = '';
@@ -109,6 +98,17 @@ OSCR.controller(
             delete $rootScope.user;
             $scope.choosePath('/login');
         };
+
+        var user = $cookieStore.get('user');
+        if (user) {
+            setUser(user);
+            var oscrPath = $cookieStore.get('oscr-path');
+            if (oscrPath) {
+                $timeout(function() {
+                    $scope.choosePath(oscrPath, true);
+                }, 500);
+            }
+        }
     }
 );
 

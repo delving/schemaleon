@@ -301,7 +301,8 @@ Storage('oscr', homeDir, function (storage) {
             if (header) {
                 storage.Log.add(req, {
                     Op: "SaveDocument",
-                    Identifier: storage.Util.getFromXml(header, "Identifier")
+                    Identifier: storage.Util.getFromXml(header, "Identifier"),
+                    SchemaName: storage.Util.getFromXml(header, "SchemaName")
                 })
             }
         });
