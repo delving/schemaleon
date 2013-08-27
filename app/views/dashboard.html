@@ -6,7 +6,7 @@
     <!--<input type="file" accept="video/*" capture="camera">-->
 
     <div class="row-fluid widget-row">
-        <div class="span3">
+        <div class="span4">
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
@@ -22,36 +22,7 @@
             </div>
         </div>
 
-        <div class="span6" ng-show="logEntries">
-            <div class="widget-box">
-                <div class="widget-title">
-                    <span class="icon"><i class="icon-signal"></i></span>
-                    <h5 i18n="RecentActivity"><span class="i18n"/></h5>
-                    <span class="label label-info" data-ng-bind="recentActivity.length"></span>
-                </div>
-                <div class="widget-body">
-                    <table class="table table-striped table-bordered table-grid">
-                        <thead>
-                        <tr>
-                            <th i18n="When"><span class="i18n"/></th>
-                            <th i18n="Who"><span class="i18n"/></th>
-                            <th i18n="What"><span class="i18n"/></th>
-                            <th i18n="Details"><span class="i18n"/></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="entry in logEntries">
-                            <td>{{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</td>
-                            <td><a ng-href="{{ entry | logDetails:'whoHref' }}">{{ entry.Who }}</a></td>
-                            <td><span i18n="{{ entry.Op }}"><span class="i18n"/></span></td>
-                            <td><a ng-href="{{ entry | logDetails:'detailHref' }}">{{ entry | logDetails }}</a></td>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="span3">
+        <div class="span4">
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-user"></i></span>
@@ -91,5 +62,35 @@
         </div>
 
     </div>
+
+    <div ng-show="logEntries">
+        <div class="widget-box">
+            <div class="widget-title">
+                <span class="icon"><i class="icon-signal"></i></span>
+                <h5 i18n="RecentActivity"><span class="i18n"/></h5>
+                <span class="label label-info" data-ng-bind="logEntries.length"></span>
+            </div>
+            <div class="widget-body">
+                <table class="table table-striped table-bordered table-grid">
+                    <thead>
+                    <tr>
+                        <th i18n="When"><span class="i18n"/></th>
+                        <th i18n="Who"><span class="i18n"/></th>
+                        <th i18n="What"><span class="i18n"/></th>
+                        <th i18n="Details"><span class="i18n"/></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="entry in logEntries">
+                        <td>{{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</td>
+                        <td><a ng-href="{{ entry | logDetails:'whoHref' }}">{{ entry.Who }}</a></td>
+                        <td><span i18n="{{ entry.Op }}"><span class="i18n"/></span></td>
+                        <td><a ng-href="{{ entry | logDetails:'detailHref' }}">{{ entry | logDetails }}</a></td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
 </div>
