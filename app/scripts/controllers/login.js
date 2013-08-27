@@ -86,9 +86,9 @@ OSCR.controller(
                 _.each(after.Memberships.Membership, function (membership) {
                     Person.getGroup(membership.GroupIdentifier, function (group) {
                         membership.group = group.Group;
-                        Person.getUsersInGroup(membership.group.Identifier, function (list) {
-                            membership.group.userList = list;
-                        });
+//                        Person.getUsersInGroup(membership.group.Identifier, function (list) {
+//                            membership.group.userList = list;
+//                        });
                     });
                 });
             }

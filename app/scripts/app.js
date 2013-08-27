@@ -40,7 +40,7 @@ OSCR.config(
             })
             .when('/people/user/:identifier', {
                 templateUrl: 'views/user.html',
-                controller: 'XController'
+                controller: 'UserViewController'
             })
             .otherwise({
                 templateUrl: 'views/login.html'

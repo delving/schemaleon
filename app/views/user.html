@@ -3,6 +3,27 @@
     <div class="page-header">
         <h1 i18n="User"><span class="i18n"/></h1>
         <h1>{{ Identifier }}</h1>
+        <dl ng-show="userView">
+            <dt i18n="Name"></dt>
+            <dd>
+                <span>{{ userView.Profile.firstName }}</span>
+                <span>{{ userView.Profile.lastName }}</span>
+            </dd>
+            <dt i18n="Email"></dt>
+            <dd>
+                <span>{{ userView.Profile.email }}</span>
+            </dd>
+            <dt i18n="Groups"></dt>
+            <dd ng-show="memberships">
+                <ul class="stats stats-condensed">
+                    <li ng-repeat="membership in memberships">
+                        <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
+                        <span class="label {{ membership.Role }}">{{ membership.Role }}</span>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+
     </div>
 
 </div>
