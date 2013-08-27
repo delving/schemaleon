@@ -26,7 +26,7 @@
 
     <Document>
 
-        <Photograph>
+        <Photo>
             <Title>{ "required": true, "summaryField": "Title" }</Title>
             <Type>{ "vocabulary": "PhotoType" }</Type>
             <ShortDescription>{ "paragraph":true }</ShortDescription>
@@ -74,10 +74,9 @@
                     <Exif/>
                 </TechnicalDescription>
             </CreationEvent>
-        </Photograph>
+        </Photo>
 
-
-        <BidPrentje>
+       <MemoriamCard>
             <PersonName>{ "required": true, "summaryField": "Title" }</PersonName>
             <Birth>
                 <DateOfBirth>{ "required": true, "validator": "date", "input": "date" }</DateOfBirth>
@@ -86,15 +85,17 @@
             <Death>
                 <DateOfDeath>{ "required": true, "validator": "date", "summaryField": "DateOfDeath" }</DateOfDeath>
                 <PlaceOfDeath>{ "vocabulary": "Place" }</PlaceOfDeath>
+            </Death>
+            <Funeral>
                 <DateOfFuneral>{ "validator": "date" }</DateOfFuneral>
                 <PlaceOfFuneral>{ "vocabulary": "Place" }</PlaceOfFuneral>
-            </Death>
+            </Funeral>
             <TextContent>{ "paragraph":true }</TextContent>
             <DigitalFile>
-            <File>{ "media": "ImageMetadata" }</File>
-            <Comment/>
+                <File>{ "media": "ImageMetadata" }</File>
+                <Comment/>
             </DigitalFile>
-        </BidPrentje>
+        </MemoriamCard>
 
         <Video>
             <Title>{ "required":true }</Title>
@@ -114,10 +115,10 @@
                 <Dimension>{ "validator": "pixels" }</Dimension>
                 <Duration>{ "validator": "time" }</Duration>
                 <EncodingFormat>{ "vocabulary": "VideoEncodingFormat" }</EncodingFormat>
-                <PlayerType></PlayerType>
+                <PlayerType/>
             </CharacteristicsOfVideo>
             <Transcription>
-                <TranscriptionUri></TranscriptionUri>
+                <TranscriptionUri/>
                 <TranscriptionText>{ "paragraph":true}</TranscriptionText>
             </Transcription>
             <DigitalFile>
@@ -129,7 +130,6 @@
             <Collection>{ "vocabulary": "MediaCollection" }</Collection>
             <Description>{ "paragraph":true, "summaryField":"Label" }</Description>
         </ImageMetadata>
-
 
 
     </Document>
