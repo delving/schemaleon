@@ -76,10 +76,31 @@
             </CreationEvent>
         </Photograph>
 
+        <BidPrentje>
+            <PersonName>{ "required": true, "summaryField": "Title" }</PersonName>
+            <Birth>
+                <DateOfBirth>{ "required": true, "validator": "date" }</DateOfBirth>
+                <PlaceOfBirth>{ "vocabulary": "Place" }</PlaceOfBirth>
+            </Birth>
+            <Death>
+                <DateOfDeath>{ "required": true, "validator": "date", "summaryField": "DateOfDeath" }</DateOfDeath>
+                <PlaceOfDeath>{ "vocabulary": "Place" }</PlaceOfDeath>
+                <DateOfFuneral>{ "validator": "date" }</DateOfFuneral>
+                <PlaceOfFuneral>{ "vocabulary": "Place" }</PlaceOfFuneral>
+            </Death>
+            <TextContent>{ "paragraph":true }</TextContent>
+            <DigitalFile>
+                <File>{ "media": "ImageMetadata"}</File>
+                <Comment/>
+            </DigitalFile>
+        </BidPrentje>
+
         <ImageMetadata>
             <Collection>{ "vocabulary": "MediaCollection" }</Collection>
             <Description>{ "paragraph":true, "summaryField":"Label" }</Description>
         </ImageMetadata>
+
+
 
     </Document>
 
