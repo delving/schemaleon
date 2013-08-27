@@ -6,11 +6,16 @@
             <URI/>
         </PhotoType>
         <SourceType/>
+        <Publisher/>
+        <Genre/>
+        <BitRate/>
+        <VideoEncoding/>
+        <SourceType/>
         <Actor/>
         <Place/>
         <Technique/>
         <Material/>
-        <DigitalRights/>
+        <Rights/>
         <StorageLocationType/>
         <PhotoCondition/>
         <AuthenticityLevel/>
@@ -34,12 +39,11 @@
             <Condition>{ "vocabulary": "PhotoCondition" }</Condition>
             <Purpose/>
             <Collection/>
-            <DigitalFile>
-                { "multiple":true }
+            <MediaFile>{ "multiple":true }
                 <File>{ "media": "ImageMetadata"}</File>
                 <Comment/>
-            </DigitalFile>
-            <DigitalRights>{ "vocabulary": "DigitalRights" }</DigitalRights>
+            </MediaFile>
+            <Rights>{ "vocabulary": "Rights" }</Rights>
             <Source>
                 <IdentificationNumber>
                     <URI/>
@@ -53,30 +57,30 @@
                 <Name/>
                 <Description/>
             </StorageLocation>
-            <CreationEvent>
+            <Creation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
                 <Creator>{ "required": true, "vocabulary": "Actor", "multiple":true }</Creator>
                 <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>
                 <Technique>{ "vocabulary": "Technique" }</Technique>
                 <Material>{ "vocabulary": "Material" }</Material>
-                <TechnicalDescription>
-                    <Dimension>{ "validator": "pixels" }</Dimension>
-                    <CharacteristicsOfPhotograph>
-                        <ISO>{ "vocabulary": "PhotoISO" }</ISO>
-                        <ExposureTime>{ "vocabulary": "PhotoExposure" }</ExposureTime>
-                        <LensAperture>{ "vocabulary": "PhotoAperture" }</LensAperture>
-                        <FocalLength>{ "vocabulary": "PhotoFocalLength" }</FocalLength>
-                    </CharacteristicsOfPhotograph>
-                    <CharacteristicsOfDigitization>
-                        <DPIResolution>{ "validator": "DPI" }</DPIResolution>
-                        <ColorDepth>{ "vocabulary": "PhotoColorDepth" }</ColorDepth>
-                    </CharacteristicsOfDigitization>
-                    <Exif/>
-                </TechnicalDescription>
-            </CreationEvent>
+            </Creation>
+            <TechnicalDescription>
+                <Dimension>{ "validator": "pixels" }</Dimension>
+                <CameraSettings>
+                    <ISO>{ "vocabulary": "PhotoISO" }</ISO>
+                    <ExposureTime>{ "vocabulary": "PhotoExposure" }</ExposureTime>
+                    <LensAperture>{ "vocabulary": "PhotoAperture" }</LensAperture>
+                    <FocalLength>{ "vocabulary": "PhotoFocalLength" }</FocalLength>
+                </CameraSettings>
+                <Digitization>
+                    <DPIResolution>{ "validator": "DPI" }</DPIResolution>
+                    <ColorDepth>{ "vocabulary": "PhotoColorDepth" }</ColorDepth>
+                </Digitization>
+                <Exif/>
+            </TechnicalDescription>
         </Photo>
 
-       <MemoriamCard>
+        <InMemoriam>
             <PersonName>{ "required": true, "summaryField": "Title" }</PersonName>
             <Birth>
                 <DateOfBirth>{ "required": true, "validator": "date", "input": "date" }</DateOfBirth>
@@ -90,40 +94,41 @@
                 <DateOfFuneral>{ "validator": "date" }</DateOfFuneral>
                 <PlaceOfFuneral>{ "vocabulary": "Place" }</PlaceOfFuneral>
             </Funeral>
-            <TextContent>{ "paragraph":true }</TextContent>
-            <DigitalFile>
+            <Text>{ "paragraph":true }</Text>
+            <MediaFile>
                 <File>{ "media": "ImageMetadata" }</File>
                 <Comment/>
-            </DigitalFile>
-        </MemoriamCard>
+            </MediaFile>
+        </InMemoriam>
 
         <Video>
             <Title>{ "required":true }</Title>
-            <Genre>{ "vocabulary": "Genres" }</Genre>
+            <Genre>{ "vocabulary": "Genre" }</Genre>
             <Description>{ "paragraph":true }</Description>
-            <CreationEvent>
+            <Creation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
                 <Creator>{"vocabulary": "Actor", "multiple":true }</Creator>
                 <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>
-            </CreationEvent>
-            <PublicationEvent>
+            </Creation>
+            <Publication>
                 <PublicationDate>{ "validator": "date" }</PublicationDate>
-                <Publisher>{ "vocabulary": "Publishers" }</Publisher>
-            </PublicationEvent>
-            <CharacteristicsOfVideo>
-                <Bitrate>{ "vocabulary": "VideoBitrate" }</Bitrate>
+                <Publisher>{ "vocabulary": "Publisher" }</Publisher>
+            </Publication>
+            <VideoAttributes>
+                <Bitrate>{ "vocabulary": "BitRate" }</Bitrate>
                 <Dimension>{ "validator": "pixels" }</Dimension>
                 <Duration>{ "validator": "time" }</Duration>
-                <EncodingFormat>{ "vocabulary": "VideoEncodingFormat" }</EncodingFormat>
+                <EncodingFormat>{ "vocabulary": "VideoEncoding" }</EncodingFormat>
                 <PlayerType/>
-            </CharacteristicsOfVideo>
+            </VideoAttributes>
             <Transcription>
                 <TranscriptionUri/>
                 <TranscriptionText>{ "paragraph":true}</TranscriptionText>
             </Transcription>
-            <DigitalFile>
+            <MediaFile>
                 <File>{ "media": "ImageMetadata"}</File>
-            </DigitalFile>
+                <Comment/>
+            </MediaFile>
         </Video>
 
         <ImageMetadata>
