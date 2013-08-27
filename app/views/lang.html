@@ -1,8 +1,24 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1 i18n="Language"><span class="i18n"/></h1>
-        <h1>{{ Identifier }}</h1>
+        <h1 i18n="Language"><span class="i18n"/> "{{ langCode }}"</h1>
+
+        <h2 i18n="Labels"><span class="i18n"/></h2>
+        <ul>
+            <li ng-repeat="label in labels">
+                {{ label.Key }}: {{ label.Value }}
+            </li>
+        </ul>
+        <h2 i18n="Elements"><span class="i18n"/></h2>
+        <ul>
+            <li ng-repeat="element in elements">
+                <span i18n="Key"/>: {{ element.Key }}
+                <ul>
+                    <li><span i18n="Title"/>: {{ element.Title }}</li>
+                    <li><span i18n="Doc"/>: {{ element.Doc }}</li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
 </div>

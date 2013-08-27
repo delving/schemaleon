@@ -10,7 +10,10 @@ OSCR.controller(
         });
 
         Statistics.getLogEntries(function (entries) {
-            $scope.logEntries = entries;
+            $scope.logEntries = _.sortBy(entries, function (val) {
+                return -val.TimeStamp;
+            });
+
         });
 
         $scope.logEntryWho = function (entry) { // todo: popup? update the label?

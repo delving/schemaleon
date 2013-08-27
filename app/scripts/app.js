@@ -22,9 +22,9 @@ OSCR.config(
                 templateUrl: 'views/vocab.html',
                 controller: 'VocabularyEditController'
             })
-            .when('/lang/:identifier', {
-                templateUrl: 'views/vocab.html',
-                controller: 'XController'
+            .when('/lang/:lang', {
+                templateUrl: 'views/lang.html',
+                controller: 'LangEditController'
             })
             .when('/media', {
                 templateUrl: 'views/media.html',
@@ -36,7 +36,7 @@ OSCR.config(
             })
             .when('/people/group/:identifier', {
                 templateUrl: 'views/group.html',
-                controller: 'XController'
+                controller: 'GroupViewController'
             })
             .when('/people/user/:identifier', {
                 templateUrl: 'views/user.html',

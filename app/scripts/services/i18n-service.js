@@ -36,6 +36,11 @@ OSCR.service(
                 }
                 return null;
             },
+            getList: function (lang, receiver) {
+                $http.get('/i18n/' + lang).success(function (data) {
+                    receiver(xmlToObject(data).Language);
+                });
+            },
             fetchList: function (lang) {
                 $http.get('/i18n/' + lang).success(function (data) {
                     $rootScope.lang = lang;

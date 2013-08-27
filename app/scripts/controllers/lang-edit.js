@@ -21,8 +21,20 @@
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
-    'XController',
-    function ($rootScope, $scope, $routeParams, $location, $cookieStore, Person) {
-        $scope.Identifier = $routeParams.identifier;
+    'LangEditController',
+    function ($rootScope, $scope, $routeParams, I18N) {
+        $scope.langCode = $routeParams.lang;
+
+        I18N.getList($scope.langCode, function(lang) {
+            $scope.language =  lang;
+            $scope.labels = [];
+            for (var key in lang.label) {
+                $scope.labels.push({Key: key, Value: lang.label[key]});
+            }
+            $scope.elements = [];
+            for (var key in lang.element) {
+                $scope.elements.push({Key: key, Title: lang.element[key].title, Doc: lang.element[key].doc});
+            }
+        });
     }
 );
