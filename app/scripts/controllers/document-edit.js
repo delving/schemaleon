@@ -134,6 +134,7 @@ OSCR.controller(
 //                console.log(document);
                 useHeader(document.Document.Header);
                 $scope.document = document.Document; // triggers the editor
+
             });
         }
 
@@ -262,7 +263,7 @@ OSCR.controller(
 
 OSCR.controller(
     'DocumentPanelController',
-    function ($scope) {
+    function ($scope, $timeout) {
         if (!$scope.panel) {
             return;
         }
@@ -308,26 +309,37 @@ OSCR.controller(
                     if ($scope.el.config.paragraph && $scope.el.edit) break;
                     $scope.choose(($scope.selected + 1) % size, $scope.selectedWhere);
                     break;
-//                case 'escape':
-//                    if ($scope.el.edit) {
-//                        $scope.disableEditor();
-//                    }
-//                    break;
             }
         };
+
+        $scope.dateOptions = {
+            'year-format': "'yyyy'",
+            'starting-day': 1,
+            'show-weeks': 0
+        };
+
+        $scope.openCalendar = function(){
+            $timeout(function() {
+                $scope.calendarOpened = true;
+            });
+        };
+        
+
 
     }
 );
 
 OSCR.directive('focus',
-    function () {
+    function ($timeout) {
         return {
             restrict: 'A',
             priority: 100,
             link: function (scope, element, attrs) {
                 if (attrs.id === scope.active) {
-                    console.log("focus:" + attrs.id); // todo: remove
-                    element[0].focus();
+                    $timeout(function(){
+                        console.log("focus:" + attrs.id); // todo: remove
+                        element[0].focus();
+                    });
                 }
             }
         };
@@ -335,6 +347,7 @@ OSCR.directive('focus',
 );
 
 OSCR.directive('documentNavigation', function () {
+
     return {
         restrict: 'A',
         link: function (scope, elem, attr, ctrl) {

@@ -76,10 +76,11 @@
             </CreationEvent>
         </Photograph>
 
+
         <BidPrentje>
             <PersonName>{ "required": true, "summaryField": "Title" }</PersonName>
             <Birth>
-                <DateOfBirth>{ "required": true, "validator": "date" }</DateOfBirth>
+                <DateOfBirth>{ "required": true, "validator": "date", "input": "date" }</DateOfBirth>
                 <PlaceOfBirth>{ "vocabulary": "Place" }</PlaceOfBirth>
             </Birth>
             <Death>
@@ -90,10 +91,39 @@
             </Death>
             <TextContent>{ "paragraph":true }</TextContent>
             <DigitalFile>
-                <File>{ "media": "ImageMetadata"}</File>
-                <Comment/>
+            <File>{ "media": "ImageMetadata" }</File>
+            <Comment/>
             </DigitalFile>
         </BidPrentje>
+
+        <Video>
+            <Title>{ "required":true }</Title>
+            <Genre>{ "vocabulary": "Genres" }</Genre>
+            <Description>{ "paragraph":true }</Description>
+            <CreationEvent>
+                <CreationDate>{ "validator": "date" }</CreationDate>
+                <Creator>{"vocabulary": "Actor", "multiple":true }</Creator>
+                <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>
+            </CreationEvent>
+            <PublicationEvent>
+                <PublicationDate>{ "validator": "date" }</PublicationDate>
+                <Publisher>{ "vocabulary": "Publishers" }</Publisher>
+            </PublicationEvent>
+            <CharacteristicsOfVideo>
+                <Bitrate>{ "vocabulary": "VideoBitrate" }</Bitrate>
+                <Dimension>{ "validator": "pixels" }</Dimension>
+                <Duration>{ "validator": "time" }</Duration>
+                <EncodingFormat>{ "vocabulary": "VideoEncodingFormat" }</EncodingFormat>
+                <PlayerType></PlayerType>
+            </CharacteristicsOfVideo>
+            <Transcription>
+                <TranscriptionUri></TranscriptionUri>
+                <TranscriptionText>{ "paragraph":true}</TranscriptionText>
+            </Transcription>
+            <DigitalFile>
+                <File>{ "media": "ImageMetadata"}</File>
+            </DigitalFile>
+        </Video>
 
         <ImageMetadata>
             <Collection>{ "vocabulary": "MediaCollection" }</Collection>

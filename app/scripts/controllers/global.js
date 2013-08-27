@@ -77,6 +77,7 @@ OSCR.controller(
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
                 {name: "Photographs", path: "/document/Photograph", icon: 'icon-file', active: false},
                 {name: "Bidprentje", path: "/document/BidPrentje", icon: 'icon-file', active: false},
+                {name: "Video", path: "/document/Video", icon: 'icon-file', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
                 {name: "People", path: "/people", icon: 'icon-user', active: false}
             ]
