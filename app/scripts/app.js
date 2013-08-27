@@ -18,9 +18,9 @@ OSCR.config(
                 templateUrl: 'views/document-edit.html',
                 controller: 'DocumentEditController'
             })
-            .when('/vocab/:identifier', {
+            .when('/vocab/:vocab', {
                 templateUrl: 'views/vocab.html',
-                controller: 'XController'
+                controller: 'VocabularyEditController'
             })
             .when('/lang/:identifier', {
                 templateUrl: 'views/vocab.html',

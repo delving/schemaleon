@@ -236,6 +236,12 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
+    app.get('/vocabulary/:vocab/all', function (req, res) {
+        storage.Vocab.getVocabulary(req.params.vocab, function (xml) {
+            res.xml(xml);
+        });
+    });
+
     app.get('/vocabulary/:vocab/select', function (req, res) {
         var search = req.param('q').toLowerCase();
         storage.Vocab.getVocabularyEntries(req.params.vocab, search, function (xml) {

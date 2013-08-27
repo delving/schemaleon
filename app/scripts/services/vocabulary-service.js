@@ -24,6 +24,12 @@ OSCR.service(
             });
         };
 
+        this.get = function(vocab, accept) {
+            $http.get('/vocabulary/' + vocab +'/all').success(function (data) {
+                accept(xmlToObject(data));
+            });
+        };
+
         this.add = function (vocab, entry, accept) {
             $http.post('/vocabulary/' + vocab + "/add", entry).success(function (data) {
                 accept(xmlToObject(data));

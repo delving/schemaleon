@@ -2,7 +2,22 @@
 
     <div class="page-header">
         <h1 i18n="Vocabulary"><span class="i18n"/></h1>
-        <h1>{{ Identifier }}</h1>
+        <h1>{{ vocabularyName }}</h1>
+        <ul>
+            <li ng-repeat="entry in vocabulary.Entries.Entry">
+                <ul>
+                    <li i18n="Label">
+                        <span class="i18n"/>: {{ entry.Label }}
+                    </li>
+                    <li i18n="Identifier">
+                        <span class="i18n"/>: {{ entry.Identifier }}
+                    </li>
+                    <li ng-repeat="field in entry | vocabFields">
+                        {{ field.Key }}: {{ field.Value }}
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
 </div>

@@ -111,3 +111,18 @@ P.getVocabularyEntries = function (vocabName, search, receiver) {
         }
     );
 };
+
+P.getVocabulary = function (vocabName, receiver) {
+    var s = this.storage;
+    s.query(null,
+        s.vocabPath(vocabName),
+        function (result) {
+            if (result) {
+                receiver(result);
+            }
+            else {
+                s.Vocab.createVocabulary(vocabName, '', receiver);
+            }
+        }
+    );
+};
