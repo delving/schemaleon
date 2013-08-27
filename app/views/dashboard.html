@@ -40,11 +40,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr  data-ng-repeat="entry in logEntries">
+                        <tr data-ng-repeat="entry in logEntries">
                             <td>{{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</td>
-                            <td>{{ entry.Who }}</td>
+                            <td><a ng-href="{{ entry | logDetails:'whoHref' }}">{{ entry.Who }}</a></td>
                             <td>{{ entry.Op }}</td>
-                            <td>?</td>
+                            <td><a ng-href="{{ entry | logDetails:'detailHref' }}">{{ entry | logDetails }}</a></td>
                         </tbody>
                     </table>
                 </div>

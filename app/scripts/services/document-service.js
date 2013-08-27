@@ -61,11 +61,6 @@ OSCR.service(
 
             $http.post('/document/save', envelope(header, body)).success(function (data) {
                 receiver(xmlToObject(data).Document);
-
-                var activity = {"section": "Documents", "user": header.Email, "action": "Saved document"};
-                $rootScope.recentActivity.push(activity);
-               
-
             });
         };
     }
