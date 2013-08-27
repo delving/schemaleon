@@ -24,7 +24,6 @@ OSCR.filter(
                 switch (type) {
                     case 'whoHref':
                         return '/user/' + entry.Who;
-                        break;
                     case 'detailHref':
                         switch (entry.Op) {
                             case 'Authenticate':
