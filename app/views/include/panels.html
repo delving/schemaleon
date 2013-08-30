@@ -112,22 +112,7 @@
 
                     <div ng-show="el.config.line && !el.elements" ng-controller="TextInputController" class="input-block-level">
                         <input focus="true" id="textInput" class="input-block-level" type="text" ng-model="el.value"/>
-                        <!--<div ng-show="el.edit">-->
-                        <!--<input focus id="textInput" class="input-block-level" type="text"-->
-                        <!--ng-model="el.value"/>-->
-                        <!--</div>-->
-
-                        <!--<div ng-hide="el.edit" class="input-append">-->
-                        <!--<input type="text" ng-model="el.value" class="input-large" ng-click="enableEditor()"-->
-                        <!--tooltip-placement="right" tooltip="Click to edit"/>-->
-                        <!--</div>-->
                     </div>
-
-                   <div ng-show="el.config.input == 'date'">
-
-                           <input type="text" datepicker-popup="dd-MMMM-yyyy" show-weeks="false" ng-model="el.value" open="calendarOpened" max="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" />
-                       <button class="btn" ng-click="openCalendar()"><i class="icon-calendar"></i></button>
-                   </div>
 
                     <div ng-show="el.config.paragraph && !el.elements" class="textarea-input"
                          ng-controller="TextAreaController">
