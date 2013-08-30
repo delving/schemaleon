@@ -146,7 +146,9 @@
         </Video>
 
         <InMemoriam>
-            <PersonName>{ "required": true, "summaryField": "Title" }</PersonName>
+            <FirstName>{ "multiple": true }</FirstName>
+            <LastNamePrefix/>
+            <LastName>{ "required": true, "summaryField": "Title" }</LastName>
             <MemoriamText>{ "paragraph":true }</MemoriamText>
             <Birth>
                 <DateOfBirth>{ "required": true, "validator": "date"}</DateOfBirth>
