@@ -105,6 +105,7 @@
         </Photo>
 
         <Video>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Title>{ "required":true }</Title>
             <Genre>{ "vocabulary": "VideoGenre" }</Genre>
             <Rights>{ "vocabulary": "Rights" }</Rights>
@@ -142,7 +143,6 @@
                 <VideoCondition>{ "vocabulary": "VideoCondition" }</VideoCondition>
                 <Notes>{ "paragraph":true }</Notes>
             </VideoPhysical>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
         </Video>
 
         <InMemoriam>
@@ -167,6 +167,7 @@
         </InMemoriam>
 
         <Book>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Title>{ "required": true, "summaryField": "Title" }</Title>
             <Subtitle/>
             <BookGenre>{ "required":true, "vocabulary": "BookType" }</BookGenre>
@@ -195,7 +196,6 @@
                 <PublicationCondition>{ "vocabulary": "PublicationCondition" }</PublicationCondition>
                 <Notes>{ "paragraph":true }</Notes>
             </BookPhysical>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
         </Book>
 
         <MediaMetadata>

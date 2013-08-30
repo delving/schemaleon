@@ -112,7 +112,7 @@ OSCR.controller(
             if (oscrPath) {
                 $timeout(function() {
                     $scope.choosePath(oscrPath, true);
-                }, 500);
+                }, 1000);
             }
         }
     }

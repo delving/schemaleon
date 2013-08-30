@@ -282,8 +282,8 @@ OSCR.controller(
         $scope.disableEditor();
 
         $scope.setActive = function (field) {
-            console.log("active:" + field); // todo: remove
-            $scope.active = field;
+//            console.log("active:" + field);
+            $scope.active = $scope.el.edit ? field : 'hidden';
         };
 
         $scope.navigationKeyPressed = function (key) {
@@ -321,12 +321,11 @@ OSCR.controller(
             'show-weeks': 0
         };
 
-        $scope.openCalendar = function(){
-            $timeout(function() {
+        $scope.openCalendar = function () {
+            $timeout(function () {
                 $scope.calendarOpened = true;
             });
         };
-        
 
 
     }
@@ -339,7 +338,7 @@ OSCR.directive('focus',
             priority: 100,
             link: function (scope, element, attrs) {
                 if (attrs.id === scope.active) {
-                    $timeout(function(){
+                    $timeout(function () {
                         element[0].focus();
                     });
                 }

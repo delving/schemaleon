@@ -227,9 +227,21 @@ OSCR.controller(
         $scope.setValue = function (value) {
             $scope.el.value = value;
             if ($scope.el.tree) {
-                $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
-                    return  { prompt: element.name, value: value[element.name] };
-                });
+                $scope.el.valueFields = _.filter(
+                    _.map(
+                        $scope.el.tree.elements,
+                        function (element) {
+                            return  { prompt: element.name, value: value[element.name] };
+                        }
+                    ),
+                    function (field) {
+                        if (field.prompt === 'Identifier' || field.prompt === 'Label') {
+                            $scope.el['valueField'+field.prompt] = field; // a naughty side effect
+                            return false;
+                        }
+                        return !!field.value;
+                    }
+                );
             }
             $scope.disableEditor();
         };
