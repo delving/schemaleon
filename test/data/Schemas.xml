@@ -67,7 +67,7 @@
                 <Photographer>{ "required": true, "vocabulary": "Actor", "multiple":true }</Photographer>
                 <PhotoAssistant>{ "multiple":true }
                     <PhotoAssistRole>{ "required": true, "vocabulary": "PhotoAssistRole" }</PhotoAssistRole>
-                    <Assistant>{ "required": true, "vocabulary": "Actor", "multiple":true }</Assistant>
+                    <Assistant>{ "required": true, "vocabulary": "Actor" }</Assistant>
                 </PhotoAssistant>
                 <Notes>{ "paragraph":true }</Notes>
             </PhotoCreation>

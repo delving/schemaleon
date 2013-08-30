@@ -31,19 +31,19 @@
   background: #000000;
 }
 .level1 {
-  background: #3c3c3c;
+  background: #484848;
 }
 .level2 {
-  background: #555555;
-}
-.level3 {
   background: #6f6f6f;
 }
+.level3 {
+  background: #959595;
+}
 .level4 {
-  background: #888888;
+  background: #aeaeae;
 }
 .level5 {
-  background: #959595;
+  background: #bbbbbb;
 }
 /* DOCUMENT PANELS **************************************/
 #panel-container {
