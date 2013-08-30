@@ -79,16 +79,16 @@
                                 <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
                             </td>
                             <td>
-                                <textarea data-ng-hide="!file.$destroy" data-ng-model="file.description"></textarea>
+                                <textarea data-ng-hide="!file.$destroy" data-ng-model="file.notes"></textarea>
                             </td>
                             <td>
                                 <p class="name" data-ng-switch data-on="!!file.url">
-                            <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
-                                <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}"
-                                   download="{{file.name}}" data-gallery>{{file.name}}</a>
-                                <a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}"
-                                   download="{{file.name}}">{{file.name}}</a>
-                            </span>
+                                <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
+                                    <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}"
+                                       download="{{file.name}}" data-gallery>{{file.name}}</a>
+                                    <a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}"
+                                       download="{{file.name}}">{{file.name}}</a>
+                                </span>
                                     <span data-ng-switch-default>{{file.name}}</span>
                                 </p>
 

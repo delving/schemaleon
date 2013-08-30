@@ -2,72 +2,90 @@
 <Schemas>
 
     <Vocabulary>
-        <PhotoType>
-            <URI/>
-        </PhotoType>
-        <SourceType/>
-        <Publisher/>
-        <Genre/>
-        <BitRate/>
-        <VideoEncoding/>
-        <SourceType/>
-        <Actor/>
-        <Place/>
-        <Technique/>
-        <Material/>
+        <!--All vocabularies contain Identifier and Label as a basis-->
+        <Place>
+            <GeoNamesURI/>
+            <LatLong>{ "validator": "latLong" }</LatLong>
+            <PartOf>{ "vocabulary": "Place" }</PartOf>
+        </Place>
+        <Actor>
+            <FirstName>{ "multiple": true }</FirstName>
+            <LastNamePrefix/>
+            <LastName>{ "required": true }</LastName>
+            <DateOfBirth>{ "validator": "date" }</DateOfBirth>
+            <PlaceOfBirth>{ "vocabulary": "Place" }</PlaceOfBirth>
+        </Actor>
+        <Event>
+            <Date>{ "validator": "date" }</Date>
+            <Place>{ "vocabulary": "Place" }</Place>
+        </Event>
+
         <Rights/>
-        <StorageLocationType/>
-        <PhotoCondition/>
-        <AuthenticityLevel/>
+        <Publisher/>
+
+        <PhotoType/>
+        <PhotoAssistRole/>
+
+        <VideoGenre/>
+        <VideoAssistRole/>
+        <VideoBitRate/>
+        <VideoEncoding/>
+        <VideoPhysicalType/>
+        <VideoCondition/>
+
+        <BookGenre/>
+        <BookAssistRole/>
+
         <PhotoISO/>
         <PhotoExposure/>
         <PhotoAperture/>
         <PhotoFocalLength/>
         <PhotoColorDepth/>
+        <PhotoPhysicalType/>
+        <PhotoCondition/>
+
+        <StorageLocation>
+            <Place>{ "vocabulary": "Place" }</Place>
+        </StorageLocation>
+
         <MediaCollection>
-            <Code/>
+            <Code>{ "validator": "collectionCode" }</Code>
         </MediaCollection>
+
     </Vocabulary>
 
     <Document>
 
         <Photo>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Title>{ "required": true, "summaryField": "Title" }</Title>
             <Type>{ "vocabulary": "PhotoType" }</Type>
-            <ShortDescription>{ "paragraph":true }</ShortDescription>
-            <Authenticity>{ "vocabulary": "AuthenticityLevel" }</Authenticity>
-            <Condition>{ "vocabulary": "PhotoCondition" }</Condition>
-            <Purpose/>
-            <Collection/>
-            <MediaFile>{ "multiple":true }
-                <File>{ "media": "ImageMetadata"}</File>
-                <Comment/>
-            </MediaFile>
             <Rights>{ "vocabulary": "Rights" }</Rights>
-            <Source>
-                <IdentificationNumber>
-                    <URI/>
-                </IdentificationNumber>
-                <Type>{ "vocabulary": "SourceType" }</Type>
-                <Title/>
-                <Description>{ "paragraph":true }</Description>
-            </Source>
-            <StorageLocation>
-                <Type>{ "vocabulary": "StorageLocationType" }</Type>
-                <Name/>
-                <Description/>
-            </StorageLocation>
-            <Creation>
+            <PhotoCreation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
-                <Creator>{ "required": true, "vocabulary": "Actor", "multiple":true }</Creator>
-                <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>
-                <Technique>{ "vocabulary": "Technique" }</Technique>
-                <Material>{ "vocabulary": "Material" }</Material>
-            </Creation>
-            <TechnicalDescription>
-                <Dimension>{ "validator": "pixels" }</Dimension>
+                <PhotoLocation>{ "vocabulary": "Place" }</PhotoLocation>
+                <Photographer>{ "required": true, "vocabulary": "Actor", "multiple":true }</Photographer>
+                <PhotoAssistant>{ "multiple":true }
+                    <PhotoAssistRole>{ "required": true, "vocabulary": "PhotoAssistRole" }</PhotoAssistRole>
+                    <Assistant>{ "required": true, "vocabulary": "Actor", "multiple":true }</Assistant>
+                </PhotoAssistant>
+                <Notes>{ "paragraph":true }</Notes>
+            </PhotoCreation>
+            <DepictedInPhoto>{ "multiple":true }
+                <Person>{ "vocabulary": "Actor" }</Person>
+                <Place>{ "vocabulary": "Place" }</Place>
+                <Event>{ "vocabulary": "Event" }</Event>
+                <Notes>{ "paragraph":true }</Notes>
+            </DepictedInPhoto>
+            <Published>{ "multiple": true }
+                <PublishDate>{ "validator": "date" }</PublishDate>
+                <Publisher>{ "vocabulary": "Publisher" }</Publisher>
+                <Notes>{ "paragraph":true }</Notes>
+            </Published>
+            <PhotoTechnical>
+                <Dimensions>{ "validator": "pixels" }</Dimensions>
                 <CameraSettings>
-                    <ISO>{ "vocabulary": "PhotoISO" }</ISO>
+                    <ISORating>{ "vocabulary": "PhotoISO" }</ISORating>
                     <ExposureTime>{ "vocabulary": "PhotoExposure" }</ExposureTime>
                     <LensAperture>{ "vocabulary": "PhotoAperture" }</LensAperture>
                     <FocalLength>{ "vocabulary": "PhotoFocalLength" }</FocalLength>
@@ -76,66 +94,114 @@
                     <DPIResolution>{ "validator": "DPI" }</DPIResolution>
                     <ColorDepth>{ "vocabulary": "PhotoColorDepth" }</ColorDepth>
                 </Digitization>
-                <Exif/>
-            </TechnicalDescription>
+                <Notes>{ "paragraph":true }</Notes>
+            </PhotoTechnical>
+            <PhotoPhysical>
+                <PhotoPhysicalType>{ "vocabulary": "PhotoPhysicalType" }</PhotoPhysicalType>
+                <StorageLocation>{ "vocabulary": "StorageLocation" }</StorageLocation>
+                <PhotoCondition>{ "vocabulary": "PhotoCondition" }</PhotoCondition>
+                <Notes>{ "paragraph":true }</Notes>
+            </PhotoPhysical>
         </Photo>
+
+        <Video>
+            <Title>{ "required":true }</Title>
+            <Genre>{ "vocabulary": "VideoGenre" }</Genre>
+            <Rights>{ "vocabulary": "Rights" }</Rights>
+            <VideoCreation>
+                <CreationDate>{ "validator": "date" }</CreationDate>
+                <VideoLocation>{ "vocabulary": "Place", "multiple":true }</VideoLocation>
+                <Director>{ "muliple":true, "required": true, "vocabulary": "Actor", "multiple":true }</Director>
+                <VideoAssistant>{ "multiple":true }
+                    <VideoAssistRole>{ "vocabulary": "VideoAssistRole" }</VideoAssistRole>
+                    <Assistant>{ "required": true, "vocabulary": "Actor", "multiple":true }</Assistant>
+                </VideoAssistant>
+                <Notes>{ "paragraph":true }</Notes>
+            </VideoCreation>
+            <DepictedInVideo>{ "multiple":true }
+                <Person>{ "vocabulary": "Actor" }</Person>
+                <Place>{ "vocabulary": "Place" }</Place>
+                <Event>{ "vocabulary": "Event" }</Event>
+                <Notes>{ "paragraph":true }</Notes>
+            </DepictedInVideo>
+            <Published>{ "multiple": true }
+                <PublishDate>{ "validator": "date" }</PublishDate>
+                <Publisher>{ "vocabulary": "Publisher" }</Publisher>
+                <Notes>{ "paragraph":true }</Notes>
+            </Published>
+            <VideoTechnical>
+                <Bitrate>{ "vocabulary": "VideoBitRate" }</Bitrate>
+                <Dimension>{ "validator": "pixels" }</Dimension>
+                <Duration>{ "validator": "time" }</Duration>
+                <EncodingFormat>{ "vocabulary": "VideoEncoding" }</EncodingFormat>
+                <Notes>{ "paragraph":true }</Notes>
+            </VideoTechnical>
+            <VideoPhysical>
+                <VideoPhysicalType>{ "vocabulary": "VideoPhysicalType" }</VideoPhysicalType>
+                <StorageLocation>{ "vocabulary": "StorageLocation" }</StorageLocation>
+                <VideoCondition>{ "vocabulary": "VideoCondition" }</VideoCondition>
+                <Notes>{ "paragraph":true }</Notes>
+            </VideoPhysical>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
+        </Video>
 
         <InMemoriam>
             <PersonName>{ "required": true, "summaryField": "Title" }</PersonName>
+            <MemoriamText>{ "paragraph":true }</MemoriamText>
             <Birth>
-                <DateOfBirth>{ "required": true, "validator": "date", "input": "date" }</DateOfBirth>
+                <DateOfBirth>{ "required": true, "validator": "date"}</DateOfBirth>
                 <PlaceOfBirth>{ "vocabulary": "Place" }</PlaceOfBirth>
+                <Notes>{ "paragraph":true }</Notes>
             </Birth>
             <Death>
                 <DateOfDeath>{ "required": true, "validator": "date", "summaryField": "DateOfDeath" }</DateOfDeath>
                 <PlaceOfDeath>{ "vocabulary": "Place" }</PlaceOfDeath>
+                <Notes>{ "paragraph":true }</Notes>
             </Death>
             <Funeral>
                 <DateOfFuneral>{ "validator": "date" }</DateOfFuneral>
                 <PlaceOfFuneral>{ "vocabulary": "Place" }</PlaceOfFuneral>
+                <Notes>{ "paragraph":true }</Notes>
             </Funeral>
-            <Text>{ "paragraph":true }</Text>
-            <MediaFile>
-                <File>{ "media": "ImageMetadata" }</File>
-                <Comment/>
-            </MediaFile>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
         </InMemoriam>
 
-        <Video>
-            <Title>{ "required":true }</Title>
-            <Genre>{ "vocabulary": "Genre" }</Genre>
-            <Description>{ "paragraph":true }</Description>
-            <Creation>
-                <CreationDate>{ "validator": "date" }</CreationDate>
-                <Creator>{"vocabulary": "Actor", "multiple":true }</Creator>
-                <CreationPlace>{ "vocabulary": "Place" }</CreationPlace>
-            </Creation>
-            <Publication>
-                <PublicationDate>{ "validator": "date" }</PublicationDate>
-                <Publisher>{ "vocabulary": "Publisher" }</Publisher>
-            </Publication>
-            <VideoAttributes>
-                <Bitrate>{ "vocabulary": "BitRate" }</Bitrate>
-                <Dimension>{ "validator": "pixels" }</Dimension>
-                <Duration>{ "validator": "time" }</Duration>
-                <EncodingFormat>{ "vocabulary": "VideoEncoding" }</EncodingFormat>
-                <PlayerType/>
-            </VideoAttributes>
-            <Transcription>
-                <TranscriptionUri/>
-                <TranscriptionText>{ "paragraph":true}</TranscriptionText>
-            </Transcription>
-            <MediaFile>
-                <File>{ "media": "ImageMetadata"}</File>
-                <Comment/>
-            </MediaFile>
-        </Video>
+        <Book>
+            <Title>{ "required": true, "summaryField": "Title" }</Title>
+            <Subtitle/>
+            <BookGenre>{ "required":true, "vocabulary": "BookType" }</BookGenre>
+            <ISBN>{ "validator": "ISBN" }</ISBN>
+            <BookCreation>
+                <Author>{ "required": true, "vocabulary": "Actor", "multiple":true }</Author>
+                <PhotoAssistant>{ "multiple":true }
+                    <BookAssistRole>{ "required": true, "vocabulary": "BookAssistRole" }</BookAssistRole>
+                    <Assistant>{ "required": true, "vocabulary": "Actor", "multiple":true }</Assistant>
+                </PhotoAssistant>
+                <Notes>{ "paragraph":true }</Notes>
+            </BookCreation>
+            <DepictedInBook>{ "multiple":true }
+                <Person>{ "vocabulary": "Actor" }</Person>
+                <Place>{ "vocabulary": "Place" }</Place>
+                <Event>{ "vocabulary": "Event" }</Event>
+                <Notes>{ "paragraph":true }</Notes>
+            </DepictedInBook>
+            <Published>{ "multiple": true }
+                <PublishDate>{ "validator": "date" }</PublishDate>
+                <Publisher>{ "vocabulary": "BookPublisher" }</Publisher>
+                <Notes>{ "paragraph":true }</Notes>
+            </Published>
+            <BookPhysical>
+                <StorageLocation>{ "vocabulary": "StorageLocation" }</StorageLocation>
+                <PublicationCondition>{ "vocabulary": "PublicationCondition" }</PublicationCondition>
+                <Notes>{ "paragraph":true }</Notes>
+            </BookPhysical>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
+        </Book>
 
-        <ImageMetadata>
+        <MediaMetadata>
             <Collection>{ "vocabulary": "MediaCollection" }</Collection>
-            <Description>{ "paragraph":true, "summaryField":"Label" }</Description>
-        </ImageMetadata>
-
+            <Notes>{ "paragraph":true, "summaryField":"Label" }</Notes>
+        </MediaMetadata>
 
     </Document>
 

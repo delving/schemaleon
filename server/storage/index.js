@@ -201,8 +201,12 @@ function Storage(home) {
                 '       <Count>{ count(' + this.docCollection('Video') + ') }</Count>',
                 '    </Schema>',
                 '    <Schema>',
-                '      <Name>ImageMetadata</Name>',
-                '       <Count>{ count(' + this.docCollection('ImageMetadata') + ') }</Count>',
+                '       <Name>Book</Name>',
+                '       <Count>{ count(' + this.docCollection('Book') + ') }</Count>',
+                '    </Schema>',
+                '    <Schema>',
+                '      <Name>MediaMetadata</Name>',
+                '       <Count>{ count(' + this.docCollection('MediaMetadata') + ') }</Count>',
                 '    </Schema>',
                 '  </Documents>',
                 '</Statistics>'
@@ -210,6 +214,26 @@ function Storage(home) {
             receiver
         );
     };
+
+    this.refreshSchemas = function (receiver) {
+        var session = this.session;
+
+        function replaceXML(fileName, next) {
+            var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
+            session.replace('/' + fileName, contents, function (error, reply) {
+                if (reply.ok) {
+                    console.log("Reloaded: " + fileName);
+                }
+                else {
+                    console.error('Unable to refresh schemas');
+                    console.error(error);
+                }
+                if (next) next();
+            });
+        }
+
+        replaceXML("Schemas.xml", receiver);
+    }
 }
 
 function open(databaseName, homeDir, receiver) {

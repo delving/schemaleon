@@ -42,7 +42,7 @@ OSCR.controller(
             return file.tree;
         }
 
-        $scope.document = 'ImageMetadata';
+        $scope.document = 'MediaMetadata';
         $scope.ingestedHeaders = [];
 
         function fetchIngested() {
@@ -143,8 +143,8 @@ OSCR.controller(
             var fileTree = treeOf(file);
             _.each(fileTree.elements, function (el) { // cheat
                 switch(el.name) {
-                    case 'Description':
-                        el.value = file.description;
+                    case 'Notes':
+                        el.value = file.notes;
                         break;
                     case 'Collection':
                         el.value = file.collection;

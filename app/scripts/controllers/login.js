@@ -33,6 +33,11 @@ OSCR.controller(
                 $cookieStore.put('user', user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
+                    _.each($rootScope.user.Memberships.Membership, function (membership) {
+                        if (membership.GroupIdentifier === 'OSCR' && membership.Role === 'Administrator') {
+                            $rootScope.user.god = true;
+                        }
+                    });
                 }
             }
             else {
@@ -95,7 +100,8 @@ OSCR.controller(
         });
 
         $rootScope.logout = function () {
-            delete $rootScope.user;
+            $cookieStore.remove('user');
+            setUser(null);
             $scope.choosePath('/login');
         };
 

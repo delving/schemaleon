@@ -14,7 +14,7 @@ OSCR.filter('elementDisplay',
             else if (element.config.media) {
                 log('elementDisplay');
                 log(element.value);
-                return element.value.Description;
+                return element.value.Notes;
             }
             else {
                 return element.value;
@@ -96,11 +96,11 @@ OSCR.controller(
         };
 
         $scope.mediaToString = function (media) {
+            log('media to string');
+            log(media);
             if (!media) {
                 return [];
             }
-//            log('media to string');
-//            log(media);
             return media.Header.Label; // todo
         };
 
@@ -118,7 +118,7 @@ OSCR.controller(
         };
 
         $scope.setValue = function (value) {
-            $scope.el.value = angular.copy(value.Body.ImageMetadata);
+            $scope.el.value = angular.copy(value.Body.MediaMetadata);
             $scope.el.value.Identifier = value.Header.Identifier;
             if ($scope.el.tree) {
                 $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
@@ -174,6 +174,7 @@ OSCR.controller(
         $scope.getEntries = function (query) {
             var deferred = $q.defer();
             Vocabulary.select($scope.schema, query, function (list) {
+                console.log(list);
                 deferred.resolve(list);
             });
             return deferred.promise;
@@ -269,6 +270,11 @@ OSCR.controller(
         $scope.setActive('textArea');
         if ($scope.el.value === undefined) {
             $scope.enableEditor();
+        }
+        if (!$scope.el.suspendValidation) {
+            $scope.$watch('el.value', function (after, before) {
+                $scope.revalidate();
+            });
         }
     }
 );

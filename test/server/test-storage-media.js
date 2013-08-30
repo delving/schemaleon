@@ -64,7 +64,7 @@ exports.testImageIngestion = function (test) {
             };
             var header = {
                 Identifier: '#IDENTIFIER#',
-                SchemaName: 'ImageMetadata',
+                SchemaName: 'MediaMetadata',
                 TimeStamp: "#TIMESTAMP#",
                 EMail: 'oscr@delving.eu',
                 MediaObject: {

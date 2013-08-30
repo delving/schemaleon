@@ -8,7 +8,7 @@ OSCR.controller(
     'ImageCollectionController',
     function ($rootScope, $scope) {
         $scope.annotationMode = true;
-        $scope.schema = 'ImageMetadata';
+        $scope.schema = 'MediaMetadata';
         $scope.tree = null;
 
         $scope.document = $scope.schema; // just a name triggers schema fetch
@@ -25,7 +25,7 @@ OSCR.controller(
             if (!file || !file.tree || !$scope.tree) return false;
             var coll = file.tree.elements[1];
             coll.value = $scope.tree.value;
-            if (file.description) {
+            if (file.notes) {
                 if (!!coll.value) {
                     file.collection = coll.value;
                     file.selectCollectionWarning = false;
@@ -42,7 +42,7 @@ OSCR.controller(
         };
 
         $scope.showDestroy = function (file) {
-            return !!file.description && !!file.$destroy;
+            return !!file.notes && !!file.$destroy;
         };
     }
 );
@@ -153,6 +153,7 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 useHeader(document.Header);
+                // todo: if it was new, we have to change the path
             });
         };
     }
@@ -287,7 +288,9 @@ OSCR.controller(
 
         $scope.navigationKeyPressed = function (key) {
             if ($scope.annotationMode) return; // is there maybe a better way?
-            var size = $scope.panels[$scope.selectedWhere].element.elements.length;
+            var elements = $scope.panels[$scope.selectedWhere].element.elements;
+            if (!elements) return;
+            var size = elements.length;
             switch (key) {
                 case 'up':
                     $scope.choose(($scope.selected + size - 1) % size, $scope.selectedWhere);
@@ -337,7 +340,6 @@ OSCR.directive('focus',
             link: function (scope, element, attrs) {
                 if (attrs.id === scope.active) {
                     $timeout(function(){
-                        console.log("focus:" + attrs.id); // todo: remove
                         element[0].focus();
                     });
                 }

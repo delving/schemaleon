@@ -22,10 +22,10 @@ var schemaXml = '?';
 
 exports.testFetchSchema = function (test) {
     test.expect(2);
-    storage.Document.getDocumentSchema('Photograph', function (xml) {
+    storage.Document.getDocumentSchema('Photo', function (xml) {
         test.ok(xml, "no xml");
         log("fetched:\n" + xml);
-        test.ok(xml.indexOf('<Photograph>') == 0, "Didn't retrieve");
+        test.ok(xml.indexOf('<Photo>') == 0, "Didn't retrieve");
         schemaXml = xml;
         test.done();
     });
@@ -39,19 +39,18 @@ exports.testSaveDocument = function (test) {
         header: {
             Identifier: '#IDENTIFIER#',
             Title: 'Big Bang',
-            SchemaName: 'Photograph'
+            SchemaName: 'Photo'
         },
         xml: '<Document>' +
             '<Header>' +
             '<Identifier>#IDENTIFIER#</Identifier>' +
             '<Title>Big Bang</Title>' +
-            '<SchemaName>Photograph</SchemaName>' +
+            '<SchemaName>Photo</SchemaName>' +
             '</Header>' +
             '<Body>' +
-            '<Photograph>' +
-            '<Title>Test Document</Title>' +
-            '<Description>Big Bang</Description>' +
-            '</Photograph>' +
+            '<Photo>' +
+            '<Title>Big Bang</Title>' +
+            '</Photo>' +
             '</Body>' +
             '</Document>'
     };
@@ -68,19 +67,18 @@ exports.testSaveAnother = function (test) {
         header: {
             Identifier: '#IDENTIFIER#',
             Title: 'Big Bunga Bunga',
-            SchemaName: 'Photograph'
+            SchemaName: 'Photo'
         },
         xml: '<Document>' +
             '<Header>' +
             '<Identifier>#IDENTIFIER#</Identifier>' +
-            '<Title>Big Bungasconi</Title>' +
-            '<SchemaName>Photograph</SchemaName>' +
+            '<Title>Big Bung Bunga</Title>' +
+            '<SchemaName>Photo</SchemaName>' +
             '</Header>' +
             '<Body>' +
-            '<Photograph>' +
-            '<Title>Incriminating</Title>' +
-            '<Description>Censored</Description>' +
-            '</Photograph>' +
+            '<Photo>' +
+            '<Title>Big Bung Bunga</Title>' +
+            '</Photo>' +
             '</Body>' +
             '</Document>'
     };
@@ -97,20 +95,18 @@ exports.testSaveDocumentAgain = function (test) {
         header: {
             Identifier: headerIdentifier,
             Title: 'Big Crazy Bang',
-            SchemaName: 'Photograph'
+            SchemaName: 'Photo'
         },
         xml: '<Document>' +
             '<Header>' +
             '<Identifier>' + headerIdentifier + '</Identifier>' +
             '<Title>Big Crazy Bang</Title>' +
-            '<SchemaName>Photograph</SchemaName>' +
+            '<SchemaName>Photo</SchemaName>' +
             '</Header>' +
             '<Body>' +
-            '<Photograph>' +
-            '<Title>Test Document</Title>' +
-            '<Description>Big Bang</Description>' +
-            '<Description>and more</Description>' +
-            '</Photograph>' +
+            '<Photo>' +
+            '<Title>Big Crazy Bang</Title>' +
+            '</Photo>' +
             '</Body>' +
             '</Document>'
     };
@@ -122,7 +118,7 @@ exports.testSaveDocumentAgain = function (test) {
 
 exports.testGetDocument = function (test) {
     test.expect(2);
-    storage.Document.getDocument('Photograph', headerIdentifier, function (xml) {
+    storage.Document.getDocument('Photo', headerIdentifier, function (xml) {
         log(xml);
         test.ok(xml.indexOf(headerIdentifier) >= 0, "Id not found");
         test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
@@ -132,7 +128,7 @@ exports.testGetDocument = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    storage.Document.getAllDocuments('Photograph', function (xml) {
+    storage.Document.getAllDocuments('Photo', function (xml) {
         log(xml);
         test.ok(xml, "No xml");
         test.ok(xml.indexOf(headerIdentifier) >= 0, "No identifier found to match " + headerIdentifier);
@@ -142,7 +138,7 @@ exports.testGetDocumentList = function (test) {
 
 exports.testSelectDocuments = function (test) {
     test.expect(2);
-    storage.Document.selectDocuments('Photograph', 'bang', function (xml) {
+    storage.Document.selectDocuments('Photo', 'bang', function (xml) {
         log('testSelectDocuments:');
         log(xml);
         test.ok(xml, "No xml");

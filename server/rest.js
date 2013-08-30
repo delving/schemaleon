@@ -331,8 +331,14 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/log', function (req, res) {
-        storage.Log.getEntries(function(xml) {
+        storage.Log.getEntries(function (xml) {
             res.xml(xml);
+        });
+    });
+
+    app.get('/refreshSchemas', function (req, res) {
+        storage.refreshSchemas(function () {
+            res.xml('<refreshed>' + new Date() + '</refreshed>');
         });
     });
 

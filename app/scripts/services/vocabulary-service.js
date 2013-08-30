@@ -20,6 +20,7 @@ OSCR.service(
 
         this.select = function (vocab, query, accept) {
             $http.get('/vocabulary/' + vocab + "/select", {params: {q: query}}).success(function (data) {
+                console.log('vocab select '+data);
                 accept(xmlToArray(data));
             });
         };

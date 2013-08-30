@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var _ = require('underscore');
 var Storage = require('../../server/storage');
 
 var storage = null;
@@ -169,8 +170,11 @@ exports.testAddAnotherMembership = function (test) {
         '</User>';
 
     test.expect(2);
-    storage.Person.addUserToGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.addUserToGroup(userIdentifier, 'Member', oscrGroupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
+        userXml = (_.filter(userXml.split('\n'), function (line) {
+            return !line.match(/SaveTime/);
+        })).join('\n');
         log(userXml);
         log(expectedUserXml);
         test.equal(userXml, expectedUserXml, "xml mismatch!");
@@ -219,6 +223,9 @@ exports.testRemoveMembership = function (test) {
     test.expect(2);
     storage.Person.removeUserFromGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
+        userXml = (_.filter(userXml.split('\n'), function (line) {
+            return !line.match(/SaveTime/);
+        })).join('\n');
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("remove user from group:\n" + userXml);
         test.done();

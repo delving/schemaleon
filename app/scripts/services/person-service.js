@@ -85,5 +85,12 @@ angular.module('OSCR').service(
                 accept(userObject.User.Profile);
             });
         };
+
+        this.refreshSchemas = function (accept) {
+            $http.get('/refreshSchemas').success(function (xml) {
+                accept(xmlToObject(xml));
+            });
+        };
+
     }
 );

@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams, $timeout) {
+    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -64,6 +64,12 @@ OSCR.controller(
             return $rootScope.config.showTranslationEditor;
         };
 
+        $rootScope.refreshSchemas = function() {
+            Person.refreshSchemas(function (result) {
+                console.log("Refreshed schemas "+JSON.stringify(result));
+            })
+        };
+
         // APPLICATION NAVIGATION ================================================================
 
         $rootScope.checkLoggedIn = function() {
@@ -77,6 +83,7 @@ OSCR.controller(
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
                 {name: "Photo", path: "/document/Photo", icon: 'icon-file', active: false},
                 {name: "InMemoriam", path: "/document/InMemoriam", icon: 'icon-file', active: false},
+                {name: "Book", path: "/document/Book", icon: 'icon-file', active: false},
                 {name: "Video", path: "/document/Video", icon: 'icon-file', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
                 {name: "People", path: "/people", icon: 'icon-user', active: false}
@@ -94,7 +101,7 @@ OSCR.controller(
         }
 
         $scope.choosePath = function (path, fromCookieStore) {
-            console.log('PATH '+path);
+//            console.log('PATH '+path);
             if ($rootScope.translating()) return;
             var activeItem = false;
             _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
