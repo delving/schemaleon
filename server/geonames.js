@@ -18,7 +18,7 @@ function transformResponse(list) {
 
 module.exports.search = function (query, receiver) {
     http.get(
-        'http://api.geonames.org/searchJSON?username=delving&featureCode=PPL&lang=nl&name=' + encodeURIComponent(query),
+        'http://api.geonames.org/searchJSON?username=delving&featureCode=PPL&lang=nl&name_startsWith=' + encodeURIComponent(query),
         function (res) {
             var result = '';
             res.on('data', function (data) {

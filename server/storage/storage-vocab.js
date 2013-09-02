@@ -122,7 +122,6 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
             ],
             function (result) {
                 if (result) {
-                    console.log('result');
                     receiver(result);
                 }
                 else {
@@ -136,7 +135,7 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
     var s = this.storage;
     if (lookup) {
         getLookupXml(function(lookupXml) {
-            console.log('lookup xml '+lookupXml);
+//            console.log('geonames lookup xml '+lookupXml);
             doQuery(lookupXml);
         })
     }

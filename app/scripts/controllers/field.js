@@ -157,7 +157,7 @@ OSCR.controller(
                 $scope.el.tree = {
                     name: 'Entry',
                     elements: schema.elements[0].elements,
-                    config: {}
+                    config: schema.elements[0].config
                 };
             });
         }
@@ -173,12 +173,22 @@ OSCR.controller(
 
         $scope.getEntries = function (query) {
             var deferred = $q.defer();
-            console.log('tree');
-            console.log(JSON.stringify($scope.el.tree));
             var lookup = $scope.el.tree ? $scope.el.tree.config.lookup : null;
             Vocabulary.select($scope.schema, query, lookup, function (list) {
-                console.log(list);
-                deferred.resolve(list);
+                var lookupEntries = null;
+                var entries = _.filter(list, function(item) {
+                    if (item.Entry) {
+                        lookupEntries = item.Entry;
+                        return false;
+                    }
+                    return true;
+                });
+                if (lookupEntries) {
+                    entries = entries.concat(lookupEntries);
+                }
+                console.log('lookup entries');
+                console.log(JSON.stringify(entries));
+                deferred.resolve(entries);
             });
             return deferred.promise;
         };
@@ -223,7 +233,7 @@ OSCR.controller(
         });
 
         $scope.entryToString = function (entry) {
-            if (!entry) return '';
+            if (!entry || !entry.Label) return '';
             return entry.Label;
         };
 
