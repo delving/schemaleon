@@ -1,20 +1,40 @@
 'use strict';
 
+var _ = require('underscore');
 var http = require('http');
+var util = require('./util');
 
-module.exports = function(query, receiver) {
+function transformResponse(list) {
+    return _.map(list, function (item) {
+        return {
+            Identifier: item.geonameId,
+            Label: item.toponymName + ', ' + item.adminName1 + ', ' + item.countryName,
+            URI: 'http://sws.geonames.org/' + item.geonameId + '/',
+            Latitude: item.lat,
+            Longitude: item.lng
+        };
+    });
+}
+
+module.exports.search = function (query, receiver) {
     http.get(
-        'http://api.geonames.org/searchJSON?username=delving&name='+query, // todo: escaping?
-        function(res) {
+        'http://api.geonames.org/searchJSON?username=delving&featureCode=PPL&lang=nl&name=' + encodeURIComponent(query),
+        function (res) {
             var result = '';
-            res.on('data', function(data) {
+            res.on('data', function (data) {
                 result += data;
             });
-            res.on('end', function() {
+            res.on('end', function () {
                 var object = JSON.parse(result);
-                receiver(object);
+                receiver(transformResponse(object.geonames));
             })
         }
     ).end();
+};
+
+module.exports.fetchUrl = function (uri, receiver) {
+    http.get(uri,function (res) {
+        receiver(res.headers.location);
+    }).end();
 };
 

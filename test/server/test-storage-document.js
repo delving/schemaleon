@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var Storage = require('../../server/storage');
+var util = require('../../server/util');
 
 function log(message) {
 //    console.log(message);
@@ -55,7 +56,7 @@ exports.testSaveDocument = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (xml) {
-        headerIdentifier = storage.Util.getFromXml(xml, 'Identifier');
+        headerIdentifier = util.getFromXml(xml, 'Identifier');
         test.ok(headerIdentifier.indexOf('OSCR-') >= 0, "Didn't retrieve");
         test.done();
     });
@@ -83,7 +84,7 @@ exports.testSaveAnother = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (xml) {
-        var identifier = storage.Util.getFromXml(xml, 'Identifier');
+        var identifier = util.getFromXml(xml, 'Identifier');
         test.ok(identifier.indexOf('OSCR-') >= 0, "Didn't retrieve");
         test.done();
     });
@@ -111,7 +112,7 @@ exports.testSaveDocumentAgain = function (test) {
             '</Document>'
     };
     storage.Document.saveDocument(body, function (header) {
-        test.equal(headerIdentifier, storage.Util.getFromXml(header, 'Identifier'), 'Different header');
+        test.equal(headerIdentifier, util.getFromXml(header, 'Identifier'), 'Different header');
         test.done();
     });
 };

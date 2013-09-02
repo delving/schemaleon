@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 var Storage = require('../../server/storage');
+var util = require('../../server/util');
 
 function log(message) {
 //    console.log(message);
@@ -44,7 +45,7 @@ function envelope(header, body) {
         Header: header,
         Body: body
     };
-    var documentXml = storage.Util.objectToXml(document, 'Document');
+    var documentXml = util.objectToXml(document, 'Document');
     return {
         header: header,
         xml: documentXml
@@ -56,7 +57,6 @@ exports.testImageIngestion = function (test) {
     var fileName = 'zoomcat.jpg';
     copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaUploadDir, fileName), function () {
         copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaThumbnailDir, fileName), function () {
-
             var body = {
                 Creator: 'zoomy',
                 Description: 'disturbing',
@@ -79,7 +79,7 @@ exports.testImageIngestion = function (test) {
                 test.ok(xml, "no xml");
                 log('xml:');
                 log(xml);
-                var schemaName = storage.Util.getFromXml(xml, "SchemaName");
+                var schemaName = util.getFromXml(xml, "SchemaName");
                 storage.Document.getAllDocuments(schemaName, function (results) {
                     log('listImageData for ' + schemaName);
                     log(results);

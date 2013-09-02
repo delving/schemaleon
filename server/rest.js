@@ -6,6 +6,7 @@ var https = require('https');
 var crypto = require('crypto');
 var Storage = require('./storage');
 var upload = require('./upload');
+var util = require('./util');
 
 var app = express();
 app.use(upload);
@@ -73,7 +74,7 @@ Storage('oscr', homeDir, function (storage) {
                                 profile.username = username;
                                 req.session.profile = profile;
                                 storage.Person.getOrCreateUser(profile, function (xml) {
-                                    req.session.Identifier = storage.Util.getFromXml(xml, 'Identifier');
+                                    req.session.Identifier = util.getFromXml(xml, 'Identifier');
                                     res.xml(xml);
                                     storage.Log.add(req, {
                                         Op: "Authenticate"
@@ -244,7 +245,8 @@ Storage('oscr', homeDir, function (storage) {
 
     app.get('/vocabulary/:vocab/select', function (req, res) {
         var search = req.param('q').toLowerCase();
-        storage.Vocab.getVocabularyEntries(req.params.vocab, search, function (xml) {
+        var lookup = req.param('lookup');
+        storage.Vocab.getVocabularyEntries(req.params.vocab, search, lookup, function (xml) {
             res.xml(xml);
         });
     });
@@ -307,8 +309,8 @@ Storage('oscr', homeDir, function (storage) {
             if (header) {
                 storage.Log.add(req, {
                     Op: "SaveDocument",
-                    Identifier: storage.Util.getFromXml(header, "Identifier"),
-                    SchemaName: storage.Util.getFromXml(header, "SchemaName")
+                    Identifier: util.getFromXml(header, "Identifier"),
+                    SchemaName: util.getFromXml(header, "SchemaName")
                 })
             }
         });

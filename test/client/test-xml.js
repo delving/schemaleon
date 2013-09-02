@@ -3,7 +3,7 @@
 describe('XML Operations', function () {
 
     var photoXml =
-        '<PhotoObject>' +
+        '<PhotoObject>{ "lookup": "lookyhere" }' +
             '    <Name></Name>' +
             '    <Title>{ "multiple": true, "summaryField": "Title" }</Title>' +
             '    <Type>{ "multiple": true }' +
@@ -62,7 +62,9 @@ describe('XML Operations', function () {
                 config: {}
             }
         ],
-        config: {}
+        config: {
+            lookup: 'lookyhere'
+        }
     };
 
     var photoObject =

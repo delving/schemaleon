@@ -12,7 +12,6 @@ var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
 var Media = require('./storage-media');
 var ID = require('./storage-id');
-var Util = require('./storage-util');
 var Log = require('./storage-log');
 var Directories = require('../directories');
 
@@ -23,7 +22,6 @@ function log(message) {
 function Storage(home) {
     this.session = new basex.Session();
     this.directories = new Directories(home);
-    this.Util = new Util(this);
     this.ID = new ID(this);
     this.Person = new Person(this);
     this.I18N = new I18N(this);
@@ -31,16 +29,6 @@ function Storage(home) {
     this.Document = new Document(this);
     this.Media = new Media(this);
     this.Log = new Log(this);
-
-    this.quote = function (value) {
-        if (!value) return "''";
-        return "'" + value.replace(/'/g, "\'\'") + "'";
-    };
-
-    this.inXml = function (value) {
-        if (!value) return '';
-        return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    };
 
     this.userDocument = function (identifier) {
         return "/people/users/" + identifier + ".xml";

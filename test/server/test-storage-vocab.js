@@ -66,7 +66,7 @@ exports.testAddEntry2 = function (test) {
 
 exports.testFetchEntry = function(test) {
     test.expect(1);
-    storage.Vocab.getVocabularyEntries('PhotoType', 'y', function(xml) {
+    storage.Vocab.getVocabularyEntries('PhotoType', 'y', null, function(xml) {
         test.ok(xml, "no xml");
         log("fetched:\n" + xml);
         test.done();

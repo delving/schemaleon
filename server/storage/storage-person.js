@@ -1,5 +1,7 @@
 'use strict';
 
+var util = require('../util');
+
 module.exports = Person;
 
 function Person(storage) {
@@ -33,7 +35,7 @@ P.getOrCreateUser = function (profile, receiver) {
     }
 
     function addUser(userObject) {
-        var userXml = s.Util.objectToXml(userObject, 'User');
+        var userXml = util.objectToXml(userObject, 'User');
         if (!userObject.Identifier) {
             console.trace('No Identifier in user object!');
         }
@@ -73,7 +75,7 @@ P.getOrCreateUser = function (profile, receiver) {
     }
 
     s.query(null,
-        s.userCollection() + '[Profile/username=' + s.quote(profile.username) + ']',
+        s.userCollection() + '[Profile/username=' + util.quote(profile.username) + ']',
         function (result) {
             if (result) {
                 receiver(result);
@@ -97,7 +99,7 @@ P.getOrCreateUser = function (profile, receiver) {
                             };
                             self.saveGroup(oscrGroup, function (result) {
                                 log('created group ' + result);
-                                var groupIdentifier = s.Util.getFromXml(result, 'Identifier');
+                                var groupIdentifier = util.getFromXml(result, 'Identifier');
                                 userObject.Memberships = {
                                     Membership: [
                                         {
@@ -133,7 +135,7 @@ P.getUsersInGroup = function (identifier, receiver) {
     s.query('get users in group ' + identifier,
         [
             '<Users>',
-            '    { ' + s.userCollection() + '[Memberships/Membership/GroupIdentifier=' + s.quote(identifier) + '] }',
+            '    { ' + s.userCollection() + '[Memberships/Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
             '</Users>'
         ],
         receiver
@@ -146,10 +148,10 @@ P.getUsers = function (search, receiver) {
         [
             '<Users>',
             '    { ' + s.userCollection() + '[',
-            '      contains(lower-case(Profile/username), ' + s.quote(search) + ')',
-            '      or contains(lower-case(Profile/email), ' + s.quote(search) + ')',
-            '      or contains(lower-case(Profile/firstName), ' + s.quote(search) + ')',
-            '      or contains(lower-case(Profile/lastName), ' + s.quote(search) + ')',
+            '      contains(lower-case(Profile/username), ' + util.quote(search) + ')',
+            '      or contains(lower-case(Profile/email), ' + util.quote(search) + ')',
+            '      or contains(lower-case(Profile/firstName), ' + util.quote(search) + ')',
+            '      or contains(lower-case(Profile/lastName), ' + util.quote(search) + ')',
             '    ]}',
             '</Users>'
         ],
@@ -176,7 +178,7 @@ P.saveGroup = function (group, receiver) {
     if (!existing) {
         group.Identifier = s.ID.generateGroupId();
     }
-    var groupXml = s.Util.objectToXml(group, "Group");
+    var groupXml = util.objectToXml(group, "Group");
     if (existing && group.Identifier != 'OSCR') {
         s.replace('save existing group ' + group.Identifier,
             s.groupDocument(group.Identifier), groupXml,
@@ -196,7 +198,7 @@ P.getGroups = function (search, receiver) {
     s.query('get groups ' + search,
         [
             '<Groups>',
-            '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + s.quote(search) + '))] }',
+            '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + util.quote(search) + '))] }',
             '</Groups>'
         ],
         receiver
@@ -231,7 +233,7 @@ P.addUserToGroup = function (userIdentifier, role, groupIdentifier, receiver) {
             'let $user := ' + s.userPath(userIdentifier),
             'let $mem := ' + '<Membership><GroupIdentifier>' + groupIdentifier + '</GroupIdentifier><Role>' + role + '</Role></Membership>',
             'return',
-            'if (exists($user/Memberships/Membership[GroupIdentifier=' + s.quote(groupIdentifier) + ']))',
+            'if (exists($user/Memberships/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']))',
             'then ()',
             'else ( if (exists($user/Memberships))',
             'then (insert node $mem into $user/Memberships)',
@@ -256,7 +258,7 @@ P.removeUserFromGroup = function (userIdentifier, role, groupIdentifier, receive
     var s = this.storage;
     var addition = userIdentifier + ' ' + role + ' ' + groupIdentifier;
     s.update('remove user from group ' + addition,
-        'delete node ' + s.userPath(userIdentifier) + '/Memberships/Membership[GroupIdentifier=' + s.quote(groupIdentifier) + ']',
+        'delete node ' + s.userPath(userIdentifier) + '/Memberships/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
         function (result) {
             if (result) {
                 s.query('re-fetch user after remove membership ' + addition,

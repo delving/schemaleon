@@ -173,7 +173,10 @@ OSCR.controller(
 
         $scope.getEntries = function (query) {
             var deferred = $q.defer();
-            Vocabulary.select($scope.schema, query, function (list) {
+            console.log('tree');
+            console.log(JSON.stringify($scope.el.tree));
+            var lookup = $scope.el.tree ? $scope.el.tree.config.lookup : null;
+            Vocabulary.select($scope.schema, query, lookup, function (list) {
                 console.log(list);
                 deferred.resolve(list);
             });

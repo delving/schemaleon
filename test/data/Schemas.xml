@@ -3,10 +3,10 @@
 
     <Vocabulary>
         <!--All vocabularies contain Identifier and Label as a basis-->
-        <Place>
-            <GeoNamesURI/>
-            <LatLong>{ "validator": "latLong" }</LatLong>
-            <PartOf>{ "vocabulary": "Place" }</PartOf>
+        <Place>{ "lookup": "geonames" }
+            <URI/>
+            <Latitude/>
+            <Longitude/>
         </Place>
         <Actor>
             <FirstName>{ "multiple": true }</FirstName>

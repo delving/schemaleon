@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = I18N;
+var util = require('../util');
 
 function I18N(storage) {
     this.storage = storage;
@@ -35,8 +36,8 @@ P.setLabel = function (language, key, value, receiver) {
     s.update('set label ' + language + ' ' + key + ' ' + value,
         [
             "if (exists(" + keyPath + "))" ,
-            "then replace value of node " + keyPath + " with " + s.quote(value),
-            "else insert node <" + key + ">" + s.inXml(value) + "</" + key + "> into " + labelPath,
+            "then replace value of node " + keyPath + " with " + util.quote(value),
+            "else insert node <" + key + ">" + util.inXml(value) + "</" + key + "> into " + labelPath,
         ],
         receiver
     );
@@ -50,8 +51,8 @@ P.setElementTitle = function (language, key, value, receiver) {
     s.update('set element title ' + language + ' ' + key + ' ' + value,
         [
             "if (exists(" + keyPath + "))",
-            "then replace value of node " + titlePath + " with " + s.quote(value),
-            "else insert node <" + key + "><title>" + s.inXml(value) + "</title><doc>?</doc></" + key + "> into " + elementPath
+            "then replace value of node " + titlePath + " with " + util.quote(value),
+            "else insert node <" + key + "><title>" + util.inXml(value) + "</title><doc>?</doc></" + key + "> into " + elementPath
         ],
         receiver
     );
@@ -65,8 +66,8 @@ P.setElementDoc = function (language, key, value, receiver) {
     s.update('set element doc ' + language + ' ' + key + ' ' + value,
         [
             "if (exists(" + keyPath + "))",
-            "then replace value of node " + entryPath + " with " + s.quote(value),
-            "else insert node <" + key + "><title>?</title><doc>" + s.inXml(value) + "</doc></" + key + "> into " + elementPath
+            "then replace value of node " + entryPath + " with " + util.quote(value),
+            "else insert node <" + key + "><title>?</title><doc>" + util.inXml(value) + "</doc></" + key + "> into " + elementPath
         ],
         receiver
     );

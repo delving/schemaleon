@@ -18,15 +18,23 @@ OSCR.service(
             });
         };
 
-        this.select = function (vocab, query, accept) {
-            $http.get('/vocabulary/' + vocab + "/select", {params: {q: query}}).success(function (data) {
-                console.log('vocab select '+data);
+        this.select = function (vocab, query, lookup, accept) {
+            var params = { q: query };
+            if (lookup) {
+                console.log('vocab with lookup '+lookup);
+                params.lookup = lookup;
+            }
+            else {
+                console.log('vocab plain');
+            }
+            $http.get('/vocabulary/' + vocab + "/select", { params: params }).success(function (data) {
+                console.log('vocab select ' + data);
                 accept(xmlToArray(data));
             });
         };
 
-        this.get = function(vocab, accept) {
-            $http.get('/vocabulary/' + vocab +'/all').success(function (data) {
+        this.get = function (vocab, accept) {
+            $http.get('/vocabulary/' + vocab + '/all').success(function (data) {
                 accept(xmlToObject(data));
             });
         };

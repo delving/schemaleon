@@ -2,15 +2,17 @@
 
 var _ = require('underscore');
 
-module.exports = Util;
+module.exports.quote = function (value) {
+    if (!value) return "''";
+    return "'" + value.replace(/'/g, "\'\'") + "'";
+};
 
-function Util(storage) {
-    this.storage = storage;
-}
+module.exports.inXml = function (value) {
+    if (!value) return '';
+    return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+};
 
-var P = Util.prototype;
-
-P.getFromXml = function (xml, tag) {
+module.exports.getFromXml = function (xml, tag) {
     var start = xml.indexOf('<' + tag + '>');
     if (start >= 0) {
         var end = xml.indexOf('</' + tag + '>', start);
@@ -22,8 +24,9 @@ P.getFromXml = function (xml, tag) {
     return '';
 };
 
-P.objectToXml = function (object, tag) {
+module.exports.objectToXml = function (object, tag) {
     var s = this.storage;
+    var self = this;
     var out = [];
 
     function indent(string, level) {
@@ -34,7 +37,7 @@ P.objectToXml = function (object, tag) {
         for (var key in from) {
             var value = from[key];
             if (_.isString(value)) {
-                out.push(indent('<' + key + '>', level) + s.inXml(value) + '</' + key + '>');
+                out.push(indent('<' + key + '>', level) + self.inXml(value) + '</' + key + '>');
             }
             else if (_.isNumber(value)) {
                 out.push(indent('<' + key + '>', level) + value + '</' + key + '>');
@@ -42,7 +45,7 @@ P.objectToXml = function (object, tag) {
             else if (_.isArray(value)) {
                 _.each(value, function (item) {
                     if (_.isString(item)) {
-                        out.push(indent('<' + key + '>', level) + s.inXml(item) + '</' + key + '>');
+                        out.push(indent('<' + key + '>', level) + self.inXml(item) + '</' + key + '>');
                     }
                     else {
                         out.push(indent('<' + key + '>', level));
