@@ -11,7 +11,6 @@ var I18N = require('./storage-i18n');
 var Vocab = require('./storage-vocab');
 var Document = require('./storage-document');
 var Media = require('./storage-media');
-var ID = require('./storage-id');
 var Log = require('./storage-log');
 var Directories = require('../directories');
 
@@ -22,7 +21,6 @@ function log(message) {
 function Storage(home) {
     this.session = new basex.Session();
     this.directories = new Directories(home);
-    this.ID = new ID(this);
     this.Person = new Person(this);
     this.I18N = new I18N(this);
     this.Vocab = new Vocab(this);
@@ -71,7 +69,11 @@ function Storage(home) {
     };
 
     this.vocabPath = function (vocabName) {
-        return "doc('" + this.database + this.vocabDocument(vocabName) + "')/Entries";
+        return "doc('" + this.database + this.vocabDocument(vocabName) + "')";
+    };
+
+    this.vocabExists = function (vocabName) {
+        return "db:exists('" + this.database + "','" + this.vocabDocument(vocabName) + "') = true";
     };
 
     this.docDocument = function (schemaName, identifier) {

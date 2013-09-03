@@ -82,7 +82,7 @@ P.getOrCreateUser = function (profile, receiver) {
             }
             else {
                 var userObject = {
-                    Identifier: s.ID.generateUserId(),
+                    Identifier: util.generateUserId(),
                     Profile: profile,
                     SaveTime: new Date().getTime()
                 };
@@ -176,7 +176,7 @@ P.saveGroup = function (group, receiver) {
     group.SaveTime = new Date().getTime();
     var existing = group.Identifier;
     if (!existing) {
-        group.Identifier = s.ID.generateGroupId();
+        group.Identifier = util.generateGroupId();
     }
     var groupXml = util.objectToXml(group, "Group");
     if (existing && group.Identifier != 'OSCR') {

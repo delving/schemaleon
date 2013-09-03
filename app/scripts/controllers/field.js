@@ -152,6 +152,8 @@ OSCR.controller(
         if ($scope.el.value === undefined) {
             $scope.enableEditor();
         }
+
+
         if (!$scope.el.tree) {
             Vocabulary.getSchema($scope.schema, function (schema) {
                 $scope.el.tree = {
@@ -159,24 +161,20 @@ OSCR.controller(
                     elements: schema.elements[0].elements,
                     config: schema.elements[0].config
                 };
+                if ($scope.el.value) {
+                    $scope.setValue($scope.el.value);
+                }
             });
-        }
-
-        if (!$scope.valueChecked) {
-            if ($scope.el.value) {
-                Vocabulary.fetchEntry($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
-                    $scope.chosenEntry = fetchedValue.Entry;
-                });
-            }
-            $scope.valueChecked = true;
         }
 
         $scope.getEntries = function (query) {
             var deferred = $q.defer();
             var lookup = $scope.el.tree ? $scope.el.tree.config.lookup : null;
             Vocabulary.select($scope.schema, query, lookup, function (list) {
+//                console.log('vocab select '+list.length);
+//                console.log(list);
                 var lookupEntries = null;
-                var entries = _.filter(list, function(item) {
+                var entries = _.filter(list, function (item) {
                     if (item.Entry) {
                         lookupEntries = item.Entry;
                         return false;
@@ -184,10 +182,13 @@ OSCR.controller(
                     return true;
                 });
                 if (lookupEntries) {
-                    entries = entries.concat(lookupEntries);
+                    entries = entries.concat(_.map(lookupEntries, function (entry) {
+                        entry.source = lookup;
+                        return entry;
+                    }));
                 }
-                console.log('lookup entries');
-                console.log(JSON.stringify(entries));
+//                console.log('lookup entries');
+//                console.log(JSON.stringify(entries));
                 deferred.resolve(entries);
             });
             return deferred.promise;
@@ -210,6 +211,7 @@ OSCR.controller(
                 $scope.panels.pop();
                 $scope.el.elements = null;
                 $scope.setValue(entry.Entry);
+                console.log('saved ' + JSON.stringify(entry.Entry));
                 $scope.disableEditor();
             });
         };
@@ -229,12 +231,22 @@ OSCR.controller(
         $scope.$watch('chosenEntry', function (after, before) {
             if (_.isObject(after)) {
                 $scope.setValue(after);
+                if (after.source) {
+                    delete after.source;
+                    populateTree($scope.el.tree, { Entry: after });
+                    $scope.submitNew();
+                }
             }
         });
 
         $scope.entryToString = function (entry) {
             if (!entry || !entry.Label) return '';
-            return entry.Label;
+            if (entry.source) {
+                return entry.source + ': '+ entry.Label;
+            }
+            else {
+                return entry.Label;
+            }
         };
 
         $scope.setValue = function (value) {
@@ -249,7 +261,7 @@ OSCR.controller(
                     ),
                     function (field) {
                         if (field.prompt === 'Identifier' || field.prompt === 'Label') {
-                            $scope.el['valueField'+field.prompt] = field; // a naughty side effect
+                            $scope.el['valueField' + field.prompt] = field; // a naughty side effect
                             return false;
                         }
                         return !!field.value;

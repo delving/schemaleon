@@ -7,7 +7,6 @@ var util = require('./util');
 function transformResponse(list) {
     return _.map(list, function (item) {
         return {
-            Identifier: item.geonameId,
             Label: item.toponymName + ', ' + item.adminName1 + ', ' + item.countryName,
             URI: 'http://sws.geonames.org/' + item.geonameId + '/',
             Latitude: item.lat,

@@ -57,7 +57,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var self = this;
     var entryPath, entryXml, query;
     if (entry.Identifier) {
-        entryPath = s.vocabPath(vocabName) + "[Identifier=" + util.quote(entry.Identifier) + "]";
+        entryPath = s.vocabPath(vocabName) + "/Entries[Identifier=" + util.quote(entry.Identifier) + "]";
         entryXml = util.objectToXml(entry, 'Entry');
         s.update(null,
             "replace value of node " + entryPath + " with " + entryXml,
@@ -72,10 +72,14 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         );
     }
     else {
-        entry.Identifier = s.ID.generateVocabId();
+        entry.Identifier = util.generateVocabId();
         entryXml = util.objectToXml(entry, 'Entry');
         s.update(null,
-            "insert node (" + entryXml + ") into " + s.vocabPath(vocabName),
+            [
+                'if (' + s.vocabExists(vocabName) + ')',
+                'then insert node (' + entryXml + ') into ' + s.vocabPath(vocabName) + '/Entries',
+                'else add '+ s.vocabPath(vocabName) + ' ' + '<Entries>'+entryXml+'</Entries>'
+            ],
             function (result) {
                 if (result) {
                     receiver(entryXml); // use the result?
@@ -91,7 +95,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
 P.getVocabularyEntry = function (vocabName, identifier, receiver) {
     var s = this.storage;
     s.query(null,
-        s.vocabPath(vocabName) + "/Entry[Identifier=" + util.quote(identifier) + "]",
+        s.vocabPath(vocabName) + "/Entries/Entry[Identifier=" + util.quote(identifier) + "]",
         receiver
     );
 };
@@ -99,15 +103,15 @@ P.getVocabularyEntry = function (vocabName, identifier, receiver) {
 P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
 
     function getLookupXml(receiver) {
-        if (lookup === 'geonames') {
-            var service = require("../"+lookup);
+        if (lookup === 'geonames') { // eventually check a set of names
+            var service = require("../" + lookup);
             service.search(search, function (list) {
                 var wrap = { Entry: list };
                 receiver(util.objectToXml(wrap, "Lookup"));
             })
         }
         else {
-            console.warn('No lookup for '+lookup);
+            console.warn('No lookup for ' + lookup);
             receiver('');
         }
     }
@@ -116,25 +120,21 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
         s.query('fetch',
             [
                 '<Entries>',
-                '    { ' + s.vocabPath(vocabName) + "/Entry[contains(lower-case(Label), lower-case(" + util.quote(search) + "))] }",
+                '    {',
+                '    if ('+ s.vocabExists(vocabName) + ')',
+                '    then '+ s.vocabPath(vocabName) + "/Entries/Entry[contains(lower-case(Label), lower-case(" + util.quote(search) + "))]",
+                '    else ()',
+                '    }',
                 lookupXml,
                 '</Entries>'
             ],
-            function (result) {
-                if (result) {
-                    receiver(result);
-                }
-                else {
-                    console.warn('creating vocabulary '+vocabName);
-                    s.Vocab.createVocabulary(vocabName, '', receiver);
-                }
-            }
+            receiver
         );
     }
 
     var s = this.storage;
     if (lookup) {
-        getLookupXml(function(lookupXml) {
+        getLookupXml(function (lookupXml) {
 //            console.log('geonames lookup xml '+lookupXml);
             doQuery(lookupXml);
         })
@@ -147,13 +147,13 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
 P.getVocabulary = function (vocabName, receiver) {
     var s = this.storage;
     s.query(null,
-        s.vocabPath(vocabName),
+        s.vocabPath(vocabName) + '/Entries',
         function (result) {
             if (result) {
                 receiver(result);
             }
             else {
-                s.Vocab.createVocabulary(vocabName, '', receiver);
+                receiver('<Entries/>');
             }
         }
     );
