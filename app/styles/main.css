@@ -378,6 +378,12 @@ ul.kv-list li span.value {
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
 }
+.progress-indicator {
+  margin-top: 20px;
+}
+.media-list.media-commited .media .media-object {
+  max-width: 100px;
+}
 /* CUSTOM MIXINS */
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */
@@ -866,13 +872,6 @@ ul.main-menu .nav-header {
   /* Safari and Chrome */
 
   column-count: 2;
-  -moz-column-gap: 20px;
-  /* Firefox */
-
-  -webkit-column-gap: 20px;
-  /* Safari and Chrome */
-
-  column-gap: 20px;
 }
 /* DOCUMENT NAVBAR */
 .navbar.document .navbar-inner {
@@ -963,9 +962,9 @@ table.files th input[type=checkbox] {
   text-shadow: 1px 1px 2px #FFFFFF;
 }
 .step .number {
-  background: #999999;
+  background: #eeeeee;
   border: 4px solid #ffffff;
-  color: #222222;
+  color: #333333;
   display: inline-block;
   font-kerning: auto;
   margin-right: 8px;

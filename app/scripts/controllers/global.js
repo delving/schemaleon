@@ -81,12 +81,12 @@ OSCR.controller(
         $scope.mainMenu = {
             links: [
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
+                {name: "People", path: "/people", icon: 'icon-user', active: false},
+                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
                 {name: "Photo", path: "/document/Photo", icon: 'icon-file', active: false},
                 {name: "InMemoriam", path: "/document/InMemoriam", icon: 'icon-file', active: false},
                 {name: "Book", path: "/document/Book", icon: 'icon-file', active: false},
-                {name: "Video", path: "/document/Video", icon: 'icon-file', active: false},
-                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
-                {name: "People", path: "/people", icon: 'icon-user', active: false}
+                {name: "Video", path: "/document/Video", icon: 'icon-file', active: false}
             ]
         };
         $scope.recent = [];

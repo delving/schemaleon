@@ -16,7 +16,7 @@
                                 <!-- fileinput-button "span" styles the input field as button to not trigger form -->
                                 <span class="btn btn-success btn-block fileinput-button" ng-class="{disabled: disabled}">
                                     <i class="icon-plus icon-white"></i>
-                                    <span i18n="AddFiles"><span class="i18n">Add files</span></span>
+                                    <span i18n="SelectFiles"><span class="i18n">Add files</span></span>
                                     <input type="file" name="files[]" multiple ng-disabled="disabled">
                                 </span>
                                 <button type="button" class="btn btn-primary btn-block start"
@@ -86,6 +86,9 @@
 
                             <td>
                                 <textarea data-ng-hide="!file.$destroy" data-ng-model="file.notes" class="fade-in"></textarea>
+
+                                <p class="size">{{file.size | formatFileSize}}</p>
+                                <div class="progress progress-success progress-striped active fade" data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()"><div class="bar" data-ng-style="{width: num + '%'}"></div></div>
                             </td>
                             <td>
                                 <p class="name" data-ng-switch data-on="!!file.url">
@@ -135,7 +138,7 @@
                 </tab>
                 <tab>
                     <tab-heading><span class="nav-tabs" i18n="CommittedFiles"><span class="i18n"/></span></tab-heading>
-                    <ul class="media-list col-2">
+                    <ul class="media-list col-2 media-committed">
                         <li class="media" ng-repeat="doc in ingestedHeaders">
                             <a class="pull-left">
                                 <img class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}">
@@ -145,7 +148,7 @@
                                 <h4 class="media-heading">{{ doc.Identifier }}</h4>
                                 <dl class="dl-horizontal">
                                     <dt i18n="CommittedBy"></dt>
-                                    <dd>{{ doc.EMail }}</dd>
+                                    <dd>{{ doc.CommittedBy }}</dd>
                                     <dt i18n="CommittedOn"></dt>
                                     <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
                                     <dt i18n="Identifier"></dt>
