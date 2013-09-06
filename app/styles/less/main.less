@@ -1,11 +1,39 @@
 /* IMPORT USEFULL BOOTSTRAP LESS FILES */
 @import "/app/components/bootstrap/less/variables.less";
-  //@import "/app/styles/less/oscr-variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 @import "/app/styles/less/document-panels.less";
 @import "/app/styles/less/tabs.less";
 @import "/app/styles/less/widget-box.less";
 @import "/app/styles/less/media-upload.less";
+
+@iconSpritePath:          "../img/glyphicons-halflings.png";
+@iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
+
+[class^="icon-"],
+[class*=" icon-"] {
+  background-image: url("@{iconSpritePath}");
+}
+
+.icon-white,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:focus > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > li > a:focus > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:focus > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"],
+.dropdown-submenu:focus > a > [class*=" icon-"] {
+  background-image: url("@{iconWhiteSpritePath}");
+}
+
 /* CUSTOM MIXINS */
 
 .makeFluidRow() {
