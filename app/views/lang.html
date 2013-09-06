@@ -1,21 +1,42 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1 i18n="Language"><span class="i18n"/> "{{ langCode }}"</h1>
+        <h1>Language "{{ langCode }}"</h1>
 
-        <h2 i18n="Labels"><span class="i18n"/></h2>
+        <h4>Labels</h4>
         <ul>
             <li ng-repeat="label in labels">
-                {{ label.Key }}: {{ label.Value }}
+                <span ng-show="config.showTranslationEditor">
+                    <span>{{ label.Key }}:</span>
+                    <input class="input-block-level" type="text" ng-model="label.Value"/>
+                    <!--todo: some kind of submit button which calls the server-->
+                </span>
+                <span ng-hide="config.showTranslationEditor">
+                    {{ label.Key }}: "{{ label.Value }}"
+                </span>
             </li>
         </ul>
-        <h2 i18n="Elements"><span class="i18n"/></h2>
+        <h4>Fields</h4>
         <ul>
             <li ng-repeat="element in elements">
-                <span i18n="Key"/>: {{ element.Key }}
+                <span>{{ element.Key }}:</span>
                 <ul>
-                    <li><span i18n="Title"/>: {{ element.Title }}</li>
-                    <li><span i18n="Doc"/>: {{ element.Doc }}</li>
+                    <li>
+                        <span>Title:</span>
+                        <span ng-show="config.showTranslationEditor">
+                            <input class="input-block-level" type="text" ng-model="element.Title"/>
+                            <!--todo: some kind of submit button which calls the server-->
+                        </span>
+                        <span ng-hide="config.showTranslationEditor">"{{ element.Title }}"</span>
+                    </li>
+                    <li>
+                        <span>Documentation:</span>
+                        <span ng-show="config.showTranslationEditor">
+                            <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc" rows="5"></textarea>
+                            <!--todo: some kind of submit button which calls the server-->
+                        </span>
+                        <span ng-hide="config.showTranslationEditor">"{{ element.Doc }}"</span>
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -28,9 +28,10 @@ OSCR.controller(
         I18N.getList($scope.langCode, function(lang) {
             $scope.language =  lang;
             $scope.labels = [];
-            for (var key in lang.label) {
-                $scope.labels.push({Key: key, Value: lang.label[key]});
-            }
+            _.each(_.pairs(lang.label), function(pair) {
+                console.log(JSON.stringify(pair,null, 4));
+                $scope.labels.push({Key: pair[0], Value: pair[1]});
+            });
             $scope.elements = [];
             for (var key in lang.element) {
                 $scope.elements.push({Key: key, Title: lang.element[key].title, Doc: lang.element[key].doc});
