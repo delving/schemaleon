@@ -864,15 +864,6 @@ ul.main-menu .nav-header {
 .pointer {
   cursor: pointer;
 }
-.col-2 {
-  -moz-column-count: 2;
-  /* Firefox */
-
-  -webkit-column-count: 2;
-  /* Safari and Chrome */
-
-  column-count: 2;
-}
 /* DOCUMENT NAVBAR */
 .navbar.document .navbar-inner {
   -webkit-border-radius: 16px;
