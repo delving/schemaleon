@@ -152,29 +152,30 @@
                 </tab>
                 <tab>
                     <tab-heading><span class="nav-tabs" i18n="CommittedFiles"><span class="i18n"/></span></tab-heading>
-                    <ul class="media-list col-2 media-committed">
-                        <li class="media" ng-repeat="doc in ingestedHeaders">
-                            <a class="pull-left">
-                                <img class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}">
-                            </a>
+                   <div class="row-fluid committed-files">
+                       <ul class="thumbnails">
+                           <li class="span3" ng-repeat="doc in ingestedHeaders">
+                               <div class="thumbnail">
+                                   <div class="thumb">
+                                       <img data-ng-src="{{ doc.thumbnail }}">
+                                   </div>
 
-                            <div class="media-body">
-                                <h4 class="media-heading">{{ doc.Identifier }}</h4>
-                                <dl class="dl-horizontal">
-                                    <dt i18n="CommittedBy"></dt>
-                                    <dd>{{ doc.CommittedBy }}</dd>
-                                    <dt i18n="CommittedOn"></dt>
-                                    <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
-                                    <dt i18n="Identifier"></dt>
-                                    <dd>{{ doc.Identifier }}</dd>
-                                    <dt i18n="FileName"></dt>
-                                    <dd>{{ doc.MediaObject.fileName }}</dd>
-                                    <dt i18n="MimeType"></dt>
-                                    <dd>{{ doc.MediaObject.mimeType }}</dd>
-                                </dl>
-                            </div>
-                        </li>
-                    </ul>
+                                   <div class="caption">
+                                       <dl class="">
+                                           <dt i18n="Identifier"></dt>
+                                           <dd>{{ doc.Identifier }}</dd>
+                                           <dt i18n="CommittedBy"></dt>
+                                           <dd>{{ doc.CommittedBy }}</dd>
+                                           <dt i18n="CommittedOn"></dt>
+                                           <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
+                                       </dl>
+                                   </div>
+                               </div>
+                           </li>
+                       </ul>
+                   </div>
+
+
                 </tab>
             </tabset>
 
