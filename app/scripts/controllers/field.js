@@ -242,7 +242,7 @@ OSCR.controller(
         $scope.entryToString = function (entry) {
             if (!entry || !entry.Label) return '';
             if (entry.source) {
-                return entry.source + ': '+ entry.Label;
+                return entry.source + ': ' + entry.Label;
             }
             else {
                 return entry.Label;
@@ -250,6 +250,7 @@ OSCR.controller(
         };
 
         $scope.setValue = function (value) {
+            console.log('setValue\n' + JSON.stringify(value, null, 4));
             $scope.el.value = value;
             if ($scope.el.tree) {
                 $scope.el.valueFields = _.filter(

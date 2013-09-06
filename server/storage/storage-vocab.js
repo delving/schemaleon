@@ -20,34 +20,14 @@ P.getVocabularySchema = function (vocabName, receiver) {
     s.query('get vocabulary schema ' + vocabName,
         [
             '<' + vocabName + '>',
-            "  <Entry>{ doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/text() }" +
-                '  <Label/>' +
-                '  <Identifier/>' +
-                '   { ' +
-                "     doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/*" +
-                '   }',
+            "  <Entry>{ doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/text() }",
+                '  <Label/>',
+                '  <Identifier/>',
+                "  { doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/* }",
             '  </Entry>',
             '</' + vocabName + '>'
         ],
         receiver
-    );
-};
-
-P.createVocabulary = function (vocabName, entryXml, receiver) {
-    var s = this.storage;
-    var freshVocab = "<Entries>" + entryXml + "</Entries>";
-    s.add('create vocabulary ' + vocabName,
-        s.vocabDocument(vocabName),
-        freshVocab,
-        function (result) {
-            if (result) {
-//            console.log("Created vocabulary " + vocabName);
-                receiver(entryXml); // maybe use the result instead?
-            }
-            else {
-                receiver(null);
-            }
-        }
     );
 };
 
@@ -66,7 +46,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
                     receiver(entryXml); // use the result?
                 }
                 else {
-                    s.Vocab.createVocabulary(vocabName, entryXml, receiver);
+                    receiver(null);
                 }
             }
         );
@@ -74,18 +54,18 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     else {
         entry.Identifier = util.generateVocabId();
         entryXml = util.objectToXml(entry, 'Entry');
-        s.update(null,
+        s.update('add vocab entry',
             [
                 'if (' + s.vocabExists(vocabName) + ')',
                 'then insert node (' + entryXml + ') into ' + s.vocabPath(vocabName) + '/Entries',
-                'else add '+ s.vocabPath(vocabName) + ' ' + '<Entries>'+entryXml+'</Entries>'
+                'else '+ s.vocabAdd(vocabName, '<Entries>'+entryXml+'</Entries>')
             ],
             function (result) {
                 if (result) {
                     receiver(entryXml); // use the result?
                 }
                 else {
-                    s.Vocab.createVocabulary(vocabName, entryXml, receiver);
+                    receiver(null);
                 }
             }
         );
@@ -94,7 +74,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
 
 P.getVocabularyEntry = function (vocabName, identifier, receiver) {
     var s = this.storage;
-    s.query(null,
+    s.query('get vocab entry',
         s.vocabPath(vocabName) + "/Entries/Entry[Identifier=" + util.quote(identifier) + "]",
         receiver
     );
@@ -111,7 +91,6 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
             })
         }
         else {
-            console.warn('No lookup for ' + lookup);
             receiver('');
         }
     }
@@ -128,14 +107,17 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
                 lookupXml,
                 '</Entries>'
             ],
-            receiver
+            function(result) {
+                console.log('doQuery result');
+                console.log(result);
+                receiver(result);
+            }
         );
     }
 
     var s = this.storage;
     if (lookup) {
         getLookupXml(function (lookupXml) {
-//            console.log('geonames lookup xml '+lookupXml);
             doQuery(lookupXml);
         })
     }

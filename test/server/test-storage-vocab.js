@@ -46,7 +46,7 @@ exports.testAddEntry1 = function (test) {
     };
     storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
-//        console.log("added:\n" + xml);
+        log("added:\n" + xml);
         test.done();
     });
 };

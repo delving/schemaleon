@@ -73,7 +73,11 @@ function Storage(home) {
     };
 
     this.vocabExists = function (vocabName) {
-        return "db:exists('" + this.database + "','" + this.vocabDocument(vocabName) + "') = true";
+        return "db:exists('" + this.database + "','" + this.vocabDocument(vocabName) + "')";
+    };
+
+    this.vocabAdd = function (vocabName, xml) {
+        return "db:add('" + this.database + "', " + xml + ",'" + this.vocabDocument(vocabName) + "')";
     };
 
     this.docDocument = function (schemaName, identifier) {
