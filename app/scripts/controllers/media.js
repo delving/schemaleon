@@ -135,7 +135,7 @@ OSCR.controller(
                 SchemaName: $scope.document,
                 Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#",
-                EMail: $rootScope.user.Profile.email,
+                CommittedBy: $rootScope.user.Identifier,
                 MediaObject: {
                     fileName: file.name,
                     mimeType: getMimeType(file.name)
