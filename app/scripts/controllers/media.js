@@ -32,13 +32,9 @@ OSCR.controller(
 
         loadFiles();
 
-        $scope.treeOf = function(file) {
-            if (!file.tree) {
-                if (!$scope.treeJSON) {
-                    console.warn('Could not add tree to '+JSON.stringify(file, null, 4));
-                }
+        function treeOf(file) {
+            if (!file.tree && $scope.treeJSON) {
                 file.tree = JSON.parse($scope.treeJSON);
-                console.log('added tree to '+file.name);
             }
             return file.tree;
         }
@@ -67,7 +63,7 @@ OSCR.controller(
             $scope.tree = tree;
             $scope.treeJSON = JSON.stringify(tree);
             _.each($scope.queue, function (file) {
-                $scope.treeOf(file);
+                treeOf(file);
             });
         };
 
@@ -79,7 +75,7 @@ OSCR.controller(
                 log(file);
                 if (file.selected) {
                     var complete = true;
-                    _.each($scope.treeOf(file).elements, function (element) {
+                    _.each(treeOf(file).elements, function (element) {
                         if (element.name == $scope.chosenElement.name) {
                             element.value = $scope.chosenElement.value;
                         }
@@ -141,9 +137,9 @@ OSCR.controller(
                     mimeType: getMimeType(file.name)
                 }
             };
-            var fileTree = $scope.treeOf(file);
+            var fileTree = treeOf(file);
             _.each(fileTree.elements, function (el) { // cheat
-                switch(el.name) {
+                switch (el.name) {
                     case 'Notes':
                         el.value = file.notes;
                         break;

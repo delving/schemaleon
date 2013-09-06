@@ -22,8 +22,8 @@ OSCR.controller(
         };
 
         $scope.showCommit = function (file) {
-            if (!file || !$scope.tree) return false;
-            var coll = $scope.treeOf(file).elements[1];
+            if (!file || !file.tree) return false;
+            var coll = file.tree.elements[1];
             coll.value = $scope.tree.value;
             if (file.notes) {
                 if (!!coll.value) {
@@ -134,7 +134,7 @@ OSCR.controller(
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
                 $scope.document = document.Document; // triggers the editor
-                $scope.useHeaderInMenu(document.Document.Header);
+                $scope.useHeaderInMenu(document.Document.Header); // reaches down to global.js
             });
         }
 
