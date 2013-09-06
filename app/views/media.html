@@ -117,7 +117,7 @@
                                     <span class="i18n"/>
                                 </div>
                                 <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
-                                        data-ng-hide="showDestroy(file)"
+                                        data-ng-show="!!file.$destroy && !file.notes"
                                         data-ng-click="file.$destroy()" i18n="Delete">
                                     <i class="icon-ban-circle icon-white"></i>
                                     <span class="i18n"/>

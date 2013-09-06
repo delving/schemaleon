@@ -250,7 +250,6 @@ OSCR.controller(
         };
 
         $scope.setValue = function (value) {
-            console.log('setValue\n' + JSON.stringify(value, null, 4));
             $scope.el.value = value;
             if ($scope.el.tree) {
                 $scope.el.valueFields = _.filter(
