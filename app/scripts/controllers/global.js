@@ -122,6 +122,9 @@ OSCR.controller(
                     freshLabel.name = path.substring(path.lastIndexOf("/") + 1, path.length);
                 }
                 $scope.recent.push(freshLabel);
+                if ($scope.recent.length > 10) {
+                    $scope.recent.shift();
+                }
             }
             $location.path(path);
             if (fromCookieStore) {
