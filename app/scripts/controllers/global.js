@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person) {
+    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, Document) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -100,7 +100,7 @@ OSCR.controller(
             $scope.mainMenu.links[0].active = true;
         }
 
-        $scope.choosePath = function (path, fromCookieStore) {
+        $scope.choosePath = function (path, fromCookieStore, header) {
 //            console.log('PATH '+path);
             if ($rootScope.translating()) return;
             var activeItem = false;
@@ -109,14 +109,18 @@ OSCR.controller(
                 if (link.active) activeItem = true;
             });
             if (!activeItem && path.indexOf('/document') == 0 && path.indexOf('create') < 0) {
-                var identifier = path.substring(path.lastIndexOf("/") + 1, path.length);
                 var freshLabel = {
-                    name: identifier,
                     path: path,
                     icon: 'icon-th-home',
                     active: true,
                     recent: true
                 };
+                if (header) {
+                    freshLabel.name = header.Title;
+                }
+                else {
+                    freshLabel.name = path.substring(path.lastIndexOf("/") + 1, path.length);
+                }
                 $scope.recent.push(freshLabel);
             }
             $location.path(path);
@@ -126,6 +130,14 @@ OSCR.controller(
             else {
                 $cookieStore.put('oscr-path', path);
             }
+        };
+
+        $scope.useHeaderInMenu = function(header) {
+            _.each($scope.recent, function(recent) {
+                if (header.Identifier == recent.name) {
+                    recent.name = header.Title;
+                }
+            });
         };
 
         $scope.sidebarShowing = function() {
