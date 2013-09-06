@@ -647,10 +647,10 @@ body {
   margin-left: 0px;
 }
 .page-header {
-  border-color: #151515;
   position: relative;
   border-color: #999999;
   margin-bottom: 20px;
+  text-shadow: 1px 1px 2px #FFFFFF;
 }
 .page-header h1 {
   color: #555555;
@@ -658,7 +658,13 @@ body {
   font-size: 32px;
   letter-spacing: 1px;
   line-height: 32px;
-  margin-top: 0;
+}
+.page-header.sub-header h2 {
+  color: #555555;
+  font-weight: 200;
+  font-size: 21px;
+  letter-spacing: 1px;
+  line-height: 21px;
 }
 .controls .btn.disabled {
   cursor: pointer;
@@ -909,6 +915,27 @@ table.files th input[type=checkbox] {
 }
 .i18n-editor-toggle .btn-i18n {
   display: inline-block;
+}
+/* MEDIA UPLOAD */
+.step {
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px #FFFFFF;
+}
+.step .number {
+  background: #999999;
+  border: 4px solid #ffffff;
+  color: #333333;
+  display: inline-block;
+  font-kerning: auto;
+  margin-right: 8px;
+  text-align: center;
+  text-shadow: none;
+  width: 21px;
+  height: 21px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
 }
 /*
  * jQuery File Upload UI Plugin CSS 8.1

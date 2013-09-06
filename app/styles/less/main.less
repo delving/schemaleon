@@ -210,19 +210,26 @@ body {
 }
 
 .page-header {
-  border-color: darken(@gray, 25%);
+//  border-color: darken(@gray, 25%);
   position: relative;
   border-color: @grayLight;
   margin-bottom: @baseLineHeight;
+  text-shadow:1px 1px 2px #FFFFFF;
   h1 {
     color: @gray;
     font-weight: 200;
     font-size: 32px;
     letter-spacing: 1px;
     line-height: 32px;
-    //    border-color: darken(@gray, 25%);
-
-    margin-top: 0;
+  }
+  &.sub-header {
+    h2{
+      color: @gray;
+      font-weight: 200;
+      font-size: 21px;
+      letter-spacing: 1px;
+      line-height: 21px;
+    }
   }
 }
 
@@ -461,6 +468,25 @@ table.files th input[type=checkbox] {
   }
 }
 
+/* MEDIA UPLOAD */
+
+.step {
+  font-weight: 500;
+  margin-bottom: @baseLineHeight;
+  text-shadow:1px 1px 2px #FFFFFF;
+  .number {
+    background: @grayLight;
+    border: 4px solid @white;
+    color: @grayDark;
+    display: inline-block;
+    font-kerning: auto;
+    margin-right: 8px;
+    text-align: center;
+    text-shadow: none;
+    .square(21px);
+    .border-radius(100%);
+  }
+}
 
 /*
  * jQuery File Upload UI Plugin CSS 8.1
