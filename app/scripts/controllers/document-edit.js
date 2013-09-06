@@ -22,8 +22,8 @@ OSCR.controller(
         };
 
         $scope.showCommit = function (file) {
-            if (!file || !file.tree || !$scope.tree) return false;
-            var coll = file.tree.elements[1];
+            if (!file || !$scope.tree) return false;
+            var coll = $scope.treeOf(file).elements[1];
             coll.value = $scope.tree.value;
             if (file.notes) {
                 if (!!coll.value) {
