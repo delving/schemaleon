@@ -40,6 +40,10 @@ OSCR.controller(
                 return false;
             }
         };
+
+        $scope.showDestroy = function (file) {
+            return !!file.$destroy;
+        };
     }
 );
 

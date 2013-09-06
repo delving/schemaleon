@@ -354,6 +354,30 @@ ul.kv-list li span.value {
   border-top: 1px solid #ccc;
   padding: 4px;
 }
+.file-uploader {
+  float: left;
+  width: 23.404255319148934%;
+  *width: 23.351063829787233%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+.file-uploader:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+.collection-chooser {
+  float: left;
+  width: 74.46808510638297%;
+  *width: 74.41489361702126%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+.collection-chooser:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
 /* CUSTOM MIXINS */
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */
@@ -833,6 +857,22 @@ ul.main-menu .nav-header {
 }
 .pointer {
   cursor: pointer;
+}
+.col-2 {
+  -moz-column-count: 2;
+  /* Firefox */
+
+  -webkit-column-count: 2;
+  /* Safari and Chrome */
+
+  column-count: 2;
+  -moz-column-gap: 20px;
+  /* Firefox */
+
+  -webkit-column-gap: 20px;
+  /* Safari and Chrome */
+
+  column-gap: 20px;
 }
 /* DOCUMENT NAVBAR */
 .navbar.document .navbar-inner {
