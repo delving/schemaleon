@@ -117,7 +117,6 @@ OSCR.controller(
         };
 
         $scope.saveDocument = function () {
-            if ($rootScope.translating()) return;
             collectSummaryFields($scope.tree, $scope.header);
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;

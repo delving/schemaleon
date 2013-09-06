@@ -157,7 +157,6 @@ OSCR.controller(
         }
 
         $scope.commit = function (file) {
-            if ($rootScope.translating()) return;
             log('commit');
             log(file);
             var header = {

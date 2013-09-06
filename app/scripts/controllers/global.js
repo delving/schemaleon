@@ -52,16 +52,11 @@ OSCR.controller(
         };
 
         $rootScope.toggleInlinePreview = function () {
-            if ($rootScope.translating()) return;
             $rootScope.config.showInlinePreview = !$rootScope.config.showInlinePreview;
         };
 
         $rootScope.toggleTranslationEditor = function () {
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
-        };
-
-        $rootScope.translating = function () {
-            return $rootScope.config.showTranslationEditor;
         };
 
         $rootScope.refreshSchemas = function() {
@@ -102,7 +97,6 @@ OSCR.controller(
 
         $scope.choosePath = function (path, fromCookieStore, header) {
 //            console.log('PATH '+path);
-            if ($rootScope.translating()) return;
             var activeItem = false;
             _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
                 link.active = (link.path == path);
