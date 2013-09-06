@@ -13,6 +13,38 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
 
+        $scope.annotationMode = true;
+        $scope.schema = 'MediaMetadata';
+        $scope.document = $scope.schema; // just a name triggers schema fetch
+
+        $scope.validateTree = function () {
+            validateTree($scope.tree);
+        };
+
+        $scope.showCommit = function (file) {
+            if (!file || !file.tree) return false;
+            var coll = file.tree.elements[1];
+            coll.value = $scope.tree.value;
+            if (file.notes) {
+                if (!!coll.value) {
+                    file.collection = coll.value;
+                    file.selectCollectionWarning = false;
+                    return true;
+                }
+                else {
+                    file.selectCollectionWarning = true;
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        };
+
+        $scope.showDestroy = function (file) {
+            return !!file.$destroy;
+        };
+
         $scope.options = {
             url: '/files'
         };
@@ -60,11 +92,12 @@ OSCR.controller(
 
         $scope.setTree = function (tree) {
             console.log('setTree');
-            $scope.tree = tree;
+            $scope.tree = tree.elements[0]; // i happen to know that this is collection from Schemas.xml
             $scope.treeJSON = JSON.stringify(tree);
             _.each($scope.queue, function (file) {
                 treeOf(file);
             });
+            return $scope.tree;
         };
 
         $scope.setValue = function () {

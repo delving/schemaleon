@@ -5,49 +5,6 @@ var OSCR = angular.module('OSCR');
 /* CRM OBJECT RELATED CONTROLLERS */
 
 OSCR.controller(
-    'ImageCollectionController',
-    function ($rootScope, $scope) {
-        $scope.annotationMode = true;
-        $scope.schema = 'MediaMetadata';
-        $scope.tree = null;
-
-        $scope.document = $scope.schema; // just a name triggers schema fetch
-
-        $scope.setTree = function (tree) {
-            return $scope.tree = tree.elements[0]; // i happen to know that this is collection from Schemas.xml
-        };
-
-        $scope.validateTree = function () {
-            validateTree($scope.tree);
-        };
-
-        $scope.showCommit = function (file) {
-            if (!file || !file.tree) return false;
-            var coll = file.tree.elements[1];
-            coll.value = $scope.tree.value;
-            if (file.notes) {
-                if (!!coll.value) {
-                    file.collection = coll.value;
-                    file.selectCollectionWarning = false;
-                    return true;
-                }
-                else {
-                    file.selectCollectionWarning = true;
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        };
-
-        $scope.showDestroy = function (file) {
-            return !!file.$destroy;
-        };
-    }
-);
-
-OSCR.controller(
     'DocumentEditController',
     function ($rootScope, $scope, $routeParams, $location, $timeout, Document) {
 
