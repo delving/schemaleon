@@ -82,7 +82,6 @@ OSCR.controller(
                     header.date = new Date(parseInt(header.TimeStamp));
                     return  header;
                 });
-                console.log($scope.ingestedHeaders);
             });
         }
 
