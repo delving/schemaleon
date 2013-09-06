@@ -3,16 +3,8 @@
         <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
         <h1 ng-hide="headerDisplay" i18n="New"></h1>
         <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
-        <span ng-show="time">
-            <span>(</span>
-            <span ng-show="time.days"><span>{{ time.days }}</span> <span i18n="Days"/></span>
-            <span ng-show="time.hours"><span>{{ time.hours }}</span> <span i18n="Hours"/></span>
-            <span ng-show="time.minutes"><span>{{ time.minutes }}</span> <span i18n="Minutes"/></span>
-            <span ng-show="time.seconds"><span>{{ time.seconds }}</span> <span i18n="Seconds"/></span>
-            <span i18n="Ago"/>
-            <span>)</span>
-        </span>
     </div>
+
 
     <tabset>
         <tab>
@@ -28,10 +20,20 @@
                            ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
                             <i class="icon-eye-open"></i>
                         </a>
-                        <a href class="btn btn-success" ng-click="saveDocument()" i18n="SaveDocument">
-                            <i class="icon icon-check icon-white"></i>
-                            <span class="i18n"></span>
-                        </a>
+                        <span ng-show="documentDirty">
+                            <a href class="btn btn-success" ng-show="documentDirty" ng-click="saveDocument()" i18n="SaveDocument">
+                                <i class="icon icon-check icon-white"></i>
+                                <span class="i18n"></span>
+                            </a>
+                            <span ng-show="time">
+                                (<span i18n="DocumentSaved"><span class="i18n"/></span>
+                                <span ng-show="time.days"><span>{{ time.days }}</span> <span i18n="Days"/></span>
+                                <span ng-show="time.hours"><span>{{ time.hours }}</span> <span i18n="Hours"/></span>
+                                <span ng-show="time.minutes"><span>{{ time.minutes }}</span> <span i18n="Minutes"/></span>
+                                <span ng-show="time.seconds"><span>{{ time.seconds }}</span> <span i18n="Seconds"/></span>
+                                <span i18n="Ago"><span class="i18n"/></span>)
+                            </span>
+                        </span>
                     </div>
                 </div>
             </div>

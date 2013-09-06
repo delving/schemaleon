@@ -60,6 +60,7 @@ OSCR.controller(
         $scope.identifier = $routeParams.identifier;
         $scope.header = {};
         $scope.tree = null;
+        $scope.documentDirty = false;
 
         function getTime(millis) {
             var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
@@ -128,13 +129,15 @@ OSCR.controller(
                 Identifier: $scope.blankIdentifier
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch
+            $scope.documentDirty = false;
         }
         else {
             Document.fetchDocument($scope.schema, $scope.identifier, function (document) {
 //                console.log(document);
                 useHeader(document.Document.Header);
+                $scope.documentJSON = null;
+                $scope.documentDirty = false;
                 $scope.document = document.Document; // triggers the editor
-
             });
         }
 
@@ -144,6 +147,15 @@ OSCR.controller(
 
         $scope.validateTree = function () {
             validateTree($scope.tree);
+            if (!$scope.documentDirty) {
+                if (!$scope.documentJSON) {
+                    $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
+                }
+                else {
+                    var json = JSON.stringify(treeToObject($scope.tree), null, 4);
+                    $scope.documentDirty = (json != $scope.documentJSON);
+                }
+            }
         };
 
         $scope.saveDocument = function () {
@@ -153,6 +165,8 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 useHeader(document.Header);
+                $scope.documentJSON = null;
+                $scope.documentDirty = false;
                 // todo: if it was new, we have to change the path
             });
         };

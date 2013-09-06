@@ -96,8 +96,8 @@ OSCR.controller(
         };
 
         $scope.mediaToString = function (media) {
-            log('media to string');
-            log(media);
+//            log('media to string');
+//            log(media);
             if (!media) {
                 return [];
             }
@@ -292,6 +292,7 @@ OSCR.controller(
 
         if (!$scope.el.suspendValidation) {
             $scope.$watch('el.value', function (after, before) {
+                $scope.revalidate();
                 $scope.revalidate();
             });
         }
