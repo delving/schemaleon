@@ -108,7 +108,7 @@ OSCR.controller(
                 link.active = (link.path == path);
                 if (link.active) activeItem = true;
             });
-            if (!activeItem && path.indexOf('OSCR') > 0) {
+            if (!activeItem && path.indexOf('/document') == 0 && path.indexOf('create') < 0) {
                 var identifier = path.substring(path.lastIndexOf("/") + 1, path.length);
                 var freshLabel = {
                     name: identifier,

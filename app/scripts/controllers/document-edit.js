@@ -163,7 +163,7 @@ OSCR.controller(
                 useHeader(document.Header);
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
-                // todo: if it was new, we have to change the path
+                $scope.choosePath('/document/'+$scope.header.SchemaName+'/edit/'+ $scope.header.Identifier)
             });
         };
     }
