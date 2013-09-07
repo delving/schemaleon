@@ -108,7 +108,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input type="checkbox" ng-model="file.selected" data-ng-show="file.$submit"/>
+                                <!--<input type="checkbox" ng-model="file.selected" data-ng-show="file.$submit"/>-->
                                 <button type="button" class="btn btn-primary start"
                                         data-ng-click="file.$submit()" data-ng-hide="!file.$submit" i18n="Upload">
                                     <i class="icon-upload icon-white"></i>
@@ -124,7 +124,7 @@
                                     <i class="icon-hdd icon-white"></i>
                                     <span class="i18n"/>: <span>{{ file.collection.Label }}</span>
                                 </button>
-                                <div ng-show="file.selectCollectionWarning" class="badge-warning" i18n="SelectACollectionFirstPlease">
+                                <div ng-show="file.selectCollectionWarning" class="alert alert-error" i18n="SelectACollectionFirstPlease">
                                     <span class="i18n"/>
                                 </div>
                                 <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
