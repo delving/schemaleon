@@ -8,137 +8,42 @@ function log(message) {
 }
 
 OSCR.controller(
+    'CollectionChoiceController',
+    function ($scope) {
+
+        $scope.annotationMode = true;
+        $scope.document = $scope.schema;
+        $scope.tree = null;
+
+        $scope.setTree = function (tree) {
+            var collectionTree = tree.elements[0]; // only "collection"
+            var json = JSON.stringify(tree);
+            $scope.prepareMediaUploadController(json, collectionTree);
+            return $scope.tree = collectionTree;
+        };
+
+        $scope.validateTree = function () {
+            if ($scope.tree) validateTree($scope.tree);
+        };
+    }
+);
+
+OSCR.controller(
     'MediaUploadController',
     function ($rootScope, $scope, $http, Document) {
 
         $rootScope.checkLoggedIn();
 
-        $scope.annotationMode = true;
-        $scope.schema = 'MediaMetadata';
-        $scope.document = $scope.schema; // just a name triggers schema fetch
-
-        $scope.validateTree = function () {
-            validateTree($scope.tree);
-        };
-
-        $scope.showCommit = function (file) {
-            if (!file || !file.tree) return false;
-            var coll = file.tree.elements[1];
-            coll.value = $scope.tree.value;
-            if (file.notes) {
-                if (!!coll.value) {
-                    file.collection = coll.value;
-                    file.selectCollectionWarning = false;
-                    return true;
-                }
-                else {
-                    file.selectCollectionWarning = true;
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        };
-
-        $scope.showDestroy = function (file) {
-            return !!file.$destroy;
-        };
-
+        $scope.schema = "MediaMetadata";
+        $scope.committedFiles = [];
         $scope.options = {
             url: '/files'
         };
 
-        function loadFiles() {
-            $scope.loadingFiles = true;
-            $http.get($scope.options.url).then(
-                function (response) {
-                    $scope.loadingFiles = false;
-                    $scope.queue = response.data.files || [];
-                },
-                function () {
-                    $scope.loadingFiles = false;
-                }
-            );
-        }
-
-        loadFiles();
-
         function treeOf(file) {
-            if (!file.tree && $scope.treeJSON) {
-                file.tree = JSON.parse($scope.treeJSON);
-            }
+            if (!file.tree && $scope.treeJSON) file.tree = JSON.parse($scope.treeJSON);
             return file.tree;
         }
-
-        $scope.document = 'MediaMetadata';
-        $scope.ingestedHeaders = [];
-
-        function fetchIngested() {
-            Document.fetchAllDocuments($scope.document, function (list) {
-                $scope.ingestedHeaders = _.map(list, function (doc) {
-                    var header = doc.Header;
-                    header.thumbnail = '/media/thumbnail/' + header.Identifier;
-                    header.date = new Date(parseInt(header.TimeStamp));
-                    return  header;
-                });
-            });
-        }
-
-        Document.fetchSchema($scope.document, function (tree) {
-            $scope.setTree(tree);
-            fetchIngested();
-        });
-
-        $scope.setTree = function (tree) {
-            console.log('setTree');
-            $scope.tree = tree.elements[0]; // i happen to know that this is collection from Schemas.xml
-            $scope.treeJSON = JSON.stringify(tree);
-            _.each($scope.queue, function (file) {
-                treeOf(file);
-            });
-            return $scope.tree;
-        };
-
-        $scope.setValue = function () {
-            log('setValue');
-            log($scope.chosenElement);
-            if (!$scope.chosenElement) return;
-            _.each($scope.queue, function (file) {
-                log(file);
-                if (file.selected) {
-                    var complete = true;
-                    _.each(treeOf(file).elements, function (element) {
-                        if (element.name == $scope.chosenElement.name) {
-                            element.value = $scope.chosenElement.value;
-                        }
-                        if (!element.value) {
-                            complete = false;
-                        }
-                    });
-                    file.complete = complete;
-                }
-            });
-        };
-
-        $scope.showAnnotationPanel = false;
-        $scope.allFilesSelected = false;
-
-        $scope.selectAllFiles = function (value) {
-            $scope.allFilesSelected = !$scope.allFilesSelected;
-            _.each($scope.queue, function (file) {
-                file.selected = $scope.allFilesSelected;
-            });
-        };
-
-        $scope.toggleAnnotationPanel = function (file) {
-            log(' toggle ');
-            $scope.showAnnotationPanel = !$scope.showAnnotationPanel;
-            if (file) {
-                file.selected = !file.selected;
-//                $scope.showAnnotationPanel = true;
-            }
-        };
 
         function getMimeType(fileName) {
             var matches = fileName.match(/\.(...)$/);
@@ -156,11 +61,58 @@ OSCR.controller(
             }
         }
 
+        function fetchCommitted() {
+            Document.fetchAllDocuments($scope.schema, function (list) {
+                $scope.committedFiles = _.map(list, function (doc) {
+                    var header = doc.Header;
+                    header.thumbnail = '/media/thumbnail/' + header.Identifier;
+                    header.date = new Date(parseInt(header.TimeStamp));
+                    return header;
+                });
+            });
+        }
+        fetchCommitted();
+
+        $scope.prepareMediaUploadController = function (treeJSON, collectionTree) { // set by CollectionChoiceController
+            $scope.treeJSON = treeJSON;
+            $scope.collectionTree = collectionTree;
+            $http.get($scope.options.url).then(function (response) {
+                $scope.queue = response.data.files || [];
+            });
+        };
+
+        $scope.$watch('queue', function(queue, before) {
+            _.each(queue, function (file) {
+                treeOf(file);
+            });
+        });
+
+        $scope.showCommit = function (file) {
+            if (!file) return false;
+            var fileTree = treeOf(file);
+            var collectionElement = fileTree.elements[1];
+            collectionElement.value = $scope.collectionTree.value;
+            if (file.notes) {
+                if (!!collectionElement.value) {
+                    file.collection = collectionElement.value;
+                    file.selectCollectionWarning = false;
+                    return true;
+                }
+                else {
+                    file.selectCollectionWarning = true;
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        };
+
         $scope.commit = function (file) {
             log('commit');
             log(file);
             var header = {
-                SchemaName: $scope.document,
+                SchemaName: $scope.schema,
                 Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#",
                 CommittedBy: $rootScope.user.Identifier,
@@ -186,8 +138,12 @@ OSCR.controller(
                 log("saved image");
                 log(header);
                 file.$destroy();
-                fetchIngested();
+                fetchCommitted();
             });
+        };
+
+        $scope.showDestroy = function (file) {
+            return !!file.$destroy && !file.notes;
         };
     }
 );

@@ -165,7 +165,7 @@ OSCR.controller(
             if (!schema) return;
             Document.fetchSchema(schema, function (tree) {
                 if (!tree) return;
-                tree = $scope.setTree(tree);
+                tree = $scope.setTree(tree); // todo media.js:96
                 $scope.panels = [
                     { selected: 0, element: tree }
                 ];
