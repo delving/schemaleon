@@ -95,7 +95,7 @@ OSCR.controller(
             $scope.mainMenu.links[0].active = true;
         }
 
-        $scope.choosePath = function (path, fromCookieStore, header) {
+        $scope.choosePath = function (path, header) {
 //            console.log('PATH '+path);
             var activeItem = false;
             _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
@@ -121,12 +121,7 @@ OSCR.controller(
                 }
             }
             $location.path(path);
-            if (fromCookieStore) {
-                $cookieStore.remove('oscr-path');
-            }
-            else {
-                $cookieStore.put('oscr-path', path);
-            }
+            $cookieStore.put('oscr-path', path);
         };
 
         $scope.useHeaderInMenu = function(header) {

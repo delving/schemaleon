@@ -32,7 +32,7 @@
         </tr>
         <tr data-ng-repeat="header in headerList">
             <td>
-                <a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier)" class="btn btn-primary btn-small">
+                <a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier, header)" class="btn btn-primary btn-small">
                     <i class="icon icon-edit icon-white"></i> {{ header.Identifier }}</span>
                 </a>
             </td>

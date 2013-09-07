@@ -64,7 +64,7 @@ OSCR.controller(
 
         function tick() {
             if (!$scope.header.TimeStamp) return;
-            $timeout(updateTimeString, 1000).then(tick);
+            $timeout(updateTimeString, 60000).then(tick);
         }
 
         function useHeader(h) {
@@ -111,7 +111,9 @@ OSCR.controller(
                 }
                 else {
                     var json = JSON.stringify(treeToObject($scope.tree), null, 4);
-                    $scope.documentDirty = (json != $scope.documentJSON);
+                    if ($scope.documentDirty = (json != $scope.documentJSON)) {
+                        updateTimeString();
+                    }
                 }
             }
         };
@@ -124,7 +126,7 @@ OSCR.controller(
                 useHeader(document.Header);
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
-                $scope.choosePath('/document/'+$scope.header.SchemaName+'/edit/'+ $scope.header.Identifier, false, document.Header);
+                $scope.choosePath('/document/'+$scope.header.SchemaName+'/edit/'+ $scope.header.Identifier, document.Header);
             });
         };
     }

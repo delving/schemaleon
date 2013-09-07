@@ -23,14 +23,40 @@
                         <span ng-show="documentDirty">
                             <a href class="btn btn-success" ng-show="documentDirty" ng-click="saveDocument()" i18n="SaveDocument">
                                 <i class="icon icon-check icon-white"></i>
-                                <span class="i18n"></span>
+                                <span class="i18n"/>
                             </a>
                             <span ng-show="time">
                                 (<span i18n="DocumentSaved"><span class="i18n"/></span>
-                                <span ng-show="time.days"><span>{{ time.days }}</span> <span i18n="Days"/></span>
-                                <span ng-show="time.hours"><span>{{ time.hours }}</span> <span i18n="Hours"/></span>
-                                <span ng-show="time.minutes"><span>{{ time.minutes }}</span> <span i18n="Minutes"/></span>
-                                <span ng-show="time.seconds"><span>{{ time.seconds }}</span> <span i18n="Seconds"/></span>
+                                <span ng-show="time.days">
+                                    <span>{{ time.days }}</span>
+                                    <span ng-show="time.days > 1" i18n="Days">
+                                        <span class="i18n"/>
+                                    </span>
+                                    <span ng-show="time.days == 1" i18n="Day">
+                                        <span class="i18n"/>
+                                    </span>
+                                </span>
+                                <span ng-show="time.hours">
+                                    <span>{{ time.hours }}</span>
+                                    <span ng-show="time.hours > 1" i18n="Hours">
+                                        <span class="i18n"/>
+                                    </span>
+                                    <span ng-show="time.hours == 1" i18n="Hour">
+                                        <span class="i18n"/>
+                                    </span>
+                                </span>
+                                <span ng-show="time.minutes">
+                                    <span>{{ time.minutes }}</span>
+                                    <span ng-show="time.minutes > 1" i18n="Minutes">
+                                        <span class="i18n"/>
+                                    </span>
+                                    <span ng-show="time.minutes == 1" i18n="Minute">
+                                        <span class="i18n"/>
+                                    </span>
+                                </span>
+                                <span ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
+                                    <span class="i18n"/>
+                                </span>
                                 <span i18n="Ago"><span class="i18n"/></span>)
                             </span>
                         </span>

@@ -23,19 +23,53 @@ var OSCR = angular.module('OSCR');
 OSCR.controller(
     'LangEditController',
     function ($rootScope, $scope, $routeParams, I18N) {
+
         $scope.langCode = $routeParams.lang;
 
-        I18N.getList($scope.langCode, function(lang) {
-            $scope.language =  lang;
+        function setLanguage(lang) {
             $scope.labels = [];
             _.each(_.pairs(lang.label), function(pair) {
-                console.log(JSON.stringify(pair,null, 4));
-                $scope.labels.push({Key: pair[0], Value: pair[1]});
+                $scope.labels.push({
+                    Key: pair[0],
+                    Value: pair[1],
+                    StoredValue: pair[1]
+                });
             });
             $scope.elements = [];
             for (var key in lang.element) {
-                $scope.elements.push({Key: key, Title: lang.element[key].title, Doc: lang.element[key].doc});
+                $scope.elements.push({
+                    Key: key,
+                    Title: lang.element[key].title,
+                    StoredTitle: lang.element[key].title,
+                    Doc: lang.element[key].doc,
+                    StoredDoc: lang.element[key].doc
+                });
             }
+            if ($scope.langCode == $rootScope.lang) {
+                $rootScope.i18n = lang;
+            }
+        }
+
+        I18N.getList($scope.langCode, function(lang) {
+            setLanguage(lang);
         });
+
+        $scope.setLabel = function(label) {
+            I18N.setLabelAsync($scope.langCode, label.Key, label.Value, function(lang) {
+                setLanguage(lang);
+            });
+        };
+
+        $scope.setTitle = function(element) {
+            I18N.setTitleAsync($scope.langCode, element.Key, element.Title, function(lang) {
+                setLanguage(lang);
+            });
+        };
+
+        $scope.setDoc = function(element) {
+            I18N.setDocAsync($scope.langCode, element.Key, element.Doc, function(lang) {
+                setLanguage(lang);
+            });
+        };
     }
 );

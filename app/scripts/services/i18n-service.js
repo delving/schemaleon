@@ -48,6 +48,14 @@ OSCR.service(
                     $rootScope.i18n = language.Language;
                 });
             },
+            setLabelAsync: function (lang, key, value, receiver) {
+                $http.post('/i18n/' + lang + '/label', { key: key, label: value }).success(
+                    function (data) {
+                        var language = xmlToObject(data);
+                        receiver(language.Language);
+                    }
+                );
+            },
             setLabel: function (key, value) {
                 $http.post('/i18n/' + $rootScope.lang + '/label', { key: key, label: value }).success(
                     function (data) {
@@ -56,11 +64,27 @@ OSCR.service(
                     }
                 );
             },
+            setTitleAsync: function (lang, key, value, receiver) {
+                $http.post('/i18n/' + lang + '/element', { key: key, title: value }).success(
+                    function (data) {
+                        var language = xmlToObject(data);
+                        receiver(language.Language);
+                    }
+                );
+            },
             setTitle: function (key, value) {
                 $http.post('/i18n/' + $rootScope.lang + '/element', { key: key, title: value }).success(
                     function (data) {
                         var language = xmlToObject(data);
                         $rootScope.i18n = language.Language;
+                    }
+                );
+            },
+            setDocAsync: function (lang, key, value, receiver) {
+                $http.post('/i18n/' + lang + '/element', { key: key, doc: value }).success(
+                    function (data) {
+                        var language = xmlToObject(data);
+                        receiver(language.Language);
                     }
                 );
             },

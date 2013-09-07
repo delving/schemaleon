@@ -9,10 +9,10 @@
         <ul class="inline columns-6 reset translations">
             <li ng-repeat="label in labels">
                 <span class="label">{{ label.Key }}</span>
-                <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
-                <input class="input-block-level" type="text" ng-model="label.Value" ng-show="config.showTranslationEditor"/>
-                <!--todo: some kind of submit button which calls the server-->
-                <!--todo: not here but outside of individual item, up top in a toolbar or something -->
+                <input class="input-block-level" type="text" ng-model="label.Value"/>
+                <span i18n="Save" class="btn btn-success" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
+                    <span class="i18n"/>
+                </span>
             </li>
         </ul>
     </div>
@@ -21,21 +21,22 @@
     <!--<div class="row-fluid">-->
         <ul class="thumbnails columns-4 reset">
             <li ng-repeat="element in elements" class="span3">
-                <div class="thumbnail">
                 <span class="label label-inverse">{{ element.Key }}</span>
-                <p ng-hide="config.showTranslationEditor">"{{ element.Title }}"</p>
-                <span ng-show="config.showTranslationEditor">
-                            <input class="input-block-level" type="text" ng-model="element.Title"/>
-                            <!--todo: some kind of submit button which calls the server-->
-                        </span>
 
-                        <span>Documentation:</span>
-                        <span ng-show="config.showTranslationEditor">
-                            <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc"
-                                      rows="5"></textarea>
-                            <!--todo: some kind of submit button which calls the server-->
-                        </span>
-                        <span ng-hide="config.showTranslationEditor">"{{ element.Doc }}"</span>
+                <span>
+                    <input class="input-block-level" type="text" ng-model="element.Title"/>
+                    <span i18n="Save" class="btn btn-success" ng-click="setTitle(element)" ng-show="element.Title != element.StoredTitle">
+                        <span class="i18n"/>
+                    </span>
+                </span>
+
+                <span>Documentation:</span>
+                    <span>
+                        <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc" rows="5"></textarea>
+                    </span>
+                    <span i18n="Save" class="btn btn-success" ng-click="setDoc(element)" ng-show="element.Doc != element.StoredDoc">
+                        <span class="i18n"/>
+                    </span>
                 </div>
 
             </li>

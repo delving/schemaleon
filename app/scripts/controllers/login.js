@@ -110,9 +110,12 @@ OSCR.controller(
             setUser(user);
             var oscrPath = $cookieStore.get('oscr-path');
             if (oscrPath) {
-                $timeout(function() {
-                    $scope.choosePath(oscrPath, true);
-                }, 1000);
+                $timeout(
+                    function () {
+                        $scope.choosePath(oscrPath);
+                    },
+                    1000
+                );
             }
         }
     }
