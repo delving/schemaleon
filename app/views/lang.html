@@ -1,45 +1,46 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1>Language "{{ langCode }}"</h1>
+        <h1 i18n="Translations"><span class="i18n">Translations</span> "{{ langCode }}"</h1>
+    </div>
+    <h4>Labels</h4>
 
-        <h4>Labels</h4>
-        <ul>
+    <div class="row-fluid">
+        <ul class="inline columns-6 reset translations">
             <li ng-repeat="label in labels">
-                <span ng-show="config.showTranslationEditor">
-                    <span>{{ label.Key }}:</span>
-                    <input class="input-block-level" type="text" ng-model="label.Value"/>
-                    <!--todo: some kind of submit button which calls the server-->
-                </span>
-                <span ng-hide="config.showTranslationEditor">
-                    {{ label.Key }}: "{{ label.Value }}"
-                </span>
-            </li>
-        </ul>
-        <h4>Fields</h4>
-        <ul>
-            <li ng-repeat="element in elements">
-                <span>{{ element.Key }}:</span>
-                <ul>
-                    <li>
-                        <span>Title:</span>
-                        <span ng-show="config.showTranslationEditor">
-                            <input class="input-block-level" type="text" ng-model="element.Title"/>
-                            <!--todo: some kind of submit button which calls the server-->
-                        </span>
-                        <span ng-hide="config.showTranslationEditor">"{{ element.Title }}"</span>
-                    </li>
-                    <li>
-                        <span>Documentation:</span>
-                        <span ng-show="config.showTranslationEditor">
-                            <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc" rows="5"></textarea>
-                            <!--todo: some kind of submit button which calls the server-->
-                        </span>
-                        <span ng-hide="config.showTranslationEditor">"{{ element.Doc }}"</span>
-                    </li>
-                </ul>
+                <span class="label">{{ label.Key }}</span>
+                <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
+                <input class="input-block-level" type="text" ng-model="label.Value" ng-show="config.showTranslationEditor"/>
+                <!--todo: some kind of submit button which calls the server-->
+                <!--todo: not here but outside of individual item, up top in a toolbar or something -->
             </li>
         </ul>
     </div>
+
+    <h4>Fields</h4>
+    <!--<div class="row-fluid">-->
+        <ul class="thumbnails columns-4 reset">
+            <li ng-repeat="element in elements" class="span3">
+                <div class="thumbnail">
+                <span class="label label-inverse">{{ element.Key }}</span>
+                <p ng-hide="config.showTranslationEditor">"{{ element.Title }}"</p>
+                <span ng-show="config.showTranslationEditor">
+                            <input class="input-block-level" type="text" ng-model="element.Title"/>
+                            <!--todo: some kind of submit button which calls the server-->
+                        </span>
+
+                        <span>Documentation:</span>
+                        <span ng-show="config.showTranslationEditor">
+                            <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc"
+                                      rows="5"></textarea>
+                            <!--todo: some kind of submit button which calls the server-->
+                        </span>
+                        <span ng-hide="config.showTranslationEditor">"{{ element.Doc }}"</span>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+
 
 </div>

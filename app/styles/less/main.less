@@ -12,6 +12,8 @@
 [class^="icon-"],
 [class*=" icon-"] {
   background-image: url("@{iconSpritePath}");
+//  background-position: 14px 14px;
+  background-repeat: no-repeat;
 }
 
 .icon-white,
@@ -32,6 +34,8 @@
 .dropdown-submenu:hover > a > [class*=" icon-"],
 .dropdown-submenu:focus > a > [class*=" icon-"] {
   background-image: url("@{iconWhiteSpritePath}");
+//  background-position: 14px 14px;
+//  background-repeat: no-repeat;
 }
 
 /* CUSTOM MIXINS */
@@ -40,6 +44,53 @@
   width: 100%;
   .clearfix();
 }
+
+ul.reset {
+  li {
+    padding: 0 0 0 0;
+  }
+}
+
+ul.inline,
+ul.thumbnails {
+  &.columns-2 {
+    li:nth-of-type(2n+1) {
+      margin-left: 0px;
+    }
+  }
+  &.columns-4 {
+    li:nth-of-type(4n+1) {
+      margin-left: 0px;
+    }
+  }
+  &.columns-3 {
+    li:nth-of-type(3n+1) {
+      margin-left: 0px;
+    }
+  }
+  &.columns-4 {
+    li:nth-of-type(4n+1) {
+      margin-left: 0px;
+    }
+  }
+  &.columns-6 {
+    li {
+     .makeColumn(2);
+     &:nth-of-type(6n+1) {
+       margin-left: 0px;
+     }
+    }
+  }
+  &.columns-6 {
+    li:nth-of-type(12n+1) {
+      margin-left: 0px;
+    }
+  }
+  li {
+//    margin-bottom: 10px;
+  }
+}
+
 
 .makeFluidCol(@span:1,@offset:0) {
   float: left;

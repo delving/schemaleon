@@ -55,10 +55,10 @@
     <Document>
 
         <Photo>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Title>{ "required": true, "summaryField": "Title" }</Title>
             <Type>{ "vocabulary": "PhotoType" }</Type>
             <Rights>{ "vocabulary": "Rights" }</Rights>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <PhotoCreation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
                 <PhotoLocation>{ "vocabulary": "Place" }</PhotoLocation>
