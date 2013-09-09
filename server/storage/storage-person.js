@@ -46,30 +46,6 @@ P.getOrCreateUser = function (profile, receiver) {
         );
     }
 
-    function createTestUsers() { //todo: remove for production - creates fake users and groups
-        var _ = require('underscore');
-        var group = {};
-        for (var gr = 0; gr < 4; gr++) {
-            group.Name = 'GroupName_' + gr;
-            group.Address = 'GroupAdress_' + gr;
-            s.Person.saveGroup(_.clone(group), function (result) {
-            });
-        }
-        var profile = {
-            isPublic: false,
-            websites: []
-        };
-        for (var user = 0; user < 10; user++) {
-            profile.firstName = "FirstName_" + user;
-            profile.lastName = "LastName_" + user;
-            profile.username = "username_" + user;
-            profile.email = "email_" + user + "@delving.eu";
-            // use _.clone to deal with async
-            s.Person.getOrCreateUser(_.clone(profile), function (result) {
-            });
-        }
-    }
-
     if (!profile.username) {
         console.trace('No Identifier in user object!');
     }
@@ -109,7 +85,6 @@ P.getOrCreateUser = function (profile, receiver) {
                                     ]
                                 };
                                 addUser(userObject);
-                                createTestUsers();
                             });
                         }
                         else {
