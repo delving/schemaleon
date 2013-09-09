@@ -3,41 +3,49 @@
     <div class="page-header">
         <h1 i18n="Translations"><span class="i18n">Translations</span> "{{ langCode }}"</h1>
     </div>
+
     <h4>Labels</h4>
 
     <div class="row-fluid">
         <ul class="inline columns-6 reset translations">
             <li ng-repeat="label in labels">
-                <span class="label">{{ label.Key }}</span>
-                <input class="input-block-level" type="text" ng-model="label.Value"/>
-                <span i18n="Save" class="btn btn-success" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
-                    <span class="i18n"/>
-                </span>
+                <span class="label">{{ label.Key }}</span><br/>
+                <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
+                <div class="input-append"  ng-show="config.showTranslationEditor">
+                    <input class="input-block-level" type="text" ng-model="label.Value"/>
+                    <span class="add-on btn btn-success" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
+                        <i class="icon icon-ok"></i>
+                    </span>
+                 </div>
             </li>
         </ul>
     </div>
 
     <h4>Fields</h4>
-    <!--<div class="row-fluid">-->
-        <ul class="thumbnails columns-4 reset">
+
+    <div class="row-fluid">
+        <ul class="inline columns-4 reset">
             <li ng-repeat="element in elements" class="span3">
-                <span class="label label-inverse">{{ element.Key }}</span>
-
-                <span>
+                <span class="label label-inverse">{{ element.Key }}</span><br/>
+                <p ng-hide="config.showTranslationEditor">"{{ element.Title }}"</p>
+                <div class="input-append"  ng-show="config.showTranslationEditor">
                     <input class="input-block-level" type="text" ng-model="element.Title"/>
-                    <span i18n="Save" class="btn btn-success" ng-click="setTitle(element)" ng-show="element.Title != element.StoredTitle">
-                        <span class="i18n"/>
+                    <span class="add-on btn btn-success" ng-click="setTitle(element)" ng-show="element.Title != element.StoredTitle">
+                        <i class="icon icon-ok"></i>
                     </span>
-                </span>
+                    <h6>Documentation:</h6>
 
-                <span>Documentation:</span>
-                    <span>
-                        <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc" rows="5"></textarea>
+                    <textarea focus id="textArea" class="textarea-input" ng-model="element.Doc" rows="5"></textarea>
+
+                    <span class="btn btn-success" ng-click="setDoc(element)" ng-show="element.Doc != element.StoredDoc">
+                        <i class="icon icon-ok"></i>
                     </span>
-                    <span i18n="Save" class="btn btn-success" ng-click="setDoc(element)" ng-show="element.Doc != element.StoredDoc">
-                        <span class="i18n"/>
-                    </span>
+
                 </div>
+
+
+
+
 
             </li>
         </ul>

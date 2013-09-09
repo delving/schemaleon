@@ -278,12 +278,8 @@ ul.kv-list li span.value {
   border-bottom-left-radius: 10px;
 }
 /* WIDGET BOX */
-.widget-row .widget-box {
-  min-height: 300px;
-}
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
-  clear: both;
   margin-bottom: 16px;
   position: relative;
   -webkit-border-radius: 4px;
@@ -345,10 +341,14 @@ ul.kv-list li span.value {
   margin: 8px 10px 0 0;
 }
 .widget-body {
+  clear: both;
   font-size: small;
   padding: 12px 15px;
   overflow-y: auto;
   max-height: 300px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .widget-content {
   padding: 12px 15px;
@@ -428,38 +428,72 @@ ul.kv-list li span.value {
   background-image: url("../img/glyphicons-halflings-white.png");
 }
 /* CUSTOM MIXINS */
-ul.reset li {
+ul.reset > li {
+  maring: 0 0 0 0;
   padding: 0 0 0 0;
 }
-ul.inline.columns-2 li:nth-of-type(2n+1),
-ul.thumbnails.columns-2 li:nth-of-type(2n+1) {
-  margin-left: 0px;
-}
-ul.inline.columns-4 li:nth-of-type(4n+1),
-ul.thumbnails.columns-4 li:nth-of-type(4n+1) {
-  margin-left: 0px;
-}
-ul.inline.columns-3 li:nth-of-type(3n+1),
-ul.thumbnails.columns-3 li:nth-of-type(3n+1) {
-  margin-left: 0px;
-}
-ul.inline.columns-4 li:nth-of-type(4n+1),
-ul.thumbnails.columns-4 li:nth-of-type(4n+1) {
-  margin-left: 0px;
-}
-ul.inline.columns-6 li,
-ul.thumbnails.columns-6 li {
+ul.columns-2 li {
   float: left;
-  margin-left: 20px;
-  width: 140px;
+  width: 48.93617021276595%;
+  *width: 48.88297872340425%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
 }
-ul.inline.columns-6 li:nth-of-type(6n+1),
-ul.thumbnails.columns-6 li:nth-of-type(6n+1) {
+ul.columns-2 li:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+ul.columns-2 li:nth-of-type(2n+1) {
   margin-left: 0px;
 }
-ul.inline.columns-6 li:nth-of-type(12n+1),
-ul.thumbnails.columns-6 li:nth-of-type(12n+1) {
+ul.columns-3 li {
+  float: left;
+  width: 31.914893617021278%;
+  *width: 31.861702127659576%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+ul.columns-3 li:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+ul.columns-3 li:nth-of-type(3n+1) {
   margin-left: 0px;
+}
+ul.columns-4 li {
+  float: left;
+  width: 23.404255319148934%;
+  *width: 23.351063829787233%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+ul.columns-4 li:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+ul.columns-4 li:nth-of-type(4n+1) {
+  margin-left: 0px;
+}
+ul.columns-6 li {
+  float: left;
+  width: 14.893617021276595%;
+  *width: 14.840425531914894%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+ul.columns-6 li:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+ul.columns-6 li:nth-of-type(6n+1) {
+  margin-left: 0px;
+}
+ul.translations .thumbnail {
+  background: #eeeeee;
 }
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */

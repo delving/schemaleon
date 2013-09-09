@@ -1,14 +1,13 @@
 /* WIDGET BOX */
 
-.widget-row {
-  .widget-box {
-    min-height: 300px;
-  }
-}
+//.widget-row {
+//  .widget-box {
+//    min-height: 300px;
+//  }
+//}
 
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
-  clear: both;
   //  margin-top: 10px;
   margin-bottom: 16px;
   position: relative;
@@ -62,10 +61,12 @@
 
 .widget-body {
   //  border-bottom: 1px solid #cdcdcd;
+  clear: both;
   font-size: small;
   padding: 12px 15px;
   overflow-y: auto;
   max-height: 300px;
+  .box-sizing(border-box);
 }
 
 .widget-content {
