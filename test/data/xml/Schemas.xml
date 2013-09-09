@@ -103,10 +103,11 @@
         </Photo>
 
         <Video>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Title>{ "required":true }</Title>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Genre>{ "vocabulary": "VideoGenre" }</Genre>
             <Rights>{ "vocabulary": "Rights" }</Rights>
+            <Title>{ "required":true }</Title>
             <VideoCreation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
                 <VideoLocation>{ "vocabulary": "Place", "multiple":true }</VideoLocation>
