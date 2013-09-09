@@ -229,83 +229,82 @@ function Storage(home) {
 }
 
 function open(databaseName, homeDir, receiver) {
-    var xmlDir = path.join('test', 'data', 'xml');
+
     var storage = new Storage(homeDir);
+
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
+        var promise = null;
 
-        function loadPromise(filePath, docPath) {
+        function loadPromise(filePath, docPath, replace) {
             var deferred = defer();
-
+            log('load promise ' + filePath + ' to ' + docPath);
             fs.readFile(filePath, 'utf8', function (err, contents) {
                 if (err) console.error(err);
-                storage.replace(null, docPath, contents, function (results) {
-                    console.log('replaced ' + filePath);
-                    deferred.resolve(results);
-                });
+                if (replace) {
+                    storage.replace(null, docPath, contents, function (results) {
+                        log('replaced ' + filePath + ' to ' + docPath);
+                        deferred.resolve(results);
+                    });
+                }
+                else {
+                    storage.add(null, docPath, contents, function (results) {
+                        console.log('added ' + docPath);
+                        log('added ' + filePath + ' to ' + docPath);
+                        deferred.resolve(results);
+                    });
+                }
             });
             return deferred.promise;
         }
 
-        function loadData() {
-            log('loading data from '+xmlDir);
-            var promise = null;
-            _.each(fs.readdirSync(xmlDir), function (file) {
-                if (file[0] != '.') {
-                    var fsPath = path.join(xmlDir, file);
-                    var dbPath = '/' + file;
-                    if (fs.statSync(fsPath).isDirectory()) {
-                        log('load directory ' + fsPath);
-                        var files = fs.readdirSync(fsPath);
-                        _.each(files, function (file) {
-                            if (file[0] != '.') {
-                                var filePath = path.join(fsPath, file);
-                                if (fs.statSync(filePath).isFile()) {
-                                    if (promise) {
-                                        promise = promise.then(
-                                            function () {
-                                                return loadPromise(filePath, dbPath + '/' + file);
-                                            }
-                                        );
-                                    }
-                                    else {
-                                        promise = loadPromise(filePath, dbPath + '/' + file);
-                                    }
-                                }
-                                else {
-                                    log("Expected file: " + filePath);
-                                }
-                            }
+        function loadData(fsPath, docPath, replace) {
+            log('loading data from ' + fsPath + ' to ' + docPath);
+            _.each(fs.readdirSync(fsPath), function (file) {
+                if (file[0] == '.') return;
+                var fileSystemPath = fsPath + '/' + file;
+                var documentPath = docPath + file;
+                if (fs.statSync(fileSystemPath).isDirectory()) {
+                    log('load directory ' + fileSystemPath);
+                    loadData(fileSystemPath, documentPath+ '/' , replace);
+                }
+                else {
+                    log("Load file: " + fileSystemPath);
+                    if (promise) {
+                        log('new promise for '+documentPath);
+                        promise = promise.then(function () {
+                            return loadPromise(fileSystemPath, documentPath, replace);
                         });
                     }
                     else {
-                        log("Load file: " + fsPath);
-                        promise = loadPromise(fsPath, dbPath);
+                        log('first promise for '+documentPath);
+                        promise = loadPromise(fileSystemPath, documentPath, replace);
                     }
                 }
             });
-
-            if (promise) {
-                promise.then(
-                    function () {
-                        receiver(storage);
-                    },
-                    function (error) {
-                        console.error("final problem! " + error);
-                    }
-                );
-            }
-
         }
 
+        function finish() {
+            promise.then(
+                function () {
+                    receiver(storage);
+                },
+                function (error) {
+                    console.error("final problem! " + error);
+                }
+            );
+        }
+
+        var fileSystemPath = 'test/data/xml';
         if (reply.ok) {
-            loadData();
-            receiver(storage);
+            loadData(fileSystemPath, '', true);
+            finish();
         }
         else {
             storage.session.execute('create db ' + databaseName, function (error, reply) {
                 if (reply.ok) {
-                    loadData();
+                    loadData(fileSystemPath, '', false);
+                    finish();
                 }
                 else {
                     console.error('Unable to create database ' + databaseName);

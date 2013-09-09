@@ -66,30 +66,18 @@ P.getOrCreateUser = function (profile, receiver) {
                 s.query('count users',
                     'count(' + s.userCollection() + ')',
                     function (result) {
-                        log('count: '+result);
+                        log('count: ' + result);
                         if (result === '0') {
-                            var oscrGroup = {
-                                Name: 'OSCR',
-                                Identifier: 'OSCR',
-                                SaveTime: new Date().getTime()
+                            userObject.Memberships = {
+                                Membership: [
+                                    {
+                                        GroupIdentifier: 'OSCR',
+                                        Role: 'Administrator'
+                                    }
+                                ]
                             };
-                            self.saveGroup(oscrGroup, function (result) {
-                                log('created group ' + result);
-                                var groupIdentifier = util.getFromXml(result, 'Identifier');
-                                userObject.Memberships = {
-                                    Membership: [
-                                        {
-                                            GroupIdentifier: groupIdentifier,
-                                            Role: 'Administrator'
-                                        }
-                                    ]
-                                };
-                                addUser(userObject);
-                            });
                         }
-                        else {
-                            addUser(userObject);
-                        }
+                        addUser(userObject);
                     }
                 );
             }
