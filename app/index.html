@@ -52,19 +52,19 @@
                                 <span class="i18n"></span>: {{ user.Profile.firstName }} {{ user.Profile.lastName }}
                             </a>
                         </li>
-                        <li>
-                            <a href ng-click="logout()" title="" i18n="Logout">
-                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
-                            </a>
-                        </li>
                         <li ng-show="user.god">
                             <a href ng-click="refreshSchemas()" title="">
-                                <i class="icon icon-white icon-share-alt"></i> <span>Refresh Schemas</span>
+                                <i class="icon icon-white icon-refresh"></i> <span>Refresh Schemas</span>
                             </a>
                         </li>
                         <li ng-show="user.god">
                             <a href ng-click="saveLanguage()" title="">
-                                <i class="icon icon-white icon-share-alt"></i> <span>Save Language</span>
+                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="logout()" title="" i18n="Logout">
+                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
                             </a>
                         </li>
                     </ul>
