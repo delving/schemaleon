@@ -5,7 +5,7 @@ var Storage = require('../../server/storage');
 var storage = null;
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 exports.createDatabase = function (test) {
@@ -13,6 +13,7 @@ exports.createDatabase = function (test) {
     Storage('oscrtest', '/tmp', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
+        log('database created');
         test.done();
     });
 };
@@ -21,7 +22,7 @@ exports.testFetch = function (test) {
     test.expect(1);
     storage.I18N.getLanguage('en', function (xml) {
         test.ok(xml, "no xml");
-//        console.log("fetched:\n" + xml);
+        log("fetched:\n" + xml);
         test.done();
     });
 };
