@@ -212,22 +212,19 @@ function Storage(home) {
 
     this.refreshSchemas = function (receiver) {
         var session = this.session;
-
-        function replaceXML(fileName, next) {
-            var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
-            session.replace('/' + fileName, contents, function (error, reply) {
-                if (reply.ok) {
-                    console.log("Reloaded: " + fileName);
-                }
-                else {
-                    console.error('Unable to refresh schemas');
-                    console.error(error);
-                }
-                if (next) next();
-            });
-        }
-
-        replaceXML("Schemas.xml", receiver);
+        var schemaFile = this.directories.schemaFile;
+        var fileName = path.basename(schemaFile);
+        var contents = fs.readFileSync(schemaFile, 'utf8');
+        session.replace('/' + fileName, contents, function (error, reply) {
+            if (reply.ok) {
+                console.log("Reloaded: " + fileName);
+            }
+            else {
+                console.error('Unable to refresh schemas');
+                console.error(error);
+            }
+            receiver();
+        });
     }
 }
 

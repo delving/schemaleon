@@ -61,14 +61,14 @@ OSCR.controller(
 
         $rootScope.refreshSchemas = function() {
             Person.refreshSchemas(function (result) {
-                console.log("Refreshed schemas "+JSON.stringify(result));
+                alert('refreshed schemas');
             })
         };
 
         $rootScope.saveLanguage = function() {
             I18N.saveLanguage($rootScope.lang, function (lang) {
-                console.log("Saved language");
                 $rootScope.i18n = lang;
+                alert('saved language');
             })
         };
 
