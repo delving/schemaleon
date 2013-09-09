@@ -140,11 +140,11 @@
                 </tab>
                 <tab>
                     <tab-heading><span class="nav-tabs" i18n="CommittedFiles"><span class="i18n"/></span></tab-heading>
-                    <ul class="media-list col-2">
+                    <ul class="columns-2 media-list reset">
                         <li class="media" ng-repeat="doc in committedFiles">
-                            <a class="pull-left">
+                            <span class="pull-left">
                                 <img class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}">
-                            </a>
+                            </span>
 
                             <div class="media-body">
                                 <h4 class="media-heading">{{ doc.Identifier }}</h4>
