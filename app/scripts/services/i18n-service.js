@@ -95,6 +95,14 @@ OSCR.service(
                         $rootScope.i18n = language.Language;
                     }
                 );
+            },
+            saveLanguage: function (lang, receiver) {
+                $http.post('/i18n/' + lang + '/save').success(
+                    function (data) {
+                        var language = xmlToObject(data);
+                        receiver(language.Language);
+                    }
+                );
             }
         };
     }

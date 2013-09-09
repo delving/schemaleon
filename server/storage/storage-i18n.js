@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = I18N;
+var fs = require('fs');
+var path = require('path');
 var util = require('../util');
 
 function I18N(storage) {
@@ -73,3 +75,13 @@ P.setElementDoc = function (language, key, value, receiver) {
     );
 };
 
+P.saveLanguage = function (language, receiver) {
+    var s = this.storage;
+    var i18nDir = path.join(s.directories.dataDir, 'i18n');
+    this.getLanguage(language, function(lang) {
+        var file = path.join(i18nDir, language+'.xml');
+        fs.writeFile(file, lang, function() {
+            receiver(lang);
+        });
+    });
+};

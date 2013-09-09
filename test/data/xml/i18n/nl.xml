@@ -1,0 +1,11 @@
+<Language>
+  <label>
+    <Dashboard>Paneel</Dashboard>
+  </label>
+  <element>
+    <FirstName>
+      <title>Voornaam</title>
+      <doc>Hoe heet ie?</doc>
+    </FirstName>
+  </element>
+</Language>

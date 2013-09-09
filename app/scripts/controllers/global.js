@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, Document) {
+    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, I18N) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -62,6 +62,13 @@ OSCR.controller(
         $rootScope.refreshSchemas = function() {
             Person.refreshSchemas(function (result) {
                 console.log("Refreshed schemas "+JSON.stringify(result));
+            })
+        };
+
+        $rootScope.saveLanguage = function() {
+            I18N.saveLanguage($rootScope.lang, function (lang) {
+                console.log("Saved language");
+                $rootScope.i18n = lang;
             })
         };
 

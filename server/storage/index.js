@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
+var defer = require('node-promise').defer;
 
 var Person = require('./storage-person');
 var I18N = require('./storage-i18n');
@@ -231,33 +232,83 @@ function Storage(home) {
 }
 
 function open(databaseName, homeDir, receiver) {
+    var xmlDir = path.join('test', 'data', 'xml');
     var storage = new Storage(homeDir);
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
+
+        function loadPromise(filePath, docPath) {
+            var deferred = defer();
+
+            fs.readFile(filePath, 'utf8', function (err, contents) {
+                if (err) console.error(err);
+                storage.replace(null, docPath, contents, function (results) {
+                    console.log('replaced ' + filePath);
+                    deferred.resolve(results);
+                });
+            });
+            return deferred.promise;
+        }
+
+        function loadData() {
+            log('loading data from '+xmlDir);
+            var promise = null;
+            _.each(fs.readdirSync(xmlDir), function (file) {
+                if (file[0] != '.') {
+                    var fsPath = path.join(xmlDir, file);
+                    var dbPath = '/' + file;
+                    if (fs.statSync(fsPath).isDirectory()) {
+                        log('load directory ' + fsPath);
+                        var files = fs.readdirSync(fsPath);
+                        _.each(files, function (file) {
+                            if (file[0] != '.') {
+                                var filePath = path.join(fsPath, file);
+                                if (fs.statSync(filePath).isFile()) {
+                                    if (promise) {
+                                        promise = promise.then(
+                                            function () {
+                                                return loadPromise(filePath, dbPath + '/' + file);
+                                            }
+                                        );
+                                    }
+                                    else {
+                                        promise = loadPromise(filePath, dbPath + '/' + file);
+                                    }
+                                }
+                                else {
+                                    log("Expected file: " + filePath);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        log("Load file: " + fsPath);
+                        promise = loadPromise(fsPath, dbPath);
+                    }
+                }
+            });
+
+            if (promise) {
+                promise.then(
+                    function () {
+                        receiver(storage);
+                    },
+                    function (error) {
+                        console.error("final problem! " + error);
+                    }
+                );
+            }
+
+        }
+
         if (reply.ok) {
+            loadData();
             receiver(storage);
         }
         else {
             storage.session.execute('create db ' + databaseName, function (error, reply) {
-
-                function loadXML(fileName, next) {
-                    var contents = fs.readFileSync('test/data/' + fileName, 'utf8');
-                    storage.session.add('/' + fileName, contents, function (error, reply) {
-                        if (reply.ok) {
-//                            console.log("Preloaded: " + fileName);
-                            if (next) next();
-                        }
-                        else {
-                            console.error('Unable to create database ' + databaseName);
-                            console.error(error);
-                        }
-                    });
-                }
-
                 if (reply.ok) {
-                    loadXML('Schemas.xml', function () {
-                        receiver(storage);
-                    });
+                    loadData();
                 }
                 else {
                     console.error('Unable to create database ' + databaseName);

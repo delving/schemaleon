@@ -139,6 +139,13 @@ Storage('oscr', homeDir, function (storage) {
         }
     });
 
+    app.post('/i18n/:lang/save', function (req, res) {
+        var lang = req.params.lang;
+        storage.I18N.saveLanguage(lang, function(ok) {
+            replyWithLanguage(lang, res);
+        });
+    });
+
     app.get('/statistics', function (req, res) {
         storage.getStatistics(function (xml) {
             res.xml(xml);
@@ -227,7 +234,6 @@ Storage('oscr', homeDir, function (storage) {
                 UserRole: userRole,
                 GroupIdentifier: groupIdentifier
             })
-
         });
     });
 
