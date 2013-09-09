@@ -6,7 +6,7 @@
 
         <h1>{{ vocabularyName }}</h1>
         <ul>
-            <li ng-repeat="entry in vocabulary.Entries.Entry">
+            <li ng-repeat="entry in entries">
                 <ul>
                     <li i18n="Label">
                         <span class="i18n"/>: {{ entry.Label }}
@@ -14,7 +14,7 @@
                     <li i18n="Identifier">
                         <span class="i18n"/>: {{ entry.Identifier }}
                     </li>
-                    <li ng-repeat="field in entry | vocabFields">
+                    <li ng-repeat="field in entry.fields">
                         {{ field.Key }}: {{ field.Value }}
                     </li>
                 </ul>

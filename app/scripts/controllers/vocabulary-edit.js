@@ -25,25 +25,20 @@ OSCR.controller(
     function ($rootScope, $scope, $routeParams, Vocabulary) {
         $scope.vocabularyName = $routeParams.vocab;
 
-        Vocabulary.get($scope.vocabularyName, function(vocabulary) {
+        $scope.entries = [];
+
+        Vocabulary.get($scope.vocabularyName, function (vocabulary) {
+            $scope.entries = _.map(xmlArray(vocabulary.Entries.Entry), function (entry) {
+                var fields = [];
+                _.each(_.pairs(entry), function (pair) {
+                    if (!(pair[0][0] == '$' && pair[0] == 'Label' || pair[0] == 'Identifier')) {
+                        fields.push({ Key: pair[0], Value: pair[1]});
+                    }
+                });
+                entry.fields = fields;
+                return entry;
+            });
             $scope.vocabulary = vocabulary;
         });
     }
 );
-
-OSCR.filter(
-    'vocabFields',
-    function () {
-        return function (entry) {
-            var fields = [];
-            if (entry) {
-                for (var key in entry) {
-                    if (key[0] == '$' || key === 'Label' || key === 'Identifier') continue;
-                    fields.push({ Key: key, Value: entry[key]});
-                }
-            }
-            return fields;
-        };
-    }
-);
-
