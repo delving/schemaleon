@@ -2,6 +2,20 @@
   <label>
     <Dashboard>Paneel</Dashboard>
     <InMemoriam>Bidprentjes</InMemoriam>
+    <People>Mensen</People>
+    <MediaUpload>Media</MediaUpload>
+    <Photo>Fotos</Photo>
+    <Book>Boeken</Book>
+    <Video>Videos</Video>
+    <Documents>Documenten</Documents>
+    <NewDocument>Nieuw document</NewDocument>
+    <Identifier>ID</Identifier>
+    <Title>Titel</Title>
+    <Stored>Bewaard op</Stored>
+    <SavedBy>Bewaard door</SavedBy>
+    <LoggedInAs>Ingelogd als</LoggedInAs>
+    <Logout>Uitloggen</Logout>
+    <Translations>Vertalingen</Translations>
   </label>
   <element>
     <FirstName>
