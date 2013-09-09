@@ -243,7 +243,7 @@ module.exports = function (grunt) {
                             '*.{ico,txt}',
                             '.htaccess',
                             'components/**/*',
-                            'views/*',
+                            'views/**/*',
                             'template/**/*',
 //                            'img/{,*/}*.{gif,webp}',
                             'img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
@@ -279,7 +279,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('prod', [
         'clean:server',
-        'less:server',
         'express:prod',
         'open',
         'watch'
