@@ -138,7 +138,7 @@ OSCR.controller(
 
 OSCR.controller(
     'VocabularyController',
-    function ($scope, $q, Vocabulary) {
+    function ($scope, $q, Vocabulary, $rootScope) {
 
         function log(message) {
             console.log(message);

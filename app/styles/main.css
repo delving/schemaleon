@@ -445,6 +445,14 @@ ul.reset > li {
   margin: 0 0 0 0 !important;
   padding: 0 0 0 0 !important;
 }
+ul.label-list {
+  margin-left: 0;
+  list-style: none;
+}
+ul.label-list li label {
+  display: inline-block;
+  font-weight: bold;
+}
 ul.columns-2 li {
   float: left;
   width: 48.93617021276595%;

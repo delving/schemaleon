@@ -1,0 +1,20 @@
+{
+  "name": "angularjs-gravatardirective",
+  "main": "src/gravatar-directive.js",
+  "ignore": [
+    "**/.*",
+    "app",
+    "config"
+  ],
+  "homepage": "https://github.com/lavinjj/angularjs-gravatardirective",
+  "_release": "0211cac223",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0211cac22382a623b02000fcfc713ff2bb76b2c2"
+  },
+  "_source": "git://github.com/lavinjj/angularjs-gravatardirective.git",
+  "_target": "*",
+  "_originalSource": "angularjs-gravatar",
+  "_direct": true
+}

@@ -33,6 +33,7 @@
                     <h5 i18n="YourProfile"><span class="i18n"></span></h5>
                 </div>
                 <div class="widget-body">
+                    <gravatar-image data-email="user.Profile.email" data-size="100" data-default="404" data-secure="false"></gravatar-image>
                     <dl>
                         <dt i18n="Name"><span class="i18n"/></dt>
                         <dd>
@@ -84,7 +85,7 @@
                         </td>
                         <td>
                             <a href ng-click="logEntryWho(entry)" ng-mouseover="getMe(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
-                            <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-out">{{ entry.userView.Profile.email }}</a>
+                            <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-in">{{ entry.userView.Profile.email }}</a>
                         </td>
                         <td>
                             <span i18n="{{ entry.Op }}"><span class="i18n"/></span>

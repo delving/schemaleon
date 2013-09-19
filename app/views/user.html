@@ -1,29 +1,38 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1 i18n="User"><span class="i18n"/></h1>
-        <h1>{{ Identifier }}</h1>
-        <dl ng-show="userView">
-            <dt i18n="Name"></dt>
-            <dd>
-                <span>{{ userView.Profile.firstName }}</span>
-                <span>{{ userView.Profile.lastName }}</span>
-            </dd>
-            <dt i18n="Email"></dt>
-            <dd>
-                <span>{{ userView.Profile.email }}</span>
-            </dd>
-            <dt i18n="Groups"></dt>
-            <dd ng-show="memberships">
-                <ul class="stats stats-condensed">
-                    <li ng-repeat="membership in memberships">
-                        <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
-                        <span class="label {{ membership.Role }}">{{ membership.Role }}</span>
-                    </li>
-                </ul>
-            </dd>
-        </dl>
-
+        <h1 i18n="User"><span class="i18n"/> <small>{{ Identifier }}</small></h1>
     </div>
+
+    <div class="row-fluid">
+        <div class="span2">
+
+
+        </div>
+        <div class="span10">
+            <ul ng-show="userView" class="label-list">
+                <li>
+                    <label i18n="Name"><span class="i18n"/></label>
+                    {{ userView.Profile.firstName }} {{ userView.Profile.lastName }}
+                </li>
+                <li>
+                    <label i18n="Email"><span class="i18n"/></label>
+                    {{ userView.Profile.email }}
+                </li>
+                <li>
+                    <label i18n="Groups"><span class="i18n"/></label>
+                    <ol class="">
+                        <li ng-repeat="membership in memberships">
+                            <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
+                            <span class="label {{ membership.Role }}">{{ membership.Role }}</span>
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
 
 </div>
