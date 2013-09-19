@@ -49,13 +49,6 @@
                                 <li ng-repeat="membership in user.Memberships.Membership">
                                     <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
                                     <span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
-                                    <!--<br/>-->
-                                    <!--<ul>-->
-                                    <!--<li ng-repeat="user in membership.group.userList">-->
-                                    <!--<span>{{ user.Profile.firstName }}</span>-->
-                                    <!--<span>{{ user.Profile.lastName }}</span>-->
-                                    <!--</li>-->
-                                    <!--</ul>-->
                                 </li>
                             </ul>
                         </dd>
@@ -86,10 +79,19 @@
                     </thead>
                     <tbody>
                     <tr data-ng-repeat="entry in logEntries">
-                        <td>{{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</td>
-                        <td><a href ng-click="logEntryWho(entry)">{{ entry.Who }}</a></td>
-                        <td><span i18n="{{ entry.Op }}"><span class="i18n"/></span></td>
-                        <td><a href ng-click="logEntryDetail(entry)">{{ entry | logDetails }}</a></td>
+                        <td>
+                            {{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
+                        </td>
+                        <td>
+                            <a href ng-click="logEntryWho(entry)" ng-mouseover="getMe(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
+                            <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-out">{{ entry.userView.Profile.email }}</a>
+                        </td>
+                        <td>
+                            <span i18n="{{ entry.Op }}"><span class="i18n"/></span>
+                        </td>
+                        <td>
+                            <a href ng-click="logEntryDetail(entry)">{{ entry | logDetails }}</a>
+                        </td>
                     </tbody>
                 </table>
             </div>

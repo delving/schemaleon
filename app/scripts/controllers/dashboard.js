@@ -2,7 +2,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'DashboardController',
-    function ($rootScope, $scope, $location, $cookieStore, Statistics) {
+    function ($rootScope, $scope, $location, $cookieStore, Statistics, Person) {
         $rootScope.checkLoggedIn();
 
         Statistics.getGlobalStatistics(function (statistics) {
@@ -48,6 +48,15 @@ OSCR.controller(
                 $scope.choosePath(path);
             }
         };
+
+        $scope.getMe = function (entry) {
+            Person.getUser(entry.Who, function(user) {
+                entry.userView = user;
+            });
+        }
+
+
+
     }
 );
 
