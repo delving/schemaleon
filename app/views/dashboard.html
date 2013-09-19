@@ -34,16 +34,16 @@
                 </div>
                 <div class="widget-body">
                     <dl>
-                        <dt i18n="Name"></dt>
+                        <dt i18n="Name"><span class="i18n"/></dt>
                         <dd>
                             <span>{{ user.Profile.firstName }}</span>
                             <span>{{ user.Profile.lastName }}</span>
                         </dd>
-                        <dt i18n="Email"></dt>
+                        <dt i18n="Email"><span class="i18n"/></dt>
                         <dd>
                             <span>{{ user.Profile.email }}</span>
                         </dd>
-                        <dt i18n="Groups"></dt>
+                        <dt i18n="Groups"><span class="i18n"/></dt>
                         <dd>
                             <ul class="stats stats-condensed">
                                 <li ng-repeat="membership in user.Memberships.Membership">

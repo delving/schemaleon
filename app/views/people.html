@@ -1,7 +1,7 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1 i18n="People"><span class="i18n">People</span></h1>
+        <h1 i18n="People"><span class="i18n"/></h1>
     </div>
 
     <div class="navbar" data-private="canUserAdministrate('OSCR')">
@@ -24,6 +24,7 @@
 
         <accordion class="action-accordion">
             <accordion-group ng-repeat="group in groupList">
+
                 <accordion-heading>
                     <div class="clearfix">
                         <span ng-click="populateGroup(group)">{{ group.Name }}</span>
@@ -38,10 +39,10 @@
                         <th i18n="Role"><span class="i18n">Role</span></th>
                         <th width="300" private="canUserAdministrate(group.Identifier)">
                             <a class="btn btn-mini btn-primary" href ng-click="addUserToggle('Member')" i18n="AddMember">
-                                <span class="i18n">Add Member</span>
+                                <span class="i18n"/>
                             </a>
                             <a href class="btn btn-mini btn-info" ng-click="addUserToggle('Administrator')" i18n="AddAdministrator">
-                                <span class="i18n">Add Administrator</span>
+                                <span class="i18n"/>
                             </a>
                         </th>
                     </tr>
@@ -66,18 +67,17 @@
         <div class="widget-box" ng-show="creatingGroup">
             <div class="widget-title">
                 <span class="icon"><i class="icon-users"></i></span>
-                <h5>Create group</h5>
+                <h5 i18n="CreateGroup"><span class="i18n"/></h5>
                 <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="newGroupToggle()">&times;</button></span>
             </div>
             <div class="widget-body">
-                <div ng-show="groupCreated" class="alert alert-success fade-in">
+                <div ng-show="groupCreated" class="alert alert-success fade-in" i18n="GroupCreated">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    Group was created successfully!
+                    <span class="i18n"/>
                 </div>
-                <!--<alert type="success" close="close()">Group was created successfully!</alert>-->
-                <label>Name:</label>
+                <label i18n="GroupName"><span class="i18n"/>:</label>
                 <input focus type="text" ng-model="groupName" class="input-large"/>
-                <label>Adress:</label>
+                <label i18n="GroupAddress"><span class="i18n"/>:</label>
                 <input type="text" ng-model="groupAddress" class="input-large"/>
             </div>
             <div class="widget-footer">
@@ -92,15 +92,20 @@
         <div class="widget-box" ng-show="addingUser">
             <div class="widget-title">
                 <span class="icon"><i class="icon-user"></i></span>
-                <h5>Assign user to <span ng-bind="selectedGroup.Name"></span> as <span ng-bind="selectedGroup.Role"></span></h5>
+                <h5>
+                    <span i18n="AssignUserTo"><span class="i18n"/></span>
+                    <span ng-bind="selectedGroup.Name"></span>
+                    <span i18n="InTheRoleOf"><span class="i18n"/></span>
+                    <span ng-bind="selectedGroup.Role"></span>
+                </h5>
                 <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="addUserToggle()">&times;</button></span>
             </div>
             <div class="widget-body">
-                <div ng-show="userAssigned" class="alert alert-success fade-in">
+                <div ng-show="userAssigned" class="alert alert-success fade-in" i18n="UserAssigned">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    User successfully assigned to group!
+                    <span class="i18n"/>
                 </div>
-                <label i18n="UserEmail"><span class="i18n">User-email</span>:</label>
+                <label i18n="FindUser"><span class="i18n"/>:</label>
                 <div class="input-append">
                     <input id="cu" type="text" ng-model="chosenUser" class="input-large"
                            typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
@@ -108,9 +113,10 @@
                 </div>
             </div>
             <div class="widget-footer">
-                <!--<button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>-->
-                <!--<input type="hidden" ng-model="chosenGroup"/>-->
-                <button ng-click="assignUserToGroup()" class="btn btn-success" data-i18n="Assign"><i class="icon-magnet icon-white"></i> <span class="i18n"></span> : <span ng-bind="selectedGroup.Name"></span> : <span ng-bind="selectedGroup.Role"></span></button>
+                <button ng-click="assignUserToGroup()" class="btn btn-success" data-i18n="Assign">
+                    <i class="icon-magnet icon-white"></i>
+                    <span class="i18n"/>
+                </button>
             </div>
         </div>
     </div>
