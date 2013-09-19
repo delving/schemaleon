@@ -51,7 +51,11 @@ OSCR.controller(
 
         $scope.getMe = function (entry) {
             Person.getUser(entry.Who, function(user) {
-                entry.userView = user;
+                _.each($scope.logEntries, function(logEntry) {
+                    if (logEntry.Who == entry.Who) {
+                        logEntry.userView = user;
+                    }
+                });
             });
         }
 
