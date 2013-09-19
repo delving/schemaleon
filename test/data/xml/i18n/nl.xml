@@ -22,11 +22,18 @@
     <Role>Rol</Role>
     <AddMember>gebruiker toevoegen</AddMember>
     <AddAdministrator>Beheerder toevoegen</AddAdministrator>
+    <Statistics>Statistieken</Statistics>
+    <YourProfile>Jouw profiel</YourProfile>
+    <RecentActivity>Activiteit log</RecentActivity>
   </label>
   <element>
     <FirstName>
       <title>Voornaam</title>
       <doc>Hoe heet ie?</doc>
     </FirstName>
+    <MediaFile>
+      <title>?</title>
+      <doc>MediaFile</doc>
+    </MediaFile>
   </element>
 </Language>
