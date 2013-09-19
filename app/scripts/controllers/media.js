@@ -145,6 +145,21 @@ OSCR.controller(
         $scope.showDestroy = function (file) {
             return !!file.$destroy && !file.notes;
         };
+
+        $scope.fileDestroy = function (file) {
+            if ($rootScope.config.showTranslationEditor) return;
+            file.$destroy();
+        };
+
+        $scope.fileSubmit = function (file) {
+            if ($rootScope.config.showTranslationEditor) return;
+            file.$submit();
+        };
+
+        $scope.fileCancel = function (file) {
+            if ($rootScope.config.showTranslationEditor) return;
+            file.$cancel();
+        };
     }
 );
 

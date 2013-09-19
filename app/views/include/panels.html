@@ -80,14 +80,12 @@
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
                                 <input focus id="vocabulary" type="text" ng-model="chosenEntry" class="input-block-level" typeahead="entry as entryToString(entry) for entry in getEntries($viewValue)"/>
-                                <button ng-show="!el.elements"
-                                        ng-click="createNew($index, $parent.$index)"
-                                        class="btn btn-warning btn-small"
-                                        i18n="New"
-                                        >
-                                    <i class="icon-white icon-plus-sign"></i>
-                                    <span class="i18n"/>
-                                </button>
+                                <span i18n="New">
+                                    <button ng-show="!el.elements" ng-click="createNew($index, $parent.$index)" class="btn btn-warning btn-small">
+                                        <i class="icon-white icon-plus-sign"></i>
+                                        <span class="i18n"/>
+                                    </button>
+                                </span>
                             </div>
                             <div ng-show="!el.edit">
                                 <div ng-click="enableClearedEditor()" tooltip-placement="right" tooltip="Click to edit"
@@ -107,8 +105,18 @@
                             </div>
                         </div>
                         <div ng-show="el.elements">
-                            <button ng-click="cancelNew()" class="btn btn-small btn-danger" data-i18n="Cancel"><i class="icon-remove-circle icon-white"></i> <span class="i18n"></span></button>
-                            <button ng-click="submitNew()" class="btn btn-small btn-success" data-i18n="Create"><i class="icon-download-alt icon-white"></i> <span class="i18n"></span></button>
+                            <span i18n="Cancel">
+                                <button ng-click="cancelNew()" class="btn btn-small btn-danger">
+                                    <i class="icon-remove-circle icon-white"></i>
+                                    <span class="i18n"></span>
+                                </button>
+                            </span>
+                            <span i18n="Create">
+                                <button ng-click="submitNew()" class="btn btn-small btn-success">
+                                    <i class="icon-download-alt icon-white"></i>
+                                    <span class="i18n"></span>
+                                </button>
+                            </span>
                         </div>
                     </div>
 

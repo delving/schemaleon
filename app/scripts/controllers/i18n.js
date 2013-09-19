@@ -36,7 +36,8 @@ OSCR.directive(
                     $scope.key = newValue;
                 });
             },
-            template: '<span ng-transclude></span> ' +
+            template:
+                '<span ng-transclude></span> ' +
                 '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +
                 '<i class="icon-translate icon-white"></i>' +
                 '</span>'

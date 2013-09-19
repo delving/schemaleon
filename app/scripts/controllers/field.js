@@ -222,6 +222,7 @@ OSCR.controller(
         };
 
         $scope.enableClearedEditor = function () {
+            if ($rootScope.config.showTranslationEditor) return;
             $scope.chosenEntry = null;
             $scope.el.value = null;
             $scope.el.valueFields = null;
