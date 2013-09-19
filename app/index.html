@@ -106,14 +106,14 @@
                             <a href ng-click="choosePath(link.path)">
                                 <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
-                               <span ng-show="config.showTranslationEditor"
-                                     ng-click="openLabelDialog(link)"
-                                     tooltip="Click to translate"
-                                     tooltip-placement="right"
-                                     class="badge badge-warning btn-i18n">
-                                    <i class="icon-translate icon-white"></i>
-                                </span>
                             </a>
+                            <span ng-show="config.showTranslationEditor"
+                                 ng-click="openLabelDialog(link)"
+                                 tooltip="Click to translate"
+                                 tooltip-placement="right"
+                                 class="badge badge-warning btn-i18n">
+                                <i class="icon-translate icon-white"></i>
+                            </span>
                         </li>
                         <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
                         </li>
