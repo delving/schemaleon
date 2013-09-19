@@ -2,7 +2,8 @@
   "name": "oscr",
   "version": "0.0.0",
   "dependencies": {
-    "basex": "~0.6.1"
+    "basex": "~0.6.1",
+    "archiver": "~0.4.9"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -19,8 +19,9 @@ module.exports = function(home) {
     this.schemaFile = path.join(this.dataDir, "Schemas.xml");
     this.mediaStorage = make(home, 'OSCR-Media');
     this.mediaUpload = make(home, 'OSCR-Upload');
+    this.snapshot = make(home, 'OSCR-Snapshot');
     this.mediaUploadDir = make(this.mediaUpload, 'files');
-    this.mediaThumbnailDir = make(this.mediaUploadDir, 'thumbnail')
+    this.mediaThumbnailDir = make(this.mediaUploadDir, 'thumbnail');
     this.mediaTempDir = make(this.mediaUpload, 'temp');
     this.mediaBucketDir = function (fileName) { // assumes file name is = generateId() + '.???'
         var rx = /.*-.([a-z0-9]{2})\..../g;

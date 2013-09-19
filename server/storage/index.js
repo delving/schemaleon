@@ -2,6 +2,7 @@
 
 var _ = require('underscore');
 var fs = require('fs');
+var archiver = require('archiver');
 var path = require('path');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
@@ -225,7 +226,78 @@ function Storage(home) {
             }
             receiver();
         });
-    }
+    };
+
+    this.snapshotName = function() {
+        var now = new Date();
+        var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +
+            '-' + now.getHours() + '-' + now.getMinutes();
+        return 'OSCR-Snapshot-' + dateString;
+    };
+
+    this.snapshotCreate = function (receiver) {
+        var snapshotDir = this.snapshotName();
+        var exportPath = this.directories.snapshot + '/' + snapshotDir;
+        var zipFile = exportPath + '.zip';
+        this.session.execute('export ' + exportPath, function () {
+            var output = fs.createWriteStream(zipFile);
+            var archive = archiver('zip');
+
+            archive.on('error', function (err) {
+                throw err;
+            });
+            output.on('close', function () {
+                receiver(zipFile);
+            });
+
+            archive.pipe(output);
+
+            function rmdir(dir) {
+                var list = fs.readdirSync(dir);
+                _.each(list, function (entry) {
+                    if (entry[0] != '.') {
+                        var fileName = path.join(dir, entry);
+                        var stat = fs.statSync(fileName);
+                        if (stat.isDirectory()) {
+                            rmdir(fileName);
+                        }
+                        else {
+                            fs.unlinkSync(fileName);
+                        }
+                    }
+                });
+                fs.rmdirSync(dir);
+            }
+
+            function appendToArchive(dir, zipPath) {
+                var list = fs.readdirSync(dir);
+                _.each(list, function (entry) {
+                    if (entry[0] != '.') {
+                        var fileName = path.join(dir, entry);
+                        var stat = fs.statSync(fileName);
+                        var zipFileName = zipPath + '/' + entry;
+                        if (stat.isDirectory()) {
+                            appendToArchive(fileName, zipFileName);
+                        }
+                        else {
+                            archive.append(fs.createReadStream(fileName), { name: zipFileName });
+                        }
+                    }
+                });
+            }
+
+            appendToArchive(exportPath, snapshotDir);
+            rmdir(exportPath);
+
+            archive.finalize(function (err, bytes) {
+                if (err) {
+                    throw err;
+                }
+                console.log(zipFile + ': ' + bytes + ' total bytes');
+            });
+
+        })
+    };
 }
 
 function open(databaseName, homeDir, receiver) {
@@ -266,18 +338,18 @@ function open(databaseName, homeDir, receiver) {
                 var documentPath = docPath + file;
                 if (fs.statSync(fileSystemPath).isDirectory()) {
                     log('load directory ' + fileSystemPath);
-                    loadData(fileSystemPath, documentPath+ '/' , replace);
+                    loadData(fileSystemPath, documentPath + '/', replace);
                 }
                 else {
                     log("Load file: " + fileSystemPath);
                     if (promise) {
-                        log('new promise for '+documentPath);
+                        log('new promise for ' + documentPath);
                         promise = promise.then(function () {
                             return loadPromise(fileSystemPath, documentPath, replace);
                         });
                     }
                     else {
-                        log('first promise for '+documentPath);
+                        log('first promise for ' + documentPath);
                         promise = loadPromise(fileSystemPath, documentPath, replace);
                     }
                 }
