@@ -289,12 +289,6 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/document/list/headers/:schema', function (req, res) {
-        storage.Document.getAllDocumentHeaders(req.params.schema, function (xml) {
-            res.xml(xml);
-        });
-    });
-
     app.get('/document/list/documents/:schema', function (req, res) {
         storage.Document.getAllDocuments(req.params.schema, function (xml) {
             res.xml(xml);

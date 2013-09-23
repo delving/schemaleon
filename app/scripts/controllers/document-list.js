@@ -8,19 +8,47 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
 
+        $scope.searchString = '';
+        $scope.searchStringUsed = '';
         $scope.schema = $routeParams.schema;
 
-        if ($scope.schema) {
-            Document.fetchHeaders($scope.schema, function (list) {
-                $scope.headerList = _.sortBy(list, function (val) {
-                    return -val.TimeStamp;
+        function getAllDocuments() {
+            Document.fetchAllDocuments($scope.schema, function (list) {
+                $scope.searchStringUsed = '';
+                $scope.headerList = _.map(list, function(document) {
+                    return document.Header;
                 });
             });
+        }
+
+        if ($scope.schema) {
+            getAllDocuments()
         }
 
         $scope.newDocument = function () {
             $scope.choosePath('/document/' + $scope.schema + '/edit/create');
         };
+
+        $scope.search = function() {
+            if ($scope.searchString.length == 0) {
+                getAllDocuments();
+            }
+            else {
+                Document.selectDocuments($scope.schema, $scope.searchString, function(list) {
+                    if (list.length) {
+                        $scope.searchStringUsed = $scope.searchString;
+                        $scope.headerList = _.map(list, function(document) {
+                            return document.Header;
+                        });
+                    }
+                    else {
+                        $scope.searchString = '';
+                        getAllDocuments();
+                    }
+                });
+            }
+        };
+
     }
 );
 

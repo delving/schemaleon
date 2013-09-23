@@ -25,18 +25,6 @@ P.getDocumentSchema = function (schemaName, receiver) {
     );
 };
 
-P.getAllDocumentHeaders = function (schemaName, receiver) {
-    var s = this.storage;
-    s.query('get all document headers ' + schemaName,
-        [
-            '<Headers>',
-            '    { ' + s.docCollection(schemaName) + '/Document/Header }',
-            '</Headers>'
-        ],
-        receiver
-    );
-};
-
 P.getAllDocuments = function (schemaName, receiver) {
     var s = this.storage;
     s.query('get all documents ' + schemaName,

@@ -18,12 +18,6 @@ OSCR.service(
             });
         };
 
-        this.fetchHeaders = function (schemaName, receiver) {
-            $http.get('/document/list/headers/' + schemaName).success(function (data) {
-                receiver(xmlToArray(data));
-            });
-        };
-
         this.fetchAllDocuments = function (schemaName, receiver) {
             $http.get('/document/list/documents/' + schemaName).success(function (data) {
                 receiver(xmlToArray(data));

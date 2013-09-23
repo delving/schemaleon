@@ -5,9 +5,10 @@
     <div class="navbar">
         <div class="navbar-inner">
             <form class="navbar-form pull-left">
-                <div class="input-append">
-                    <input type="text">
-                    <button type="submit" class="btn" title="Search"><i class="icon-search"></i></button>
+                <div class="input-append" ng-class="">
+                    <!--todo: Eric help!  btn-warning is not the right class here -->
+                    <input type="text" ng-model="searchString" ng-class="{ 'btn-warning': (searchString != searchStringUsed) }">
+                    <button type="submit" class="btn" title="Search" ng-click="search()"><i class="icon-search"></i></button>
                 </div>
             </form>
             <span class="controls pull-right" i18n="NewDocument">
