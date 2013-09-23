@@ -148,10 +148,22 @@ P.saveGroup = function (group, receiver) {
             receiver
         );
     }
-    else {
-        s.add('add group ' + group.Identifier,
-            s.groupDocument(group.Identifier), groupXml,
-            receiver
+    else { // here we could try fuzzy match or something
+        log('search for ' + group.Name);
+        s.query('check group',
+            s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
+            function(result) {
+                log(group.Name + ' result was '+result);
+                if (result.length == 0) { // text is not found
+                    s.add('add group ' + group.Identifier,
+                        s.groupDocument(group.Identifier), groupXml,
+                        receiver
+                    );
+                }
+                else {
+                    receiver(null);
+                }
+            }
         );
     }
 };
@@ -204,8 +216,7 @@ P.addUserToGroup = function (userIdentifier, role, groupIdentifier, receiver) {
         ],
         function (result) {
             if (result) {
-                s.query(
-                    're-fetch user ' + addition,
+                s.query('re-fetch user ' + addition,
                     s.userPath(userIdentifier),
                     receiver
                 );

@@ -103,10 +103,25 @@ exports.testSaveAndFetchGroup = function (test) {
 
 exports.testSearchGroups = function (test) {
     test.expect(1);
-    storage.Person.getGroups('dorm', function (fetchedXml) {
-        test.ok(fetchedXml, "no fetchedXml");
-        log("found groups:\n" + fetchedXml);
+    storage.Person.getGroups('dorm', function (xml) {
+        log("found groups:\n" + xml);
+        test.equals(xml.match(/<Group>/g).length, 1, "Should be one group");
         test.done();
+    });
+};
+
+exports.testDoubleCreate = function (test) {
+    test.expect(1);
+    var double = {
+        Name: group.Name,
+        Address: group.Address
+    };
+    storage.Person.saveGroup(double, function (createdXml) {
+        storage.Person.getGroups('dorm', function (xml) {
+            log("found groups:\n" + xml);
+            test.equals(xml.match(/<Group>/g).length, 1, "Should still be one group");
+            test.done();
+        });
     });
 };
 
@@ -140,11 +155,23 @@ exports.testSearchGroupsAgain = function (test) {
     });
 };
 
+var userAfterFirstAdd;
+
 exports.testAddMembership = function (test) {
     test.expect(1);
     storage.Person.addUserToGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
+        userAfterFirstAdd = userXml;
         log("added user to group:\n" + userXml);
+        test.done();
+    });
+};
+
+exports.testAddMembershipDouble = function (test) {
+    test.expect(1);
+    storage.Person.addUserToGroup(userIdentifier, 'Administrator', groupIdentifier, function (userXml) {
+        test.equals(userXml, userAfterFirstAdd, "should not have changed");
+        log("added user to group again:\n" + userXml);
         test.done();
     });
 };
