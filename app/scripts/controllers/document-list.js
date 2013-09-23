@@ -11,6 +11,7 @@ OSCR.controller(
         $scope.searchString = '';
         $scope.searchStringUsed = '';
         $scope.schema = $routeParams.schema;
+        $scope.noResults = false;
 
         function getAllDocuments() {
             Document.fetchAllDocuments($scope.schema, function (list) {
@@ -37,17 +38,24 @@ OSCR.controller(
                 Document.selectDocuments($scope.schema, $scope.searchString, function(list) {
                     if (list.length) {
                         $scope.searchStringUsed = $scope.searchString;
+                        $scope.noResults = false;
                         $scope.headerList = _.map(list, function(document) {
                             return document.Header;
                         });
                     }
                     else {
                         $scope.searchString = '';
+                        $scope.noResults = true;
                         getAllDocuments();
                     }
                 });
             }
         };
+
+        $scope.clearSearch = function () {
+            $scope.noResults = false;
+            getAllDocuments();
+        }
 
     }
 );
