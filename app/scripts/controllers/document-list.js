@@ -16,6 +16,7 @@ OSCR.controller(
         function getAllDocuments() {
             Document.fetchAllDocuments($scope.schema, function (list) {
                 $scope.searchStringUsed = '';
+                $scope.searchString = '';
                 $scope.headerList = _.map(list, function(document) {
                     return document.Header;
                 });
