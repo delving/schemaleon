@@ -3,6 +3,8 @@
 var _ = require('underscore');
 var util = require('../util');
 
+var MAX_RESULTS = 30;
+
 module.exports = Document;
 
 function Document(storage) {
@@ -17,7 +19,7 @@ function log(message) {
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    s.query('get document schema '+schemaName,
+    s.query('get document schema ' + schemaName,
         s.schemaPath() + '/Document/' + schemaName,
         receiver
     );
@@ -37,13 +39,15 @@ P.getAllDocumentHeaders = function (schemaName, receiver) {
 
 P.getAllDocuments = function (schemaName, receiver) {
     var s = this.storage;
-    s.query('get all documents '+schemaName,
+    s.query('get all documents ' + schemaName,
         [
             '<Documents>',
             '    {',
-            '        for $doc in ' + s.docCollection(schemaName) + '/Document',
-            '        order by $doc/Header/TimeStamp descending',
-            '        return $doc',
+            '        let $all :=',
+            '           for $doc in ' + s.docCollection(schemaName) + '/Document',
+            '           order by $doc/Header/TimeStamp descending',
+            '           return $doc',
+            '        return subsequence($all, 1, ' + MAX_RESULTS + ')',
             '    }',
             '</Documents>'
         ],
@@ -57,10 +61,12 @@ P.selectDocuments = function (schemaName, search, receiver) {
         [
             '<Documents>',
             '    { ',
-            '        for $doc in ' + s.docCollection(schemaName) + '/Document',
-            '        where $doc/Body//*[text() contains text ' + util.quote(search) + ' using stemming]',
-            '        order by $doc/Header/TimeStamp descending',
-            '        return $doc',
+            '        let $all :=',
+            '           for $doc in ' + s.docCollection(schemaName) + '/Document',
+            '           where $doc/Body//*[text() contains text ' + util.quote(search) + ' using stemming]',
+            '           order by $doc/Header/TimeStamp descending',
+            '           return $doc',
+            '        return subsequence($all, 1, ' + MAX_RESULTS + ')',
             '    }',
             '</Documents>'
         ],
@@ -111,7 +117,7 @@ P.saveDocument = function (envelope, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace('replace document '+ hdr.Identifier,
+        s.replace('replace document ' + hdr.Identifier,
             s.docDocument(hdr.SchemaName, hdr.Identifier),
             stamped,
             receiver

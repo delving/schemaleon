@@ -126,9 +126,9 @@ exports.testSaveDocumentModified = function (test) {
 exports.testGetDocumentList = function (test) {
     test.expect(2);
     storage.Document.getAllDocuments(SCHEMA_NAME, function (xml) {
-        log(xml);
+//        console.log(xml);
         test.ok(xml, "No xml");
-        test.ok(xml.indexOf(identifiers[3]) >= 0, "No identifier found to match " + identifiers[3]);
+        test.equals(xml.match(/<Body>/g).length, 30, 'Result count wrong');
         test.done();
     })
 };
