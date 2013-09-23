@@ -105,17 +105,19 @@ OSCR.controller(
             $scope.choosePath('/login');
         };
 
-        var user = $cookieStore.get('user');
-        if (user) {
-            setUser(user);
-            var oscrPath = $cookieStore.get('oscr-path');
-            if (oscrPath) {
-                $timeout(
-                    function () {
-                        $scope.choosePath(oscrPath);
-                    },
-                    1000
-                );
+        if ($location.host() == 'localhost') {
+            var user = $cookieStore.get('user');
+            if (user) {
+                setUser(user);
+                var oscrPath = $cookieStore.get('oscr-path');
+                if (oscrPath) {
+                    $timeout(
+                        function () {
+                            $scope.choosePath(oscrPath);
+                        },
+                        300
+                    );
+                }
             }
         }
     }
