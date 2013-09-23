@@ -58,7 +58,7 @@ P.selectDocuments = function (schemaName, search, receiver) {
             '<Documents>',
             '    { ',
             '        for $doc in ' + s.docCollection(schemaName) + '/Document',
-            '        where $doc/Body//*[contains(lower-case(text()), lower-case(' + util.quote(search) + '))]',
+            '        where $doc/Body//*[text() contains text ' + util.quote(search) + ' using stemming]',
             '        order by $doc/Header/TimeStamp descending',
             '        return $doc',
             '    }',

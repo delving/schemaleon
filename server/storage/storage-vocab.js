@@ -108,8 +108,8 @@ P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
                 '</Entries>'
             ],
             function(result) {
-                console.log('doQuery result');
-                console.log(result);
+//                console.log('doQuery result');
+//                console.log(result);
                 receiver(result);
             }
         );

@@ -321,7 +321,6 @@ function open(databaseName, homeDir, receiver) {
                 }
                 else {
                     storage.add(null, docPath, contents, function (results) {
-                        console.log('added ' + docPath);
                         log('added ' + filePath + ' to ' + docPath);
                         deferred.resolve(results);
                     });
@@ -375,8 +374,15 @@ function open(databaseName, homeDir, receiver) {
         else {
             storage.session.execute('create db ' + databaseName, function (error, reply) {
                 if (reply.ok) {
-                    loadData(fileSystemPath, '', false);
-                    finish();
+                    storage.session.execute('create index fulltext', function(er, rep) {
+                        if (!reply.ok) {
+                            console.error(er);
+                        }
+                        else {
+                            loadData(fileSystemPath, '', false);
+                            finish();
+                        }
+                    });
                 }
                 else {
                     console.error('Unable to create database ' + databaseName);

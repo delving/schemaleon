@@ -1,8 +1,10 @@
 'use strict';
 
+var _ = require('underscore');
 var fs = require('fs');
 var Storage = require('../../server/storage');
 var util = require('../../server/util');
+var defer = require('node-promise').defer;
 
 function log(message) {
 //    console.log(message);
@@ -19,11 +21,53 @@ exports.createDatabase = function (test) {
     });
 };
 
+var SCHEMA_NAME = 'Photo';
 var schemaXml = '?';
+var colors = [
+    'Red',
+    'Green',
+    'Blue',
+    'Cyan',
+    'Magenta',
+    'Yellow',
+    'Black',
+    'White'
+];
+var titles = _.flatten(
+    _.map(colors, function (color) {
+            return _.map(colors, function (color2) {
+                return color + ' ' + color2;
+            });
+        }
+    )
+);
+var identifiers = [];
+
+function generateEnvelope(title, identifier) {
+    return {
+        header: {
+            Identifier: identifier,
+            Title: title,
+            SchemaName: SCHEMA_NAME
+        },
+        xml: '<Document>' +
+            '<Header>' +
+            '<Identifier>' + identifier + '</Identifier>' +
+            '<Title>' + title + '</Title>' +
+            '<SchemaName>' + SCHEMA_NAME + '</SchemaName>' +
+            '</Header>' +
+            '<Body>' +
+            '<Photo>' +
+            '<Title>' + title + '</Title>' +
+            '</Photo>' +
+            '</Body>' +
+            '</Document>'
+    };
+}
 
 exports.testFetchSchema = function (test) {
     test.expect(2);
-    storage.Document.getDocumentSchema('Photo', function (xml) {
+    storage.Document.getDocumentSchema(SCHEMA_NAME, function (xml) {
         test.ok(xml, "no xml");
         log("fetched:\n" + xml);
         test.ok(xml.indexOf('<Photo>') == 0, "Didn't retrieve");
@@ -32,118 +76,71 @@ exports.testFetchSchema = function (test) {
     });
 };
 
-var headerIdentifier;
 
-exports.testSaveDocument = function (test) {
+exports.testSaveDocuments = function (test) {
+    function savePromise(title) {
+        var deferred = defer();
+        log('save promise ' + title);
+        storage.Document.saveDocument(generateEnvelope(title, '#IDENTIFIER#'), function (xml) {
+            identifiers.push(util.getFromXml(xml, 'Identifier'));
+            deferred.resolve(xml);
+        });
+        return deferred.promise;
+    }
+
+    var promise = null;
+    _.each(titles, function (title) {
+        if (promise) {
+            promise = promise.then(function () {
+                return savePromise(title);
+            });
+        }
+        else {
+            promise = savePromise(title);
+        }
+    });
     test.expect(1);
-    var body = {
-        header: {
-            Identifier: '#IDENTIFIER#',
-            Title: 'Big Bang',
-            SchemaName: 'Photo'
-        },
-        xml: '<Document>' +
-            '<Header>' +
-            '<Identifier>#IDENTIFIER#</Identifier>' +
-            '<Title>Big Bang</Title>' +
-            '<SchemaName>Photo</SchemaName>' +
-            '</Header>' +
-            '<Body>' +
-            '<Photo>' +
-            '<Title>Big Bang</Title>' +
-            '</Photo>' +
-            '</Body>' +
-            '</Document>'
-    };
-    storage.Document.saveDocument(body, function (xml) {
-        headerIdentifier = util.getFromXml(xml, 'Identifier');
-        test.ok(headerIdentifier.indexOf('OSCR-') >= 0, "Didn't retrieve");
+    promise.then(function () {
+        test.equals(identifiers.length, titles.length, 'Not enough identifiers produced');
         test.done();
     });
 };
 
-exports.testSaveAnother = function (test) {
+exports.testSaveDocumentModified = function (test) {
+    var whichDocument = 5;
+    var identifier = identifiers[whichDocument];
     test.expect(1);
-    var body = {
-        header: {
-            Identifier: '#IDENTIFIER#',
-            Title: 'Big Bunga Bunga',
-            SchemaName: 'Photo'
-        },
-        xml: '<Document>' +
-            '<Header>' +
-            '<Identifier>#IDENTIFIER#</Identifier>' +
-            '<Title>Big Bung Bunga</Title>' +
-            '<SchemaName>Photo</SchemaName>' +
-            '</Header>' +
-            '<Body>' +
-            '<Photo>' +
-            '<Title>Big Bung Bunga</Title>' +
-            '</Photo>' +
-            '</Body>' +
-            '</Document>'
-    };
-    storage.Document.saveDocument(body, function (xml) {
-        var identifier = util.getFromXml(xml, 'Identifier');
-        test.ok(identifier.indexOf('OSCR-') >= 0, "Didn't retrieve");
-        test.done();
-    });
-};
-
-exports.testSaveDocumentAgain = function (test) {
-    test.expect(1);
-    var body = {
-        header: {
-            Identifier: headerIdentifier,
-            Title: 'Big Crazy Bang',
-            SchemaName: 'Photo'
-        },
-        xml: '<Document>' +
-            '<Header>' +
-            '<Identifier>' + headerIdentifier + '</Identifier>' +
-            '<Title>Big Crazy Bang</Title>' +
-            '<SchemaName>Photo</SchemaName>' +
-            '</Header>' +
-            '<Body>' +
-            '<Photo>' +
-            '<Title>Big Crazy Bang</Title>' +
-            '</Photo>' +
-            '</Body>' +
-            '</Document>'
-    };
-    storage.Document.saveDocument(body, function (header) {
-        test.equal(headerIdentifier, util.getFromXml(header, 'Identifier'), 'Different header');
-        test.done();
-    });
-};
-
-exports.testGetDocument = function (test) {
-    test.expect(2);
-    storage.Document.getDocument('Photo', headerIdentifier, function (xml) {
+    storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
         log(xml);
-        test.ok(xml.indexOf(headerIdentifier) >= 0, "Id not found");
-        test.ok(xml.indexOf("Crazy") >= 0, "Crazy not found");
-        test.done();
-    })
+        var title = 'Very ' + util.getFromXml(xml, 'Title');
+        storage.Document.saveDocument(generateEnvelope(title, identifier), function (header) {
+            storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
+                log(xml);
+                test.equal(identifier, util.getFromXml(header, 'Identifier'), 'Different identifier');
+                test.done();
+            });
+        });
+    });
 };
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    storage.Document.getAllDocuments('Photo', function (xml) {
+    storage.Document.getAllDocuments(SCHEMA_NAME, function (xml) {
         log(xml);
         test.ok(xml, "No xml");
-        test.ok(xml.indexOf(headerIdentifier) >= 0, "No identifier found to match " + headerIdentifier);
+        test.ok(xml.indexOf(identifiers[3]) >= 0, "No identifier found to match " + identifiers[3]);
         test.done();
     })
 };
 
 exports.testSelectDocuments = function (test) {
     test.expect(2);
-    storage.Document.selectDocuments('Photo', 'bang', function (xml) {
+    // testing stemming here!
+    storage.Document.selectDocuments(SCHEMA_NAME, 'yellowed', function (xml) {
         log('testSelectDocuments:');
         log(xml);
-        test.ok(xml, "No xml");
-        test.ok(xml.indexOf(headerIdentifier) >= 0, "No identifier found to match " + headerIdentifier);
+        test.equals(xml.match(/<Body>/g).length, 7 + 8, 'Result count wrong');
+        test.equals(xml.match(/Yellow/g).length, 16 * 2, "Yellow count wrong");
         test.done();
     })
 };
