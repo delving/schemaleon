@@ -87,13 +87,14 @@ OSCR.controller(
 
         $rootScope.$watch('user', function (after, before) {
             if (!after) return;
+            $rootScope.userMemberships = [];
             if (after.Memberships) {
                 _.each(after.Memberships.Membership, function (membership) {
                     Person.getGroup(membership.GroupIdentifier, function (group) {
                         membership.group = group.Group;
-//                        Person.getUsersInGroup(membership.group.Identifier, function (list) {
-//                            membership.group.userList = list;
-//                        });
+                        membership.Label = membership.group.Name + ' (' + membership.Role + ')';
+                        $rootScope.userMemberships.push(membership);
+                        after.chosenMembership = membership.GroupIdentifier;
                     });
                 });
             }
