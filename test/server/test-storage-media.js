@@ -107,7 +107,9 @@ exports.dropIt = function (test) {
     rmdir(storage.directories.mediaUpload);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-        test.done();
+        storage.session.close(function () {
+            test.done();
+        });
     });
 };
 

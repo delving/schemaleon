@@ -47,7 +47,9 @@ exports.testDrop = function (test) {
     test.expect(1);
     session.execute('drop db gumby', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database')
-        test.done();
+        session.close(function () {
+            test.done();
+        });
     });
 };
 

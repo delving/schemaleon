@@ -149,6 +149,8 @@ exports.dropIt = function (test) {
     test.expect(1);
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
-        test.done();
+        storage.session.close(function () {
+            test.done();
+        });
     });
 };
