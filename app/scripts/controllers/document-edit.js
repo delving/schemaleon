@@ -255,7 +255,6 @@ OSCR.controller(
         $scope.disableEditor();
 
         $scope.setActive = function (field) {
-            console.log("sest active:" + field);
             $scope.active = $scope.el.edit ? field : 'hidden';
         };
 
