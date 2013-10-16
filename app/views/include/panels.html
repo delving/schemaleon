@@ -8,7 +8,7 @@
         </thead>
         <tbody>
         <tr>
-            <td ng-repeat="panel in panels" ng-controller="DocumentPanelController"
+            <td ng-repeat="(panelIndex, panel) in panels" ng-controller="DocumentPanelController"
                 class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}"
                 document-navigation="navigationKeyPressed($key)">
                 <!-- panel showing the document element titles -->
@@ -41,8 +41,15 @@
                                   tooltip-placement="bottom"
                                   tooltip="Add {{ element | elementTitle }}"
                                   class="display-{{ element.config.multiple }} icon-item pointer"
-                                  ng-click="addSibling(el.elements, $index, $parent.index)">
+                                  ng-click="addSibling(el.elements, $index, panelIndex)">
                                 <i class="icon-plus-sign icon-white"></i>
+                            </span>
+                            <span ng-show="element.config.multiple"
+                                  tooltip-placement="bottom"
+                                  tooltip="Remove {{ element | elementTitle }}"
+                                  class="display-{{ element.config.multiple }} icon-item pointer"
+                                  ng-click="removeSibling(el.elements, $index, panelIndex)">
+                                <i class="icon-minus-sign icon-white"></i>
                             </span>
                         </div>
 

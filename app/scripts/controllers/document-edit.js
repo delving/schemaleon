@@ -182,28 +182,28 @@ OSCR.controller(
             });
         });
 
-        $scope.choose = function (choice, parentIndex) {
+        $scope.choose = function (choice, panelIndex) {
             $scope.selected = choice;
-            $scope.selectedWhere = parentIndex;
-            var parentPanel = $scope.panels[parentIndex];
+            $scope.selectedWhere = panelIndex;
+            var parentPanel = $scope.panels[panelIndex];
             parentPanel.selected = choice;
             var chosen = parentPanel.element.elements[choice];
             parentPanel.element.elements.forEach(function (el) {
-                el.classIndex = parentIndex;
+                el.classIndex = panelIndex;
                 if (el === chosen) {
                     el.classIndex++;
                 }
             });
-            var childPanel = $scope.panels[parentIndex + 1] = {
+            var childPanel = $scope.panels[panelIndex + 1] = {
                 selected: 0,
                 element: chosen
             };
             if (chosen.elements) {
                 chosen.elements.forEach(function (el) {
-                    el.classIndex = parentIndex + 1;
+                    el.classIndex = panelIndex + 1;
                 });
             }
-            $scope.panels.splice(parentIndex + 2, 5);
+            $scope.panels.splice(panelIndex + 2, 5);
 
             // slide panels over
             var scroller = $('#panel-container'),
@@ -218,13 +218,35 @@ OSCR.controller(
             }
         };
 
-        $scope.addSibling = function (list, index, parentIndex) {
+        $scope.addSibling = function (list, index, panelIndex) {
             // should be some kind of deep copy
             var existing = list[index];
             var fresh = cloneTree(existing);
             validateTree(fresh);
-            existing.classIndex = parentIndex + 1; // what does this do?
+//            existing.classIndex = panelIndex + 1; // what does this do?
             list.splice(index + 1, 0, fresh);
+        };
+
+        $scope.removeSibling = function (list, index, panelIndex) {
+            var hasSibling = false;
+            if(index > 0) {
+                if (list[index-1].name == list[index].name) {
+                     hasSibling = true;
+                }
+            }
+            if(index < list.length-1){
+                if (list[index+1].name == list[index].name) {
+                    hasSibling = true;
+                }
+            }
+            if(hasSibling) {
+                // todo: are you sure?
+                list.splice(index,1);
+                if(index >= list.length){
+                    index--;
+                }
+                $scope.choose(index, panelIndex);
+            }
         };
     }
 );

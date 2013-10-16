@@ -87,7 +87,7 @@
 }
 .panels ul.panel-list li {
   position: relative;
-  padding-left: 40px;
+  padding-left: 50px;
 }
 .panels ul.panel-list li a,
 .panels ul.panel-list li label {
@@ -96,7 +96,7 @@
 }
 .panels ul.panel-list li a:hover,
 .panels ul.panel-list li label:hover {
-  background: transparent;
+  background: #999999;
   cursor: pointer;
   text-decoration: underline;
 }
@@ -156,7 +156,7 @@ input#hidden {
   position: absolute;
   left: 0px;
   top: 5px;
-  width: 40px;
+  width: 70px;
 }
 .icon-container .icon-item {
   display: inline-block;
