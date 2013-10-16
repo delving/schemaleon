@@ -255,7 +255,7 @@ OSCR.controller(
         $scope.disableEditor();
 
         $scope.setActive = function (field) {
-//            console.log("active:" + field);
+            console.log("sest active:" + field);
             $scope.active = $scope.el.edit ? field : 'hidden';
         };
 
@@ -277,7 +277,7 @@ OSCR.controller(
                     }
                     break;
                 case 'left':
-                    if ($scope.selectedWhere > 0 && $scope.panels[$scope.selectedWhere].element.elements) {
+                    if ($scope.selectedWhere > 0 && $scope.active == 'hidden') {
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;

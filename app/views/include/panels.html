@@ -121,19 +121,27 @@
                     </div>
 
                     <div ng-show="el.config.line && !el.elements" ng-controller="TextInputController" class="input-block-level">
-                        <input focus="true" id="textInput" class="input-block-level" type="text" ng-model="el.value"/>
-                        <!--<span ng-show="el.invalidMessage" i18n="{{el.invalidMessage}}"><span class="i18n"></span></span>-->
+                        <div ng-show="el.edit">
+                            <input focus id="textInput" class="input-block-level" type="text" ng-model="el.value" />
                             <div ng-show="el.invalidMessage">
                                 <span class="label label-important">{{ el | invalidMessage }}</span>
                                 <!-- // Translation editor toggle -->
-                                <span ng-show="config.showTranslationEditor"
-                                      ng-click="openLabelDialog(el.invalidMessage)"
-                                      tooltip="Click to translate"
-                                      tooltip-placement="right"
-                                      class="badge badge-warning badge-i18n">
-                                      <i class="icon-translate icon-white"></i>
-                                </span>
+                            <span ng-show="config.showTranslationEditor"
+                                  ng-click="openLabelDialog(el.invalidMessage)"
+                                  tooltip="Click to translate"
+                                  tooltip-placement="right"
+                                  class="badge badge-warning badge-i18n">
+                                  <i class="icon-translate icon-white"></i>
+                            </span>
                             </div>
+                        </div>
+                        <div ng-hide="el.edit">
+                            <div class="input-append">
+                            <input  type="text" disabled value="{{el.value}}"/>
+                            <span class="add-on" ng-click="enableEditor()"><i class="icon-edit"></i></span>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div ng-show="el.config.paragraph && !el.elements" class="textarea-input"
