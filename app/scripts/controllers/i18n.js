@@ -46,6 +46,20 @@ OSCR.directive(
 );
 
 OSCR.filter(
+    'invalidMessage',
+    function (I18N) {
+        return function (element) {
+            if (I18N.isReady()) {
+                var message = I18N.label(element.invalidMessage);
+                if (message) return message;
+            }
+            return element.invalidMessage;
+        };
+    }
+);
+
+
+OSCR.filter(
     'linkTitle',
     function (I18N) {
         return function (link) {
