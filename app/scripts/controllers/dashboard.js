@@ -14,6 +14,19 @@ OSCR.controller(
                 return -val.TimeStamp;
             });
 
+            // find unique user id's and map them. then fetch Person Profile for display of email
+            var userIds = _.uniq(_.map($scope.logEntries, function(logEntry){
+                return logEntry.Who;
+            }));
+            _.each(userIds, function(id){
+                Person.getUser(id, function(user) {
+                    _.each($scope.logEntries, function(element) {
+                        if (id == element.Who) {
+                            element.userView = user;
+                        }
+                    });
+                });
+            });
         });
 
         $scope.logEntryWho = function (entry) {
@@ -49,15 +62,7 @@ OSCR.controller(
             }
         };
 
-        $scope.getMe = function (entry) {
-            Person.getUser(entry.Who, function(user) {
-                _.each($scope.logEntries, function(logEntry) {
-                    if (logEntry.Who == entry.Who) {
-                        logEntry.userView = user;
-                    }
-                });
-            });
-        }
+
 
 
 

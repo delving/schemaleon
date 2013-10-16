@@ -84,7 +84,7 @@
                             {{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
                         </td>
                         <td>
-                            <a href ng-click="logEntryWho(entry)" ng-mouseover="getMe(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
+                            <a href ng-click="logEntryWho(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
                             <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-in">{{ entry.userView.Profile.email }}</a>
                         </td>
                         <td>
