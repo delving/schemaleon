@@ -126,7 +126,7 @@ OSCR.controller(
                 useHeader(document.Header);
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
-                $scope.choosePath('/document/'+$scope.header.SchemaName+'/edit/'+ $scope.header.Identifier, document.Header);
+                $scope.choosePath('/document/' + $scope.header.SchemaName + '/edit/' + $scope.header.Identifier, document.Header);
             });
         };
     }
@@ -246,6 +246,7 @@ OSCR.controller(
 
         $scope.enableEditor = function () {
             $scope.el.edit = true;
+            $scope.setActive($scope.editActive);
         };
 
         $scope.disableEditor = function () {
@@ -255,6 +256,7 @@ OSCR.controller(
         $scope.disableEditor();
 
         $scope.setActive = function (field) {
+            $scope.editActive = field;
             $scope.active = $scope.el.edit ? field : 'hidden';
         };
 
@@ -265,14 +267,19 @@ OSCR.controller(
             var size = elements.length;
             switch (key) {
                 case 'up':
+                    $scope.disableEditor();
                     $scope.choose(($scope.selected + size - 1) % size, $scope.selectedWhere);
                     break;
                 case 'down':
+                    $scope.disableEditor();
                     $scope.choose(($scope.selected + 1) % size, $scope.selectedWhere);
                     break;
                 case 'right':
                     if ($scope.panels[$scope.selectedWhere + 1].element.elements) {
                         $scope.choose(0, $scope.selectedWhere + 1);
+                    }
+                    else {
+                        $scope.enableEditor();
                     }
                     break;
                 case 'left':
@@ -281,8 +288,9 @@ OSCR.controller(
                     }
                     break;
                 case 'enter':
-                    if ($scope.el.config.paragraph && $scope.el.edit) break;
-                    $scope.choose(($scope.selected + 1) % size, $scope.selectedWhere);
+                    if (!$scope.el.elements) {
+                        $scope.enableEditor();
+                    }
                     break;
             }
         };
@@ -309,11 +317,13 @@ OSCR.directive('focus',
             restrict: 'A',
             priority: 100,
             link: function (scope, element, attrs) {
-                if (attrs.id === scope.active) {
-                    $timeout(function () {
-                        element[0].focus();
-                    });
-                }
+                scope.$watch('active', function(active) {
+                    if (attrs.id === active && (attrs.id == 'hidden' || scope.el.edit)) {
+                        $timeout(function () {
+                            element[0].focus();
+                        });
+                    }
+                });
             }
         };
     }

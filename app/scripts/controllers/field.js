@@ -71,10 +71,6 @@ OSCR.controller(
             });
         }
 
-        if ($scope.el.value === undefined) {
-            $scope.enableEditor();
-        }
-
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
                 $scope.disableEditor();
@@ -149,10 +145,6 @@ OSCR.controller(
         }
         $scope.setActive('vocabulary');
         $scope.schema = $scope.el.config.vocabulary;
-        if ($scope.el.value === undefined) {
-            $scope.enableEditor();
-        }
-
 
         if (!$scope.el.tree) {
             Vocabulary.getSchema($scope.schema, function (schema) {
@@ -289,10 +281,6 @@ OSCR.controller(
             return;
         }
         $scope.setActive('textInput');
-        if ($scope.el.value === undefined) {
-            $scope.enableEditor();
-        }
-
         if (!$scope.el.suspendValidation) {
             $scope.$watch('el.value', function (after, before) {
                 $scope.revalidate();
@@ -309,9 +297,6 @@ OSCR.controller(
             return;
         }
         $scope.setActive('textArea');
-        if ($scope.el.value === undefined) {
-            $scope.enableEditor();
-        }
         if (!$scope.el.suspendValidation) {
             $scope.$watch('el.value', function (after, before) {
                 $scope.revalidate();
