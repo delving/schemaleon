@@ -16,11 +16,11 @@ OSCR.controller(
 
         });
 
-        $scope.logEntryWho = function (entry) { // todo: popup? update the label?
+        $scope.logEntryWho = function (entry) {
             $scope.choosePath('/people/user/' + entry.Who);
         };
 
-        $scope.logEntryDetail = function (entry) { // todo: popup? update the label?
+        $scope.logEntryDetail = function (entry) {
             var path = null;
             switch (entry.Op) {
                 case 'Authenticate':

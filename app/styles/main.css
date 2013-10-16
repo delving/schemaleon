@@ -1262,3 +1262,7 @@ form#fileupload .navbar .progress {
   *margin-left: -0.10638297872340438%;
 }
 /* bootstrap overrides */
+.dropdown-menu > li > a {
+  white-space: normal !important;
+  border-bottom: 1px solid #eeeeee;
+}
