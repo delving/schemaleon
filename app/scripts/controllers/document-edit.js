@@ -277,7 +277,7 @@ OSCR.controller(
                     }
                     break;
                 case 'left':
-                    if ($scope.selectedWhere > 0) {
+                    if ($scope.selectedWhere > 0 && $scope.panels[$scope.selectedWhere].element.elements) {
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;
