@@ -168,6 +168,7 @@ OSCR.controller(
         }
 
         $scope.getEntries = function (query) {
+            $scope.query = query;
             var deferred = $q.defer();
             var lookup = $scope.el.tree ? $scope.el.tree.config.lookup : null;
             Vocabulary.select($scope.schema, query, lookup, function (list) {
@@ -195,9 +196,10 @@ OSCR.controller(
         };
 
         $scope.createNew = function (index, parentIndex) {
+            var typedValue = $scope.query;
             if ($scope.el.tree) {
                 $scope.el.elements = _.filter($scope.el.tree.elements, function (el) {
-                    el.value = null;
+                    el.value = el.name == 'Label' ? $scope.query : null;
                     el.suspendValidation = true;
                     return el.name != 'Identifier';
                 });
