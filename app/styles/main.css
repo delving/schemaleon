@@ -67,9 +67,10 @@
 .panels th.panel-header {
   background: #009ae0;
   border-radius: 10px 10px 0 0;
-  color: #080808;
-  font-weight: normal;
-  padding-left: 40px;
+  color: #ffffff;
+  font-weight: bold;
+  padding-left: 20px;
+  text-shadow: 1px 1px 1px #555555;
 }
 .panels td.panel {
   padding: 20px 0 20px 10px;

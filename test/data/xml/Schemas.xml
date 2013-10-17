@@ -58,7 +58,7 @@
             <Title>{ "required": true, "summaryField": "Title" }</Title>
             <Type>{ "vocabulary": "PhotoType" }</Type>
             <Rights>{ "vocabulary": "Rights" }</Rights>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
+            <MediaFile>{ "multiple":true, "media": "MediaMetadata" }</MediaFile>
             <PhotoCreation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
                 <PhotoLocation>{ "vocabulary": "Place" }</PhotoLocation>
@@ -75,7 +75,7 @@
                 <Event>{ "vocabulary": "Event" }</Event>
                 <Notes>{ "paragraph":true }</Notes>
             </DepictedInPhoto>
-            <Published>{ "multiple": true }
+            <Published>
                 <PublishDate>{ "validator": "date" }</PublishDate>
                 <Publisher>{ "vocabulary": "Publisher" }</Publisher>
                 <Notes>{ "paragraph":true }</Notes>
@@ -107,7 +107,6 @@
             <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Genre>{ "vocabulary": "VideoGenre" }</Genre>
             <Rights>{ "vocabulary": "Rights" }</Rights>
-            <Title>{ "required":true }</Title>
             <VideoCreation>
                 <CreationDate>{ "validator": "date" }</CreationDate>
                 <VideoLocation>{ "vocabulary": "Place", "multiple":true }</VideoLocation>
@@ -168,7 +167,6 @@
         </InMemoriam>
 
         <Book>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Title>{ "required": true, "summaryField": "Title" }</Title>
             <Subtitle/>
             <BookGenre>{ "required":true, "vocabulary": "BookType" }</BookGenre>
@@ -197,6 +195,7 @@
                 <PublicationCondition>{ "vocabulary": "PublicationCondition" }</PublicationCondition>
                 <Notes>{ "paragraph":true }</Notes>
             </BookPhysical>
+            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
         </Book>
 
         <MediaMetadata>
