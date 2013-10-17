@@ -55,6 +55,8 @@ OSCR.controller(
                     return 'image/png';
                 case 'gif':
                     return 'image/gif';
+                case 'mp4':
+                    return 'video/mp4';
                 default:
                     log("UNRECOGNIZED extension: " + extension);
                     return 'image/jpeg';

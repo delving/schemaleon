@@ -106,8 +106,11 @@ P.createFileName = function (mediaObject) {
         case 'image/gif':
             fileName += '.gif';
             break;
+        case 'video/mp4':
+            fileName += '.mp4';
+            break;
         default:
-            console.log("UNKOWN MIME" + mediaObject.mimeType);
+            console.log("UNKOWN MIME: " + mediaObject.mimeType);
             fileName += '.jpg';
             break;
     }
@@ -123,8 +126,11 @@ P.getMimeType = function(fileName) {
         case '.png':
             mimeType = 'image/png';
             break;
-        case 'gif':
+        case '.gif':
             mimeType = 'image/gif';
+            break;
+        case '.mp4':
+            mimeType = 'video/mp4';
             break;
         default:
             console.error('No mime type for extension '+path.extname(fileName));
