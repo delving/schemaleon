@@ -316,20 +316,6 @@ OSCR.controller(
                     break;
             }
         };
-
-        $scope.dateOptions = {
-            'year-format': "'yyyy'",
-            'starting-day': 1,
-            'show-weeks': 0
-        };
-
-        $scope.openCalendar = function () {
-            $timeout(function () {
-                $scope.calendarOpened = true;
-            });
-        };
-
-
     }
 );
 
