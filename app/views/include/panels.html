@@ -154,7 +154,7 @@
                         </div>
                         <div ng-hide="el.edit">
                             <div class="input-append">
-                            <input  type="text" disabled value="{{el.value}}"/>
+                            <input  type="text" ng-click="enableEditor()" value="{{el.value}}"/>
                             <span class="add-on" ng-click="enableEditor()"><i class="icon-edit"></i></span>
                             </div>
                         </div>
