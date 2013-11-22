@@ -7,14 +7,68 @@
             <URI/>
             <Latitude/>
             <Longitude/>
+            <Notes>{ "paragraph":true }</Notes>
         </Place>
         <Actor>
             <FirstName>{ "multiple": true }</FirstName>
             <LastNamePrefix/>
             <LastName>{ "required": true }</LastName>
-            <DateOfBirth>{ "validator": "date" }</DateOfBirth>
-            <PlaceOfBirth>{ "vocabulary": "Place" }</PlaceOfBirth>
+            <NickName></NickName>
+            <Sex></Sex>        <!--TODO: add sex validator-->
+            <Events>
+                <MarriageEvent>{"multiple": true, "vocabulary": "MarriageEvent"}</MarriageEvent>
+                <Birth>
+                    <Date>{ "validator": "date" }</Date>
+                    <Place>{ "vocabulary": "Place" }</Place>
+                    <Father>{"vocabulary": "Actor"}</Father>
+                    <Mother>{"vocabulary": "Actor"}</Mother>
+                    <Notes>{ "paragraph":true }</Notes>
+                </Birth>
+                <Death>
+                    <Date>{ "validator": "date" }</Date>
+                    <Place>{ "vocabulary": "Place" }</Place>
+                    <Notes>{ "paragraph":true }</Notes>
+                </Death>
+                <Funeral>
+                    <DateOfFuneral>{ "validator": "date" }</DateOfFuneral>
+                    <PlaceOfFuneral>{ "vocabulary": "Place" }</PlaceOfFuneral>
+                    <Cemetary>{"vocabulary": "Cemetary"}</Cemetary>
+                    <Notes>{ "paragraph":true }</Notes>
+                </Funeral>
+            </Events>
         </Actor>
+
+        <Organisation>
+            <Name></Name>
+            <Events>
+                <Start>
+                    <Date>{ "validator": "date" }</Date>
+                    <Place>{ "vocabulary": "Place" }</Place>
+                </Start>
+                <End>
+                    <Date>{ "validator": "date" }</Date>
+                    <Place>{ "vocabulary": "Place" }</Place>
+                </End>
+            </Events>
+            <Notes>{ "paragraph":true }</Notes>
+        </Organisation>
+
+        <Cemetary>
+            <Name/>
+            <Place>{"vocabulary": "Place"}</Place>
+            <Notes>{ "paragraph":true }</Notes>
+        </Cemetary>
+
+        <MarriageEvent>
+            <Husband>{"vocabulary": "Actor"}</Husband>
+            <Wife>{"vocabulary": "Actor"}</Wife>
+            <StartDate>{ "validator": "date" }</StartDate>
+            <EndDate>{ "validator": "date" }</EndDate>
+            <MarriagePlace>{"vocabulary": "place"}</MarriagePlace>
+            <Notes>{ "paragraph":true }</Notes>
+        </MarriageEvent>
+
+
         <Event>
             <Date>{ "validator": "date" }</Date>
             <Place>{ "vocabulary": "Place" }</Place>
@@ -46,6 +100,7 @@
 
         <StorageLocation>
             <Place>{ "vocabulary": "Place" }</Place>
+            <Notes>{ "paragraph":true }</Notes>
         </StorageLocation>
 
         <MediaCollection/>
@@ -144,26 +199,22 @@
         </Video>
 
         <InMemoriam>
-            <FirstName>{ "multiple": true }</FirstName>
-            <LastNamePrefix/>
-            <LastName>{ "required": true, "summaryField": "Title" }</LastName>
+            <Person>{"vocabulary": "Actor"}</Person>
             <MemoriamText>{ "paragraph":true }</MemoriamText>
-            <Birth>
-                <DateOfBirth>{ "required": true, "validator": "date"}</DateOfBirth>
-                <PlaceOfBirth>{ "vocabulary": "Place" }</PlaceOfBirth>
-                <Notes>{ "paragraph":true }</Notes>
-            </Birth>
-            <Death>
-                <DateOfDeath>{ "required": true, "validator": "date", "summaryField": "DateOfDeath" }</DateOfDeath>
-                <PlaceOfDeath>{ "vocabulary": "Place" }</PlaceOfDeath>
-                <Notes>{ "paragraph":true }</Notes>
-            </Death>
-            <Funeral>
-                <DateOfFuneral>{ "validator": "date" }</DateOfFuneral>
-                <PlaceOfFuneral>{ "vocabulary": "Place" }</PlaceOfFuneral>
-                <Notes>{ "paragraph":true }</Notes>
-            </Funeral>
-            <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
+            <Notes>{ "paragraph":true }</Notes>
+            <PropertyOf></PropertyOf> <!--Eigendom/Bruikleen (via een vinkjesveld, beide moeten tegelijk aangezet kunnen worden)-->
+            <Original></Original> <!--Orgineel/Kopie (Bolletjesveld)-->
+            <PhysicalStorageLocation></PhysicalStorageLocation> <!--Waar is het bidprentje opgeslagen (kast 1 lade 5, alleen digitaal beschikbaar, dat soort informatie)-->
+            <Image> {"multiple": true}
+                <Recto>
+                    <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
+                    <Notes>{ "paragraph":true }</Notes>
+                </Recto>
+                <Verso>
+                    <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
+                    <Notes>{ "paragraph":true }</Notes>
+                </Verso>
+            </Image>
         </InMemoriam>
 
         <Book>
@@ -202,6 +253,46 @@
             <Collection>{ "vocabulary": "MediaCollection" }</Collection>
             <Notes>{ "paragraph":true, "summaryField":"Label" }</Notes>
         </MediaMetadata>
+
+        <!--FORTH schema-->
+
+        <!-- Location see location.pdf and locations.xsd-->
+        <Location>
+            <!--Identification number(URI) [e.g Location#1]-->
+            <IdentificationNumber sps_fixed="">{"type": "string"}</IdentificationNumber>
+            <!--Attribution date (time primitive) [2004]-->
+            <IdentificationNumberAttributionDate>{"type": "date", "validator": "date"}</IdentificationNumberAttributionDate>
+            <!--Name (cv ) [eg Istanbul]-->
+            <Name>{"type": "term", "multiple":false, "vocabulary": "Place"}</Name>
+            <!--Type(+) (cv ) [eg city]-->
+            <Type>{"type": "term"}</Type>
+            <!--Geopolitical Coordinates (cv ) [Asia, Turkey, Marmara, Istanbul]-->
+            <GeopoliticalHierarchy>{"type": "term"}</GeopoliticalHierarchy>
+            <CodeNumber> { "multiple":true } <!--Location Code Number [ it is completed in case a location is registered by a geographic thesaurus or other authority that provides an id in addition to a place name]-->
+                <!--Value (string) [7002473]-->
+                <Value>{"type": "string"}</Value>
+                <!--Category (+) (cv) [TGN Getty ID]  -->
+                <Category>{"type": "term", "vocabulary": ""}</Category>
+                <!--Attribution date (time primitive) [2004]-->
+                <AttributionDate>{"validator": "date"}</AttributionDate>
+                <!--Expiry date (time primitive)-->
+                <ExpiryDate>{"validator": "date"}</ExpiryDate>
+                <!--Code number attributed by-->
+                <AttributedBy>{"type": "link"}</AttributedBy>
+            </CodeNumber>
+            <!--link to organization id, organization name(afe), [e.g organization#44, Getty Research Institute]  NOT IN XSD -->
+            <OrganisationId>{"type": "link"}</OrganisationId>
+            <!--link to person id, person name(afe), NOT IN XSD-->
+            <PersonId>{"type": "link"}</PersonId>
+        </Location>
+
+
+
+
+
+
+
+
 
     </Document>
 
