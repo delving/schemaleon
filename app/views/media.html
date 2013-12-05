@@ -169,18 +169,18 @@
                 <ul class="columns-2 media-list reset">
                     <li class="media" ng-repeat="doc in committedFiles">
                         <span class="pull-left">
-                            <img class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}">
+                            <img class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}" width="100">
                         </span>
 
                         <div class="media-body">
                             <h4 class="media-heading">{{ doc.Identifier }}</h4>
-                            <dl class="">
+                            <dl class="dl-horizontal">
                                 <dt i18n="CommittedBy"></dt>
                                 <dd>{{ doc.CommittedBy }}</dd>
                                 <dt i18n="CommittedOn"></dt>
                                 <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
-                                <dt i18n="Identifier"></dt>
-                                <dd>{{ doc.Identifier }}</dd>
+                                <dt i18n="Label"></dt>
+                                <dd>{{ doc.Label }}</dd>
                                 <dt i18n="FileName"></dt>
                                 <dd>{{ doc.MediaObject.fileName }}</dd>
                                 <dt i18n="MimeType"></dt>
