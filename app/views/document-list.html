@@ -9,11 +9,12 @@
     <div class="navbar navbar-list">
         <div class="navbar-inner">
             <form class="navbar-form pull-left">
-                <div class="input-append" ng-class="">
-                    <!--todo: Eric help!  btn-warning is not the right class here -->
-                    <input type="text" ng-model="searchString">
-                    <button type="submit" class="btn" title="Search" ng-class="{ 'btn-success': (searchString != searchStringUsed) }" ng-click="search()" ><i class="icon-search"></i></button>
-                    <button class="btn" type="reset" ng-click="clearSearch()" data-ng-show="searchString">Clear search</button>
+                <div class="btn-toolbar">
+                <div class="input-append">
+                    <label i18n="Search"></label><input type="text" ng-model="searchString"  ng-change="search()">
+                    <!--<button type="submit" class="btn" title="Search" ng-class="{ 'btn-success': (searchString != searchStringUsed) }" ng-click="search()" data-i18n="Search"><i class="icon-search"></i> <span class="i18n"></span></button>-->
+                    <button class="btn" type="reset" ng-click="clearSearch()"><i class="icon-ban-circle "></i> </button>
+                </div>
                 </div>
             </form>
             <span class="controls pull-right" i18n="NewDocument">
@@ -39,7 +40,9 @@
             <td colspan="6">-</td>
         </tr>
         <tr data-ng-show="noResults">
-            <td colspan="6" i18n="NoSearchResults"><span class="i18n"></span></td>
+            <td colspan="6" i18n="NoSearchResults">
+                <div class="badge badge-warning"><span class="i18n"></span></div>
+            </td>
         </tr>
         <tr data-ng-repeat="header in headerList">
             <td><a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier, header)" style="display:block">
