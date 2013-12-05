@@ -775,6 +775,14 @@ body {
   padding-top: 50px;
   color: #333333;
 }
+.navbar.navbar-list .navbar-inner {
+  background: transparent;
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding: 0;
+}
 .navbar .navbar-form .input-append .btn {
   margin-top: 0px;
 }
