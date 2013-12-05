@@ -57,10 +57,10 @@ OSCR.controller(
                             return document.Header;
                         });
                     }
-                    // todo:  I commented these out so that the search as you type would function a bit smoother by not resetting the list
                     else {
 //                        $scope.searchString = '';
                         $scope.noResults = true;
+                        $scope.headerList = '';
 //                        getAllDocuments();
                     }
                 });
