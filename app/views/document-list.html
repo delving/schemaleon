@@ -8,13 +8,12 @@
 
     <div class="navbar navbar-list">
         <div class="navbar-inner">
-            <form class="navbar-form pull-left">
-                <div class="btn-toolbar">
-                <div class="input-append">
-                    <label i18n="Search"></label><input type="text" ng-model="searchString"  ng-change="search()">
+            <form class="navbar-form pull-left form-inline">
+                <div class="input-prepend input-append">
+                    <span class="add-on" i18n="Search"></span>
+                    <input type="text" ng-model="searchString"  ng-change="search()">
                     <!--<button type="submit" class="btn" title="Search" ng-class="{ 'btn-success': (searchString != searchStringUsed) }" ng-click="search()" data-i18n="Search"><i class="icon-search"></i> <span class="i18n"></span></button>-->
                     <button class="btn" type="reset" ng-click="clearSearch()"><i class="icon-ban-circle "></i> </button>
-                </div>
                 </div>
             </form>
             <span class="controls pull-right" i18n="NewDocument">

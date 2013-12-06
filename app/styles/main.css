@@ -776,12 +776,8 @@ body {
   color: #333333;
 }
 .navbar.navbar-list .navbar-inner {
-  background: transparent;
-  border: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  padding: 0;
+  background: #555555;
+  padding: 5px 10px;
 }
 .navbar .navbar-form .input-append .btn {
   margin-top: 0px;
