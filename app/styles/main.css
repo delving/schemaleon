@@ -1271,3 +1271,12 @@ form#fileupload .navbar .progress {
   white-space: normal !important;
   border-bottom: 1px solid #eeeeee;
 }
+ul.value-list label {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  color: #555555;
+  font-weight: bold;
+}

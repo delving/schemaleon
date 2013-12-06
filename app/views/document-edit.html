@@ -70,20 +70,22 @@
             <tab-heading i18n="View"><span class="i18n"></span></tab-heading>
             <div>
                 <h4>Only show when a value is present</h4>
-                <ul>
+                <!--{{ tree.elements }}-->
+
+                <ul class="unstyled value-list">
                     <li ng-repeat="data in tree.elements" ng-include="'tree_item_renderer.html'" ng-show="data.value"></li>
                 </ul>
 
                 <h4>Show all</h4>
-                <ul>
+                <ul class="unstyled value-list">
                     <li ng-repeat="data in tree.elements" ng-include="'tree_item_renderer.html'"></li>
                 </ul>
             </div>
 
             <script type="text/ng-template"  id="tree_item_renderer.html">
-                {{data.name}}: {{ data.value }}
-                <ul>
-                    <li ng-repeat="data in data.elements" ng-include="'tree_item_renderer.html'"></li>
+                <label>{{data.name}}:</label> <span class="data">{{ data.value }}</span>
+                <ul class="value-list" >
+                    <li ng-repeat="data in data.elements" ng-include="'tree_item_renderer.html'" ></li>
                 </ul>
             </script>
         </tab>
