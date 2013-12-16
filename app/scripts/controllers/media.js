@@ -89,27 +89,6 @@ OSCR.controller(
             });
         });
 
-        $scope.showCommit = function (file) {
-            if (!file) return false;
-            var fileTree = treeOf(file);
-            var collectionElement = fileTree.elements[1];
-            collectionElement.value = $scope.collectionTree.value;
-            if (file.notes) {
-                if (!!collectionElement.value) {
-                    file.collection = collectionElement.value;
-                    file.selectCollectionWarning = false;
-                    return true;
-                }
-                else {
-                    file.selectCollectionWarning = true;
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        };
-
         $scope.commit = function (file) {
             log('commit');
             log(file);
@@ -120,22 +99,11 @@ OSCR.controller(
                 CommittedBy: $rootScope.user.Identifier,
                 MediaObject: {
                     fileName: file.name,
-                    mimeType: getMimeType(file.name)
+                    mimeType: getMimeType(file.name),
+                    collection: "collectionz" // todo: the hkk
                 }
             };
-            var fileTree = treeOf(file);
-            _.each(fileTree.elements, function (el) { // cheat
-                switch (el.name) {
-                    case 'Notes':
-                        el.value = file.notes;
-                        break;
-                    case 'Collection':
-                        el.value = file.collection;
-                        break;
-                }
-            });
-            collectSummaryFields(fileTree, header);
-            var body = treeToObject(fileTree);
+            var body = header.MediaObject;
             Document.saveDocument(header, body, function (header) {
                 log("saved image");
                 log(header);
