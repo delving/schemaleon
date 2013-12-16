@@ -17,15 +17,15 @@ function log(message) {
 //    console.log(message);
 }
 
-P.saveMedia = function (mediaObject, receiver) {
+P.saveMedia = function (body, receiver) {
     log('saveMedia');
     var s = this.storage;
-    var imagePath = path.join(s.directories.mediaUploadDir, mediaObject.fileName);
-    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, mediaObject.fileName);
+    var imagePath = path.join(s.directories.mediaUploadDir, body.FileName);
+    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, body.FileName);
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
-    var fileName = s.Media.createFileName(mediaObject);
+    var fileName = s.Media.createFileName(body);
     var bucketPath = s.directories.mediaBucketDir(fileName);
     var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
     copyFile(imagePath, path.join(bucketPath, fileName), function (err) {
@@ -93,10 +93,10 @@ P.listMediaFiles = function (done) {
     walk(this.storage.directories.mediaStorage, done);
 };
 
-P.createFileName = function (mediaObject) {
+P.createFileName = function (body) {
     var s = this.storage;
     var fileName = util.generateImageId();
-    switch (mediaObject.mimeType) {
+    switch (body.MimeType) {
         case 'image/jpeg':
             fileName += '.jpg';
             break;
@@ -110,7 +110,7 @@ P.createFileName = function (mediaObject) {
             fileName += '.mp4';
             break;
         default:
-            console.log("UNKOWN MIME: " + mediaObject.mimeType);
+            console.log("UNKOWN MIME: " + body.MimeType);
             fileName += '.jpg';
             break;
     }

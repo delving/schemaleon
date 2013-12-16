@@ -107,6 +107,7 @@ OSCR.controller(
             Document.saveDocument(header, body, function (header) {
                 log("saved image");
                 log(header);
+                file.$destroy();
                 fetchCommitted();
             });
         };
@@ -120,26 +121,6 @@ OSCR.controller(
             if ($rootScope.config.showTranslationEditor) return;
             console.log("submitted file is ", file);
             file.$submit();
-//            (function tick() {
-//                if (file.url) {
-//                    console.log("it has a url "+file.url);
-//                    $http({
-//                        url: file.deleteUrl,
-//                        method: file.deleteType
-//                    }).then(
-//                        function () {
-//                            $scope.commit(file);
-//                            $scope.clear(file);
-//                        },
-//                        function () {
-//                        }
-//                    );
-//                }
-//                else {
-//                    console.log('tick');
-//                    $timeout(tick, 1000);
-//                }
-//            })();
         };
 
         $scope.fileCancel = function (file) {
@@ -154,6 +135,7 @@ OSCR.controller(
     function ($scope, $http, $timeout) {
         var file = $scope.file, state;
         if (file.url) {
+            $scope.commit(file);
             file.$state = function () {
                 return state;
             };
@@ -166,16 +148,15 @@ OSCR.controller(
                     function () {
                         state = 'resolved';
                         $scope.clear(file);
-                        $scope.commit(file);
                     },
                     function () {
                         state = 'rejected';
                     }
                 );
             };
-            $timeout(function () {
-                file.$destroy(); // as soon as you've got it, kill it
-            }, 400);
+//            $timeout(function () {
+//                file.$destroy(); // as soon as you've got it, kill it
+//            }, 5000);
         }
         else if (!file.$cancel && !file._index) {
             file.$cancel = function () {

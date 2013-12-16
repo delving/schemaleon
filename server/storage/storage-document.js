@@ -77,6 +77,7 @@ P.saveDocument = function (envelope, receiver) {
     var TIMESTAMP = '#TIMESTAMP#';
     var time = new Date().getTime();
     var hdr = _.clone(envelope.header);
+    var body = envelope.body;
 
     function addDocument() {
         var xml = envelope.xml.replace(IDENTIFIER, hdr.Identifier).replace(TIMESTAMP, time);
@@ -89,11 +90,11 @@ P.saveDocument = function (envelope, receiver) {
 
     hdr.TimeStamp = time;
     if (hdr.Identifier === IDENTIFIER) {
-        if (envelope.header.MediaObject) {
+        if (envelope.header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
             log('save image');
-            log(hdr.MediaObject);
-            s.Media.saveMedia(hdr.MediaObject, function (fileName) {
+            log(body);
+            s.Media.saveMedia(body, function (fileName) {
                 hdr.Identifier = fileName;
                 addDocument();
             });

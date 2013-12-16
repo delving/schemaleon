@@ -49,6 +49,7 @@ OSCR.service(
                 var documentXml = objectToXml(document);
                 return {
                     header: header,
+                    body: body,
                     xml: documentXml
                 };
             }
