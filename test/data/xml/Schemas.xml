@@ -250,8 +250,10 @@
         </Book>
 
         <MediaMetadata>
-            <Collection>{ "vocabulary": "MediaCollection" }</Collection>
-            <Notes>{ "paragraph":true, "summaryField":"Label" }</Notes>
+            <OrganizationName/>
+            <CommittedBy/>
+            <FileName/>
+            <MimeType/>
         </MediaMetadata>
 
         <!--FORTH schema-->

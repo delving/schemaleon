@@ -30,7 +30,7 @@ OSCR.controller(
 
 OSCR.controller(
     'MediaUploadController',
-    function ($rootScope, $scope, $http, Document) {
+    function ($rootScope, $scope, $http, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
 
@@ -65,11 +65,12 @@ OSCR.controller(
 
         function fetchCommitted() {
             Document.fetchAllDocuments($scope.schema, function (list) {
+                console.log("all documents fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
-                    var header = doc.Header;
-                    header.thumbnail = '/media/thumbnail/' + header.Identifier;
-                    header.date = new Date(parseInt(header.TimeStamp));
-                    return header;
+                    console.log("doc", doc);
+                    doc.thumbnail = '/media/thumbnail/' + doc.Header.Identifier;
+                    doc.date = new Date(parseInt(doc.Header.TimeStamp));
+                    return doc;
                 });
             });
         }
@@ -95,25 +96,19 @@ OSCR.controller(
             var header = {
                 SchemaName: $scope.schema,
                 Identifier: '#IDENTIFIER#',
-                TimeStamp: "#TIMESTAMP#",
-                CommittedBy: $rootScope.user.Identifier,
-                MediaObject: {
-                    fileName: file.name,
-                    mimeType: getMimeType(file.name),
-                    collection: "collectionz" // todo: the hkk
-                }
+                TimeStamp: "#TIMESTAMP#"
             };
-            var body = header.MediaObject;
+            var body = {
+                OrganizationName: $rootScope.user.Identifier, // todo: find out how to get membership
+                CommittedBy: $rootScope.user.Identifier,
+                FileName: file.name,
+                MimeType: getMimeType(file.name)
+            };
             Document.saveDocument(header, body, function (header) {
                 log("saved image");
                 log(header);
-                file.$destroy();
                 fetchCommitted();
             });
-        };
-
-        $scope.showDestroy = function (file) {
-            return !!file.$destroy && !file.notes;
         };
 
         $scope.fileDestroy = function (file) {
@@ -123,7 +118,28 @@ OSCR.controller(
 
         $scope.fileSubmit = function (file) {
             if ($rootScope.config.showTranslationEditor) return;
+            console.log("submitted file is ", file);
             file.$submit();
+//            (function tick() {
+//                if (file.url) {
+//                    console.log("it has a url "+file.url);
+//                    $http({
+//                        url: file.deleteUrl,
+//                        method: file.deleteType
+//                    }).then(
+//                        function () {
+//                            $scope.commit(file);
+//                            $scope.clear(file);
+//                        },
+//                        function () {
+//                        }
+//                    );
+//                }
+//                else {
+//                    console.log('tick');
+//                    $timeout(tick, 1000);
+//                }
+//            })();
         };
 
         $scope.fileCancel = function (file) {
@@ -135,7 +151,7 @@ OSCR.controller(
 
 OSCR.controller(
     'FileDestroyController',
-    function ($scope, $http) {
+    function ($scope, $http, $timeout) {
         var file = $scope.file, state;
         if (file.url) {
             file.$state = function () {
@@ -150,12 +166,16 @@ OSCR.controller(
                     function () {
                         state = 'resolved';
                         $scope.clear(file);
+                        $scope.commit(file);
                     },
                     function () {
                         state = 'rejected';
                     }
                 );
             };
+            $timeout(function () {
+                file.$destroy(); // as soon as you've got it, kill it
+            }, 400);
         }
         else if (!file.$cancel && !file._index) {
             file.$cancel = function () {

@@ -131,7 +131,7 @@
                                 </div>
                             <span i18n="Delete">
                                 <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
-                                        data-ng-show="showDestroy(file)" data-ng-click="fileDestroy(file)">
+                                        data-ng-show="!!file.$destroy" data-ng-click="fileDestroy(file)">
                                     <i class="icon-ban-circle icon-white"></i>
                                     <span class="i18n"/>
                                 </button>
@@ -150,16 +150,16 @@
                         </span>
 
                             <div class="media-body">
-                                <h4 class="media-heading">{{ doc.Identifier }}</h4>
+                                <h4 class="media-heading">{{ doc.Header.Identifier }}</h4>
                                 <dl class="dl-horizontal">
                                     <dt i18n="CommittedBy"></dt>
-                                    <dd>{{ doc.CommittedBy }}</dd>
+                                    <dd>{{ doc.Body.CommittedBy }}</dd>
                                     <dt i18n="CommittedOn"></dt>
                                     <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
                                     <dt i18n="FileName"></dt>
-                                    <dd>{{ doc.MediaObject.fileName }}</dd>
+                                    <dd>{{ doc.Body.FileName }}</dd>
                                     <dt i18n="MimeType"></dt>
-                                    <dd>{{ doc.MediaObject.mimeType }}</dd>
+                                    <dd>{{ doc.Body.MimeType }}</dd>
                                 </dl>
                             </div>
                         </li>
