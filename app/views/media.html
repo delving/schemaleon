@@ -64,7 +64,7 @@
 
         <div class="span9">
             <div class="step" i18n="AnnotateAndCommitMedia">
-                <span class="number">3</span><span class="i18n"/>
+                <span class="number">2</span><span class="i18n"/>
             </div>
 
             <tabset>
@@ -77,7 +77,6 @@
                         <thead>
                         <tr>
                             <th i18n="Thumb" width="120"><span class="i18n"/></th>
-                            <th i18n="Description" width="200"><span class="i18n"/></th>
                             <th i18n="Name" width="180"><span class="i18n"/></th>
                             <th i18n="Actions"><span class="i18n"/></th>
                         </tr>
@@ -97,11 +96,6 @@
                                 </div>
                                 <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
                             </td>
-
-                            <td>
-                                <textarea data-ng-hide="!file.$destroy" data-ng-model="file.notes" class="fade-in"></textarea>
-                            </td>
-
                             <td>
                                 <p class="name" data-ng-switch data-on="!!file.url">
                                 <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
@@ -117,7 +111,6 @@
                                     <span class="label label-important" i18n="Error"><span class="i18n"/></span> {{file.error}}
                                 </div>
                             </td>
-
                             <td>
                             <span i18n="Upload">
                                 <button type="button" class="btn btn-primary start"
@@ -163,8 +156,6 @@
                                     <dd>{{ doc.CommittedBy }}</dd>
                                     <dt i18n="CommittedOn"></dt>
                                     <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
-                                    <dt i18n="Label"></dt>
-                                    <dd>{{ doc.Label }}</dd>
                                     <dt i18n="FileName"></dt>
                                     <dd>{{ doc.MediaObject.fileName }}</dd>
                                     <dt i18n="MimeType"></dt>
