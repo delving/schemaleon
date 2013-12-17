@@ -67,7 +67,6 @@ OSCR.controller(
             Document.fetchAllDocuments($scope.schema, function (list) {
                 console.log("all documents fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
-                    console.log("doc", doc);
                     doc.thumbnail = '/media/thumbnail/' + doc.Header.Identifier;
                     doc.date = new Date(parseInt(doc.Header.TimeStamp));
                     return doc;

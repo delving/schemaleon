@@ -52,7 +52,7 @@ OSCR.filter('mediaLabel',
 
 OSCR.controller(
     'MediaController',
-    function ($scope, $q, Document) {
+    function ($scope, $q, $dialog, Document) {
         if (!$scope.el.config.media) {
             return;
         }
@@ -69,18 +69,18 @@ OSCR.controller(
             });
         }
 
-        Document.fetchAllDocuments($scope.schema, function(list) {
-            $scope.mediaList = list;
-        });
+        function refreshList() {
+            Document.fetchAllDocuments($scope.schema, function(list) {
+                $scope.mediaList = list;
+            });
+        }
+        refreshList();
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
                 $scope.disableEditor();
                 Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
                     $scope.setValue(fetchedValue.Document);
-////                    log('fetched media record');
-////                    log(fetchedValue.Document);
-//                    $scope.chosenMedia = fetchedValue.Document;
                 });
             }
             $scope.valueChecked = true;
@@ -107,6 +107,33 @@ OSCR.controller(
                 });
             }
             $scope.disableEditor();
+        };
+
+        $scope.showImagePreview = function(id){
+            var elThumb = '#oscr-media-grid-thumb-'+id;
+            var elBig = '#oscr-media-grid-big-'+id;
+            var position = $(elThumb).position();
+            console.log(position.top);
+            $(elBig).css({"display":"block"});
+        };
+
+        $scope.hideImagePreview = function(id){
+            var elBig = '#oscr-media-grid-big-'+id;
+            $(elBig).css({"display": "none"});
+        };
+
+        $scope.openImageUploadDialog = function () {
+            var dialog = $dialog.dialog({
+                dialogFade: true,
+                backdrop: true,
+                fadeBackdrop: true,
+                keyboard: true,
+                controller: 'MediaUploadController',
+                templateUrl: 'views/media-lite.html'
+            });
+            dialog.open().then(function () {
+                refreshList();
+            });
         };
 
         if (!$scope.el.suspendValidation) {

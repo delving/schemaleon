@@ -130,35 +130,6 @@ OSCR.controller(
             });
         };
 
-        $scope.showImagePreview = function(id){
-            var elThumb = '#oscr-media-grid-thumb-'+id;
-            var elBig = '#oscr-media-grid-big-'+id;
-            var position = $(elThumb).position();
-            console.log(position.top);
-            $(elBig).css({"display":"block"});
-            
-        }
-        $scope.hideImagePreview = function(id){
-            var elBig = '#oscr-media-grid-big-'+id;
-
-            $(elBig).css({"display": "none"});
-
-        }
-
-        $scope.openImageUploadDialog = function () {
-
-            var dialog = $dialog.dialog({
-                dialogFade: true,
-                backdrop: true,
-                fadeBackdrop: true,
-                keyboard: true,
-                controller: 'MediaUploadController',
-                templateUrl: 'views/media-lite.html'
-            });
-            dialog.open().then(function () {
-                 alert('dismiss');
-            });
-        };
     }
 );
 
