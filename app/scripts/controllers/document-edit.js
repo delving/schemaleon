@@ -155,7 +155,9 @@ OSCR.controller(
                 controller: 'MediaUploadController',
                 templateUrl: 'views/media-lite.html'
             });
-            dialog.open();
+            dialog.open().then(function () {
+                 alert('dismiss');
+            });
         };
     }
 );
