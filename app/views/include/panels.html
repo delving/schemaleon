@@ -67,7 +67,7 @@
                     <div ng-show="el.config.media" ng-controller="MediaController" class="digital-object-input">
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
-
+                                <button class="btn" ng-click="openImageUploadDialog()">Upload Media</button>
                                 <div ng-show="mediaList" class="oscr-media-grid">
                                     <div class="thumbs">
                                         <span class="thumb-container" ng-show="entry.Header.Identifier" data-ng-repeat="entry in mediaList" >

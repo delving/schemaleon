@@ -6,7 +6,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'DocumentEditController',
-    function ($rootScope, $scope, $routeParams, $location, $timeout, Document) {
+    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
 
@@ -144,6 +144,19 @@ OSCR.controller(
             $(elBig).css({"display": "none"});
 
         }
+
+        $scope.openImageUploadDialog = function () {
+
+            var dialog = $dialog.dialog({
+                dialogFade: true,
+                backdrop: true,
+                fadeBackdrop: true,
+                keyboard: true,
+                controller: 'MediaUploadController',
+                templateUrl: 'views/media.html'
+            });
+            dialog.open();
+        };
     }
 );
 
