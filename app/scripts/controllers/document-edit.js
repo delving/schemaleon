@@ -153,7 +153,7 @@ OSCR.controller(
                 fadeBackdrop: true,
                 keyboard: true,
                 controller: 'MediaUploadController',
-                templateUrl: 'views/media.html'
+                templateUrl: 'views/media-lite.html'
             });
             dialog.open();
         };
