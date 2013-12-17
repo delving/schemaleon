@@ -129,6 +129,21 @@ OSCR.controller(
                 $scope.choosePath('/document/' + $scope.header.SchemaName + '/edit/' + $scope.header.Identifier, document.Header);
             });
         };
+
+        $scope.showImagePreview = function(id){
+            var elThumb = '#oscr-media-grid-thumb-'+id;
+            var elBig = '#oscr-media-grid-big-'+id;
+            var position = $(elThumb).position();
+            console.log(position.top);
+            $(elBig).css({"display":"block"});
+            
+        }
+        $scope.hideImagePreview = function(id){
+            var elBig = '#oscr-media-grid-big-'+id;
+
+            $(elBig).css({"display": "none"});
+
+        }
     }
 );
 

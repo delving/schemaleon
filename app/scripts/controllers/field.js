@@ -66,11 +66,12 @@ OSCR.controller(
                     name: 'Entry',
                     elements: schema.elements
                 };
-                Document.fetchAllDocuments($scope.schema, function(list) {
-                    $scope.mediaList = list;
-                })
             });
         }
+
+        Document.fetchAllDocuments($scope.schema, function(list) {
+            $scope.mediaList = list;
+        });
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {

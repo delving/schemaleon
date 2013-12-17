@@ -153,6 +153,9 @@ input#hidden {
 .link-value p:first-of-type {
   margin: 0;
 }
+.link-value img {
+  max-width: 100%;
+}
 .icon-container {
   position: absolute;
   left: 0px;
@@ -252,6 +255,47 @@ ul.kv-list li span.value {
   min-width: 340px;
   border-top: none;
   border-radius: 0 0 4px 4px;
+}
+/* MEDIA **********************************/
+/* media select grid */
+.oscr-media-grid {
+  max-height: 400px;
+  overflow-y: scroll;
+  width: 400px;
+}
+.oscr-media-grid .thumbs {
+  /* Prevent vertical gaps */
+
+  line-height: 0;
+  -webkit-column-count: 5;
+  -webkit-column-gap: 8px;
+  -moz-column-count: 5;
+  -moz-column-gap: 8px;
+  column-count: 5;
+  column-gap: 8px;
+}
+.oscr-media-grid .thumbs img {
+  /* Just in case there are inline attributes */
+
+  width: 100% !important;
+  height: auto !important;
+  margin-bottom: 8px;
+}
+.oscr-media-grid .thumbs img:hover {
+  cursor: pointer;
+}
+.oscr-media-grid .thumb-container span.large {
+  position: fixed;
+  /*see support section for more info on positioning*/
+
+  display: none;
+  padding: 10px;
+  background: #555555;
+  border: 1px solid #333333;
+  top: 50px;
+  left: 0px;
+  z-index: 11000;
+  width: 500px;
 }
 .tabbable {
   margin-bottom: 40px;
