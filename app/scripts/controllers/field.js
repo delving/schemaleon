@@ -12,9 +12,7 @@ OSCR.filter('elementDisplay',
                 return element.value.Label; // todo
             }
             else if (element.config.media) {
-                log('elementDisplay');
-                log(element.value);
-                return element.value.Notes;
+                return element.value.Identifier;
             }
             else {
                 return element.value;
@@ -68,6 +66,9 @@ OSCR.controller(
                     name: 'Entry',
                     elements: schema.elements
                 };
+                Document.fetchAllDocuments($scope.schema, function(list) {
+                    $scope.mediaList = list;
+                })
             });
         }
 
@@ -75,38 +76,21 @@ OSCR.controller(
             if ($scope.el.value) {
                 $scope.disableEditor();
                 Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
-//                    log('fetched media record');
-//                    log(fetchedValue.Document);
-                    $scope.chosenMedia = fetchedValue.Document;
+                    $scope.setValue(fetchedValue.Document);
+////                    log('fetched media record');
+////                    log(fetchedValue.Document);
+//                    $scope.chosenMedia = fetchedValue.Document;
                 });
             }
             $scope.valueChecked = true;
         }
 
-        $scope.getMediaList = function (search) {
-            var deferred = $q.defer();
-            Document.selectDocuments($scope.schema, search, function (list) {
-                deferred.resolve(list);
-            });
-            return deferred.promise;
+        $scope.selectMedia = function(entry) {
+            console.log("selected media ", entry);
+            $scope.setValue(entry);
         };
 
-        $scope.mediaToString = function (media) {
-//            log('media to string');
-//            log(media);
-            if (!media) {
-                return [];
-            }
-            return media.Header.Label; // todo
-        };
-
-        $scope.$watch('chosenMedia', function (after, before) {
-            if (_.isObject(after)) {
-                $scope.setValue(after);
-            }
-        });
-
-        $scope.enableClearedEditor = function () {
+        $scope.enableMediaEditor = function () {
             $scope.chosenMedia = null;
             $scope.el.value = null;
             $scope.el.valueFields = null;
@@ -114,7 +98,7 @@ OSCR.controller(
         };
 
         $scope.setValue = function (value) {
-            $scope.el.value = angular.copy(value.Body.MediaMetadata);
+            $scope.el.value = angular.copy(value.Body);
             $scope.el.value.Identifier = value.Header.Identifier;
             if ($scope.el.tree) {
                 $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
