@@ -127,6 +127,19 @@ OSCR.controller(
             if ($rootScope.config.showTranslationEditor) return;
             file.$cancel();
         };
+
+
+        $scope.isImage = function(mime) {
+            if(mime.indexOf('image') >= 0){
+                return true;
+            }
+        };
+
+        $scope.isVideo = function (mime) {
+            if(mime.indexOf('video') >= 0){
+                return true;
+            }
+        };
     }
 );
 
