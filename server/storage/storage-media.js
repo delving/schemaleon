@@ -20,8 +20,8 @@ function log(message) {
 P.saveMedia = function (body, receiver) {
     log('saveMedia');
     var s = this.storage;
-    var imagePath = path.join(s.directories.mediaUploadDir, body.FileName);
-    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, body.FileName);
+    var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
+    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, body.OriginalFileName);
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }

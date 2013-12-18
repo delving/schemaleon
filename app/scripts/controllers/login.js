@@ -85,16 +85,16 @@ OSCR.controller(
             }
         };
 
-        $rootScope.$watch('user', function (after, before) {
-            if (!after) return;
+        $rootScope.$watch('user', function (user, before) {
+            if (!user) return;
             $rootScope.userMemberships = [];
-            if (after.Memberships) {
-                _.each(after.Memberships.Membership, function (membership) {
+            if (user.Memberships) {
+                _.each(user.Memberships.Membership, function (membership) {
                     Person.getGroup(membership.GroupIdentifier, function (group) {
                         membership.group = group.Group;
                         membership.Label = membership.group.Name + ' (' + membership.Role + ')';
                         $rootScope.userMemberships.push(membership);
-                        after.chosenMembership = membership.GroupIdentifier;
+                        user.groupIdentifier = membership.GroupIdentifier;
                     });
                 });
             }
