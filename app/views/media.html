@@ -150,11 +150,14 @@
                         </span>
 
                             <div class="media-body">
-                                <h4 class="media-heading">{{ doc.Header.Identifier }}</h4>
                                 <dl class="dl-horizontal">
-                                    <dt i18n="CommittedBy"></dt>
-                                    <dd>{{ doc.Body.CommittedBy }}</dd>
-                                    <dt i18n="CommittedOn"></dt>
+                                    <dt i18n="Group"></dt>
+                                    <!--todo: lazy load-->
+                                    <dd>{{ doc.Body.GroupIdentifier }}</dd>
+                                    <dt i18n="User"></dt>
+                                    <!--todo: lazy load-->
+                                    <dd>{{ doc.Body.UserIdentifier }}</dd>
+                                    <dt i18n="DateUploaded"></dt>
                                     <dd>{{ doc.date | date:'yyyy-MM-dd H:mm:ss' }}</dd>
                                     <dt i18n="FileName"></dt>
                                     <dd>{{ doc.Body.FileName }}</dd>

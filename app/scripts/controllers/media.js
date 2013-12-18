@@ -97,9 +97,10 @@ OSCR.controller(
                 TimeStamp: "#TIMESTAMP#"
             };
             var body = {
-                OrganizationName: $rootScope.user.Identifier, // todo: find out how to get membership
-                CommittedBy: $rootScope.user.Identifier,
-                FileName: file.name,
+                GroupIdentifier: $rootScope.user.groupIdentifier,
+                UserIdentifier: $rootScope.user.Identifier,
+                FileName: '#IDENTIFIER#',
+                OriginalFileName: file.name,
                 MimeType: getMimeType(file.name)
             };
             Document.saveDocument(header, body, function (header) {

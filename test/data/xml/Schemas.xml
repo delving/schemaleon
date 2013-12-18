@@ -250,9 +250,10 @@
         </Book>
 
         <MediaMetadata>
-            <OrganizationName/>
-            <CommittedBy/>
+            <UserIdentifier/>
+            <GroupIdentifier/>
             <FileName/>
+            <OriginalFileName/>
             <MimeType/>
         </MediaMetadata>
 

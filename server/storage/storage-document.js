@@ -80,7 +80,10 @@ P.saveDocument = function (envelope, receiver) {
     var body = envelope.body;
 
     function addDocument() {
-        var xml = envelope.xml.replace(IDENTIFIER, hdr.Identifier).replace(TIMESTAMP, time);
+        var xml = envelope.xml
+            .replace(IDENTIFIER, hdr.Identifier) // header
+            .replace(IDENTIFIER, hdr.Identifier) // maybe body
+            .replace(TIMESTAMP, time); // header
         s.add('add document ' + hdr.Identifier,
             s.docDocument(hdr.SchemaName, hdr.Identifier),
             xml,
