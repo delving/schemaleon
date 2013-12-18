@@ -130,12 +130,14 @@ OSCR.controller(
                 controller: 'MediaUploadController',
                 templateUrl: 'views/media-lite.html'
             });
-            dialog.open().then(function () {
-                refreshList();
-            });
-            // NOTE: Closing of the dialog is done in the MediaUploadController (media.js)
-            // which has control over the modal window once it is open.
+//            dialog.open().then(function () {
+//                refreshList();
+//            });
         };
+
+        $scope.refreshImagList = function () {
+            refreshList();
+        }
 
         if (!$scope.el.suspendValidation) {
             $scope.$watch('el.value', function (after, before) {

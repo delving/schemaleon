@@ -250,10 +250,13 @@ ul.kv-list {
 /* MEDIA **********************************/
 
 /* media select grid */
-.inline-upload {
-  .clearfix();
-  margin-bottom: 10px;
+.media-tabs {
+  .tabbable .tab-content {
+    .border-radius(0 0 10px 10px) !important;
+    width: 500px;
+  }
 }
+
 .oscr-media-grid {
   max-height: 400px;
   overflow-y: scroll;
@@ -281,7 +284,6 @@ ul.kv-list {
     span.large {
       position:fixed;
       display: none;
-      padding: 10px;
       background: @gray;
       border: 1px solid @grayDark;
       top: 50px;
