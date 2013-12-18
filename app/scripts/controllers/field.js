@@ -113,7 +113,6 @@ OSCR.controller(
             var elThumb = '#oscr-media-grid-thumb-'+id;
             var elBig = '#oscr-media-grid-big-'+id;
             var position = $(elThumb).position();
-            console.log(position.top);
             $(elBig).css({"display":"block"});
         };
 
@@ -134,6 +133,8 @@ OSCR.controller(
             dialog.open().then(function () {
                 refreshList();
             });
+            // NOTE: Closing of the dialog is done in the MediaUploadController (media.js)
+            // which has control over the modal window once it is open.
         };
 
         if (!$scope.el.suspendValidation) {

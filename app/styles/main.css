@@ -258,6 +258,19 @@ ul.kv-list li span.value {
 }
 /* MEDIA **********************************/
 /* media select grid */
+.inline-upload {
+  *zoom: 1;
+  margin-bottom: 10px;
+}
+.inline-upload:before,
+.inline-upload:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.inline-upload:after {
+  clear: both;
+}
 .oscr-media-grid {
   max-height: 400px;
   overflow-y: scroll;
@@ -275,8 +288,6 @@ ul.kv-list li span.value {
   column-gap: 8px;
 }
 .oscr-media-grid .thumbs img {
-  /* Just in case there are inline attributes */
-
   width: 100% !important;
   height: auto !important;
   margin-bottom: 8px;
@@ -286,8 +297,6 @@ ul.kv-list li span.value {
 }
 .oscr-media-grid .thumb-container span.large {
   position: fixed;
-  /*see support section for more info on positioning*/
-
   display: none;
   padding: 10px;
   background: #555555;

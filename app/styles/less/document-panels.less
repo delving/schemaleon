@@ -250,7 +250,10 @@ ul.kv-list {
 /* MEDIA **********************************/
 
 /* media select grid */
-
+.inline-upload {
+  .clearfix();
+  margin-bottom: 10px;
+}
 .oscr-media-grid {
   max-height: 400px;
   overflow-y: scroll;
@@ -258,7 +261,6 @@ ul.kv-list {
   .thumbs {
     /* Prevent vertical gaps */
     line-height: 0;
-
     -webkit-column-count: 5;
     -webkit-column-gap:   8px;
     -moz-column-count:    5;
@@ -268,7 +270,6 @@ ul.kv-list {
 
   }
   .thumbs img {
-    /* Just in case there are inline attributes */
     width: 100% !important;
     height: auto !important;
     margin-bottom: 8px;
@@ -278,7 +279,7 @@ ul.kv-list {
   }
   .thumb-container {
     span.large {
-      position:fixed; /*see support section for more info on positioning*/
+      position:fixed;
       display: none;
       padding: 10px;
       background: @gray;
@@ -288,14 +289,5 @@ ul.kv-list {
       z-index: 11000;
       width: 500px;
     }
-//    &:hover{
-//      span.large {
-////        top: 100px; /*the distance from the bottom of the thumbnail to the top of the popup image*/
-////        left:50%;
-//        img {
-//          max-width: 300px;
-//        }
-//      }
-//    }
   }
 }

@@ -30,7 +30,7 @@ OSCR.controller(
 
 OSCR.controller(
     'MediaUploadController',
-    function ($rootScope, $scope, $http, $timeout, Document) {
+    function ($rootScope, $scope, $http, $timeout, Document, dialog) {
 
         $rootScope.checkLoggedIn();
 
@@ -38,6 +38,13 @@ OSCR.controller(
         $scope.committedFiles = [];
         $scope.options = {
             url: '/files'
+        };
+
+        // Dialog control for modal/dialog created in fields.js
+        // for uploading media while working on a document. Notice
+        // the 'dialog' variable being passed to the controller.
+        $scope.closeDialog = function(){
+            dialog.close();
         };
 
         function treeOf(file) {

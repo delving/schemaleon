@@ -4,23 +4,15 @@
     </h3>
 </div>
 <div class="modal-body">
-    <div ng-hide="config.showTranslationEditor">
         <form id="fileupload" action="#" method="POST" enctype="multipart/form-data"
               data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
-            <span class="btn btn-success fileinput-button btn-small" ng-class="{disabled: disabled}">
+            <button class="btn btn-success fileinput-button btn-small" ng-class="{disabled: disabled}">
             <i class="icon-plus icon-white"></i>
             <span i18n="AddFiles"/>
-            <input type="file" name="files[]" multiple ng-disabled="disabled">
-        </span>
+                <input type="file" name="files[]" multiple ng-disabled="disabled">
+            </span>
+                </button>
         </form>
-    </div>
-
-    <div ng-show="config.showTranslationEditor" i18n="AddFiles">
-        <button class="btn btn-success fileinput-button btn-small" ng-class="{disabled: disabled}">
-            <i class="icon-plus icon-white"></i>
-            <span class="i18n"/>
-        </button>
-    </div>
 
     <div class="progress-indicator" style="margin: 0 0 0 0">
         <!-- The global progress information -->
@@ -105,5 +97,5 @@
     </table>
 </div>
 <div class="modal-footer">
-    <button class="btn" ng-click="ok()">OK</button>
+    <button class="btn" ng-click="closeDialog()">OK</button>
 </div>
