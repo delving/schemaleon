@@ -39,6 +39,7 @@ OSCR.controller(
         $scope.options = {
             url: '/files'
         };
+
        function treeOf(file) {
             if (!file.tree && $scope.treeJSON) file.tree = JSON.parse($scope.treeJSON);
             return file.tree;
