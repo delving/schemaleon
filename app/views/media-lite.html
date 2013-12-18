@@ -1,0 +1,101 @@
+<div class="modal-header">
+    <h3 i18n="MediaUpload">
+        <span class="i18n"></span>
+    </h3>
+</div>
+<div class="modal-body">
+        <form id="fileupload" action="#" method="POST" enctype="multipart/form-data"
+              data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+            <button class="btn btn-success fileinput-button btn-small" ng-class="{disabled: disabled}">
+            <i class="icon-plus icon-white"></i>
+            <span i18n="AddFiles"/>
+                <input type="file" name="files[]" multiple ng-disabled="disabled">
+            </span>
+                </button>
+        </form>
+
+    <div class="progress-indicator" style="margin: 0 0 0 0">
+        <!-- The global progress information -->
+        <div class="fade mts" data-ng-class="{in: active()}" style="margin: 0 0 0 0">
+            <!-- The global progress bar -->
+            <div class="progress progress-success progress-striped active" style="margin: 0 0 0 0"
+                 data-file-upload-progress="progress()">
+                <div class="bar" data-ng-style="{width: num + '%'}" style="margin: 0 0 0 0"></div>
+            </div>
+            <!-- The extended global progress information -->
+            <!--<div class="progress-extended">&nbsp;</div>-->
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-grid files ng-cloak">
+        <thead>
+        <tr>
+            <th i18n="Thumb" width="120"><span class="i18n"/></th>
+            <th i18n="Name" width="180"><span class="i18n"/></th>
+            <th i18n="Actions"><span class="i18n"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-hide="queue.length">
+            <td colspan="4" i18n="NoFiles">
+                <span class="i18n"/>
+            </td>
+        </tr>
+        <tr ng-repeat="file in queue">
+
+            <td data-ng-switch data-on="!!file.thumbnailUrl">
+                <div class="preview" data-ng-switch-when="true">
+                    <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}"
+                       data-gallery><img data-ng-src="{{file.thumbnailUrl}}" alt=""></a>
+                </div>
+                <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+            </td>
+            <td>
+                <p class="name" data-ng-switch data-on="!!file.url">
+            <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
+                <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}"
+                   download="{{file.name}}" data-gallery>{{file.name}}</a>
+                <a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}"
+                   download="{{file.name}}">{{file.name}}</a>
+            </span>
+                    <span data-ng-switch-default>{{file.name}}</span>
+                </p>
+
+                <div data-ng-show="file.error">
+                    <span class="label label-important" i18n="Error"><span class="i18n"/></span> {{file.error}}
+                </div>
+            </td>
+            <td>
+                <span i18n="Upload">
+                    <button type="button" class="btn btn-primary btn-small start"
+                            data-ng-click="fileSubmit(file)" data-ng-hide="!file.$submit">
+                        <i class="icon-upload icon-white"></i>
+                        <span class="i18n"/>
+                    </button>
+                </span>
+                <span i18n="Remove">
+                    <button type="button" class="btn btn-warning btn-small cancel"
+                            data-ng-click="fileCancel(file)" data-ng-hide="!file.$cancel">
+                        <i class="icon-ban-circle icon-white"></i>
+                        <span class="i18n"/>
+                    </button>
+                </span>
+                <div ng-show="file.selectCollectionWarning" class="alert alert-error"
+                     i18n="SelectACollectionFirstPlease">
+                    <span class="i18n"/>
+                </div>
+                <span i18n="Delete">
+                    <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
+                            data-ng-show="!!file.$destroy" data-ng-click="fileDestroy(file)">
+                        <i class="icon-ban-circle icon-white"></i>
+                        <span class="i18n"/>
+                    </button>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="closeDialog()">OK</button>
+</div>
