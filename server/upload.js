@@ -190,6 +190,7 @@ UHP.post = function () {
         function (name, file) {
             var fileInfo = map[path.basename(file.path)];
             fileInfo.size = file.size;
+            console.log(fileInfo);
             if (!fileInfo.validate()) {
                 fs.unlink(file.path);
                 return;
@@ -210,6 +211,27 @@ UHP.post = function () {
                     );
                 });
             }
+            else {
+                Object.keys(options.imageVersions).forEach(function (version) {
+                    counter += 1;
+                    var opts = options.imageVersions[version];
+                    var originalFileName = fileInfo.name;
+                    var frameFileName = originalFileName.replace(".mp4","[100].mp4");
+                    var thumbName = originalFileName.replace(".mp4",".jpg")
+                    imageMagick.convert(
+                        [uploadDir + '/' + frameFileName, '-resize', opts.width + 'x' + opts.height, uploadDir + '/' + version + '/' + thumbName],
+                        finish
+                    );
+                });
+            }
+            // else convert[args]
+            /*
+             im.convert(['kittens.jpg', '-resize', '25x120', 'kittens-small.jpg'],
+             function(err, stdout){
+             if (err) throw err;
+             console.log('stdout:', stdout);
+             });
+            */
         }
     ).on('aborted',
         function () {
