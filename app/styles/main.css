@@ -258,18 +258,11 @@ ul.kv-list li span.value {
 }
 /* MEDIA **********************************/
 /* media select grid */
-.inline-upload {
-  *zoom: 1;
-  margin-bottom: 10px;
-}
-.inline-upload:before,
-.inline-upload:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.inline-upload:after {
-  clear: both;
+.media-tabs .tabbable .tab-content {
+  -webkit-border-radius: 0 0 10px 10px !important;
+  -moz-border-radius: 0 0 10px 10px !important;
+  border-radius: 0 0 10px 10px !important;
+  width: 500px;
 }
 .oscr-media-grid {
   max-height: 400px;
@@ -298,7 +291,6 @@ ul.kv-list li span.value {
 .oscr-media-grid .thumb-container span.large {
   position: fixed;
   display: none;
-  padding: 10px;
   background: #555555;
   border: 1px solid #333333;
   top: 50px;
