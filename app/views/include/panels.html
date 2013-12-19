@@ -31,6 +31,7 @@
                             <!-- element value -->
                             <div class="link-value" ng-show="element.valueVisible && config.showInlinePreview">
                                 <div ng-show="element.config.media" class="link-thumbnail">
+
                                         <img ng-src="{{ element | mediaThumbnail }}" />
                                 </div>
                                 <div ng-hide="element.config.media">
@@ -64,22 +65,24 @@
                 <!-- panel for user input -->
                 <div class="panel-input">
                     <!--choose file input -->
-                    <div ng-show="el.config.media" ng-controller="MediaController" class="digital-object-input">
+                    <div ng-show="el.config.media" ng-controller="FieldMediaController" class="digital-object-input">
                         <div ng-hide="el.elements">
                             <div ng-show="el.edit">
                                 <tabset class="media-tabs">
                                     <tab>
                                         <tab-heading>
-                                            <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImagList()"><span class="i18n"/></span>
+                                            <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()"><span class="i18n"/></span>
                                         </tab-heading>
                                         <div ng-show="mediaList" class="oscr-media-grid">
                                             <div class="thumbs">
-                                        <span class="thumb-container" ng-show="entry.Header.Identifier" data-ng-repeat="entry in mediaList" >
-                                               <img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{ entry.Header.Identifier }}"ng-click="selectMedia(entry)" data-ng-mouseenter="showImagePreview($index)" data-ng-mouseleave="hideImagePreview($index)"/>
-                                                <span class="large fade-in" id="oscr-media-grid-big-{{$index}}">
-                                                    <img ng-src="/media/fetch/{{ entry.Header.Identifier }}"/>
-                                                </span>
-                                        </span>
+                                            <div class="thumb-container" ng-show="entry.Header.Identifier" data-ng-repeat="entry in mediaList" >
+
+                                                   <!--<img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{ entry.Header.Identifier }}"ng-click="selectMedia(entry)" data-ng-mouseenter="showImagePreview($index)" data-ng-mouseleave="hideImagePreview($index)"/>-->
+                                                   <img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{getProperName(entry.Header.Identifier)}}" ng-click="selectMedia(entry)" data-ng-mouseenter="showImagePreview($index)" data-ng-mouseleave="hideImagePreview($index)"/>
+                                                    <span class="large fade-in" id="oscr-media-grid-big-{{$index}}">
+                                                        <img ng-src="/media/fetch/{{getProperName(entry.Header.Identifier)}}"/>
+                                                    </span>
+                                            </div>
                                             </div>
                                         </div>
                                     </tab>

@@ -152,5 +152,15 @@ OSCR.controller(
             }
             return "";
         };
+
+        // properFile name extension for multi-media thumbs
+        $rootScope.getProperName = function (name){
+            //TODO: allow for various media extension other than mp4.
+            var nameProper= name;
+            if(name.indexOf('.mp4') >= 0) {
+                nameProper = name.replace('.mp4','.png');
+            }
+            return nameProper;
+        }
     }
 );

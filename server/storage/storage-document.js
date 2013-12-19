@@ -96,7 +96,6 @@ P.saveDocument = function (envelope, receiver) {
         if (envelope.header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
             log('save image');
-            log(body);
             s.Media.saveMedia(body, function (fileName) {
                 hdr.Identifier = fileName;
                 addDocument();

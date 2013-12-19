@@ -22,10 +22,10 @@ OSCR.filter('elementDisplay',
 );
 
 OSCR.filter('mediaThumbnail',
-    function () {
+    function ($rootScope) {
         return function (element) {
             if (element.value && element.config.media) {
-                return '/media/thumbnail/' + element.value.Identifier;
+                return '/media/thumbnail/' + $rootScope.getProperName(element.value.Identifier);
             }
             else {
                 return '';
@@ -51,7 +51,7 @@ OSCR.filter('mediaLabel',
 );
 
 OSCR.controller(
-    'MediaController',
+    'FieldMediaController',
     function ($scope, $q, $dialog, Document) {
         if (!$scope.el.config.media) {
             return;
@@ -87,7 +87,7 @@ OSCR.controller(
         }
 
         $scope.selectMedia = function(entry) {
-            console.log("selected media ", entry);
+//            console.log("selected media ", entry);
             $scope.setValue(entry);
         };
 
@@ -121,21 +121,7 @@ OSCR.controller(
             $(elBig).css({"display": "none"});
         };
 
-        $scope.openImageUploadDialog = function () {
-            var dialog = $dialog.dialog({
-                dialogFade: true,
-                backdrop: true,
-                fadeBackdrop: true,
-                keyboard: true,
-                controller: 'MediaUploadController',
-                templateUrl: 'views/media-lite.html'
-            });
-//            dialog.open().then(function () {
-//                refreshList();
-//            });
-        };
-
-        $scope.refreshImagList = function () {
+        $scope.refreshImageList = function () {
             refreshList();
         }
 
