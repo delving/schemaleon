@@ -25,7 +25,7 @@ OSCR.filter('mediaThumbnail',
     function ($rootScope) {
         return function (element) {
             if (element.value && element.config.media) {
-                return '/media/thumbnail/' + $rootScope.getProperName(element.value.Identifier);
+                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
             }
             else {
                 return '';

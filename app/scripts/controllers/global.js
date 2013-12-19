@@ -154,11 +154,10 @@ OSCR.controller(
         };
 
         // properFile name extension for multi-media thumbs
-        $rootScope.getProperName = function (name){
-            //TODO: allow for various media extension other than mp4.
+        $rootScope.getProperThumbExtension = function (name){
             var nameProper= name;
-            if(name.indexOf('.mp4') >= 0) {
-                nameProper = name.replace('.mp4','.png');
+            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
+                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
             }
             return nameProper;
         }

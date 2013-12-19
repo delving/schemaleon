@@ -18,10 +18,9 @@ function log(message) {
 }
 
 P.thumbNameProper = function (thumbName)  {
-    //TODO: allow for various media extension other than mp4.
     var nameProper= thumbName;
-    if(thumbName.indexOf('.mp4') >= 0) {
-        nameProper = thumbName.replace('.mp4','.png');
+    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
+        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
     }
     return nameProper;
 }

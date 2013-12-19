@@ -51,12 +51,16 @@ OSCR.controller(
             switch (extension) {
                 case 'jpg':
                     return 'image/jpeg';
+                case 'jpeg':
+                    return 'image/jpeg';
                 case 'png':
                     return 'image/png';
                 case 'gif':
                     return 'image/gif';
                 case 'mp4':
                     return 'video/mp4';
+                case 'mov':
+                    return 'video/quicktime';
                 default:
                     log("UNRECOGNIZED extension: " + extension);
                     return 'image/jpeg';
@@ -67,9 +71,9 @@ OSCR.controller(
             Document.fetchAllDocuments($scope.schema, function (list) {
                 console.log("all documents fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
-                    // $rootScope.getProperName checks file extension.
+                    // $rootScope.getProperThumbExtension checks file extension.
                     // For video/audio files the extension will be replaced by .png
-                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperName(doc.Header.Identifier);;
+                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperThumbExtension(doc.Header.Identifier);;
                     doc.date = new Date(parseInt(doc.Header.TimeStamp));
                     return doc;
                 });

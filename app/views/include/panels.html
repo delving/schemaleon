@@ -77,7 +77,7 @@
                                                 <li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">
                                                     <div class="media-thumb">
                                                         <img id="oscr-media-grid-thumb-{{$index}}"
-                                                             ng-src="/media/thumbnail/{{getProperName(entry.Header.Identifier)}}"
+                                                             ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"
                                                              ng-click="selectMedia(entry)"/>
                                                     </div>
                                                     <div class="mime">{{ entry.Body.MimeType }}</div>
@@ -95,7 +95,7 @@
                             </div>
                             <div ng-show="!el.edit">
                                 <div class="chosen-value" tabindex="0">
-                                    <div ng-hide="el.value">
+                                    <div ng-hide="el.value" ng-click="enableMediaEditor()" >
                                         <span>?</span>
                                     </div>
                                     <div ng-show="el.value">
@@ -114,6 +114,12 @@
                                                     <img ng-src="{{ el | mediaThumbnail }}" />
                                                 </div>
                                                 <div ng-switch-when="video/mp4">
+                                                <video width="320" height="240" controls>
+                                                    <source ng-src="{{ el | mediaFile }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                </div>
+                                                <div ng-switch-when="video/quicktime">
                                                     <video width="320" height="240" controls>
                                                         <source ng-src="{{ el | mediaFile }}" type="video/mp4">
                                                         Your browser does not support the video tag.
