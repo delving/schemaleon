@@ -17,6 +17,15 @@ function log(message) {
     console.log('storage-media.js: ', message);
 }
 
+P.thumbNameProper = function (thumbName)  {
+    //TODO: allow for various media extension other than mp4.
+    var nameProper= thumbName;
+    if(thumbName.indexOf('.mp4') >= 0) {
+        nameProper = thumbName.replace('.mp4','.png');
+    }
+    return nameProper;
+}
+
 P.saveMedia = function (body, receiver) {
     log('saveMedia');
     var s = this.storage;
@@ -26,7 +35,7 @@ P.saveMedia = function (body, receiver) {
     // which have had a thumb extracted with a .jpg extension
     var thumbnailName;
     if(body.OriginalFileName.indexOf('.mp4') >= 0) {
-        thumbnailName = body.OriginalFileName.replace('.mp4', '.jpg');
+        thumbnailName = body.OriginalFileName.replace('.mp4', '.png');
     }
     else {
         thumbnailName = body.OriginalFileName;
@@ -37,6 +46,10 @@ P.saveMedia = function (body, receiver) {
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
+
+    // TODO: need to check on mimetype here so that video or audio thumbnails don't
+    // use their source exstention, but jpg instead.
+
     var fileName = s.Media.createFileName(body);
     var bucketPath = s.directories.mediaBucketDir(fileName);
     var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
@@ -45,7 +58,9 @@ P.saveMedia = function (body, receiver) {
             throw err;
         }
         log('File has been copied ' + fileName);
-        copyFile(thumbnailPath, path.join(thumbnailBucketPath, fileName), function (err) {
+        var thumbnailProper = P.thumbNameProper(fileName);
+        log(thumbnailProper);
+        copyFile(thumbnailPath, path.join(thumbnailBucketPath, thumbnailProper), function (err) {
             if (err) {
                 throw err;
             }

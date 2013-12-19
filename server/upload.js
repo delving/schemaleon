@@ -217,8 +217,8 @@ UHP.post = function () {
                     counter += 1;
                     var opts = options.imageVersions[version];
                     var originalFileName = fileInfo.name;
-                    var frameFileName = uploadDir + '/' + originalFileName.replace(".mp4","[100].mp4");
-                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(".mp4",".jpg");
+                    var frameFileName = uploadDir + '/' + fileInfo.name + '[100]';
+                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(".mp4",".png");
                     imageMagick.convert(
                         [frameFileName, '-resize', '160x160', thumbName],
                         finish

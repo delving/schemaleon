@@ -147,13 +147,12 @@
                     <table>
                         <tr ng-repeat="doc in committedFiles">
                             <td>
-                                {{isImage(doc.Body.MimeType)}}
-
-                                <img ng-show="isImage(doc.Body.MimeType)" class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}" width="100">
-                                <video ng-show="isVideo(doc.Body.MimeType)" width="320" height="240" controls>
-                                    <source src="/movie.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
+                                <img class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}" width="100">
+                                <!--<img ng-show="isImage(doc.Body.MimeType)" class="media-object img-rounded" data-ng-src="{{ doc.thumbnail }}" width="100">-->
+                                <!--<video ng-show="isVideo(doc.Body.MimeType)" width="320" height="240" controls>-->
+                                    <!--<source src="/movie.mp4" type="video/mp4">-->
+                                    <!--Your browser does not support the video tag.-->
+                                <!--</video>-->
                             </td>
                             <td>
                                 <dl class="dl-horizontal">

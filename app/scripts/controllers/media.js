@@ -67,7 +67,12 @@ OSCR.controller(
             Document.fetchAllDocuments($scope.schema, function (list) {
                 console.log("all documents fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
-                    doc.thumbnail = '/media/thumbnail/' + doc.Header.Identifier;
+                   var filename = doc.Header.Identifier;
+                   // TODO allow for other video file extensions as well
+                   if (doc.Header.Identifier.indexOf('.mp4')>=0){
+                      filename = doc.Header.Identifier.replace('.mp4', '.png');
+                   }
+                    doc.thumbnail = '/media/thumbnail/' +filename;
                     doc.date = new Date(parseInt(doc.Header.TimeStamp));
                     return doc;
                 });
