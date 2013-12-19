@@ -212,14 +212,15 @@ UHP.post = function () {
                 });
             }
             else {
+                //TODO: allow for other video formats (MOV, VOB ...)
                 Object.keys(options.imageVersions).forEach(function (version) {
                     counter += 1;
                     var opts = options.imageVersions[version];
                     var originalFileName = fileInfo.name;
-                    var frameFileName = originalFileName.replace(".mp4","[100].mp4");
-                    var thumbName = originalFileName.replace(".mp4",".jpg")
+                    var frameFileName = uploadDir + '/' + originalFileName.replace(".mp4","[100].mp4");
+                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(".mp4",".jpg");
                     imageMagick.convert(
-                        [uploadDir + '/' + frameFileName, '-resize', opts.width + 'x' + opts.height, uploadDir + '/' + version + '/' + thumbName],
+                        [frameFileName, '-resize', '160x160', thumbName],
                         finish
                     );
                 });

@@ -14,7 +14,7 @@ function Document(storage) {
 var P = Document.prototype;
 
 function log(message) {
-//    console.log(message);
+    console.log('storage-document.js: ', message);
 }
 
 P.getDocumentSchema = function (schemaName, receiver) {
@@ -97,10 +97,14 @@ P.saveDocument = function (envelope, receiver) {
             // expects fileName, mimeType
             log('save image');
             log(body);
-            s.Media.saveMedia(body, function (fileName) {
-                hdr.Identifier = fileName;
-                addDocument();
-            });
+            // TIMEOUT ADDED to test video upload
+            setTimeout(function(){
+                s.Media.saveMedia(body, function (fileName) {
+                    hdr.Identifier = fileName;
+                    addDocument();
+                });
+            },1000)
+
         }
         else {
             hdr.Identifier = util.generateDocumentId(hdr.SchemaName);

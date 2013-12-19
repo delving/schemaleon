@@ -14,14 +14,26 @@ function Media(storage) {
 var P = Media.prototype;
 
 function log(message) {
-//    console.log(message);
+    console.log('storage-media.js: ', message);
 }
 
 P.saveMedia = function (body, receiver) {
     log('saveMedia');
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
-    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, body.OriginalFileName);
+    // TODO: check this
+    // problem here was that the body.OriginalFileName extension will be incorrect for video files
+    // which have had a thumb extracted with a .jpg extension
+    var thumbnailName;
+    if(body.OriginalFileName.indexOf('.mp4') >= 0) {
+        thumbnailName = body.OriginalFileName.replace('.mp4', '.jpg');
+    }
+    else {
+        thumbnailName = body.OriginalFileName;
+    }
+
+    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, thumbnailName);
+
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
