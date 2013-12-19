@@ -30,23 +30,10 @@ P.saveMedia = function (body, receiver) {
     log('saveMedia');
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
-    var thumbnailName;
-//    if(body.OriginalFileName.indexOf('.mp4') >= 0) {
-//        thumbnailName = body.OriginalFileName.replace('.mp4', '.png');
-//    }
-//    else {
-//        thumbnailName = body.OriginalFileName;
-//    }
-
     var thumbnailPath = path.join(s.directories.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));
-
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
-
-    // TODO: need to check on mimetype here so that video or audio thumbnails don't
-    // use their source exstention, but jpg instead.
-
     var fileName = s.Media.createFileName(body);
     var bucketPath = s.directories.mediaBucketDir(fileName);
     var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);

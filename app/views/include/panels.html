@@ -74,16 +74,40 @@
                                             <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()"><span class="i18n"/></span>
                                         </tab-heading>
                                         <div ng-show="mediaList" class="oscr-media-grid">
-                                            <div class="thumbs">
-                                            <div class="thumb-container" ng-show="entry.Header.Identifier" data-ng-repeat="entry in mediaList" >
+                                            <ul class="media-thumb-list">
+                                                <li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">
+                                                    <div class="media-thumb">
+                                                        <img id="oscr-media-grid-thumb-{{$index}}"
+                                                             ng-src="/media/thumbnail/{{getProperName(entry.Header.Identifier)}}"
+                                                             ng-click="selectMedia(entry)"/>
+                                                    </div>
+                                                    <div class="mime">{{ entry.Body.MimeType }}</div>
+                                                </li>
+                                            </ul>
 
-                                                   <!--<img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{ entry.Header.Identifier }}"ng-click="selectMedia(entry)" data-ng-mouseenter="showImagePreview($index)" data-ng-mouseleave="hideImagePreview($index)"/>-->
-                                                   <img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{getProperName(entry.Header.Identifier)}}" ng-click="selectMedia(entry)" data-ng-mouseenter="showImagePreview($index)" data-ng-mouseleave="hideImagePreview($index)"/>
-                                                    <span class="large fade-in" id="oscr-media-grid-big-{{$index}}">
-                                                        <img ng-src="/media/fetch/{{getProperName(entry.Header.Identifier)}}"/>
-                                                    </span>
-                                            </div>
-                                            </div>
+
+                                            <!---->
+                                            <!--<div class="thumbs">-->
+                                                <!--<div class="thumb-container" ng-show="entry.Header.Identifier"-->
+                                                     <!--data-ng-repeat="entry in mediaList">-->
+                                                    <!--<div>-->
+                                                    <!--<img id="oscr-media-grid-thumb-{{$index}}"-->
+                                                         <!--ng-src="/media/thumbnail/{{getProperName(entry.Header.Identifier)}}"-->
+                                                         <!--ng-click="selectMedia(entry)"/></div>-->
+                                                    <!--<div class="mime">{{ entry.Body.MimeType }}</div>-->
+
+                                                    <!--&lt;!&ndash;<img id="oscr-media-grid-thumb-{{$index}}"&ndash;&gt;-->
+                                                         <!--&lt;!&ndash;ng-src="/media/thumbnail/{{getProperName(entry.Header.Identifier)}}"&ndash;&gt;-->
+                                                         <!--&lt;!&ndash;ng-click="selectMedia(entry)"&ndash;&gt;-->
+                                                         <!--&lt;!&ndash;data-ng-mouseenter="showImagePreview($index)"&ndash;&gt;-->
+                                                         <!--&lt;!&ndash;data-ng-mouseleave="hideImagePreview($index)"/>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash; TODO: make nicer preview functionality &ndash;&gt;-->
+                                                    <!--<span class="large fade-in" id="oscr-media-grid-big-{{$index}}">-->
+                                                        <!--&lt;!&ndash; TODO: create a directive which checks MIME and displays appropriate HTML element &ndash;&gt;-->
+                                                        <!--<img ng-src="/media/fetch/{{entry.Header.Identifier}}"/>-->
+                                                   <!--</span>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
                                         </div>
                                     </tab>
                                     <tab>
@@ -93,20 +117,6 @@
                                         <div data-ng-controller="MediaUploadController" data-ng-include="'views/media-lite.html'"></div>
                                     </tab>
                                 </tabset>
-                                <!--<a href ng-click="openImageUploadDialog()" i18n="MediaUpload" class="btn btn-small pull-right inline-upload">-->
-                                    <!--<i class="icon icon-upload"></i> <span class="i18n"></span>-->
-                                <!--</a>-->
-
-                                <!--<div ng-show="mediaList" class="oscr-media-grid">-->
-                                    <!--<div class="thumbs">-->
-                                        <!--<span class="thumb-container" ng-show="entry.Header.Identifier" data-ng-repeat="entry in mediaList" >-->
-                                               <!--<img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{ entry.Header.Identifier }}"ng-click="selectMedia(entry)" data-ng-mouseenter="showImagePreview($index)" data-ng-mouseleave="hideImagePreview($index)"/>-->
-                                                <!--<span class="large fade-in" id="oscr-media-grid-big-{{$index}}">-->
-                                                    <!--<img ng-src="/media/fetch/{{ entry.Header.Identifier }}"/>-->
-                                                <!--</span>-->
-                                        <!--</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
                             </div>
                             <div ng-show="!el.edit">
                                 <div ng-click="enableMediaEditor()" tooltip-placement="right" tooltip="Click to edit" class="pointer chosen-value" tabindex="0">
