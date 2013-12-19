@@ -143,6 +143,21 @@ OSCR.controller(
                 $scope.revalidate();
             });
         }
+
+        // TODO: isImage and isVideo also in media.js
+        // will probably need this elsewhere later as well
+        // make globally accessible
+        $scope.isImage = function(mime) {
+            if(mime.indexOf('image') >= 0){
+                return true;
+            }
+        };
+
+        $scope.isVideo = function (mime) {
+            if(mime.indexOf('video') >= 0){
+                return true;
+            }
+        };
     }
 );
 
