@@ -158,7 +158,7 @@
         </Photo>
 
         <Video>
-            <Title>{ "required":true }</Title>
+            <Title>{ "required":true, "summaryField": "Title"  }</Title>
             <MediaFile>{ "media": "MediaMetadata" }</MediaFile>
             <Genre>{ "vocabulary": "VideoGenre" }</Genre>
             <Rights>{ "vocabulary": "Rights" }</Rights>
