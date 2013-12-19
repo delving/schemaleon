@@ -34,6 +34,19 @@ OSCR.filter('mediaThumbnail',
     }
 );
 
+OSCR.filter('mediaFile',
+    function ($rootScope) {
+        return function (element) {
+            if (element.value && element.config.media) {
+                return '/media/fetch/' + element.value.Identifier;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
 OSCR.filter('mediaLabel',
     function () {
         return function (element) {
