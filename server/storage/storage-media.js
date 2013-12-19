@@ -42,7 +42,6 @@ P.saveMedia = function (body, receiver) {
         }
         log('File has been copied ' + fileName);
         var thumbnailProper = P.thumbNameProper(fileName);
-        log(thumbnailProper);
         copyFile(thumbnailPath, path.join(thumbnailBucketPath, thumbnailProper), function (err) {
             if (err) {
                 throw err;
@@ -119,6 +118,9 @@ P.createFileName = function (body) {
         case 'video/mp4':
             fileName += '.mp4';
             break;
+        case 'video/quicktime':
+            fileName += '.mov';
+            break;
         default:
             console.log("UNKOWN MIME: " + body.MimeType);
             fileName += '.jpg';
@@ -141,6 +143,9 @@ P.getMimeType = function(fileName) {
             break;
         case '.mp4':
             mimeType = 'video/mp4';
+            break;
+        case '.mov':
+            mimeType = 'video/quicktime';
             break;
         default:
             console.error('No mime type for extension '+path.extname(fileName));
