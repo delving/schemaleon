@@ -1,0 +1,3629 @@
+<Entries>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM1</Identifier>
+        <Label>first-order administrative division</Label>
+        <Description>a primary administrative division of a country, such as a state in the United States</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM1H</Identifier>
+        <Label>historical first-order administrative division</Label>
+        <Description>a former first-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM2</Identifier>
+        <Label>second-order administrative division</Label>
+        <Description>a subdivision of a first-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM2H</Identifier>
+        <Label>historical second-order administrative division</Label>
+        <Description>a former second-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM3</Identifier>
+        <Label>third-order administrative division</Label>
+        <Description>a subdivision of a second-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM3H</Identifier>
+        <Label>historical third-order administrative division</Label>
+        <Description>a former third-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM4</Identifier>
+        <Label>fourth-order administrative division</Label>
+        <Description>a subdivision of a third-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM4H</Identifier>
+        <Label>historical fourth-order administrative division</Label>
+        <Description>a former fourth-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADM5</Identifier>
+        <Label>fifth-order administrative division</Label>
+        <Description>a subdivision of a fourth-order administrative division</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADMD</Identifier>
+        <Label>administrative division</Label>
+        <Description>an administrative division of a country, undifferentiated as to administrative level</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ADMDH</Identifier>
+        <Label>historical administrative division</Label>
+        <Description>a former administrative division of a political entity, undifferentiated as to administrative
+            level
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.LTER</Identifier>
+        <Label>leased area</Label>
+        <Description>a tract of land leased to another country, usually for military installations</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCL</Identifier>
+        <Label>political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCLD</Identifier>
+        <Label>dependent political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCLF</Identifier>
+        <Label>freely associated state</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCLH</Identifier>
+        <Label>historical political entity</Label>
+        <Description>a former political entity</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCLI</Identifier>
+        <Label>independent political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCLIX</Identifier>
+        <Label>section of independent political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PCLS</Identifier>
+        <Label>semi-independent political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.PRSH</Identifier>
+        <Label>parish</Label>
+        <Description>an ecclesiastical district</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.TERR</Identifier>
+        <Label>territory</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ZN</Identifier>
+        <Label>zone</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#A.ZNB</Identifier>
+        <Label>buffer zone</Label>
+        <Description>a zone recognized as a buffer between two nations in which military presence is minimal or absent
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.AIRS</Identifier>
+        <Label>seaplane landing area</Label>
+        <Description>a place on a waterbody where floatplanes land and take off</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.ANCH</Identifier>
+        <Label>anchorage</Label>
+        <Description>an area where vessels may anchor</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BAY</Identifier>
+        <Label>bay</Label>
+        <Description>a coastal indentation between two capes or headlands, larger than a cove but smaller than a gulf
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BAYS</Identifier>
+        <Label>bays</Label>
+        <Description>coastal indentations between two capes or headlands, larger than a cove but smaller than a gulf
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BGHT</Identifier>
+        <Label>bight(s)</Label>
+        <Description>an open body of water forming a slight recession in a coastline</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BNK</Identifier>
+        <Label>bank(s)</Label>
+        <Description>an elevation, typically located on a shelf, over which the depth of water is relatively shallow but
+            sufficient for most surface navigation
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BNKR</Identifier>
+        <Label>stream bank</Label>
+        <Description>a sloping margin of a stream channel which normally confines the stream to its channel on land
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BNKX</Identifier>
+        <Label>section of bank</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.BOG</Identifier>
+        <Label>bog(s)</Label>
+        <Description>a wetland characterized by peat forming sphagnum moss, sedge, and other acid-water plants
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CAPG</Identifier>
+        <Label>icecap</Label>
+        <Description>a dome-shaped mass of glacial ice covering an area of mountain summits or other high lands; smaller
+            than an ice sheet
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CHN</Identifier>
+        <Label>channel</Label>
+        <Description>the deepest part of a stream, bay, lagoon, or strait, through which the main current flows
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CHNL</Identifier>
+        <Label>lake channel(s)</Label>
+        <Description>that part of a lake having water deep enough for navigation between islands, shoals, etc.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CHNM</Identifier>
+        <Label>marine channel</Label>
+        <Description>that part of a body of water deep enough for navigation through an area otherwise not suitable
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CHNN</Identifier>
+        <Label>navigation channel</Label>
+        <Description>a buoyed channel of sufficient depth for the safe navigation of vessels</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNFL</Identifier>
+        <Label>confluence</Label>
+        <Description>a place where two or more streams or intermittent streams flow together</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNL</Identifier>
+        <Label>canal</Label>
+        <Description>an artificial watercourse</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLA</Identifier>
+        <Label>aqueduct</Label>
+        <Description>a conduit used to carry water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLB</Identifier>
+        <Label>canal bend</Label>
+        <Description>a conspicuously curved or bent section of a canal</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLD</Identifier>
+        <Label>drainage canal</Label>
+        <Description>an artificial waterway carrying water away from a wetland or from drainage ditches</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLI</Identifier>
+        <Label>irrigation canal</Label>
+        <Description>a canal which serves as a main conduit for irrigation water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLN</Identifier>
+        <Label>navigation canal(s)</Label>
+        <Description>a watercourse constructed for navigation of vessels</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLQ</Identifier>
+        <Label>abandoned canal</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLSB</Identifier>
+        <Label>underground irrigation canal(s)</Label>
+        <Description>a gently inclined underground tunnel bringing water for irrigation from aquifers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CNLX</Identifier>
+        <Label>section of canal</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.COVE</Identifier>
+        <Label>cove(s)</Label>
+        <Description>a small coastal indentation, smaller than a bay</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CRKT</Identifier>
+        <Label>tidal creek(s)</Label>
+        <Description>a meandering channel in a coastal wetland subject to bi-directional tidal currents</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CRNT</Identifier>
+        <Label>current</Label>
+        <Description>a horizontal flow of water in a given direction with uniform velocity</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.CUTF</Identifier>
+        <Label>cutoff</Label>
+        <Description>a channel formed as a result of a stream cutting through a meander neck</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DCK</Identifier>
+        <Label>dock(s)</Label>
+        <Description>a waterway between two piers, or cut into the land for the berthing of ships</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DCKB</Identifier>
+        <Label>docking basin</Label>
+        <Description>a part of a harbor where ships dock</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DOMG</Identifier>
+        <Label>icecap dome</Label>
+        <Description>a comparatively elevated area on an icecap</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DPRG</Identifier>
+        <Label>icecap depression</Label>
+        <Description>a comparatively depressed area on an icecap</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DTCH</Identifier>
+        <Label>ditch</Label>
+        <Description>a small artificial watercourse dug for draining or irrigating the land</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DTCHD</Identifier>
+        <Label>drainage ditch</Label>
+        <Description>a ditch which serves to drain the land</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DTCHI</Identifier>
+        <Label>irrigation ditch</Label>
+        <Description>a ditch which serves to distribute irrigation water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.DTCHM</Identifier>
+        <Label>ditch mouth(s)</Label>
+        <Description>an area where a drainage ditch enters a lagoon, lake or bay</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.ESTY</Identifier>
+        <Label>estuary</Label>
+        <Description>a funnel-shaped stream mouth or embayment where fresh water mixes with sea water under tidal
+            influences
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FISH</Identifier>
+        <Label>fishing area</Label>
+        <Description>a fishing ground, bank or area where fishermen go to catch fish</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FJD</Identifier>
+        <Label>fjord</Label>
+        <Description>a long, narrow, steep-walled, deep-water arm of the sea at high latitudes, usually along
+            mountainous coasts
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FJDS</Identifier>
+        <Label>fjords</Label>
+        <Description>long, narrow, steep-walled, deep-water arms of the sea at high latitudes, usually along mountainous
+            coasts
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FLLS</Identifier>
+        <Label>waterfall(s)</Label>
+        <Description>a perpendicular or very steep descent of the water of a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FLLSX</Identifier>
+        <Label>section of waterfall(s)</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FLTM</Identifier>
+        <Label>mud flat(s)</Label>
+        <Description>a relatively level area of mud either between high and low tide lines, or subject to flooding
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.FLTT</Identifier>
+        <Label>tidal flat(s)</Label>
+        <Description>a large flat area of mud or sand attached to the shore and alternately covered and uncovered by the
+            tide
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.GLCR</Identifier>
+        <Label>glacier(s)</Label>
+        <Description>a mass of ice, usually at high latitudes or high elevations, with sufficient thickness to flow away
+            from the source area in lobes, tongues, or masses
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.GULF</Identifier>
+        <Label>gulf</Label>
+        <Description>a large recess in the coastline, larger than a bay</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.GYSR</Identifier>
+        <Label>geyser</Label>
+        <Description>a type of hot spring with intermittent eruptions of jets of hot water and steam</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.HBR</Identifier>
+        <Label>harbor(s)</Label>
+        <Description>a haven or space of deep water so sheltered by the adjacent land as to afford a safe anchorage for
+            ships
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.HBRX</Identifier>
+        <Label>section of harbor</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.INLT</Identifier>
+        <Label>inlet</Label>
+        <Description>a narrow waterway extending into the land, or connecting a bay or lagoon with a larger body of
+            water
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.INLTQ</Identifier>
+        <Label>former inlet</Label>
+        <Description>an inlet which has been filled in, or blocked by deposits</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LBED</Identifier>
+        <Label>lake bed(s)</Label>
+        <Description>a dried up or drained area of a former lake</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LGN</Identifier>
+        <Label>lagoon</Label>
+        <Description>a shallow coastal waterbody, completely or partly separated from a larger body of water by a
+            barrier island, coral reef or other depositional feature
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LGNS</Identifier>
+        <Label>lagoons</Label>
+        <Description>shallow coastal waterbodies, completely or partly separated from a larger body of water by a
+            barrier island, coral reef or other depositional feature
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LGNX</Identifier>
+        <Label>section of lagoon</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LK</Identifier>
+        <Label>lake</Label>
+        <Description>a large inland body of standing water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKC</Identifier>
+        <Label>crater lake</Label>
+        <Description>a lake in a crater or caldera</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKI</Identifier>
+        <Label>intermittent lake</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKN</Identifier>
+        <Label>salt lake</Label>
+        <Description>an inland body of salt water with no outlet</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKNI</Identifier>
+        <Label>intermittent salt lake</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKO</Identifier>
+        <Label>oxbow lake</Label>
+        <Description>a crescent-shaped lake commonly found adjacent to meandering streams</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKOI</Identifier>
+        <Label>intermittent oxbow lake</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKS</Identifier>
+        <Label>lakes</Label>
+        <Description>large inland bodies of standing water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKSB</Identifier>
+        <Label>underground lake</Label>
+        <Description>a standing body of water in a cave</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKSC</Identifier>
+        <Label>crater lakes</Label>
+        <Description>lakes in a crater or caldera</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKSI</Identifier>
+        <Label>intermittent lakes</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKSN</Identifier>
+        <Label>salt lakes</Label>
+        <Description>inland bodies of salt water with no outlet</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKSNI</Identifier>
+        <Label>intermittent salt lakes</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.LKX</Identifier>
+        <Label>section of lake</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.MFGN</Identifier>
+        <Label>salt evaporation ponds</Label>
+        <Description>diked salt ponds used in the production of solar evaporated salt</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.MGV</Identifier>
+        <Label>mangrove swamp</Label>
+        <Description>a tropical tidal mud flat characterized by mangrove vegetation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.MOOR</Identifier>
+        <Label>moor(s)</Label>
+        <Description>an area of open ground overlaid with wet peaty soils</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.MRSH</Identifier>
+        <Label>marsh(es)</Label>
+        <Description>a wetland dominated by grass-like vegetation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.MRSHN</Identifier>
+        <Label>salt marsh</Label>
+        <Description>a flat area, subject to periodic salt water inundation, dominated by grassy salt-tolerant plants
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.NRWS</Identifier>
+        <Label>narrows</Label>
+        <Description>a navigable narrow part of a bay, strait, river, etc.</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.OCN</Identifier>
+        <Label>ocean</Label>
+        <Description>one of the major divisions of the vast expanse of salt water covering part of the earth
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.OVF</Identifier>
+        <Label>overfalls</Label>
+        <Description>an area of breaking waves caused by the meeting of currents or by waves moving against the
+            current
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PND</Identifier>
+        <Label>pond</Label>
+        <Description>a small standing waterbody</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDI</Identifier>
+        <Label>intermittent pond</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDN</Identifier>
+        <Label>salt pond</Label>
+        <Description>a small standing body of salt water often in a marsh or swamp, usually along a seacoast
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDNI</Identifier>
+        <Label>intermittent salt pond(s)</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDS</Identifier>
+        <Label>ponds</Label>
+        <Description>small standing waterbodies</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDSF</Identifier>
+        <Label>fishponds</Label>
+        <Description>ponds or enclosures in which fish are kept or raised</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDSI</Identifier>
+        <Label>intermittent ponds</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.PNDSN</Identifier>
+        <Label>salt ponds</Label>
+        <Description>small standing bodies of salt water often in a marsh or swamp, usually along a seacoast
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.POOL</Identifier>
+        <Label>pool(s)</Label>
+        <Description>a small and comparatively still, deep part of a larger body of water such as a stream or harbor; or
+            a small body of standing water
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.POOLI</Identifier>
+        <Label>intermittent pool</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RCH</Identifier>
+        <Label>reach</Label>
+        <Description>a straight section of a navigable stream or channel between two bends</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RDGG</Identifier>
+        <Label>icecap ridge</Label>
+        <Description>a linear elevation on an icecap</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RDST</Identifier>
+        <Label>roadstead</Label>
+        <Description>an open anchorage affording less protection than a harbor</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RF</Identifier>
+        <Label>reef(s)</Label>
+        <Description>a surface-navigation hazard composed of consolidated material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RFC</Identifier>
+        <Label>coral reef(s)</Label>
+        <Description>a surface-navigation hazard composed of coral</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RFX</Identifier>
+        <Label>section of reef</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RPDS</Identifier>
+        <Label>rapids</Label>
+        <Description>a turbulent section of a stream associated with a steep, irregular stream bed</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RSV</Identifier>
+        <Label>reservoir(s)</Label>
+        <Description>an artificial pond or lake</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RSVI</Identifier>
+        <Label>intermittent reservoir</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RSVT</Identifier>
+        <Label>water tank</Label>
+        <Description>a contained pool or tank of water at, below, or above ground level</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.RVN</Identifier>
+        <Label>ravine(s)</Label>
+        <Description>a small, narrow, deep, steep-sided stream channel, smaller than a gorge</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SBKH</Identifier>
+        <Label>sabkha(s)</Label>
+        <Description>a salt flat or salt encrusted plain subject to periodic inundation from flooding or high tides
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SD</Identifier>
+        <Label>sound</Label>
+        <Description>a long arm of the sea forming a channel between the mainland and an island or islands; or
+            connecting two larger bodies of water
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SEA</Identifier>
+        <Label>sea</Label>
+        <Description>a large body of salt water more or less confined by continuous land or chains of islands forming a
+            subdivision of an ocean
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SHOL</Identifier>
+        <Label>shoal(s)</Label>
+        <Description>a surface-navigation hazard composed of unconsolidated material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SILL</Identifier>
+        <Label>sill</Label>
+        <Description>the low part of an underwater gap or saddle separating basins, including a similar feature at the
+            mouth of a fjord
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SPNG</Identifier>
+        <Label>spring(s)</Label>
+        <Description>a place where ground water flows naturally out of the ground</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SPNS</Identifier>
+        <Label>sulphur spring(s)</Label>
+        <Description>a place where sulphur ground water flows naturally out of the ground</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SPNT</Identifier>
+        <Label>hot spring(s)</Label>
+        <Description>a place where hot ground water flows naturally out of the ground</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STM</Identifier>
+        <Label>stream</Label>
+        <Description>a body of running water moving to a lower level in a channel on land</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMA</Identifier>
+        <Label>anabranch</Label>
+        <Description>a diverging branch flowing out of a main stream and rejoining it downstream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMB</Identifier>
+        <Label>stream bend</Label>
+        <Description>a conspicuously curved or bent segment of a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMC</Identifier>
+        <Label>canalized stream</Label>
+        <Description>a stream that has been substantially ditched, diked, or straightened</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMD</Identifier>
+        <Label>distributary(-ies)</Label>
+        <Description>a branch which flows away from the main stream, as in a delta or irrigation canal</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMH</Identifier>
+        <Label>headwaters</Label>
+        <Description>the source and upper part of a stream, including the upper drainage basin</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMI</Identifier>
+        <Label>intermittent stream</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMIX</Identifier>
+        <Label>section of intermittent stream</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMM</Identifier>
+        <Label>stream mouth(s)</Label>
+        <Description>a place where a stream discharges into a lagoon, lake, or the sea</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMQ</Identifier>
+        <Label>abandoned watercourse</Label>
+        <Description>a former stream or distributary no longer carrying flowing water, but still evident due to lakes,
+            wetland, topographic or vegetation patterns
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMS</Identifier>
+        <Label>streams</Label>
+        <Description>bodies of running water moving to a lower level in a channel on land</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMSB</Identifier>
+        <Label>lost river</Label>
+        <Description>a surface stream that disappears into an underground channel, or dries up in an arid area
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STMX</Identifier>
+        <Label>section of stream</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.STRT</Identifier>
+        <Label>strait</Label>
+        <Description>a relatively narrow waterway, usually narrower and less extensive than a sound, connecting two
+            larger bodies of water
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SWMP</Identifier>
+        <Label>swamp</Label>
+        <Description>a wetland dominated by tree vegetation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.SYSI</Identifier>
+        <Label>irrigation system</Label>
+        <Description>a network of ditches and one or more of the following elements: water supply, reservoir, canal,
+            pump, well, drain, etc.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.TNLC</Identifier>
+        <Label>canal tunnel</Label>
+        <Description>a tunnel through which a canal passes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WAD</Identifier>
+        <Label>wadi</Label>
+        <Description>a valley or ravine, bounded by relatively steep banks, which in the rainy season becomes a
+            watercourse; found primarily in North Africa and the Middle East
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WADB</Identifier>
+        <Label>wadi bend</Label>
+        <Description>a conspicuously curved or bent segment of a wadi</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WADJ</Identifier>
+        <Label>wadi junction</Label>
+        <Description>a place where two or more wadies join</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WADM</Identifier>
+        <Label>wadi mouth</Label>
+        <Description>the lower terminus of a wadi where it widens into an adjoining floodplain, depression, or
+            waterbody
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WADS</Identifier>
+        <Label>wadies</Label>
+        <Description>valleys or ravines, bounded by relatively steep banks, which in the rainy season become
+            watercourses; found primarily in North Africa and the Middle East
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WADX</Identifier>
+        <Label>section of wadi</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WHRL</Identifier>
+        <Label>whirlpool</Label>
+        <Description>a turbulent, rotating movement of water in a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WLL</Identifier>
+        <Label>well</Label>
+        <Description>a cylindrical hole, pit, or tunnel drilled or dug down to a depth from which water, oil, or gas can
+            be pumped or brought to the surface
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WLLQ</Identifier>
+        <Label>abandoned well</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WLLS</Identifier>
+        <Label>wells</Label>
+        <Description>cylindrical holes, pits, or tunnels drilled or dug down to a depth from which water, oil, or gas
+            can be pumped or brought to the surface
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WTLD</Identifier>
+        <Label>wetland</Label>
+        <Description>an area subject to inundation, usually characterized by bog, marsh, or swamp vegetation
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WTLDI</Identifier>
+        <Label>intermittent wetland</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WTRC</Identifier>
+        <Label>watercourse</Label>
+        <Description>a natural, well-defined channel produced by flowing water, or an artificial channel designed to
+            carry flowing water
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#H.WTRH</Identifier>
+        <Label>waterhole(s)</Label>
+        <Description>a natural hole, hollow, or small depression that contains water, used by man and animals,
+            especially in arid areas
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.AGRC</Identifier>
+        <Label>agricultural colony</Label>
+        <Description>a tract of land set aside for agricultural settlement</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.AMUS</Identifier>
+        <Label>amusement park</Label>
+        <Description>Amusement Park are theme parks, adventure parks offering entertainment, similar to funfairs but
+            with a fix location
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.AREA</Identifier>
+        <Label>area</Label>
+        <Description>a tract of land without homogeneous character or boundaries</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.BSND</Identifier>
+        <Label>drainage basin</Label>
+        <Description>an area drained by a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.BSNP</Identifier>
+        <Label>petroleum basin</Label>
+        <Description>an area underlain by an oil-rich structural basin</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.BTL</Identifier>
+        <Label>battlefield</Label>
+        <Description>a site of a land battle of historical importance</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.CLG</Identifier>
+        <Label>clearing</Label>
+        <Description>an area in a forest with trees removed</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.CMN</Identifier>
+        <Label>common</Label>
+        <Description>a park or pasture for community use</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.CNS</Identifier>
+        <Label>concession area</Label>
+        <Description>a lease of land by a government for economic development, e.g., mining, forestry</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.COLF</Identifier>
+        <Label>coalfield</Label>
+        <Description>a region in which coal deposits of possible economic value occur</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.CONT</Identifier>
+        <Label>continent</Label>
+        <Description>continent: Europe, Africa, Asia, North America, South America, Oceania, Antarctica</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.CST</Identifier>
+        <Label>coast</Label>
+        <Description>a zone of variable width straddling the shoreline</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.CTRB</Identifier>
+        <Label>business center</Label>
+        <Description>a place where a number of businesses are located</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.DEVH</Identifier>
+        <Label>housing development</Label>
+        <Description>a tract of land on which many houses of similar design are built according to a development plan
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.FLD</Identifier>
+        <Label>field(s)</Label>
+        <Description>an open as opposed to wooded area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.FLDI</Identifier>
+        <Label>irrigated field(s)</Label>
+        <Description>a tract of level or terraced land which is irrigated</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.GASF</Identifier>
+        <Label>gasfield</Label>
+        <Description>an area containing a subterranean store of natural gas of economic value</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.GRAZ</Identifier>
+        <Label>grazing area</Label>
+        <Description>an area of grasses and shrubs used for grazing</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.GVL</Identifier>
+        <Label>gravel area</Label>
+        <Description>an area covered with gravel</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.INDS</Identifier>
+        <Label>industrial area</Label>
+        <Description>an area characterized by industrial activity</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.LAND</Identifier>
+        <Label>arctic land</Label>
+        <Description>a tract of land in the Arctic</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.LCTY</Identifier>
+        <Label>locality</Label>
+        <Description>a minor area or place of unspecified or mixed character and indefinite boundaries</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.MILB</Identifier>
+        <Label>military base</Label>
+        <Description>a place used by an army or other armed service for storing arms and supplies, and for accommodating
+            and training troops, a base from which operations can be initiated
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.MNA</Identifier>
+        <Label>mining area</Label>
+        <Description>an area of mine sites where minerals and ores are extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.MVA</Identifier>
+        <Label>maneuver area</Label>
+        <Description>a tract of land where military field exercises are carried out</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.NVB</Identifier>
+        <Label>naval base</Label>
+        <Description>an area used to store supplies, provide barracks for troops and naval personnel, a port for naval
+            vessels, and from which operations are initiated
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.OAS</Identifier>
+        <Label>oasis(-es)</Label>
+        <Description>an area in a desert made productive by the availability of water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.OILF</Identifier>
+        <Label>oilfield</Label>
+        <Description>an area containing a subterranean store of petroleum of economic value</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.PEAT</Identifier>
+        <Label>peat cutting area</Label>
+        <Description>an area where peat is harvested</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.PRK</Identifier>
+        <Label>park</Label>
+        <Description>an area, often of forested land, maintained as a place of beauty, or for recreation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.PRT</Identifier>
+        <Label>port</Label>
+        <Description>a place provided with terminal and transfer facilities for loading and discharging waterborne cargo
+            or passengers, usually located in a harbor
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.QCKS</Identifier>
+        <Label>quicksand</Label>
+        <Description>an area where loose sand with water moving through it may become unstable when heavy objects are
+            placed at the surface, causing them to sink
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RES</Identifier>
+        <Label>reserve</Label>
+        <Description>a tract of public land reserved for future use or restricted as to use</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESA</Identifier>
+        <Label>agricultural reserve</Label>
+        <Description>a tract of land reserved for agricultural reclamation and/or development</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESF</Identifier>
+        <Label>forest reserve</Label>
+        <Description>a forested area set aside for preservation or controlled use</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESH</Identifier>
+        <Label>hunting reserve</Label>
+        <Description>a tract of land used primarily for hunting</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESN</Identifier>
+        <Label>nature reserve</Label>
+        <Description>an area reserved for the maintenance of a natural habitat</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESP</Identifier>
+        <Label>palm tree reserve</Label>
+        <Description>an area of palm trees where use is controlled</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESV</Identifier>
+        <Label>reservation</Label>
+        <Description>a tract of land set aside for aboriginal, tribal, or native populations</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RESW</Identifier>
+        <Label>wildlife reserve</Label>
+        <Description>a tract of public land reserved for the preservation of wildlife</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RGN</Identifier>
+        <Label>region</Label>
+        <Description>an area distinguished by one or more observable physical or cultural characteristics</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RGNE</Identifier>
+        <Label>economic region</Label>
+        <Description>a region of a country established for economic development or for statistical purposes
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RGNH</Identifier>
+        <Label>historical region</Label>
+        <Description>a former historic area distinguished by one or more observable physical or cultural
+            characteristics
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RGNL</Identifier>
+        <Label>lake region</Label>
+        <Description>a tract of land distinguished by numerous lakes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.RNGA</Identifier>
+        <Label>artillery range</Label>
+        <Description>a tract of land used for artillery firing practice</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.SALT</Identifier>
+        <Label>salt area</Label>
+        <Description>a shallow basin or flat where salt accumulates after periodic inundation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.SNOW</Identifier>
+        <Label>snowfield</Label>
+        <Description>an area of permanent snow and ice forming the accumulation area of a glacier</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#L.TRB</Identifier>
+        <Label>tribal area</Label>
+        <Description>a tract of land used by nomadic or other tribes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPL</Identifier>
+        <Label>populated place</Label>
+        <Description>a city, town, village, or other agglomeration of buildings where people live and work</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLA</Identifier>
+        <Label>seat of a first-order administrative division</Label>
+        <Description>seat of a first-order administrative division (PPLC takes precedence over PPLA)</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLA2</Identifier>
+        <Label>seat of a second-order administrative division</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLA3</Identifier>
+        <Label>seat of a third-order administrative division</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLA4</Identifier>
+        <Label>seat of a fourth-order administrative division</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLC</Identifier>
+        <Label>capital of a political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLCH</Identifier>
+        <Label>historical capital of a political entity</Label>
+        <Description>a former capital of a political entity</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLF</Identifier>
+        <Label>farm village</Label>
+        <Description>a populated place where the population is largely engaged in agricultural activities</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLG</Identifier>
+        <Label>seat of government of a political entity</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLH</Identifier>
+        <Label>historical populated place</Label>
+        <Description>a populated place that no longer exists</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLL</Identifier>
+        <Label>populated locality</Label>
+        <Description>an area similar to a locality but with a small group of dwellings or other buildings</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLQ</Identifier>
+        <Label>abandoned populated place</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLR</Identifier>
+        <Label>religious populated place</Label>
+        <Description>a populated place whose population is largely engaged in religious occupations</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLS</Identifier>
+        <Label>populated places</Label>
+        <Description>cities, towns, villages, or other agglomerations of buildings where people live and work
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLW</Identifier>
+        <Label>destroyed populated place</Label>
+        <Description>a village, town or city destroyed by a natural disaster, or by war</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.PPLX</Identifier>
+        <Label>section of populated place</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#P.STLMT</Identifier>
+        <Label>israeli settlement</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.CSWY</Identifier>
+        <Label>causeway</Label>
+        <Description>a raised roadway across wet ground or shallow water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.OILP</Identifier>
+        <Label>oil pipeline</Label>
+        <Description>a pipeline used for transporting oil</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.PRMN</Identifier>
+        <Label>promenade</Label>
+        <Description>a place for public walking, usually along a beach front</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.PTGE</Identifier>
+        <Label>portage</Label>
+        <Description>a place where boats, goods, etc., are carried overland between navigable waters</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RD</Identifier>
+        <Label>road</Label>
+        <Description>an open way with improved surface for transportation of animals, people and vehicles</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RDA</Identifier>
+        <Label>ancient road</Label>
+        <Description>the remains of a road used by ancient cultures</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RDB</Identifier>
+        <Label>road bend</Label>
+        <Description>a conspicuously curved or bent section of a road</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RDCUT</Identifier>
+        <Label>road cut</Label>
+        <Description>an excavation cut through a hill or ridge for a road</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RDJCT</Identifier>
+        <Label>road junction</Label>
+        <Description>a place where two or more roads join</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RJCT</Identifier>
+        <Label>railroad junction</Label>
+        <Description>a place where two or more railroad tracks join</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RR</Identifier>
+        <Label>railroad</Label>
+        <Description>a permanent twin steel-rail track on which freight and passenger cars move long distances
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RRQ</Identifier>
+        <Label>abandoned railroad</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RTE</Identifier>
+        <Label>caravan route</Label>
+        <Description>the route taken by caravans</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.RYD</Identifier>
+        <Label>railroad yard</Label>
+        <Description>a system of tracks used for the making up of trains, and switching and storing freight cars
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.ST</Identifier>
+        <Label>street</Label>
+        <Description>a paved urban thoroughfare</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.STKR</Identifier>
+        <Label>stock route</Label>
+        <Description>a route taken by livestock herds</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.TNL</Identifier>
+        <Label>tunnel</Label>
+        <Description>a subterranean passageway for transportation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.TNLN</Identifier>
+        <Label>natural tunnel</Label>
+        <Description>a cave that is open at both ends</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.TNLRD</Identifier>
+        <Label>road tunnel</Label>
+        <Description>a tunnel through which a road passes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.TNLRR</Identifier>
+        <Label>railroad tunnel</Label>
+        <Description>a tunnel through which a railroad passes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.TNLS</Identifier>
+        <Label>tunnels</Label>
+        <Description>subterranean passageways for transportation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#R.TRL</Identifier>
+        <Label>trail</Label>
+        <Description>a path, track, or route used by pedestrians, animals, or off-road vehicles</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ADMF</Identifier>
+        <Label>administrative facility</Label>
+        <Description>a government building</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AGRF</Identifier>
+        <Label>agricultural facility</Label>
+        <Description>a building and/or tract of land used for improving agriculture</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AIRB</Identifier>
+        <Label>airbase</Label>
+        <Description>an area used to store supplies, provide barracks for air force personnel, hangars and runways for
+            aircraft, and from which operations are initiated
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AIRF</Identifier>
+        <Label>airfield</Label>
+        <Description>a place on land where aircraft land and take off; no facilities provided for the commercial
+            handling of passengers and cargo
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AIRH</Identifier>
+        <Label>heliport</Label>
+        <Description>a place where helicopters land and take off</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AIRP</Identifier>
+        <Label>airport</Label>
+        <Description>a place where aircraft regularly land and take off, with runways, navigational aids, and major
+            facilities for the commercial handling of passengers and cargo
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AIRQ</Identifier>
+        <Label>abandoned airfield</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AMTH</Identifier>
+        <Label>amphitheater</Label>
+        <Description>an oval or circular structure with rising tiers of seats about a stage or open space</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ANS</Identifier>
+        <Label>ancient site</Label>
+        <Description>a place where archeological remains, old structures, or cultural artifacts are located
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.AQC</Identifier>
+        <Label>aquaculture facility</Label>
+        <Description>facility or area for the cultivation of aquatic animals and plants, especially fish, shellfish, and
+            seaweed, in natural or controlled marine or freshwater environments; underwater agriculture
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ARCH</Identifier>
+        <Label>arch</Label>
+        <Description>a natural or man-made structure in the form of an arch</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ASTR</Identifier>
+        <Label>astronomical station</Label>
+        <Description>a point on the earth whose position has been determined by observations of celestial bodies
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ASYL</Identifier>
+        <Label>asylum</Label>
+        <Description>a facility where the insane are cared for and protected</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ATHF</Identifier>
+        <Label>athletic field</Label>
+        <Description>a tract of land used for playing team sports, and athletic track and field events</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ATM</Identifier>
+        <Label>automatic teller machine</Label>
+        <Description>An unattended electronic machine in a public place, connected to a data system and related
+            equipment and activated by a bank customer to obtain cash withdrawals and other banking services.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BANK</Identifier>
+        <Label>bank</Label>
+        <Description>A business establishment in which money is kept for saving or commercial purposes or is invested,
+            supplied for loans, or exchanged.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BCN</Identifier>
+        <Label>beacon</Label>
+        <Description>a fixed artificial navigation mark</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BDG</Identifier>
+        <Label>bridge</Label>
+        <Description>a structure erected across an obstacle such as a stream, road, etc., in order to carry roads,
+            railroads, and pedestrians across
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BDGQ</Identifier>
+        <Label>ruined bridge</Label>
+        <Description>a destroyed or decayed bridge which is no longer functional</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BLDG</Identifier>
+        <Label>building(s)</Label>
+        <Description>a structure built for permanent use, as a house, factory, etc.</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BLDO</Identifier>
+        <Label>office building</Label>
+        <Description>commercial building where business and/or services are conducted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BP</Identifier>
+        <Label>boundary marker</Label>
+        <Description>a fixture marking a point along a boundary</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BRKS</Identifier>
+        <Label>barracks</Label>
+        <Description>a building for lodging military personnel</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BRKW</Identifier>
+        <Label>breakwater</Label>
+        <Description>a structure erected to break the force of waves at the entrance to a harbor or port</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BSTN</Identifier>
+        <Label>baling station</Label>
+        <Description>a facility for baling agricultural products</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BTYD</Identifier>
+        <Label>boatyard</Label>
+        <Description>a waterside facility for servicing, repairing, and building small vessels</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BUR</Identifier>
+        <Label>burial cave(s)</Label>
+        <Description>a cave used for human burials</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BUSTN</Identifier>
+        <Label>bus station</Label>
+        <Description>a facility comprising ticket office, platforms, etc. for loading and unloading passengers
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.BUSTP</Identifier>
+        <Label>bus stop</Label>
+        <Description>a place lacking station facilities</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CARN</Identifier>
+        <Label>cairn</Label>
+        <Description>a heap of stones erected as a landmark or for other purposes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CAVE</Identifier>
+        <Label>cave(s)</Label>
+        <Description>an underground passageway or chamber, or cavity on the side of a cliff</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CH</Identifier>
+        <Label>church</Label>
+        <Description>a building for public Christian worship</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMP</Identifier>
+        <Label>camp(s)</Label>
+        <Description>a site occupied by tents, huts, or other shelters for temporary use</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMPL</Identifier>
+        <Label>logging camp</Label>
+        <Description>a camp used by loggers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMPLA</Identifier>
+        <Label>labor camp</Label>
+        <Description>a camp used by migrant or temporary laborers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMPMN</Identifier>
+        <Label>mining camp</Label>
+        <Description>a camp used by miners</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMPO</Identifier>
+        <Label>oil camp</Label>
+        <Description>a camp used by oilfield workers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMPQ</Identifier>
+        <Label>abandoned camp</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMPRF</Identifier>
+        <Label>refugee camp</Label>
+        <Description>a camp used by refugees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CMTY</Identifier>
+        <Label>cemetery</Label>
+        <Description>a burial place or ground</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.COMC</Identifier>
+        <Label>communication center</Label>
+        <Description>a facility, including buildings, antennae, towers and electronic equipment for receiving and
+            transmitting information
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CRRL</Identifier>
+        <Label>corral(s)</Label>
+        <Description>a pen or enclosure for confining or capturing animals</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CSNO</Identifier>
+        <Label>casino</Label>
+        <Description>a building used for entertainment, especially gambling</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CSTL</Identifier>
+        <Label>castle</Label>
+        <Description>a large fortified building or set of buildings</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CSTM</Identifier>
+        <Label>customs house</Label>
+        <Description>a building in a port where customs and duties are paid, and where vessels are entered and cleared
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTHSE</Identifier>
+        <Label>courthouse</Label>
+        <Description>a building in which courts of law are held</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTRA</Identifier>
+        <Label>atomic center</Label>
+        <Description>a facility where atomic research is carried out</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTRCM</Identifier>
+        <Label>community center</Label>
+        <Description>a facility for community recreation and other activities</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTRF</Identifier>
+        <Label>facility center</Label>
+        <Description>a place where more than one facility is situated</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTRM</Identifier>
+        <Label>medical center</Label>
+        <Description>a complex of health care buildings including two or more of the following: hospital, medical
+            school, clinic, pharmacy, doctor's offices, etc.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTRR</Identifier>
+        <Label>religious center</Label>
+        <Description>a facility where more than one religious activity is carried out, e.g., retreat, school, monastery,
+            worship
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CTRS</Identifier>
+        <Label>space center</Label>
+        <Description>a facility for launching, tracking, or controlling satellites and space vehicles</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.CVNT</Identifier>
+        <Label>convent</Label>
+        <Description>a building where a community of nuns lives in seclusion</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DAM</Identifier>
+        <Label>dam</Label>
+        <Description>a barrier constructed across a stream to impound water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DAMQ</Identifier>
+        <Label>ruined dam</Label>
+        <Description>a destroyed or decayed dam which is no longer functional</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DAMSB</Identifier>
+        <Label>sub-surface dam</Label>
+        <Description>a dam put down to bedrock in a sand river</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DARY</Identifier>
+        <Label>dairy</Label>
+        <Description>a facility for the processing, sale and distribution of milk or milk products</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DCKD</Identifier>
+        <Label>dry dock</Label>
+        <Description>a dock providing support for a vessel, and means for removing the water so that the bottom of the
+            vessel can be exposed
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DCKY</Identifier>
+        <Label>dockyard</Label>
+        <Description>a facility for servicing, building, or repairing ships</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DIKE</Identifier>
+        <Label>dike</Label>
+        <Description>an earth or stone embankment usually constructed for flood or stream control</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DIP</Identifier>
+        <Label>diplomatic facility</Label>
+        <Description>office, residence, or facility of a foreign government, which may include an embassy, consulate,
+            chancery, office of charge d'affaires, or other diplomatic, economic, military, or cultural mission
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.DPOF</Identifier>
+        <Label>fuel depot</Label>
+        <Description>an area where fuel is stored</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.EST</Identifier>
+        <Label>estate(s)</Label>
+        <Description>a large commercialized agricultural landholding with associated buildings and other facilities
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ESTO</Identifier>
+        <Label>oil palm plantation</Label>
+        <Description>an estate specializing in the cultivation of oil palm trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ESTR</Identifier>
+        <Label>rubber plantation</Label>
+        <Description>an estate which specializes in growing and tapping rubber trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ESTSG</Identifier>
+        <Label>sugar plantation</Label>
+        <Description>an estate that specializes in growing sugar cane</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ESTT</Identifier>
+        <Label>tea plantation</Label>
+        <Description>an estate which specializes in growing tea bushes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ESTX</Identifier>
+        <Label>section of estate</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FCL</Identifier>
+        <Label>facility</Label>
+        <Description>a building or buildings housing a center, institute, foundation, hospital, prison, mission,
+            courthouse, etc.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FNDY</Identifier>
+        <Label>foundry</Label>
+        <Description>a building or works where metal casting is carried out</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FRM</Identifier>
+        <Label>farm</Label>
+        <Description>a tract of land with associated buildings devoted to agriculture</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FRMQ</Identifier>
+        <Label>abandoned farm</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FRMS</Identifier>
+        <Label>farms</Label>
+        <Description>tracts of land with associated buildings devoted to agriculture</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FRMT</Identifier>
+        <Label>farmstead</Label>
+        <Description>the buildings and adjacent service areas of a farm</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FT</Identifier>
+        <Label>fort</Label>
+        <Description>a defensive structure or earthworks</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.FY</Identifier>
+        <Label>ferry</Label>
+        <Description>a boat or other floating conveyance and terminal facilities regularly used to transport people and
+            vehicles across a waterbody
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GATE</Identifier>
+        <Label>gate</Label>
+        <Description>a controlled access entrance or exit</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GDN</Identifier>
+        <Label>garden(s)</Label>
+        <Description>an enclosure for displaying selected plant or animal life</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GHAT</Identifier>
+        <Label>ghat</Label>
+        <Description>a set of steps leading to a river, which are of religious significance, and at their base is
+            usually a platform for bathing
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GHSE</Identifier>
+        <Label>guest house</Label>
+        <Description>a house used to provide lodging for paying guests</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GOSP</Identifier>
+        <Label>gas-oil separator plant</Label>
+        <Description>a facility for separating gas from oil</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GOVL</Identifier>
+        <Label>local government office</Label>
+        <Description>a facility housing local governmental offices, usually a city, town, or village hall</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.GRVE</Identifier>
+        <Label>grave</Label>
+        <Description>a burial site</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HERM</Identifier>
+        <Label>hermitage</Label>
+        <Description>a secluded residence, usually for religious sects</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HLT</Identifier>
+        <Label>halting place</Label>
+        <Description>a place where caravans stop for rest</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HMSD</Identifier>
+        <Label>homestead</Label>
+        <Description>a residence, owner's or manager's, on a sheep or cattle station, woolshed, outcamp, or Aboriginal
+            outstation, specific to Australia and New Zealand
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSE</Identifier>
+        <Label>house(s)</Label>
+        <Description>a building used as a human habitation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSEC</Identifier>
+        <Label>country house</Label>
+        <Description>a large house, mansion, or chateau, on a large estate</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSP</Identifier>
+        <Label>hospital</Label>
+        <Description>a building in which sick or injured, especially those confined to bed, are medically treated
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSPC</Identifier>
+        <Label>clinic</Label>
+        <Description>a medical facility associated with a hospital for outpatients</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSPD</Identifier>
+        <Label>dispensary</Label>
+        <Description>a building where medical or dental aid is dispensed</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSPL</Identifier>
+        <Label>leprosarium</Label>
+        <Description>an asylum or hospital for lepers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HSTS</Identifier>
+        <Label>historical site</Label>
+        <Description>a place of historical importance</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HTL</Identifier>
+        <Label>hotel</Label>
+        <Description>a building providing lodging and/or meals for the public</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HUT</Identifier>
+        <Label>hut</Label>
+        <Description>a small primitive house</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.HUTS</Identifier>
+        <Label>huts</Label>
+        <Description>small primitive houses</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.INSM</Identifier>
+        <Label>military installation</Label>
+        <Description>a facility for use of and control by armed forces</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ITTR</Identifier>
+        <Label>research institute</Label>
+        <Description>a facility where research is carried out</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.JTY</Identifier>
+        <Label>jetty</Label>
+        <Description>a structure built out into the water at a river mouth or harbor entrance to regulate currents and
+            silting
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.LDNG</Identifier>
+        <Label>landing</Label>
+        <Description>a place where boats receive or discharge passengers and freight, but lacking most port facilities
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.LEPC</Identifier>
+        <Label>leper colony</Label>
+        <Description>a settled area inhabited by lepers in relative isolation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.LIBR</Identifier>
+        <Label>library</Label>
+        <Description>A place in which information resources such as books are kept for reading, reference, or lending.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.LNDF</Identifier>
+        <Label>landfill</Label>
+        <Description>a place for trash and garbage disposal in which the waste is buried between layers of earth to
+            build up low-lying land
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.LOCK</Identifier>
+        <Label>lock(s)</Label>
+        <Description>a basin in a waterway with gates at each end by means of which vessels are passed from one water
+            level to another
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.LTHSE</Identifier>
+        <Label>lighthouse</Label>
+        <Description>a distinctive structure exhibiting a major navigation light</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MALL</Identifier>
+        <Label>mall</Label>
+        <Description>A large, often enclosed shopping complex containing various stores, businesses, and restaurants
+            usually accessible by common passageways.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MAR</Identifier>
+        <Label>marina</Label>
+        <Description>a harbor facility for small boats, yachts, etc.</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFG</Identifier>
+        <Label>factory</Label>
+        <Description>one or more buildings where goods are manufactured, processed or fabricated</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGB</Identifier>
+        <Label>brewery</Label>
+        <Description>one or more buildings where beer is brewed</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGC</Identifier>
+        <Label>cannery</Label>
+        <Description>a building where food items are canned</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGCU</Identifier>
+        <Label>copper works</Label>
+        <Description>a facility for processing copper ore</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGLM</Identifier>
+        <Label>limekiln</Label>
+        <Description>a furnace in which limestone is reduced to lime</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGM</Identifier>
+        <Label>munitions plant</Label>
+        <Description>a factory where ammunition is made</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGPH</Identifier>
+        <Label>phosphate works</Label>
+        <Description>a facility for producing fertilizer</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGQ</Identifier>
+        <Label>abandoned factory</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MFGSG</Identifier>
+        <Label>sugar refinery</Label>
+        <Description>a facility for converting raw sugar into refined sugar</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MKT</Identifier>
+        <Label>market</Label>
+        <Description>a place where goods are bought and sold at regular intervals</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ML</Identifier>
+        <Label>mill(s)</Label>
+        <Description>a building housing machines for transforming, shaping, finishing, grinding, or extracting
+            products
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLM</Identifier>
+        <Label>ore treatment plant</Label>
+        <Description>a facility for improving the metal content of ore by concentration</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLO</Identifier>
+        <Label>olive oil mill</Label>
+        <Description>a mill where oil is extracted from olives</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLSG</Identifier>
+        <Label>sugar mill</Label>
+        <Description>a facility where sugar cane is processed into raw sugar</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLSGQ</Identifier>
+        <Label>former sugar mill</Label>
+        <Description>a sugar mill no longer used as a sugar mill</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLSW</Identifier>
+        <Label>sawmill</Label>
+        <Description>a mill where logs or lumber are sawn to specified shapes and sizes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLWND</Identifier>
+        <Label>windmill</Label>
+        <Description>a mill or water pump powered by wind</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MLWTR</Identifier>
+        <Label>water mill</Label>
+        <Description>a mill powered by running water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MN</Identifier>
+        <Label>mine(s)</Label>
+        <Description>a site where mineral ores are extracted from the ground by excavating surface pits and subterranean
+            passages
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNAU</Identifier>
+        <Label>gold mine(s)</Label>
+        <Description>a mine where gold ore, or alluvial gold is extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNC</Identifier>
+        <Label>coal mine(s)</Label>
+        <Description>a mine where coal is extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNCR</Identifier>
+        <Label>chrome mine(s)</Label>
+        <Description>a mine where chrome ore is extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNCU</Identifier>
+        <Label>copper mine(s)</Label>
+        <Description>a mine where copper ore is extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNFE</Identifier>
+        <Label>iron mine(s)</Label>
+        <Description>a mine where iron ore is extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNMT</Identifier>
+        <Label>monument</Label>
+        <Description>a commemorative structure or statue</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNN</Identifier>
+        <Label>salt mine(s)</Label>
+        <Description>a mine from which salt is extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNQ</Identifier>
+        <Label>abandoned mine</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MNQR</Identifier>
+        <Label>quarry(-ies)</Label>
+        <Description>a surface mine where building stone or gravel and sand, etc. are extracted</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MOLE</Identifier>
+        <Label>mole</Label>
+        <Description>a massive structure of masonry or large stones serving as a pier or breakwater</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MSQE</Identifier>
+        <Label>mosque</Label>
+        <Description>a building for public Islamic worship</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MSSN</Identifier>
+        <Label>mission</Label>
+        <Description>a place characterized by dwellings, school, church, hospital and other facilities operated by a
+            religious group for the purpose of providing charitable services and to propagate religion
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MSSNQ</Identifier>
+        <Label>abandoned mission</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MSTY</Identifier>
+        <Label>monastery</Label>
+        <Description>a building and grounds where a community of monks lives in seclusion</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MTRO</Identifier>
+        <Label>metro station</Label>
+        <Description>metro station (Underground, Tube, or Metro)</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.MUS</Identifier>
+        <Label>museum</Label>
+        <Description>a building where objects of permanent interest in one or more of the arts and sciences are
+            preserved and exhibited
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.NOV</Identifier>
+        <Label>novitiate</Label>
+        <Description>a religious house or school where novices are trained</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.NSY</Identifier>
+        <Label>nursery(-ies)</Label>
+        <Description>a place where plants are propagated for transplanting or grafting</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OBPT</Identifier>
+        <Label>observation point</Label>
+        <Description>a wildlife or scenic observation point</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OBS</Identifier>
+        <Label>observatory</Label>
+        <Description>a facility equipped for observation of atmospheric or space phenomena</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OBSR</Identifier>
+        <Label>radio observatory</Label>
+        <Description>a facility equipped with an array of antennae for receiving radio waves from space</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OILJ</Identifier>
+        <Label>oil pipeline junction</Label>
+        <Description>a section of an oil pipeline where two or more pipes join together</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OILQ</Identifier>
+        <Label>abandoned oil well</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OILR</Identifier>
+        <Label>oil refinery</Label>
+        <Description>a facility for converting crude oil into refined petroleum products</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OILT</Identifier>
+        <Label>tank farm</Label>
+        <Description>a tract of land occupied by large, cylindrical, metal tanks in which oil or liquid petrochemicals
+            are stored
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OILW</Identifier>
+        <Label>oil well</Label>
+        <Description>a well from which oil may be pumped</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.OPRA</Identifier>
+        <Label>opera house</Label>
+        <Description>A theater designed chiefly for the performance of operas.</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PAL</Identifier>
+        <Label>palace</Label>
+        <Description>a large stately house, often a royal or presidential residence</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PGDA</Identifier>
+        <Label>pagoda</Label>
+        <Description>a tower-like storied structure, usually a Buddhist shrine</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PIER</Identifier>
+        <Label>pier</Label>
+        <Description>a structure built out into navigable water on piles providing berthing for ships and recreation
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PKLT</Identifier>
+        <Label>parking lot</Label>
+        <Description>an area used for parking vehicles</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PMPO</Identifier>
+        <Label>oil pumping station</Label>
+        <Description>a facility for pumping oil through a pipeline</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PMPW</Identifier>
+        <Label>water pumping station</Label>
+        <Description>a facility for pumping water from a major well or through a pipeline</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PO</Identifier>
+        <Label>post office</Label>
+        <Description>a public building in which mail is received, sorted and distributed</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PP</Identifier>
+        <Label>police post</Label>
+        <Description>a building in which police are stationed</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PPQ</Identifier>
+        <Label>abandoned police post</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PRKGT</Identifier>
+        <Label>park gate</Label>
+        <Description>a controlled access to a park</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PRKHQ</Identifier>
+        <Label>park headquarters</Label>
+        <Description>a park administrative facility</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PRN</Identifier>
+        <Label>prison</Label>
+        <Description>a facility for confining prisoners</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PRNJ</Identifier>
+        <Label>reformatory</Label>
+        <Description>a facility for confining, training, and reforming young law offenders</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PRNQ</Identifier>
+        <Label>abandoned prison</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PS</Identifier>
+        <Label>power station</Label>
+        <Description>a facility for generating electric power</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PSH</Identifier>
+        <Label>hydroelectric power station</Label>
+        <Description>a building where electricity is generated from water power</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PSTB</Identifier>
+        <Label>border post</Label>
+        <Description>a post or station at an international boundary for the regulation of movement of people and goods
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PSTC</Identifier>
+        <Label>customs post</Label>
+        <Description>a building at an international boundary where customs and duties are paid on goods</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PSTP</Identifier>
+        <Label>patrol post</Label>
+        <Description>a post from which patrols are sent out</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PYR</Identifier>
+        <Label>pyramid</Label>
+        <Description>an ancient massive structure of square ground plan with four triangular faces meeting at a point
+            and used for enclosing tombs
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.PYRS</Identifier>
+        <Label>pyramids</Label>
+        <Description>ancient massive structures of square ground plan with four triangular faces meeting at a point and
+            used for enclosing tombs
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.QUAY</Identifier>
+        <Label>quay</Label>
+        <Description>a structure of solid construction along a shore or bank which provides berthing for ships and which
+            generally provides cargo handling facilities
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RDCR</Identifier>
+        <Label>traffic circle</Label>
+        <Description>a road junction formed around a central circle about which traffic moves in one direction only
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RECG</Identifier>
+        <Label>golf course</Label>
+        <Description>a recreation field where golf is played</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RECR</Identifier>
+        <Label>racetrack</Label>
+        <Description>a track where races are held</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.REST</Identifier>
+        <Label>restaurant</Label>
+        <Description>A place where meals are served to the public</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RET</Identifier>
+        <Label>store</Label>
+        <Description>a building where goods and/or services are offered for sale</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RHSE</Identifier>
+        <Label>resthouse</Label>
+        <Description>a structure maintained for the rest and shelter of travelers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RKRY</Identifier>
+        <Label>rookery</Label>
+        <Description>a breeding place of a colony of birds or seals</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RLG</Identifier>
+        <Label>religious site</Label>
+        <Description>an ancient site of significant religious importance</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RLGR</Identifier>
+        <Label>retreat</Label>
+        <Description>a place of temporary seclusion, especially for religious groups</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RNCH</Identifier>
+        <Label>ranch(es)</Label>
+        <Description>a large farm specializing in extensive grazing of livestock</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSD</Identifier>
+        <Label>railroad siding</Label>
+        <Description>a short track parallel to and joining the main track</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSGNL</Identifier>
+        <Label>railroad signal</Label>
+        <Description>a signal at the entrance of a particular section of track governing the movement of trains
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSRT</Identifier>
+        <Label>resort</Label>
+        <Description>a specialized facility for vacation, health, or participation sports activities</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSTN</Identifier>
+        <Label>railroad station</Label>
+        <Description>a facility comprising ticket office, platforms, etc. for loading and unloading train passengers and
+            freight
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSTNQ</Identifier>
+        <Label>abandoned railroad station</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSTP</Identifier>
+        <Label>railroad stop</Label>
+        <Description>a place lacking station facilities where trains stop to pick up and unload passengers and freight
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RSTPQ</Identifier>
+        <Label>abandoned railroad stop</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.RUIN</Identifier>
+        <Label>ruin(s)</Label>
+        <Description>a destroyed or decayed structure which is no longer functional</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCH</Identifier>
+        <Label>school</Label>
+        <Description>building(s) where instruction in one or more branches of knowledge takes place</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCHA</Identifier>
+        <Label>agricultural school</Label>
+        <Description>a school with a curriculum focused on agriculture</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCHC</Identifier>
+        <Label>college</Label>
+        <Description>the grounds and buildings of an institution of higher learning</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCHL</Identifier>
+        <Label>language school</Label>
+        <Description>Language Schools & Institutions</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCHM</Identifier>
+        <Label>military school</Label>
+        <Description>a school at which military science forms the core of the curriculum</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCHN</Identifier>
+        <Label>maritime school</Label>
+        <Description>a school at which maritime sciences form the core of the curriculum</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SCHT</Identifier>
+        <Label>technical school</Label>
+        <Description>post-secondary school with a specifically technical or vocational curriculum</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SECP</Identifier>
+        <Label>State Exam Prep Centre</Label>
+        <Description>state exam preparation centres</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SHPF</Identifier>
+        <Label>sheepfold</Label>
+        <Description>a fence or wall enclosure for sheep and other small herd animals</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SHRN</Identifier>
+        <Label>shrine</Label>
+        <Description>a structure or place memorializing a person or religious concept</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SHSE</Identifier>
+        <Label>storehouse</Label>
+        <Description>a building for storing goods, especially provisions</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SLCE</Identifier>
+        <Label>sluice</Label>
+        <Description>a conduit or passage for carrying off surplus water from a waterbody, usually regulated by means of
+            a sluice gate
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SNTR</Identifier>
+        <Label>sanatorium</Label>
+        <Description>a facility where victims of physical or mental disorders are treated</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SPA</Identifier>
+        <Label>spa</Label>
+        <Description>a resort area usually developed around a medicinal spring</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SPLY</Identifier>
+        <Label>spillway</Label>
+        <Description>a passage or outlet through which surplus water flows over, around or through a dam</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SQR</Identifier>
+        <Label>square</Label>
+        <Description>a broad, open, public area near the center of a town or city</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STBL</Identifier>
+        <Label>stable</Label>
+        <Description>a building for the shelter and feeding of farm animals, especially horses</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STDM</Identifier>
+        <Label>stadium</Label>
+        <Description>a structure with an enclosure for athletic games with tiers of seats for spectators</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNB</Identifier>
+        <Label>scientific research base</Label>
+        <Description>a scientific facility used as a base from which research is carried out or monitored</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNC</Identifier>
+        <Label>coast guard station</Label>
+        <Description>a facility from which the coast is guarded by armed vessels</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNE</Identifier>
+        <Label>experiment station</Label>
+        <Description>a facility for carrying out experiments</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNF</Identifier>
+        <Label>forest station</Label>
+        <Description>a collection of buildings and facilities for carrying out forest management</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNI</Identifier>
+        <Label>inspection station</Label>
+        <Description>a station at which vehicles, goods, and people are inspected</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNM</Identifier>
+        <Label>meteorological station</Label>
+        <Description>a station at which weather elements are recorded</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNR</Identifier>
+        <Label>radio station</Label>
+        <Description>a facility for producing and transmitting information by radio waves</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNS</Identifier>
+        <Label>satellite station</Label>
+        <Description>a facility for tracking and communicating with orbiting satellites</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STNW</Identifier>
+        <Label>whaling station</Label>
+        <Description>a facility for butchering whales and processing train oil</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.STPS</Identifier>
+        <Label>steps</Label>
+        <Description>stones or slabs placed for ease in ascending or descending a steep slope</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.SWT</Identifier>
+        <Label>sewage treatment plant</Label>
+        <Description>facility for the processing of sewage and/or wastewater</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.THTR</Identifier>
+        <Label>theater</Label>
+        <Description>A building, room, or outdoor structure for the presentation of plays, films, or other dramatic
+            performances
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TMB</Identifier>
+        <Label>tomb(s)</Label>
+        <Description>a structure for interring bodies</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TMPL</Identifier>
+        <Label>temple(s)</Label>
+        <Description>an edifice dedicated to religious worship</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TNKD</Identifier>
+        <Label>cattle dipping tank</Label>
+        <Description>a small artificial pond used for immersing cattle in chemically treated water for disease control
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TOWR</Identifier>
+        <Label>tower</Label>
+        <Description>a high conspicuous structure, typically much higher than its diameter</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TRANT</Identifier>
+        <Label>transit terminal</Label>
+        <Description>facilities for the handling of vehicular freight and passengers</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TRIG</Identifier>
+        <Label>triangulation station</Label>
+        <Description>a point on the earth whose position has been determined by triangulation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TRMO</Identifier>
+        <Label>oil pipeline terminal</Label>
+        <Description>a tank farm or loading facility at the end of an oil pipeline</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.TWO</Identifier>
+        <Label>temp work office</Label>
+        <Description>Temporary Work Offices</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.UNIP</Identifier>
+        <Label>university prep school</Label>
+        <Description>University Preparation Schools & Institutions</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.UNIV</Identifier>
+        <Label>university</Label>
+        <Description>An institution for higher learning with teaching and research facilities constituting a graduate
+            school and professional schools that award master's degrees and doctorates and an undergraduate division
+            that awards bachelor's degrees.
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.USGE</Identifier>
+        <Label>united states government establishment</Label>
+        <Description>a facility operated by the United States Government in Panama</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.VETF</Identifier>
+        <Label>veterinary facility</Label>
+        <Description>a building or camp at which veterinary services are available</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.WALL</Identifier>
+        <Label>wall</Label>
+        <Description>a thick masonry structure, usually enclosing a field or building, or forming the side of a
+            structure
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.WALLA</Identifier>
+        <Label>ancient wall</Label>
+        <Description>the remains of a linear defensive stone structure</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.WEIR</Identifier>
+        <Label>weir(s)</Label>
+        <Description>a small dam in a stream, designed to raise the water level or to divert stream flow through a
+            desired channel
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.WHRF</Identifier>
+        <Label>wharf(-ves)</Label>
+        <Description>a structure of open rather than solid construction along a shore or a bank which provides berthing
+            for ships and cargo-handling facilities
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.WRCK</Identifier>
+        <Label>wreck</Label>
+        <Description>the site of the remains of a wrecked vessel</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.WTRW</Identifier>
+        <Label>waterworks</Label>
+        <Description>a facility for supplying potable water through a water source and a system of pumps and filtration
+            beds
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ZNF</Identifier>
+        <Label>free trade zone</Label>
+        <Description>an area, usually a section of a port, where goods may be received and shipped free of customs duty
+            and of most customs regulations
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#S.ZOO</Identifier>
+        <Label>zoo</Label>
+        <Description>a zoological garden or park where wild animals are kept for exhibition</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ASPH</Identifier>
+        <Label>asphalt lake</Label>
+        <Description>a small basin containing naturally occurring asphalt</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ATOL</Identifier>
+        <Label>atoll(s)</Label>
+        <Description>a ring-shaped coral reef which has closely spaced islands on it encircling a lagoon</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BAR</Identifier>
+        <Label>bar</Label>
+        <Description>a shallow ridge or mound of coarse unconsolidated material in a stream channel, at the mouth of a
+            stream, estuary, or lagoon and in the wave-break zone along coasts
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BCH</Identifier>
+        <Label>beach</Label>
+        <Description>a shore zone of coarse unconsolidated sediment that extends from the low-water line to the highest
+            reach of storm waves
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BCHS</Identifier>
+        <Label>beaches</Label>
+        <Description>a shore zone of coarse unconsolidated sediment that extends from the low-water line to the highest
+            reach of storm waves
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BDLD</Identifier>
+        <Label>badlands</Label>
+        <Description>an area characterized by a maze of very closely spaced, deep, narrow, steep-sided ravines, and
+            sharp crests and pinnacles
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BLDR</Identifier>
+        <Label>boulder field</Label>
+        <Description>a high altitude or high latitude bare, flat area covered with large angular rocks</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BLHL</Identifier>
+        <Label>blowhole(s)</Label>
+        <Description>a hole in coastal rock through which sea water is forced by a rising tide or waves and spurted
+            through an outlet into the air
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BLOW</Identifier>
+        <Label>blowout(s)</Label>
+        <Description>a small depression in sandy terrain, caused by wind erosion</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BNCH</Identifier>
+        <Label>bench</Label>
+        <Description>a long, narrow bedrock platform bounded by steeper slopes above and below, usually overlooking a
+            waterbody
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.BUTE</Identifier>
+        <Label>butte(s)</Label>
+        <Description>a small, isolated, usually flat-topped hill with steep sides</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CAPE</Identifier>
+        <Label>cape</Label>
+        <Description>a land area, more prominent than a point, projecting into the sea and marking a notable change in
+            coastal direction
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CFT</Identifier>
+        <Label>cleft(s)</Label>
+        <Description>a deep narrow slot, notch, or groove in a coastal cliff</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CLDA</Identifier>
+        <Label>caldera</Label>
+        <Description>a depression measuring kilometers across formed by the collapse of a volcanic mountain
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CLF</Identifier>
+        <Label>cliff(s)</Label>
+        <Description>a high, steep to perpendicular slope overlooking a waterbody or lower area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CNYN</Identifier>
+        <Label>canyon</Label>
+        <Description>a deep, narrow valley with steep sides cutting into a plateau or mountainous area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CONE</Identifier>
+        <Label>cone(s)</Label>
+        <Description>a conical landform composed of mud or volcanic material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CRDR</Identifier>
+        <Label>corridor</Label>
+        <Description>a strip or area of land having significance as an access way</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CRQ</Identifier>
+        <Label>cirque</Label>
+        <Description>a bowl-like hollow partially surrounded by cliffs or steep slopes at the head of a glaciated
+            valley
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CRQS</Identifier>
+        <Label>cirques</Label>
+        <Description>bowl-like hollows partially surrounded by cliffs or steep slopes at the head of a glaciated
+            valley
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CRTR</Identifier>
+        <Label>crater(s)</Label>
+        <Description>a generally circular saucer or bowl-shaped depression caused by volcanic or meteorite explosive
+            action
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.CUET</Identifier>
+        <Label>cuesta(s)</Label>
+        <Description>an asymmetric ridge formed on tilted strata</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.DLTA</Identifier>
+        <Label>delta</Label>
+        <Description>a flat plain formed by alluvial deposits at the mouth of a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.DPR</Identifier>
+        <Label>depression(s)</Label>
+        <Description>a low area surrounded by higher land and usually characterized by interior drainage</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.DSRT</Identifier>
+        <Label>desert</Label>
+        <Description>a large area with little or no vegetation due to extreme environmental conditions</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.DUNE</Identifier>
+        <Label>dune(s)</Label>
+        <Description>a wave form, ridge or star shape feature composed of sand</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.DVD</Identifier>
+        <Label>divide</Label>
+        <Description>a line separating adjacent drainage basins</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ERG</Identifier>
+        <Label>sandy desert</Label>
+        <Description>an extensive tract of shifting sand and sand dunes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.FAN</Identifier>
+        <Label>fan(s)</Label>
+        <Description>a fan-shaped wedge of coarse alluvium with apex merging with a mountain stream bed and the fan
+            spreading out at a low angle slope onto an adjacent plain
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.FORD</Identifier>
+        <Label>ford</Label>
+        <Description>a shallow part of a stream which can be crossed on foot or by land vehicle</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.FSR</Identifier>
+        <Label>fissure</Label>
+        <Description>a crack associated with volcanism</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.GAP</Identifier>
+        <Label>gap</Label>
+        <Description>a low place in a ridge, not used for transportation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.GRGE</Identifier>
+        <Label>gorge(s)</Label>
+        <Description>a short, narrow, steep-sided section of a stream valley</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.HDLD</Identifier>
+        <Label>headland</Label>
+        <Description>a high projection of land extending into a large body of water beyond the line of the coast
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.HLL</Identifier>
+        <Label>hill</Label>
+        <Description>a rounded elevation of limited extent rising above the surrounding land with local relief of less
+            than 300m
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.HLLS</Identifier>
+        <Label>hills</Label>
+        <Description>rounded elevations of limited extent rising above the surrounding land with local relief of less
+            than 300m
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.HMCK</Identifier>
+        <Label>hammock(s)</Label>
+        <Description>a patch of ground, distinct from and slightly above the surrounding plain or wetland. Often occurs
+            in groups
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.HMDA</Identifier>
+        <Label>rock desert</Label>
+        <Description>a relatively sand-free, high bedrock plateau in a hot desert, with or without a gravel veneer
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.INTF</Identifier>
+        <Label>interfluve</Label>
+        <Description>a relatively undissected upland between adjacent stream valleys</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISL</Identifier>
+        <Label>island</Label>
+        <Description>a tract of land, smaller than a continent, surrounded by water at high water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISLET</Identifier>
+        <Label>islet</Label>
+        <Description>small island, bigger than rock, smaller than island.</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISLF</Identifier>
+        <Label>artificial island</Label>
+        <Description>an island created by landfill or diking and filling in a wetland, bay, or lagoon</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISLM</Identifier>
+        <Label>mangrove island</Label>
+        <Description>a mangrove swamp surrounded by a waterbody</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISLS</Identifier>
+        <Label>islands</Label>
+        <Description>tracts of land, smaller than a continent, surrounded by water at high water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISLT</Identifier>
+        <Label>land-tied island</Label>
+        <Description>a coastal island connected to the mainland by barrier beaches, levees or dikes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISLX</Identifier>
+        <Label>section of island</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.ISTH</Identifier>
+        <Label>isthmus</Label>
+        <Description>a narrow strip of land connecting two larger land masses and bordered by water</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.KRST</Identifier>
+        <Label>karst area</Label>
+        <Description>a distinctive landscape developed on soluble rock such as limestone characterized by sinkholes,
+            caves, disappearing streams, and underground drainage
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.LAVA</Identifier>
+        <Label>lava area</Label>
+        <Description>an area of solidified lava</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.LEV</Identifier>
+        <Label>levee</Label>
+        <Description>a natural low embankment bordering a distributary or meandering stream; often built up artificially
+            to control floods
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.MESA</Identifier>
+        <Label>mesa(s)</Label>
+        <Description>a flat-topped, isolated elevation with steep slopes on all sides, less extensive than a plateau
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.MND</Identifier>
+        <Label>mound(s)</Label>
+        <Description>a low, isolated, rounded hill</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.MRN</Identifier>
+        <Label>moraine</Label>
+        <Description>a mound, ridge, or other accumulation of glacial till</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.MT</Identifier>
+        <Label>mountain</Label>
+        <Description>an elevation standing high above the surrounding area with small summit area, steep slopes and
+            local relief of 300m or more
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.MTS</Identifier>
+        <Label>mountains</Label>
+        <Description>a mountain range or a group of mountains or high ridges</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.NKM</Identifier>
+        <Label>meander neck</Label>
+        <Description>a narrow strip of land between the two limbs of a meander loop at its narrowest point</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.NTK</Identifier>
+        <Label>nunatak</Label>
+        <Description>a rock or mountain peak protruding through glacial ice</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.NTKS</Identifier>
+        <Label>nunataks</Label>
+        <Description>rocks or mountain peaks protruding through glacial ice</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PAN</Identifier>
+        <Label>pan</Label>
+        <Description>a near-level shallow, natural depression or basin, usually containing an intermittent lake, pond,
+            or pool
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PANS</Identifier>
+        <Label>pans</Label>
+        <Description>a near-level shallow, natural depression or basin, usually containing an intermittent lake, pond,
+            or pool
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PASS</Identifier>
+        <Label>pass</Label>
+        <Description>a break in a mountain range or other high obstruction, used for transportation from one side to the
+            other [See also gap]
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PEN</Identifier>
+        <Label>peninsula</Label>
+        <Description>an elongate area of land projecting into a body of water and nearly surrounded by water
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PENX</Identifier>
+        <Label>section of peninsula</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PK</Identifier>
+        <Label>peak</Label>
+        <Description>a pointed elevation atop a mountain, ridge, or other hypsographic feature</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PKS</Identifier>
+        <Label>peaks</Label>
+        <Description>pointed elevations atop a mountain, ridge, or other hypsographic features</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PLAT</Identifier>
+        <Label>plateau</Label>
+        <Description>an elevated plain with steep slopes on one or more sides, and often with incised streams
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PLATX</Identifier>
+        <Label>section of plateau</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PLDR</Identifier>
+        <Label>polder</Label>
+        <Description>an area reclaimed from the sea by diking and draining</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PLN</Identifier>
+        <Label>plain(s)</Label>
+        <Description>an extensive area of comparatively level to gently undulating land, lacking surface irregularities,
+            and usually adjacent to a higher area
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PLNX</Identifier>
+        <Label>section of plain</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PROM</Identifier>
+        <Label>promontory(-ies)</Label>
+        <Description>a bluff or prominent hill overlooking or projecting into a lowland</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PT</Identifier>
+        <Label>point</Label>
+        <Description>a tapering piece of land projecting into a body of water, less prominent than a cape</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.PTS</Identifier>
+        <Label>points</Label>
+        <Description>tapering pieces of land projecting into a body of water, less prominent than a cape</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.RDGB</Identifier>
+        <Label>beach ridge</Label>
+        <Description>a ridge of sand just inland and parallel to the beach, usually in series</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.RDGE</Identifier>
+        <Label>ridge(s)</Label>
+        <Description>a long narrow elevation with steep sides, and a more or less continuous crest</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.REG</Identifier>
+        <Label>stony desert</Label>
+        <Description>a desert plain characterized by a surface veneer of gravel and stones</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.RK</Identifier>
+        <Label>rock</Label>
+        <Description>a conspicuous, isolated rocky mass</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.RKFL</Identifier>
+        <Label>rockfall</Label>
+        <Description>an irregular mass of fallen rock at the base of a cliff or steep slope</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.RKS</Identifier>
+        <Label>rocks</Label>
+        <Description>conspicuous, isolated rocky masses</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SAND</Identifier>
+        <Label>sand area</Label>
+        <Description>a tract of land covered with sand</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SBED</Identifier>
+        <Label>dry stream bed</Label>
+        <Description>a channel formerly containing the water of a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SCRP</Identifier>
+        <Label>escarpment</Label>
+        <Description>a long line of cliffs or steep slopes separating level surfaces above and below</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SDL</Identifier>
+        <Label>saddle</Label>
+        <Description>a broad, open pass crossing a ridge or between hills or mountains</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SHOR</Identifier>
+        <Label>shore</Label>
+        <Description>a narrow zone bordering a waterbody which covers and uncovers at high and low water, respectively
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SINK</Identifier>
+        <Label>sinkhole</Label>
+        <Description>a small crater-shape depression in a karst area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SLID</Identifier>
+        <Label>slide</Label>
+        <Description>a mound of earth material, at the base of a slope and the associated scoured area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SLP</Identifier>
+        <Label>slope(s)</Label>
+        <Description>a surface with a relatively uniform slope angle</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SPIT</Identifier>
+        <Label>spit</Label>
+        <Description>a narrow, straight or curved continuation of a beach into a waterbody</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.SPUR</Identifier>
+        <Label>spur(s)</Label>
+        <Description>a subordinate ridge projecting outward from a hill, mountain or other elevation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.TAL</Identifier>
+        <Label>talus slope</Label>
+        <Description>a steep concave slope formed by an accumulation of loose rock fragments at the base of a cliff or
+            steep slope
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.TRGD</Identifier>
+        <Label>interdune trough(s)</Label>
+        <Description>a long wind-swept trough between parallel longitudinal dunes</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.TRR</Identifier>
+        <Label>terrace</Label>
+        <Description>a long, narrow alluvial platform bounded by steeper slopes above and below, usually overlooking a
+            waterbody
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.UPLD</Identifier>
+        <Label>upland</Label>
+        <Description>an extensive interior region of high land with low to moderate surface relief</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.VAL</Identifier>
+        <Label>valley</Label>
+        <Description>an elongated depression usually traversed by a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.VALG</Identifier>
+        <Label>hanging valley</Label>
+        <Description>a valley the floor of which is notably higher than the valley or shore to which it leads; most
+            common in areas that have been glaciated
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.VALS</Identifier>
+        <Label>valleys</Label>
+        <Description>elongated depressions usually traversed by a stream</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.VALX</Identifier>
+        <Label>section of valley</Label>
+        <Description></Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#T.VLC</Identifier>
+        <Label>volcano</Label>
+        <Description>a conical elevation composed of volcanic materials with a crater at the top</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.APNU</Identifier>
+        <Label>apron</Label>
+        <Description>a gentle slope, with a generally smooth surface, particularly found around groups of islands and
+            seamounts
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.ARCU</Identifier>
+        <Label>arch</Label>
+        <Description>a low bulge around the southeastern end of the island of Hawaii</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.ARRU</Identifier>
+        <Label>arrugado</Label>
+        <Description>an area of subdued corrugations off Baja California</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.BDLU</Identifier>
+        <Label>borderland</Label>
+        <Description>a region adjacent to a continent, normally occupied by or bordering a shelf, that is highly
+            irregular with depths well in excess of those typical of a shelf
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.BKSU</Identifier>
+        <Label>banks</Label>
+        <Description>elevations, typically located on a shelf, over which the depth of water is relatively shallow but
+            sufficient for safe surface navigation
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.BNKU</Identifier>
+        <Label>bank</Label>
+        <Description>an elevation, typically located on a shelf, over which the depth of water is relatively shallow but
+            sufficient for safe surface navigation
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.BSNU</Identifier>
+        <Label>basin</Label>
+        <Description>a depression more or less equidimensional in plan and of variable extent</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.CDAU</Identifier>
+        <Label>cordillera</Label>
+        <Description>an entire mountain system including the subordinate ranges, interior plateaus, and basins
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.CNSU</Identifier>
+        <Label>canyons</Label>
+        <Description>relatively narrow, deep depressions with steep sides, the bottom of which generally has a
+            continuous slope
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.CNYU</Identifier>
+        <Label>canyon</Label>
+        <Description>a relatively narrow, deep depression with steep sides, the bottom of which generally has a
+            continuous slope
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.CRSU</Identifier>
+        <Label>continental rise</Label>
+        <Description>a gentle slope rising from oceanic depths towards the foot of a continental slope</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.DEPU</Identifier>
+        <Label>deep</Label>
+        <Description>a localized deep area within the confines of a larger feature, such as a trough, basin or trench
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.EDGU</Identifier>
+        <Label>shelf edge</Label>
+        <Description>a line along which there is a marked increase of slope at the outer margin of a continental shelf
+            or island shelf
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.ESCU</Identifier>
+        <Label>escarpment (or scarp)</Label>
+        <Description>an elongated and comparatively steep slope separating flat or gently sloping areas</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.FANU</Identifier>
+        <Label>fan</Label>
+        <Description>a relatively smooth feature normally sloping away from the lower termination of a canyon or canyon
+            system
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.FLTU</Identifier>
+        <Label>flat</Label>
+        <Description>a small level or nearly level area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.FRZU</Identifier>
+        <Label>fracture zone</Label>
+        <Description>an extensive linear zone of irregular topography of the sea floor, characterized by steep-sided or
+            asymmetrical ridges, troughs, or escarpments
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.FURU</Identifier>
+        <Label>furrow</Label>
+        <Description>a closed, linear, narrow, shallow depression</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.GAPU</Identifier>
+        <Label>gap</Label>
+        <Description>a narrow break in a ridge or rise</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.GLYU</Identifier>
+        <Label>gully</Label>
+        <Description>a small valley-like feature</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.HLLU</Identifier>
+        <Label>hill</Label>
+        <Description>an elevation rising generally less than 500 meters</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.HLSU</Identifier>
+        <Label>hills</Label>
+        <Description>elevations rising generally less than 500 meters</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.HOLU</Identifier>
+        <Label>hole</Label>
+        <Description>a small depression of the sea floor</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.KNLU</Identifier>
+        <Label>knoll</Label>
+        <Description>an elevation rising generally more than 500 meters and less than 1,000 meters and of limited extent
+            across the summit
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.KNSU</Identifier>
+        <Label>knolls</Label>
+        <Description>elevations rising generally more than 500 meters and less than 1,000 meters and of limited extent
+            across the summits
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.LDGU</Identifier>
+        <Label>ledge</Label>
+        <Description>a rocky projection or outcrop, commonly linear and near shore</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.LEVU</Identifier>
+        <Label>levee</Label>
+        <Description>an embankment bordering a canyon, valley, or seachannel</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.MESU</Identifier>
+        <Label>mesa</Label>
+        <Description>an isolated, extensive, flat-topped elevation on the shelf, with relatively steep sides
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.MNDU</Identifier>
+        <Label>mound</Label>
+        <Description>a low, isolated, rounded hill</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.MOTU</Identifier>
+        <Label>moat</Label>
+        <Description>an annular depression that may not be continuous, located at the base of many seamounts, islands,
+            and other isolated elevations
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.MTU</Identifier>
+        <Label>mountain</Label>
+        <Description>a well-delineated subdivision of a large and complex positive feature</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.PKSU</Identifier>
+        <Label>peaks</Label>
+        <Description>prominent elevations, part of a larger feature, either pointed or of very limited extent across the
+            summit
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.PKU</Identifier>
+        <Label>peak</Label>
+        <Description>a prominent elevation, part of a larger feature, either pointed or of very limited extent across
+            the summit
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.PLNU</Identifier>
+        <Label>plain</Label>
+        <Description>a flat, gently sloping or nearly level region</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.PLTU</Identifier>
+        <Label>plateau</Label>
+        <Description>a comparatively flat-topped feature of considerable extent, dropping off abruptly on one or more
+            sides
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.PNLU</Identifier>
+        <Label>pinnacle</Label>
+        <Description>a high tower or spire-shaped pillar of rock or coral, alone or cresting a summit</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.PRVU</Identifier>
+        <Label>province</Label>
+        <Description>a region identifiable by a group of similar physiographic features whose characteristics are
+            markedly in contrast with surrounding areas
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.RDGU</Identifier>
+        <Label>ridge</Label>
+        <Description>a long narrow elevation with steep sides</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.RDSU</Identifier>
+        <Label>ridges</Label>
+        <Description>long narrow elevations with steep sides</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.RFSU</Identifier>
+        <Label>reefs</Label>
+        <Description>surface-navigation hazards composed of consolidated material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.RFU</Identifier>
+        <Label>reef</Label>
+        <Description>a surface-navigation hazard composed of consolidated material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.RISU</Identifier>
+        <Label>rise</Label>
+        <Description>a broad elevation that rises gently, and generally smoothly, from the sea floor</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SCNU</Identifier>
+        <Label>seachannel</Label>
+        <Description>a continuously sloping, elongated depression commonly found in fans or plains and customarily
+            bordered by levees on one or two sides
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SCSU</Identifier>
+        <Label>seachannels</Label>
+        <Description>continuously sloping, elongated depressions commonly found in fans or plains and customarily
+            bordered by levees on one or two sides
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SDLU</Identifier>
+        <Label>saddle</Label>
+        <Description>a low part, resembling in shape a saddle, in a ridge or between contiguous seamounts</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SHFU</Identifier>
+        <Label>shelf</Label>
+        <Description>a zone adjacent to a continent (or around an island) that extends from the low water line to a
+            depth at which there is usually a marked increase of slope towards oceanic depths
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SHLU</Identifier>
+        <Label>shoal</Label>
+        <Description>a surface-navigation hazard composed of unconsolidated material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SHSU</Identifier>
+        <Label>shoals</Label>
+        <Description>hazards to surface navigation composed of unconsolidated material</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SHVU</Identifier>
+        <Label>shelf valley</Label>
+        <Description>a valley on the shelf, generally the shoreward extension of a canyon</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SILU</Identifier>
+        <Label>sill</Label>
+        <Description>the low part of a gap or saddle separating basins</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SLPU</Identifier>
+        <Label>slope</Label>
+        <Description>the slope seaward from the shelf edge to the beginning of a continental rise or the point where
+            there is a general reduction in slope
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SMSU</Identifier>
+        <Label>seamounts</Label>
+        <Description>elevations rising generally more than 1,000 meters and of limited extent across the summit
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SMU</Identifier>
+        <Label>seamount</Label>
+        <Description>an elevation rising generally more than 1,000 meters and of limited extent across the summit
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.SPRU</Identifier>
+        <Label>spur</Label>
+        <Description>a subordinate elevation, ridge, or rise projecting outward from a larger feature</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.TERU</Identifier>
+        <Label>terrace</Label>
+        <Description>a relatively flat horizontal or gently inclined surface, sometimes long and narrow, which is
+            bounded by a steeper ascending slope on one side and by a steep descending slope on the opposite side
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.TMSU</Identifier>
+        <Label>tablemounts (or guyots)</Label>
+        <Description>seamounts having a comparatively smooth, flat top</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.TMTU</Identifier>
+        <Label>tablemount (or guyot)</Label>
+        <Description>a seamount having a comparatively smooth, flat top</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.TNGU</Identifier>
+        <Label>tongue</Label>
+        <Description>an elongate (tongue-like) extension of a flat sea floor into an adjacent higher feature
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.TRGU</Identifier>
+        <Label>trough</Label>
+        <Description>a long depression of the sea floor characteristically flat bottomed and steep sided, and normally
+            shallower than a trench
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.TRNU</Identifier>
+        <Label>trench</Label>
+        <Description>a long, narrow, characteristically very deep and asymmetrical depression of the sea floor, with
+            relatively steep sides
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.VALU</Identifier>
+        <Label>valley</Label>
+        <Description>a relatively shallow, wide depression, the bottom of which usually has a continuous gradient
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#U.VLSU</Identifier>
+        <Label>valleys</Label>
+        <Description>a relatively shallow, wide depression, the bottom of which usually has a continuous gradient
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.BUSH</Identifier>
+        <Label>bush(es)</Label>
+        <Description>a small clump of conspicuous bushes in an otherwise bare area</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.CULT</Identifier>
+        <Label>cultivated area</Label>
+        <Description>an area under cultivation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.FRST</Identifier>
+        <Label>forest(s)</Label>
+        <Description>an area dominated by tree vegetation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.FRSTF</Identifier>
+        <Label>fossilized forest</Label>
+        <Description>a forest fossilized by geologic processes and now exposed at the earth's surface</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.GRSLD</Identifier>
+        <Label>grassland</Label>
+        <Description>an area dominated by grass vegetation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.GRVC</Identifier>
+        <Label>coconut grove</Label>
+        <Description>a planting of coconut trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.GRVO</Identifier>
+        <Label>olive grove</Label>
+        <Description>a planting of olive trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.GRVP</Identifier>
+        <Label>palm grove</Label>
+        <Description>a planting of palm trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.GRVPN</Identifier>
+        <Label>pine grove</Label>
+        <Description>a planting of pine trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.HTH</Identifier>
+        <Label>heath</Label>
+        <Description>an upland moor or sandy area dominated by low shrubby vegetation including heather</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.MDW</Identifier>
+        <Label>meadow</Label>
+        <Description>a small, poorly drained area dominated by grassy vegetation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.OCH</Identifier>
+        <Label>orchard(s)</Label>
+        <Description>a planting of fruit or nut trees</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.SCRB</Identifier>
+        <Label>scrubland</Label>
+        <Description>an area of low trees, bushes, and shrubs stunted by some environmental limitation</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.TREE</Identifier>
+        <Label>tree(s)</Label>
+        <Description>a conspicuous tree used as a landmark</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.TUND</Identifier>
+        <Label>tundra</Label>
+        <Description>a marshy, treeless, high latitude plain, dominated by mosses, lichens, and low shrub vegetation
+            under permafrost conditions
+        </Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.VIN</Identifier>
+        <Label>vineyard</Label>
+        <Description>a planting of grapevines</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#V.VINS</Identifier>
+        <Label>vineyards</Label>
+        <Description>plantings of grapevines</Description>
+    </Entry>
+    <Entry>
+        <Identifier>http://www.geonames.org/ontology#null</Identifier>
+        <Label>not available</Label>
+        <Description></Description>
+    </Entry>
+</Entries>

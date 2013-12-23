@@ -75,6 +75,9 @@
         </Event>
 
         <Rights/>
+        <GeonamesFeatureCodes>
+            <Description/>
+        </GeonamesFeatureCodes>
         <Publisher/>
 
         <PhotoType/>
@@ -262,31 +265,31 @@
         <!-- Location see location.pdf and locations.xsd-->
         <Location>
             <!--Identification number(URI) [e.g Location#1]-->
-            <IdentificationNumber sps_fixed="">{"type": "string"}</IdentificationNumber>
+            <IdentificationNumber/>
             <!--Attribution date (time primitive) [2004]-->
-            <IdentificationNumberAttributionDate>{"type": "date", "validator": "date"}</IdentificationNumberAttributionDate>
+            <IdentificationNumberAttributionDate>{ "validator": "date" }</IdentificationNumberAttributionDate>
             <!--Name (cv ) [eg Istanbul]-->
-            <Name>{"type": "term", "multiple":false, "vocabulary": "Place"}</Name>
+            <Name>{ "vocabulary": "Place"}</Name>
             <!--Type(+) (cv ) [eg city]-->
-            <Type>{"type": "term"}</Type>
+            <Type>{ "vocabulary": "GeonamesFeatureCodes" }</Type>
             <!--Geopolitical Coordinates (cv ) [Asia, Turkey, Marmara, Istanbul]-->
-            <GeopoliticalHierarchy>{"type": "term"}</GeopoliticalHierarchy>
+            <GeopoliticalHierarchy/>
             <CodeNumber> { "multiple":true } <!--Location Code Number [ it is completed in case a location is registered by a geographic thesaurus or other authority that provides an id in addition to a place name]-->
                 <!--Value (string) [7002473]-->
-                <Value>{"type": "string"}</Value>
+                <Value/>
                 <!--Category (+) (cv) [TGN Getty ID]  -->
-                <Category>{"type": "term", "vocabulary": ""}</Category>
+                <Category/>
                 <!--Attribution date (time primitive) [2004]-->
-                <AttributionDate>{"validator": "date"}</AttributionDate>
+                <AttributionDate>{ "validator": "date" }</AttributionDate>
                 <!--Expiry date (time primitive)-->
-                <ExpiryDate>{"validator": "date"}</ExpiryDate>
+                <ExpiryDate>{ "validator": "date" }</ExpiryDate>
                 <!--Code number attributed by-->
-                <AttributedBy>{"type": "link"}</AttributedBy>
+                <AttributedBy>{ }</AttributedBy>
             </CodeNumber>
             <!--link to organization id, organization name(afe), [e.g organization#44, Getty Research Institute]  NOT IN XSD -->
-            <OrganisationId>{"type": "link"}</OrganisationId>
+            <OrganisationId>{ }</OrganisationId>
             <!--link to person id, person name(afe), NOT IN XSD-->
-            <PersonId>{"type": "link"}</PersonId>
+            <PersonId>{ }</PersonId>
         </Location>
 
 
