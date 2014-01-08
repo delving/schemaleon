@@ -161,6 +161,19 @@ OSCR.controller(
                 nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
             }
             return nameProper;
-        }
+        };
+
+        $rootScope.isImage = function(mime) {
+            if(mime && mime.indexOf('image') >= 0){
+                return true;
+            }
+        };
+
+        $rootScope.isVideo = function (mime) {
+            if (mime && mime.indexOf('video') >= 0){
+                return true;
+            }
+        };
+
     }
 );

@@ -65,7 +65,7 @@ OSCR.filter('mediaLabel',
 
 OSCR.controller(
     'FieldMediaController',
-    function ($scope, $q, $dialog, Document) {
+    function ($rootScope, $scope, $q, $dialog, Document) {
         if (!$scope.el.config.media) {
             return;
         }
@@ -144,20 +144,6 @@ OSCR.controller(
             });
         }
 
-        // TODO: isImage and isVideo also in media.js
-        // will probably need this elsewhere later as well
-        // make globally accessible
-        $scope.isImage = function(mime) {
-            if(mime.indexOf('image') >= 0){
-                return true;
-            }
-        };
-
-        $scope.isVideo = function (mime) {
-            if(mime.indexOf('video') >= 0){
-                return true;
-            }
-        };
     }
 );
 
