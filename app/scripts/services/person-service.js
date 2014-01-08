@@ -11,7 +11,7 @@ angular.module('OSCR').service(
         this.authenticate = function (username, password, accept) {
             $http.post('/authenticate', { username: username, password: password }).success(function (xml) {
                 var userObject = xmlToObject(xml);
-                accept(userObject.User);
+                accept(userObject);
             });
         };
 
@@ -57,6 +57,7 @@ angular.module('OSCR').service(
             });
         };
 
+        // todo: the group should probably be XML here
         this.saveGroup = function (group, accept) {
             // group should have Name and Address (for now)
             $http.post('/person/group/save', group).success(function (xml) {
@@ -79,6 +80,7 @@ angular.module('OSCR').service(
             });
         };
 
+        // todo: role is not used, because you just remove from the group
         this.removeUserFromGroup = function (userIdentifier, userRole, groupIdentifier, accept) {
             $http.post('/person/group/' + groupIdentifier + '/remove', { userRole: userRole, userIdentifier: userIdentifier }).success(function (xml) {
                 var userObject = xmlToObject(xml);

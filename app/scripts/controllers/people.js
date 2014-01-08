@@ -146,6 +146,7 @@ OSCR.controller(
                 Name: $scope.groupName,
                 Address: $scope.groupAddress
             };
+            // todo: make XML from the group and send that instead
             Person.saveGroup(group, function (groupObject) {
                 $scope.groupCreated = true;
                 $scope.groupName = '';
