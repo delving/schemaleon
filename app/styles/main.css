@@ -262,41 +262,39 @@ ul.kv-list li span.value {
   -webkit-border-radius: 0 0 10px 10px !important;
   -moz-border-radius: 0 0 10px 10px !important;
   border-radius: 0 0 10px 10px !important;
-  width: 500px;
+  width: 456px;
 }
 .oscr-media-grid {
   max-height: 400px;
   overflow-y: scroll;
-  width: 400px;
 }
-.oscr-media-grid .thumbs {
-  /* Prevent vertical gaps */
+.oscr-media-grid .media-thumb-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.oscr-media-grid .media-thumb-list li {
+  background: #333333;
+  display: inline-block;
+  margin: 0px 4px 4px 0px;
+  width: 110px;
+  *display: inline;
+  /* IE7 inline-block hack */
 
-  line-height: 0;
-  -webkit-column-count: 5;
-  -webkit-column-gap: 8px;
-  -moz-column-count: 5;
-  -moz-column-gap: 8px;
-  column-count: 5;
-  column-gap: 8px;
+  *zoom: 1;
 }
-.oscr-media-grid .thumbs img {
-  width: 100% !important;
-  height: auto !important;
-  margin-bottom: 8px;
+.oscr-media-grid .media-thumb-list li .media-thumb {
+  height: 80px;
+  vertical-align: top;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
 }
-.oscr-media-grid .thumbs img:hover {
-  cursor: pointer;
-}
-.oscr-media-grid .thumb-container span.large {
-  position: fixed;
-  display: none;
-  background: #555555;
-  border: 1px solid #333333;
-  top: 50px;
-  left: 0px;
-  z-index: 11000;
-  width: 500px;
+.oscr-media-grid .media-thumb-list li .mime {
+  color: #ffffff;
+  padding: 4px;
+  text-align: center;
 }
 .tabbable {
   margin-bottom: 40px;

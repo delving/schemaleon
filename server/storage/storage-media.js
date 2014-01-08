@@ -14,14 +14,22 @@ function Media(storage) {
 var P = Media.prototype;
 
 function log(message) {
-//    console.log(message);
+    console.log('storage-media.js: ', message);
+}
+
+P.thumbNameProper = function (thumbName)  {
+    var nameProper= thumbName;
+    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
+        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+    }
+    return nameProper;
 }
 
 P.saveMedia = function (body, receiver) {
     log('saveMedia');
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
-    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, body.OriginalFileName);
+    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));
     if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
@@ -33,7 +41,8 @@ P.saveMedia = function (body, receiver) {
             throw err;
         }
         log('File has been copied ' + fileName);
-        copyFile(thumbnailPath, path.join(thumbnailBucketPath, fileName), function (err) {
+        var thumbnailProper = P.thumbNameProper(fileName);
+        copyFile(thumbnailPath, path.join(thumbnailBucketPath, thumbnailProper), function (err) {
             if (err) {
                 throw err;
             }
@@ -109,6 +118,9 @@ P.createFileName = function (body) {
         case 'video/mp4':
             fileName += '.mp4';
             break;
+        case 'video/quicktime':
+            fileName += '.mov';
+            break;
         default:
             console.log("UNKOWN MIME: " + body.MimeType);
             fileName += '.jpg';
@@ -131,6 +143,9 @@ P.getMimeType = function(fileName) {
             break;
         case '.mp4':
             mimeType = 'video/mp4';
+            break;
+        case '.mov':
+            mimeType = 'video/quicktime';
             break;
         default:
             console.error('No mime type for extension '+path.extname(fileName));

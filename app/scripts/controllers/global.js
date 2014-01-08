@@ -153,5 +153,14 @@ OSCR.controller(
             }
             return "";
         };
+
+        // properFile name extension for multi-media thumbs
+        $rootScope.getProperThumbExtension = function (name){
+            var nameProper= name;
+            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
+                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+            }
+            return nameProper;
+        }
     }
 );

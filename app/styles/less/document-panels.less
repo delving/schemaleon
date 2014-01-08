@@ -253,43 +253,69 @@ ul.kv-list {
 .media-tabs {
   .tabbable .tab-content {
     .border-radius(0 0 10px 10px) !important;
-    width: 500px;
+    width: 456px;
   }
 }
 
 .oscr-media-grid {
   max-height: 400px;
   overflow-y: scroll;
-  width: 400px;
-  .thumbs {
-    /* Prevent vertical gaps */
-    line-height: 0;
-    -webkit-column-count: 5;
-    -webkit-column-gap:   8px;
-    -moz-column-count:    5;
-    -moz-column-gap:      8px;
-    column-count:         5;
-    column-gap:           8px;
-
+  .media-thumb-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      li {
+        background: @grayDark;
+        display: inline-block;
+        margin: 0px 4px 4px 0px;
+        width: 110px;
+        .ie7-inline-block();
+        .media-thumb {
+          height: 80px;
+          vertical-align: top;
+          text-align: center;
+          overflow: hidden;
+          position: relative;
+        }
+        .mime {
+          color: @white;
+          padding: 4px;
+          text-align: center;
+        }
+      }
   }
-  .thumbs img {
-    width: 100% !important;
-    height: auto !important;
-    margin-bottom: 8px;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .thumb-container {
-    span.large {
-      position:fixed;
-      display: none;
-      background: @gray;
-      border: 1px solid @grayDark;
-      top: 50px;
-      left: 0px;
-      z-index: 11000;
-      width: 500px;
-    }
-  }
+//
+//  .thumbs {
+//    /* Prevent vertical gaps */
+//    line-height: 0;
+//    -webkit-column-count: 5;
+//    -webkit-column-gap:   8px;
+//    -moz-column-count:    5;
+//    -moz-column-gap:      8px;
+//    column-count:         5;
+//    column-gap:           8px;
+//
+//  }
+//
+//  .thumb-container {
+//    margin-bottom: 8px;
+//    &:hover {
+//      cursor: pointer;
+//    }
+//    img {
+//      width: 100% !important;
+//      height: auto !important;
+//    }
+//    span.large {
+//      position:fixed;
+//      display: none;
+//      background: @gray;
+//      border: 1px solid @grayDark;
+//      top: 50px;
+//      left: 0px;
+//      z-index: 11000;
+//      width: 500px;
+//    }
+//  }
 }

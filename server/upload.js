@@ -190,6 +190,7 @@ UHP.post = function () {
         function (name, file) {
             var fileInfo = map[path.basename(file.path)];
             fileInfo.size = file.size;
+            console.log(fileInfo);
             if (!fileInfo.validate()) {
                 fs.unlink(file.path);
                 return;
@@ -206,6 +207,20 @@ UHP.post = function () {
                             srcPath: uploadDir + '/' + fileInfo.name,
                             dstPath: uploadDir + '/' + version + '/' + fileInfo.name
                         },
+                        finish
+                    );
+                });
+            }
+            else {
+                //TODO: allow for other video formats (MOV, VOB ...)
+                Object.keys(options.imageVersions).forEach(function (version) {
+                    counter += 1;
+                    var opts = options.imageVersions[version];
+                    var originalFileName = fileInfo.name;
+                    var frameFileName = uploadDir + '/' + fileInfo.name + '[100]';
+                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+                    imageMagick.convert(
+                        [frameFileName, '-resize', '160x160', thumbName],
                         finish
                     );
                 });

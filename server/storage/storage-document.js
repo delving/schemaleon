@@ -14,7 +14,7 @@ function Document(storage) {
 var P = Document.prototype;
 
 function log(message) {
-//    console.log(message);
+    console.log('storage-document.js: ', message);
 }
 
 P.getDocumentSchema = function (schemaName, receiver) {
@@ -96,7 +96,6 @@ P.saveDocument = function (envelope, receiver) {
         if (envelope.header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
             log('save image');
-            log(body);
             s.Media.saveMedia(body, function (fileName) {
                 hdr.Identifier = fileName;
                 addDocument();
