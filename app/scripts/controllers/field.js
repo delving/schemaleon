@@ -87,6 +87,7 @@ OSCR.controller(
                 $scope.mediaList = list;
             });
         }
+        
         refreshList();
 
         if (!$scope.valueChecked) {
@@ -100,7 +101,6 @@ OSCR.controller(
         }
 
         $scope.selectMedia = function(entry) {
-//            console.log("selected media ", entry);
             $scope.setValue(entry);
         };
 
@@ -122,18 +122,6 @@ OSCR.controller(
             $scope.disableEditor();
         };
 
-        $scope.showImagePreview = function(id){
-            var elThumb = '#oscr-media-grid-thumb-'+id;
-            var elBig = '#oscr-media-grid-big-'+id;
-            var position = $(elThumb).position();
-            $(elBig).css({"display":"block"});
-        };
-
-        $scope.hideImagePreview = function(id){
-            var elBig = '#oscr-media-grid-big-'+id;
-            $(elBig).css({"display": "none"});
-        };
-
         $scope.refreshImageList = function () {
             refreshList();
         }
@@ -144,8 +132,36 @@ OSCR.controller(
             });
         }
 
+        $scope.openVideoPreview = function (srcFile) {
+            var srcPath = '/media/fetch/' + srcFile;
+            var dialog = $dialog.dialog({
+                dialogFade: true,
+                backdrop: true,
+                fadeBackdrop: true,
+                keyboard: true,
+                controller: 'previewDialogController',
+                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
+                    '<div class="modal-body">' +
+                    '<video width="320" height="240" controls>' +
+                    '<source src="' + srcPath + '" type="video/mp4" />' +
+                    '</video>' +
+                    '<div class="modal-footer">' +
+                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
+                    '</div>'
+
+            });
+            if(!$rootScope.config.showTranslationEditor){
+                dialog.open();
+            }
+        };
     }
 );
+
+function previewDialogController($scope, dialog) {
+    $scope.close = function () {
+        dialog.close();
+    };
+}
 
 OSCR.controller(
     'VocabularyController',
@@ -328,3 +344,5 @@ OSCR.controller(
         }
     }
 );
+
+
