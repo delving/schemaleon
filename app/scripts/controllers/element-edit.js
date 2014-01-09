@@ -123,6 +123,45 @@ OSCR.controller(
     }
 );
 
+OSCR.controller(
+    'MediaElementController',
+    function ($rootScope, $scope, $q, $dialog, Document) {
+        $scope.openVideoPreview = function (srcFile) {
+            var srcPath = '/media/fetch/' + srcFile;
+            var dialog = $dialog.dialog({
+                dialogFade: true,
+                backdrop: true,
+                fadeBackdrop: true,
+                keyboard: true,
+                controller: 'previewDialogController',
+                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
+                    '<div class="modal-body">' +
+                    '<video width="320" height="240" controls>' +
+                    '<source src="' + srcPath + '" type="video/mp4" />' +
+                    '</video>' +
+                    '<div class="modal-footer">' +
+                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
+                    '</div>'
+
+            });
+            if(!$rootScope.config.showTranslationEditor){
+                dialog.open();
+            }
+        };
+
+        $scope.enableMediaEditor = function () {
+            $scope.enableEditor();
+            $scope.el.searching = true;
+            $scope.chosenMedia = null;
+        };
+    }
+);
+
+function previewDialogController($scope, dialog) {
+    $scope.close = function () {
+        dialog.close();
+    };
+}
 
 OSCR.controller(
     'MediaSearchController',
@@ -146,7 +185,6 @@ OSCR.controller(
 //
         function refreshList() {
             Document.fetchAllDocuments($scope.schema, function(list) {
-                console.log("fetched media list", list);
                 $scope.mediaList = list;
             });
         }
@@ -165,14 +203,6 @@ OSCR.controller(
 
         $scope.selectMedia = function(entry) {
             $scope.setValue(entry);
-        };
-
-        $scope.enableMediaEditor = function () {
-            $scope.enableEditor();
-            $scope.el.searching = true;
-            $scope.chosenMedia = null;
-            $scope.el.value = null;
-            $scope.el.valueFields = null;
         };
 
         $scope.setValue = function (value) {
@@ -196,36 +226,8 @@ OSCR.controller(
             });
         }
 
-        $scope.openVideoPreview = function (srcFile) {
-            var srcPath = '/media/fetch/' + srcFile;
-            var dialog = $dialog.dialog({
-                dialogFade: true,
-                backdrop: true,
-                fadeBackdrop: true,
-                keyboard: true,
-                controller: 'previewDialogController',
-                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
-                    '<div class="modal-body">' +
-                    '<video width="320" height="240" controls>' +
-                    '<source src="' + srcPath + '" type="video/mp4" />' +
-                    '</video>' +
-                    '<div class="modal-footer">' +
-                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
-                    '</div>'
-
-            });
-            if(!$rootScope.config.showTranslationEditor){
-                dialog.open();
-            }
-        };
     }
 );
-
-function previewDialogController($scope, dialog) {
-    $scope.close = function () {
-        dialog.close();
-    };
-}
 
 OSCR.controller(
     'VocabularyController',
