@@ -124,58 +124,12 @@ OSCR.controller(
 );
 
 
-OSCR.filter('elementDisplay',
-    function () {
-        return function (element) {
-            if (!element.value) {
-                return 'empty';
-            }
-            else if (element.config.vocabulary) {
-                return element.value.Label; // todo
-            }
-            else if (element.config.media) {
-                return element.value.Identifier;
-            }
-            else {
-                return element.value;
-            }
-        };
-    }
-);
-
-OSCR.filter('mediaThumbnail',
-    function () {
-        return function (element) {
-            if (element.value && element.config.media) {
-                return '/media/thumbnail/' + element.value.Identifier;
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
-
-OSCR.filter('mediaLabel',
-    function () {
-        return function (element) {
-            if (_.isString(element.value)) {
-                return element.value;
-            }
-            else if (element.value) {
-                return element.value.Label;
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
-
 OSCR.controller(
-    'MediaController',
-    function ($scope, $q, Document) {
+    'MediaSearchController',
+    function ($rootScope, $scope, $q, $dialog, Document) {
+        $scope.el = $scope.panel.element;
         if (!$scope.el.config.media) {
+            console.warn("MediaSearchController with no config media");
             return;
         }
         $scope.chosenMedia = null;
@@ -189,28 +143,27 @@ OSCR.controller(
                 };
             });
         }
-
+//
         function refreshList() {
             Document.fetchAllDocuments($scope.schema, function(list) {
+                console.log("fetched media list", list);
                 $scope.mediaList = list;
             });
         }
+
         refreshList();
 
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
-//                $scope.disableEditor();
+//                todo $scope.disableEditor();
                 Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
-//                    log('fetched media record');
-//                    log(fetchedValue.Document);
-                    $scope.chosenMedia = fetchedValue.Document;
+                    $scope.setValue(fetchedValue.Document);
                 });
             }
             $scope.valueChecked = true;
         }
 
         $scope.selectMedia = function(entry) {
-            console.log("selected media ", entry);
             $scope.setValue(entry);
         };
 
@@ -218,44 +171,18 @@ OSCR.controller(
             $scope.chosenMedia = null;
             $scope.el.value = null;
             $scope.el.valueFields = null;
-//            $scope.enableEditor();
+            $scope.enableEditor();
         };
 
         $scope.setValue = function (value) {
-            $scope.el.value = angular.copy(value.Body.MediaMetadata);
+            $scope.el.value = angular.copy(value.Body);
             $scope.el.value.Identifier = value.Header.Identifier;
             if ($scope.el.tree) {
                 $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
                     return  { prompt: element.name, value: $scope.el.value[element.name] };
                 });
             }
-//            $scope.disableEditor();
-        };
-
-        $scope.showImagePreview = function(id){
-            var elThumb = '#oscr-media-grid-thumb-'+id;
-            var elBig = '#oscr-media-grid-big-'+id;
-            var position = $(elThumb).position();
-            $(elBig).css({"display":"block"});
-        };
-
-        $scope.hideImagePreview = function(id){
-            var elBig = '#oscr-media-grid-big-'+id;
-            $(elBig).css({"display": "none"});
-        };
-
-        $scope.openImageUploadDialog = function () {
-            var dialog = $dialog.dialog({
-                dialogFade: true,
-                backdrop: true,
-                fadeBackdrop: true,
-                keyboard: true,
-                controller: 'MediaUploadController',
-                templateUrl: 'views/media-lite.html'
-            });
-//            dialog.open().then(function () {
-//                refreshList();
-//            });
+//            todo: $scope.disableEditor();
         };
 
         $scope.refreshImageList = function () {
@@ -267,108 +194,37 @@ OSCR.controller(
                 $scope.revalidate();
             });
         }
+
+        $scope.openVideoPreview = function (srcFile) {
+            var srcPath = '/media/fetch/' + srcFile;
+            var dialog = $dialog.dialog({
+                dialogFade: true,
+                backdrop: true,
+                fadeBackdrop: true,
+                keyboard: true,
+                controller: 'previewDialogController',
+                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
+                    '<div class="modal-body">' +
+                    '<video width="320" height="240" controls>' +
+                    '<source src="' + srcPath + '" type="video/mp4" />' +
+                    '</video>' +
+                    '<div class="modal-footer">' +
+                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
+                    '</div>'
+
+            });
+            if(!$rootScope.config.showTranslationEditor){
+                dialog.open();
+            }
+        };
     }
 );
 
-//OSCR.controller(
-//    'FieldMediaController',
-//    function ($rootScope, $scope, $q, $dialog, Document) {
-//        if (!$scope.el.config.media) {
-//            return;
-//        }
-//        $scope.setActive('media');
-//        $scope.chosenMedia = null;
-//        $scope.schema = $scope.el.config.media;
-//
-//        if (!$scope.el.tree) {
-//            Document.fetchSchema($scope.schema, function (schema) {
-//                $scope.el.tree = {
-//                    name: 'Entry',
-//                    elements: schema.elements
-//                };
-//            });
-//        }
-//
-//        function refreshList() {
-//            Document.fetchAllDocuments($scope.schema, function(list) {
-//                $scope.mediaList = list;
-//            });
-//        }
-//
-//        refreshList();
-//
-//        if (!$scope.valueChecked) {
-//            if ($scope.el.value) {
-//                $scope.disableEditor();
-//                Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
-//                    $scope.setValue(fetchedValue.Document);
-//                });
-//            }
-//            $scope.valueChecked = true;
-//        }
-//
-//        $scope.selectMedia = function(entry) {
-//            $scope.setValue(entry);
-//        };
-//
-//        $scope.enableMediaEditor = function () {
-//            $scope.chosenMedia = null;
-//            $scope.el.value = null;
-//            $scope.el.valueFields = null;
-//            $scope.enableEditor();
-//        };
-//
-//        $scope.setValue = function (value) {
-//            $scope.el.value = angular.copy(value.Body);
-//            $scope.el.value.Identifier = value.Header.Identifier;
-//            if ($scope.el.tree) {
-//                $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
-//                    return  { prompt: element.name, value: $scope.el.value[element.name] };
-//                });
-//            }
-//            $scope.disableEditor();
-//        };
-//
-//        $scope.refreshImageList = function () {
-//            refreshList();
-//        };
-//
-//        if (!$scope.el.suspendValidation) {
-//            $scope.$watch('el.value', function (after, before) {
-//                $scope.revalidate();
-//            });
-//        }
-//
-//        $scope.openVideoPreview = function (srcFile) {
-//            var srcPath = '/media/fetch/' + srcFile;
-//            var dialog = $dialog.dialog({
-//                dialogFade: true,
-//                backdrop: true,
-//                fadeBackdrop: true,
-//                keyboard: true,
-//                controller: 'previewDialogController',
-//                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
-//                    '<div class="modal-body">' +
-//                    '<video width="320" height="240" controls>' +
-//                    '<source src="' + srcPath + '" type="video/mp4" />' +
-//                    '</video>' +
-//                    '<div class="modal-footer">' +
-//                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
-//                    '</div>'
-//
-//            });
-//            if(!$rootScope.config.showTranslationEditor){
-//                dialog.open();
-//            }
-//        };
-//    }
-//);
-//
-//function previewDialogController($scope, dialog) {
-//    $scope.close = function () {
-//        dialog.close();
-//    };
-//}
+function previewDialogController($scope, dialog) {
+    $scope.close = function () {
+        dialog.close();
+    };
+}
 
 OSCR.controller(
     'VocabularyController',
@@ -515,3 +371,65 @@ OSCR.controller(
         }
     }
 );
+
+OSCR.filter('mediaThumbnail',
+    function ($rootScope) {
+        return function (element) {
+            if (element.value && element.config.media) {
+                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('mediaFile',
+    function ($rootScope) {
+        return function (element) {
+            if (element.value && element.config.media) {
+                return '/media/fetch/' + element.value.Identifier;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('mediaLabel',
+    function () {
+        return function (element) {
+            if (_.isString(element.value)) {
+                return element.value;
+            }
+            else if (element.value) {
+                return element.value.Label;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('elementDisplay',
+    function () {
+        return function (element) {
+            if (!element.value) {
+                return 'empty';
+            }
+            else if (element.config.vocabulary) {
+                return element.value.Label; // todo
+            }
+            else if (element.config.media) {
+                return element.value.Identifier;
+            }
+            else {
+                return element.value;
+            }
+        };
+    }
+);
+

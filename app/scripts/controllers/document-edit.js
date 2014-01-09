@@ -294,6 +294,9 @@ OSCR.controller(
         };
 
         $scope.getDetailView = function (el) {
+            if (el.config.media) { // todo: only when searching?
+                return "search-media.html";
+            }
             if (el.searching) {
                 return "search-vocabulary.html";
             }
