@@ -270,6 +270,106 @@ OSCR.controller(
     }
 );
 
+//OSCR.controller(
+//    'FieldMediaController',
+//    function ($rootScope, $scope, $q, $dialog, Document) {
+//        if (!$scope.el.config.media) {
+//            return;
+//        }
+//        $scope.setActive('media');
+//        $scope.chosenMedia = null;
+//        $scope.schema = $scope.el.config.media;
+//
+//        if (!$scope.el.tree) {
+//            Document.fetchSchema($scope.schema, function (schema) {
+//                $scope.el.tree = {
+//                    name: 'Entry',
+//                    elements: schema.elements
+//                };
+//            });
+//        }
+//
+//        function refreshList() {
+//            Document.fetchAllDocuments($scope.schema, function(list) {
+//                $scope.mediaList = list;
+//            });
+//        }
+//
+//        refreshList();
+//
+//        if (!$scope.valueChecked) {
+//            if ($scope.el.value) {
+//                $scope.disableEditor();
+//                Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
+//                    $scope.setValue(fetchedValue.Document);
+//                });
+//            }
+//            $scope.valueChecked = true;
+//        }
+//
+//        $scope.selectMedia = function(entry) {
+//            $scope.setValue(entry);
+//        };
+//
+//        $scope.enableMediaEditor = function () {
+//            $scope.chosenMedia = null;
+//            $scope.el.value = null;
+//            $scope.el.valueFields = null;
+//            $scope.enableEditor();
+//        };
+//
+//        $scope.setValue = function (value) {
+//            $scope.el.value = angular.copy(value.Body);
+//            $scope.el.value.Identifier = value.Header.Identifier;
+//            if ($scope.el.tree) {
+//                $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
+//                    return  { prompt: element.name, value: $scope.el.value[element.name] };
+//                });
+//            }
+//            $scope.disableEditor();
+//        };
+//
+//        $scope.refreshImageList = function () {
+//            refreshList();
+//        };
+//
+//        if (!$scope.el.suspendValidation) {
+//            $scope.$watch('el.value', function (after, before) {
+//                $scope.revalidate();
+//            });
+//        }
+//
+//        $scope.openVideoPreview = function (srcFile) {
+//            var srcPath = '/media/fetch/' + srcFile;
+//            var dialog = $dialog.dialog({
+//                dialogFade: true,
+//                backdrop: true,
+//                fadeBackdrop: true,
+//                keyboard: true,
+//                controller: 'previewDialogController',
+//                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
+//                    '<div class="modal-body">' +
+//                    '<video width="320" height="240" controls>' +
+//                    '<source src="' + srcPath + '" type="video/mp4" />' +
+//                    '</video>' +
+//                    '<div class="modal-footer">' +
+//                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
+//                    '</div>'
+//
+//            });
+//            if(!$rootScope.config.showTranslationEditor){
+//                dialog.open();
+//            }
+//        };
+//    }
+//);
+//
+//function previewDialogController($scope, dialog) {
+//    $scope.close = function () {
+//        dialog.close();
+//    };
+//}
+
 OSCR.controller(
     'VocabularyController',
     function ($scope, $q, Vocabulary, $rootScope) {

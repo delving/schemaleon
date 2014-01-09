@@ -86,6 +86,55 @@
             </div>
         </div>
     </div>
+    <!--<div ng-show="el.config.media" ng-controller="FieldMediaController" class="digital-object-input">-->
+        <!--<div ng-hide="el.elements">-->
+            <!--<div ng-show="el.edit">-->
+                <!--<tabset class="media-tabs">-->
+                    <!--<tab>-->
+                        <!--<tab-heading>-->
+                            <!--<span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()"><span class="i18n"/></span>-->
+                        <!--</tab-heading>-->
+                        <!--<div ng-show="mediaList" class="oscr-media-grid">-->
+                            <!--<ul class="media-thumb-list">-->
+                                <!--<li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">-->
+                                    <!--<div class="media-thumb">-->
+                                        <!--<img id="oscr-media-grid-thumb-{{$index}}"-->
+                                             <!--ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"-->
+                                             <!--ng-click="selectMedia(entry)"/>-->
+                                    <!--</div>-->
+                                    <!--<div class="mime">{{ entry.Body.MimeType }}</div>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</tab>-->
+                    <!--<tab>-->
+                        <!--<tab-heading>-->
+                            <!--<span class="nav-tabs" i18n="MediaUpload"><span class="i18n"/></span>-->
+                        <!--</tab-heading>-->
+                        <!--<div data-ng-controller="MediaUploadController" data-ng-include="'views/media-lite.html'"></div>-->
+                    <!--</tab>-->
+                <!--</tabset>-->
+            <!--</div>-->
+            <!--<div ng-show="!el.edit">-->
+                <!--<div class="chosen-value" tabindex="0">-->
+                    <!--<div ng-hide="el.value" ng-click="enableMediaEditor()" >-->
+                        <!--<span>?</span>-->
+                    <!--</div>-->
+                    <!--<div ng-show="el.value">-->
+                        <!--<ul class="unstyled kv-list">-->
+                            <!--<li ng-repeat="line in el.valueFields">-->
+                                <!--<span class="label" i18n="{{ line.prompt }}">Prompt</span>-->
+                                <!--<span class="value">{{ line | mediaLabel }}</span>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                        <!--<button tooltip-placement="bottom" tooltip="Click to edit" ng-click="enableMediaEditor()" class="btn"><i class="icon-edit"></i></button>-->
+                        <!--<button ng-show="isVideo(el.value.MimeType)" class="btn" i18n="PreviewVideo" ng-click="openVideoPreview(el.value.FileName)"><i class="icon icon-facetime-video"></i> <span class="i18n"></span></button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
 </script>
 
 <script type="text/ng-template" id="field-documentation-element.html">
