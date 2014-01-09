@@ -66,7 +66,7 @@
         &:hover {
           background: @grayLight;
           cursor: pointer;
-          text-decoration: underline;
+          text-decoration: none;
         }
       }
     }
@@ -111,7 +111,9 @@ input#hidden {
 /* CRM LINKS */
 
 .link-title {
+  display: inline-block;
   margin-left: 0px;
+  margin-bottom: 8px;
 }
 
 .link-value {
@@ -130,6 +132,13 @@ input#hidden {
   }
   img {
     max-width: 100%;
+  }
+}
+
+.chosen-media{
+  .mime {
+    color: @grayDark;
+    margin-bottom: 8px;
   }
 }
 

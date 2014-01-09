@@ -99,7 +99,7 @@
 .panels ul.panel-list li label:hover {
   background: #999999;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .panels .panel-input {
   padding: 0 20px;
@@ -134,7 +134,9 @@ input#hidden {
 }
 /* CRM LINKS */
 .link-title {
+  display: inline-block;
   margin-left: 0px;
+  margin-bottom: 8px;
 }
 .link-value {
   background: linen;
@@ -155,6 +157,10 @@ input#hidden {
 }
 .link-value img {
   max-width: 100%;
+}
+.chosen-media .mime {
+  color: #333333;
+  margin-bottom: 8px;
 }
 .icon-container {
   position: absolute;

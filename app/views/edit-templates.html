@@ -85,7 +85,7 @@
                     <div ng-hide="el.value" ng-click="enableMediaEditor()">
                         <span>?</span>
                     </div>
-                    <div ng-show="el.value">
+                    <div ng-show="el.value" class="chosen-media">
                         <img ng-src="{{ el | mediaThumbnail }}" />
                         <div class="mime">{{ el.value.MimeType }}</div>
                         <!--<ul class="unstyled kv-list">-->

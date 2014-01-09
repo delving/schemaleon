@@ -15,10 +15,6 @@
                         <a href ng-click="choosePath('/document/'+schema)" class="btn">
                             <i class="icon-hand-left"></i>
                         </a>
-                        <a href ng-click="toggleInlinePreview()"
-                           ng-class="{'btn': config.showInlinePreview, 'btn disabled': !config.showInlinePreview}">
-                            <i class="icon-eye-open"></i>
-                        </a>
                         <span ng-show="documentDirty">
                             <a href class="btn btn-success" ng-show="documentDirty" ng-click="saveDocument()" i18n="SaveDocument">
                                 <i class="icon icon-check icon-white"></i>

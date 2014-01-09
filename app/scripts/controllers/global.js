@@ -54,10 +54,6 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
-        $rootScope.toggleInlinePreview = function () {
-            $rootScope.config.showInlinePreview = !$rootScope.config.showInlinePreview;
-        };
-
         $rootScope.toggleTranslationEditor = function () {
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
         };

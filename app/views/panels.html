@@ -33,7 +33,6 @@
                             <!-- element value -->
                             <div class="link-value" ng-show="element.valueVisible && config.showInlinePreview">
                                 <div ng-show="element.config.media" class="link-thumbnail">
-
                                     <img ng-src="{{ element | mediaThumbnail }}" />
                                     <div class="mime">{{ element.value.MimeType }}</div>
                                 </div>
@@ -79,7 +78,7 @@
                                         <div ng-show="mediaList" class="oscr-media-grid">
                                             <ul class="media-thumb-list">
                                                 <li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">
-                                                    <div class="media-thumb">
+                                                    <div class="media-thumb pointer">
                                                         <img id="oscr-media-grid-thumb-{{$index}}"
                                                              ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"
                                                              ng-click="selectMedia(entry)"/>
