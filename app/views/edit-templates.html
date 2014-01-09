@@ -69,7 +69,6 @@
 <script type="text/ng-template" id="media-element.html">
     <div class="panel-input media-element">
         <div class="digital-object-input">
-        <!--<div ng-controller="MediaController" class="digital-object-input">-->
             <div ng-show="isActiveEl(el)">
                 <div ng-show="el.value">
                     <img ng-src="{{ el | mediaThumbnail }}" />
@@ -107,6 +106,7 @@
                         <!--<button ng-click="enableClearedEditor()" class="btn btn-small"><i class="icon-edit"></i></button>-->
                     <!--</div>-->
                 <!--</div>-->
+                <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
             </div>
         </div>
     </div>

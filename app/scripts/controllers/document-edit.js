@@ -294,10 +294,10 @@ OSCR.controller(
         };
 
         $scope.getDetailView = function (el) {
-            if (el.config.media) { // todo: only when searching?
-                return "search-media.html";
-            }
             if (el.searching) {
+                if (el.config.media) { // todo: only when searching?
+                    return "search-media.html";
+                }
                 return "search-vocabulary.html";
             }
             return "field-documentation-element.html"

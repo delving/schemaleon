@@ -168,10 +168,11 @@ OSCR.controller(
         };
 
         $scope.enableMediaEditor = function () {
+            $scope.enableEditor();
+            $scope.el.searching = true;
             $scope.chosenMedia = null;
             $scope.el.value = null;
             $scope.el.valueFields = null;
-            $scope.enableEditor();
         };
 
         $scope.setValue = function (value) {
