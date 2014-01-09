@@ -1,0 +1,93 @@
+<Photo>
+    <IdentificationNumber oscr_fixed=""/>
+    <Title>{ "required": true, "summaryField": "Title" }</Title>
+    <Type oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoType" }</Type>
+    <ShortDescription>{ "paragraph":true }</ShortDescription>
+    <Authenticity oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoAuthenticity" }</Authenticity>
+    <Condition oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoCondition" }</Condition>
+    <Purpose oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoPurpose" }</Purpose>
+    <Collection oscr_id="" oscr_type="">{ "lookup": "collection" }</Collection> <!--MUSIP?-->
+    <DigitalFile>{ "lookup": "MediaMetadata", "multiple": true }
+        <File oscr_browse=""/>
+        <Comment>{ "paragraph":true }</Comment>
+    </DigitalFile>
+    <DigitalRights>{ "vocabulary": "PhotoDigitalRights" }</DigitalRights>
+    <Source>
+        <IdentificationNumber oscr_fixed="">
+            <URI/>
+            <AnyOtherNumber>
+                <IdentificationNumber oscr_id="" oscr_type="">{ "lookup": "?" }</IdentificationNumber>
+                <Link oscr_id="" oscr_type="">{ "lookup": "organization" }</Link>
+            </AnyOtherNumber>
+        </IdentificationNumber>
+        <Type oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoSourceType" }</Type>
+        <Title/>
+        <Description>{ "paragraph":true }</Description>
+    </Source>
+    <StorageLocation>
+        <Type oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoStorageLocationType" }</Type>
+        <Name/>
+        <Description>{ "paragraph":true }</Description>
+    </StorageLocation>
+    <CreationEvent>
+        <CreationDate>{ "validator": "date" }</CreationDate>
+        <Type oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoCreationEventType" }</Type>
+        <Creator oscr_id="" oscr_type="">{ "lookup": [ "person", "organization" "multiple : true"]</Creator>
+        <CreationPlace>
+            <!--<GeopoliticalHierarchy oscr_id="" oscr_vocabulary=""></GeopoliticalHierarchy>-->
+            <Link oscr_id="" oscr_type="">{ "lookup": "place" }</Link>
+        </CreationPlace>
+        <ObjectRelated>
+            <Type oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoObjectRelatedType" }</Type>
+            <Comment>{ "paragraph":true }</Comment>
+        </ObjectRelated>
+        <Technique oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoTechnique" }</Technique>
+        <Material oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoMaterial" }</Material>
+        <TechnicalDescription>
+            <Dimension>
+                <Pixels_X_axis/>
+                <Pixels_Y_axis/>
+            </Dimension>
+            <CharacteristicsOfPhotograph>
+                <ISO/>
+                <ExposureTime/>
+                <LensAperture/>
+                <FocalLength/>
+            </CharacteristicsOfPhotograph>
+            <CharacteristicsOfDigitization>
+                <DPIResolution/>
+                <ColorDepth/>
+            </CharacteristicsOfDigitization>
+            <Exif/>
+        </TechnicalDescription>
+    </CreationEvent>
+    <ReferenceTo>
+        <Entity>
+            <EntityId oscr_id="" oscr_type="">{ "lookup": [ "person", "place", "event", "photo" ] }</EntityId>
+            <Relation oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoReferenceToRelation" }</Relation>
+        </Entity>
+        <Subject oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoSubject" }</Subject>
+        <Note>{ "paragraph":true }</Note>
+    </ReferenceTo>
+    <OtherRelatedEvents>
+        <Entity>
+            <EntityId oscr_id="" oscr_type="">{ "event" }</EntityId>
+            <Relation oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoOtherRelatedRelation" }</Relation>
+        </Entity>
+    </OtherRelatedEvents>
+    <OtherIdentificationNumbers>
+        <Value/>
+        <DateAssigned>{ "validator": "date" }</DateAssigned>
+        <EntityAssigned>
+            <Link oscr_id="" oscr_type="">{ "lookup": [ "person", "organization" ] }</Link>
+        </EntityAssigned>
+    </OtherIdentificationNumbers>
+    <IsReferencedBy>
+        <Entity>{ "multiple": true }
+            <Link oscr_id="" oscr_type="">{ "lookup": "??" }</Link>
+            <RelationType oscr_id="" oscr_vocabulary="">{ "lookup": "bibliography" }</RelationType>
+            <Comment>{ "paragraph":true }</Comment>
+        </Entity>
+    </IsReferencedBy>
+    <!--<Admin></Admin>-->
+</Photo>

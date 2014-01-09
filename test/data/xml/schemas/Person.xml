@@ -1,0 +1,34 @@
+<Person>
+    <!-- FORTH Person.xsd -->
+    <!--OSCR mark up not proofed-->
+
+    <IdentificationNumber oscr_fixed="">{"type": "string"}</IdentificationNumber>
+    <Appellation>{"type": "string"}</Appellation>
+    <Name>{"type": "term", "multiple":false, "vocabulary": "Place"}</Name>
+    <Type oscr_id="" oscr_vocabulary="">{"vocabulary": "PersonType"}</Type>
+    <Period>
+        <BirthDate>{"validator": "date"}</BirthDate>
+        <DeathDate>{"validator": "date"}</DeathDate>
+    </Period>
+    <Birth-Death_Note>{"validator": "date"}</Birth-Death_Note>
+    <BeMemberOf oscr_id="" oscr_type="">{ "lookup": "?" }</BeMemberOf>
+    <Residence>
+        <Type oscr_id="" oscr_vocabulary="">{"vocabulary": "XXXXXXX"}</Type>
+        <Location>
+            <!--<GeopoliticalHierarchy oscr_id="" oscr_vocabulary="">{ "lookup": [ "place" ] }</GeopoliticalHierarchy>-->
+            <Link oscr_id="" oscr_type=""/>
+        </Location>
+        <ContactInfo>
+            <Location>
+                <GeopoliticalHierarchy oscr_id="" oscr_vocabulary="">{ "lookup": [ "place" ] }</GeopoliticalHierarchy>
+                <Link oscr_id="" oscr_type=""/>
+            </Location>
+            <Address/>
+            <Telephone/>
+            <Fax/>
+            <Email/>
+        </ContactInfo>
+    </Residence>
+    <Description>{ "paragraph": true }</Description>
+    <RelatedToPerson oscr_id="" oscr_type="">{"vocabulary": "PersonRelationType"}</RelatedToPerson>
+</Person>

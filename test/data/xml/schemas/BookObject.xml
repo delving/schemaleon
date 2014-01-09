@@ -1,0 +1,84 @@
+
+<!--Needs to be done-->
+<Book>
+    <IdentificationNumber oscr_fixed="">{"type": "string"}</IdentificationNumber>
+    <OtherIdentificationNumbers>{ "multiple": true }
+        <Category oscr_id="" oscr_vocabulary=""></Category>
+        <Value/>
+        <DateAssigned>{"validator": "date"}</DateAssigned>
+        <EntityAssigned/>
+    </OtherIdentificationNumbers>
+    <Type sps_id="" sps_vocabulary="">{ "multiple": true, "vocabulary": "BookType" }</Type>
+    <Title>{ "required": true, "summaryField": "Title" }</Title>
+    <subtitle></subtitle>
+    <ManagementCategory>{ "multiple": true }</ManagementCategory>
+    <Collection></Collection>
+    <OriginatorOfReference>
+        <Entity>
+            <EntityId oscr_id="" oscr_type=""></EntityId>
+            <Relation oscr_id="" oscr_vocabulary=""></Relation>
+        </Entity>
+    </OriginatorOfReference>
+    <IncludedIn>
+        <Entity>
+            <EntityId oscr_id="" oscr_type="">{ "lookup": [ "book" ] }</EntityId>
+            <Relation oscr_id="" oscr_vocabulary="">{ "vocabulary": "IncludedInRelation" }</Relation>
+        </Entity>
+    </IncludedIn>
+    <IsComposedOf>{ "multiple": true }
+        <Entity>
+            <EntityId oscr_id="" oscr_type="">{ "lookup": [ "book" ] }</EntityId>
+            <Relation oscr_id="" oscr_vocabulary="">{ "vocabulary": "IsComposedOfRelation" }</Relation>
+        </Entity>
+    </IsComposedOf>
+    <CompositionType sps_id="" sps_vocabulary="">{ "vocabulary": "BookCompositionType" }</CompositionType>
+    <Description>{ "paragraph":true }</Description>
+    <Image>
+        <File oscr_browse=""></File>
+        <Comment>{ "paragraph":true }</Comment>
+    </Image>
+    <Condition oscr_id="" oscr_vocabulary="">{ "vocabulary": "BookCondition" }</Condition>
+    <InHouse oscr_id="" oscr_vocabulary="">{ "vocabulary": "BookInhouse" }</InHouse>
+    <Dimension>
+        <PropertyName oscr_id="" oscr_vocabulary="">{ "vocabulary": "MeasProperties" }</PropertyName>
+        <PropertyValue></PropertyValue>
+    </Dimension>
+    <Publication>
+        <Type oscr_id="" oscr_vocabulary="">{ "multiple": true }</Type>
+        <Publisher oscr_id="" oscr_vocabulary="">{ "lookup": [ "person" ] }</Publisher>
+        <Date>{"validator": "date"}</Date>
+        <Place>
+            <GeopoliticalHierarchy oscr_id="" oscr_vocabulary=""></GeopoliticalHierarchy>
+            <Link oscr_id="" oscr_type="">{ "vocabulary": "location" }</Link>
+        </Place>
+        <Technique oscr_id="" oscr_vocabulary="">{ "vocabulary": "location", "multiple": true }</Technique>
+        <EmployedMaterial oscr_id="" oscr_vocabulary="">{ "vocabulary": "BookEmployedMaterial", "multiple": true }</EmployedMaterial>
+    </Publication>
+    <Acquisition>
+        <Type oscr_id="" oscr_vocabulary="">{ "multiple": true, "vocabulary": "AcquisitionTypes"}</Type>
+        <PersonsInvolved>{ "multiple": true }
+            <EntityId oscr_id="" oscr_type="">{ "lookup": [ "person" ] }</EntityId>
+            <Relation oscr_id="" oscr_vocabulary="">{ "vocabulary": "BookPersonsInvolved" }</Relation>
+        </PersonsInvolved>
+        <Date>{"validator": "date"}</Date>
+        <Description>{ "paragraph":true }</Description>
+    </Acquisition>
+    <StorageLocation>
+        <Name/>
+        <Type oscr_id="" oscr_vocabulary="">{"vocabulary": "StorageLocationType"}</Type>
+        <Duration>{"validator": "date"}</Duration>
+        <Description>{ "paragraph":true }</Description>
+    </StorageLocation>
+    <!--<LoanOut></LoanOut>-->
+    <!--<Return></LoanIn>-->
+
+
+
+
+
+
+
+
+
+
+</Book>

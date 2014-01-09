@@ -1,0 +1,31 @@
+<Location>
+    <!-- Based on FORTH Location.xsd -->
+    <!--OSCR mark up not proofed-->
+
+    <IdentificationNumber oscr_fixed=""/>
+
+    <IdentificationNumberAttributionDate>{ "validator": "date" }</IdentificationNumberAttributionDate>
+
+    <!--NEEDS URIS AND Appellations FROM GEONAMES-->
+    <Name oscr_id="" oscr_vocabulary="http://www.geonames.org"></Name>
+
+    <Coordinates>
+        <Longitude>{ "validator": "longitude" }</Longitude>
+        <Latitude>{ "validator": "latitude" }</Latitude>
+    </Coordinates>
+
+    <!--NEEDS URIS AND TERMS FROM GEONAMES-->
+    <Type oscr_id="" oscr_vocabulary="">{"vocabulary": "GeonamesPlaceType"}</Type>
+
+    <!--NEEDS CODES AND TERMS FROM GEONAMES-->
+    <GeopoliticalHierarchy oscr_id="" oscr_vocabulary=""/>
+
+    <CodeNumber>
+        <Value/>
+        <Category oscr_id="" oscr_vocabulary="">{ "vocabulary": "term" }</Category>
+        <AttributionDate>{ "validator": "date" }</AttributionDate>
+        <ExpiryDate> { "validator": "date" }</ExpiryDate>
+        <AttributedBy oscr_id="" oscr_vocabulary="">{ "lookup": [ "person" ] }</AttributedBy>
+    </CodeNumber>
+    <!--<admin></admin>  LATER  -->
+</Location>

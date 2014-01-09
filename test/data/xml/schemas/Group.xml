@@ -1,0 +1,26 @@
+<Group>
+    <IdentificationNumber oscr_fixed="">{"type": "string"}</IdentificationNumber>
+    <Appellation>{"type": "string"}</Appellation>
+    <Type oscr_id="" oscr_vocabulary="">{"vocabulary": "PersonType"}</Type>
+    <Flourished>{"validator": "date"}</Flourished>
+    <!--gdj: added lookup-->
+    <HeadquartersLocation oscr_id="" oscr_type="">{ "lookup": "place" }</HeadquartersLocation>
+    <Location>
+        <!--OBS! Noation for lookup?-->
+        <!--<GeopoliticalHierarchy/>-->
+        <Link oscr_id="" oscr_type="">{ "lookup": [ "place" ] }</Link>
+    </Location>
+    <BeMemberOf oscr_id="" oscr_type="">{"vocabulary": "GroupBeMemberOfType"}</BeMemberOf>
+    <ContactInfo>
+        <Location>
+            <!--<GeopoliticalHierarchy oscr_id="" oscr_vocabulary="">{ "lookup": [ "place" ] }</GeopoliticalHierarchy>-->
+            <Link oscr_id="" oscr_type="">{ "lookup": [ "place" ]</Link>
+        </Location>
+        <Address/>
+        <Telephone/>
+        <Fax/>
+        <Email/>
+    </ContactInfo>
+    <Description>{ "paragraph":true }</Description>
+    <!--<admin></admin>  LATER  -->
+</Group>

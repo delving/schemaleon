@@ -1,0 +1,35 @@
+<InMemoriam>
+
+    <IdentificationNumber oscr_fixed="">{"type": "string"}</IdentificationNumber>
+    <Appellation>{"type": "string"}</Appellation>
+    <Type oscr_id="" oscr_vocabulary="">{"vocabulary": "InMemoriamType"}</Type>
+    <Date>{"validator": "date"}</Date>
+    <Description>{ "paragraph":true }</Description>
+    <!--gdj: Person has GH??-->
+    <Person>
+        <GeopoliticalHierarchy oscr_id="" oscr_vocabulary="">{ "lookup": [ "place" ] }</GeopoliticalHierarchy>
+        <Link oscr_id="" oscr_type="">{ "lookup": "place" }</Link>
+    </Person>
+
+    <StorageLocation>
+        <Type oscr_id="" oscr_vocabulary="">{ "vocabulary": "PhotoStorageLocationType" }</Type>
+        <Name/>
+        <Description>{ "paragraph":true }</Description>
+    </StorageLocation>
+
+    <Front>
+        <File oscr_browse="">{ "lookup": "- uploaded media -"</File>
+        <Comment>{ "paragraph":true }</Comment>
+    </Front>
+    <Back>
+        <File oscr_browse="">{ "lookup": "- uploaded media -"</File>
+        <Comment>{ "paragraph":true }</Comment>
+    </Back>
+
+    <!--???? below-->
+    <PropertyOf/>
+    <!--Eigendom/Bruikleen (via een vinkjesveld, beide moeten tegelijk aangezet kunnen worden)-->
+    <Original/>
+    <!--Orgineel/Kopie (Bolletjesveld)-->
+
+</InMemoriam>
