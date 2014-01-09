@@ -228,7 +228,7 @@ function cloneTree(tree) {
         delete el.valueFields; // only used in media and vocab
     }
 
-    var clone = JSON.parse(JSON.stringify(tree));
+    var clone = angular.copy(tree);
     clearNode(clone);
     installValidators(clone);
     return clone;

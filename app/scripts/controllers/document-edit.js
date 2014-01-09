@@ -104,6 +104,7 @@ OSCR.controller(
         };
 
         $scope.validateTree = function () {
+            // todo: validateTree was commented out in schema-changes
             validateTree($scope.tree);
             if (!$scope.documentDirty) {
                 if (!$scope.documentJSON) {
@@ -147,6 +148,39 @@ OSCR.controller(
         $scope.panels = [];
         $scope.selectedWhere = 0;
 
+//        $scope.panels = [];
+//        $scope.focusElement = [];
+//        $scope.choice = 0;
+//        $scope.selectedPanelIndex = 0;
+//        $scope.activeEd = undefined;
+
+//        $scope.getFocusElement = function(ed) {
+//            return $scope.focusElement[ed.focusElementIndex];
+//        };
+//
+//        $scope.setActiveEd = function (ed) {
+//            $scope.activeEd = ed;
+//            $timeout(function () {
+//                var fe = $scope.getFocusElement(ed);
+//                if (fe) {
+//                    fe.focus();
+//                }
+//                else {
+//                    console.warn("no focus element for ");
+//                    console.log(ed);
+//                }
+//            });
+//        };
+//
+//        $scope.isActiveEd = function (ed) {
+//            return $scope.activeEd === ed;
+//        };
+//
+//        $scope.valueChanged = function (ed) {
+//            console.log("value changed: active=" + (ed == $scope.activeEd));
+//            console.log(ed);
+//        };
+//
         $scope.$watch('i18n', function (i18n, oldValue) {
             if ($scope.tree && i18n) {
                 i18nTree($scope.tree, i18n);
@@ -184,6 +218,8 @@ OSCR.controller(
         });
 
         $scope.choose = function (choice, panelIndex) {
+//            $scope.choice = choice;
+//            $scope.selectedPanelIndex = panelIndex;
             $scope.selected = choice;
             $scope.selectedWhere = panelIndex;
             var parentPanel = $scope.panels[panelIndex];
@@ -217,6 +253,7 @@ OSCR.controller(
             if ($scope.setChoice) {
                 $scope.setChoice(childPanel.element);
             }
+//            $scope.setActiveEd(chosen);
         };
 
         $scope.addSibling = function (list, index, panelIndex) {
@@ -249,6 +286,24 @@ OSCR.controller(
                 $scope.choose(index, panelIndex);
             }
         };
+
+        // todo: use this function
+        $scope.getElementEditor = function (el) {
+            if (el.elements) return "submenu-element.html";
+            if (el.config.line) return "line-element.html";
+            if (el.config.paragraph) return "paragraph-element.html";
+            if (el.config.vocabulary) return "vocabulary-element.html";
+            if (el.config.media) return "media-element.html";
+            return "unrecognized-element.html"
+        };
+
+        // todo: use this
+        $scope.getDetailView = function (el) {
+            if (el.searchValue) {
+                return "search-vocabulary.html";
+            }
+            return "field-documentation-element.html"
+        };
     }
 );
 
@@ -258,6 +313,8 @@ OSCR.controller(
  * It puts "el" in scope, and holds which field is active.
  */
 
+// todo: renamed this ElementEditController
+// todo: selectedWhere => selectedPanelIndex, selected => $scope.choice
 OSCR.controller(
     'DocumentPanelController',
     function ($scope, $timeout) {
@@ -268,10 +325,12 @@ OSCR.controller(
         $scope.el = $scope.panel.element;
 
         $scope.enableEditor = function () {
+            // todo: $scope.setActiveEd was called
             $scope.el.edit = true;
             $scope.setActive($scope.editActive);
         };
 
+        // todo: disableEditor and setActive were removed in schema-changes
         $scope.disableEditor = function () {
             $scope.el.edit = false; //($scope.el.value === undefined);
         };
@@ -288,6 +347,7 @@ OSCR.controller(
             var elements = $scope.panels[$scope.selectedWhere].element.elements;
             if (!elements) return;
             var size = elements.length;
+            // todo: no more disableEditor things here
             switch (key) {
                 case 'up':
                     $scope.disableEditor();
@@ -310,7 +370,7 @@ OSCR.controller(
                         $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
                     }
                     break;
-                case 'enter':
+                case 'enter': // todo: enter did nothing in schema-changes
                     if (!$scope.el.elements) {
                         $scope.enableEditor();
                     }
@@ -319,6 +379,25 @@ OSCR.controller(
         };
     }
 );
+
+// todo: new version
+//OSCR.directive('edFocus',
+//    function () {
+//        return {
+//            restrict: 'A',
+//            priority: 100,
+//            scope: {
+//                ed: "=edFocus",
+//                focusElement: "=edFocusElement"
+//            },
+//            link: function (scope, element, attrs) {
+//                scope.ed.focusElementIndex = scope.focusElement.length;
+//                scope.focusElement.push(element[0]);
+//            }
+//        };
+//    }
+//);
+
 
 OSCR.directive('focus',
     function ($timeout) {

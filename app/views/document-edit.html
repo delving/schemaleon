@@ -60,7 +60,67 @@
                     </div>
                 </div>
             </div>
+            <!--todo: this include replaced with the commented section-->
             <div ng-include="'views/include/panels.html'"></div>
+            <!--<div id="panel-container" ng-controller="DocumentPanelArrayController">-->
+                <!--<p ng-hide="panels" i18n="NoDocumentToEdit"></p>-->
+                <!--<table class="table panels" id="panel-table" ng-show="panels">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr>-->
+                        <!--<td ng-repeat="(panelIndex, panel) in panels"-->
+                            <!--class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">-->
+
+                            <!--<div ng-show="panel.element.elements">-->
+                                <!--<ul class="nav nav-pills nav-stacked panel-list">-->
+                                    <!--<li ng-repeat="element in panel.element.elements">-->
+                                        <!--<a class="level{{ element.classIndex }} link-{{ element.name }}"-->
+                                           <!--ng-click="choose($index, $parent.$index)">-->
+                                            <!--<span class="link-title">-->
+                                                <!--{{ element | elementTitle }}-->
+                                                <!--<span ng-show="config.showTranslationEditor"-->
+                                                      <!--ng-click="openTitleDialog(element)"-->
+                                                      <!--class="badge badge-warning badge-i18n">-->
+                                                      <!--<i class="icon-translate icon-white"></i>-->
+                                                <!--</span>-->
+                                            <!--</span>-->
+                                            <!--<span data-ng-controller="ElementEditController"-->
+                                                  <!--document-navigation="navigationKeyPressed($key)">-->
+                                                <!--<span ng-include="getElementEditor(element)"></span>-->
+                                            <!--</span>-->
+                                        <!--</a>-->
+                                        <!--<div class="icon-container">-->
+                                            <!--<span class="icon-item status status-{{ element.invalid }}"></span>-->
+                                            <!--<span ng-show="element.config.multiple"-->
+                                                  <!--class="display-{{ element.config.multiple }} icon-item pointer"-->
+                                                  <!--ng-click="addSibling(panel.element.elements, $index)">-->
+                                                <!--<i class="icon-plus-sign icon-white"></i>-->
+                                            <!--</span>-->
+                                            <!--<span ng-show="element.config.multiple"-->
+                                                  <!--class="display-{{ element.config.multiple }} icon-item pointer"-->
+                                                  <!--ng-click="removeSibling(panel.element.elements, $index, panelIndex)">-->
+                                                <!--<i class="icon-minus-sign icon-white"></i>-->
+                                            <!--</span>-->
+                                        <!--</div>-->
+
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+
+                            <!--<div ng-hide="panel.element.elements">-->
+                                <!--<div ng-include="getDetailView(panel.element)"></div>-->
+                            <!--</div>-->
+
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</div>-->
+
         </tab>
         <tab>
             <tab-heading i18n="View"><span class="i18n"></span></tab-heading>

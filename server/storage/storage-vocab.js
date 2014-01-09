@@ -26,7 +26,15 @@ P.getVocabularySchema = function (vocabName, receiver) {
                 "  { doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/* }",
             '  </Entry>',
             '</' + vocabName + '>'
-        ],
+//            todo: look at this approach
+//            '<' + vocabName + '>',
+//            "  <Entry>{ " + s.schemaPath() + "/Vocabulary/" + vocabName + "/text() }",
+//            '  <Label/>',
+//            '  <Identifier/>',
+//            "  { "+ s.schemaPath() + "/Vocabulary/" + vocabName + "/* }",
+//            '  </Entry>',
+//            '</' + vocabName + '>'
+    ],
         receiver
     );
 };
