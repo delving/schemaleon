@@ -3,19 +3,19 @@
 <script type="text/ng-template" id="line-element.html">
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
-            <div ng-show="isActiveEd(ed)">
-                <input ed-focus="ed" ed-focus-element="focusElement" id="textInput" class="input-block-level" type="text" ng-model="ed.value" />
-                <div ng-show="ed.invalidMessage">
-                    <span class="label label-important">{{ ed | invalidMessage }}</span>
-                    <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(ed.invalidMessage)"
+            <div ng-show="isActiveEl(el)">
+                <input el-focus="el" el-focus-element="focusElement" id="textInput" class="input-block-level" type="text" ng-model="el.value" />
+                <div ng-show="el.invalidMessage">
+                    <span class="label label-important">{{ el | invalidMessage }}</span>
+                    <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
                           tooltip-placement="right" class="badge badge-warning badge-i18n">
                           <i class="icon-translate icon-white"></i>
                     </span>
                 </div>
             </div>
-            <div ng-hide="isActiveEd(ed)">
+            <div ng-hide="isActiveEl(el)">
                 <div class="input-append">
-                    <input  type="text" ng-click="enableEditor()" value="{{ed.value}}"/>
+                    <input  type="text" ng-click="enableEditor()" value="{{el.value}}"/>
                     <span class="add-on" ng-click="enableEditor()"><i class="icon-edit"></i></span>
                 </div>
             </div>
@@ -26,17 +26,17 @@
 <script type="text/ng-template" id="paragraph-element.html">
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
-            <div ng-show="isActiveEd(ed)">
-                <textarea ed-focus="ed" ed-focus-element="focusElement" id="textArea" ng-model="ed.value" rows="5"></textarea>
+            <div ng-show="isActiveEl(el)">
+                <textarea el-focus="el" el-focus-element="focusElement" id="textArea" ng-model="el.value" rows="5"></textarea>
             </div>
-            <div ng-hide="isActiveEd(ed)">
+            <div ng-hide="isActiveEl(el)">
                 <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"
                      class="pointer chosen-value" tabindex="0">
-                    <div ng-hide="ed.value">
+                    <div ng-hide="el.value">
                         <span>?</span>
                     </div>
-                    <div ng-show="ed.value">
-                        <div ng-repeat="line in ed.value.split('\n')">
+                    <div ng-show="el.value">
+                        <div ng-repeat="line in el.value.split('\n')">
                             <span>{{ line }}</span><br/>
                         </div>
                     </div>
@@ -48,18 +48,18 @@
 
 <script type="text/ng-template" id="vocabulary-element.html">
     <div class="panel-input vocabulary-element">
-        <div class="vocabulary-input">
-            <div ng-show="isActiveEd(ed)">
-                <div ng-show="ed.value">
-                    <span ng-click="enableEditor()" class="label">{{ ed.value }}</span>
+        <div data-ng-controller="VocabularyController" class="vocabulary-input">
+            <div ng-show="isActiveEl(el)">
+                <div ng-hide="el.searching" ng-click="enableVocabularyEditor()" class="pointer chosen-value">
+                    <span class="label">{{ el.value.Label || '?' }}</span>
                 </div>
-                <div ng-hide="ed.value">
-                    <input ed-focus="ed" ed-focus-element="focusElement" type="text" ng-model="ed.searchValue" class="input-block-level"/>
+                <div ng-show="el.searching">
+                    <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
                 </div>
             </div>
-            <div ng-hide="isActiveEd(element)">
-                <div ng-click="enableEditor()" class="pointer chosen-value" tabindex="0">
-                    <span class="label">{{ ed.value || '?' }}</span>
+            <div ng-hide="isActiveEl(el)">
+                <div ng-click="enableVocabularyEditor()" class="pointer chosen-value" tabindex="0">
+                    <span class="label">{{ el.value.Label || '?' }}</span>
                 </div>
             </div>
         </div>
@@ -69,17 +69,17 @@
 <script type="text/ng-template" id="media-element.html">
     <div class="panel-input media-element">
         <div ng-controller="MediaController" class="digital-object-input">
-            <div ng-show="isActiveEd(ed)">
-                <input ed-focus="ed" ed-focus-element="focusElement" id="media" type="text" ng-model="chosenMedia" class="input-block-level"
+            <div ng-show="isActiveEl(el)">
+                <input el-focus="el" el-focus-element="focusElement" id="media" type="text" ng-model="chosenMedia" class="input-block-level"
                        typeahead="media as mediaToString(media) for media in getMediaList($viewValue)"/>
             </div>
-            <div ng-hide="isActiveEd(ed)">
+            <div ng-hide="isActiveEl(el)">
                 <div ng-click="enableEditor()" tooltip-placement="right" class="pointer chosen-value" tabindex="0">
-                    <div ng-hide="ed.value">
+                    <div ng-hide="el.value">
                         <span>?</span>
                     </div>
-                    <div ng-show="ed.value">
-                        <span class="label">{{ ed.value }}</span>
+                    <div ng-show="el.value">
+                        <span class="label">{{ el.value.FileName }}</span>
                         <button ng-click="enableClearedEditor()" class="btn btn-small"><i class="icon-edit"></i></button>
                     </div>
                 </div>
@@ -90,18 +90,18 @@
 
 <script type="text/ng-template" id="field-documentation-element.html">
     <div class="panel-input field-documentation-element">
-        <div ng-hide="ed.elements">
+        <div ng-hide="el.elements">
             <div ng-hide="annotationMode">
                 <div class="widget-box">
                     <div class="widget-title">
                         <span class="icon"><i class=" icon-info-sign"></i></span>
-                        <h5>{{ ed | elementTitle }}</h5>
+                        <h5>{{ el | elementTitle }}</h5>
                     </div>
                     <div class="widget-body">
-                        <p ng-show="ed.doc">{{ ed | elementDoc }}</p>
+                        <p ng-show="el.doc">{{ el | elementDoc }}</p>
                     </div>
                     <div class="widget-footer">
-                        <button ng-click="openDocDialog(ed)" class="btn btn-small"><i class="icon-edit"></i></button>
+                        <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
 </script>
 
 <script type="text/ng-template" id="submenu-element.html">
-    <input ed-focus="ed" ed-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
+    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
 </script>
 
 <script type="text/ng-template"  id="unrecognized-element.html">
@@ -121,17 +121,21 @@
 
 <script type="text/ng-template" id="search-vocabulary.html">
     <div data-ng-controller="VocabularySearchController">
-        <span class="label">Search for:</span>
-        <span class="label label-info">{{ ed.searchValue }}</span>
+        <div ng-show="el.value" class="label">Searchypoo Current value {{ el.value.Label }}</div>
+        <div ng-hide="el.value" class="label">No current value, no there isn't</div>
+        <div>
+            <span class="label">Search for:</span>
+            <span class="label label-info">{{ el.searchValue }}</span>
+        </div>
 
-        <div ng-hide="ed.entries">
+        <div ng-hide="el.entries">
             <button ng-click="createNewValue()" class="btn btn-small"><i class="icon-plus"></i></button>
         </div>
 
-        <div ng-show="ed.entries">
+        <div ng-show="el.entries">
             <h1 class="label">Entries:</h1>
             <ul>
-                <li ng-repeat="entry in ed.entries">
+                <li ng-repeat="entry in el.entries">
                     <span class="label">{{entry}}</span>
                 </li>
             </ul>

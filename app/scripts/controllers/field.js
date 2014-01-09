@@ -124,7 +124,7 @@ OSCR.controller(
 
         $scope.refreshImageList = function () {
             refreshList();
-        }
+        };
 
         if (!$scope.el.suspendValidation) {
             $scope.$watch('el.value', function (after, before) {

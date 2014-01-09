@@ -143,44 +143,41 @@ OSCR.controller(
 
 OSCR.controller(
     'DocumentPanelArrayController',
-    function ($rootScope, $scope, Document) {
+    function ($rootScope, $scope, $timeout, Document) {
 
         $scope.panels = [];
-        $scope.selectedWhere = 0;
+        $scope.focusElement = [];
+        $scope.choice = 0;
+        $scope.selectedPanelIndex = 0;
+        $scope.activeEl = undefined;
 
-//        $scope.panels = [];
-//        $scope.focusElement = [];
-//        $scope.choice = 0;
-//        $scope.selectedPanelIndex = 0;
-//        $scope.activeEd = undefined;
+        $scope.getFocusElement = function(el) {
+            return $scope.focusElement[el.focusElementIndex];
+        };
 
-//        $scope.getFocusElement = function(ed) {
-//            return $scope.focusElement[ed.focusElementIndex];
-//        };
-//
-//        $scope.setActiveEd = function (ed) {
-//            $scope.activeEd = ed;
-//            $timeout(function () {
-//                var fe = $scope.getFocusElement(ed);
-//                if (fe) {
-//                    fe.focus();
-//                }
-//                else {
-//                    console.warn("no focus element for ");
-//                    console.log(ed);
-//                }
-//            });
-//        };
-//
-//        $scope.isActiveEd = function (ed) {
-//            return $scope.activeEd === ed;
-//        };
-//
-//        $scope.valueChanged = function (ed) {
-//            console.log("value changed: active=" + (ed == $scope.activeEd));
-//            console.log(ed);
-//        };
-//
+        $scope.setActiveEl = function (el) {
+            $scope.activeEl = el;
+            $timeout(function () {
+                var fe = $scope.getFocusElement(el);
+                if (fe) {
+                    fe.focus();
+                }
+                else {
+                    console.warn("no focus element for ");
+                    console.log(el);
+                }
+            });
+        };
+
+        $scope.isActiveEl = function (el) {
+            return $scope.activeEl === el;
+        };
+
+        $scope.valueChanged = function (el) {
+            console.log("value changed: active=" + (el == $scope.activeEl));
+            console.log(el);
+        };
+
         $scope.$watch('i18n', function (i18n, oldValue) {
             if ($scope.tree && i18n) {
                 i18nTree($scope.tree, i18n);
@@ -220,8 +217,8 @@ OSCR.controller(
         $scope.choose = function (choice, panelIndex) {
 //            $scope.choice = choice;
 //            $scope.selectedPanelIndex = panelIndex;
-            $scope.selected = choice;
-            $scope.selectedWhere = panelIndex;
+            $scope.choice = choice;
+            $scope.selectedPanelIndex = panelIndex;
             var parentPanel = $scope.panels[panelIndex];
             parentPanel.selected = choice;
             var chosen = parentPanel.element.elements[choice];
@@ -250,10 +247,10 @@ OSCR.controller(
 
             scroller.animate({scrollLeft: leftPos + wTable}, 800);
 
-            if ($scope.setChoice) {
-                $scope.setChoice(childPanel.element);
-            }
-//            $scope.setActiveEd(chosen);
+//            if ($scope.setChoice) {
+//                $scope.setChoice(childPanel.element);
+//            }
+            $scope.setActiveEl(chosen);
         };
 
         $scope.addSibling = function (list, index, panelIndex) {
@@ -287,7 +284,6 @@ OSCR.controller(
             }
         };
 
-        // todo: use this function
         $scope.getElementEditor = function (el) {
             if (el.elements) return "submenu-element.html";
             if (el.config.line) return "line-element.html";
@@ -297,9 +293,8 @@ OSCR.controller(
             return "unrecognized-element.html"
         };
 
-        // todo: use this
         $scope.getDetailView = function (el) {
-            if (el.searchValue) {
+            if (el.searching) {
                 return "search-vocabulary.html";
             }
             return "field-documentation-element.html"
@@ -313,92 +308,71 @@ OSCR.controller(
  * It puts "el" in scope, and holds which field is active.
  */
 
-// todo: renamed this ElementEditController
-// todo: selectedWhere => selectedPanelIndex, selected => $scope.choice
 OSCR.controller(
-    'DocumentPanelController',
+    'ElementEditController',
     function ($scope, $timeout) {
-        if (!$scope.panel) {
-            return;
-        }
 
-        $scope.el = $scope.panel.element;
+        $scope.el = $scope.element;
 
         $scope.enableEditor = function () {
-            // todo: $scope.setActiveEd was called
-            $scope.el.edit = true;
-            $scope.setActive($scope.editActive);
-        };
-
-        // todo: disableEditor and setActive were removed in schema-changes
-        $scope.disableEditor = function () {
-            $scope.el.edit = false; //($scope.el.value === undefined);
-        };
-
-        $scope.disableEditor();
-
-        $scope.setActive = function (field) {
-            $scope.editActive = field;
-            $scope.active = $scope.el.edit ? field : 'hidden';
+            $scope.setActiveEl($scope.el);
         };
 
         $scope.navigationKeyPressed = function (key) {
             if ($scope.annotationMode) return; // is there maybe a better way?
-            var elements = $scope.panels[$scope.selectedWhere].element.elements;
+            var elements = $scope.panels[$scope.selectedPanelIndex].element.elements;
             if (!elements) return;
             var size = elements.length;
-            // todo: no more disableEditor things here
             switch (key) {
                 case 'up':
-                    $scope.disableEditor();
-                    $scope.choose(($scope.selected + size - 1) % size, $scope.selectedWhere);
+//                    $scope.disableEditor();
+                    $scope.choose(($scope.choice + size - 1) % size, $scope.selectedPanelIndex);
                     break;
                 case 'down':
-                    $scope.disableEditor();
-                    $scope.choose(($scope.selected + 1) % size, $scope.selectedWhere);
+//                    $scope.disableEditor();
+                    $scope.choose(($scope.choice + 1) % size, $scope.selectedPanelIndex);
                     break;
                 case 'right':
-                    if ($scope.panels[$scope.selectedWhere + 1].element.elements) {
-                        $scope.choose(0, $scope.selectedWhere + 1);
+                    if ($scope.panels[$scope.selectedPanelIndex + 1].element.elements) {
+                        $scope.choose(0, $scope.selectedPanelIndex + 1);
                     }
                     else {
                         $scope.enableEditor();
                     }
                     break;
                 case 'left':
-                    if ($scope.selectedWhere > 0 && $scope.active == 'hidden') {
-                        $scope.choose($scope.panels[$scope.selectedWhere - 1].selected, $scope.selectedWhere - 1);
+                    if ($scope.selectedPanelIndex > 0 && $scope.active == 'hidden') {
+                        $scope.choose($scope.panels[$scope.selectedPanelIndex - 1].selected, $scope.selectedPanelIndex - 1);
                     }
                     break;
                 case 'enter': // todo: enter did nothing in schema-changes
-                    if (!$scope.el.elements) {
-                        $scope.enableEditor();
-                    }
+//                    if (!$scope.el.elements) {
+//                        $scope.enableEditor();
+//                    }
                     break;
             }
         };
     }
 );
 
-// todo: new version
-//OSCR.directive('edFocus',
-//    function () {
-//        return {
-//            restrict: 'A',
-//            priority: 100,
-//            scope: {
-//                ed: "=edFocus",
-//                focusElement: "=edFocusElement"
-//            },
-//            link: function (scope, element, attrs) {
-//                scope.ed.focusElementIndex = scope.focusElement.length;
-//                scope.focusElement.push(element[0]);
-//            }
-//        };
-//    }
-//);
+OSCR.directive('elFocus',
+    function () {
+        return {
+            restrict: 'A',
+            priority: 100,
+            scope: {
+                el: "=elFocus",
+                focusElement: "=elFocusElement"
+            },
+            link: function (scope, element, attrs) {
+                scope.el.focusElementIndex = scope.focusElement.length;
+                scope.focusElement.push(element[0]);
+            }
+        };
+    }
+);
 
-
+// todo: this is deprecated
 OSCR.directive('focus',
     function ($timeout) {
         return {
