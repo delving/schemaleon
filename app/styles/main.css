@@ -304,6 +304,7 @@ ul.kv-list li span.value {
 }
 .tabbable {
   margin-bottom: 40px;
+  margin-right: 10px;
 }
 .tabbable .nav-tabs {
   margin-bottom: 0px;
