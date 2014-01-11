@@ -17,7 +17,7 @@ var Log = require('./storage-log');
 var Directories = require('../directories');
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
 function Storage(home) {
@@ -331,6 +331,7 @@ function open(databaseName, homeDir, receiver) {
 
         function loadData(fsPath, docPath, replace) {
             log('loading data from ' + fsPath + ' to ' + docPath);
+            var extension = ".xml";
             _.each(fs.readdirSync(fsPath), function (file) {
                 if (file[0] == '.') return;
                 var fileSystemPath = fsPath + '/' + file;
@@ -339,7 +340,7 @@ function open(databaseName, homeDir, receiver) {
                     log('load directory ' + fileSystemPath);
                     loadData(fileSystemPath, documentPath + '/', replace);
                 }
-                else {
+                else if (file.lastIndexOf(extension) + extension.length == file.length) {
                     log("Load file: " + fileSystemPath);
                     if (promise) {
                         log('new promise for ' + documentPath);
@@ -355,6 +356,15 @@ function open(databaseName, homeDir, receiver) {
             });
         }
 
+        function loadBootstrapData() {
+            var dataPath = "../oscr-data";
+            if (!fs.existsSync(dataPath)) {
+                throw new Error("Cannot find "+dataPath+" for bootstrapping!");
+            }
+            dataPath = fs.realpathSync(dataPath);
+            loadData(dataPath, '', false);
+        }
+
         function finish() {
             promise.then(
                 function () {
@@ -366,9 +376,7 @@ function open(databaseName, homeDir, receiver) {
             );
         }
 
-        var fileSystemPath = 'test/data/xml';
         if (reply.ok) {
-            loadData(fileSystemPath, '', true);
             finish();
         }
         else {
@@ -379,7 +387,7 @@ function open(databaseName, homeDir, receiver) {
                             console.error(er);
                         }
                         else {
-                            loadData(fileSystemPath, '', false);
+                            loadBootstrapData();
                             finish();
                         }
                     });

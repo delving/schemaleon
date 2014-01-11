@@ -4,6 +4,11 @@
 
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
+var fs = require('fs');
+
+if (!fs.existsSync('../oscr-data')) {
+    throw 'Data directory not found: ../oscr-data. Clone https://github.com/delving/oscr-data there';
+}
 
 module.exports = function (grunt) {
     // load all grunt tasks
