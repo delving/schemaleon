@@ -11,7 +11,7 @@ angular.module('OSCR').service(
         this.authenticate = function (username, password, accept) {
             $http.post('/authenticate', { username: username, password: password }).success(function (xml) {
                 var userObject = xmlToObject(xml);
-                accept(userObject);
+                accept(userObject.User);
             });
         };
 

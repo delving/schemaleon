@@ -17,7 +17,7 @@ var Log = require('./storage-log');
 var Directories = require('../directories');
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 function Storage(home) {
@@ -366,14 +366,19 @@ function open(databaseName, homeDir, receiver) {
         }
 
         function finish() {
-            promise.then(
-                function () {
-                    receiver(storage);
-                },
-                function (error) {
-                    console.error("final problem! " + error);
-                }
-            );
+            if (!promise) {
+                receiver(storage);
+            }
+            else {
+                promise.then(
+                    function () {
+                        receiver(storage);
+                    },
+                    function (error) {
+                        console.error("final problem! " + error);
+                    }
+                );
+            }
         }
 
         if (reply.ok) {
