@@ -14,7 +14,7 @@ function Media(storage) {
 var P = Media.prototype;
 
 function log(message) {
-    console.log('storage-media.js: ', message);
+//    console.log('storage-media.js: ', message);
 }
 
 P.thumbNameProper = function (thumbName)  {
