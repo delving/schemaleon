@@ -23,10 +23,10 @@ P.thumbNameProper = function (thumbName)  {
         nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
     }
     return nameProper;
-}
+};
 
 P.saveMedia = function (body, receiver) {
-    log('saveMedia');
+    log('saveMedia' + JSON.stringify(body));
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
     var thumbnailPath = path.join(s.directories.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));

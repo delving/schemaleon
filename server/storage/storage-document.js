@@ -14,13 +14,13 @@ function Document(storage) {
 var P = Document.prototype;
 
 function log(message) {
-    console.log('storage-document.js: ', message);
+//    console.log('storage-document.js: ', message);
 }
 
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
     s.query('get document schema ' + schemaName,
-        s.schemaPath() + '/Document/' + schemaName,
+        s.schemaPath(schemaName),
         receiver
     );
 };
@@ -95,7 +95,7 @@ P.saveDocument = function (envelope, receiver) {
     if (hdr.Identifier === IDENTIFIER) {
         if (envelope.header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
-            log('save image');
+            log('save media' + JSON.stringify(envelope));
             s.Media.saveMedia(body, function (fileName) {
                 hdr.Identifier = fileName;
                 addDocument();

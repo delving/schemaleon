@@ -12,10 +12,13 @@ function Vocab(storage) {
 var P = Vocab.prototype;
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
 P.getVocabularySchema = function (vocabName, receiver) {
+//    todo: make it so that vocabularies don't have to be named in schemas
+//    todo: default behavior is they just appear
+
     var s = this.storage;
     s.query('get vocabulary schema ' + vocabName,
         [

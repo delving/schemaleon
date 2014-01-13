@@ -7,7 +7,7 @@ var Storage = require('../../server/storage');
 var util = require('../../server/util');
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
 var storage = null;
@@ -48,6 +48,7 @@ function envelope(header, body) {
     var documentXml = util.objectToXml(document, 'Document');
     return {
         header: header,
+        body: body,
         xml: documentXml
     };
 }
@@ -58,19 +59,17 @@ exports.testImageIngestion = function (test) {
     copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaUploadDir, fileName), function () {
         copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaThumbnailDir, fileName), function () {
             var body = {
-                Creator: 'zoomy',
-                Description: 'disturbing',
-                Collection: 'lolcats'
+                UserIdentifier: 'OSCR-US-awe8a7as-asd',
+                GroupIdentifier: 'OSCR-GR-werww98as-7s8',
+                FileName: 'OSCR-ME-sja33jas-9sa.jpg',
+                OriginalFileName: 'lolcat.jpg',
+                MimeType: 'image/jpeg'
             };
             var header = {
                 Identifier: '#IDENTIFIER#',
                 SchemaName: 'MediaMetadata',
                 TimeStamp: "#TIMESTAMP#",
-                EMail: 'oscr@delving.eu',
-                MediaObject: {
-                    fileName: fileName,
-                    mimeType: 'image/jpeg'
-                }
+                EMail: 'oscr@delving.eu'
             };
             var envel = envelope(header, body);
             log('about to save document');
@@ -83,14 +82,14 @@ exports.testImageIngestion = function (test) {
                 storage.Document.getAllDocuments(schemaName, function (results) {
                     log('listImageData for ' + schemaName);
                     log(results);
-                    test.ok(results.indexOf("zoomy") > 0, 'zoomy not found');
+                    test.ok(results.indexOf("lolcat") > 0, 'lolcat not found');
                     storage.Media.listMediaFiles(function (err, results) {
                         log('list media file results');
                         log(results);
                         test.equals(results.length, 2, "should just be 2 files, but it's " + results.length);
                         var newFileName = path.basename(results[0]);
                         storage.Document.getDocument(schemaName, newFileName, function (doc) {
-                            test.ok(doc.indexOf("zoomy") > 0, 'zoomy not found');
+                            test.ok(doc.indexOf("lolcat") > 0, 'lolcat not found');
                             test.done();
                         });
                     });

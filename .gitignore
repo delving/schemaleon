@@ -26,3 +26,5 @@ syntax: glob
 ._git
 
 dist
+
+oscr-data

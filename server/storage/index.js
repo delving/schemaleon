@@ -62,8 +62,12 @@ function Storage(home) {
         return "doc('" + this.database + this.langDocument(language) + "')/Language";
     };
 
-    this.schemaPath = function () {
-        return "doc('" + this.database + "/Schemas.xml')/Schemas";
+    this.schemaDocument = function (schemaName) {
+        return "/schemas/" + schemaName + ".xml";
+    };
+
+    this.schemaPath = function (schemaName) {
+        return "doc('" + this.database + this.schemaDocument(schemaName) + "')/" + schemaName;
     };
 
     this.vocabDocument = function (vocabName) {
