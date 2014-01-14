@@ -29,7 +29,7 @@ OSCR.controller(
 
         function setUser(user) {
             if (user) {
-                $rootScope.user = user;
+                $rootScope.user = user.User;
                 $cookieStore.put('user', user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);

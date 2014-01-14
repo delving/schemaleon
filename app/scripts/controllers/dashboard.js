@@ -8,7 +8,7 @@ OSCR.controller(
         Statistics.getGlobalStatistics(function (statistics) {
             $scope.statistics = statistics;
         });
-
+        
         Statistics.getLogEntries(function (entries) {
             $scope.logEntries = _.sortBy(entries, function (val) {
                 return -val.TimeStamp;

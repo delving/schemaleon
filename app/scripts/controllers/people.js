@@ -47,7 +47,7 @@ OSCR.controller(
         function getAllUsers() {
             Person.getAllUsers(function (list) {
                 $scope.allUsers = list;
-                console.log($scope.allUsers);
+//                console.log($scope.allUsers);
             });
         }
 

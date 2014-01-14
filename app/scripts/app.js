@@ -5,6 +5,16 @@ var OSCR = angular.module('OSCR', ['ngCookies', 'ui.bootstrap', 'blueimp.fileupl
 OSCR.config(
     function ($routeProvider) {
         $routeProvider
+            .when('/', {
+                templateUrl: 'views/home.html',
+                controller: 'HomeController',
+                title: 'OSCR Home'
+            })
+//            .when('/group/:id', {
+//                templateUrl: 'views/group.html',
+//                controller: 'HomeController',
+//                title: 'OSCR Group'
+//            })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
                 controller: 'DashboardController',
