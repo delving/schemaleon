@@ -13,20 +13,27 @@ function Media(storage) {
 
 var P = Media.prototype;
 
-function log(message) {
-    console.log('storage-media.js: ', message);
+function log(message, lineNr) {
+    if (lineNr) {
+        console.log('storage-media.js l.'+lineNr+':', message);
+    }
+    else {
+        console.log('storage-media.js:', message);
+    }
+
 }
 
 P.thumbNameProper = function (thumbName)  {
     var nameProper= thumbName;
-    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
-        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
+        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
     }
     return nameProper;
 }
 
 P.saveMedia = function (body, receiver) {
     log('saveMedia');
+    log(body);
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
     var thumbnailPath = path.join(s.directories.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));
@@ -34,6 +41,7 @@ P.saveMedia = function (body, receiver) {
         console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
     }
     var fileName = s.Media.createFileName(body);
+    log("filename:"+fileName);
     var bucketPath = s.directories.mediaBucketDir(fileName);
     var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
     copyFile(imagePath, path.join(bucketPath, fileName), function (err) {
@@ -103,6 +111,7 @@ P.listMediaFiles = function (done) {
 };
 
 P.createFileName = function (body) {
+    console.log("createFileName MimeType:" + body.MimeType);
     var s = this.storage;
     var fileName = util.generateImageId();
     switch (body.MimeType) {
@@ -120,6 +129,9 @@ P.createFileName = function (body) {
             break;
         case 'video/quicktime':
             fileName += '.mov';
+            break;
+        case 'application/pdf':
+            fileName += '.pdf';
             break;
         default:
             console.log("UNKOWN MIME: " + body.MimeType);
@@ -146,6 +158,9 @@ P.getMimeType = function(fileName) {
             break;
         case '.mov':
             mimeType = 'video/quicktime';
+            break;
+        case '.pdf':
+            mimeType = 'application/pdf';
             break;
         default:
             console.error('No mime type for extension '+path.extname(fileName));

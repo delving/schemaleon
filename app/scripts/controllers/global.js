@@ -153,8 +153,8 @@ OSCR.controller(
         // properFile name extension for multi-media thumbs
         $rootScope.getProperThumbExtension = function (name){
             var nameProper= name;
-            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
-                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
+                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
             }
             return nameProper;
         };
@@ -167,6 +167,12 @@ OSCR.controller(
 
         $rootScope.isVideo = function (mime) {
             if (mime && mime.indexOf('video') >= 0){
+                return true;
+            }
+        };
+
+        $rootScope.isPdf = function (mime) {
+            if (mime && mime.indexOf('pdf') >= 0){
                 return true;
             }
         };

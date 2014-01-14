@@ -15,6 +15,16 @@
 
 'use strict';
 
+
+function log(message, lineNr) {
+    if (!lineNr === "") {
+        console.log('upload.js l.'+lineNr+':', message);
+    }
+    else {
+        console.log('upload.js:', message);
+    }
+}
+
 var Directories = require('./directories');
 var directories = new Directories();
 
@@ -37,6 +47,7 @@ var options = {
     // to prevent executing any scripts in the context of the service domain:
     inlineFileTypes: /\.(gif|jpe?g|png)$/i,
     imageTypes: /\.(gif|jpe?g|png)$/i,
+    documentTypes: /\.(pdf)$/i,
     imageVersions: {
         'thumbnail': {
             width: 160,
@@ -197,6 +208,7 @@ UHP.post = function () {
             }
             fs.renameSync(file.path, uploadDir + '/' + fileInfo.name);
             if (options.imageTypes.test(fileInfo.name)) {
+                log("thumbing images")
                 Object.keys(options.imageVersions).forEach(function (version) {
                     counter += 1;
                     var opts = options.imageVersions[version];
@@ -211,16 +223,22 @@ UHP.post = function () {
                     );
                 });
             }
+            //TODO: PDF AND AUDIO - pdf use first page for thumb, audio -use and icon
             else {
                 //TODO: allow for other video formats (MOV, VOB ...)
+                log("thumbing other")
                 Object.keys(options.imageVersions).forEach(function (version) {
                     counter += 1;
                     var opts = options.imageVersions[version];
                     var originalFileName = fileInfo.name;
-                    var frameFileName = uploadDir + '/' + fileInfo.name + '[100]';
-                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+                    var frameNr = '[20]';
+                    if (options.documentTypes.test(fileInfo.name)) {
+                        frameNr = '[0]';
+                    }
+                    var frameFileName = uploadDir + '/' + fileInfo.name + frameNr;
+                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
                     imageMagick.convert(
-                        [frameFileName, '-resize', '160x160', thumbName],
+                        [frameFileName, '-resize', '160x160', '-flatten', thumbName],
                         finish
                     );
                 });
