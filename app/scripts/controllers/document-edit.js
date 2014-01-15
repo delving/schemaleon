@@ -310,7 +310,6 @@ OSCR.controller(
     'ElementViewController',
     function ($scope) {
         $scope.getElementViewer = function (el) {
-            console.log('getElementViewer', el);
             if (el.elements) return "submenu-view.html";
             if (el.config.line) return "line-view.html";
             if (el.config.paragraph) return "paragraph-view.html";

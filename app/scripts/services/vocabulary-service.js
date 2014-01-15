@@ -18,12 +18,8 @@ OSCR.service(
             });
         };
 
-        this.select = function (vocab, query, lookup, accept) {
-            var params = { q: query };
-            if (lookup) {
-                params.lookup = lookup;
-            }
-            $http.get('/vocabulary/' + vocab + "/select", { params: params }).success(function (data) {
+        this.select = function (vocab, query, accept) {
+            $http.get('/vocabulary/' + vocab + "/select", {params: {q: query}}).success(function (data) {
                 accept(xmlToArray(data));
             });
         };

@@ -250,9 +250,9 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/vocabulary/:vocab/select', function (req, res) {
+        // todo: make sure q exists
         var search = req.param('q').toLowerCase();
-        var lookup = req.param('lookup');
-        storage.Vocab.getVocabularyEntries(req.params.vocab, search, lookup, function (xml) {
+        storage.Vocab.getVocabularyEntries(req.params.vocab, search, function (xml) {
             res.xml(xml);
         });
     });
@@ -296,6 +296,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/document/select/:schema', function (req, res) {
+        // todo: make sure q exists
         var search = req.param('q').toLowerCase();
         storage.Document.selectDocuments(req.params.schema, search, function (xml) {
             res.xml(xml);

@@ -41,34 +41,6 @@ OSCR.controller(
             });
         }
 
-        $scope.getEntries = function (query) {
-            $scope.query = query;
-            var deferred = $q.defer();
-            var lookup = $scope.el.tree ? $scope.el.tree.config.lookup : null;
-            Vocabulary.select($scope.schema, query, lookup, function (list) {
-//                console.log('vocab select '+list.length);
-//                console.log(list);
-                var lookupEntries = null;
-                var entries = _.filter(list, function (item) {
-                    if (item.Entry) {
-                        lookupEntries = item.Entry;
-                        return false;
-                    }
-                    return true;
-                });
-                if (lookupEntries) {
-                    entries = entries.concat(_.map(lookupEntries, function (entry) {
-                        entry.source = lookup;
-                        return entry;
-                    }));
-                }
-//                console.log('lookup entries');
-//                console.log(JSON.stringify(entries));
-                deferred.resolve(entries);
-            });
-            return deferred.promise;
-        };
-
         $scope.setValue = function (value) {
             $scope.el.value = value;
             if ($scope.el.vocabularyTree) {
@@ -97,26 +69,9 @@ OSCR.controller(
         $scope.$watch('el.searchValue', function (newSearchValue, before) {
             if (newSearchValue) {
                 console.log("search value changed from ["+before+"] to ["+newSearchValue+"]");
-                Vocabulary.select($scope.schema, newSearchValue, null, function (list) {
-                    console.log('vocab select '+list.length);
-                    console.log(list);
-//                    var lookupEntries = null;
-//                    var entries = _.filter(list, function (item) {
-//                        if (item.Entry) {
-//                            lookupEntries = item.Entry;
-//                            return false;
-//                        }
-//                        return true;
-//                    });
-//                    if (lookupEntries) {
-//                        entries = entries.concat(_.map(lookupEntries, function (entry) {
-//                            entry.source = lookup;
-//                            return entry;
-//                        }));
-//                    }
-//                    console.log('lookup entries');
-//                    console.log(JSON.stringify(entries));
-//                    $scope.entries = entries;
+                Vocabulary.select($scope.el.config.vocabulary, newSearchValue, function (entries) {
+                    console.log('vocab result entries',entries);
+                    $scope.el.entries = entries;
                 });
             }
         });

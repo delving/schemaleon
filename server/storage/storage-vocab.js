@@ -88,50 +88,22 @@ P.getVocabularyEntry = function (vocabName, identifier, receiver) {
     );
 };
 
-P.getVocabularyEntries = function (vocabName, search, lookup, receiver) {
-
-    function getLookupXml(receiver) {
-        if (lookup === 'geonames') { // eventually check a set of names
-            var service = require("../" + lookup);
-            service.search(search, function (list) {
-                var wrap = { Entry: list };
-                receiver(util.objectToXml(wrap, "Lookup"));
-            })
-        }
-        else {
-            receiver('');
-        }
-    }
-
-    function doQuery(lookupXml) {
-        s.query('fetch',
-            [
-                '<Entries>',
-                '    {',
-                '    if ('+ s.vocabExists(vocabName) + ')',
-                '    then '+ s.vocabPath(vocabName) + "/Entries/Entry[contains(lower-case(Label), lower-case(" + util.quote(search) + "))]",
-                '    else ()',
-                '    }',
-                lookupXml,
-                '</Entries>'
-            ],
-            function(result) {
-//                console.log('doQuery result');
-//                console.log(result);
-                receiver(result);
-            }
-        );
-    }
-
+P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
-    if (lookup) {
-        getLookupXml(function (lookupXml) {
-            doQuery(lookupXml);
-        })
-    }
-    else {
-        doQuery('');
-    }
+    s.query('fetch',
+        [
+            '<Entries>',
+            '    {',
+            '    if ('+ s.vocabExists(vocabName) + ')',
+            '    then '+ s.vocabPath(vocabName) + "/Entries/Entry[contains(lower-case(Label), lower-case(" + util.quote(search) + "))]",
+            '    else ()',
+            '    }',
+            '</Entries>'
+        ],
+        function(result) {
+            receiver(result);
+        }
+    );
 };
 
 P.getVocabulary = function (vocabName, receiver) {
