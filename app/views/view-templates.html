@@ -1,0 +1,40 @@
+<!--This file contains only templates, and is tied to the controllers in document-edit.js-->
+
+<script type="text/ng-template" id="line-view.html">
+    <h1 class="label">line</h1>
+    <label class="label">{{el.name}}:</label>
+    <span class="data">{{ el.value }}</span>
+</script>
+
+<script type="text/ng-template" id="paragraph-view.html">
+    <h1 class="label">paragraph</h1>
+    <label class="label">{{el.name}}:</label>
+    <span class="data">{{ el.value }}</span>
+</script>
+
+<script type="text/ng-template" id="vocabulary-view.html">
+    <h1 class="label">vocabulary {{el.value.Label}}</h1>
+    <label class="label">{{el.name}}:</label>
+    <span class="data">{{ el.value }}</span>
+</script>
+
+<script type="text/ng-template" id="media-view.html">
+    <h1 class="label">media {{el.value.FileName}}</h1>
+    <label class="label">{{el.name}}:</label>
+    <span class="data">{{ el.value }}</span>
+</script>
+
+<script type="text/ng-template" id="submenu-view.html">
+    <h1 class="label">submenu</h1>
+    <label class="label">{{el.name}}:</label>
+    <ul class="value-list" >
+        <!--<li ng-repeat="el in el.elements">{{el.name}}: {{getElementViewer(el)}}</li>-->
+        <li ng-repeat="el in el.elements" ng-include="getElementViewer(el)" ng-show="el.value"></li>
+    </ul>
+</script>
+
+<script type="text/ng-template"  id="unrecognized-view.html">
+    <div class="panel-input">
+        <span class="label">UNRECOGNIZED VIEW!</span>
+    </div>
+</script>

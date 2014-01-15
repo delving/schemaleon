@@ -305,6 +305,22 @@ OSCR.controller(
     }
 );
 
+
+OSCR.controller(
+    'ElementViewController',
+    function ($scope) {
+        $scope.getElementViewer = function (el) {
+            console.log('getElementViewer', el);
+            if (el.elements) return "submenu-view.html";
+            if (el.config.line) return "line-view.html";
+            if (el.config.paragraph) return "paragraph-view.html";
+            if (el.config.vocabulary) return "vocabulary-view.html";
+            if (el.config.media) return "media-view.html";
+            return "unrecognized-view.html"
+        };
+    }
+);
+
 /**
  * There is a document panel controller for each panel in the display
  *
