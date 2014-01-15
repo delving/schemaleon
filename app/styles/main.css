@@ -1330,3 +1330,17 @@ ul.value-list label {
   color: #555555;
   font-weight: bold;
 }
+/* DOCUMENT VIEW */
+.indent {
+  margin-left: 30px;
+}
+.field {
+  display: block;
+}
+.field label,
+.field .data {
+  vertical-align: top;
+}
+.field .data img {
+  margin-bottom: 8px;
+}

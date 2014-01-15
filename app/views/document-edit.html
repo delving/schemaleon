@@ -120,11 +120,11 @@
         </tab>
         <tab>
             <tab-heading i18n="View"><span class="i18n"></span></tab-heading>
-            <div data-ng-controller="ElementViewController">
-                <h4>Using view-templates.html and getElementViewer():</h4>
-                <ul class="unstyled value-list">
-                    <li ng-repeat="el in tree.elements" ng-include="getElementViewer(el)" ng-show="el.value"></li>
-                </ul>
+            <div data-ng-controller="ElementViewController" class="row-fluid">
+                <div class="span6">
+                    <div class="field" ng-repeat="el in tree.elements" ng-include="getElementViewer(el)" ng-show="el.value"></div>
+                </div>
+                <div class="span6">[right col, show actual media files]</div>
             </div>
 
         </tab>
