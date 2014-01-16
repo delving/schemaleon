@@ -18,6 +18,21 @@ OSCR.controller(
         $scope.header = {};
         $scope.tree = null;
         $scope.documentDirty = false;
+        $scope.tabEditActive = true;
+        $scope.tabViewActive = false;
+        $scope.saveSuccess = false;
+
+        $scope.showTab = function (tab) {
+            if(tab == 'view'){
+                $scope.tabViewActive = true;
+                $scope.tabEditActive = false;
+            }
+            else {
+                $scope.tabViewActive = false;
+                $scope.tabEditActive = true;
+            }
+        };
+
 
         function getTime(millis) {
             var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
@@ -127,6 +142,13 @@ OSCR.controller(
                 useHeader(document.Header);
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
+                $scope.saveSuccess = true;
+                $timeout(function() {
+                    $(".alert-saved").hide('slow');
+                    $timeout(function(){
+                        $scope.saveSuccess = false;
+                    },250);
+                }, 5000);
                 $scope.choosePath('/document/' + $scope.header.SchemaName + '/edit/' + $scope.header.Identifier, document.Header);
             });
         };
@@ -175,7 +197,7 @@ OSCR.controller(
 
         $scope.valueChanged = function (el) {
             console.log("value changed: active=" + (el == $scope.activeEl));
-            console.log(el);
+//            console.log(el);
         };
 
         $scope.$watch('i18n', function (i18n, oldValue) {

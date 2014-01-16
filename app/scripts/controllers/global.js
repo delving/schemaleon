@@ -82,6 +82,7 @@ OSCR.controller(
             {name: "Location"}
         ];
 
+        // TODO: similar function in document-list.js - can we reuse this one?
         $rootScope.globalNewDocument = function (schema) {
             $scope.choosePath('/document/' + schema + '/edit/create');
         };
