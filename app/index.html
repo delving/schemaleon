@@ -43,12 +43,18 @@
                 <div class="container-fluid">
 
                     <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
-
+                    <ul class="nav " ng-hide="user">
+                        <li>
+                            <a href ng-click="choosePath('/login')" title="" i18n="Login">
+                                <span class="i18n"/>
+                            </a>
+                        </li>
+                    </ul>
                     <ul class="nav" ng-show="user">
                         <li>
                             <a href="#" i18n="LoggedInAs">
                                 <i class="icon icon-white icon-user"></i>
-                                <span class="i18n"></span>: {{ user.User.Profile.firstName }} {{ user.User.Profile.lastName }}
+                                <span class="i18n"></span>: {{ user.Profile.firstName }} {{ user.Profile.lastName }}
                             </a>
                         </li>
                         <li ng-show="userMemberships.length > 1">
@@ -59,6 +65,17 @@
                                     ng-model="user.User.groupIdentifier"
                                     ng-options="um.GroupIdentifier as um.Label for um in userMemberships">
                             </select>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
+                                <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li ng-repeat="schema in availableSchemas">
+                                    <a tabindex="-1" href="" ng-click="globalNewDocument(schema.name)">{{ schema.name }}</a>
+                                </li>
+                            </ul>
                         </li>
                         <li ng-show="user.god">
                             <a href ng-click="refreshSchemas()" title="">
@@ -127,14 +144,6 @@
                                  class="badge badge-warning btn-i18n">
                                 <i class="icon-translate icon-white"></i>
                             </span>
-                        </li>
-                        <li  class="dropdown">
-                            <a href="" i18n="NewDocument" class="dropdown-toggle"><i class="icon icon-plus-sign"></i> <span class="i18n"></span></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li ng-repeat="schema in availableSchemas">
-                                    <a tabindex="-1" href="" ng-click="globalNewDocument(schema.name)">{{ schema.name }}</a>
-                                </li>
-                            </ul>
                         </li>
                         <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
                         </li>
