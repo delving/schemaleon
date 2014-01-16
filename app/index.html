@@ -128,6 +128,14 @@
                                 <i class="icon-translate icon-white"></i>
                             </span>
                         </li>
+                        <li  class="dropdown">
+                            <a href="" i18n="NewDocument" class="dropdown-toggle"><i class="icon icon-plus-sign"></i> <span class="i18n"></span></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li ng-repeat="schema in availableSchemas">
+                                    <a tabindex="-1" href="" ng-click="globalNewDocument(schema.name)">{{ schema.name }}</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
                         </li>
                         <li ng-repeat="link in recent" ng-class="{ active: link.active }">
