@@ -65,6 +65,29 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="search-vocabulary.html">
+    <div data-ng-controller="VocabularySearchController">
+        <div ng-show="el.value" class="label">Searchypoo Current value {{ el.value.Label }}</div>
+        <div ng-hide="el.value" class="label">No current value, no there isn't</div>
+        <div>
+            <span class="label">Search for:</span>
+            <span class="label label-info">{{ el.searchValue }}</span>
+        </div>
+
+        <div ng-hide="el.entries">
+            <button ng-click="createNewValue()" class="btn btn-small"><i class="icon-plus"></i></button>
+        </div>
+
+        <div ng-show="el.entries">
+            <h1 class="label">Entries:</h1>
+            <ul>
+                <li ng-repeat="entry in el.entries">
+                    <span ng-click="setValue(entry)" class="label">{{entry.Label}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
 
 <script type="text/ng-template" id="media-element.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
@@ -170,26 +193,3 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="search-vocabulary.html">
-    <div data-ng-controller="VocabularySearchController">
-        <div ng-show="el.value" class="label">Searchypoo Current value {{ el.value.Label }}</div>
-        <div ng-hide="el.value" class="label">No current value, no there isn't</div>
-        <div>
-            <span class="label">Search for:</span>
-            <span class="label label-info">{{ el.searchValue }}</span>
-        </div>
-
-        <div ng-hide="el.entries">
-            <button ng-click="createNewValue()" class="btn btn-small"><i class="icon-plus"></i></button>
-        </div>
-
-        <div ng-show="el.entries">
-            <h1 class="label">Entries:</h1>
-            <ul>
-                <li ng-repeat="entry in el.entries">
-                    <span class="label">{{entry}}</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</script>

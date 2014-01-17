@@ -43,6 +43,7 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             $scope.el.value = value;
+            $scope.el.searching = false;
             if ($scope.el.vocabularyTree) {
                 $scope.el.valueFields = _.map($scope.el.vocabularyTree.elements, function (element) {
                     return  {
