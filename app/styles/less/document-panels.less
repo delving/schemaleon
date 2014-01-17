@@ -50,6 +50,7 @@
   td.panel {
     padding: 20px 0 20px 10px;
     width: 340px;
+    min-width: 300px;
     border-top: none;
     border-radius: 0 0 @br-med @br-med;
   }
@@ -316,9 +317,23 @@ ul.kv-list {
   }
 }
 
+
+.media-thumbnail {
+  display: inline-block;
+  .ie7-inline-block();
+  margin-bottom: 8px;
+  .mime {
+    background: @baseLight;
+    padding: 2px 4px;
+  }
+
+}
+
 .alert.alert-saved {
   width: 200px;
   position: absolute;
   right: 0px;
   top: 0px;
 }
+
+

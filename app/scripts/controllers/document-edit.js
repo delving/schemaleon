@@ -349,6 +349,10 @@ OSCR.controller(
             if (el.config.media) return "media-view.html";
             return "unrecognized-view.html"
         };
+        $scope.getMediaViewer = function (el) {
+            if (el.config.media) return "media-view-extended.html";
+            return "unrecognized-view.html"
+        }
     }
 );
 
