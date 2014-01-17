@@ -57,12 +57,11 @@
                                 <span class="i18n"></span>: {{ user.Profile.firstName }} {{ user.Profile.lastName }}
                             </a>
                         </li>
-                        <li ng-show="userMemberships.length > 1">
-                            <!--todo: styling-->
-                            <span style="color: red;" i18n="OfGroup"><span class="i18n"/></span>
+                        <li ng-show="user.god">
+                            <!--todo: this is expert functionality-->
                             &nbsp;
                             <select id="membership-select" class="span3"
-                                    ng-model="user.User.groupIdentifier"
+                                    ng-model="user.groupIdentifier"
                                     ng-options="um.GroupIdentifier as um.Label for um in userMemberships">
                             </select>
                         </li>
