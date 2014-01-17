@@ -38,7 +38,6 @@ OSCR.controller(
         function getAllGroups() {
             Person.getAllGroups(function (list) {
                 $scope.groupList = list;
-//                console.log(list);
             });
         }
 
@@ -155,9 +154,8 @@ OSCR.controller(
                     $scope.groupCreated = false;
                     $scope.creatingGroup = false;
                 }, 4000);
-
+                getAllGroups();
             });
-            getAllGroups();
         };
 
         $scope.assignUserToGroup = function () {

@@ -420,7 +420,7 @@ OSCR.directive('focus',
             priority: 100,
             link: function (scope, element, attrs) {
                 scope.$watch('active', function(active) {
-                    if (attrs.id === active && (attrs.id == 'hidden' || scope.el.edit)) {
+                    if (attrs.id === active && (attrs.id == 'hidden')) {
                         $timeout(function () {
                             element[0].focus();
                         });
