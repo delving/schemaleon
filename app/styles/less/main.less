@@ -223,6 +223,10 @@ body {
   color: @textColor;
 }
 
+body.admin {
+  padding-top: 100px;
+}
+
 .navbar {
   &.navbar-list .navbar-inner {
     // document list navbar with search
@@ -234,8 +238,20 @@ body {
       margin-top: 0px;
     }
   }
-
 }
+
+#user-controls {
+  background: @baseLight;
+}
+
+#membership-select {
+  font-size: smaller;
+//  height: 21px;
+  margin-top: 4px;
+}
+//.navbar .nav li {
+//  float: left;
+//}
 
 .brand {
   width: 200px;
@@ -252,6 +268,10 @@ body {
   left: 20px;
   bottom: 0;
   top: 70px;
+}
+
+.admin #sidebar {
+  top: 120px;
 }
 
 #mainBody {

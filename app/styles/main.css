@@ -858,12 +858,22 @@ body {
   padding-top: 50px;
   color: #222222;
 }
+body.admin {
+  padding-top: 100px;
+}
 .navbar.navbar-list .navbar-inner {
   background: #999999;
   padding: 5px 10px;
 }
 .navbar .navbar-form .input-append .btn {
   margin-top: 0px;
+}
+#user-controls {
+  background: #4f4f4f;
+}
+#membership-select {
+  font-size: smaller;
+  margin-top: 4px;
 }
 .brand {
   width: 200px;
@@ -879,6 +889,9 @@ body {
   left: 20px;
   bottom: 0;
   top: 70px;
+}
+.admin #sidebar {
+  top: 120px;
 }
 #mainBody {
   margin-left: 300px;

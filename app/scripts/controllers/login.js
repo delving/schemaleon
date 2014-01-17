@@ -28,9 +28,9 @@ OSCR.controller(
         $scope.password = '';
 
         function setUser(user) {
-            console.log('setUser', user);
             if (user) {
                 $cookieStore.put('user', $rootScope.user = user);
+                console.log(user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
                     _.each($rootScope.user.Memberships.Membership, function (membership) {
@@ -42,6 +42,9 @@ OSCR.controller(
             }
             else {
                 delete $rootScope.user;
+            }
+            if(user && user.god === true) {
+                $('body').addClass('admin');
             }
         }
 
@@ -98,10 +101,12 @@ OSCR.controller(
                     });
                 });
             }
+
         });
 
         $rootScope.logout = function () {
             $cookieStore.remove('user');
+            $('body').removeClass('admin');
             setUser(null);
             $scope.choosePath('/login');
         };

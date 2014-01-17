@@ -76,6 +76,30 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href ng-click="logout()" title="" i18n="Logout">
+                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <form class="navbar-form pull-right"  ng-show="user">
+
+                        <select id="language-select" class="span2"
+                                ng-model="config.interfaceLanguage"
+                                ng-options="l.code as l.name for l in config.interfaceLanguages">
+                            <option value="">-- Language --</option>
+                        </select>
+                    </form>
+
+                </div>
+                <div class="container-fluid" id="user-controls" ng-show="user.god">
+                    <ul class="nav" ng-show="user">
+                        <li ng-show="user.god">
+                            <a href ng-click="choosePath('/people')">
+                                <i class="icon icon-white icon-users"></i> <span>Manage groups & users</span>
+                            </a>
+                        </li>
                         <li ng-show="user.god">
                             <a href ng-click="refreshSchemas()" title="">
                                 <i class="icon icon-white icon-refresh"></i> <span>Refresh Schemas</span>
@@ -91,28 +115,14 @@
                                 <i class="icon icon-white icon-hdd"></i> <span>Get Snapshot</span>
                             </a>
                         </li>
-                        <li>
-                            <a href ng-click="logout()" title="" i18n="Logout">
-                                <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
-                            </a>
-                        </li>
                     </ul>
-
-                    <form class="navbar-form pull-right">
-                        <button ng-click="toggleTranslationEditor()"
-                                ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
-                                tooltip="Translate"
-                                tootip-placement="bottom"
-                                ng-show="user">
-                            <i class="icon icon-white icon-translate pointer"></i>
-                        </button>
-                        <select id="language-select" class="span2"
-                                ng-model="config.interfaceLanguage"
-                                ng-options="l.code as l.name for l in config.interfaceLanguages">
-                            <option value="">-- Language --</option>
-                        </select>
-                    </form>
-
+                    <button ng-click="toggleTranslationEditor()"
+                            ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
+                            tooltip="Translate"
+                            tootip-placement="bottom"
+                            ng-show="user.god">
+                        <i class="icon icon-white icon-translate pointer"></i>
+                    </button>
                 </div>
             </div>
         </div>
