@@ -94,35 +94,33 @@
 
                 </div>
                 <div class="container-fluid" id="user-controls" ng-show="user.god">
-                    <ul class="nav" ng-show="user">
-                        <li ng-show="user.god">
+                    <ul class="nav">
+                        <li>
                             <a href ng-click="choosePath('/people')">
                                 <i class="icon icon-white icon-users"></i> <span>Manage groups & users</span>
                             </a>
                         </li>
-                        <li ng-show="user.god">
+                        <li>
                             <a href ng-click="refreshSchemas()" title="">
                                 <i class="icon icon-white icon-refresh"></i> <span>Refresh Schemas</span>
                             </a>
                         </li>
-                        <li ng-show="user.god">
-                            <a href ng-click="saveLanguage()" title="">
-                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
-                            </a>
-                        </li>
-                        <li ng-show="user.god">
+                        <li>
                             <a href="/snapshot">
                                 <i class="icon icon-white icon-hdd"></i> <span>Get Snapshot</span>
                             </a>
                         </li>
+                        <li>
+                            <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
+                                 <i class="icon icon-white icon-translate"></i> <span>Translate UI</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="saveLanguage()" title="">
+                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
+                            </a>
+                        </li>
                     </ul>
-                    <button ng-click="toggleTranslationEditor()"
-                            ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
-                            tooltip="Translate"
-                            tootip-placement="bottom"
-                            ng-show="user.god">
-                        <i class="icon icon-white icon-translate pointer"></i>
-                    </button>
                 </div>
             </div>
         </div>

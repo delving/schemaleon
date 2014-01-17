@@ -105,10 +105,12 @@ OSCR.controller(
         });
 
         $rootScope.logout = function () {
+            if ($rootScope.config.showTranslationEditor) return;
             $cookieStore.remove('user');
             $('body').removeClass('admin');
             setUser(null);
             $scope.choosePath('/login');
+
         };
 
         if ($location.host() == 'localhost') {
