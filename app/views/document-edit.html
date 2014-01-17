@@ -165,7 +165,9 @@
                     <div class="span6">
                         <div class="field" ng-repeat="el in tree.elements" ng-include="getElementViewer(el)" ng-show="el.value"></div>
                     </div>
-                    <div class="span6">[right col, show actual media files]</div>
+                    <div class="span6">
+                        <div class="field" ng-repeat="el in getMediaElements()" ng-include="getElementViewer(el)"></div>
+                    </div>
                 </div>
             </div>
         </div>

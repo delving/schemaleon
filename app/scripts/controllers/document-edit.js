@@ -118,6 +118,15 @@ OSCR.controller(
             return $scope.tree = tree;
         };
 
+        $scope.getMediaElements = function() {
+            if ($scope.tree) {
+                return collectMediaElements($scope.tree);
+            }
+            else {
+                return [];
+            }
+        };
+
         $scope.validateTree = function () {
             // todo: validateTree was commented out in schema-changes
             validateTree($scope.tree);
@@ -324,6 +333,7 @@ OSCR.controller(
             }
             return "field-documentation-element.html"
         };
+
     }
 );
 

@@ -249,6 +249,24 @@ function collectSummaryFields(tree, summary) {
     collect(tree, summary);
 }
 
+function collectMediaElements(tree) {
+    var mediaElements = [];
+
+    function collect(el) {
+        if (el.elements) {
+            _.forEach(el.elements, function (element) {
+                collect(element);
+            });
+        }
+        else if (el.config.media) {
+            mediaElements.push(el);
+        }
+    }
+
+    collect(tree);
+    return mediaElements;
+}
+
 function populateTree(tree, object) {
 
     function createClones(element, valueArray) {
