@@ -67,19 +67,18 @@
 </script>
 <script type="text/ng-template" id="search-vocabulary.html">
     <div data-ng-controller="VocabularySearchController">
-        <div ng-show="el.value" class="label">Searchypoo Current value {{ el.value.Label }}</div>
-        <div ng-hide="el.value" class="label">No current value, no there isn't</div>
-        <div>
-            <span class="label">Search for:</span>
-            <span class="label label-info">{{ el.searchValue }}</span>
+        <div ng-show="el.value" i18n="CurrentValue">
+            <span class="i18n label"/> <span class="label">{{ el.value.Label }}</span>
         </div>
-
-        <div ng-hide="el.entries">
-            <button ng-click="createNewValue()" class="btn btn-small"><i class="icon-plus"></i></button>
+        <div i18n="SearchFor">
+            <span class="label i18n"/>
+            <span class="label label-info">{{ el.searchValue }}</span>
+            <span ng-hide="el.entries">
+                <button ng-click="createNewValue()" class="btn btn-small"><i class="icon-plus"></i></button>
+            </span>
         </div>
 
         <div ng-show="el.entries">
-            <h1 class="label">Entries:</h1>
             <ul>
                 <li ng-repeat="entry in el.entries">
                     <span ng-click="setValue(entry)" class="label">{{entry.Label}}</span>
@@ -129,6 +128,37 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="search-media.html">
+    <div ng-controller="MediaSearchController">
+        <tabset class="media-tabs">
+            <tab>
+                <tab-heading>
+                    <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()">
+                    <span class="i18n"/>
+                </tab-heading>
+                <div ng-show="mediaList" class="oscr-media-grid">
+                    <ul class="media-thumb-list">
+                        <!--<li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">-->
+                        <li data-ng-repeat="entry in mediaList">
+                            <div class="media-thumb">
+                                <img id="oscr-media-grid-thumb-{{$index}}"
+                                     ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"
+                                     ng-click="selectMedia(entry)"/>
+                            </div>
+                            <div class="mime">{{ entry.Body.MimeType }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </tab>
+            <tab>
+                <tab-heading>
+                    <span class="nav-tabs" i18n="MediaUpload"><span class="i18n"/></span>
+                </tab-heading>
+                <div data-ng-controller="MediaUploadController" data-ng-include="'views/media-lite.html'"></div>
+            </tab>
+        </tabset>
+    </div>
+</script>
 
 <script type="text/ng-template" id="field-documentation-element.html">
     <div class="panel-input field-documentation-element">
@@ -161,35 +191,4 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="search-media.html">
-    <div ng-controller="MediaSearchController">
-        <tabset class="media-tabs">
-            <tab>
-                <tab-heading>
-                    <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()">
-                    <span class="i18n"/>
-                </tab-heading>
-                <div ng-show="mediaList" class="oscr-media-grid">
-                    <ul class="media-thumb-list">
-                        <!--<li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">-->
-                        <li data-ng-repeat="entry in mediaList">
-                            <div class="media-thumb">
-                                <img id="oscr-media-grid-thumb-{{$index}}"
-                                     ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"
-                                     ng-click="selectMedia(entry)"/>
-                            </div>
-                            <div class="mime">{{ entry.Body.MimeType }}</div>
-                        </li>
-                    </ul>
-                </div>
-            </tab>
-            <tab>
-                <tab-heading>
-                    <span class="nav-tabs" i18n="MediaUpload"><span class="i18n"/></span>
-                </tab-heading>
-                <div data-ng-controller="MediaUploadController" data-ng-include="'views/media-lite.html'"></div>
-            </tab>
-        </tabset>
-    </div>
-</script>
 

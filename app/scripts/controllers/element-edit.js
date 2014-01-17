@@ -20,6 +20,95 @@ OSCR.controller(
 );
 
 OSCR.controller(
+    'VocabularyController',
+    function ($scope, $q, Vocabulary, $rootScope) {
+
+        if (!$scope.el.config.vocabulary) {
+            console.log("No vocabulary around!");// todo: remove
+            return;
+        }
+        $scope.schema = $scope.el.config.vocabulary;
+
+        if (!$scope.el.tree) {
+            Vocabulary.getSchema($scope.schema, function (schema) {
+                $scope.el.tree = {
+                    name: 'Entry',
+                    elements: schema.elements[0].elements,
+                    config: schema.elements[0].config
+                };
+                if ($scope.el.value) {
+                    $scope.setValue($scope.el.value);
+                }
+            });
+        }
+
+        $scope.enableVocabularyEditor = function () {
+            console.log("enableVocabularyEditor", $scope.el);
+            $scope.enableEditor();
+            $scope.el.searching = true;
+//            $scope.el.value = null;
+//            $scope.el.valueFields = null;
+        };
+
+        $scope.enableClearedEditor = function () {
+            if ($rootScope.config.showTranslationEditor) return;
+            $scope.chosenEntry = null;
+            $scope.el.value = null;
+            $scope.el.valueFields = null;
+            $scope.enableEditor();
+        };
+
+        $scope.$watch('chosenEntry', function (after, before) {
+            if (_.isObject(after)) {
+                $scope.setValue(after);
+                if (after.source) {
+                    delete after.source;
+                    populateTree($scope.el.tree, { Entry: after });
+                    $scope.submitNew();
+                }
+            }
+        });
+
+        $scope.entryToString = function (entry) {
+            if (!entry || !entry.Label) return '';
+            if (entry.source) {
+                return entry.source + ': ' + entry.Label;
+            }
+            else {
+                return entry.Label;
+            }
+        };
+
+        $scope.setValue = function (value) {
+            $scope.el.value = value;
+            if ($scope.el.tree) {
+                $scope.el.valueFields = _.filter(
+                    _.map(
+                        $scope.el.tree.elements,
+                        function (element) {
+                            return  { prompt: element.name, value: value[element.name] };
+                        }
+                    ),
+                    function (field) {
+                        if (field.prompt === 'Identifier' || field.prompt === 'Label') {
+                            $scope.el['valueField' + field.prompt] = field; // a naughty side effect
+                            return false;
+                        }
+                        return !!field.value;
+                    }
+                );
+            }
+//            $scope.disableEditor();
+        };
+
+        if (!$scope.el.suspendValidation) {
+            $scope.$watch('el.value', function (after, before) {
+                $scope.revalidate();
+            });
+        }
+    }
+);
+OSCR.controller(
     'VocabularySearchController',
     function ($scope, Vocabulary) {
         $scope.el = $scope.panel.element;
@@ -53,6 +142,29 @@ OSCR.controller(
                 });
             }
         };
+
+//        $scope.createNew = function (index, parentIndex) {
+//            var typedValue = $scope.query;
+//            if ($scope.el.tree) {
+//                $scope.el.elements = _.filter($scope.el.tree.elements, function (treeElement) {
+//                    treeElement.value = treeElement.name == 'Label' ? $scope.query : null;
+//                    treeElement.suspendValidation = true;
+//                    return treeElement.name != 'Identifier';
+//                });
+//                $scope.choose(0, parentIndex);
+//            }
+//        };
+
+//        $scope.submitNew = function () {
+//            $scope.newValue = treeToObject($scope.el.tree);
+//            Vocabulary.add($scope.schema, $scope.newValue, function (entry) {
+//                $scope.panels.pop();
+//                $scope.el.elements = null;
+//                $scope.setValue(entry.Entry);
+//                console.log('saved ' + JSON.stringify(entry.Entry));
+////                $scope.disableEditor();
+//            });
+//        };
 
         $scope.createNewValue = function () {
             // todo: are you sure question;
@@ -185,151 +297,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
-    'VocabularyController',
-    function ($scope, $q, Vocabulary, $rootScope) {
 
-        if (!$scope.el.config.vocabulary) {
-            console.log("No vocabulary around!");// todo: remove
-            return;
-        }
-        $scope.schema = $scope.el.config.vocabulary;
-
-        if (!$scope.el.tree) {
-            Vocabulary.getSchema($scope.schema, function (schema) {
-                $scope.el.tree = {
-                    name: 'Entry',
-                    elements: schema.elements[0].elements,
-                    config: schema.elements[0].config
-                };
-                if ($scope.el.value) {
-                    $scope.setValue($scope.el.value);
-                }
-            });
-        }
-
-        $scope.enableVocabularyEditor = function () {
-            console.log("enableVocabularyEditor", $scope.el);
-            $scope.enableEditor();
-            $scope.el.searching = true;
-//            $scope.el.value = null;
-//            $scope.el.valueFields = null;
-        };
-
-        $scope.getEntries = function (query) {
-            $scope.query = query;
-            var deferred = $q.defer();
-            var lookup = $scope.el.tree ? $scope.el.tree.config.lookup : null;
-            Vocabulary.select($scope.schema, query, lookup, function (list) {
-//                console.log('vocab select '+list.length);
-//                console.log(list);
-                var lookupEntries = null;
-                var entries = _.filter(list, function (item) {
-                    if (item.Entry) {
-                        lookupEntries = item.Entry;
-                        return false;
-                    }
-                    return true;
-                });
-                if (lookupEntries) {
-                    entries = entries.concat(_.map(lookupEntries, function (entry) {
-                        entry.source = lookup;
-                        return entry;
-                    }));
-                }
-//                console.log('lookup entries');
-//                console.log(JSON.stringify(entries));
-                deferred.resolve(entries);
-            });
-            return deferred.promise;
-        };
-
-        $scope.createNew = function (index, parentIndex) {
-            var typedValue = $scope.query;
-            if ($scope.el.tree) {
-                $scope.el.elements = _.filter($scope.el.tree.elements, function (treeElement) {
-                    treeElement.value = treeElement.name == 'Label' ? $scope.query : null;
-                    treeElement.suspendValidation = true;
-                    return treeElement.name != 'Identifier';
-                });
-                $scope.choose(0, parentIndex);
-            }
-        };
-
-        $scope.submitNew = function () {
-            $scope.newValue = treeToObject($scope.el.tree);
-            Vocabulary.add($scope.schema, $scope.newValue, function (entry) {
-                $scope.panels.pop();
-                $scope.el.elements = null;
-                $scope.setValue(entry.Entry);
-                console.log('saved ' + JSON.stringify(entry.Entry));
-//                $scope.disableEditor();
-            });
-        };
-
-        $scope.cancelNew = function () {
-            $scope.el.elements = null;
-            $scope.panels.pop(); // kill the new element input panel
-        };
-
-        $scope.enableClearedEditor = function () {
-            if ($rootScope.config.showTranslationEditor) return;
-            $scope.chosenEntry = null;
-            $scope.el.value = null;
-            $scope.el.valueFields = null;
-            $scope.enableEditor();
-        };
-
-        $scope.$watch('chosenEntry', function (after, before) {
-            if (_.isObject(after)) {
-                $scope.setValue(after);
-                if (after.source) {
-                    delete after.source;
-                    populateTree($scope.el.tree, { Entry: after });
-                    $scope.submitNew();
-                }
-            }
-        });
-
-        $scope.entryToString = function (entry) {
-            if (!entry || !entry.Label) return '';
-            if (entry.source) {
-                return entry.source + ': ' + entry.Label;
-            }
-            else {
-                return entry.Label;
-            }
-        };
-
-        $scope.setValue = function (value) {
-            $scope.el.value = value;
-            if ($scope.el.tree) {
-                $scope.el.valueFields = _.filter(
-                    _.map(
-                        $scope.el.tree.elements,
-                        function (element) {
-                            return  { prompt: element.name, value: value[element.name] };
-                        }
-                    ),
-                    function (field) {
-                        if (field.prompt === 'Identifier' || field.prompt === 'Label') {
-                            $scope.el['valueField' + field.prompt] = field; // a naughty side effect
-                            return false;
-                        }
-                        return !!field.value;
-                    }
-                );
-            }
-//            $scope.disableEditor();
-        };
-
-        if (!$scope.el.suspendValidation) {
-            $scope.$watch('el.value', function (after, before) {
-                $scope.revalidate();
-            });
-        }
-    }
-);
 
 OSCR.filter('mediaThumbnail',
     function ($rootScope) {
