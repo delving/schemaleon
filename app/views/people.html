@@ -64,6 +64,7 @@
     </div>
 
     <div class="adding-users">
+        <!-- GROUP CREATION //-->
         <div class="widget-box" ng-show="creatingGroup">
             <div class="widget-title">
                 <span class="icon"><i class="icon-users"></i></span>
@@ -78,8 +79,14 @@
                 <label i18n="GroupName"><span class="i18n"/>:</label>
                 <!--todo: "focus" below is suspect-->
                 <input focus type="text" ng-model="groupName" class="input-large"/>
-                <label i18n="GroupAddress"><span class="i18n"/>:</label>
-                <input type="text" ng-model="groupAddress" class="input-large"/>
+                <label i18n="GroupStreetNameAndNr"><span class="i18n"/>:</label>
+                <input type="text" ng-model="groupStreetNameAndNr" class="input-large"/>
+                <label i18n="GroupCity"><span class="i18n"/>:</label>
+                <input type="text" ng-model="groupCity" class="input-large"/>
+                <label i18n="GroupZip"><span class="i18n"/>:</label>
+                <input type="text" ng-model="groupZip" class="input-small"/>
+                <label i18n="GroupDescription"><span class="i18n"/>:</label>
+                <textarea ng-model="groupDescription"></textarea>
             </div>
             <div class="widget-footer">
                 <div private="canUserAdministrate('OSCR')">
@@ -89,7 +96,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- USER ADDITION //-->
         <div class="widget-box" ng-show="addingUser">
             <div class="widget-title">
                 <span class="icon"><i class="icon-user"></i></span>

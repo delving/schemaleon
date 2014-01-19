@@ -29,7 +29,8 @@ OSCR.controller(
 
         function setUser(user) {
             if (user) {
-                $cookieStore.put('user', $rootScope.user = user);
+                $rootScope.user = user
+                $cookieStore.put('user', user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
                     _.each($rootScope.user.Memberships.Membership, function (membership) {
@@ -106,9 +107,10 @@ OSCR.controller(
         $rootScope.logout = function () {
             if ($rootScope.config.showTranslationEditor) return;
             $cookieStore.remove('user');
+            delete $rootScope.user;
             $('body').removeClass('admin');
             setUser(null);
-            $scope.choosePath('/login');
+            $scope.choosePath('/');
 
         };
 

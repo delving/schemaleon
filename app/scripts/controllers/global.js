@@ -157,7 +157,12 @@ OSCR.controller(
             return $location.path() !== '/login';
         };
 
+        $scope.showLegend = function() {
+
+        }
+
         $scope.getInclude = function () {
+            console.log($routeParams.identifier);
             if ($routeParams.identifier) { //todo: differently
                 return "views/legend.html";
             }

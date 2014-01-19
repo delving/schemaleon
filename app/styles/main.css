@@ -1416,3 +1416,12 @@ ul.value-list label {
 .vocabulary-controls .value {
   color: #eeeeee;
 }
+/* GROUPS PAGE */
+.group-page address {
+  background: #ffffff;
+  margin: 0;
+  padding: 8px;
+}
+.group-page address .header {
+  margin: 0;
+}
