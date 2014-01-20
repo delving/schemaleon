@@ -1375,6 +1375,9 @@ form#fileupload .navbar .progress {
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
 }
+.group-list .accordion-inner {
+  min-height: 120px;
+}
 /* bootstrap overrides */
 .dropdown-menu > li > a {
   white-space: normal !important;
@@ -1424,4 +1427,10 @@ ul.value-list label {
 }
 .group-page address .header {
   margin: 0;
+}
+/* VOCABULARIES */
+.vocabulary-extended {
+  background: #eeeeee;
+  border-bottom: 1px solid #999999;
+  padding: 3px 20px;
 }
