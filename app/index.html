@@ -65,7 +65,7 @@
                                     ng-options="um.GroupIdentifier as um.Label for um in userMemberships">
                             </select>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown" ng-hide="user.viewer">
                             <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
                                 <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
                                 <span class="caret"></span>
