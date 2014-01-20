@@ -163,8 +163,8 @@ OSCR.controller(
         }
 
         $scope.getInclude = function () {
-            if ($routeParams.identifier) { //todo: differently
-                return "views/legend.html";
+            if ($routeParams.identifier && $location.path().match(/\/edit\//) ) {
+                return "views/document-edit-legend.html";
             }
             return "";
         };
