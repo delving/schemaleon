@@ -98,6 +98,7 @@ OSCR.controller(
         $scope.mainMenu = {
             links: [
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
+                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
                 {name: "Photo", path: "/document/Photo", icon: 'icon-file', active: false},
                 {name: "InMemoriam", path: "/document/InMemoriam", icon: 'icon-file', active: false},
                 {name: "Book", path: "/document/Book", icon: 'icon-file', active: false},
@@ -162,7 +163,6 @@ OSCR.controller(
         }
 
         $scope.getInclude = function () {
-            console.log($routeParams.identifier);
             if ($routeParams.identifier) { //todo: differently
                 return "views/legend.html";
             }
