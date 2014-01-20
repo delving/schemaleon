@@ -5,10 +5,10 @@ OSCR.controller(
     function ($rootScope, $scope, $location, $cookieStore, Statistics, Person) {
         $rootScope.checkLoggedIn();
 
-        Statistics.getGlobalStatistics(function (statistics) {
+       Statistics.getGlobalStatistics(function (statistics) {
             $scope.statistics = statistics;
         });
-
+        
         Statistics.getLogEntries(function (entries) {
             $scope.logEntries = _.sortBy(entries, function (val) {
                 return -val.TimeStamp;

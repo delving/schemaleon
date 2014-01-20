@@ -5,6 +5,16 @@ var OSCR = angular.module('OSCR', ['ngCookies', 'ui.bootstrap', 'blueimp.fileupl
 OSCR.config(
     function ($routeProvider) {
         $routeProvider
+            .when('/', {
+                templateUrl: 'views/home.html',
+                controller: 'HomeController',
+                title: 'OSCR Home'
+            })
+            .when('/login', {
+                templateUrl: 'views/login.html',
+                controller: 'LoginController',
+                title: 'OSCR Login'
+            })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
                 controller: 'DashboardController',
@@ -43,14 +53,15 @@ OSCR.config(
                 controller: 'UserViewController'
             })
             .otherwise({
-                templateUrl: 'views/login.html'
+                templateUrl: 'views/login.html',
+                controller: 'LoginController',
+                title: 'OSCR Login'
             });
     }
 );
 
 OSCR.config(
-    function ($httpProvider, fileUploadProvider) {
-
+    function ($httpProvider, $locationProvider, fileUploadProvider) {
         // for fileUploadProvider
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         fileUploadProvider.defaults.redirect = window.location.href.replace(
@@ -59,7 +70,8 @@ OSCR.config(
         );
 
         // for general intercepting
-        $httpProvider.responseInterceptors.push(function ($q) {
+        $httpProvider.responseInterceptors.push(function ($q, $cookieStore) {
+
             function showNetworkProblem(problem) {
                 alert("Network problem. See console for details.");
                 console.log(problem);

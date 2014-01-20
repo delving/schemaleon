@@ -16,7 +16,7 @@
                     <button class="btn" type="reset" ng-click="clearSearch()"><i class="icon-ban-circle "></i> </button>
                 </div>
             </form>
-            <span class="controls pull-right" i18n="NewDocument">
+            <span class="controls pull-right" i18n="NewDocument" ng-hide="user.viewer">
                 <a href class="btn btn-primary" ng-click="newDocument()">
                     <i class="icon icon-plus icon-white"></i>
                     <span class="i18n"></span>

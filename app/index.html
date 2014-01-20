@@ -42,8 +42,14 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
 
-                    <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
-
+                    <a class="brand" href ng-click="choosePath('/')"><img src="img/logo.png"/>Delving OSCR</a>
+                    <ul class="nav " ng-hide="user">
+                        <li>
+                            <a href ng-click="choosePath('/login')" title="" i18n="Login">
+                                <span class="i18n"/>
+                            </a>
+                        </li>
+                    </ul>
                     <ul class="nav" ng-show="user">
                         <li>
                             <a href="#" i18n="LoggedInAs">
@@ -51,29 +57,24 @@
                                 <span class="i18n"></span>: {{ user.Profile.firstName }} {{ user.Profile.lastName }}
                             </a>
                         </li>
-                        <li ng-show="userMemberships.length > 1">
-                            <!--todo: styling-->
-                            <span style="color: red;" i18n="OfGroup"><span class="i18n"/></span>
+                        <li ng-show="user.god">
+                            <!--todo: this is expert functionality-->
                             &nbsp;
-                            <select id="membership-select" class="span3"
+                            <select id="membership-select"
                                     ng-model="user.groupIdentifier"
                                     ng-options="um.GroupIdentifier as um.Label for um in userMemberships">
                             </select>
                         </li>
-                        <li ng-show="user.god">
-                            <a href ng-click="refreshSchemas()" title="">
-                                <i class="icon icon-white icon-refresh"></i> <span>Refresh Schemas</span>
+                        <li class="dropdown" ng-hide="user.viewer">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
+                                <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
+                                <span class="caret"></span>
                             </a>
-                        </li>
-                        <li ng-show="user.god">
-                            <a href ng-click="saveLanguage()" title="">
-                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
-                            </a>
-                        </li>
-                        <li ng-show="user.god">
-                            <a href="/snapshot">
-                                <i class="icon icon-white icon-hdd"></i> <span>Get Snapshot</span>
-                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li ng-repeat="schema in availableSchemas">
+                                    <a tabindex="-1" href="" ng-click="globalNewDocument(schema.name)">{{ schema.name }}</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href ng-click="logout()" title="" i18n="Logout">
@@ -82,14 +83,8 @@
                         </li>
                     </ul>
 
-                    <form class="navbar-form pull-right">
-                        <button ng-click="toggleTranslationEditor()"
-                                ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
-                                tooltip="Translate"
-                                tootip-placement="bottom"
-                                ng-show="user">
-                            <i class="icon icon-white icon-translate pointer"></i>
-                        </button>
+                    <form class="navbar-form pull-right"  ng-show="user">
+
                         <select id="language-select" class="span2"
                                 ng-model="config.interfaceLanguage"
                                 ng-options="l.code as l.name for l in config.interfaceLanguages">
@@ -97,6 +92,35 @@
                         </select>
                     </form>
 
+                </div>
+                <div class="container-fluid" id="user-controls" ng-show="user.god">
+                    <ul class="nav">
+                        <li>
+                            <a href ng-click="choosePath('/people')">
+                                <i class="icon icon-white icon-users"></i> <span>Manage groups & users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="refreshSchemas()" title="">
+                                <i class="icon icon-white icon-refresh"></i> <span>Refresh Schemas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/snapshot">
+                                <i class="icon icon-white icon-hdd"></i> <span>Get Snapshot</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
+                                 <i class="icon icon-white icon-translate"></i> <span>Translate UI</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="saveLanguage()" title="">
+                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -164,6 +188,7 @@
 
 <!-- build:js scripts/oscr.js -->
 <script src="scripts/app.js"></script>
+<script src="scripts/controllers/home.js"></script>
 <script src="scripts/controllers/login.js"></script>
 <script src="scripts/controllers/people.js"></script>
 <script src="scripts/controllers/global.js"></script>

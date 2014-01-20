@@ -5,13 +5,19 @@ angular.module('OSCR').service(
     function ($rootScope, $http) {
 
         this.roles = [
-            'Administrator', 'Member'
+            'Administrator', 'Member', 'Viewer'
         ];
 
         this.authenticate = function (username, password, accept) {
             $http.post('/authenticate', { username: username, password: password }).success(function (xml) {
                 var userObject = xmlToObject(xml);
-                accept(userObject.User);
+                console.log("authenticate returns", userObject);
+                if (userObject.User) {
+                    accept(userObject.User);
+                }
+                else {
+                    accept(null);
+                }
             });
         };
 

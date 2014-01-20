@@ -61,6 +61,8 @@ OSCR.controller(
                     return 'video/mp4';
                 case 'mov':
                     return 'video/quicktime';
+                case 'pdf':
+                    return 'application/pdf';
                 default:
                     log("UNRECOGNIZED extension: " + extension);
                     return 'image/jpeg';

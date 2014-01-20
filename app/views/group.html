@@ -1,17 +1,28 @@
-<div class="fade-in">
+<div class="fade-in group-page">
 
     <div class="page-header">
-        <h1 i18n="Group"><span class="i18n"/></h1>
-
-        <h2 i18n="Name"><span class="i18n"/>: {{ groupView.Name }}</h2>
-        <h2 i18n="Address"><span class="i18n"/>: {{ groupView.Address }}</h2>
-
-        <h2 i18n="Users"><span class="i18n"/>:</h2>
-        <ul>
-            <li ng-repeat="groupUser in groupView.userList">
-                {{ groupUser.Profile.firstName }} {{ groupUser.Profile.lastName }} {{ groupUser.Profile.email }}
-            </li>
-        </ul>
+        <h1 i18n="Group"><span class="i18n"/>: <span>{{ groupView.Name }}</span></h1>
     </div>
 
+    <div class="row-fluid">
+        <div class="span4">
+            <address>
+                <h5 class="header">{{ groupView.Name }}</h5>
+                {{ groupView.StreetNameAndNr}}<br/>
+                {{ groupView.Zip }}, {{ groupView.City }}
+            </address>
+        </div>
+        <div class="span4">
+            <img src="http://placehold.it/350x150">
+        </div>
+    </div>
+
+
+
+    <h2 i18n="Users"><span class="i18n"/>:</h2>
+    <ul>
+        <li ng-repeat="groupUser in groupView.userList">
+            {{ groupUser.Profile.firstName }} {{ groupUser.Profile.lastName }} {{ groupUser.Profile.email }}
+        </li>
+    </ul>
 </div>

@@ -96,7 +96,7 @@ ul.media-list {
 /* COLOR VARIABLES */
 @baseDarkest: darken(@baseDarker, 10%);
 @baseDarker: @grayDarker;
-//@baseDarker: #696963;
+@base: @grayDark;
 @baseDark: lighten(@baseDarker, 15%);
 @baseLight: lighten(@baseDarker, 30%);
 @baseLighter: lighten(@baseDarker, 45%);
@@ -223,6 +223,10 @@ body {
   color: @textColor;
 }
 
+body.admin {
+  padding-top: 100px;
+}
+
 .navbar {
   &.navbar-list .navbar-inner {
     // document list navbar with search
@@ -234,11 +238,23 @@ body {
       margin-top: 0px;
     }
   }
-
 }
 
+#user-controls {
+  background: @baseLight;
+}
+
+#membership-select {
+  font-size: smaller;
+//  height: 21px;
+  margin-top: 4px;
+}
+//.navbar .nav li {
+//  float: left;
+//}
+
 .brand {
-  width: 200px;
+  width: 180px;
   img {
     height: 24px;
     margin-right: 8px;
@@ -252,6 +268,10 @@ body {
   left: 20px;
   bottom: 0;
   top: 70px;
+}
+
+.admin #sidebar {
+  top: 120px;
 }
 
 #mainBody {
@@ -729,6 +749,10 @@ form#fileupload {
   .makeFluidCol(4);
 }
 
+.group-list .accordion-inner {
+  min-height: 120px;
+}
+
 
 
 
@@ -758,3 +782,66 @@ ul.value-list {
   }
 }
 
+/* DOCUMENT VIEW */
+
+.indent {
+  margin-left: 30px;
+}
+
+.field {
+  display: block;
+  label, .data {
+    vertical-align: top;
+  }
+  .data img {
+    margin-bottom: 8px;
+  }
+}
+
+.media {
+//  display: table-row;
+//  .media-file,
+//  .media-controls{
+//    display: table-cell;
+//    float: left;
+//  }
+//  .media-file {
+//    width: 100px;
+//  }
+//  .media-controls {
+//    width: 100px;
+//  }
+}
+.vocabulary-controls {
+  color: @grayLight;
+  label {
+    display: inline-block;
+    .ie7-inline-block();
+  }
+  .value {
+    color: @grayLighter;
+  }
+}
+
+
+/* GROUPS PAGE */
+
+.group-page {
+  address {
+    background: @white;
+    margin: 0;
+    padding:8px;
+    .header {
+      margin: 0;
+    }
+  }
+}
+
+/* VOCABULARIES */
+
+.vocabulary-extended {
+  background: @grayLighter;
+  border-bottom: 1px solid @gray;
+  padding: 3px 20px;
+
+}

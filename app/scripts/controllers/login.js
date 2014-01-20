@@ -29,7 +29,7 @@ OSCR.controller(
 
         function setUser(user) {
             if (user) {
-                $rootScope.user = user;
+                $rootScope.user = user
                 $cookieStore.put('user', user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
@@ -37,11 +37,17 @@ OSCR.controller(
                         if (membership.GroupIdentifier === 'OSCR' && membership.Role === 'Administrator') {
                             $rootScope.user.god = true;
                         }
+                        if (membership.Role === 'Viewer') {
+                            $rootScope.user.viewer = true;
+                        }
                     });
                 }
             }
             else {
                 delete $rootScope.user;
+            }
+            if(user && user.god === true) {
+                $('body').addClass('admin');
             }
         }
 
@@ -98,12 +104,17 @@ OSCR.controller(
                     });
                 });
             }
+
         });
 
         $rootScope.logout = function () {
+            if ($rootScope.config.showTranslationEditor) return;
             $cookieStore.remove('user');
+            delete $rootScope.user;
+            $('body').removeClass('admin');
             setUser(null);
-            $scope.choosePath('/login');
+            $scope.choosePath('/');
+
         };
 
         if ($location.host() == 'localhost') {

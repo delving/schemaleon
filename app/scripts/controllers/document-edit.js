@@ -18,6 +18,28 @@ OSCR.controller(
         $scope.header = {};
         $scope.tree = null;
         $scope.documentDirty = false;
+        $scope.tabEditActive = true;
+        $scope.tabViewActive = false;
+        $scope.saveSuccess = false;
+
+        // If the user has role:Viewer then don't show the doc edit form, but only the preview
+        if($rootScope.user.viewer) {
+            $scope.tabEditActive = false;
+            $scope.tabViewActive = true;
+        }
+
+        // toggle tabs between edit and view
+        $scope.showTab = function (tab) {
+            if(tab == 'view'){
+                $scope.tabViewActive = true;
+                $scope.tabEditActive = false;
+            }
+            else {
+                $scope.tabViewActive = false;
+                $scope.tabEditActive = true;
+            }
+        };
+
 
         function getTime(millis) {
             var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
@@ -103,6 +125,15 @@ OSCR.controller(
             return $scope.tree = tree;
         };
 
+        $scope.getMediaElements = function() {
+            if ($scope.tree) {
+                return collectMediaElements($scope.tree);
+            }
+            else {
+                return [];
+            }
+        };
+
         $scope.validateTree = function () {
             // todo: validateTree was commented out in schema-changes
             validateTree($scope.tree);
@@ -127,6 +158,13 @@ OSCR.controller(
                 useHeader(document.Header);
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
+                $scope.saveSuccess = true;
+                $timeout(function() {
+                    $(".alert-saved").hide('slow');
+                    $timeout(function(){
+                        $scope.saveSuccess = false;
+                    },250);
+                }, 5000);
                 $scope.choosePath('/document/' + $scope.header.SchemaName + '/edit/' + $scope.header.Identifier, document.Header);
             });
         };
@@ -175,7 +213,7 @@ OSCR.controller(
 
         $scope.valueChanged = function (el) {
             console.log("value changed: active=" + (el == $scope.activeEl));
-            console.log(el);
+//            console.log(el);
         };
 
         $scope.$watch('i18n', function (i18n, oldValue) {
@@ -302,6 +340,26 @@ OSCR.controller(
             }
             return "field-documentation-element.html"
         };
+
+    }
+);
+
+
+OSCR.controller(
+    'ElementViewController',
+    function ($scope) {
+        $scope.getElementViewer = function (el) {
+            if (el.elements) return "submenu-view.html";
+            if (el.config.line) return "line-view.html";
+            if (el.config.paragraph) return "paragraph-view.html";
+            if (el.config.vocabulary) return "vocabulary-view.html";
+            if (el.config.media) return "media-view.html";
+            return "unrecognized-view.html"
+        };
+        $scope.getMediaViewer = function (el) {
+            if (el.config.media) return "media-view-extended.html";
+            return "unrecognized-view.html"
+        }
     }
 );
 
@@ -383,7 +441,7 @@ OSCR.directive('focus',
             priority: 100,
             link: function (scope, element, attrs) {
                 scope.$watch('active', function(active) {
-                    if (attrs.id === active && (attrs.id == 'hidden' || scope.el.edit)) {
+                    if (attrs.id === active && (attrs.id == 'hidden')) {
                         $timeout(function () {
                             element[0].focus();
                         });

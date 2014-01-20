@@ -58,17 +58,33 @@ OSCR.controller(
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
         };
 
+        $rootScope.saveLanguage = function() {
+            I18N.saveLanguage($rootScope.lang, function (lang) {
+                $rootScope.i18n = lang;
+                alert('saved language');
+            })
+        };
+
         $rootScope.refreshSchemas = function() {
             Person.refreshSchemas(function (result) {
                 alert('refreshed schemas');
             })
         };
 
-        $rootScope.saveLanguage = function() {
-            I18N.saveLanguage($rootScope.lang, function (lang) {
-                $rootScope.i18n = lang;
-                alert('saved language');
-            })
+        // GLOBAL NEW DOCUMENT ====================================================================
+        // TODO: generate dynamic list based on available schemas
+        $rootScope.availableSchemas = [
+            {name: "Photo"},
+            {name: "InMemoriam"},
+            {name: "Photo"},
+            {name: "Book"},
+            {name: "Video"},
+            {name: "Location"}
+        ];
+
+        // TODO: similar function in document-list.js - can we reuse this one?
+        $rootScope.globalNewDocument = function (schema) {
+            $scope.choosePath('/document/' + schema + '/edit/create');
         };
 
         // APPLICATION NAVIGATION ================================================================
@@ -82,7 +98,6 @@ OSCR.controller(
         $scope.mainMenu = {
             links: [
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
-                {name: "UserManagement", path: "/people", icon: 'icon-users', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
                 {name: "Photo", path: "/document/Photo", icon: 'icon-file', active: false},
                 {name: "InMemoriam", path: "/document/InMemoriam", icon: 'icon-file', active: false},
@@ -104,13 +119,13 @@ OSCR.controller(
 
         $scope.choosePath = function (path, header) {
 //            console.log('PATH '+path);
-            var activeItem = false;
+            var activeItem = false, freshLabel = {};
             _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
                 link.active = (link.path == path);
                 if (link.active) activeItem = true;
             });
             if (!activeItem && path.indexOf('/document') == 0 && path.indexOf('create') < 0) {
-                var freshLabel = {
+                freshLabel = {
                     path: path,
                     icon: 'icon-th-home',
                     active: true,
@@ -143,9 +158,13 @@ OSCR.controller(
             return $location.path() !== '/login';
         };
 
+        $scope.showLegend = function() {
+
+        }
+
         $scope.getInclude = function () {
-            if ($routeParams.identifier) { //todo: differently
-                return "views/legend.html";
+            if ($routeParams.identifier && $location.path().match(/\/edit\//) ) {
+                return "views/document-edit-legend.html";
             }
             return "";
         };
@@ -153,8 +172,8 @@ OSCR.controller(
         // properFile name extension for multi-media thumbs
         $rootScope.getProperThumbExtension = function (name){
             var nameProper= name;
-            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/)) {
-                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV)/g, ".png");
+            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
+                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
             }
             return nameProper;
         };
@@ -170,6 +189,13 @@ OSCR.controller(
                 return true;
             }
         };
+
+        $rootScope.isPdf = function (mime) {
+            if (mime && mime.indexOf('pdf') >= 0){
+                return true;
+            }
+        };
+
 
     }
 );
