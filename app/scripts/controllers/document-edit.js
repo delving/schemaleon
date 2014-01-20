@@ -21,15 +21,14 @@ OSCR.controller(
         $scope.tabEditActive = true;
         $scope.tabViewActive = false;
         $scope.saveSuccess = false;
-        
-        console.log($rootScope.user);
-        console.log($rootScope.user.viewer);
 
+        // If the user has role:Viewer then don't show the doc edit form, but only the preview
         if($rootScope.user.viewer) {
             $scope.tabEditActive = false;
             $scope.tabViewActive = true;
         }
 
+        // toggle tabs between edit and view
         $scope.showTab = function (tab) {
             if(tab == 'view'){
                 $scope.tabViewActive = true;
