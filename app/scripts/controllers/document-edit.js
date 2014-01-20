@@ -21,6 +21,14 @@ OSCR.controller(
         $scope.tabEditActive = true;
         $scope.tabViewActive = false;
         $scope.saveSuccess = false;
+        
+        console.log($rootScope.user);
+        console.log($rootScope.user.viewer);
+
+        if($rootScope.user.viewer) {
+            $scope.tabEditActive = false;
+            $scope.tabViewActive = true;
+        }
 
         $scope.showTab = function (tab) {
             if(tab == 'view'){

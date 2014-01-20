@@ -37,6 +37,9 @@ OSCR.controller(
                         if (membership.GroupIdentifier === 'OSCR' && membership.Role === 'Administrator') {
                             $rootScope.user.god = true;
                         }
+                        if (membership.Role === 'Viewer') {
+                            $rootScope.user.viewer = true;
+                        }
                     });
                 }
             }

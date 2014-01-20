@@ -23,7 +23,7 @@
     <div class="group-list">
 
         <accordion class="action-accordion">
-            <accordion-group ng-repeat="group in groupList">
+            <accordion-group ng-repeat="group in groupList" class="group">
 
                 <accordion-heading>
                     <div class="clearfix">
@@ -38,12 +38,17 @@
                         <th width="250" i18n="Name"><span class="i18n">Name</span></th>
                         <th i18n="Role"><span class="i18n">Role</span></th>
                         <th width="300" private="canUserAdministrate(group.Identifier)">
-                            <a class="btn btn-mini btn-primary" href ng-click="addUserToggle('Member')" i18n="AddMember">
-                                <span class="i18n"/>
-                            </a>
-                            <a href class="btn btn-mini btn-info" ng-click="addUserToggle('Administrator')" i18n="AddAdministrator">
-                                <span class="i18n"/>
-                            </a>
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Add user to group
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" class="z-index:100000">
+                                    <li ng-repeat="role in roles">
+                                        <a href ng-click="addUserToggle(role.name)">{{ role.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </th>
                     </tr>
                     </thead>

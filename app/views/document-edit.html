@@ -14,7 +14,7 @@
 
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            <li ng-class="{ 'active': tabEditActive }"><a href="" i18n="Edit" ng-click="showTab('edit')"><span class="i18n"></span></a></li>
+            <li ng-class="{ 'active': tabEditActive }" ng-hide="user.viewer"><a href="" i18n="Edit" ng-click="showTab('edit')"><span class="i18n"></span></a></li>
             <li ng-class="{ 'active': tabViewActive }"><a href="" i18n="Preview" ng-click="showTab('view')"><span class="i18n"></span></a></li>
         </ul>
         <div class="tab-content">
@@ -145,11 +145,16 @@
                 <div class="document-controls">
                     <ul class="nav nav-pills pull-left">
                         <li>
+                            <a href ng-click="choosePath('/document/'+schema)">
+                                <i class="icon-list-alt icon-white"></i>
+                            </a>
+                        </li>
+                        <li ng-hide="user.viewer">
                             <a href ng-click="showTab('edit')">
                                 <i class="icon-hand-left icon-white"></i>
                             </a>
                         </li>
-                        <li>
+                        <li ng-hide="user.viewer">
                             <!-- document quick save -->
                             <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="SaveDocument">
                                 <i class="icon icon-check icon-white"></i>

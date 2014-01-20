@@ -43,6 +43,7 @@ OSCR.controller(
 
         getAllGroups();
 
+
         function getAllUsers() {
             Person.getAllUsers(function (list) {
                 $scope.allUsers = list;
@@ -130,6 +131,7 @@ OSCR.controller(
         };
 
         $scope.addUserToggle = function (role) {
+            console.log(role);
             if (!role) {
                 $scope.addingUser = false;
                 return;
