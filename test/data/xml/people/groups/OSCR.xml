@@ -1,5 +1,7 @@
 <Group>
   <Name>OSCR</Name>
   <Identifier>OSCR</Identifier>
+  <StreetNameAndNr>Vasteland 8</StreetNameAndNr>
+  <Zip>3011 BK</Zip>
   <City>Rotterdam</City>
 </Group>

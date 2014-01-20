@@ -42,7 +42,7 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
 
-                    <a class="brand" href="#"><img src="img/logo.png"/>Delving OSCR</a>
+                    <a class="brand" href ng-click="choosePath('/')"><img src="img/logo.png"/>Delving OSCR</a>
                     <ul class="nav " ng-hide="user">
                         <li>
                             <a href ng-click="choosePath('/login')" title="" i18n="Login">
@@ -60,12 +60,12 @@
                         <li ng-show="user.god">
                             <!--todo: this is expert functionality-->
                             &nbsp;
-                            <select id="membership-select" class="span3"
+                            <select id="membership-select"
                                     ng-model="user.groupIdentifier"
                                     ng-options="um.GroupIdentifier as um.Label for um in userMemberships">
                             </select>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown" ng-hide="user.viewer">
                             <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
                                 <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
                                 <span class="caret"></span>
@@ -94,35 +94,33 @@
 
                 </div>
                 <div class="container-fluid" id="user-controls" ng-show="user.god">
-                    <ul class="nav" ng-show="user">
-                        <li ng-show="user.god">
+                    <ul class="nav">
+                        <li>
                             <a href ng-click="choosePath('/people')">
                                 <i class="icon icon-white icon-users"></i> <span>Manage groups & users</span>
                             </a>
                         </li>
-                        <li ng-show="user.god">
+                        <li>
                             <a href ng-click="refreshSchemas()" title="">
                                 <i class="icon icon-white icon-refresh"></i> <span>Refresh Schemas</span>
                             </a>
                         </li>
-                        <li ng-show="user.god">
-                            <a href ng-click="saveLanguage()" title="">
-                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
-                            </a>
-                        </li>
-                        <li ng-show="user.god">
+                        <li>
                             <a href="/snapshot">
                                 <i class="icon icon-white icon-hdd"></i> <span>Get Snapshot</span>
                             </a>
                         </li>
+                        <li>
+                            <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
+                                 <i class="icon icon-white icon-translate"></i> <span>Translate UI</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="saveLanguage()" title="">
+                                <i class="icon icon-white icon-hdd"></i> <span>Save Language</span>
+                            </a>
+                        </li>
                     </ul>
-                    <button ng-click="toggleTranslationEditor()"
-                            ng-class="{'btn btn-warning': config.showTranslationEditor, 'btn disabled': !config.showTranslationEditor}"
-                            tooltip="Translate"
-                            tootip-placement="bottom"
-                            ng-show="user.god">
-                        <i class="icon icon-white icon-translate pointer"></i>
-                    </button>
                 </div>
             </div>
         </div>

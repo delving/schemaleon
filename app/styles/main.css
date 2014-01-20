@@ -75,6 +75,7 @@
 .panels td.panel {
   padding: 20px 0 20px 10px;
   width: 340px;
+  min-width: 300px;
   border-top: none;
   border-radius: 0 0 10px 10px;
 }
@@ -328,6 +329,18 @@ ul.kv-list li span.value {
 }
 .document-controls ul a.attention {
   background: #669900;
+}
+.media-thumbnail {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  margin-bottom: 8px;
+}
+.media-thumbnail .mime {
+  background: #4f4f4f;
+  padding: 2px 4px;
 }
 .alert.alert-saved {
   width: 200px;
@@ -876,7 +889,7 @@ body.admin {
   margin-top: 4px;
 }
 .brand {
-  width: 200px;
+  width: 180px;
 }
 .brand img {
   height: 24px;
@@ -1362,6 +1375,9 @@ form#fileupload .navbar .progress {
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
 }
+.group-list .accordion-inner {
+  min-height: 120px;
+}
 /* bootstrap overrides */
 .dropdown-menu > li > a {
   white-space: normal !important;
@@ -1389,4 +1405,32 @@ ul.value-list label {
 }
 .field .data img {
   margin-bottom: 8px;
+}
+.vocabulary-controls {
+  color: #adafae;
+}
+.vocabulary-controls label {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+}
+.vocabulary-controls .value {
+  color: #eeeeee;
+}
+/* GROUPS PAGE */
+.group-page address {
+  background: #ffffff;
+  margin: 0;
+  padding: 8px;
+}
+.group-page address .header {
+  margin: 0;
+}
+/* VOCABULARIES */
+.vocabulary-extended {
+  background: #eeeeee;
+  border-bottom: 1px solid #999999;
+  padding: 3px 20px;
 }

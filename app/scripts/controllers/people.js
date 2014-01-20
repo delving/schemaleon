@@ -43,6 +43,7 @@ OSCR.controller(
 
         getAllGroups();
 
+
         function getAllUsers() {
             Person.getAllUsers(function (list) {
                 $scope.allUsers = list;
@@ -130,6 +131,7 @@ OSCR.controller(
         };
 
         $scope.addUserToggle = function (role) {
+            console.log(role);
             if (!role) {
                 $scope.addingUser = false;
                 return;
@@ -143,13 +145,19 @@ OSCR.controller(
         $scope.createGroup = function () {
             var group = {
                 Name: $scope.groupName,
-                Address: $scope.groupAddress
+                StreetAndNr: $scope.groupStreetAndNr,
+                Zip: $scope.groupZip,
+                City: $scope.groupCity,
+                Description: $scope.groupDescription
             };
             // todo: make XML from the group and send that instead
             Person.saveGroup(group, function (groupObject) {
                 $scope.groupCreated = true;
                 $scope.groupName = '';
-                $scope.groupAddress = '';
+                $scope.groupStreetNameAndNr = '';
+                $scope.groupZip = '';
+                $scope.groupCity = '';
+                $scope.groupDescription = '';
                 $timeout(function () {
                     $scope.groupCreated = false;
                     $scope.creatingGroup = false;

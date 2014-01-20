@@ -22,6 +22,13 @@ OSCR.controller(
         $scope.tabViewActive = false;
         $scope.saveSuccess = false;
 
+        // If the user has role:Viewer then don't show the doc edit form, but only the preview
+        if($rootScope.user.viewer) {
+            $scope.tabEditActive = false;
+            $scope.tabViewActive = true;
+        }
+
+        // toggle tabs between edit and view
         $scope.showTab = function (tab) {
             if(tab == 'view'){
                 $scope.tabViewActive = true;
@@ -349,6 +356,10 @@ OSCR.controller(
             if (el.config.media) return "media-view.html";
             return "unrecognized-view.html"
         };
+        $scope.getMediaViewer = function (el) {
+            if (el.config.media) return "media-view-extended.html";
+            return "unrecognized-view.html"
+        }
     }
 );
 

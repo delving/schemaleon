@@ -1,25 +1,21 @@
 <!--This file contains only templates, and is tied to the controllers in document-edit.js-->
 
 <script type="text/ng-template" id="line-view.html">
-    <!--<h1 class="label">line</h1>-->
     <label class="label">{{el.name}}:</label>
     <span class="data">{{ el.value }}</span>
 </script>
 
 <script type="text/ng-template" id="paragraph-view.html">
-    <!--<h1 class="label">paragraph</h1>-->
     <label class="label">{{el.name}}:</label>
     <span class="data">{{ el.value }}</span>
 </script>
 
 <script type="text/ng-template" id="vocabulary-view.html">
-    <!--<h1 class="label">vocabulary {{el.value.Label}}</h1>-->
     <label class="label">{{el.name}}:</label>
     <span class="data">{{ el.value.Label }}</span>
 </script>
 
 <script type="text/ng-template" id="media-view.html">
-    <!--<h1 class="label">media {{el.value.FileName}}</h1>-->
     <label class="label">{{el.name}}:</label>
         <div class="field indent">
             <label class="label" i18n="MimeType"><span class="i18n">MimeType</span></label>
@@ -38,7 +34,6 @@
 </script>
 
 <script type="text/ng-template" id="submenu-view.html">
-    <!--<h1 class="label">submenu</h1>-->
     <label class="label">{{el.name}}:</label>
     <div class="field indent" ng-repeat="el in el.elements" ng-include="getElementViewer(el)" ng-show="el.value"></div>
 </script>

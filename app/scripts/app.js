@@ -10,11 +10,11 @@ OSCR.config(
                 controller: 'HomeController',
                 title: 'OSCR Home'
             })
-//            .when('/group/:id', {
-//                templateUrl: 'views/group.html',
-//                controller: 'HomeController',
-//                title: 'OSCR Group'
-//            })
+            .when('/login', {
+                templateUrl: 'views/login.html',
+                controller: 'LoginController',
+                title: 'OSCR Login'
+            })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
                 controller: 'DashboardController',
@@ -53,14 +53,15 @@ OSCR.config(
                 controller: 'UserViewController'
             })
             .otherwise({
-                templateUrl: 'views/login.html'
+                templateUrl: 'views/login.html',
+                controller: 'LoginController',
+                title: 'OSCR Login'
             });
     }
 );
 
 OSCR.config(
-    function ($httpProvider, fileUploadProvider) {
-
+    function ($httpProvider, $locationProvider, fileUploadProvider) {
         // for fileUploadProvider
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         fileUploadProvider.defaults.redirect = window.location.href.replace(
@@ -69,7 +70,8 @@ OSCR.config(
         );
 
         // for general intercepting
-        $httpProvider.responseInterceptors.push(function ($q) {
+        $httpProvider.responseInterceptors.push(function ($q, $cookieStore) {
+
             function showNetworkProblem(problem) {
                 alert("Network problem. See console for details.");
                 console.log(problem);

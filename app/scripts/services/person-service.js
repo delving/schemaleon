@@ -5,7 +5,7 @@ angular.module('OSCR').service(
     function ($rootScope, $http) {
 
         this.roles = [
-            'Administrator', 'Member'
+            'Administrator', 'Member', 'Viewer'
         ];
 
         this.authenticate = function (username, password, accept) {
