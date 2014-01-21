@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, I18N, Document) {
+    function ($rootScope, $cookieStore, $timeout, $scope, $location, $routeParams, Person, I18N) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -219,6 +219,128 @@ OSCR.controller(
             }
         };
 
+        $scope.username = '';
+        $scope.password = '';
 
+        function setUser(user) {
+            if (user) {
+                $rootScope.user = user
+                $cookieStore.put('user', user);
+                if ($rootScope.user.Memberships) {
+                    $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
+                    _.each($rootScope.user.Memberships.Membership, function (membership) {
+                        if (membership.GroupIdentifier === 'OSCR' && membership.Role === 'Administrator') {
+                            $rootScope.user.god = true;
+                        }
+                        if (membership.Role === 'Viewer') {
+                            $rootScope.user.viewer = true;
+                        }
+                    });
+                }
+            }
+            else {
+                delete $rootScope.user;
+            }
+            if(user && user.god === true) {
+                $('body').addClass('admin');
+            }
+        }
+
+        $rootScope.login = function () {
+            $scope.loginFailed = false;
+            if ($scope.username && $scope.username.length) {
+                Person.authenticate($scope.username, $scope.password, function (user) {
+                    setUser(user);
+                    if (user) {
+                        $scope.choosePath('/dashboard');
+                    }
+                    else {
+                        $scope.loginFailed = true;
+                        $scope.password = '';
+                        $scope.choosePath('/login');
+                    }
+                });
+            }
+            else {
+                setUser({
+                    Identifier: 'OSCR-US-fakey-id',
+                    Profile: {
+                        firstName: 'Oscr',
+                        lastName: 'Wild',
+                        email: 'oscr@delving.eu'
+                    },
+                    Memberships: {
+                        Membership: [
+                        ]
+                    }
+                });
+                $scope.choosePath('/dashboard');
+            }
+        };
+
+        $rootScope.refreshUser = function () {
+            if ($rootScope.user) {
+                Person.getUser($rootScope.user.Identifier, function (user) {
+                    setUser(user);
+                });
+            }
+        };
+
+        $rootScope.$watch('user', function (user, before) {
+            if (!user) return;
+            $rootScope.userMemberships = [];
+            if (user.Memberships) {
+                _.each(user.Memberships.Membership, function (membership) {
+                    Person.getGroup(membership.GroupIdentifier, function (group) {
+                        membership.group = group.Group;
+                        membership.Label = membership.group.Name + ' (' + membership.Role + ')';
+                        $rootScope.userMemberships.push(membership);
+                        user.groupIdentifier = membership.GroupIdentifier;
+                    });
+                });
+            }
+
+        });
+
+        $rootScope.logout = function () {
+            if ($rootScope.config.showTranslationEditor) return;
+            $cookieStore.remove('user');
+            delete $rootScope.user;
+            $('body').removeClass('admin');
+            setUser(null);
+            $scope.choosePath('/');
+
+        };
+
+        if ($location.host() == 'localhost') {
+            var user = $cookieStore.get('user');
+            if (user) {
+                setUser(user);
+                var oscrPath = $cookieStore.get('oscr-path');
+                if (oscrPath) {
+                    $timeout(
+                        function () {
+                            $scope.choosePath(oscrPath);
+                        },
+                        300
+                    );
+                }
+            }
+        }
     }
 );
+
+OSCR.directive('enterKey', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attr, ctrl) {
+            elem.bind('keydown', function (e) {
+                if (e.keyCode === 13) {
+                    scope.$apply(function (s) {
+                        s.$eval(attr.enterKey);
+                    });
+                }
+            });
+        }
+    };
+});

@@ -108,7 +108,7 @@ function Storage(home) {
     };
 
     this.schemaDir = function(schemaName) {
-        if (isShared(schemaName)) {
+        if (this.isShared(schemaName)) {
             return "/shared/";
         }
         else {
@@ -117,7 +117,7 @@ function Storage(home) {
     };
 
     this.schemaDocument = function (schemaName) {
-        return "/schemas" + schemaDir(schemaName) + "/" + schemaName + ".xml";
+        return "/schemas" + this.schemaDir(schemaName) + "/" + schemaName + ".xml";
     };
 
     this.schemaPath = function (schemaName) {

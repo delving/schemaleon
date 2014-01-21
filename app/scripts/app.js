@@ -12,7 +12,6 @@ OSCR.config(
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
-                controller: 'LoginController',
                 title: 'OSCR Login'
             })
             .when('/dashboard', {
