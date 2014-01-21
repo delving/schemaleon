@@ -6,7 +6,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'DocumentEditController',
-    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document) {
+    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document, $tooltip) {
 
         $rootScope.checkLoggedIn();
 
@@ -22,6 +22,7 @@ OSCR.controller(
         $scope.tabEditActive = true;
         $scope.tabViewActive = false;
         $scope.saveSuccess = false;
+        $scope.documentPublic = false;//todo:gerald -> get this from the header on document load, save to the header on document save.
 
         // If the user has role:Viewer then don't show the doc edit form, but only the preview
         if($rootScope.user.viewer) {
@@ -40,6 +41,10 @@ OSCR.controller(
                 $scope.tabEditActive = true;
             }
         };
+
+        $scope.toggleDocumentPublic = function () {            
+            $scope.documentPublic = !$scope.documentPublic;
+        }
 
 
         function getTime(millis) {
