@@ -277,28 +277,32 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
+    app.get('/document/schemaMap', function (req, res) {
+        res.json(storage.Document.schemaMap);
+    });
+
     app.get('/document/schema/:schema', function (req, res) {
         storage.Document.getDocumentSchema(req.params.schema, function (xml) {
             res.xml(xml);
         });
     });
 
-    app.get('/document/fetch/:schema/:identifier', function (req, res) {
-        storage.Document.getDocument(req.params.schema, req.params.identifier, function (xml) {
+    app.get('/document/fetch/:schema/:groupIdentifier/:identifier', function (req, res) {
+        storage.Document.getDocument(req.params.schema, req.params.groupIdentifier, req.params.identifier, function (xml) {
             res.xml(xml);
         });
     });
 
-    app.get('/document/list/documents/:schema', function (req, res) {
-        storage.Document.getAllDocuments(req.params.schema, function (xml) {
+    app.get('/document/list/documents/:schema/:groupIdentifier', function (req, res) {
+        storage.Document.getAllDocuments(req.params.schema, req.params.groupIdentifier, function (xml) {
             res.xml(xml);
         });
     });
 
-    app.get('/document/select/:schema', function (req, res) {
+    app.get('/document/select/:schema/:groupIdentifier', function (req, res) {
         // todo: make sure q exists
         var search = req.param('q').toLowerCase();
-        storage.Document.selectDocuments(req.params.schema, search, function (xml) {
+        storage.Document.selectDocuments(req.params.schema, req.params.groupIdentifier, search, function (xml) {
             res.xml(xml);
         });
     });

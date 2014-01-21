@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, I18N) {
+    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, I18N, Document) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -71,23 +71,49 @@ OSCR.controller(
             })
         };
 
-        // GLOBAL NEW DOCUMENT ====================================================================
-        // TODO: generate dynamic list based on available schemas
-        $rootScope.availableSchemas = [
-            {name: "Photo"},
-            {name: "InMemoriam"},
-            {name: "Photo"},
-            {name: "Book"},
-            {name: "Video"},
-            {name: "Location"}
-        ];
+        Document.fetchSchemaMap(function(schemaMap) {
+            $rootScope.schemaMap = schemaMap;
+//            this.schemaMap = {
+//                primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+//                shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
+//            };
 
-        // TODO: similar function in document-list.js - can we reuse this one?
-        $rootScope.globalNewDocument = function (schema) {
-            $scope.choosePath('/document/' + schema + '/edit/create');
-        };
+            // GLOBAL NEW DOCUMENT ====================================================================
+            // TODO: similar function in document-list.js - can we reuse this one?
+            $rootScope.globalNewPrimaryDocument = function (schema) {
+                $scope.choosePath('/document/' + schema + '/' + $rootScope.user.groupIdentifier + '/edit/create');
+            };
 
-        // APPLICATION NAVIGATION ================================================================
+            $rootScope.globalNewSharedDocument = function (schema) {
+                $scope.choosePath('/document/' + schema + '/edit/create');
+            };
+
+            // APPLICATION NAVIGATION ================================================================
+
+            $scope.mainMenu = [
+                {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
+                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
+            ];
+
+            _.each($rootScope.schemaMap.shared, function(sharedSchema) {
+                $scope.mainMenu.push({
+                    name: sharedSchema,
+                    path: "/document/" + sharedSchema,
+                    icon: 'icon-file',
+                    active: false,
+                    type: 'shared'
+                });
+            });
+            _.each($rootScope.schemaMap.primary, function(primarySchema) {
+                $scope.mainMenu.push({
+                    name: primarySchema,
+                    path: "/document/" + primarySchema + "/" + $rootScope.user.groupIdentifier, // todo: will this arrive too late??
+                    icon: 'icon-file',
+                    active: false,
+                    type: 'primary'
+                });
+            });
+        });
 
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {
@@ -95,17 +121,6 @@ OSCR.controller(
             }
         };
 
-        $scope.mainMenu = {
-            links: [
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
-                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
-                {name: "Photo", path: "/document/Photo", icon: 'icon-file', active: false},
-                {name: "InMemoriam", path: "/document/InMemoriam", icon: 'icon-file', active: false},
-                {name: "Book", path: "/document/Book", icon: 'icon-file', active: false},
-                {name: "Video", path: "/document/Video", icon: 'icon-file', active: false},
-                {name: "Location", path: "/document/Location", icon: 'icon-file', active: false}
-            ]
-        };
         $scope.recent = [];
 
         var anyActive = false;

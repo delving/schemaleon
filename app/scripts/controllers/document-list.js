@@ -11,10 +11,11 @@ OSCR.controller(
         $scope.searchString = '';
         $scope.searchStringUsed = '';
         $scope.schema = $routeParams.schema;
+        $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.noResults = false;
 
         function getAllDocuments() {
-            Document.fetchAllDocuments($scope.schema, function (list) {
+            Document.fetchAllDocuments($scope.schema, $scope.groupIdentifier, function (list) {
                 $scope.searchStringUsed = '';
                 $scope.searchString = '';
                 $scope.headerList = _.map(list, function(document) {
@@ -41,7 +42,14 @@ OSCR.controller(
         }
 
         $scope.newDocument = function () {
-            $scope.choosePath('/document/' + $scope.schema + '/edit/create');
+            if ($scope.groupIdentifier) {
+                // primary
+                $scope.choosePath('/document/' + $scope.schema + '/' + $scope.groupIdentifier + '/edit/create');
+            }
+            else {
+                // shared
+                $scope.choosePath('/document/' + $scope.schema + '/edit/create');
+            }
         };
 
         $scope.search = function() {
@@ -49,7 +57,7 @@ OSCR.controller(
                 getAllDocuments();
             }
             else {
-                Document.selectDocuments($scope.schema, $scope.searchString, function(list) {
+                Document.selectDocuments($scope.schema, $scope.groupIdentifier, $scope.searchString, function(list) {
                     if (list.length) {
                         $scope.searchStringUsed = $scope.searchString;
                         $scope.noResults = false;

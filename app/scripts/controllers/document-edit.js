@@ -14,6 +14,7 @@ OSCR.controller(
         $scope.blankTimeStamp = '#TIMESTAMP#';
         $scope.headerDisplay = '';
         $scope.schema = $routeParams.schema;
+        $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.identifier = $routeParams.identifier;
         $scope.header = {};
         $scope.tree = null;
@@ -92,6 +93,7 @@ OSCR.controller(
         function useHeader(h) {
             $scope.header.SchemaName = $scope.schema;
             $scope.header.Identifier = h.Identifier;
+            $scope.header.GroupIdentifier = h.GroupIdentifier;
             $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
             $scope.header.Title = h.Title;
             delete $scope.header.TimeStamp;
@@ -105,13 +107,14 @@ OSCR.controller(
         if ($scope.identifier === 'create') {
             useHeader({
                 SchemaName: $scope.schema,
+                GroupIdentifier: $scope.groupIdentifier,// todo: we're saving so maybe use $rootScope.user.groupIdentifier
                 Identifier: $scope.blankIdentifier
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch
             $scope.documentDirty = false;
         }
         else {
-            Document.fetchDocument($scope.schema, $scope.identifier, function (document) {
+            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
 //                console.log(document);
                 useHeader(document.Document.Header);
                 $scope.documentJSON = null;

@@ -79,6 +79,7 @@ exports.testImageIngestion = function (test) {
                 log('xml:');
                 log(xml);
                 var schemaName = util.getFromXml(xml, "SchemaName");
+                // todo: DOCZ
                 storage.Document.getAllDocuments(schemaName, function (results) {
                     log('listImageData for ' + schemaName);
                     log(results);

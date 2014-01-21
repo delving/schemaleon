@@ -241,6 +241,7 @@ OSCR.controller(
         }
         $scope.chosenMedia = null;
         $scope.schema = $scope.el.config.media;
+        $scope.groupIdentifier = $rootScope.user.groupIdentifier;
 
         if (!$scope.el.tree) {
             Document.fetchSchema($scope.schema, function (schema) {
@@ -252,7 +253,7 @@ OSCR.controller(
         }
 //
         function refreshList() {
-            Document.fetchAllDocuments($scope.schema, function(list) {
+            Document.fetchAllDocuments($scope.schema, $scope.groupIdentifier, function(list) {
                 $scope.mediaList = list;
             });
         }
@@ -262,7 +263,7 @@ OSCR.controller(
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
 //                todo $scope.disableEditor();
-                Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
+                Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.el.value.Identifier, function (fetchedValue) {
                     $scope.setValue(fetchedValue.Document);
                 });
             }

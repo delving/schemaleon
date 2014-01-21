@@ -24,6 +24,14 @@ OSCR.config(
                 templateUrl: 'views/document-list.html',
                 controller: 'DocumentListController'
             })
+            .when('/document/:schema/:groupIdentifier', {
+                templateUrl: 'views/document-list.html',
+                controller: 'DocumentListController'
+            })
+            .when('/document/:schema/:groupIdentifier/edit/:identifier', {
+                templateUrl: 'views/document-edit.html',
+                controller: 'DocumentEditController'
+            })
             .when('/document/:schema/edit/:identifier', {
                 templateUrl: 'views/document-edit.html',
                 controller: 'DocumentEditController'
