@@ -43,7 +43,6 @@ OSCR.controller(
 
         $scope.toggleDocumentPublic = function () {            
             $scope.documentPublic = !$scope.documentPublic;
-            console.log($scope.documentPublic);
         }
 
 
