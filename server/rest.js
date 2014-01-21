@@ -278,7 +278,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/document/schemaMap', function (req, res) {
-        res.json(storage.Document.schemaMap);
+        res.send(storage.Document.schemaMap);
     });
 
     app.get('/document/schema/:schema', function (req, res) {

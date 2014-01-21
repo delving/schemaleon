@@ -12,8 +12,11 @@ OSCR.service(
             });
         };
 
-        this.fetchSchemaMap = function(receiver) {
-            $http.get('/document/schemaMap').success(receiver);
+        this.fetchSchemaMap = function(accept) {
+            $http.get('/document/schemaMap').success(function (schemaMap) {
+                accept(schemaMap);
+                console.log(schemaMap);
+            });
         };
 
         this.fetchSchema = function (schemaName, receiver) {

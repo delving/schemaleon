@@ -71,39 +71,41 @@ OSCR.controller(
             })
         };
 
-        Document.fetchSchemaMap(function(schemaMap) {
-            $rootScope.schemaMap = schemaMap;
-//            this.schemaMap = {
-//                primary: [ "Photo", "Film", "Memoriam", "Publication" ],
-//                shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
-//            };
 
-            // GLOBAL NEW DOCUMENT ====================================================================
-            // TODO: similar function in document-list.js - can we reuse this one?
-            $rootScope.globalNewPrimaryDocument = function (schema) {
-                $scope.choosePath('/document/' + schema + '/' + $rootScope.user.groupIdentifier + '/edit/create');
-            };
+        $rootScope.schemaMap =  {
+            primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+            shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
+        };
 
-            $rootScope.globalNewSharedDocument = function (schema) {
-                $scope.choosePath('/document/' + schema + '/edit/create');
-            };
+        // GLOBAL NEW DOCUMENT ====================================================================
+        // TODO: similar function in document-list.js - can we reuse this one?
+        $rootScope.globalNewPrimaryDocument = function (schema) {
+            $scope.choosePath('/document/' + schema + '/' + $rootScope.user.groupIdentifier + '/edit/create');
+        };
 
-            // APPLICATION NAVIGATION ================================================================
+        $rootScope.globalNewSharedDocument = function (schema) {
+            $scope.choosePath('/document/' + schema + '/edit/create');
+        };
 
-            $scope.mainMenu = [
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
-                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
-            ];
+        // APPLICATION NAVIGATION ================================================================
 
-            _.each($rootScope.schemaMap.shared, function(sharedSchema) {
-                $scope.mainMenu.push({
-                    name: sharedSchema,
-                    path: "/document/" + sharedSchema,
-                    icon: 'icon-file',
-                    active: false,
-                    type: 'shared'
-                });
+        $scope.mainMenu = [
+            {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
+            {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
+        ];
+
+        _.each($rootScope.schemaMap.shared, function(sharedSchema) {
+            $scope.mainMenu.push({
+                name: sharedSchema,
+                path: "/document/" + sharedSchema,
+                icon: 'icon-file',
+                active: false,
+                type: 'shared'
             });
+        });
+
+        $rootScope.$watch('user', function (user, before) {
+            if (!user) return;
             _.each($rootScope.schemaMap.primary, function(primarySchema) {
                 $scope.mainMenu.push({
                     name: primarySchema,
@@ -115,27 +117,23 @@ OSCR.controller(
             });
         });
 
-        $rootScope.checkLoggedIn = function() {
-            if ($location.path() != '/login' && !$rootScope.user) {
-                $location.path('/login');
-            }
-        };
 
-        $scope.recent = [];
 
         var anyActive = false;
-        _.forEach($scope.mainMenu.links, function (link) {
+
+
+        _.forEach($scope.mainMenu, function (link) {
             link.active = ($location.path().indexOf(link.path) >= 0);
             if (link.active) anyActive = true;
         });
         if (!anyActive) {
-            $scope.mainMenu.links[0].active = true;
+            $scope.mainMenu[0].active = true;
         }
 
         $scope.choosePath = function (path, header) {
 //            console.log('PATH '+path);
             var activeItem = false, freshLabel = {};
-            _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
+            _.forEach($scope.mainMenu.concat($scope.recent), function (link) {
                 link.active = (link.path == path);
                 if (link.active) activeItem = true;
             });
@@ -160,6 +158,16 @@ OSCR.controller(
             $location.path(path);
             $cookieStore.put('oscr-path', path);
         };
+
+
+
+        $rootScope.checkLoggedIn = function() {
+            if ($location.path() != '/login' && !$rootScope.user) {
+                $location.path('/login');
+            }
+        };
+
+        $scope.recent = [];
 
         $scope.useHeaderInMenu = function(header) {
             _.each($scope.recent, function(recent) {
