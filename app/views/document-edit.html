@@ -20,7 +20,7 @@
         <div class="tab-content">
             <div class="tab-pane" ng-class="{ 'active': tabEditActive }">
                 <div class="document-controls">
-                    <ul class="nav nav-pills pull-left">
+                    <ul class="nav nav-pills">
                         <li>
                             <a href ng-click="choosePath('/document/'+schema)">
                                 <i class="icon-list-alt icon-white"></i>
@@ -39,6 +39,12 @@
                                 <i class="icon icon-check icon-white"></i>
                                 <span class="i18n"/>
                             </a>
+                        </li>
+                        <li class="pull-right">
+                           <span class="badge pointer" ng-class="{'badge-success' : documentPublic}" ng-click="toggleDocumentPublic()" >
+                               <span ng-show="documentPublic" tooltip="Click to make Private"  tooltip-placement="left">Public</span>
+                               <span ng-hide="documentPublic" tooltip="Click to make Public"  tooltip-placement="left">Private</span>
+                           </span>
                         </li>
                     </ul>
 
