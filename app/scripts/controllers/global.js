@@ -177,6 +177,7 @@ OSCR.controller(
         $scope.choosePath = function (path) {
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
+                header = path;
                 path = editPathFromHeader(header);
             }
             $location.path(path);
