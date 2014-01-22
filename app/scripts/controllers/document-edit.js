@@ -6,7 +6,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'DocumentEditController',
-    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document, $tooltip) {
+    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
 
@@ -111,26 +111,6 @@ OSCR.controller(
             }
         }
 
-        if ($scope.identifier === 'create') {
-            useHeader({
-                SchemaName: $scope.schema,
-                GroupIdentifier: $scope.groupIdentifier,// todo: we're saving so maybe use $rootScope.user.groupIdentifier
-                Identifier: $scope.blankIdentifier
-            });
-            $scope.document = $scope.schema; // just a name triggers schema fetch
-            $scope.documentDirty = false;
-        }
-        else {
-            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
-//                console.log(document);
-                useHeader(document.Document.Header);
-                $scope.documentJSON = null;
-                $scope.documentDirty = false;
-                $scope.document = document.Document; // triggers the editor
-                $scope.useHeaderInMenu(document.Document.Header); // reaches down to global.js
-            });
-        }
-
         $scope.setTree = function (tree) {
             return $scope.tree = tree;
         };
@@ -160,7 +140,27 @@ OSCR.controller(
             }
         };
 
+        if ($scope.identifier === 'create') {
+            useHeader({
+                SchemaName: $scope.schema,
+                GroupIdentifier: $scope.groupIdentifier,// todo: we're saving so maybe use $rootScope.user.groupIdentifier
+                Identifier: $scope.blankIdentifier
+            });
+            $scope.document = $scope.schema; // just a name triggers schema fetch
+            $scope.documentDirty = false;
+        }
+        else {
+            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
+                useHeader(document.Document.Header);
+                $scope.documentJSON = null;
+                $scope.documentDirty = false;
+                $scope.document = document.Document; // triggers the editor
+                $scope.useHeaderInMenu(document.Document.Header); // reaches down to global.js
+            });
+        }
+
         $scope.saveDocument = function () {
+            console.log("saveDocument", $scope.header);
             collectSummaryFields($scope.tree, $scope.header);
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;

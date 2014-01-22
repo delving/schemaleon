@@ -22,7 +22,7 @@ function xmlToTree(xml) {
     function parse(key, string, to) {
         var fresh = { name: key };
         if (_.isString(string)) {
-            console.log("to parse ["+string+"]");
+//            console.log("element parse ["+string+"]");
             fresh.config = JSON.parse(string);
             var c = fresh.config;
             if (!(c.media || c.vocabulary || c.paragraph)) {
@@ -42,7 +42,7 @@ function xmlToTree(xml) {
                 _.each(from[key], function (string) {
                     string = string.trim();
                     if (string) {
-                        console.log("three parse ["+string+"]");
+//                        console.log("text parse ["+string+"]");
                         to.config = JSON.parse(string);
                     }
                 });

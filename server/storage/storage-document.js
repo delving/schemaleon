@@ -85,7 +85,7 @@ P.saveDocument = function (envelope, receiver) {
             .replace(IDENTIFIER, hdr.Identifier) // maybe body
             .replace(TIMESTAMP, time); // header
         s.add('add document ' + hdr.Identifier,
-            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.groupIdentifier),
+            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
             xml,
             receiver
         );
@@ -110,7 +110,7 @@ P.saveDocument = function (envelope, receiver) {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
         s.replace('replace document ' + hdr.Identifier,
-            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.groupIdentifier),
+            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
             stamped,
             receiver
         );
