@@ -220,8 +220,8 @@ OSCR.controller(
         };
 
         $scope.valueChanged = function (el) {
-            console.log("value changed: active=" + (el == $scope.activeEl));
-//            console.log(el);
+//            console.log("value changed: active=" + (el == $scope.activeEl));
+            $scope.revalidate();
         };
 
         $scope.$watch('i18n', function (i18n, oldValue) {

@@ -15,32 +15,22 @@ function log(message) {
     console.log(message);
 }
 
-P.getVocabularySchema = function (vocabName, receiver) {
-//    todo: make it so that vocabularies don't have to be named in schemas
-//    todo: default behavior is they just appear
-
-    var s = this.storage;
-    s.query('get vocabulary schema ' + vocabName,
-        [
-            '<' + vocabName + '>',
-            "  <Entry>{ doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/text() }",
-                '  <Label/>',
-                '  <Identifier/>',
-                "  { doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/* }",
-            '  </Entry>',
-            '</' + vocabName + '>'
-//            todo: look at this approach
+// for now, all vocabulary schemas are just Identifier/Label
+//P.getVocabularySchema = function (vocabName, receiver) {
+//    var s = this.storage;
+//    s.query('get vocabulary schema ' + vocabName,
+//        [
 //            '<' + vocabName + '>',
-//            "  <Entry>{ " + s.schemaPath() + "/Vocabulary/" + vocabName + "/text() }",
+//            "  <Entry>{ doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/text() }",
 //            '  <Label/>',
 //            '  <Identifier/>',
-//            "  { "+ s.schemaPath() + "/Vocabulary/" + vocabName + "/* }",
+//            "  { doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/* }",
 //            '  </Entry>',
 //            '</' + vocabName + '>'
-    ],
-        receiver
-    );
-};
+//        ],
+//        receiver
+//    );
+//};
 
 P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var s = this.storage;

@@ -237,11 +237,12 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/vocabulary/:vocab', function (req, res) {
-        storage.Vocab.getVocabularySchema(req.params.vocab, function (xml) {
-            res.xml(xml);
-        });
-    });
+// for now, all vocabulary schemas are just Identifier/Label
+//    app.get('/vocabulary/:vocab', function (req, res) {
+//        storage.Vocab.getVocabularySchema(req.params.vocab, function (xml) {
+//            res.xml(xml);
+//        });
+//    });
 
     app.get('/vocabulary/:vocab/all', function (req, res) {
         storage.Vocab.getVocabulary(req.params.vocab, function (xml) {

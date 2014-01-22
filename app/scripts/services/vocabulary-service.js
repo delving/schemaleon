@@ -6,11 +6,12 @@ OSCR.service(
     "Vocabulary",
     function ($http) {
 
-        this.getSchema = function (vocab, accept) {
-            $http.get('/vocabulary/' + vocab).success(function (data) {
-                accept(xmlToTree(data));
-            });
-        };
+//        for now, all vocabulary schemas are just Identifier/Label
+//        this.getSchema = function (vocab, accept) {
+//            $http.get('/vocabulary/' + vocab).success(function (data) {
+//                accept(xmlToTree(data));
+//            });
+//        };
 
         this.fetchEntry = function (vocab, identifier, accept) {
             $http.get('/vocabulary/' + vocab + "/fetch/" + identifier).success(function (data) {
