@@ -71,7 +71,6 @@ OSCR.controller(
             })
         };
 
-
         $rootScope.schemaMap =  {
             primary: [ "Photo", "Film", "Memoriam", "Publication" ],
             shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
@@ -117,10 +116,7 @@ OSCR.controller(
             });
         });
 
-
-
         var anyActive = false;
-
 
         _.forEach($scope.mainMenu, function (link) {
             link.active = ($location.path().indexOf(link.path) >= 0);
@@ -159,8 +155,6 @@ OSCR.controller(
             $cookieStore.put('oscr-path', path);
         };
 
-
-
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {
                 $location.path('/login');
@@ -180,10 +174,6 @@ OSCR.controller(
         $scope.sidebarShowing = function() {
             return $location.path() !== '/login';
         };
-
-        $scope.showLegend = function() {
-
-        }
 
         $scope.getInclude = function () {
             if ($routeParams.identifier && $location.path().match(/\/edit\//) ) {
@@ -219,12 +209,11 @@ OSCR.controller(
             }
         };
 
-        $scope.username = '';
-        $scope.password = '';
+        // == this is from the former login.js
 
         function setUser(user) {
             if (user) {
-                $rootScope.user = user
+                $rootScope.user = user;
                 $cookieStore.put('user', user);
                 if ($rootScope.user.Memberships) {
                     $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
@@ -246,35 +235,24 @@ OSCR.controller(
             }
         }
 
-        $rootScope.login = function () {
+        $rootScope.login = function (username, password) {
             $scope.loginFailed = false;
-            if ($scope.username && $scope.username.length) {
-                Person.authenticate($scope.username, $scope.password, function (user) {
+            if (username && username.length) {
+                Person.authenticate(username, password, function (user) {
                     setUser(user);
                     if (user) {
                         $scope.choosePath('/dashboard');
                     }
                     else {
-                        $scope.loginFailed = true;
-                        $scope.password = '';
+                        $rootScope.loginFailed = true;
+                        $rootScope.password = '';
                         $scope.choosePath('/login');
                     }
                 });
             }
             else {
-                setUser({
-                    Identifier: 'OSCR-US-fakey-id',
-                    Profile: {
-                        firstName: 'Oscr',
-                        lastName: 'Wild',
-                        email: 'oscr@delving.eu'
-                    },
-                    Memberships: {
-                        Membership: [
-                        ]
-                    }
-                });
-                $scope.choosePath('/dashboard');
+                alert('login, but username is empty!');
+                $scope.choosePath('/login');
             }
         };
 

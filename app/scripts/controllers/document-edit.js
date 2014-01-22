@@ -24,6 +24,8 @@ OSCR.controller(
         $scope.saveSuccess = false;
         $scope.documentPublic = false;//todo:gerald -> get this from the header on document load, save to the header on document save.
 
+        console.log("DocumentEditController: routeParams", $routeParams);
+
         // If the user has role:Viewer then don't show the doc edit form, but only the preview
         if($rootScope.user.viewer) {
             $scope.tabEditActive = false;

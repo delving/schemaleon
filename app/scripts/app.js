@@ -60,9 +60,9 @@ OSCR.config(
                 controller: 'UserViewController'
             })
             .otherwise({
-                templateUrl: 'views/login.html',
-                controller: 'LoginController',
-                title: 'OSCR Login'
+                templateUrl: 'views/home.html',
+                controller: 'HomeController',
+                title: 'OSCR Home'
             });
     }
 );
