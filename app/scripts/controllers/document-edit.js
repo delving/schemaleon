@@ -46,8 +46,7 @@ OSCR.controller(
 
         $scope.toggleDocumentPublic = function () {            
             $scope.documentPublic = !$scope.documentPublic;
-        }
-
+        };
 
         function getTime(millis) {
             var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
@@ -140,10 +139,10 @@ OSCR.controller(
             }
         };
 
-        if ($scope.identifier === 'create') {
+        if (!$scope.identifier) {
             useHeader({
                 SchemaName: $scope.schema,
-                GroupIdentifier: $scope.groupIdentifier,// todo: we're saving so maybe use $rootScope.user.groupIdentifier
+                GroupIdentifier: $rootScope.user.groupIdentifier,
                 Identifier: $scope.blankIdentifier
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch
@@ -155,7 +154,7 @@ OSCR.controller(
                 $scope.documentJSON = null;
                 $scope.documentDirty = false;
                 $scope.document = document.Document; // triggers the editor
-                $scope.useHeaderInMenu(document.Document.Header); // reaches down to global.js
+                $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
             });
         }
 
@@ -175,7 +174,7 @@ OSCR.controller(
                         $scope.saveSuccess = false;
                     },250);
                 }, 5000);
-                $scope.choosePath('/document/' + $scope.header.SchemaName + '/edit/' + $scope.header.Identifier, document.Header);
+                $scope.choosePath(document.Header);
             });
         };
 

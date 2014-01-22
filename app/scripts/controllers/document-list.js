@@ -41,17 +41,6 @@ OSCR.controller(
             getAllDocuments()
         }
 
-        $scope.newDocument = function () {
-            if ($scope.groupIdentifier) {
-                // primary
-                $scope.choosePath('/document/' + $scope.schema + '/' + $scope.groupIdentifier + '/edit/create');
-            }
-            else {
-                // shared
-                $scope.choosePath('/document/' + $scope.schema + '/edit/create');
-            }
-        };
-
         $scope.search = function() {
             if ($scope.searchString.length == 0) {
                 getAllDocuments();

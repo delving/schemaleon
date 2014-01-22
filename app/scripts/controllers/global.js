@@ -76,14 +76,24 @@ OSCR.controller(
             shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
         };
 
-        // GLOBAL NEW DOCUMENT ====================================================================
-        // TODO: similar function in document-list.js - can we reuse this one?
-        $rootScope.globalNewPrimaryDocument = function (schema) {
-            $scope.choosePath('/document/' + schema + '/' + $rootScope.user.groupIdentifier + '/edit/create');
-        };
+        function isShared(schemaName) {
+            return (_.contains($rootScope.schemaMap.shared, schemaName))
+        }
 
-        $rootScope.globalNewSharedDocument = function (schema) {
-            $scope.choosePath('/document/' + schema + '/edit/create');
+        function editPathFromHeader(header) {
+            if (isShared(header.SchemaName)) {
+                return '/shared/' + header.SchemaName + '/' + header.Identifier + '/edit';
+            } else {
+                return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/edit';
+            }
+        }
+
+        $rootScope.newDocument = function (schema) {
+            if (isShared(schema)) {
+                $scope.choosePath('/shared/' + schema + '/create');
+            } else {
+                $scope.choosePath('/primary/' + schema + '/' + $rootScope.user.groupIdentifier + '/create');
+            }
         };
 
         // APPLICATION NAVIGATION ================================================================
@@ -96,7 +106,7 @@ OSCR.controller(
             _.each($rootScope.schemaMap.shared, function(sharedSchema) {
                 $scope.mainMenu.push({
                     name: sharedSchema,
-                    path: "/document/" + sharedSchema,
+                    path: "/shared/" + sharedSchema,
                     icon: 'icon-file',
                     active: false,
                     type: 'shared'
@@ -105,7 +115,7 @@ OSCR.controller(
             _.each($rootScope.schemaMap.primary, function(primarySchema) {
                 $scope.mainMenu.push({
                     name: primarySchema,
-                    path: "/document/" + primarySchema + "/" + user.groupIdentifier,
+                    path: "/primary/" + primarySchema + "/" + user.groupIdentifier,
                     icon: 'icon-file',
                     active: false,
                     type: 'primary'
@@ -139,37 +149,35 @@ OSCR.controller(
         var anyActive = false;
         $scope.recent = [];
 
-        $scope.useHeaderInMenu = function(header) {
-            _.each($scope.recent, function(recent) {
-                if (header.Identifier == recent.name) {
-                    recent.name = header.Title;
-                }
+        $scope.addToRecentMenu = function(header) {
+            // make all inactive
+            _.each($scope.mainMenu.concat($scope.recent), function (entry) {
+                entry.active = false;
             });
-        };
-
-        $scope.choosePath = function (path, header) {
-            var activeItem = false, freshLabel = {};
-            _.forEach($scope.mainMenu.concat($scope.recent), function (link) {
-                link.active = (link.path == path);
-                if (link.active) activeItem = true;
+            var recentEntry = _.find($scope.recent, function(entry) {
+                return header.Identifier == entry.header.Identifier;
             });
-            if (!activeItem && path.indexOf('/document') == 0 && path.indexOf('create') < 0) {
-                freshLabel = {
-                    path: path,
+            if (!recentEntry) {
+                recentEntry = {
+                    name: header.Title,
+                    path: editPathFromHeader(header),
                     icon: 'icon-th-home',
-                    active: true,
-                    recent: true
+                    header: header,
+                    recent: true // todo: instead detect if there is a header
                 };
-                if (header) {
-                    freshLabel.name = header.Title;
-                }
-                else {
-                    freshLabel.name = path.substring(path.lastIndexOf("/") + 1, path.length);
-                }
-                $scope.recent.push(freshLabel);
+                $scope.recent.push(recentEntry);
                 if ($scope.recent.length > 10) {
                     $scope.recent.shift();
                 }
+            }
+            // activate the one we just
+            recentEntry.active = true;
+        };
+
+        $scope.choosePath = function (path) {
+            var header = undefined;
+            if (_.isObject(path)) { // they may have given us a header to define the path
+                path = editPathFromHeader(header);
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);

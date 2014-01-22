@@ -19,19 +19,27 @@ OSCR.config(
                 controller: 'DashboardController',
                 title: 'OSCR Dashboard'
             })
-            .when('/document/:schema', {
+            .when('/shared/:schema', {
                 templateUrl: 'views/document-list.html',
                 controller: 'DocumentListController'
             })
-            .when('/document/:schema/:groupIdentifier', {
-                templateUrl: 'views/document-list.html',
-                controller: 'DocumentListController'
-            })
-            .when('/document/:schema/:groupIdentifier/edit/:identifier', {
+            .when('/shared/:schema/create', {
                 templateUrl: 'views/document-edit.html',
                 controller: 'DocumentEditController'
             })
-            .when('/document/:schema/edit/:identifier', {
+            .when('/shared/:schema/:identifier/edit', {
+                templateUrl: 'views/document-edit.html',
+                controller: 'DocumentEditController'
+            })
+            .when('/primary/:schema/:groupIdentifier', {
+                templateUrl: 'views/document-list.html',
+                controller: 'DocumentListController'
+            })
+            .when('/primary/:schema/:groupIdentifier/create', {
+                templateUrl: 'views/document-edit.html',
+                controller: 'DocumentEditController'
+            })
+            .when('/primary/:schema/:groupIdentifier/:identifier/edit', {
                 templateUrl: 'views/document-edit.html',
                 controller: 'DocumentEditController'
             })

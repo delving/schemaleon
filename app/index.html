@@ -72,7 +72,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li ng-repeat="schema in schemaMap.primary">
-                                    <a tabindex="-1" href="" ng-click="globalNewPrimaryDocument(schema)">{{ schema }}</a>
+                                    <a tabindex="-1" href="" ng-click="newDocument(schema)">{{ schema }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -83,7 +83,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li ng-repeat="schema in schemaMap.shared">
-                                    <a tabindex="-1" href="" ng-click="globalNewSharedDocument(schema)">{{ schema }}</a>
+                                    <a tabindex="-1" href="" ng-click="newDocument(schema)">{{ schema }}</a>
                                 </li>
                             </ul>
                         </li>

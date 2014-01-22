@@ -313,11 +313,16 @@ Storage('oscr', homeDir, function (storage) {
         storage.Document.saveDocument(req.body, function (header) {
             res.xml(header);
             if (header) {
-                storage.Log.add(req, {
+                var entry = {
                     Op: "SaveDocument",
                     Identifier: util.getFromXml(header, "Identifier"),
                     SchemaName: util.getFromXml(header, "SchemaName")
-                })
+                };
+                var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
+                if (groupIdentifier.length) {
+                    entry.GroupIdentifier = groupIdentifier;
+                }
+                storage.Log.add(req, entry)
             }
         });
     });
