@@ -34,13 +34,21 @@ function installInElement(el, name) {
                 return element.value ? null : '2:Required'
             });
             break;
-        case 'pixels':
-            v.push(function (element) {
-                if (element.value && !element.value.match(/^[0-9]+[Xx][0-9]+$/)) {
-                    return '3:MustBeWidthTimesHeight';
-                }
-                return null;
-            });
+        case 'URL':
+            break;
+        case 'URI':
+            break;
+        case 'ISBN':
+            break;
+        case 'longitude':
+            break;
+        case 'latitude':
+            break;
+        case 'emailAddress':
+            break;
+        case 'telephoneNumber':
+            break;
+        case 'timePrimitive':
             break;
         default:
             console.error('No validator found for: ' + name);

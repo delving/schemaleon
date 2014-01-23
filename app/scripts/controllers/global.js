@@ -65,12 +65,6 @@ OSCR.controller(
             })
         };
 
-        $rootScope.refreshSchemas = function() {
-            Person.refreshSchemas(function (result) {
-                alert('refreshed schemas');
-            })
-        };
-
         $rootScope.schemaMap =  {
             primary: [ "Photo", "Film", "Memoriam", "Publication" ],
             shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
