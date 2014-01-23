@@ -13,14 +13,8 @@ function Media(storage) {
 
 var P = Media.prototype;
 
-function log(message, lineNr) {
-    if (lineNr) {
-        console.log('storage-media.js l.'+lineNr+':', message);
-    }
-    else {
-        console.log('storage-media.js:', message);
-    }
-
+function log(message) {
+    console.log('storage-media.js: ', message);
 }
 
 P.thumbNameProper = function (thumbName)  {
@@ -29,11 +23,10 @@ P.thumbNameProper = function (thumbName)  {
         nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
     }
     return nameProper;
-}
+};
 
 P.saveMedia = function (body, receiver) {
-    log('saveMedia');
-    log(body);
+    log('saveMedia', body);
     var s = this.storage;
     var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
     var thumbnailPath = path.join(s.directories.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));

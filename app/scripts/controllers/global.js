@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $scope, $location, $routeParams, Person, I18N) {
+    function ($rootScope, $cookieStore, $timeout, $scope, $location, $routeParams, Person, I18N) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -71,23 +71,118 @@ OSCR.controller(
             })
         };
 
-        // GLOBAL NEW DOCUMENT ====================================================================
-        // TODO: generate dynamic list based on available schemas
-        $rootScope.availableSchemas = [
-            {name: "Photo"},
-            {name: "InMemoriam"},
-            {name: "Photo"},
-            {name: "Book"},
-            {name: "Video"},
-            {name: "Location"}
-        ];
+        $rootScope.schemaMap =  {
+            primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+            shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
+        };
 
-        // TODO: similar function in document-list.js - can we reuse this one?
-        $rootScope.globalNewDocument = function (schema) {
-            $scope.choosePath('/document/' + schema + '/edit/create');
+        function isShared(schemaName) {
+            return (_.contains($rootScope.schemaMap.shared, schemaName))
+        }
+
+        function editPathFromHeader(header) {
+            if (isShared(header.SchemaName)) {
+                return '/shared/' + header.SchemaName + '/' + header.Identifier + '/edit';
+            } else {
+                return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/edit';
+            }
+        }
+
+        $rootScope.newDocument = function (schema) {
+            if (isShared(schema)) {
+                $scope.choosePath('/shared/' + schema + '/create');
+            } else {
+                $scope.choosePath('/primary/' + schema + '/' + $rootScope.user.groupIdentifier + '/create');
+            }
         };
 
         // APPLICATION NAVIGATION ================================================================
+
+        function buildMainMenu(user) {
+            $scope.mainMenu = [
+                {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
+                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
+            ];
+            _.each($rootScope.schemaMap.shared, function(sharedSchema) {
+                $scope.mainMenu.push({
+                    name: sharedSchema,
+                    path: "/shared/" + sharedSchema,
+                    icon: 'icon-file',
+                    active: false,
+                    type: 'shared'
+                });
+            });
+            _.each($rootScope.schemaMap.primary, function(primarySchema) {
+                $scope.mainMenu.push({
+                    name: primarySchema,
+                    path: "/primary/" + primarySchema + "/" + user.groupIdentifier,
+                    icon: 'icon-file',
+                    active: false,
+                    type: 'primary'
+                });
+            });
+            _.forEach($scope.mainMenu, function (link) {
+                link.active = ($location.path().indexOf(link.path) >= 0);
+                if (link.active) anyActive = true;
+            });
+            if (!anyActive) {
+                $scope.mainMenu[0].active = true;
+            }
+        }
+
+        $rootScope.$watch('user', function (user, before) {
+            if (!user) return;
+            $rootScope.userMemberships = [];
+            if (user.Memberships) {
+                _.each(user.Memberships.Membership, function (membership) {
+                    Person.getGroup(membership.GroupIdentifier, function (group) {
+                        membership.group = group.Group;
+                        membership.Label = membership.group.Name + ' (' + membership.Role + ')';
+                        $rootScope.userMemberships.push(membership);
+                        user.groupIdentifier = membership.GroupIdentifier;
+                        buildMainMenu(user);
+                    });
+                });
+            }
+        });
+
+        var anyActive = false;
+        $scope.recent = [];
+
+        $scope.addToRecentMenu = function(header) {
+            // make all inactive
+            _.each($scope.mainMenu.concat($scope.recent), function (entry) {
+                entry.active = false;
+            });
+            var recentEntry = _.find($scope.recent, function(entry) {
+                return header.Identifier == entry.header.Identifier;
+            });
+            if (!recentEntry) {
+                recentEntry = {
+                    name: header.Title,
+                    path: editPathFromHeader(header),
+                    icon: 'icon-th-home',
+                    header: header,
+                    recent: true // todo: instead detect if there is a header
+                };
+                $scope.recent.push(recentEntry);
+                if ($scope.recent.length > 10) {
+                    $scope.recent.shift();
+                }
+            }
+            // activate the one we just
+            recentEntry.active = true;
+        };
+
+        $scope.choosePath = function (path) {
+            var header = undefined;
+            if (_.isObject(path)) { // they may have given us a header to define the path
+                header = path;
+                path = editPathFromHeader(header);
+            }
+            $location.path(path);
+            $cookieStore.put('oscr-path', path);
+        };
 
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {
@@ -95,72 +190,9 @@ OSCR.controller(
             }
         };
 
-        $scope.mainMenu = {
-            links: [
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
-                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false},
-                {name: "Photo", path: "/document/Photo", icon: 'icon-file', active: false},
-                {name: "InMemoriam", path: "/document/InMemoriam", icon: 'icon-file', active: false},
-                {name: "Book", path: "/document/Book", icon: 'icon-file', active: false},
-                {name: "Video", path: "/document/Video", icon: 'icon-file', active: false},
-                {name: "Location", path: "/document/Location", icon: 'icon-file', active: false}
-            ]
-        };
-        $scope.recent = [];
-
-        var anyActive = false;
-        _.forEach($scope.mainMenu.links, function (link) {
-            link.active = ($location.path().indexOf(link.path) >= 0);
-            if (link.active) anyActive = true;
-        });
-        if (!anyActive) {
-            $scope.mainMenu.links[0].active = true;
-        }
-
-        $scope.choosePath = function (path, header) {
-//            console.log('PATH '+path);
-            var activeItem = false, freshLabel = {};
-            _.forEach($scope.mainMenu.links.concat($scope.recent), function (link) {
-                link.active = (link.path == path);
-                if (link.active) activeItem = true;
-            });
-            if (!activeItem && path.indexOf('/document') == 0 && path.indexOf('create') < 0) {
-                freshLabel = {
-                    path: path,
-                    icon: 'icon-th-home',
-                    active: true,
-                    recent: true
-                };
-                if (header) {
-                    freshLabel.name = header.Title;
-                }
-                else {
-                    freshLabel.name = path.substring(path.lastIndexOf("/") + 1, path.length);
-                }
-                $scope.recent.push(freshLabel);
-                if ($scope.recent.length > 10) {
-                    $scope.recent.shift();
-                }
-            }
-            $location.path(path);
-            $cookieStore.put('oscr-path', path);
-        };
-
-        $scope.useHeaderInMenu = function(header) {
-            _.each($scope.recent, function(recent) {
-                if (header.Identifier == recent.name) {
-                    recent.name = header.Title;
-                }
-            });
-        };
-
         $scope.sidebarShowing = function() {
             return $location.path() !== '/login';
         };
-
-        $scope.showLegend = function() {
-
-        }
 
         $scope.getInclude = function () {
             if ($routeParams.identifier && $location.path().match(/\/edit\//) ) {
@@ -196,6 +228,99 @@ OSCR.controller(
             }
         };
 
+        // == this is from the former login.js
 
+        function setUser(user) {
+            if (user) {
+                $rootScope.user = user;
+                $cookieStore.put('user', user);
+                if ($rootScope.user.Memberships) {
+                    $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
+                    _.each($rootScope.user.Memberships.Membership, function (membership) {
+                        if (membership.GroupIdentifier === 'OSCR' && membership.Role === 'Administrator') {
+                            $rootScope.user.god = true;
+                        }
+                        if (membership.Role === 'Viewer') {
+                            $rootScope.user.viewer = true;
+                        }
+                    });
+                }
+            }
+            else {
+                delete $rootScope.user;
+            }
+            if(user && user.god === true) {
+                $('body').addClass('admin');
+            }
+        }
+
+        $rootScope.login = function (username, password) {
+            $scope.loginFailed = false;
+            if (username && username.length) {
+                Person.authenticate(username, password, function (user) {
+                    setUser(user);
+                    if (user) {
+                        $scope.choosePath('/dashboard');
+                    }
+                    else {
+                        $rootScope.loginFailed = true;
+                        $rootScope.password = '';
+                        $scope.choosePath('/login');
+                    }
+                });
+            }
+            else {
+                alert('login, but username is empty!');
+                $scope.choosePath('/login');
+            }
+        };
+
+        $rootScope.refreshUser = function () {
+            if ($rootScope.user) {
+                Person.getUser($rootScope.user.Identifier, function (user) {
+                    setUser(user);
+                });
+            }
+        };
+
+        $rootScope.logout = function () {
+            if ($rootScope.config.showTranslationEditor) return;
+            $cookieStore.remove('user');
+            delete $rootScope.user;
+            $('body').removeClass('admin');
+            setUser(null);
+            $scope.choosePath('/');
+        };
+
+        if ($location.host() == 'localhost') {
+            var user = $cookieStore.get('user');
+            if (user) {
+                setUser(user);
+                var oscrPath = $cookieStore.get('oscr-path');
+                if (oscrPath) {
+                    $timeout(
+                        function () {
+                            $scope.choosePath(oscrPath);
+                        },
+                        300
+                    );
+                }
+            }
+        }
     }
 );
+
+OSCR.directive('enterKey', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attr, ctrl) {
+            elem.bind('keydown', function (e) {
+                if (e.keyCode === 13) {
+                    scope.$apply(function (s) {
+                        s.$eval(attr.enterKey);
+                    });
+                }
+            });
+        }
+    };
+});

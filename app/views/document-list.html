@@ -17,7 +17,7 @@
                 </div>
             </form>
             <span class="controls pull-right" i18n="NewDocument" ng-hide="user.viewer">
-                <a href class="btn btn-primary" ng-click="newDocument()">
+                <a href class="btn btn-primary" ng-click="newDocument(schema)">
                     <i class="icon icon-plus icon-white"></i>
                     <span class="i18n"></span>
                 </a>
@@ -44,7 +44,7 @@
             </td>
         </tr>
         <tr data-ng-repeat="header in headerList">
-            <td><a href ng-click="choosePath('/document/'+schema+'/edit/'+ header.Identifier, header)" style="display:block">
+            <td><a href ng-click="choosePath(header)" style="display:block">
                 <i class="icon icon-edit"></i> {{ header.Title }}</a>
             </td>
             <td>

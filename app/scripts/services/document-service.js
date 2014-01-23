@@ -12,27 +12,33 @@ OSCR.service(
             });
         };
 
+        this.fetchSchemaMap = function(accept) {
+            $http.get('/document/schemaMap').success(function (schemaMap) {
+                accept(schemaMap);
+                console.log(schemaMap);
+            });
+        };
+
         this.fetchSchema = function (schemaName, receiver) {
             $http.get('/document/schema/' + schemaName).success(function (data) {
                 receiver(xmlToTree(data));
             });
         };
 
-        this.fetchAllDocuments = function (schemaName, receiver) {
-            $http.get('/document/list/documents/' + schemaName).success(function (data) {
+        this.fetchAllDocuments = function (schemaName, groupIdentifier, receiver) {
+            $http.get('/document/list/documents/' + schemaName + '/' + groupIdentifier).success(function (data) {
                 receiver(xmlToArray(data));
             });
         };
 
-        this.selectDocuments = function (schemaName, search, receiver) {
-            $http.get('/document/select/' + schemaName, {params: {q: search}}).success(function (data) {
+        this.selectDocuments = function (schemaName, groupIdentifier, search, receiver) {
+            $http.get('/document/select/' + schemaName + '/' + groupIdentifier, {params: {q: search}}).success(function (data) {
                 receiver(xmlToArray(data));
             });
         };
 
-        this.fetchDocument = function (schemaName, identifier, receiver) {
-            // todo make it /document/schemaName/fetch/identifier
-            $http.get('/document/fetch/' + schemaName + '/' + identifier).success(function (data) {
+        this.fetchDocument = function (schemaName, groupIdentifier, identifier, receiver) {
+            $http.get('/document/fetch/' + schemaName + '/' + groupIdentifier + '/' + identifier).success(function (data) {
                 receiver(xmlToObject(data));
             });
         };

@@ -125,6 +125,7 @@ exports.testSaveDocumentModified = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
+    // todo: DOCZ
     storage.Document.getAllDocuments(SCHEMA_NAME, function (xml) {
 //        console.log(xml);
         test.ok(xml, "No xml");
@@ -136,6 +137,7 @@ exports.testGetDocumentList = function (test) {
 exports.testSelectDocuments = function (test) {
     test.expect(2);
     // testing stemming here!
+    // todo: DOCZ
     storage.Document.selectDocuments(SCHEMA_NAME, 'yellowed', function (xml) {
         log('testSelectDocuments:');
         log(xml);

@@ -24,156 +24,67 @@ OSCR.controller(
     function ($scope, $q, Vocabulary, $rootScope) {
 
         if (!$scope.el.config.vocabulary) {
-            console.log("No vocabulary around!");// todo: remove
             return;
         }
         $scope.schema = $scope.el.config.vocabulary;
-
-        if (!$scope.el.tree) {
-            Vocabulary.getSchema($scope.schema, function (schema) {
-                $scope.el.tree = {
-                    name: 'Entry',
-                    elements: schema.elements[0].elements,
-                    config: schema.elements[0].config
-                };
-                if ($scope.el.value) {
-                    $scope.setValue($scope.el.value);
-                }
-            });
-        }
 
         $scope.enableVocabularyEditor = function () {
             console.log("enableVocabularyEditor", $scope.el);
             $scope.enableEditor();
             $scope.el.searching = true;
-//            $scope.el.value = null;
-//            $scope.el.valueFields = null;
         };
 
         $scope.enableClearedEditor = function () {
             if ($rootScope.config.showTranslationEditor) return;
             $scope.chosenEntry = null;
             $scope.el.value = null;
-            $scope.el.valueFields = null;
             $scope.enableEditor();
         };
 
-        $scope.$watch('chosenEntry', function (after, before) {
-            if (_.isObject(after)) {
-                $scope.setValue(after);
-                if (after.source) {
-                    delete after.source;
-                    populateTree($scope.el.tree, { Entry: after });
-                    $scope.submitNew();
-                }
+        $scope.$watch('chosenEntry', function (value, before) {
+            if (_.isObject(value)) {
+                $scope.el.value = value;
             }
         });
 
         $scope.entryToString = function (entry) {
             if (!entry || !entry.Label) return '';
-            if (entry.source) {
-                return entry.source + ': ' + entry.Label;
-            }
-            else {
-                return entry.Label;
-            }
+            return entry.Label;
         };
 
-        $scope.setValue = function (value) {
-            $scope.el.value = value;
-            if ($scope.el.tree) {
-                $scope.el.valueFields = _.filter(
-                    _.map(
-                        $scope.el.tree.elements,
-                        function (element) {
-                            return  { prompt: element.name, value: value[element.name] };
-                        }
-                    ),
-                    function (field) {
-                        if (field.prompt === 'Identifier' || field.prompt === 'Label') {
-                            $scope.el['valueField' + field.prompt] = field; // a naughty side effect
-                            return false;
-                        }
-                        return !!field.value;
-                    }
-                );
-            }
-//            $scope.disableEditor();
-        };
-
-        if (!$scope.el.suspendValidation) {
-            $scope.$watch('el.value', function (after, before) {
-                $scope.revalidate();
-            });
-        }
+        $scope.$watch('el.value', function (after, before) {
+            $scope.valueChanged($scope.el);
+        });
     }
 );
 OSCR.controller(
     'VocabularySearchController',
     function ($scope, Vocabulary) {
+
         $scope.el = $scope.panel.element;
 
         if (!$scope.el.config.vocabulary) {
-            console.warn("VocabularySearchController used in the wrong place");
             return;
         }
-        if (!$scope.el.vocabularyTree) {
-            Vocabulary.getSchema($scope.el.config.vocabulary, function (schema) {
-                $scope.el.vocabularyTree = {
-                    name: 'Entry',
-                    elements: schema.elements[0].elements,
-                    config: schema.elements[0].config
-                };
-                if ($scope.el.value) {
-                    $scope.setValue($scope.el.value);
-                }
-            });
-        }
+        $scope.schema = $scope.el.config.vocabulary;
 
         $scope.setValue = function (value) {
-            $scope.el.value = value;
+            $scope.el.value = value;  // vocabulary controller is watching this
             $scope.el.searching = false;
-            if ($scope.el.vocabularyTree) {
-                $scope.el.valueFields = _.map($scope.el.vocabularyTree.elements, function (element) {
-                    return  {
-                        prompt: element.name,
-                        value: value[element.name]
-                    };
-                });
-            }
         };
 
-//        $scope.createNew = function (index, parentIndex) {
-//            var typedValue = $scope.query;
-//            if ($scope.el.tree) {
-//                $scope.el.elements = _.filter($scope.el.tree.elements, function (treeElement) {
-//                    treeElement.value = treeElement.name == 'Label' ? $scope.query : null;
-//                    treeElement.suspendValidation = true;
-//                    return treeElement.name != 'Identifier';
-//                });
-//                $scope.choose(0, parentIndex);
-//            }
-//        };
-
-//        $scope.submitNew = function () {
-//            $scope.newValue = treeToObject($scope.el.tree);
-//            Vocabulary.add($scope.schema, $scope.newValue, function (entry) {
-//                $scope.panels.pop();
-//                $scope.el.elements = null;
-//                $scope.setValue(entry.Entry);
-//                console.log('saved ' + JSON.stringify(entry.Entry));
-////                $scope.disableEditor();
-//            });
+//        $scope.createNew = function (index, parentIndex) { may want to move to the next place
+//            $scope.choose(0, parentIndex);
 //        };
 
         $scope.createNewValue = function () {
-            // todo: are you sure question;
+            // todo: "are you sure" question
             var newValue = {
                 "Entry": {
                     "Label": $scope.el.searchValue
                 }
             };
-            Vocabulary.add($scope.el.config.vocabulary, newValue, function (entry) {
+            Vocabulary.add($scope.schema, newValue, function (entry) {
                 $scope.setValue(entry.Entry);
                 console.log('saved ' + JSON.stringify(entry.Entry));
             });
@@ -181,9 +92,7 @@ OSCR.controller(
 
         $scope.$watch('el.searchValue', function (newSearchValue, before) {
             if (newSearchValue) {
-                console.log("search value changed from ["+before+"] to ["+newSearchValue+"]");
-                Vocabulary.select($scope.el.config.vocabulary, newSearchValue, function (entries) {
-                    console.log('vocab result entries',entries);
+                Vocabulary.select($scope.schema, newSearchValue, function (entries) {
                     $scope.el.entries = entries;
                 });
             }
@@ -241,6 +150,7 @@ OSCR.controller(
         }
         $scope.chosenMedia = null;
         $scope.schema = $scope.el.config.media;
+        $scope.groupIdentifier = $rootScope.user.groupIdentifier;
 
         if (!$scope.el.tree) {
             Document.fetchSchema($scope.schema, function (schema) {
@@ -252,7 +162,7 @@ OSCR.controller(
         }
 //
         function refreshList() {
-            Document.fetchAllDocuments($scope.schema, function(list) {
+            Document.fetchAllDocuments($scope.schema, $scope.groupIdentifier, function(list) {
                 $scope.mediaList = list;
             });
         }
@@ -262,7 +172,7 @@ OSCR.controller(
         if (!$scope.valueChecked) {
             if ($scope.el.value) {
 //                todo $scope.disableEditor();
-                Document.fetchDocument($scope.schema, $scope.el.value.Identifier, function (fetchedValue) {
+                Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.el.value.Identifier, function (fetchedValue) {
                     $scope.setValue(fetchedValue.Document);
                 });
             }
@@ -288,12 +198,9 @@ OSCR.controller(
             refreshList();
         };
 
-        if (!$scope.el.suspendValidation) {
-            $scope.$watch('el.value', function (after, before) {
-                $scope.revalidate();
-            });
-        }
-
+        $scope.$watch('el.value', function (after, before) {
+            $scope.revalidate();
+        });
     }
 );
 

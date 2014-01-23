@@ -6,7 +6,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'DocumentEditController',
-    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document, $tooltip) {
+    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
 
@@ -14,6 +14,7 @@ OSCR.controller(
         $scope.blankTimeStamp = '#TIMESTAMP#';
         $scope.headerDisplay = '';
         $scope.schema = $routeParams.schema;
+        $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.identifier = $routeParams.identifier;
         $scope.header = {};
         $scope.tree = null;
@@ -22,6 +23,8 @@ OSCR.controller(
         $scope.tabViewActive = false;
         $scope.saveSuccess = false;
         $scope.documentPublic = false;//todo:gerald -> get this from the header on document load, save to the header on document save.
+
+        console.log("DocumentEditController: routeParams", $routeParams);
 
         // If the user has role:Viewer then don't show the doc edit form, but only the preview
         if($rootScope.user.viewer) {
@@ -43,8 +46,7 @@ OSCR.controller(
 
         $scope.toggleDocumentPublic = function () {            
             $scope.documentPublic = !$scope.documentPublic;
-        }
-
+        };
 
         function getTime(millis) {
             var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
@@ -97,6 +99,7 @@ OSCR.controller(
         function useHeader(h) {
             $scope.header.SchemaName = $scope.schema;
             $scope.header.Identifier = h.Identifier;
+            $scope.header.GroupIdentifier = h.GroupIdentifier;
             $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
             $scope.header.Title = h.Title;
             delete $scope.header.TimeStamp;
@@ -105,25 +108,6 @@ OSCR.controller(
                 $scope.header.TimeStamp = millis;
                 tick();
             }
-        }
-
-        if ($scope.identifier === 'create') {
-            useHeader({
-                SchemaName: $scope.schema,
-                Identifier: $scope.blankIdentifier
-            });
-            $scope.document = $scope.schema; // just a name triggers schema fetch
-            $scope.documentDirty = false;
-        }
-        else {
-            Document.fetchDocument($scope.schema, $scope.identifier, function (document) {
-//                console.log(document);
-                useHeader(document.Document.Header);
-                $scope.documentJSON = null;
-                $scope.documentDirty = false;
-                $scope.document = document.Document; // triggers the editor
-                $scope.useHeaderInMenu(document.Document.Header); // reaches down to global.js
-            });
         }
 
         $scope.setTree = function (tree) {
@@ -155,7 +139,27 @@ OSCR.controller(
             }
         };
 
+        if (!$scope.identifier) {
+            useHeader({
+                SchemaName: $scope.schema,
+                GroupIdentifier: $rootScope.user.groupIdentifier,
+                Identifier: $scope.blankIdentifier
+            });
+            $scope.document = $scope.schema; // just a name triggers schema fetch
+            $scope.documentDirty = false;
+        }
+        else {
+            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
+                useHeader(document.Document.Header);
+                $scope.documentJSON = null;
+                $scope.documentDirty = false;
+                $scope.document = document.Document; // triggers the editor
+                $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
+            });
+        }
+
         $scope.saveDocument = function () {
+            console.log("saveDocument", $scope.header);
             collectSummaryFields($scope.tree, $scope.header);
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;
@@ -170,7 +174,7 @@ OSCR.controller(
                         $scope.saveSuccess = false;
                     },250);
                 }, 5000);
-                $scope.choosePath('/document/' + $scope.header.SchemaName + '/edit/' + $scope.header.Identifier, document.Header);
+                $scope.choosePath(document.Header);
             });
         };
 
@@ -217,8 +221,8 @@ OSCR.controller(
         };
 
         $scope.valueChanged = function (el) {
-            console.log("value changed: active=" + (el == $scope.activeEl));
-//            console.log(el);
+//            console.log("value changed: active=" + (el == $scope.activeEl));
+            $scope.revalidate();
         };
 
         $scope.$watch('i18n', function (i18n, oldValue) {

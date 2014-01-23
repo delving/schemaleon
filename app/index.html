@@ -66,13 +66,24 @@
                             </select>
                         </li>
                         <li class="dropdown" ng-hide="user.viewer">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewPrimaryDocument">
                                 <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li ng-repeat="schema in availableSchemas">
-                                    <a tabindex="-1" href="" ng-click="globalNewDocument(schema.name)">{{ schema.name }}</a>
+                                <li ng-repeat="schema in schemaMap.primary">
+                                    <a tabindex="-1" href="" ng-click="newDocument(schema)">{{ schema }}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" ng-show="user.god">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewSharedDocument">
+                                <i class="icon icon-file icon-white"></i> <span class="i18n"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li ng-repeat="schema in schemaMap.shared">
+                                    <a tabindex="-1" href="" ng-click="newDocument(schema)">{{ schema }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -139,7 +150,7 @@
                 </div>
                 <div class="sidebar-nav">
                     <ul class="nav nav-pills nav-stacked main-menu">
-                        <li ng-repeat="link in mainMenu.links" ng-class="{ active: link.active }">
+                        <li ng-repeat="link in mainMenu" ng-class="{ active: link.active }">
                             <a href ng-click="choosePath(link.path)">
                                 <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
@@ -189,7 +200,6 @@
 <!-- build:js scripts/oscr.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/home.js"></script>
-<script src="scripts/controllers/login.js"></script>
 <script src="scripts/controllers/people.js"></script>
 <script src="scripts/controllers/global.js"></script>
 <script src="scripts/controllers/i18n.js"></script>

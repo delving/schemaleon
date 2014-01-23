@@ -35,6 +35,7 @@ OSCR.controller(
         $rootScope.checkLoggedIn();
 
         $scope.schema = "MediaMetadata";
+        $scope.groupIdentifier = $rootScope.user.groupIdentifier;
         $scope.committedFiles = [];
         $scope.options = {
             url: '/files'
@@ -70,7 +71,7 @@ OSCR.controller(
         }
 
         function fetchCommitted() {
-            Document.fetchAllDocuments($scope.schema, function (list) {
+            Document.fetchAllDocuments($scope.schema, $scope.groupIdentifier, function (list) {
                 console.log("all documents fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
                     // $rootScope.getProperThumbExtension checks file extension.
@@ -106,7 +107,7 @@ OSCR.controller(
                 TimeStamp: "#TIMESTAMP#"
             };
             var body = {
-                GroupIdentifier: $rootScope.user.groupIdentifier,
+                GroupIdentifier: $scope.groupIdentifier,
                 UserIdentifier: $rootScope.user.Identifier,
                 FileName: '#IDENTIFIER#',
                 OriginalFileName: file.name,

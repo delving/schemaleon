@@ -54,7 +54,13 @@ OSCR.controller(
                     path = '/vocab/' + entry.Vocabulary;
                     break;
                 case 'SaveDocument':
-                    path = '/document/' + entry.SchemaName + '/edit/' + entry.Identifier;
+                    // todo: not entirely sure this works yet
+                    if (entry.GroupIdentifier) {
+                        path = '/primary/' + entry.SchemaName + '/' + entry.GroupIdentifier + '/' + entry.Identifier + '/edit';
+                    }
+                    else {
+                        path = '/shared/' + entry.SchemaName + '/' + entry.Identifier + '/edit';
+                    }
                     break;
             }
             if (path) {

@@ -21,11 +21,12 @@
             <div class="tab-pane" ng-class="{ 'active': tabEditActive }">
                 <div class="document-controls">
                     <ul class="nav nav-pills">
-                        <li>
-                            <a href ng-click="choosePath('/document/'+schema)">
-                                <i class="icon-list-alt icon-white"></i>
-                            </a>
-                        </li>
+                        <!--<li>-->
+                            <!--&lt;!&ndash;todo: this will depend on shared/primary&ndash;&gt;-->
+                            <!--<a href ng-click="choosePath('/document/'+schema)">-->
+                                <!--<i class="icon-list-alt icon-white"></i>-->
+                            <!--</a>-->
+                        <!--</li>-->
                         <li>
                             <!-- document quick save -->
                             <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="QuickSave">
@@ -150,11 +151,12 @@
             <div class="tab-pane" ng-class="{ 'active': tabViewActive }">
                 <div class="document-controls">
                     <ul class="nav nav-pills pull-left">
-                        <li>
-                            <a href ng-click="choosePath('/document/'+schema)">
-                                <i class="icon-list-alt icon-white"></i>
-                            </a>
-                        </li>
+                        <!--<li>-->
+                            <!--&lt;!&ndash;todo: this will depend on shared/primary&ndash;&gt;-->
+                            <!--<a href ng-click="choosePath('/document/'+schema)">-->
+                                <!--<i class="icon-list-alt icon-white"></i>-->
+                            <!--</a>-->
+                        <!--</li>-->
                         <li ng-hide="user.viewer">
                             <a href ng-click="showTab('edit')">
                                 <i class="icon-hand-left icon-white"></i>

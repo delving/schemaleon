@@ -62,10 +62,6 @@ function Storage(home) {
         return "doc('" + this.database + this.langDocument(language) + "')/Language";
     };
 
-    this.schemaPath = function () {
-        return "doc('" + this.database + "/Schemas.xml')/Schemas";
-    };
-
     this.vocabDocument = function (vocabName) {
         return "/vocabulary/" + vocabName + ".xml";
     };
@@ -82,19 +78,77 @@ function Storage(home) {
         return "db:add('" + this.database + "', " + xml + ",'" + this.vocabDocument(vocabName) + "')";
     };
 
-    this.docDocument = function (schemaName, identifier) {
-        if (!schemaName) throw new Error("No schema name!");
-        if (!identifier) throw new Error("No identifier!");
-        return "/documents/" + schemaName + "/" + identifier + ".xml";
+    // ========= the following have changed to accommodate shared and primary records
+//    this.docDocument = function (schemaName, identifier) {
+//        if (!schemaName) throw new Error("No schema name!");
+//        if (!identifier) throw new Error("No identifier!");
+//        return "/documents/" + schemaName + "/" + identifier + ".xml";
+//    };
+//
+//    this.docPath = function (schemaName, identifier) {
+//        return "doc('" + this.database + this.docDocument(schemaName, identifier) + "')/Document";
+//    };
+//
+//    this.docCollection = function (schemaName) {
+//        return "collection('" + this.database + "/documents/" + schemaName + "')";
+//    };
+
+    this.schemaMap = {
+        primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+        shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
     };
 
-    this.docPath = function (schemaName, identifier) {
-        return "doc('" + this.database + this.docDocument(schemaName, identifier) + "')/Document";
+    this.isGroupSpecific = function(schemaName) {
+        if (schemaName == "MediaMetadata") return true;
+        return (_.contains(this.schemaMap.primary, schemaName))
     };
 
-    this.docCollection = function (schemaName) {
-        return "collection('" + this.database + "/documents/" + schemaName + "')";
+    this.isShared = function(schemaName) {
+        return (_.contains(this.schemaMap.shared, schemaName))
     };
+
+    this.schemaDir = function(schemaName) {
+        if (this.isShared(schemaName)) {
+            return "/shared/";
+        }
+        else {
+            return "/primary/"; // includes MediaMetadata
+        }
+    };
+
+    this.schemaDocument = function (schemaName) {
+        return "/schemas" + this.schemaDir(schemaName) + "/" + schemaName + ".xml";
+    };
+
+    this.schemaPath = function (schemaName) {
+        return "doc('" + this.database + this.schemaDocument(schemaName) + "')/" + schemaName;
+    };
+
+    this.dataDocument = function (identifier, schemaName, groupIdentifier) {
+        if (groupIdentifier) {
+            if (!this.isGroupSpecific(schemaName)) throw schemaName + " is not group specific!";
+            return this.schemaDir(schemaName) + "/" + groupIdentifier + "/" + schemaName + "/" + identifier + ".xml";
+        }
+        else {
+            if (!this.isShared(schemaName)) throw schemaName + " is not shared!";
+            return this.schemaDir(schemaName) + "/" + schemaName + "/" + identifier + ".xml";
+        }
+    };
+
+    this.dataPath = function (identifier, schemaName, groupIdentifier) {
+        return "doc('" + this.database + this.dataDocument(identifier, schemaName, groupIdentifier) + "')/Document";
+    };
+
+    this.dataCollection = function (schemaName, groupIdentifier) {
+        if (groupIdentifier) {
+            return "collection('" + this.database + this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "')";
+        }
+        else {
+            return "collection('" + this.database + this.schemaDir(schemaName) + schemaName + "')";
+        }
+    };
+
+    // =============
 
     this.logDocument = function () {
         var now = new Date();
@@ -175,7 +229,7 @@ function Storage(home) {
         });
     };
 
-    this.getStatistics = function (receiver) {
+    this.getStatistics = function (receiver) { // TODO: CHANGE TO GLOBAL AND GROUP SPECIFIC
         this.query('get global statistics',
             [
                 '<Statistics>',
@@ -184,27 +238,23 @@ function Storage(home) {
                 '    <Group>{ count(' + this.groupCollection() + ') }</Group>',
                 '  </People>',
                 '  <Documents>',
-                '    <Schema>',
-                '       <Name>Photo</Name>',
-                '       <Count>{ count(' + this.docCollection('Photo') + ') }</Count>',
-                '    </Schema>',
-                '    <Schema>',
-                '       <Name>InMemoriam</Name>',
-                '       <Count>{ count(' + this.docCollection('InMemoriam') + ') }</Count>',
-                '    </Schema>',
-                '    <Schema>',
-                '       <Name>Video</Name>',
-                '       <Count>{ count(' + this.docCollection('Video') + ') }</Count>',
-                '    </Schema>',
-                '    <Schema>',
-                '       <Name>Book</Name>',
-                '       <Count>{ count(' + this.docCollection('Book') + ') }</Count>',
-                '    </Schema>',
-                '    <Schema>',
-                '      <Name>MediaMetadata</Name>',
-                '       <Count>{ count(' + this.docCollection('MediaMetadata') + ') }</Count>',
-                '    </Schema>',
-                '  </Documents>',
+//                '    <Schema>',
+//                '       <Name>Photo</Name>',
+//                '       <Count>{ count(' + this.docCollection('Photo') + ') }</Count>',
+//                '    </Schema>',
+//                '    <Schema>',
+//                '       <Name>Memoriam</Name>',
+//                '       <Count>{ count(' + this.docCollection('Memoriam') + ') }</Count>',
+//                '    </Schema>',
+//                '    <Schema>',
+//                '       <Name>Video</Name>',
+//                '       <Count>{ count(' + this.docCollection('Video') + ') }</Count>',
+//                '    </Schema>',
+//                '    <Schema>',
+//                '       <Name>Book</Name>',
+//                '       <Count>{ count(' + this.docCollection('Book') + ') }</Count>',
+//                '    </Schema>',
+//                '  </Documents>',
                 '</Statistics>'
             ],
             receiver
@@ -331,6 +381,7 @@ function open(databaseName, homeDir, receiver) {
 
         function loadData(fsPath, docPath, replace) {
             log('loading data from ' + fsPath + ' to ' + docPath);
+            var extension = ".xml";
             _.each(fs.readdirSync(fsPath), function (file) {
                 if (file[0] == '.') return;
                 var fileSystemPath = fsPath + '/' + file;
@@ -339,7 +390,7 @@ function open(databaseName, homeDir, receiver) {
                     log('load directory ' + fileSystemPath);
                     loadData(fileSystemPath, documentPath + '/', replace);
                 }
-                else {
+                else if (file.lastIndexOf(extension) + extension.length == file.length) {
                     log("Load file: " + fileSystemPath);
                     if (promise) {
                         log('new promise for ' + documentPath);
@@ -355,20 +406,32 @@ function open(databaseName, homeDir, receiver) {
             });
         }
 
-        function finish() {
-            promise.then(
-                function () {
-                    receiver(storage);
-                },
-                function (error) {
-                    console.error("final problem! " + error);
-                }
-            );
+        function loadBootstrapData() {
+            var dataPath = "../oscr-data";
+            if (!fs.existsSync(dataPath)) {
+                throw new Error("Cannot find "+dataPath+" for bootstrapping!");
+            }
+            dataPath = fs.realpathSync(dataPath);
+            loadData(dataPath, '', false);
         }
 
-        var fileSystemPath = 'test/data/xml';
+        function finish() {
+            if (!promise) {
+                receiver(storage);
+            }
+            else {
+                promise.then(
+                    function () {
+                        receiver(storage);
+                    },
+                    function (error) {
+                        console.error("final problem! " + error);
+                    }
+                );
+            }
+        }
+
         if (reply.ok) {
-            loadData(fileSystemPath, '', true);
             finish();
         }
         else {
@@ -379,7 +442,7 @@ function open(databaseName, homeDir, receiver) {
                             console.error(er);
                         }
                         else {
-                            loadData(fileSystemPath, '', false);
+                            loadBootstrapData();
                             finish();
                         }
                     });
