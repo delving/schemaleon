@@ -28,12 +28,6 @@
             <div class="tab-pane" ng-class="{ 'active': tabEditActive }">
                 <div class="document-controls">
                     <ul class="nav nav-pills">
-                        <!--<li>-->
-                            <!--&lt;!&ndash;todo: this will depend on shared/primary&ndash;&gt;-->
-                            <!--<a href ng-click="choosePath('/document/'+schema)">-->
-                                <!--<i class="icon-list-alt icon-white"></i>-->
-                            <!--</a>-->
-                        <!--</li>-->
                         <li>
                             <!-- document quick save -->
                             <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="QuickSave">
@@ -49,9 +43,15 @@
                             </a>
                         </li>
                         <li class="pull-right">
-                           <span class="badge pointer" ng-class="{'badge-success' : documentPublic}" ng-click="toggleDocumentPublic()" >
-                               <span ng-show="documentPublic" tooltip="Click to make Private"  tooltip-placement="left"><i class="icon icon-white icon-eye-open"></i> Public</span>
-                               <span ng-hide="documentPublic" tooltip="Click to make Public"  tooltip-placement="left"><i class="icon icon-white icon-eye-close"></i> Private</span>
+                           <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
+                               <span ng-show="isDocumentPublic()" i18n="Public" ng-click="setDocumentState('private')">
+                                   <i class="icon icon-white icon-eye-open"></i>
+                                   <span class="i18n"/>
+                               </span>
+                               <span ng-hide="isDocumentPublic()" i18n="Private" ng-click="setDocumentState('public')">
+                                   <i class="icon icon-white icon-eye-close"></i>
+                                   <span class="i18n"/>
+                               </span>
                            </span>
                         </li>
                     </ul>
@@ -158,12 +158,6 @@
             <div class="tab-pane" ng-class="{ 'active': tabViewActive }">
                 <div class="document-controls">
                     <ul class="nav nav-pills pull-left">
-                        <!--<li>-->
-                            <!--&lt;!&ndash;todo: this will depend on shared/primary&ndash;&gt;-->
-                            <!--<a href ng-click="choosePath('/document/'+schema)">-->
-                                <!--<i class="icon-list-alt icon-white"></i>-->
-                            <!--</a>-->
-                        <!--</li>-->
                         <li ng-hide="user.viewer">
                             <a href ng-click="showTab('edit')">
                                 <i class="icon-hand-left icon-white"></i>

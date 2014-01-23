@@ -22,7 +22,6 @@ OSCR.controller(
         $scope.tabEditActive = true;
         $scope.tabViewActive = false;
         $scope.saveSuccess = false;
-        $scope.documentPublic = false;//todo:gerald -> get this from the header on document load, save to the header on document save.
 
 
         $scope.groupName = $rootScope.getGroupName($scope.groupIdentifier);
@@ -43,10 +42,6 @@ OSCR.controller(
                 $scope.tabViewActive = false;
                 $scope.tabEditActive = true;
             }
-        };
-
-        $scope.toggleDocumentPublic = function () {            
-            $scope.documentPublic = !$scope.documentPublic;
         };
 
         function getTime(millis) {
@@ -97,12 +92,22 @@ OSCR.controller(
             $timeout(updateTimeString, 60000).then(tick);
         }
 
+        function getDocumentState(h) {
+            if (h.DocumentState) {
+                return h.DocumentState;
+            }
+            else {
+                return 'private';
+            }
+        }
+
         function useHeader(h) {
             $scope.header.SchemaName = $scope.schema;
             $scope.header.Identifier = h.Identifier;
             $scope.header.GroupIdentifier = h.GroupIdentifier;
             $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
             $scope.header.Title = h.Title;
+            $scope.header.DocumentState = getDocumentState(h);
             delete $scope.header.TimeStamp;
             var millis = parseInt(h.TimeStamp);
             if (!_.isNaN(millis)) {
@@ -110,6 +115,15 @@ OSCR.controller(
                 tick();
             }
         }
+
+        $scope.isDocumentPublic = function() {
+            return getDocumentState($scope.header) == 'public';
+        };
+
+        $scope.setDocumentState = function(state) {
+            $scope.header.DocumentState = state;
+            $scope.documentDirty = true;
+        };
 
         
         
