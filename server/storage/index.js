@@ -261,23 +261,6 @@ function Storage(home) {
         );
     };
 
-    this.refreshSchemas = function (receiver) {
-        var session = this.session;
-        var schemaFile = this.directories.schemaFile;
-        var fileName = path.basename(schemaFile);
-        var contents = fs.readFileSync(schemaFile, 'utf8');
-        session.replace('/' + fileName, contents, function (error, reply) {
-            if (reply.ok) {
-                console.log("Reloaded: " + fileName);
-            }
-            else {
-                console.error('Unable to refresh schemas');
-                console.error(error);
-            }
-            receiver();
-        });
-    };
-
     this.snapshotName = function() {
         var now = new Date();
         var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +

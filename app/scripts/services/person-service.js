@@ -94,11 +94,5 @@ angular.module('OSCR').service(
             });
         };
 
-        this.refreshSchemas = function (accept) {
-            $http.get('/refreshSchemas').success(function (xml) {
-                accept(xmlToObject(xml));
-            });
-        };
-
     }
 );

@@ -349,12 +349,6 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/refreshSchemas', function (req, res) {
-        storage.refreshSchemas(function () {
-            res.xml('<refreshed>' + new Date() + '</refreshed>');
-        });
-    });
-
     app.get('/snapshot/:fileName', function (req, res) {
         storage.snapshotCreate(function (localFile) {
             console.log("sending " + localFile);
