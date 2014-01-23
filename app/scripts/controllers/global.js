@@ -298,11 +298,16 @@ OSCR.controller(
             }
         };
 
-        $rootScope.getGroupName = function(gId) {
+        $rootScope.getGroupName = function(groupIdentifier) {
             var deferred = $q.defer();
-            Person.getGroup(gId, function (group) {
-                deferred.resolve(group.Group.Name);
-            });
+            if (groupIdentifier) {
+                Person.getGroup(groupIdentifier, function (group) {
+                    deferred.resolve(group.Group.Name);
+                });
+            }
+            else {
+                deferred.resolve('?');
+            }
             return deferred.promise;
         };
 
