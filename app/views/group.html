@@ -8,21 +8,9 @@
         <div class="span4">
             <address>
                 <h5 class="header">{{ groupView.Name }}</h5>
-                {{ groupView.StreetNameAndNr}}<br/>
-                {{ groupView.Zip }}, {{ groupView.City }}
+                <span ng-show=" groupView.StreetNameAndNr">{{ groupView.StreetNameAndNr}}</span><br/>
+                <span ng-show="groupView.Zip">{{ groupView.Zip }}, </span><span ng-show="groupView.City">{{ groupView.City }}</span>
             </address>
         </div>
-        <div class="span4">
-            <img src="http://placehold.it/350x150">
-        </div>
     </div>
-
-
-
-    <h2 i18n="Users"><span class="i18n"/>:</h2>
-    <ul>
-        <li ng-repeat="groupUser in groupView.userList">
-            {{ groupUser.Profile.firstName }} {{ groupUser.Profile.lastName }} {{ groupUser.Profile.email }}
-        </li>
-    </ul>
 </div>

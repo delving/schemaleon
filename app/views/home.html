@@ -3,9 +3,26 @@
     <div class="page-header">
         <h1>Welcome to OSCR <small>The Open Source Collection Registration system</small></h1>
     </div>
-    <h2>Current Groups</h2>
-    <ul>
-        <li ng-repeat="group in groupList"><a href="/#/people/group/{{group.Identifier}}">{{group.Name}}</a></li>
-    </ul>
 
+    <div class="row-fluid">
+        <div class="span3">
+           <h3 i18n="SearchAllDocuments"><span class="i18n"/></h3>
+            <div class="input-prepend input-append">
+                <span class="add-on" i18n="Search"><span class="i18n"></span></span>
+                <!-- TODO: this taken from document list page : implement similar backend but for all doc types and all groups public pages-->
+                <input type="text" ng-model="searchString"  ng-change="search()">
+                <button class="btn" type="reset" ng-click="clearSearch()"><i class="icon-ban-circle "></i> </button>
+            </div>
+        </div>
+        <div class="span3">
+            <h3 i18n="CurrentGroups"><span class="i18n"/></h3>
+            <select class="input-xxlarge" id="list-current-groups">
+                <option ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}">{{group.Name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <!-- todo: search results and pagination of sorts -->
+    </div>
 </div>
