@@ -82,6 +82,27 @@ OSCR.controller(
             }
         }
 
+        $rootScope.groupIdentifierForSave = function(schemaName, groupIdentifier) {
+            if (isShared(schemaName)) {
+                if (groupIdentifier != 'OSCR') {
+                    throw "Cannot talk ab"
+                }
+                return undefined;
+            }
+            else {
+                return groupIdentifier;
+            }
+        };
+
+        $rootScope.defaultDocumentState = function(schemaName) {
+            if (isShared(schemaName)) {
+                return 'public';
+            }
+            else {
+                return 'private'
+            }
+        };
+
         $rootScope.newDocument = function (schema) {
             if (isShared(schema)) {
                 $scope.choosePath('/shared/' + schema + '/create');

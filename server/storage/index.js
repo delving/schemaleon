@@ -126,7 +126,7 @@ function Storage(home) {
 
     this.dataDocument = function (identifier, schemaName, groupIdentifier) {
         if (groupIdentifier) {
-            if (!this.isGroupSpecific(schemaName)) throw schemaName + " is not group specific!";
+            if (!this.isGroupSpecific(schemaName)) throw schemaName + " is not group "+ groupIdentifier +" specific!";
             return this.schemaDir(schemaName) + "/" + groupIdentifier + "/" + schemaName + "/" + identifier + ".xml";
         }
         else {
@@ -143,8 +143,11 @@ function Storage(home) {
         if (groupIdentifier) {
             return "collection('" + this.database + this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "')";
         }
-        else {
+        else if (schemaName) {
             return "collection('" + this.database + this.schemaDir(schemaName) + schemaName + "')";
+        }
+        else {
+            return "collection('" + this.database + "/primary/" + "')";
         }
     };
 

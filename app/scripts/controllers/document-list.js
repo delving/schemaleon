@@ -15,7 +15,7 @@ OSCR.controller(
         $scope.noResults = false;
 
         function getAllDocuments() {
-            Document.fetchAllDocuments($scope.schema, $scope.groupIdentifier, function (list) {
+            Document.listDocuments($scope.schema, $scope.groupIdentifier, function (list) {
                 $scope.searchStringUsed = '';
                 $scope.searchString = '';
                 $scope.headerList = _.map(list, function(document) {
@@ -46,7 +46,7 @@ OSCR.controller(
                 getAllDocuments();
             }
             else {
-                Document.selectDocuments($scope.schema, $scope.groupIdentifier, $scope.searchString, function(list) {
+                Document.searchDocuments($scope.schema, $scope.groupIdentifier, $scope.searchString, function(list) {
                     if (list.length) {
                         $scope.searchStringUsed = $scope.searchString;
                         $scope.noResults = false;

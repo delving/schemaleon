@@ -278,32 +278,75 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/document/schemaMap', function (req, res) {
+    // all schemas
+    app.get('/schema', function (req, res) {
         res.send(storage.Document.schemaMap);
     });
 
-    app.get('/document/schema/:schema', function (req, res) {
+    // fetch schema
+    app.get('/schema/:schema', function (req, res) {
         storage.Document.getDocumentSchema(req.params.schema, function (xml) {
             res.xml(xml);
         });
     });
 
-    app.get('/document/fetch/:schema/:groupIdentifier/:identifier', function (req, res) {
+    // fetch shared
+    app.get('/shared/:schema/:identifier/fetch', function (req, res) {
+        storage.Document.getDocument(req.params.schema, undefined, req.params.identifier, function (xml) {
+            res.xml(xml);
+        });
+    });
+
+    // fetch primary
+    app.get('/primary/:schema/:groupIdentifier/:identifier/fetch', function (req, res) {
         storage.Document.getDocument(req.params.schema, req.params.groupIdentifier, req.params.identifier, function (xml) {
             res.xml(xml);
         });
     });
 
-    app.get('/document/list/documents/:schema/:groupIdentifier', function (req, res) {
+    // list shared
+    app.get('/shared/:schema/list', function (req, res) {
+        storage.Document.getAllDocuments(req.params.schema, undefined, function (xml) {
+            res.xml(xml);
+        });
+    });
+
+    // list primary
+    app.get('/primary/:schema/:groupIdentifier/list', function (req, res) {
         storage.Document.getAllDocuments(req.params.schema, req.params.groupIdentifier, function (xml) {
             res.xml(xml);
         });
     });
 
-    app.get('/document/select/:schema/:groupIdentifier', function (req, res) {
-        // todo: make sure q exists
+    // search all primary
+    app.get('/primary/search', function (req, res) {
         var search = req.param('q').toLowerCase();
-        storage.Document.selectDocuments(req.params.schema, req.params.groupIdentifier, search, function (xml) {
+        storage.Document.selectPrimaryDocuments(search, function (xml) {
+            res.xml(xml);
+        });
+    });
+
+    // search primary on schema and group
+    app.get('/primary/:schema/:groupIdentifier/search', function (req, res) {
+        var search = req.param('q').toLowerCase();
+        storage.Document.searchDocuments(req.params.schema, req.params.groupIdentifier, search, function (xml) {
+            res.xml(xml);
+        });
+    });
+
+    // search shared on schema
+    app.get('/shared/:schema/search', function (req, res) {
+        // todo: use schema
+        var search = req.param('q').toLowerCase();
+        storage.Document.searchDocuments(req.params.schema, undefined, search, function (xml) {
+            res.xml(xml);
+        });
+    });
+
+    // search primary all schemas
+    app.get('/primary/search', function (req, res) {
+        var search = req.param('q').toLowerCase();
+        storage.Document.searchDocuments(undefined, undefined, search, function (xml) {
             res.xml(xml);
         });
     });

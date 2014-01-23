@@ -97,7 +97,7 @@ OSCR.controller(
                 return h.DocumentState;
             }
             else {
-                return 'private';
+                return $rootScope.defaultDocumentState($scope.schema);
             }
         }
 
@@ -159,7 +159,7 @@ OSCR.controller(
         if (!$scope.identifier) {
             useHeader({
                 SchemaName: $scope.schema,
-                GroupIdentifier: $rootScope.user.groupIdentifier,
+                GroupIdentifier: $rootScope.groupIdentifierForSave($scope.schema, $rootScope.user.groupIdentifier),
                 Identifier: $scope.blankIdentifier
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch

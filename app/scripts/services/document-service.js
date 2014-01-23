@@ -12,35 +12,66 @@ OSCR.service(
             });
         };
 
+        // all schemas
         this.fetchSchemaMap = function(accept) {
-            $http.get('/document/schemaMap').success(function (schemaMap) {
+            $http.get('/schema').success(function (schemaMap) {
                 accept(schemaMap);
                 console.log(schemaMap);
             });
         };
 
+        // fetch schema
         this.fetchSchema = function (schemaName, receiver) {
-            $http.get('/document/schema/' + schemaName).success(function (data) {
+            $http.get('/schema/' + schemaName).success(function (data) {
                 receiver(xmlToTree(data));
             });
         };
 
-        this.fetchAllDocuments = function (schemaName, groupIdentifier, receiver) {
-            $http.get('/document/list/documents/' + schemaName + '/' + groupIdentifier).success(function (data) {
-                receiver(xmlToArray(data));
-            });
-        };
-
-        this.selectDocuments = function (schemaName, groupIdentifier, search, receiver) {
-            $http.get('/document/select/' + schemaName + '/' + groupIdentifier, {params: {q: search}}).success(function (data) {
-                receiver(xmlToArray(data));
-            });
-        };
-
+        // fetch primary or shared from a schema
         this.fetchDocument = function (schemaName, groupIdentifier, identifier, receiver) {
-            $http.get('/document/fetch/' + schemaName + '/' + groupIdentifier + '/' + identifier).success(function (data) {
-                receiver(xmlToObject(data));
-            });
+            if (groupIdentifier) {
+                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/' + identifier + '/fetch').success(function (data) {
+                    receiver(xmlToObject(data));
+                });
+            }
+            else {
+                $http.get('/shared/' + schemaName + '/' + identifier + '/fetch').success(function (data) {
+                    receiver(xmlToObject(data));
+                });
+            }
+        };
+
+        // list shared or primary
+        this.listDocuments = function (schemaName, groupIdentifier, receiver) {
+            if (groupIdentifier) {
+                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/list').success(function (data) {
+                    receiver(xmlToArray(data));
+                });
+            }
+            else {
+                $http.get('/shared/' + schemaName + '/list').success(function (data) {
+                    receiver(xmlToArray(data));
+                });
+            }
+        };
+
+        // search shared with schema or primary with or without schema
+        this.searchDocuments = function (schemaName, groupIdentifier, search, receiver) {
+            if (groupIdentifier) {
+                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/search', {params: {q: search}}).success(function (data) {
+                    receiver(xmlToArray(data));
+                });
+            }
+            else if (schemaName) {
+                $http.get('/shared/' + schemaName + '/search', {params: {q: search}}).success(function (data) {
+                    receiver(xmlToArray(data));
+                });
+            }
+            else {
+                $http.get('/primary/search', {params: {q: search}}).success(function (data) {
+                    receiver(xmlToArray(data));
+                });
+            }
         };
 
         this.saveDocument = function (header, body, receiver) {

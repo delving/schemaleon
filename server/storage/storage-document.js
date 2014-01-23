@@ -43,9 +43,9 @@ P.getAllDocuments = function (schemaName, groupIdentifier, receiver) {
     );
 };
 
-P.selectDocuments = function (schemaName, groupIdentifier, search, receiver) {
+P.searchDocuments = function (schemaName, groupIdentifier, search, receiver) {
     var s = this.storage;
-    s.query('select documents: ' + schemaName + ' ' + search + ' ' + groupIdentifier,
+    s.query('select documents: ' + schemaName + ' ' + groupIdentifier + ' ' + search,
         [
             '<Documents>',
             '    { ',
