@@ -103,6 +103,7 @@ OSCR.controller(
             log(file);
             var header = {
                 SchemaName: $scope.schema,
+                GroupIdentifier: $scope.groupIdentifier,
                 Identifier: '#IDENTIFIER#',
                 TimeStamp: "#TIMESTAMP#"
             };
