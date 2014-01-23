@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $timeout, $scope, $location, $routeParams, Person, I18N) {
+    function ($rootScope, $cookieStore, $timeout, $scope, $q, $location, $routeParams, Person, I18N) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -189,7 +189,7 @@ OSCR.controller(
         };
 
         $scope.getInclude = function () {
-            if ($routeParams.identifier && $location.path().match(/\/edit\//) ) {
+            if ($routeParams.identifier && $location.path().match(/\/edit/) ) {
                 return "views/document-edit-legend.html";
             }
             return "";
@@ -275,6 +275,14 @@ OSCR.controller(
                     setUser(user);
                 });
             }
+        };
+
+        $rootScope.getGroupName = function(gId) {
+            var deferred = $q.defer();
+            Person.getGroup(gId, function (group) {
+                deferred.resolve(group.Group.Name);
+            });
+            return deferred.promise;
         };
 
         $rootScope.logout = function () {
