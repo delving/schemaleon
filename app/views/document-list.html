@@ -31,6 +31,7 @@
             <th i18n="Identifier" width="250">
                 <span class="i18n"/>
             </th>
+            <th i18n="State" width="100"><span class="i18n"/></th>
             <th i18n="Stored" width="150"><span class="i18n"/></th>
             <th i18n="SavedBy" width="200"><span class="i18n"/></th>
         </thead>
@@ -50,7 +51,9 @@
             <td>
                 {{ header.Identifier }}
             </td>
-
+            <td>
+                <span class="label" ng-class="{'label-success' : header.DocumentState == 'public' }">{{ header.DocumentState }}</span>
+            </td>
             <td><span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
             <td>
                 <span ng-hide="header.userView">{{ header.SavedBy }}</span>
