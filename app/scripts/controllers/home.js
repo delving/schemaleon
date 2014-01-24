@@ -24,23 +24,22 @@ OSCR.controller(
                     $scope.headerList = _.map(list, function(document) {
                         return document.Header;
                     });
-//                    var groupIdentifiers = _.uniq(_.map($scope.headerList, function(header){
-//                        return header.GroupIdentifier;
-//                    }));
-//                    _.each(groupIdentifiers, function(groupIdentifier){
-//                        Person.getGroup(groupIdentifier, function(group) {
-//                            _.each($scope.headerList, function(header) {
-//                                if (groupIdentifier == header.GroupIdentifier) {
-//                                    header.group = group;
-//                                }
-//                            });
-//                        });
-//                    });
+                    var groupIdentifiers = _.uniq(_.map($scope.headerList, function(header){
+                        return header.GroupIdentifier;
+                    }));
+                    _.each(groupIdentifiers, function(groupIdentifier){
+                        Person.getGroup(groupIdentifier, function(group) {
+                            _.each($scope.headerList, function(header) {
+                                if (groupIdentifier == header.GroupIdentifier) {
+                                    header.group = group.Group;
+                                }
+                            });
+                        });
+                    });
                 });
         });
 
-        console.log('going to search documents');
+        // trigger fetching the list
         $scope.searchString = '';
-
     }
 );

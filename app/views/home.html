@@ -84,7 +84,7 @@
                         <div class="media-body">
                             <h4 class="media-heading" data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</h4>
                             <div class="mime" ng-bind="xmlArray(header.SummaryFields.Thumbnail)[0].MimeType"></div>
-                            <!--<div class="group">{{ header.GroupIdentifier }}</div>-->
+                            <div class="group">{{ header.group.Name }}</div>
                         </div>
                     </div>
                 </div>
