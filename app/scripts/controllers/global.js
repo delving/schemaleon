@@ -157,7 +157,7 @@ OSCR.controller(
             }
         });
 
-        var anyActive = false;
+
         $scope.recent = [];
 
         $scope.addToRecentMenu = function(header) {
@@ -193,6 +193,7 @@ OSCR.controller(
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);
+            var anyActive = false;
             _.forEach($scope.mainMenu, function (link) {
                 link.active = ($location.path().indexOf(link.path) >= 0);
                 if (link.active) anyActive = true;
