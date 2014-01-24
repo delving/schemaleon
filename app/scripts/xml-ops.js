@@ -236,19 +236,25 @@ function cloneTree(tree) {
     return clone;
 }
 
-function collectSummaryFields(tree, summary) {
-    function collect(el) {
+function collectSummaryFields(tree, header) {
+    function collect(el, target) {
         if (el.elements) {
             _.forEach(el.elements, function (element) {
-                collect(element);
+                collect(element, target);
             });
         }
         else if (el.config.summaryField) {
-            summary[el.config.summaryField] = el.value ? el.value : '?';
+            if (!target[el.config.summaryField]) {
+                target[el.config.summaryField] = [];
+            }
+            if (el.value) {
+                target[el.config.summaryField].push(el.value);
+            }
         }
     }
 
-    collect(tree, summary);
+    header.SummaryFields = {};
+    collect(tree, header.SummaryFields);
 }
 
 function collectMediaElements(tree) {
