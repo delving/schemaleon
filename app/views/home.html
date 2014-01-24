@@ -81,18 +81,12 @@
                             <img ng-src="/media/thumbnail/{{getProperThumbExtension(xmlArray(header.SummaryFields.Thumbnail)[0].Identifier)}}" />
 
                         </a>
-
                         <div class="media-body">
-                            <!--{{ header }}-->
                             <h4 class="media-heading" data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</h4>
                             <div class="mime" ng-bind="xmlArray(header.SummaryFields.Thumbnail)[0].MimeType"></div>
-                            <div class="group">todo: @Gerald -> get the group name here {{ header.GroupIdentifier }}</div>
+                            <!--<div class="group">{{ header.GroupIdentifier }}</div>-->
                         </div>
                     </div>
-
-
-
-
                 </div>
             </li>
         </ul>

@@ -20,32 +20,27 @@ OSCR.controller(
         $scope.headerList = [];
 
         $scope.$watch('searchString', function(newValue, oldValue) {
-//            if(newValue){
                 Document.searchDocuments(null, null, newValue, function (list) {
                     $scope.headerList = _.map(list, function(document) {
                         return document.Header;
                     });
-//                    // find unique user id's and map them. then fetch Person Profile for display of email
-//                    var userIds = _.uniq(_.map($scope.headerList, function(header){
-//                        return header.SavedBy;
+//                    var groupIdentifiers = _.uniq(_.map($scope.headerList, function(header){
+//                        return header.GroupIdentifier;
 //                    }));
-//                    _.each(userIds, function(id){
-//                        Person.getUser(id, function(user) {
-//                            _.each($scope.headerList, function(element) {
-//                                if (id == element.SavedBy) {
-//                                    element.userView = user;
+//                    _.each(groupIdentifiers, function(groupIdentifier){
+//                        Person.getGroup(groupIdentifier, function(group) {
+//                            _.each($scope.headerList, function(header) {
+//                                if (groupIdentifier == header.GroupIdentifier) {
+//                                    header.group = group;
 //                                }
 //                            });
 //                        });
 //                    });
                 });
-//            }
-//            else {
-//                $scope.headerList = [];
-//            }
-
-
         });
-        
+
+        console.log('going to search documents');
+        $scope.searchString = '';
+
     }
 );

@@ -159,20 +159,14 @@ OSCR.controller(
                         membership.Label = membership.group.Name + ' (' + membership.Role + ')';
                         $rootScope.userMemberships.push(membership);
                         user.groupIdentifier = membership.GroupIdentifier;
-                        buildMainMenu(user);
                     });
                 });
             }
         });
 
-
         $scope.recent = [];
 
         $scope.addToRecentMenu = function(header) {
-//            make all inactive
-//            _.each($scope.mainMenu.concat($scope.recent), function (entry) {
-//                entry.active = false;
-//            });
             var recentEntry = _.find($scope.recent, function(entry) {
                 return header.Identifier == entry.header.Identifier;
             });
@@ -190,11 +184,11 @@ OSCR.controller(
                 }
             }
             // activate the one we just
+            buildMainMenu($rootScope.user);
             recentEntry.active = true;
         };
 
         $scope.choosePath = function (path) {
-            if (!$scope.mainMenuBase) return;
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
@@ -202,6 +196,7 @@ OSCR.controller(
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);
+            buildMainMenu($rootScope.user);
         };
 
         $rootScope.checkLoggedIn = function() {
