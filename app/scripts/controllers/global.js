@@ -85,7 +85,7 @@ OSCR.controller(
         $rootScope.groupIdentifierForSave = function(schemaName, groupIdentifier) {
             if (isShared(schemaName)) {
                 if (groupIdentifier != 'OSCR') {
-                    throw "Cannot talk ab"
+                    throw "Cannot talk about any old group for shared schemas"
                 }
                 return undefined;
             }
@@ -108,6 +108,14 @@ OSCR.controller(
                 $scope.choosePath('/shared/' + schema + '/create');
             } else {
                 $scope.choosePath('/primary/' + schema + '/' + $rootScope.user.groupIdentifier + '/create');
+            }
+        };
+
+        $rootScope.documentList = function (schema) {
+            if (isShared(schema)) {
+                $scope.choosePath('/shared/' + schema);
+            } else {
+                $scope.choosePath('/primary/' + schema + '/' + $rootScope.user.groupIdentifier);
             }
         };
 

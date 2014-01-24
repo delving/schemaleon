@@ -121,6 +121,10 @@ OSCR.controller(
             return getDocumentState($scope.header) == 'public';
         };
 
+        $scope.chooseListPath = function() {
+            $scope.documentList($scope.schema);
+        };
+
         $scope.setDocumentState = function(state) {
             $scope.header.DocumentState = state;
             $scope.documentDirty = true;
