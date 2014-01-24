@@ -25,25 +25,27 @@ OSCR.controller(
                     $scope.headerList = _.map(list, function(document) {
                         return document.Header;
                     });
-                    // find unique user id's and map them. then fetch Person Profile for display of email
-                    var userIds = _.uniq(_.map($scope.headerList, function(header){
-                        return header.SavedBy;
-                    }));
-                    _.each(userIds, function(id){
-                        Person.getUser(id, function(user) {
-                            _.each($scope.headerList, function(element) {
-                                if (id == element.SavedBy) {
-                                    element.userView = user;
-                                }
-                            });
-                        });
-                    });
+//                    // find unique user id's and map them. then fetch Person Profile for display of email
+//                    var userIds = _.uniq(_.map($scope.headerList, function(header){
+//                        return header.SavedBy;
+//                    }));
+//                    _.each(userIds, function(id){
+//                        Person.getUser(id, function(user) {
+//                            _.each($scope.headerList, function(element) {
+//                                if (id == element.SavedBy) {
+//                                    element.userView = user;
+//                                }
+//                            });
+//                        });
+//                    });
                 });
 //            }
 //            else {
 //                $scope.headerList = [];
 //            }
 
+
         });
+        
     }
 );

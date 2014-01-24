@@ -45,15 +45,13 @@
             <td>
                 <a href ng-click="choosePath(header)" style="display:block">
                     <i class="icon icon-edit"></i>
-                    <ul>
-                        <li data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</li>
-                    </ul>
+                        <span data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</span>
                 </a>
             </td>
             <td>
-                <ul>
+                <ul class="unstyled inline">
                     <li data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)">
-                        <img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{getProperThumbExtension(thumbnail.Identifier)}}"/>
+                        <img ng-src="/media/thumbnail/{{getProperThumbExtension(thumbnail.Identifier)}}" width="65px"/>
                     </li>
                 </ul>
             </td>

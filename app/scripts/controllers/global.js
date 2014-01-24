@@ -115,7 +115,8 @@ OSCR.controller(
 
         function buildMainMenu(user) {
             $scope.mainMenu = [
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
+                {name: "Home", path: "/home", icon: 'icon-home', active: false},
+                {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
             ];
             if (user.god) {
@@ -277,7 +278,7 @@ OSCR.controller(
                 Person.authenticate(username, password, function (user) {
                     setUser(user);
                     if (user) {
-                        $scope.choosePath('/dashboard');
+                        $scope.choosePath('/home');
                     }
                     else {
                         $rootScope.loginFailed = true;

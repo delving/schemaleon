@@ -620,6 +620,17 @@ ul.media-list .media {
 ul.thumbnails li:nth-of-type(5) {
   margin-left: 0px;
 }
+ul.thumbnails .thumbnail {
+  background: #ffffff;
+}
+ul.thumbnails .thumbnail img {
+  height: 65px;
+  width: auto;
+}
+ul.thumbnails .thumbnail .media-heading {
+  font-size: 14px;
+  margin-bottom: 0px;
+}
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -867,7 +878,6 @@ ul.thumbnails li:nth-of-type(5) {
 .btn[disabled] {
   background-color: #adafae;
 }
-/* color definitions */
 body {
   background: #dddddd;
   margin: 0px 20px;
@@ -876,6 +886,12 @@ body {
 }
 body.admin {
   padding-top: 100px;
+}
+h1 small {
+  font-size: 20px;
+}
+.widget-row.home .widget-body {
+  min-height: 130px !important;
 }
 .navbar.navbar-list .navbar-inner {
   background: #999999;
@@ -1437,3 +1453,4 @@ ul.value-list label {
   border-bottom: 1px solid #999999;
   padding: 3px 20px;
 }
+/* SEARCH RESULTS */

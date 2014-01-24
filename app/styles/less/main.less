@@ -92,8 +92,21 @@ ul.media-list {
   }
 }
 
-ul.thumbnails li:nth-of-type(5) {
-  margin-left: 0px;
+ul.thumbnails {
+  li:nth-of-type(5) {
+    margin-left: 0px;
+  }
+  .thumbnail {
+    background: @white;
+    img {
+      height: 65px;
+      width:auto;
+    }
+    .media-heading {
+      font-size: 14px;
+      margin-bottom: 0px;
+    }
+  }
 }
 
 
@@ -219,8 +232,6 @@ ul.thumbnails li:nth-of-type(5) {
 
 
 
-
-/* color definitions */
 body {
   background: @bodyBackground;
   margin: 0px 20px;
@@ -230,6 +241,16 @@ body {
 
 body.admin {
   padding-top: 100px;
+}
+
+h1 small {
+  font-size: 20px;
+}
+
+.widget-row.home {
+  .widget-body {
+    min-height: 130px !important;
+  }
 }
 
 .navbar {
@@ -851,3 +872,7 @@ ul.value-list {
   padding: 3px 20px;
 
 }
+
+/* SEARCH RESULTS */
+
+
