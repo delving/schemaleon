@@ -20,7 +20,7 @@ OSCR.controller(
         $scope.headerList = [];
 
         $scope.$watch('searchString', function(newValue, oldValue) {
-            if(newValue){
+//            if(newValue){
                 Document.searchDocuments(null, null, newValue, function (list) {
                     $scope.headerList = _.map(list, function(document) {
                         return document.Header;
@@ -39,10 +39,10 @@ OSCR.controller(
                         });
                     });
                 });
-            }
-            else {
-                $scope.headerList = [];
-            }
+//            }
+//            else {
+//                $scope.headerList = [];
+//            }
 
         });
     }
