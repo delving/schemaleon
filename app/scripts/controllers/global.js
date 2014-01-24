@@ -139,13 +139,6 @@ OSCR.controller(
                     type: 'primary'
                 });
             });
-            _.forEach($scope.mainMenu, function (link) {
-                link.active = ($location.path().indexOf(link.path) >= 0);
-                if (link.active) anyActive = true;
-            });
-            if (!anyActive) {
-                $scope.mainMenu[0].active = true;
-            }
         }
 
         $rootScope.$watch('user', function (user, before) {
@@ -200,6 +193,13 @@ OSCR.controller(
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);
+            _.forEach($scope.mainMenu, function (link) {
+                link.active = ($location.path().indexOf(link.path) >= 0);
+                if (link.active) anyActive = true;
+            });
+            if (!anyActive) {
+                $scope.mainMenu[0].active = true;
+            }
         };
 
         $rootScope.checkLoggedIn = function() {
