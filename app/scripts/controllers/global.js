@@ -118,15 +118,17 @@ OSCR.controller(
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-home', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
             ];
-            _.each($rootScope.schemaMap.shared, function(sharedSchema) {
-                $scope.mainMenu.push({
-                    name: sharedSchema,
-                    path: "/shared/" + sharedSchema,
-                    icon: 'icon-file',
-                    active: false,
-                    type: 'shared'
+            if (user.god) {
+                _.each($rootScope.schemaMap.shared, function(sharedSchema) {
+                    $scope.mainMenu.push({
+                        name: sharedSchema,
+                        path: "/shared/" + sharedSchema,
+                        icon: 'icon-file',
+                        active: false,
+                        type: 'shared'
+                    });
                 });
-            });
+            }
             _.each($rootScope.schemaMap.primary, function(primarySchema) {
                 $scope.mainMenu.push({
                     name: primarySchema,
