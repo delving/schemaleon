@@ -113,32 +113,40 @@ OSCR.controller(
 
         // APPLICATION NAVIGATION ================================================================
 
+
         function buildMainMenu(user) {
-            $scope.mainMenu = [
+            $scope.mainMenuBase = [
                 {name: "Home", path: "/home", icon: 'icon-home', active: false},
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
             ];
-            if (user.god) {
-                _.each($rootScope.schemaMap.shared, function(sharedSchema) {
-                    $scope.mainMenu.push({
-                        name: sharedSchema,
-                        path: "/shared/" + sharedSchema,
-                        icon: 'icon-th-list',
-                        active: false,
-                        type: 'shared'
-                    });
-                });
-            }
-            _.each($rootScope.schemaMap.primary, function(primarySchema) {
-                $scope.mainMenu.push({
+
+            $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
+                return {
+                    name: sharedSchema,
+                    path: "/shared/" + sharedSchema,
+                    icon: 'icon-th-list',
+                    active: false
+                };
+            });
+
+            $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
+                return {
                     name: primarySchema,
                     path: "/primary/" + primarySchema + "/" + user.groupIdentifier,
                     icon: 'icon-th-list',
-                    active: false,
-                    type: 'primary'
-                });
+                    active: false
+                };
             });
+
+            var anyActive = false;
+            _.forEach($scope.mainMenuBase, function (link) {
+                link.active = ($location.path().indexOf(link.path) >= 0);
+                if (link.active) anyActive = true;
+            });
+            if (!anyActive) {
+                $scope.mainMenuBase[0].active = true;
+            }
         }
 
         $rootScope.$watch('user', function (user, before) {
@@ -161,10 +169,10 @@ OSCR.controller(
         $scope.recent = [];
 
         $scope.addToRecentMenu = function(header) {
-            // make all inactive
-            _.each($scope.mainMenu.concat($scope.recent), function (entry) {
-                entry.active = false;
-            });
+//            make all inactive
+//            _.each($scope.mainMenu.concat($scope.recent), function (entry) {
+//                entry.active = false;
+//            });
             var recentEntry = _.find($scope.recent, function(entry) {
                 return header.Identifier == entry.header.Identifier;
             });
@@ -186,6 +194,7 @@ OSCR.controller(
         };
 
         $scope.choosePath = function (path) {
+            if (!$scope.mainMenuBase) return;
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
@@ -193,14 +202,6 @@ OSCR.controller(
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);
-            var anyActive = false;
-            _.forEach($scope.mainMenu, function (link) {
-                link.active = ($location.path().indexOf(link.path) >= 0);
-                if (link.active) anyActive = true;
-            });
-            if (!anyActive) {
-                $scope.mainMenu[0].active = true;
-            }
         };
 
         $rootScope.checkLoggedIn = function() {

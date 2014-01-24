@@ -9,6 +9,36 @@
         <div class="span4">
             <div class="widget-box">
                 <div class="widget-title">
+                    <span class="icon"><i class="icon-user"></i></span>
+                    <h5 i18n="YourProfile"><span class="i18n"></span></h5>
+                </div>
+                <div class="widget-body">
+                    <gravatar-image data-email="user.Profile.email" data-size="100" data-default="mm"  data-secure="false"></gravatar-image>
+                    <dl>
+                        <dt i18n="Name"><span class="i18n"/></dt>
+                        <dd>
+                            <span>{{ user.Profile.firstName }}</span>
+                            <span>{{ user.Profile.lastName }}</span>
+                        </dd>
+                        <dt i18n="Email"><span class="i18n"/></dt>
+                        <dd>
+                            <span>{{ user.Profile.email }}</span>
+                        </dd>
+                        <dt i18n="Groups"><span class="i18n"/></dt>
+                        <dd>
+                            <ul class="stats stats-condensed">
+                                <li ng-repeat="membership in user.Memberships.Membership">
+                                    <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
+                                    <span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="widget-box">
+                <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
                     <h5 i18n="Statistics"><span class="i18n"/></h5>
                 </div>
@@ -39,80 +69,52 @@
                     </ul>
                 </div>
             </div>
+
         </div>
 
-        <div class="span4">
-            <div class="widget-box">
-                <div class="widget-title">
-                    <span class="icon"><i class="icon-user"></i></span>
-                    <h5 i18n="YourProfile"><span class="i18n"></span></h5>
+        <div class="span8">
+            <div ng-show="logEntries">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon"><i class="icon-signal"></i></span>
+                        <h5 i18n="RecentActivity"><span class="i18n"/></h5>
+                        <span class="label label-info" data-ng-bind="logEntries.length"></span>
+                    </div>
+                    <div class="widget-body widget-tall">
+                        <table class="table table-striped table-bordered table-grid">
+                            <thead>
+                            <tr>
+                                <th i18n="When"><span class="i18n"/></th>
+                                <th i18n="Who"><span class="i18n"/></th>
+                                <th i18n="What"><span class="i18n"/></th>
+                                <th i18n="Details"><span class="i18n"/></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="entry in logEntries">
+                                <td>
+                                    {{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
+                                </td>
+                                <td>
+                                    <a href ng-click="logEntryWho(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
+                                    <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-in">{{ entry.userView.Profile.email }}</a>
+                                </td>
+                                <td>
+                                    <span i18n="{{ entry.Op }}"><span class="i18n"/></span>
+                                </td>
+                                <td>
+                                    <a href ng-click="logEntryDetail(entry)">{{ entry | logDetails }}</a>
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="widget-body">
-                    <gravatar-image data-email="user.Profile.email" data-size="100" data-default="mm"  data-secure="false"></gravatar-image>
-                    <dl>
-                        <dt i18n="Name"><span class="i18n"/></dt>
-                        <dd>
-                            <span>{{ user.Profile.firstName }}</span>
-                            <span>{{ user.Profile.lastName }}</span>
-                        </dd>
-                        <dt i18n="Email"><span class="i18n"/></dt>
-                        <dd>
-                            <span>{{ user.Profile.email }}</span>
-                        </dd>
-                        <dt i18n="Groups"><span class="i18n"/></dt>
-                        <dd>
-                            <ul class="stats stats-condensed">
-                                <li ng-repeat="membership in user.Memberships.Membership">
-                                    <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
-                                    <span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
-                                </li>
-                            </ul>
-                        </dd>
-                    </dl>
-                </div>
-
             </div>
         </div>
 
     </div>
 
-    <div ng-show="logEntries">
-        <div class="widget-box">
-            <div class="widget-title">
-                <span class="icon"><i class="icon-signal"></i></span>
-                <h5 i18n="RecentActivity"><span class="i18n"/></h5>
-                <span class="label label-info" data-ng-bind="logEntries.length"></span>
-            </div>
-            <div class="widget-body widget-tall">
-                <table class="table table-striped table-bordered table-grid">
-                    <thead>
-                    <tr>
-                        <th i18n="When"><span class="i18n"/></th>
-                        <th i18n="Who"><span class="i18n"/></th>
-                        <th i18n="What"><span class="i18n"/></th>
-                        <th i18n="Details"><span class="i18n"/></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="entry in logEntries">
-                        <td>
-                            {{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
-                        </td>
-                        <td>
-                            <a href ng-click="logEntryWho(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
-                            <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-in">{{ entry.userView.Profile.email }}</a>
-                        </td>
-                        <td>
-                            <span i18n="{{ entry.Op }}"><span class="i18n"/></span>
-                        </td>
-                        <td>
-                            <a href ng-click="logEntryDetail(entry)">{{ entry | logDetails }}</a>
-                        </td>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+
 
 
 </div>

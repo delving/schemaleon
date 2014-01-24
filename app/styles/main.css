@@ -442,13 +442,12 @@ ul.kv-list li span.value {
   font-size: small;
   padding: 12px 15px;
   overflow-y: auto;
-  max-height: 350px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .widget-body.widget-tall {
-  max-height: 800px;
+  max-height: 1200px;
 }
 .widget-content {
   padding: 12px 15px;
