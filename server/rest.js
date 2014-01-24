@@ -146,8 +146,8 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/statistics', function (req, res) {
-        storage.getStatistics(function (xml) {
+    app.get('/statistics/:groupIdentifier', function (req, res) {
+        storage.getStatistics(req.params.groupIdentifier, function (xml) {
             res.xml(xml);
         });
     });

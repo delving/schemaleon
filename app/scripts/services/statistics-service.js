@@ -6,8 +6,8 @@ OSCR.service(
     "Statistics",
     function ($rootScope, $http) {
 
-        this.getGlobalStatistics = function (accept) {
-            $http.get('/statistics').success(function (xml) {
+        this.getGlobalStatistics = function (groupIdentifier, accept) {
+            $http.get('/statistics/'+groupIdentifier).success(function (xml) {
                 accept(xmlToObject(xml).Statistics);
             });
         };

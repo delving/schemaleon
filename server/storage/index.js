@@ -79,20 +79,6 @@ function Storage(home) {
     };
 
     // ========= the following have changed to accommodate shared and primary records
-//    this.docDocument = function (schemaName, identifier) {
-//        if (!schemaName) throw new Error("No schema name!");
-//        if (!identifier) throw new Error("No identifier!");
-//        return "/documents/" + schemaName + "/" + identifier + ".xml";
-//    };
-//
-//    this.docPath = function (schemaName, identifier) {
-//        return "doc('" + this.database + this.docDocument(schemaName, identifier) + "')/Document";
-//    };
-//
-//    this.docCollection = function (schemaName) {
-//        return "collection('" + this.database + "/documents/" + schemaName + "')";
-//    };
-
     this.schemaMap = {
         primary: [ "Photo", "Film", "Memoriam", "Publication" ],
         shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
@@ -232,36 +218,32 @@ function Storage(home) {
         });
     };
 
-    this.getStatistics = function (receiver) { // TODO: CHANGE TO GLOBAL AND GROUP SPECIFIC
-        this.query('get global statistics',
-            [
-                '<Statistics>',
-                '  <People>',
-                '    <Person>{ count(' + this.userCollection() + ') }</Person>',
-                '    <Group>{ count(' + this.groupCollection() + ') }</Group>',
-                '  </People>',
-                '  <Documents>',
-//                '    <Schema>',
-//                '       <Name>Photo</Name>',
-//                '       <Count>{ count(' + this.docCollection('Photo') + ') }</Count>',
-//                '    </Schema>',
-//                '    <Schema>',
-//                '       <Name>Memoriam</Name>',
-//                '       <Count>{ count(' + this.docCollection('Memoriam') + ') }</Count>',
-//                '    </Schema>',
-//                '    <Schema>',
-//                '       <Name>Video</Name>',
-//                '       <Count>{ count(' + this.docCollection('Video') + ') }</Count>',
-//                '    </Schema>',
-//                '    <Schema>',
-//                '       <Name>Book</Name>',
-//                '       <Count>{ count(' + this.docCollection('Book') + ') }</Count>',
-//                '    </Schema>',
-//                '  </Documents>',
-                '</Statistics>'
-            ],
-            receiver
-        );
+    this.getStatistics = function (groupIdentifier, receiver) { // TODO: CHANGE TO GLOBAL AND GROUP SPECIFIC
+        var s = this;
+        var q = [];
+        q.push("<Statistics>");
+        q.push('  <People>');
+        q.push('    <Person>{ count(' + s.userCollection() + ') }</Person>');
+        q.push('    <Group>{ count(' + s.groupCollection() + ') }</Group>');
+        q.push('  </People>');
+        q.push('  <Shared>');
+        _.each(this.schemaMap.shared, function(schema){
+            q.push('  <Schema>');
+            q.push('    <Name>'+schema+'</Name>');
+            q.push('    <Count>{ count(' + s.dataCollection(schema, null) + ') }</Count>');
+            q.push('  </Schema>');
+        });
+        q.push('  </Shared>');
+        q.push('  <Primary>');
+        _.each(this.schemaMap.primary, function(schema){
+            q.push('  <Schema>');
+            q.push('    <Name>'+schema+'</Name>');
+            q.push('    <Count>{ count(' + s.dataCollection(schema, groupIdentifier) + ') }</Count>');
+            q.push('  </Schema>');
+        });
+        q.push('  </Primary>');
+        q.push("</Statistics>");
+        this.query('get global statistics', q, receiver);
     };
 
     this.snapshotName = function() {

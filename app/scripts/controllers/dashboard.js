@@ -5,7 +5,7 @@ OSCR.controller(
     function ($rootScope, $scope, $location, $cookieStore, Statistics, Person) {
         $rootScope.checkLoggedIn();
 
-       Statistics.getGlobalStatistics(function (statistics) {
+       Statistics.getGlobalStatistics($rootScope.user.groupIdentifier, function (statistics) {
             $scope.statistics = statistics;
         });
         
