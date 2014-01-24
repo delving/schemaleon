@@ -181,10 +181,10 @@
 
                 <div data-ng-controller="ElementViewController" class="row-fluid">
                     <div class="span6">
-                        <div class="field" ng-repeat="el in tree.elements" ng-include="getElementViewer(el)" ng-show="el.value"></div>
+                        <div class="field" ng-repeat="el in nonMediaElements(tree.elements)" ng-include="getElementViewer(el)" ng-show="el.value"></div>
                     </div>
                     <div class="span6">
-                        <div class="field" ng-repeat="el in getMediaElements()" ng-include="getMediaViewer(el)"></div>
+                        <div class="field" ng-repeat="el in getMediaElements()" ng-include="getElementViewer(el)"></div>
                     </div>
                 </div>
             </div>
