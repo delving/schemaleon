@@ -24,6 +24,7 @@ OSCR.controller(
         $scope.saveSuccess = false;
 
 
+        // todo: Eric, this can be called in a template as getGroupName(groupIdentifier)
         $scope.groupName = $rootScope.getGroupName($scope.groupIdentifier);
 
         // If the user has role:Viewer then don't show the doc edit form, but only the preview

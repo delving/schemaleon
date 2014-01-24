@@ -29,48 +29,42 @@ OSCR.service(
 
         // fetch primary or shared from a schema
         this.fetchDocument = function (schemaName, groupIdentifier, identifier, receiver) {
+
+            function success(data) {
+                receiver(xmlToObject(data));
+            }
+
             if (groupIdentifier) {
-                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/' + identifier + '/fetch').success(function (data) {
-                    receiver(xmlToObject(data));
-                });
+                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/' + identifier + '/fetch').success(success);
             }
             else {
-                $http.get('/shared/' + schemaName + '/' + identifier + '/fetch').success(function (data) {
-                    receiver(xmlToObject(data));
-                });
+                $http.get('/shared/' + schemaName + '/' + identifier + '/fetch').success(success);
             }
         };
 
-        // list shared or primary
-        this.listDocuments = function (schemaName, groupIdentifier, receiver) {
-            if (groupIdentifier) {
-                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/list').success(function (data) {
-                    receiver(xmlToArray(data));
-                });
-            }
-            else {
-                $http.get('/shared/' + schemaName + '/list').success(function (data) {
-                    receiver(xmlToArray(data));
-                });
-            }
-        };
+        // search shared with schema or primary with or without schema, and maybe empty query
+        this.searchDocuments = function (schemaName, groupIdentifier, query, receiver) {
 
-        // search shared with schema or primary with or without schema
-        this.searchDocuments = function (schemaName, groupIdentifier, search, receiver) {
+            function config() {
+                var config = {};
+                if (query && query.length) {
+                    config.params = { q: query }
+                }
+                return config;
+            }
+
+            function success(data) {
+                receiver(xmlToArray(data));
+            }
+
             if (groupIdentifier) {
-                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/search', {params: {q: search}}).success(function (data) {
-                    receiver(xmlToArray(data));
-                });
+                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/search', config()).success(success);
             }
             else if (schemaName) {
-                $http.get('/shared/' + schemaName + '/search', {params: {q: search}}).success(function (data) {
-                    receiver(xmlToArray(data));
-                });
+                $http.get('/shared/' + schemaName + '/search', config()).success(success);
             }
             else {
-                $http.get('/primary/search', {params: {q: search}}).success(function (data) {
-                    receiver(xmlToArray(data));
-                });
+                $http.get('/primary/search', config()).success(success);
             }
         };
 

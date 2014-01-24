@@ -8,16 +8,12 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
 
-        $scope.searchString = '';
-        $scope.searchStringUsed = '';
         $scope.schema = $routeParams.schema;
         $scope.groupIdentifier = $routeParams.groupIdentifier;
-        $scope.noResults = false;
+        $scope.headerList = [];
 
-        function getAllDocuments() {
-            Document.listDocuments($scope.schema, $scope.groupIdentifier, function (list) {
-                $scope.searchStringUsed = '';
-                $scope.searchString = '';
+        $scope.$watch('searchString', function(newValue, oldValue) {
+            Document.searchDocuments($scope.schema, $scope.groupIdentifier, newValue, function (list) {
                 $scope.headerList = _.map(list, function(document) {
                     return document.Header;
                 });
@@ -35,40 +31,9 @@ OSCR.controller(
                     });
                 });
             });
-        }
+        });
 
-        if ($scope.schema) {
-            getAllDocuments()
-        }
-
-        $scope.search = function() {
-            if ($scope.searchString.length == 0) {
-                getAllDocuments();
-            }
-            else {
-                Document.searchDocuments($scope.schema, $scope.groupIdentifier, $scope.searchString, function(list) {
-                    if (list.length) {
-                        $scope.searchStringUsed = $scope.searchString;
-                        $scope.noResults = false;
-                        $scope.headerList = _.map(list, function(document) {
-                            return document.Header;
-                        });
-                    }
-                    else {
-//                        $scope.searchString = '';
-                        $scope.noResults = true;
-                        $scope.headerList = '';
-//                        getAllDocuments();
-                    }
-                });
-            }
-        };
-
-        $scope.clearSearch = function () {
-            $scope.noResults = false;
-            getAllDocuments();
-        }
-
+        $scope.searchString = '';
     }
 );
 

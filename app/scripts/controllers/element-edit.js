@@ -162,7 +162,7 @@ OSCR.controller(
         }
 //
         function refreshList() {
-            Document.listDocuments($scope.schema, $scope.groupIdentifier, function(list) {
+            Document.searchDocuments($scope.schema, $scope.groupIdentifier, '', function(list) {
                 $scope.mediaList = list;
             });
         }

@@ -11,9 +11,8 @@
             <form class="navbar-form pull-left form-inline">
                 <div class="input-prepend input-append">
                     <span class="add-on" i18n="Search"><span class="i18n"></span></span>
-                    <input type="text" ng-model="searchString"  ng-change="search()">
-                    <!--<button type="submit" class="btn" title="Search" ng-class="{ 'btn-success': (searchString != searchStringUsed) }" ng-click="search()" data-i18n="Search"><i class="icon-search"></i> <span class="i18n"></span></button>-->
-                    <button class="btn" type="reset" ng-click="clearSearch()"><i class="icon-ban-circle "></i> </button>
+                    <input type="text" ng-model="searchString">
+                    <button class="btn" type="reset" ng-click="searchString = ''"><i class="icon-ban-circle "></i> </button>
                 </div>
             </form>
             <span class="controls pull-right" i18n="NewDocument" ng-hide="user.viewer">
@@ -37,14 +36,11 @@
         </thead>
         <tbody>
         <tr data-ng-hide="headerList.length">
-            <td colspan="6">-</td>
-        </tr>
-        <tr data-ng-show="noResults">
             <td colspan="6" i18n="NoSearchResults">
                 <div class="badge badge-warning"><span class="i18n"></span></div>
             </td>
         </tr>
-        <tr data-ng-repeat="header in headerList">
+        <tr data-ng-show="headerList.length" data-ng-repeat="header in headerList">
             <td><a href ng-click="choosePath(header)" style="display:block">
                 <i class="icon icon-edit"></i> {{ header.Title }}</a>
             </td>

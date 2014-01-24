@@ -304,50 +304,49 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    // list shared
-    app.get('/shared/:schema/list', function (req, res) {
-        storage.Document.getAllDocuments(req.params.schema, undefined, function (xml) {
-            res.xml(xml);
+    // execute the searches, returning the result
+    function searchDocuments(res, search) {
+        storage.Document.searchDocuments(search, function (documentListXML) {
+            res.xml(documentListXML);
         });
-    });
+    }
 
-    // list primary
-    app.get('/primary/:schema/:groupIdentifier/list', function (req, res) {
-        storage.Document.getAllDocuments(req.params.schema, req.params.groupIdentifier, function (xml) {
-            res.xml(xml);
-        });
-    });
-
-    // search all primary
-    app.get('/primary/search', function (req, res) {
-        var search = req.param('q').toLowerCase();
-        storage.Document.selectPrimaryDocuments(search, function (xml) {
-            res.xml(xml);
-        });
-    });
+    // interpret the request
+    function schemaName(req) {
+        return req.params.schema;
+    }
+    function groupIdentifier(req) {
+        return req.params.groupIdentifier;
+    }
+    function query(req) {
+        var q = req.param('q');
+        return q ? q.toLowerCase() : '';
+    }
 
     // search primary on schema and group
     app.get('/primary/:schema/:groupIdentifier/search', function (req, res) {
-        var search = req.param('q').toLowerCase();
-        storage.Document.searchDocuments(req.params.schema, req.params.groupIdentifier, search, function (xml) {
-            res.xml(xml);
+        searchDocuments(res, {
+            schemaName: schemaName(req),
+            groupIdentifier: groupIdentifier(req),
+            query: query(req),
+            wildcards: true
         });
     });
 
     // search shared on schema
     app.get('/shared/:schema/search', function (req, res) {
-        // todo: use schema
-        var search = req.param('q').toLowerCase();
-        storage.Document.searchDocuments(req.params.schema, undefined, search, function (xml) {
-            res.xml(xml);
+        searchDocuments(res, {
+            schemaName: schemaName(req),
+            query: query(req),
+            wildcards: true
         });
     });
 
     // search primary all schemas
     app.get('/primary/search', function (req, res) {
-        var search = req.param('q').toLowerCase();
-        storage.Document.searchDocuments(undefined, undefined, search, function (xml) {
-            res.xml(xml);
+        searchDocuments(res, {
+            query: query(req),
+            wildcards: true
         });
     });
 

@@ -71,7 +71,7 @@ OSCR.controller(
         }
 
         function fetchCommitted() {
-            Document.listDocuments($scope.schema, $scope.groupIdentifier, function (list) {
+            Document.searchDocuments($scope.schema, $scope.groupIdentifier, '', function (list) {
                 console.log("all documents fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
                     // $rootScope.getProperThumbExtension checks file extension.

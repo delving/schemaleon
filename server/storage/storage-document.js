@@ -25,42 +25,24 @@ P.getDocumentSchema = function (schemaName, receiver) {
     );
 };
 
-P.getAllDocuments = function (schemaName, groupIdentifier, receiver) {
+P.searchDocuments = function (search, receiver) {
     var s = this.storage;
-    s.query('get all documents ' + schemaName + ' ' + groupIdentifier,
-        [
-            '<Documents>',
-            '    {',
-            '        let $all :=',
-            '           for $doc in ' + s.dataCollection(schemaName, groupIdentifier) + '/Document',
-            '           order by $doc/Header/TimeStamp descending',
-            '           return $doc',
-            '        return subsequence($all, 1, ' + MAX_RESULTS + ')',
-            '    }',
-            '</Documents>'
-        ],
-        receiver
-    );
-};
-
-P.searchDocuments = function (schemaName, groupIdentifier, search, receiver) {
-    var s = this.storage;
-    s.query('select documents: ' + schemaName + ' ' + groupIdentifier + ' ' + search,
-        [
-            '<Documents>',
-            '    { ',
-            '        let $all :=',
-            '           for $doc in ' + s.dataCollection(schemaName, groupIdentifier) + '/Document',
-            '           where $doc/Body//*[text() contains text ' + util.quote(search+'.+') + ' using wildcards]',
-            '           or $doc/Body//*[text() contains text ' + util.quote(search) + ' using stemming]',
-            '           order by $doc/Header/TimeStamp descending',
-            '           return $doc',
-            '        return subsequence($all, 1, ' + MAX_RESULTS + ')',
-            '    }',
-            '</Documents>'
-        ],
-        receiver
-    );
+    var q = [];
+    q.push('<Documents>{');
+    q.push('let $all := for $doc in ' + s.dataCollection(search.schemaName, search.groupIdentifier) + '/Document');
+    if (search.query && search.query.length) {
+        q.push('where');
+        if (search.wildcards) {
+            q.push('$doc/Body//*[text() contains text ' + util.quote(search.query + '.+') + ' using wildcards]');
+            q.push('or');
+        }
+        q.push('$doc/Body//*[text() contains text ' + util.quote(search.query) + ' using stemming]');
+    }
+    q.push('order by $doc/Header/TimeStamp descending');
+    q.push('return $doc');
+    q.push('return subsequence($all, 1, ' + MAX_RESULTS + ')');
+    q.push('}</Documents>');
+    s.query('select documents: ' + search.schemaName + ' ' + search.groupIdentifier + ' ' + JSON.stringify(search), q, receiver);
 };
 
 P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
