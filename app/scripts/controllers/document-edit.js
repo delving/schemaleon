@@ -107,7 +107,7 @@ OSCR.controller(
             $scope.header.Identifier = h.Identifier;
             $scope.header.GroupIdentifier = h.GroupIdentifier;
             $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
-            $scope.header.Title = h.Title;
+            $scope.header.SummaryFields = h.SummaryFields;
             $scope.header.DocumentState = getDocumentState(h);
             delete $scope.header.TimeStamp;
             var millis = parseInt(h.TimeStamp);
@@ -167,7 +167,6 @@ OSCR.controller(
         else {
             Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
                 useHeader(document.Document.Header);
-                $scope.documentJSON = null;
                 $scope.documentDirty = false;
                 $scope.document = document.Document; // triggers the editor
                 $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
@@ -181,7 +180,6 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 useHeader(document.Header);
-                $scope.documentJSON = null;
                 $scope.documentDirty = false;
                 $scope.saveSuccess = true;
                 $timeout(function() {

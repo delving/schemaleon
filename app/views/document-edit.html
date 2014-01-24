@@ -7,7 +7,7 @@
         <h1 ng-hide="headerDisplay" i18n="New"><span class="i18n"/> <span class="schema" ng-show="schema">{{schema}}</span></h1>
         <small class="document-info">
             <ul class="unstyled">
-                <li ng-show=" header.Title"><span i18n="Title"><span class="i18n"/></span>: {{ header.Title }}</li>
+                <li ng-show="header"><span i18n="Title"><span class="i18n"/></span>: {{ header.SummaryFields.Title }}</li>
                 <li><span i18n="OwningGroup"><span class="i18n"/></span>: {{ groupName }}</li>
                 <li ng-show="header.TimeStamp"><span i18n="SavedOn"><span class="i18n"/></span>: <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></li>
             </ul>

@@ -172,11 +172,10 @@ OSCR.controller(
             });
             if (!recentEntry) {
                 recentEntry = {
-                    name: header.Title,
+                    name: header.SummaryFields.Title,
                     path: editPathFromHeader(header),
                     icon: 'icon-th-home',
-                    header: header,
-                    recent: true // todo: instead detect if there is a header
+                    header: header
                 };
                 $scope.recent.push(recentEntry);
                 if ($scope.recent.length > 10) {
