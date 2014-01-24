@@ -27,6 +27,7 @@
     <table class="table table-striped table-bordered table-grid">
         <thead>
             <th i18n="Title"><span class="i18n"/></th>
+            <th i18n="Thumbnail"><span class="i18n"/></th>
             <th i18n="Identifier" width="250">
                 <span class="i18n"/>
             </th>
@@ -41,8 +42,20 @@
             </td>
         </tr>
         <tr data-ng-show="headerList.length" data-ng-repeat="header in headerList">
-            <td><a href ng-click="choosePath(header)" style="display:block">
-                <i class="icon icon-edit"></i> {{ header.Title }}</a>
+            <td>
+                <a href ng-click="choosePath(header)" style="display:block">
+                    <i class="icon icon-edit"></i>
+                    <ul>
+                        <li data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</li>
+                    </ul>
+                </a>
+            </td>
+            <td>
+                <ul>
+                    <li data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)">
+                        <img id="oscr-media-grid-thumb-{{$index}}" ng-src="/media/thumbnail/{{getProperThumbExtension(thumbnail.Identifier)}}"/>
+                    </li>
+                </ul>
             </td>
             <td>
                 {{ header.Identifier }}

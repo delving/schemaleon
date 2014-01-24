@@ -337,6 +337,10 @@ OSCR.controller(
                 }
             }
         }
+
+        $scope.xmlArray = function(node) {
+            return xmlArray(node);
+        };
     }
 );
 

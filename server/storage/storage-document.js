@@ -30,13 +30,17 @@ P.searchDocuments = function (search, receiver) {
     var q = [];
     q.push('<Documents>{');
     q.push('let $all := for $doc in ' + s.dataCollection(search.schemaName, search.groupIdentifier) + '/Document');
+    if (search.schemaName != 'MediaMetadata') { // if we're not searching for MM, we must exclude it
+        q.push("where ($doc/Header/SchemaName/text() != 'MediaMetadata')");
+    }
     if (search.query && search.query.length) {
-        q.push('where');
+        q.push("and (");
         if (search.wildcards) {
             q.push('$doc/Body//*[text() contains text ' + util.quote(search.query + '.+') + ' using wildcards]');
             q.push('or');
         }
         q.push('$doc/Body//*[text() contains text ' + util.quote(search.query) + ' using stemming]');
+        q.push(')')
     }
     q.push('order by $doc/Header/TimeStamp descending');
     q.push('return $doc');

@@ -126,8 +126,6 @@ OSCR.controller(
             $scope.documentDirty = true;
         };
 
-        
-        
         $scope.setTree = function (tree) {
             return $scope.tree = tree;
         };

@@ -160,7 +160,7 @@ OSCR.controller(
                 };
             });
         }
-//
+
         function refreshList() {
             Document.searchDocuments($scope.schema, $scope.groupIdentifier, '', function(list) {
                 $scope.mediaList = list;
