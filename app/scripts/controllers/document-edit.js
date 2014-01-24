@@ -10,6 +10,8 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
 
+        $scope.expertMode = true;
+
         $scope.blankIdentifier = '#IDENTIFIER#';
         $scope.blankTimeStamp = '#TIMESTAMP#';
         $scope.headerDisplay = '';
@@ -19,8 +21,7 @@ OSCR.controller(
         $scope.header = {};
         $scope.tree = null;
         $scope.documentDirty = false;
-        $scope.tabEditActive = true;
-        $scope.tabViewActive = false;
+        $scope.activeTab = "expert";
         $scope.saveSuccess = false;
 
 
@@ -28,21 +29,22 @@ OSCR.controller(
         $scope.groupName = $rootScope.getGroupName($scope.groupIdentifier);
 
         // If the user has role:Viewer then don't show the doc edit form, but only the preview
-        if($rootScope.user.viewer) {
-            $scope.tabEditActive = false;
-            $scope.tabViewActive = true;
+        if ($rootScope.user.viewer) {
+            // todo: they should not even see edit
+            // todo: and viewer should be normal, editor should be special.  the boolean should give them permission.
+            $scope.activeTab = "view";
         }
 
         // toggle tabs between edit and view
-        $scope.showTab = function (tab) {
-            if(tab == 'view'){
-                $scope.tabViewActive = true;
-                $scope.tabEditActive = false;
+        $scope.isTabActive = function (tab) {
+            return $scope.activeTab == tab;
+        };
+
+        $scope.setActiveTab = function(tab) {
+            if ($rootScope.user.viewer) {
+                tab = "view";
             }
-            else {
-                $scope.tabViewActive = false;
-                $scope.tabEditActive = true;
-            }
+            $scope.activeTab = tab;
         };
 
         function getTime(millis) {
@@ -448,6 +450,144 @@ OSCR.controller(
                     break;
             }
         };
+    }
+);
+
+OSCR.controller(
+    'ExpertTreeController',
+    function ($rootScope, $scope, $timeout, Document) {
+
+        $scope.focusElement = [];
+
+        $scope.getElementViewer = function (el) {
+            if (el.elements) return "submenu-view.html";
+            if (el.config.line) return "line-view.html";
+            if (el.config.paragraph) return "paragraph-view.html";
+            if (el.config.vocabulary) return "vocabulary-view.html";
+            if (el.config.media) return "media-view.html";
+            return "unrecognized-view.html"
+        };
+
+        $scope.getFocusElement = function(el) {
+            return $scope.focusElement[el.focusElementIndex];
+        };
+
+        $scope.setActiveEl = function (el) {
+            $scope.activeEl = el;
+            $timeout(function () {
+                var fe = $scope.getFocusElement(el);
+                if (fe) {
+                    fe.focus();
+                }
+                else {
+                    console.warn("no focus element for ");
+                    console.log(el);
+                }
+            });
+        };
+
+        $scope.isActiveEl = function (el) {
+            return $scope.activeEl === el;
+        };
+
+        $scope.valueChanged = function (el) {
+//            console.log("value changed: active=" + (el == $scope.activeEl));
+            $scope.revalidate();
+        };
+
+        $scope.$watch('i18n', function (i18n, oldValue) {
+            if ($scope.tree && i18n) {
+                i18nTree($scope.tree, i18n);
+            }
+        });
+
+        $scope.revalidate = function () { // called by fields for live validation bubbling up
+            _.each($scope.panels, function (panel) {
+                panel.element.dirty = true;
+            });
+            $scope.validateTree();
+        };
+
+        $scope.$watch('document', function (document, oldValue) {
+            // maybe use old value for something like making sure they're not making a mistake
+            if (!document) return;
+            var empty = _.isString(document);
+            var schema = empty ? document : document.Header.SchemaName;
+            if (!schema) return;
+            Document.fetchSchema(schema, function (tree) {
+                if (!tree) return;
+                tree = $scope.setTree(tree); // todo media.js:96
+                if (!empty) {
+                    populateTree(tree, document.Body);
+                }
+                installValidators(tree);
+                validateTree(tree);
+            });
+        });
+
+        $scope.addSibling = function (list, index, panelIndex) {
+            // should be some kind of deep copy
+            var existing = list[index];
+            var fresh = cloneTree(existing);
+            validateTree(fresh);
+//            existing.classIndex = panelIndex + 1; // what does this do?
+            list.splice(index + 1, 0, fresh);
+        };
+
+        $scope.removeSibling = function (list, index, panelIndex) {
+            var hasSibling = false;
+            if(index > 0) {
+                if (list[index-1].name == list[index].name) {
+                    hasSibling = true;
+                }
+            }
+            if(index < list.length-1){
+                if (list[index+1].name == list[index].name) {
+                    hasSibling = true;
+                }
+            }
+            if(hasSibling) {
+                // todo: are you sure?
+                list.splice(index,1);
+                if(index >= list.length){
+                    index--;
+                }
+                $scope.choose(index, panelIndex);
+            }
+        };
+
+        $scope.getElementEditor = function (el) {
+            if (el.elements) return "submenu-element.html";
+            if (el.config.line) return "line-element.html";
+            if (el.config.paragraph) return "paragraph-element.html";
+            if (el.config.vocabulary) return "vocabulary-element.html";
+            if (el.config.media) return "media-element.html";
+            return "unrecognized-element.html"
+        };
+
+        $scope.getDetailView = function (el) {
+            if (el.searching) {
+                if (el.config.media) { // todo: only when searching?
+                    return "search-media.html";
+                }
+                return "search-vocabulary.html";
+            }
+            return "field-documentation-element.html"
+        };
+
+    }
+);
+
+OSCR.controller(
+    'ExpertElementEditController',
+    function ($scope, $timeout) {
+
+        $scope.el = $scope.element;
+
+        $scope.enableEditor = function () {
+            $scope.setActiveEl($scope.el);
+        };
+
     }
 );
 
