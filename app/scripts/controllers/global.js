@@ -115,6 +115,7 @@ OSCR.controller(
 
 
         function buildMainMenu(user) {
+
             $scope.mainMenuBase = [
                 {name: "Home", path: "/home", icon: 'icon-home', active: false},
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
@@ -140,7 +141,7 @@ OSCR.controller(
             });
 
             var anyActive = false;
-            _.forEach($scope.mainMenuBase, function (link) {
+            _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
                 link.active = ($location.path().indexOf(link.path) >= 0);
                 if (link.active) anyActive = true;
             });

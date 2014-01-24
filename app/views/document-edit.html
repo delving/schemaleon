@@ -6,10 +6,10 @@
         <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
         <h1 ng-hide="headerDisplay" i18n="New"><span class="i18n"/> <span class="schema" ng-show="schema">{{schema}}</span></h1>
         <small class="document-info">
-            <ul class="unstyled">
-                <li ng-show="header"><span i18n="Title"><span class="i18n"/></span>: {{ header.SummaryFields.Title }}</li>
-                <li><span i18n="OwningGroup"><span class="i18n"/></span>: {{ groupName }}</li>
-                <li ng-show="header.TimeStamp"><span i18n="SavedOn"><span class="i18n"/></span>: <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></li>
+            <ul class="unstyled inline">
+                <li ng-show="header"><span i18n="Title" class="label"><span class="i18n"/></span> {{ header.SummaryFields.Title }}</li>
+                <li><span i18n="OwningGroup" class="label"><span class="i18n"/></span>: {{ groupName }}</li>
+                <li ng-show="header.TimeStamp"><span i18n="SavedOn" class="label"><span class="i18n"/></span>: <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></li>
             </ul>
         </small>
         <div class="alert alert-success alert-saved fade-in" ng-show="saveSuccess">
@@ -27,6 +27,11 @@
             <div class="tab-pane" ng-class="{ 'active': tabEditActive }">
                 <div class="document-controls">
                     <ul class="nav nav-pills">
+                        <li>
+                            <a href ng-click="choose()">
+                                <i class="icon-th-list icon-white"></i>
+                            </a>
+                        </li>
                         <li>
                             <!-- document quick save -->
                             <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="QuickSave">
