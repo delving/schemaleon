@@ -123,7 +123,7 @@ OSCR.controller(
                     $scope.mainMenu.push({
                         name: sharedSchema,
                         path: "/shared/" + sharedSchema,
-                        icon: 'icon-file',
+                        icon: 'icon-th-list',
                         active: false,
                         type: 'shared'
                     });
@@ -133,7 +133,7 @@ OSCR.controller(
                 $scope.mainMenu.push({
                     name: primarySchema,
                     path: "/primary/" + primarySchema + "/" + user.groupIdentifier,
-                    icon: 'icon-file',
+                    icon: 'icon-th-list',
                     active: false,
                     type: 'primary'
                 });
