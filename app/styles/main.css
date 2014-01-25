@@ -103,6 +103,7 @@
   text-decoration: none;
 }
 .panels .panel-input {
+  color: #222222;
   padding: 0 20px;
 }
 .panels .panel-input textarea {
