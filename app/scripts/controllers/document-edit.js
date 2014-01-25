@@ -403,6 +403,8 @@ OSCR.controller(
         };
     }
 );
+
+
 OSCR.directive('documentNavigation', function () {
     return {
         restrict: 'A',
@@ -429,7 +431,7 @@ OSCR.directive('documentNavigation', function () {
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
 OSCR.controller(
-    'TreeViewController',
+    'ViewElementController',
     function ($scope) {
 
         $scope.getViewTemplate = function (el) {
@@ -455,6 +457,10 @@ OSCR.controller(
             return _.filter(elementList, function(element) {
                 return !element.config.media;
             });
+        };
+
+        $scope.hasValue = function(el) {
+            return getFirstValue(el);
         };
     }
 );

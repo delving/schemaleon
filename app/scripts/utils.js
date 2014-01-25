@@ -374,3 +374,13 @@ function updateTimeString(timeStamp) {
     var timeString = getTime(elapsed);
     return getTime(elapsed);
 }
+
+function getFirstValue(el) {
+    if (el.elements) {
+        var values = _.filter(el.elements, function (element) {
+            return getFirstValue(element);
+        });
+        return values.head;
+    }
+    return el.value;
+}

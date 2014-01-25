@@ -1,8 +1,14 @@
 <!--This file contains only templates, and is tied to the controllers in document-edit.js-->
 
 <script type="text/ng-template" id="view-submenu.html">
-    <label class="label">{{el.name}}:</label>
-    <div class="field indent" ng-repeat="el in nonMediaElements(el.elements)" ng-include="getViewTemplate(el)" ng-show="el.value"></div>
+    <div data-ng-controller="ViewElementController">
+        <label class="label">{{el.name}}:</label>
+        <div class="field indent"
+             ng-repeat="el in filterNonMedia(el.elements)"
+             ng-include="getViewTemplate(el)"
+             ng-show="hasValue(el)">
+        </div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="view-line.html">
