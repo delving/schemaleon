@@ -380,7 +380,11 @@ function getFirstValue(el) {
         var values = _.filter(el.elements, function (element) {
             return getFirstValue(element);
         });
-        return values.head;
+        var head = values.head;
+        return head ? head.value : null;
     }
-    return el.value;
+    if (el.config.media) {
+        console.log("media", el);
+    }
+    return el.config.media ? null : el.value;
 }

@@ -444,13 +444,13 @@ OSCR.controller(
         };
 
         // collect an array of only the media elements
-        $scope.getAllMediaElements = function() {
-            if ($scope.tree) {
-                return collectMediaElements($scope.tree);
-            }
-            else {
-                return [];
-            }
+        $scope.mediaElements = $scope.tree ? collectMediaElements($scope.tree) : [];
+
+        $scope.mediaThumbnails = function() {
+            return _.map($scope.mediaElements, function(el){
+                console.log("return something from here", el);
+                return el;
+            });
         };
 
         $scope.filterNonMedia = function(elementList) {
