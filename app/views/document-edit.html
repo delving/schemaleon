@@ -1,3 +1,4 @@
+<div ng-include="'/views/expert-templates.html'"></div>
 <div ng-include="'/views/edit-templates.html'"></div>
 <div ng-include="'/views/view-templates.html'"></div>
 
@@ -20,20 +21,11 @@
 
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer"><a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a></li>
             <li ng-class="{ 'active': isTabActive('edit') }" ng-hide="user.viewer"><a href="" i18n="Edit" ng-click="setActiveTab('edit')"><span class="i18n"></span></a></li>
+            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer"><a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a></li>
             <li ng-class="{ 'active': isTabActive('view') }"><a href="" i18n="Preview" ng-click="setActiveTab('view')"><span class="i18n"></span></a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane" ng-class="{ 'active': isTabActive('expert') }">
-                <div data-ng-controller="ExpertTreeController" class="row-fluid">
-                    <div class="span6" data-ng-controller="ExpertElementEditController">
-                        <div class="field" ng-repeat="el in tree.elements" ng-include="getElementViewer(el)">
-                            hello
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="tab-pane" ng-class="{ 'active': isTabActive('edit') }">
                 <div class="document-controls">
                     <ul class="nav nav-pills">
@@ -167,6 +159,13 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="tab-pane" ng-class="{ 'active': isTabActive('expert') }">
+                <div data-ng-controller="ExpertTreeController" class="row-fluid">
+                    <div class="span6" data-ng-controller="ExpertElementEditController">
+                        <div class="field" ng-repeat="el in tree.elements" ng-include="getExpertElementEditor(el)"/>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane" ng-class="{ 'active': isTabActive('view') }">

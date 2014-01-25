@@ -2,15 +2,120 @@
 
 var OSCR = angular.module('OSCR');
 
-/* CRM OBJECT RELATED CONTROLLERS */
+// move this to a utils script somewhere
+function getTime(millis) {
+    var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
+    var days = Math.floor(millis / ONE_DAY);
+    var hourMillis = Math.floor(millis - ONE_DAY * days);
+    var hours = Math.floor(hourMillis / ONE_HOUR);
+    var minuteMillis = Math.floor(millis - ONE_HOUR * hours);
+    var minutes = Math.floor(minuteMillis / ONE_MINUTE);
+    var secondMillis = Math.floor(minuteMillis - minutes * ONE_MINUTE);
+    var seconds = Math.floor(secondMillis / ONE_SECOND);
+    var time = {};
+    if (days > 0) {
+        time.days = days;
+        time.hours = hours;
+    }
+    else if (hours > 0) {
+        time.hours = hours;
+        time.minutes = minutes;
+    }
+    else if (minutes > 0) {
+        time.minutes = minutes;
+        if (minutes < 10) {
+            time.seconds = seconds;
+        }
+    }
+    else {
+        time.seconds = seconds;
+    }
+    return time;
+}
+
+OSCR.controller(
+    'TreeEditController',
+    function ($rootScope, $scope, $timeout, Document) {
+
+        $rootScope.checkLoggedIn();
+
+        $scope.blankIdentifier = '#IDENTIFIER#';
+        $scope.blankTimeStamp = '#TIMESTAMP#';
+        $scope.headerDisplay = '';
+        $scope.schema = $routeParams.schema;
+        $scope.groupIdentifier = $routeParams.groupIdentifier;
+        $scope.identifier = $routeParams.identifier;
+        $scope.header = {};
+        $scope.tree = null;
+        $scope.documentDirty = false;
+        $scope.saveSuccess = false;
+
+        $scope.$watch('i18n', function (i18n, oldValue) {
+            if ($scope.tree && i18n) {
+                i18nTree($scope.tree, i18n);
+            }
+        });
+
+        $scope.revalidate = function () { // called by fields for live validation bubbling up
+            // todo: mark dirty using some kind of "path" made of elements
+//            _.each($scope.panels, function (panel) {
+//                panel.element.dirty = true;
+//            });
+            $scope.validateTree();
+        };
+
+        $scope.$watch('document', function (document, oldValue) {
+            // maybe use old value for something like making sure they're not making a mistake
+            if (!document) return;
+            var empty = _.isString(document);
+            var schema = empty ? document : document.Header.SchemaName;
+            if (!schema) return;
+            Document.fetchSchema(schema, function (tree) {
+                if (!tree) return;
+                tree = $scope.setTree(tree); // todo media.js:96
+                if (!empty) {
+                    populateTree(tree, document.Body);
+                }
+                installValidators(tree);
+                validateTree(tree);
+            });
+        });
+
+        $scope.addSibling = function (list, index, panelIndex) {
+            var existing = list[index];
+            var fresh = cloneTree(existing);
+            validateTree(fresh);
+            list.splice(index + 1, 0, fresh);
+        };
+
+        $scope.removeSibling = function (list, index, panelIndex) {
+            var hasSibling = false;
+            if(index > 0) {
+                if (list[index-1].name == list[index].name) {
+                    hasSibling = true;
+                }
+            }
+            if(index < list.length-1){
+                if (list[index+1].name == list[index].name) {
+                    hasSibling = true;
+                }
+            }
+            if(hasSibling) {
+                list.splice(index,1);
+                if(index >= list.length){
+                    index--;
+                }
+//                $scope.choose(index, panelIndex); todo choose a different path
+            }
+        };
+    }
+);
 
 OSCR.controller(
     'DocumentEditController',
     function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
-
-        $scope.expertMode = true;
 
         $scope.blankIdentifier = '#IDENTIFIER#';
         $scope.blankTimeStamp = '#TIMESTAMP#';
@@ -46,36 +151,6 @@ OSCR.controller(
             }
             $scope.activeTab = tab;
         };
-
-        function getTime(millis) {
-            var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
-            var days = Math.floor(millis / ONE_DAY);
-            var hourMillis = Math.floor(millis - ONE_DAY * days);
-            var hours = Math.floor(hourMillis / ONE_HOUR);
-            var minuteMillis = Math.floor(millis - ONE_HOUR * hours);
-            var minutes = Math.floor(minuteMillis / ONE_MINUTE);
-            var secondMillis = Math.floor(minuteMillis - minutes * ONE_MINUTE);
-            var seconds = Math.floor(secondMillis / ONE_SECOND);
-            var time = {};
-            if (days > 0) {
-                time.days = days;
-                time.hours = hours;
-            }
-            else if (hours > 0) {
-                time.hours = hours;
-                time.minutes = minutes;
-            }
-            else if (minutes > 0) {
-                time.minutes = minutes;
-                if (minutes < 10) {
-                    time.seconds = seconds;
-                }
-            }
-            else {
-                time.seconds = seconds;
-            }
-            return time;
-        }
 
         function updateTimeString() {
             if (!$scope.header.TimeStamp) {
@@ -459,13 +534,13 @@ OSCR.controller(
 
         $scope.focusElement = [];
 
-        $scope.getElementViewer = function (el) {
-            if (el.elements) return "submenu-view.html";
-            if (el.config.line) return "line-view.html";
-            if (el.config.paragraph) return "paragraph-view.html";
-            if (el.config.vocabulary) return "vocabulary-view.html";
-            if (el.config.media) return "media-view.html";
-            return "unrecognized-view.html"
+        $scope.getExpertElementEditor = function (el) {
+            if (el.elements) return "expert-submenu-element.html";
+            if (el.config.line) return "expert-line-element.html";
+            if (el.config.paragraph) return "expert-paragraph-element.html";
+            if (el.config.vocabulary) return "expert-vocabulary-element.html";
+            if (el.config.media) return "expert-media-element.html";
+            return "unrecognized-element.html"
         };
 
         $scope.getFocusElement = function(el) {

@@ -1,0 +1,160 @@
+<!--This file contains only templates, and is tied to the controllers in element-edit.js-->
+
+<script type="text/ng-template" id="expert-field-label.html">
+    <span i18n="{{ el.name }}">
+        <label class="label i18n"></label>:
+    </span>
+</script>
+
+
+<script type="text/ng-template" id="expert-line-element.html">
+    <div data-ng-include="'expert-field-label.html'"/>
+    <div class="panel-input line-element">
+        <div class="input-block-level" data-ng-controller="TextInputController">
+            <input el-focus="el" el-focus-element="focusElement" id="textInput" class="input-block-level" type="text" ng-model="el.value" />
+            <div ng-show="el.invalidMessage">
+                <span class="label label-important">{{ el | invalidMessage }}</span>
+                <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
+                      tooltip-placement="right" class="badge badge-warning badge-i18n">
+                      <i class="icon-translate icon-white"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-paragraph-element.html">
+    <div data-ng-include="'expert-field-label.html'"/>
+    <div class="panel-input paragraph-element">
+        <div class="textarea-input" data-ng-controller="TextInputController">
+            <textarea el-focus="el" el-focus-element="focusElement" id="textArea" ng-model="el.value" rows="5"></textarea>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-vocabulary-element.html">
+    <div data-ng-include="'expert-field-label.html'"/>
+    <div class="panel-input vocabulary-element">
+        <div data-ng-controller="VocabularyController" class="vocabulary-input">
+            <div ng-hide="el.searching" ng-click="enableVocabularyEditor()" class="pointer chosen-value">
+                <span class="label">{{ el.value.Label || '?' }}</span>
+            </div>
+            <div ng-show="el.searching">
+                <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-search-vocabulary.html">
+    <div data-ng-controller="VocabularySearchController" class="vocabulary-controls">
+        <!-- DISPLAY CURRENT VALUE //-->
+        <div ng-show="el.value" i18n="CurrentValue" class="current">
+            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Label }}</span>
+        </div>
+        <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+        <div i18n="SearchFor">
+            <label><span class="i18n"/>:</label>
+            <span class="value search-value">{{ el.searchValue }}</span>
+        </div>
+        <!-- DISPLAY ADD BUTTON FOR NEW VALUE //-->
+        <span ng-hide="el.entries">
+            <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
+                <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
+            </button>
+        </span>
+        <!-- DISPLAY LIST OF RETURNED VALUES //-->
+        <div ng-show="el.entries">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+                <li ng-repeat="entry in el.entries">
+                    <a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>
+                    <!--<div class="vocabulary-extended">-->
+                        <!--bla-->
+                    <!--</div>-->
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-media-element.html">
+    <div data-ng-include="'expert-field-label.html'"/>
+    <div data-ng-controller="MediaElementController" class="panel-input media-element">
+        <div class="digital-object-input">
+            <div ng-show="el.value" class="media">
+                <div class="media-thumbnail">
+                    <img ng-src="{{ el | mediaThumbnail }}" /><br/>
+                    <div class="mime">{{ el.value.MimeType }}</div>
+                </div>
+                <div class="media-controls">
+                    <button tooltip-placement="bottom" tooltip="Click to edit" ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >
+                        <i class="icon-edit"></i>
+                        <span class="i18n"></span>
+                    </button>
+                    <button ng-show="isVideo(el.value.MimeType)" class="btn btn-small" ng-click="openVideoPreview(el.value.FileName)" i18n="PreviewVideo" >
+                        <i class="icon icon-film"></i>
+                        <span class="i18n"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="expert-search-media.html">
+    <div ng-controller="MediaSearchController">
+        <tabset class="media-tabs">
+            <tab>
+                <tab-heading>
+                    <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()">
+                    <span class="i18n"/>
+                </tab-heading>
+                <div ng-show="mediaList" class="oscr-media-grid">
+                    <ul class="media-thumb-list">
+                        <!--<li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">-->
+                        <li data-ng-repeat="entry in mediaList">
+                            <div class="media-thumb pointer">
+                                <img id="oscr-media-grid-thumb-{{$index}}"
+                                     ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"
+                                     ng-click="selectMedia(entry)"/>
+                            </div>
+                            <div class="mime">{{ entry.Body.MimeType }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </tab>
+            <tab>
+                <tab-heading>
+                    <span class="nav-tabs" i18n="MediaUpload"><span class="i18n"/></span>
+                </tab-heading>
+                <div data-ng-controller="MediaUploadController" data-ng-include="'views/media-lite.html'"></div>
+            </tab>
+        </tabset>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-field-documentation-element.html">
+    <div class="panel-input field-documentation-element">
+        <div ng-hide="el.elements">
+            <div ng-hide="annotationMode">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon"><i class=" icon-info-sign"></i></span>
+                        <h5>{{ el | elementTitle }}</h5>
+                    </div>
+                    <div class="widget-body">
+                        <p ng-show="el.doc">{{ el | elementDoc }}</p>
+                    </div>
+                    <div class="widget-footer">
+                        <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-submenu-element.html">
+    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
+    <label class="label">{{el.name}}:</label>
+    <div class="field indent" ng-repeat="el in el.elements" ng-include="getExpertElementEditor(el)"></div>
+</script>
