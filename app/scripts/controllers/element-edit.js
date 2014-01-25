@@ -199,7 +199,7 @@ OSCR.controller(
         };
 
         $scope.$watch('el.value', function (after, before) {
-            $scope.revalidate();
+            $scope.validateTree();
         });
     }
 );

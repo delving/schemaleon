@@ -1,16 +1,23 @@
-<div ng-include="'/views/expert-templates.html'"></div>
-<div ng-include="'/views/edit-templates.html'"></div>
-<div ng-include="'/views/view-templates.html'"></div>
+<div ng-include="'/views/templates-panel.html'"></div>
+<div ng-include="'/views/templates-expert.html'"></div>
+<div ng-include="'/views/templates-view.html'"></div>
 
-<div>
+<div data-ng-controller="TreeController">
     <div class="page-header">
         <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
         <h1 ng-hide="headerDisplay" i18n="New"><span class="i18n"/> <span class="schema" ng-show="schema">{{schema}}</span></h1>
         <small class="document-info">
             <ul class="unstyled inline">
-                <li ng-show="header"><span i18n="Title"><strong><span class="i18n"/></span></strong>: {{ header.SummaryFields.Title }}</li>
-                <li><span i18n="OwningGroup"><strong><span class="i18n"/></span></strong>: {{ groupName }}</li>
-                <li ng-show="header.TimeStamp"><strong><span i18n="SavedOn"><span class="i18n"/></span></strong>: <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></li>
+                <li ng-show="header">
+                    <span i18n="Title"><strong><span class="i18n"/></strong></span>: {{ header.SummaryFields.Title }}
+                </li>
+                <li>
+                    <span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: {{ groupName }}
+                </li>
+                <li ng-show="header.TimeStamp">
+                    <strong><span i18n="SavedOn"><span class="i18n"/></span>: </strong>
+                    <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
+                </li>
             </ul>
         </small>
         <div class="alert alert-success alert-saved fade-in" ng-show="saveSuccess">
@@ -19,188 +26,205 @@
         </div>
     </div>
 
-    <div class="tabbable">
+    <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
-            <li ng-class="{ 'active': isTabActive('edit') }" ng-hide="user.viewer"><a href="" i18n="Edit" ng-click="setActiveTab('edit')"><span class="i18n"></span></a></li>
-            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer"><a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a></li>
-            <li ng-class="{ 'active': isTabActive('view') }"><a href="" i18n="Preview" ng-click="setActiveTab('view')"><span class="i18n"></span></a></li>
+            <li ng-class="{ 'active': isTabActive('novice') }" ng-hide="user.viewer">
+                <a href="" i18n="Novice" ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
+            </li>
+            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer">
+                <a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
+            </li>
+            <li ng-class="{ 'active': isTabActive('viewer') }">
+                <a href="" i18n="Viewer" ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
+            </li>
         </ul>
-        <div class="tab-content">
-            <div class="tab-pane" ng-class="{ 'active': isTabActive('edit') }">
-                <div class="document-controls">
-                    <ul class="nav nav-pills">
-                        <li>
-                            <a href ng-click="chooseListPath()">
-                                <i class="icon-th-list icon-white"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <!-- document quick save -->
-                            <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="QuickSave">
-                                <i class="icon icon-check icon-white"></i>
-                                <span class="i18n"/>
-                            </a>
-                        </li>
-                        <li>
-                            <!-- document preview and save -->
-                            <a href ng-class="{ 'attention' : documentDirty }" ng-click="showTab('view')" i18n="PreviewAndSave">
-                                <i class="icon icon-check icon-white"></i>
-                                <span class="i18n"/>
-                            </a>
-                        </li>
-                        <li class="pull-right">
-                           <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
-                               <span ng-show="isDocumentPublic()" i18n="Public" ng-click="setDocumentState('private')">
-                                   <i class="icon icon-white icon-eye-open"></i>
-                                   <span class="i18n"/>
-                               </span>
-                               <span ng-hide="isDocumentPublic()" i18n="Private" ng-click="setDocumentState('public')">
-                                   <i class="icon icon-white icon-eye-close"></i>
-                                   <span class="i18n"/>
-                               </span>
-                           </span>
-                        </li>
-                    </ul>
-
-                <span ng-show="documentDirty" class="pull-right">
-                    <span ng-show="time">
-                        <span i18n="DocumentLastSaved">(<span class="i18n"/></span>
-                        <span ng-show="time.days">
-                            <span>{{ time.days }}</span>
-                            <span ng-show="time.days > 1" i18n="Days">
-                                <span class="i18n"/>
-                            </span>
-                            <span ng-show="time.days == 1" i18n="Day">
-                                <span class="i18n"/>
-                            </span>
-                        </span>
-                        <span ng-show="time.hours">
-                            <span>{{ time.hours }}</span>
-                            <span ng-show="time.hours > 1" i18n="Hours">
-                                <span class="i18n"/>
-                            </span>
-                            <span ng-show="time.hours == 1" i18n="Hour">
-                                <span class="i18n"/>
-                            </span>
-                        </span>
-                        <span ng-show="time.minutes">
-                            <span>{{ time.minutes }}</span>
-                            <span ng-show="time.minutes > 1" i18n="Minutes">
-                                <span class="i18n"/>
-                            </span>
-                            <span ng-show="time.minutes == 1" i18n="Minute">
-                                <span class="i18n"/>
-                            </span>
-                        </span>
-                        <span ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
-                            <span class="i18n"/>
-                        </span>
-                        <span i18n="Ago"><span class="i18n"/>)</span>
-                    </span>
-                </span>
-                </div>
-
-               <hr style="margin: 8px 0"/>
-
-                <div id="panel-container" ng-controller="DocumentPanelArrayController">
-                    <p ng-hide="panels" i18n="NoDocumentToEdit"></p>
-                    <table class="table panels" id="panel-table" ng-show="panels">
-                        <thead>
-                        <tr>
-                            <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td ng-repeat="(panelIndex, panel) in panels"
-                                class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
-
-                                <div ng-show="panel.element.elements">
-                                    <ul class="nav nav-pills nav-stacked panel-list">
-                                        <li ng-repeat="element in panel.element.elements">
-                                            <a class="level{{ element.classIndex }} link-{{ element.name }}"
-                                               ng-click="choose($index, $parent.$index)">
-                                                <span class="link-title">
-                                                    {{ element | elementTitle }}
-                                                    <span ng-show="config.showTranslationEditor"
-                                                          ng-click="openTitleDialog(element)"
-                                                          class="badge badge-warning badge-i18n">
-                                                          <i class="icon-translate icon-white"></i>
-                                                    </span>
-                                                </span>
-                                                <span data-ng-controller="ElementEditController"
-                                                      document-navigation="navigationKeyPressed($key)">
-                                                    <span ng-include="getElementEditor(element)"></span>
-                                                </span>
-                                            </a>
-                                            <div class="icon-container">
-                                                <span class="icon-item status status-{{ element.invalid }}"></span>
-                                                <span ng-show="element.config.multiple"
-                                                      class="display-{{ element.config.multiple }} icon-item pointer"
-                                                      ng-click="addSibling(panel.element.elements, $index)">
-                                                    <i class="icon-plus-sign icon-white"></i>
-                                                </span>
-                                                <span ng-show="element.config.multiple"
-                                                      class="display-{{ element.config.multiple }} icon-item pointer"
-                                                      ng-click="removeSibling(panel.element.elements, $index, panelIndex)">
-                                                    <i class="icon-minus-sign icon-white"></i>
-                                                </span>
-                                            </div>
-
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div ng-hide="panel.element.elements">
-                                    <div ng-include="getDetailView(panel.element)"></div>
-                                </div>
-
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="tab-content" data-ng-controller="TreeEditController">
+            <div class="tab-pane" ng-class="{ 'active': isTabActive('novice') }">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
+                <div data-ng-include="'panel-array.html'">panel array</div>
             </div>
             <div class="tab-pane" ng-class="{ 'active': isTabActive('expert') }">
-                <div data-ng-controller="ExpertTreeController" class="row-fluid">
-                    <div class="span6" data-ng-controller="ExpertElementEditController">
-                        <div class="field" ng-repeat="el in tree.elements" ng-include="getExpertElementEditor(el)"/>
-                    </div>
-                </div>
+                <div data-ng-include="'expert-tab.html'">expert tab</div>
             </div>
-            <div class="tab-pane" ng-class="{ 'active': isTabActive('view') }">
-                <div class="document-controls">
-                    <ul class="nav nav-pills pull-left">
-                        <li ng-hide="user.viewer">
-                            <a href ng-click="showTab('edit')">
-                                <i class="icon-hand-left icon-white"></i>
-                            </a>
-                        </li>
-                        <li ng-hide="user.viewer">
-                            <!-- document quick save -->
-                            <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="SaveDocument">
-                                <i class="icon icon-check icon-white"></i>
-                                <span class="i18n"/>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <hr style="margin: 8px 0"/>
-
-                <div data-ng-controller="ElementViewController" class="row-fluid">
-                    <div class="span6">
-                        <div class="field" ng-repeat="el in nonMediaElements(tree.elements)" ng-include="getElementViewer(el)" ng-show="el.value"></div>
-                    </div>
-                    <div class="span6">
-                        <div class="field" ng-repeat="el in getMediaElements()" ng-include="getElementViewer(el)"></div>
-                    </div>
-                </div>
+            <!--todo: this one should not be within the TreeEditController-->
+            <div class="tab-pane" ng-class="{ 'active': isTabActive('viewer') }">
+                <div data-ng-include="'view-tab.html'">view tab</div>
             </div>
         </div>
     </div>
-
-
 </div>
 
+<script type="text/ng-template" id="document-controls.html">
+    <div class="document-controls">
+        <ul class="nav nav-pills">
+            <li>
+                <a href ng-click="chooseListPath()">
+                    <i class="icon-th-list icon-white"></i>
+                </a>
+            </li>
+            <li>
+                <!-- document quick save -->
+                <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="QuickSave">
+                    <i class="icon icon-check icon-white"></i>
+                    <span class="i18n"/>
+                </a>
+            </li>
+            <li>
+                <!-- document preview and save -->
+                <a href ng-class="{ 'attention' : documentDirty }" ng-click="showTab('view')" i18n="PreviewAndSave">
+                    <i class="icon icon-check icon-white"></i>
+                    <span class="i18n"/>
+                </a>
+            </li>
+            <li class="pull-right">
+               <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
+                   <span ng-show="isDocumentPublic()" i18n="Public" ng-click="setDocumentState('private')">
+                       <i class="icon icon-white icon-eye-open"></i>
+                       <span class="i18n"/>
+                   </span>
+                   <span ng-hide="isDocumentPublic()" i18n="Private" ng-click="setDocumentState('public')">
+                       <i class="icon icon-white icon-eye-close"></i>
+                       <span class="i18n"/>
+                   </span>
+               </span>
+            </li>
+        </ul>
+
+        <span ng-show="documentDirty" class="pull-right">
+            <span ng-show="time">
+                <span i18n="DocumentLastSaved">(<span class="i18n"/></span>
+                <span ng-show="time.days">
+                    <span>{{ time.days }}</span>
+                    <span ng-show="time.days > 1" i18n="Days">
+                        <span class="i18n"/>
+                    </span>
+                    <span ng-show="time.days == 1" i18n="Day">
+                        <span class="i18n"/>
+                    </span>
+                </span>
+                <span ng-show="time.hours">
+                    <span>{{ time.hours }}</span>
+                    <span ng-show="time.hours > 1" i18n="Hours">
+                        <span class="i18n"/>
+                    </span>
+                    <span ng-show="time.hours == 1" i18n="Hour">
+                        <span class="i18n"/>
+                    </span>
+                </span>
+                <span ng-show="time.minutes">
+                    <span>{{ time.minutes }}</span>
+                    <span ng-show="time.minutes > 1" i18n="Minutes">
+                        <span class="i18n"/>
+                    </span>
+                    <span ng-show="time.minutes == 1" i18n="Minute">
+                        <span class="i18n"/>
+                    </span>
+                </span>
+                <span ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
+                    <span class="i18n"/>
+                </span>
+                <span i18n="Ago"><span class="i18n"/>)</span>
+            </span>
+        </span>
+    </div> <!--document controls-->
+</script>
+
+<script type="text/ng-template" id="panel-array.html">
+    <div id="panel-container" ng-controller="PanelArrayController">
+        <p ng-hide="panels" i18n="NoDocumentToEdit"></p>
+        <table class="table panels" id="panel-table" ng-show="panels">
+            <thead>
+            <tr>
+                <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td ng-repeat="(panelIndex, panel) in panels"
+                    class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
+
+                    <div ng-show="panel.element.elements">
+                        <ul class="nav nav-pills nav-stacked panel-list">
+                            <li ng-repeat="element in panel.element.elements">
+                                <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                                        <span class="link-title">
+                                            {{ element | elementTitle }}
+                                            <span ng-show="config.showTranslationEditor"
+                                                  ng-click="openTitleDialog(element)"
+                                                  class="badge badge-warning badge-i18n">
+                                                  <i class="icon-translate icon-white"></i>
+                                            </span>
+                                        </span>
+                                        <span data-ng-controller="PanelElementController"
+                                              document-navigation="navigationKeyPressed($key)">
+                                            <span ng-include="getPanelEditTemplate(element)"></span>
+                                        </span>
+                                </a>
+                                <div class="icon-container">
+                                    <span class="icon-item status status-{{ element.invalid }}"></span>
+                                        <span ng-show="element.config.multiple"
+                                              class="display-{{ element.config.multiple }} icon-item pointer"
+                                              ng-click="addSibling(panel.element.elements, $index)">
+                                            <i class="icon-plus-sign icon-white"></i>
+                                        </span>
+                                        <span ng-show="element.config.multiple"
+                                              class="display-{{ element.config.multiple }} icon-item pointer"
+                                              ng-click="removeSibling(panel.element.elements, $index, panelIndex)">
+                                            <i class="icon-minus-sign icon-white"></i>
+                                        </span>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div ng-hide="panel.element.elements">
+                        <div ng-include="getDetailView(panel.element)"></div>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-tab.html">
+    <div data-ng-controller="ExpertTreeController" class="row-fluid">
+        <div class="span6" data-ng-controller="ExpertElementController">
+            <div class="field" ng-repeat="el in tree.elements" ng-include="getExpertEditTemplate(el)"/>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="view-tab.html">
+    <!--<div class="document-controls">-->
+        <!--<ul class="nav nav-pills pull-left">-->
+            <!--<li ng-hide="user.viewer">-->
+                <!--<a href ng-click="showTab('edit')">-->
+                    <!--<i class="icon-hand-left icon-white"></i>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li ng-hide="user.viewer">-->
+                <!--&lt;!&ndash; document quick save &ndash;&gt;-->
+                <!--<a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="SaveDocument">-->
+                    <!--<i class="icon icon-check icon-white"></i>-->
+                    <!--<span class="i18n"/>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+
+    <!--<hr style="margin: 8px 0"/>-->
+
+    <div data-ng-controller="TreeViewController" class="row-fluid">
+        <div class="span6">
+            <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="el.value"></div>
+        </div>
+        <div class="span6">
+            <div class="field" ng-repeat="el in getAllMediaElements()" ng-include="getViewTemplate(el)"></div>
+        </div>
+    </div>
+</script>
 

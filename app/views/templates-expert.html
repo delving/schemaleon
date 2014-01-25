@@ -6,8 +6,13 @@
     </span>
 </script>
 
+<script type="text/ng-template" id="expert-submenu.html">
+    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
+    <div data-ng-include="'expert-field-label.html'"/>
+    <div class="field indent" ng-repeat="el in el.elements" ng-include="getExpertEditTemplate(el)"></div>
+</script>
 
-<script type="text/ng-template" id="expert-line-element.html">
+<script type="text/ng-template" id="expert-line.html">
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
@@ -23,7 +28,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-paragraph-element.html">
+<script type="text/ng-template" id="expert-paragraph.html">
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
@@ -32,7 +37,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-vocabulary-element.html">
+<script type="text/ng-template" id="expert-vocabulary.html">
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
@@ -46,7 +51,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-search-vocabulary.html">
+<script type="text/ng-template" id="expert-vocabulary-search.html">
     <div data-ng-controller="VocabularySearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
@@ -77,7 +82,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-media-element.html">
+<script type="text/ng-template" id="expert-media.html">
     <div data-ng-include="'expert-field-label.html'"/>
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
         <div class="digital-object-input">
@@ -100,7 +105,8 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="expert-search-media.html">
+
+<script type="text/ng-template" id="expert-media-search.html">
     <div ng-controller="MediaSearchController">
         <tabset class="media-tabs">
             <tab>
@@ -132,7 +138,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-field-documentation-element.html">
+<script type="text/ng-template" id="expert-field-documentation.html">
     <div class="panel-input field-documentation-element">
         <div ng-hide="el.elements">
             <div ng-hide="annotationMode">
@@ -153,8 +159,3 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-submenu-element.html">
-    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
-    <label class="label">{{el.name}}:</label>
-    <div class="field indent" ng-repeat="el in el.elements" ng-include="getExpertElementEditor(el)"></div>
-</script>

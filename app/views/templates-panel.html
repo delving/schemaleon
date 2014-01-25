@@ -1,6 +1,10 @@
 <!--This file contains only templates, and is tied to the controllers in element-edit.js-->
 
-<script type="text/ng-template" id="line-element.html">
+<script type="text/ng-template" id="panel-submenu.html">
+    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
+</script>
+
+<script type="text/ng-template" id="panel-line.html">
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
             <div ng-show="isActiveEl(el)">
@@ -21,7 +25,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="paragraph-element.html">
+<script type="text/ng-template" id="panel-paragraph.html">
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
             <div ng-show="isActiveEl(el)">
@@ -44,7 +48,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="vocabulary-element.html">
+<script type="text/ng-template" id="panel-vocabulary.html">
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
             <div ng-show="isActiveEl(el)">
@@ -69,7 +73,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="search-vocabulary.html">
+<script type="text/ng-template" id="panel-vocabulary-search.html">
     <div data-ng-controller="VocabularySearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
@@ -100,7 +104,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="media-element.html">
+<script type="text/ng-template" id="panel-media.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
         <div class="digital-object-input">
             <div ng-show="isActiveEl(el)">
@@ -136,7 +140,8 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="search-media.html">
+
+<script type="text/ng-template" id="panel-media-search.html">
     <div ng-controller="MediaSearchController">
         <tabset class="media-tabs">
             <tab>
@@ -168,7 +173,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="field-documentation-element.html">
+<script type="text/ng-template" id="panel-field-documentation.html">
     <div class="panel-input field-documentation-element">
         <div ng-hide="el.elements">
             <div ng-hide="annotationMode">
@@ -189,11 +194,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="submenu-element.html">
-    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
-</script>
-
-<script type="text/ng-template"  id="unrecognized-element.html">
+<script type="text/ng-template"  id="panel-unrecognized.html">
     <div class="panel-input">
         <span class="label">UNRECOGNIZED ELEMENT!</span>
     </div>
