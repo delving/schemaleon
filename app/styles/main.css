@@ -1414,6 +1414,18 @@ ul.value-list label {
 .indent {
   margin-left: 30px;
 }
+.indent legend {
+  color: #878787;
+  font-size: 18px;
+  border-bottom: none;
+  margin-bottom: 0px;
+  line-height: 28px;
+}
+.indent .indent legend {
+  color: #999999;
+  font-size: 16px;
+  line-height: 28px;
+}
 .field {
   display: block;
 }
@@ -1423,6 +1435,15 @@ ul.value-list label {
 }
 .field .data img {
   margin-bottom: 8px;
+}
+.time-saved {
+  color: #adafae;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 10px;
 }
 .vocabulary-controls {
   color: #adafae;

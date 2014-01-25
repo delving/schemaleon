@@ -813,6 +813,18 @@ ul.value-list {
 
 .indent {
   margin-left: 30px;
+  legend {
+    color: darken(@gray, 7%);
+    font-size: 18px;
+    border-bottom: none;
+    margin-bottom: 0px;
+    line-height: 28px;
+  }
+  .indent legend {
+    color: @gray;
+    font-size: 16px;
+    line-height: 28px;
+  }
 }
 
 .field {
@@ -823,6 +835,13 @@ ul.value-list {
   .data img {
     margin-bottom: 8px;
   }
+}
+
+.time-saved {
+  color: @grayLight;
+  display: inline-block;
+  .ie7-inline-block();
+  padding: 4px 10px;
 }
 
 .media {

@@ -45,10 +45,14 @@
                 <div data-ng-include="'panel-array.html'">panel array</div>
             </div>
             <div class="tab-pane" ng-class="{ 'active': isTabActive('expert') }">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
                 <div data-ng-include="'expert-tab.html'">expert tab</div>
             </div>
             <!--todo: this one should not be within the TreeEditController-->
             <div class="tab-pane" ng-class="{ 'active': isTabActive('viewer') }">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
                 <div data-ng-include="'view-tab.html'">view tab</div>
             </div>
         </div>
@@ -63,19 +67,55 @@
                     <i class="icon-th-list icon-white"></i>
                 </a>
             </li>
-            <li>
-                <!-- document quick save -->
-                <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="QuickSave">
+            <li ng-hide="user.viewer">
+                <!-- document  save -->
+                <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="Save">
                     <i class="icon icon-check icon-white"></i>
                     <span class="i18n"/>
                 </a>
             </li>
-            <li>
+            <li ng-hide="activeTab == 'viewer' || user.viewer">
                 <!-- document preview and save -->
-                <a href ng-class="{ 'attention' : documentDirty }" ng-click="showTab('viewer')" i18n="PreviewAndSave">
+                <a href ng-class="{ 'attention' : documentDirty }" ng-click="setActiveTab('viewer')" i18n="PreviewAndSave">
                     <i class="icon icon-check icon-white"></i>
                     <span class="i18n"/>
                 </a>
+            </li>
+            <li ng-show="documentDirty" >
+                <span ng-show="time" class="time-saved">
+                    <span i18n="DocumentLastSaved">(<span class="i18n"/></span>
+                    <span ng-show="time.days">
+                        <span>{{ time.days }}</span>
+                        <span ng-show="time.days > 1" i18n="Days">
+                            <span class="i18n"/>
+                        </span>
+                        <span ng-show="time.days == 1" i18n="Day">
+                            <span class="i18n"/>
+                        </span>
+                    </span>
+                    <span ng-show="time.hours">
+                        <span>{{ time.hours }}</span>
+                        <span ng-show="time.hours > 1" i18n="Hours">
+                            <span class="i18n"/>
+                        </span>
+                        <span ng-show="time.hours == 1" i18n="Hour">
+                            <span class="i18n"/>
+                        </span>
+                    </span>
+                    <span ng-show="time.minutes">
+                        <span>{{ time.minutes }}</span>
+                        <span ng-show="time.minutes > 1" i18n="Minutes">
+                            <span class="i18n"/>
+                        </span>
+                        <span ng-show="time.minutes == 1" i18n="Minute">
+                            <span class="i18n"/>
+                        </span>
+                    </span>
+                    <span ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
+                        <span class="i18n"/>
+                    </span>
+                    <span i18n="Ago"><span class="i18n"/>)</span>
+                </span>
             </li>
             <li class="pull-right">
                <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
@@ -90,43 +130,6 @@
                </span>
             </li>
         </ul>
-
-        <span ng-show="documentDirty" class="pull-right">
-            <span ng-show="time">
-                <span i18n="DocumentLastSaved">(<span class="i18n"/></span>
-                <span ng-show="time.days">
-                    <span>{{ time.days }}</span>
-                    <span ng-show="time.days > 1" i18n="Days">
-                        <span class="i18n"/>
-                    </span>
-                    <span ng-show="time.days == 1" i18n="Day">
-                        <span class="i18n"/>
-                    </span>
-                </span>
-                <span ng-show="time.hours">
-                    <span>{{ time.hours }}</span>
-                    <span ng-show="time.hours > 1" i18n="Hours">
-                        <span class="i18n"/>
-                    </span>
-                    <span ng-show="time.hours == 1" i18n="Hour">
-                        <span class="i18n"/>
-                    </span>
-                </span>
-                <span ng-show="time.minutes">
-                    <span>{{ time.minutes }}</span>
-                    <span ng-show="time.minutes > 1" i18n="Minutes">
-                        <span class="i18n"/>
-                    </span>
-                    <span ng-show="time.minutes == 1" i18n="Minute">
-                        <span class="i18n"/>
-                    </span>
-                </span>
-                <span ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
-                    <span class="i18n"/>
-                </span>
-                <span i18n="Ago"><span class="i18n"/>)</span>
-            </span>
-        </span>
     </div> <!--document controls-->
 </script>
 
@@ -193,31 +196,14 @@
 <script type="text/ng-template" id="expert-tab.html">
     <div data-ng-controller="ExpertTreeController" class="row-fluid">
         <div class="span6" data-ng-controller="ExpertElementController">
-            <div class="field" ng-repeat="el in tree.elements" ng-include="getExpertEditTemplate(el)"/>
+            <form>
+                    <fieldset class="field" ng-repeat="el in tree.elements" ng-include="getExpertEditTemplate(el)"/>
+            </form>
         </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="view-tab.html">
-    <!--<div class="document-controls">-->
-        <!--<ul class="nav nav-pills pull-left">-->
-            <!--<li ng-hide="user.viewer">-->
-                <!--<a href ng-click="showTab('edit')">-->
-                    <!--<i class="icon-hand-left icon-white"></i>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li ng-hide="user.viewer">-->
-                <!--&lt;!&ndash; document quick save &ndash;&gt;-->
-                <!--<a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="SaveDocument">-->
-                    <!--<i class="icon icon-check icon-white"></i>-->
-                    <!--<span class="i18n"/>-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-
-    <!--<hr style="margin: 8px 0"/>-->
-
     <div class="row-fluid" data-ng-controller="ViewElementController">
          <div class="span6">
             <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="el.value"></div>

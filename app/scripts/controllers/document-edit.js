@@ -172,6 +172,10 @@ OSCR.controller(
 
         $scope.activeTab = "novice";
 
+        if($rootScope.user.viewer) {
+            $scope.activeTab = "viewer";
+        }
+
         // toggle tabs between edit and view
         $scope.isTabActive = function (tab) {
             return $scope.activeTab == tab;
@@ -179,11 +183,9 @@ OSCR.controller(
 
         // switch tabs
         $scope.setActiveTab = function(tab) {
-            if ($rootScope.user.viewer) {
-                tab = "viewer";
-            }
             $scope.activeTab = tab;
         };
+
     }
 );
 

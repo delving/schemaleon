@@ -1,9 +1,9 @@
 <!--This file contains only templates, and is tied to the controllers in element-edit.js-->
 
 <script type="text/ng-template" id="expert-field-label.html">
-    <span i18n="{{ el.name }}">
-        <label class="label i18n"></label>:
-    </span>
+    <legend i18n="{{ el.name }}">
+        <span class="i18n"></span>:
+    </legend>
 </script>
 
 <script type="text/ng-template" id="expert-submenu.html">
@@ -32,7 +32,7 @@
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
-            <textarea el-focus="el" el-focus-element="focusElement" id="textArea" ng-model="el.value" rows="5"></textarea>
+            <textarea el-focus="el" el-focus-element="focusElement" class=" input-block-level" ng-model="el.value" rows="5"></textarea>
         </div>
     </div>
 </script>
