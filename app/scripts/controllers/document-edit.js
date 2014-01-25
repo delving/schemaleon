@@ -246,6 +246,7 @@ OSCR.controller(
         $scope.activeEl = undefined;
 
         $scope.$watch('tree', function (newTree, oldTree) {
+            if (!newTree) return;
             $scope.panels = [
                 { selected: 0, element: newTree }
             ];
