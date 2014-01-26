@@ -455,9 +455,7 @@ OSCR.controller(
         };
 
         $scope.hasValue = function(el) {
-            var firstValue = getFirstValue(el);
-//            console.log('has value', el, firstValue);
-            return  firstValue;
+            return hasContent(el);
         };
 
     }
