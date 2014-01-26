@@ -922,11 +922,11 @@ ul.thumbnails .thumbnail .media-heading {
 body {
   background: #dddddd;
   margin: 0px 20px;
-  padding-top: 50px;
+  padding-top: 70px;
   color: #222222;
 }
 body.admin {
-  padding-top: 100px;
+  padding-top: 110px;
 }
 h1 small {
   font-size: 20px;
@@ -958,20 +958,6 @@ h1 small.extra-info {
   height: 24px;
   margin-right: 8px;
   vertical-align: text-bottom;
-}
-#sidebar {
-  position: fixed;
-  width: 260px;
-  left: 20px;
-  bottom: 0;
-  top: 70px;
-}
-.admin #sidebar {
-  top: 120px;
-}
-#mainBody {
-  margin-left: 300px;
-  min-width: 820px;
 }
 .loggedin-false #sidebar {
   display: none;

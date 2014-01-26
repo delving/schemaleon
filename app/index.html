@@ -130,83 +130,83 @@
                 </div>
             </div>
         </div>
+        <!--<div class="container-fluid">-->
+            <div class="row-fluid">
+                <div id="sidebar" ng-show="sidebarShowing()" class="span2" ng-show="user">
+                    <div ng-show="config.showTranslationEditor" class="alert">
+                        <strong>
+                            Translation editor active!
+                            <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></span>
+                        </strong>
+                        <p>
+                            While translating all hyperlinks and buttons are disabled. To return to normal navigation of the
+                            document turn off the translation editor.
+                        </p>
+                    </div>
+                    <div class="sidebar-nav">
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <!-- Base links -->
+                            <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
+                                </a>
+                                <span ng-show="config.showTranslationEditor"
+                                     ng-click="openLabelDialog(link)"
+                                     tooltip="Click to translate"
+                                     tooltip-placement="right"
+                                     class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
+                                </span>
+                            </li>
+                            <!-- Primary document links -->
+                            <li ng-repeat="link in mainMenuPrimary" ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
+                                </a>
+                                <span ng-show="config.showTranslationEditor"
+                                      ng-click="openLabelDialog(link)"
+                                      tooltip="Click to translate"
+                                      tooltip-placement="right"
+                                      class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
+                                </span>
+                            </li>
+                            <!-- Shared document links -->
+                            <li ng-repeat="link in mainMenuShared" ng-class="{ active: link.active }" ng-show="user.god">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
+                                </a>
+                                <span ng-show="config.showTranslationEditor"
+                                      ng-click="openLabelDialog(link)"
+                                      tooltip="Click to translate"
+                                      tooltip-placement="right"
+                                      class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
+                                </span>
+                            </li>
+                            <!-- Recent document links -->
+                            <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
+                            </li>
+                            <li ng-repeat="link in recent" ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i class="icon-leaf"></i>
+                                    {{ link | linkTitle }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.sidebar-nav -->
+                    <div ng-include="getInclude()"></div>
+                </div>
 
-        <div class="row-fluid">
-            <div id="sidebar" ng-show="sidebarShowing()" ng-show="user">
-                <div ng-show="config.showTranslationEditor" class="alert">
-                    <strong>
-                        Translation editor active!
-                        <span class="btn btn-small btn-warning"><i class="icon-translate icon-white"></i></span>
-                    </strong>
-                    <p>
-                        While translating all hyperlinks and buttons are disabled. To return to normal navigation of the
-                        document turn off the translation editor.
-                    </p>
+                <div id="mainBody" class="span10">
+                    <div ng-view id="view"><!-- Angular views are rendered here --></div>
                 </div>
-                <div class="sidebar-nav">
-                    <ul class="nav nav-pills nav-stacked main-menu">
-                        <!-- Base links -->
-                        <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
-                            <a href ng-click="choosePath(link.path)">
-                                <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                            </a>
-                            <span ng-show="config.showTranslationEditor"
-                                 ng-click="openLabelDialog(link)"
-                                 tooltip="Click to translate"
-                                 tooltip-placement="right"
-                                 class="badge badge-warning btn-i18n">
-                                <i class="icon-translate icon-white"></i>
-                            </span>
-                        </li>
-                        <!-- Primary document links -->
-                        <li ng-repeat="link in mainMenuPrimary" ng-class="{ active: link.active }">
-                            <a href ng-click="choosePath(link.path)">
-                                <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                            </a>
-                            <span ng-show="config.showTranslationEditor"
-                                  ng-click="openLabelDialog(link)"
-                                  tooltip="Click to translate"
-                                  tooltip-placement="right"
-                                  class="badge badge-warning btn-i18n">
-                                <i class="icon-translate icon-white"></i>
-                            </span>
-                        </li>
-                        <!-- Shared document links -->
-                        <li ng-repeat="link in mainMenuShared" ng-class="{ active: link.active }" ng-show="user.god">
-                            <a href ng-click="choosePath(link.path)">
-                                <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                            </a>
-                            <span ng-show="config.showTranslationEditor"
-                                  ng-click="openLabelDialog(link)"
-                                  tooltip="Click to translate"
-                                  tooltip-placement="right"
-                                  class="badge badge-warning btn-i18n">
-                                <i class="icon-translate icon-white"></i>
-                            </span>
-                        </li>
-                        <!-- Recent document links -->
-                        <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
-                        </li>
-                        <li ng-repeat="link in recent" ng-class="{ active: link.active }">
-                            <a href ng-click="choosePath(link.path)">
-                                <i class="icon-leaf"></i>
-                                {{ link | linkTitle }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!--/.sidebar-nav -->
-                <div ng-include="getInclude()"></div>
             </div>
-        </div>
-        <div class="row-fluid">
-            <div id="mainBody">
-                <div ng-view id="view"><!-- Angular views are rendered here --></div>
-            </div>
-        </div>
+        <!--</div>-->
     </div>
 </div>
 <!-- // APPLICATION CONTAINER -->
