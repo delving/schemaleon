@@ -930,6 +930,9 @@ body.admin {
 h1 small {
   font-size: 20px;
 }
+h1 small.extra-info {
+  font-size: 16px;
+}
 .widget-row.home .widget-body {
   min-height: 130px !important;
 }
@@ -1454,6 +1457,9 @@ ul.value-list label {
 /* DOCUMENT VIEW */
 legend {
   position: relative;
+}
+label {
+  cursor: default;
 }
 .indent {
   margin-left: 30px;

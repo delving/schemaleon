@@ -2,7 +2,7 @@
 
     <div class="page-header">
         <h1 i18n="Documents">
-            <span class="i18n"></span>
+            <span class="i18n"></span> - {{ schema }}
         </h1>
     </div>
 
@@ -23,21 +23,21 @@
             </span>
         </div>
     </div>
-
     <table class="table table-striped table-bordered table-grid">
         <thead>
             <th i18n="Title"><span class="i18n"/></th>
-            <th i18n="Thumbnail"><span class="i18n"/></th>
+            <th i18n="Thumbnail" ng-hide="documentShared()"><span class="i18n"/></th>
             <th i18n="Identifier" width="250">
                 <span class="i18n"/>
             </th>
             <th i18n="State" width="100"><span class="i18n"/></th>
             <th i18n="Stored" width="150"><span class="i18n"/></th>
             <th i18n="SavedBy" width="200"><span class="i18n"/></th>
+            <th></th>
         </thead>
         <tbody>
         <tr data-ng-hide="headerList.length">
-            <td colspan="6" i18n="NoSearchResults">
+            <td colspan="7" i18n="NoSearchResults">
                 <div class="badge badge-warning"><span class="i18n"></span></div>
             </td>
         </tr>
@@ -48,7 +48,7 @@
                         <span data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</span>
                 </a>
             </td>
-            <td>
+            <td ng-hide="documentShared()">
                 <ul class="unstyled inline">
                     <li data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)">
                         <img ng-src="/media/thumbnail/{{getProperThumbExtension(thumbnail.Identifier)}}" width="65px"/>
@@ -65,6 +65,9 @@
             <td>
                 <span ng-hide="header.userView">{{ header.SavedBy }}</span>
                 <span ng-show="header.userView">{{ header.userView.Profile.email }}</span>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-small" i18n="MarkAsDeleted"><i class="icon icon-trash icon-white"></i> <span class="i18n"/></button>
             </td>
         </tr>
         </tbody>

@@ -28,7 +28,7 @@
 
 <script type="text/ng-template" id="view-media.html">
 
-    <label class="label">{{el.name}}:</label>
+    <label class="label">{{el.name}}:</label><br/>
     <span class="data">
             <span ng-show="isImage(el.value.MimeType)">
                 <img ng-src="{{ el | mediaFile }}" alt="{{ el.name }}"/>

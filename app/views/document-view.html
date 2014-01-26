@@ -1,10 +1,8 @@
 <div ng-include="'/views/templates-view.html'"></div>
-
 <h1 class="page-header">
     {{ header.SummaryFields.Title }}
-    <small> - {{ header.SchemaName }}</small>
+    <small class="extra-info"><span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: <a href="/#/people/group/{{header.GroupIdentifier}}">{{ groupName }}</a></small>
 </h1>
-{{ header }}
 
 <div class="row-fluid" data-ng-controller="ViewTreeController">
     <div data-ng-controller="ViewElementController">
