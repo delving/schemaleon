@@ -1,0 +1,31 @@
+<div data-ng-show="mediaFiles.length == 1">
+    <div data-ng-repeat="file in mediaFiles">
+        <div data-ng-show="isImage(file.value.MimeType)">
+            <img data-ng-src="{{ file | mediaFile }}"/>
+        </div>
+        <div data-ng-show="isVideo(file.value.MimeType)">
+            <video width="100%" controls src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
+            </video>
+        </div>
+    </div>
+</div>
+
+<div data-ng-show="mediaFiles.length > 1">
+    <carousel>
+        <slide ng-repeat="file in mediaFiles">
+            <div data-ng-show="isImage(file.value.MimeType)">
+                <img data-ng-src="{{ file | mediaFile }}"/>
+            </div>
+            <div data-ng-show="isVideo(file.value.MimeType)">
+                <video width="100%" controls src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
+                </video>
+            </div>
+        </slide>
+    </carousel>
+    <!-- TODO: get this to work //-->
+    <!--<ul class="unstyled inline">-->
+    <!--<li data-ng-repeat="file in mediaFiles">-->
+    <!--<a href ng-click="select(file)" ><img ng-src="{{ file | mediaThumbnail }}"/></a>-->
+    <!--</li>-->
+    <!--</ul>-->
+</div>

@@ -10,7 +10,8 @@
             <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="hasValue(el)"></div>
         </div>
         <div class="span6">
-            <div class="field" ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>
+            <!--<div class="field" ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
+        <div class="field" ng-include="'views/document-media.html'"></div>
         </div>
     </div>
 </div>

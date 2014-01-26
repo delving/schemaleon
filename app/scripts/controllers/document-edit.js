@@ -444,19 +444,22 @@ OSCR.directive('documentNavigation', function () {
 // the controller for viewing the tree only, not editing.  separates media from non-media.
 OSCR.controller(
     'ViewTreeController',
-    function ($scope) {
+    function ($scope, $timeout) {
 
-        // collect an array of only the media elements
+        $scope.mediaFiles = ['test','ing'];
+
         $scope.$watch("tree", function(tree, oldTree) {
+            // collect an array of only the media elements
             $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-        });
+            // collect an array of only the media files
+            var getMediaFiles = function() {
+                return _.map($scope.mediaElements, function(el){
+                    return el;
+                });
+            };
 
-        $scope.mediaThumbnails = function() {
-            return _.map($scope.mediaElements, function(el){
-                console.log("return something from here", el);
-                return el;
-            });
-        };
+            $scope.mediaFiles = getMediaFiles();
+        });
 
         $scope.filterNonMedia = function(elementList) {
             return _.filter(elementList, function(element) {
@@ -485,7 +488,7 @@ OSCR.controller(
             return "view-unrecognized.html"
         };
 
-        
+
     }
     
     
