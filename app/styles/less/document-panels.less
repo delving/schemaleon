@@ -62,9 +62,12 @@
     li {
       position: relative;
       padding-left: 50px;
+      .link-title {
+        color: @white;
+      }
       a, label {
         padding-right: 10px;
-        color: @white;
+//        color: @white;
         &:hover {
           background: @grayLight;
           cursor: pointer;
@@ -113,9 +116,14 @@ input#hidden {
 /* CRM LINKS */
 
 .link-title {
+  color: @white;
   display: inline-block;
   margin-left: 0px;
   margin-bottom: 8px;
+}
+
+.chosen-value {
+  color: @grayDark;
 }
 
 .link-value {
@@ -187,6 +195,48 @@ input#hidden {
     }
   }
 }
+
+.field-controls {
+  display: inline-block;
+  //  text-align: right;
+  .icon-item {
+//    display: inline-block;
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+  }
+  .status + .tooltip {
+    background-image: none !important;
+    @tooltipArrowColor: @white;
+    max-width: 300px;
+    &.top .tooltip-arrow {
+      border-top-color: @tooltipArrowColor;
+    }
+    &.right .tooltip-arrow {
+      border-right-color: @tooltipArrowColor;
+    }
+    &.left .tooltip-arrow {
+      border-left-color: @tooltipArrowColor;
+    }
+    &.bottom .tooltip-arrow {
+      border-bottom-color: @tooltipArrowColor;
+    }
+    &.in {
+      .opacity(100);
+    }
+    .tooltip-arrow {
+      //        color: @white;
+    }
+    .tooltip-inner {
+      background: @white;
+      border: 1px solid @white;
+      color: @gray;
+      font-size: @baseFontSize;
+      width: 300px !important;
+      padding: 8px;
+    }
+  }
+}
+
 
 //
 .status {

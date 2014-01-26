@@ -1,5 +1,11 @@
 <div ng-include="'/views/templates-view.html'"></div>
-<h1 class="page-header">Public View</h1>
+
+<h1 class="page-header">
+    {{ header.SummaryFields.Title }}
+    <small> - {{ header.SchemaName }}</small>
+</h1>
+{{ header }}
+
 <div class="row-fluid" data-ng-controller="ViewTreeController">
     <div data-ng-controller="ViewElementController">
         <div class="span6">

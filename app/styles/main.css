@@ -91,10 +91,12 @@
   position: relative;
   padding-left: 50px;
 }
+.panels ul.panel-list li .link-title {
+  color: #ffffff;
+}
 .panels ul.panel-list li a,
 .panels ul.panel-list li label {
   padding-right: 10px;
-  color: #ffffff;
 }
 .panels ul.panel-list li a:hover,
 .panels ul.panel-list li label:hover {
@@ -135,9 +137,13 @@ input#hidden {
 }
 /* CRM LINKS */
 .link-title {
+  color: #ffffff;
   display: inline-block;
   margin-left: 0px;
   margin-bottom: 8px;
+}
+.chosen-value {
+  color: #222222;
 }
 .link-value {
   background: linen;
@@ -195,6 +201,41 @@ input#hidden {
   filter: alpha(opacity=100);
 }
 .icon-container .status + .tooltip .tooltip-inner {
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #999999;
+  font-size: 14px;
+  width: 300px !important;
+  padding: 8px;
+}
+.field-controls {
+  display: inline-block;
+}
+.field-controls .icon-item {
+  background-position: 14px 14px;
+  background-repeat: no-repeat;
+}
+.field-controls .status + .tooltip {
+  background-image: none !important;
+  max-width: 300px;
+}
+.field-controls .status + .tooltip.top .tooltip-arrow {
+  border-top-color: #ffffff;
+}
+.field-controls .status + .tooltip.right .tooltip-arrow {
+  border-right-color: #ffffff;
+}
+.field-controls .status + .tooltip.left .tooltip-arrow {
+  border-left-color: #ffffff;
+}
+.field-controls .status + .tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #ffffff;
+}
+.field-controls .status + .tooltip.in {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.field-controls .status + .tooltip .tooltip-inner {
   background: #ffffff;
   border: 1px solid #ffffff;
   color: #999999;
@@ -1411,6 +1452,9 @@ ul.value-list label {
   font-weight: bold;
 }
 /* DOCUMENT VIEW */
+legend {
+  position: relative;
+}
 .indent {
   margin-left: 30px;
 }
