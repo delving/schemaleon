@@ -271,7 +271,6 @@ function collectMediaElements(tree) {
             mediaElements.push(el);
         }
     }
-
     collect(tree);
     return mediaElements;
 }

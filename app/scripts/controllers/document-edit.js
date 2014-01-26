@@ -433,20 +433,13 @@ OSCR.directive('documentNavigation', function () {
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
 OSCR.controller(
-    'ViewElementController',
+    'ViewTreeController',
     function ($scope) {
 
-        $scope.getViewTemplate = function (el) {
-            if (el.elements) return "view-submenu.html";
-            if (el.config.line) return "view-line.html";
-            if (el.config.paragraph) return "view-paragraph.html";
-            if (el.config.vocabulary) return "view-vocabulary.html";
-            if (el.config.media) return "view-media.html";
-            return "view-unrecognized.html"
-        };
-
         // collect an array of only the media elements
-        $scope.mediaElements = $scope.tree ? collectMediaElements($scope.tree) : [];
+        $scope.$watch("tree", function(tree, oldTree) {
+            $scope.mediaElements = tree ? collectMediaElements(tree) : [];
+        });
 
         $scope.mediaThumbnails = function() {
             return _.map($scope.mediaElements, function(el){
@@ -464,6 +457,23 @@ OSCR.controller(
         $scope.hasValue = function(el) {
             return getFirstValue(el);
         };
+
+    }
+);
+
+OSCR.controller(
+    'ViewElementController',
+    function ($scope) {
+
+        $scope.getViewTemplate = function (el) {
+            if (el.elements) return "view-submenu.html";
+            if (el.config.line) return "view-line.html";
+            if (el.config.paragraph) return "view-paragraph.html";
+            if (el.config.vocabulary) return "view-vocabulary.html";
+            if (el.config.media) return "view-media.html";
+            return "view-unrecognized.html"
+        };
+
     }
 );
 
