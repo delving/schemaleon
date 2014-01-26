@@ -220,7 +220,6 @@ function Storage(home) {
     this.replace = function (message, path, content, receiver) {
         this.session.replace(path, content, function (error, reply) {
             if (reply.ok) {
-                log('replace ' + path + ': ' + content);
                 receiver(content);
             }
             else {

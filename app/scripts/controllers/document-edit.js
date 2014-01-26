@@ -280,7 +280,7 @@ OSCR.controller(
         };
 
         $scope.valueChanged = function (el) {
-//            console.log("value changed: active=" + (el == $scope.activeEl));
+// todo           console.log("value changed: active=" + (el == $scope.activeEl));
             $scope.validateTree();
         };
 
@@ -339,6 +339,7 @@ OSCR.controller(
             if (el.config.paragraph) return "panel-paragraph.html";
             if (el.config.vocabulary) return "panel-vocabulary.html";
             if (el.config.media) return "panel-media.html";
+            if (el.config.instance) return "panel-instance.html";
             return "panel-unrecognized.html"
         };
 
@@ -353,6 +354,9 @@ OSCR.controller(
                 }
                 else if (el.config.vocabulary) {
                     return "panel-vocabulary-search.html";
+                }
+                else if (el.config.instance) {
+                    return "panel-instance-search.html";
                 }
             }
             return "panel-field-documentation.html"
@@ -530,6 +534,7 @@ OSCR.controller(
             if (el.config.paragraph) return "expert-paragraph.html";
             if (el.config.vocabulary) return "expert-vocabulary.html";
             if (el.config.media) return "expert-media.html";
+            if (el.config.instance) return "expert-instance.html";
             return "expert-unrecognized.html"
         };
 

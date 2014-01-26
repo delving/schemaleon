@@ -25,7 +25,7 @@ function xmlToTree(xml) {
 //            console.log("element parse ["+string+"]");
             fresh.config = JSON.parse(string);
             var c = fresh.config;
-            if (!(c.media || c.vocabulary || c.paragraph)) {
+            if (!(c.media || c.vocabulary || c.paragraph || c.instance )) {
                 c.line = true;
             }
         }

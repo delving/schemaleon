@@ -131,7 +131,7 @@ OSCR.controller(
 
 
         function buildMainMenu(user) {
-
+            if (!user) return;
             $scope.mainMenuBase = [
                 {name: "Home", path: "/home", icon: 'icon-home', active: false},
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},

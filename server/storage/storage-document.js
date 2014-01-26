@@ -103,7 +103,7 @@ P.saveDocument = function (envelope, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace('replace document ' + hdr.Identifier,
+        s.replace('replace document ' + JSON.stringify(hdr.SummaryFields) + ' with ' + stamped,
             s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
             stamped,
             receiver

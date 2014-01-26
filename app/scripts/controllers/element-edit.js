@@ -47,10 +47,10 @@ OSCR.controller(
             }
         });
 
-        $scope.entryToString = function (entry) {
-            if (!entry || !entry.Label) return '';
-            return entry.Label;
-        };
+//        $scope.entryToString = function (entry) {
+//            if (!entry || !entry.Label) return '';
+//            return entry.Label;
+//        };
 
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
@@ -204,6 +204,70 @@ OSCR.controller(
     }
 );
 
+OSCR.controller(
+    'InstanceController',
+    function ($scope, $q, $rootScope) {
+
+        if (!$scope.el.config.instance) {
+            return;
+        }
+        $scope.schema = $scope.el.config.instance;
+
+        $scope.enableInstanceEditor = function () {
+            console.log("enableInstanceEditor", $scope.el);
+            $scope.enableEditor();
+            $scope.el.searching = true;
+        };
+
+        $scope.enableClearedEditor = function () {
+            if ($rootScope.config.showTranslationEditor) return;
+            $scope.chosenEntry = null;
+            $scope.el.value = null;
+            $scope.enableEditor();
+        };
+
+        $scope.$watch('chosenEntry', function (value, before) {
+            if (_.isObject(value)) {
+                $scope.el.value = value;
+                // todo: value's identifier as a link
+            }
+        });
+
+//        $scope.entryToString = function (entry) {
+//            if (!entry || !entry.Label) return '';
+//            return entry.Label;
+//        };
+
+        $scope.$watch('el.value', function (after, before) {
+            $scope.valueChanged($scope.el);
+        });
+    }
+);
+OSCR.controller(
+    'InstanceSearchController',
+    function ($scope, Document) {
+
+        $scope.el = $scope.panel.element;
+
+        if (!$scope.el.config.instance) {
+            return;
+        }
+        $scope.schema = $scope.el.config.instance;
+
+        $scope.setValue = function (value) {
+            $scope.el.value = value.Header;  // instance controller is watching this
+            $scope.el.searching = false;
+        };
+
+        $scope.$watch('el.searchValue', function (newSearchValue, before) {
+            if (newSearchValue) {
+                Document.searchDocuments($scope.schema, null, newSearchValue, function (entries) {
+                    $scope.el.entries = entries;
+                });
+            }
+        });
+    }
+);
 
 
 OSCR.filter('mediaThumbnail',
