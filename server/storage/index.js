@@ -137,6 +137,18 @@ function Storage(home) {
         }
     };
 
+    this.onlyPublic = function(schemaName, groupIdentifier) {
+        if (groupIdentifier) {
+            return false; // searching your own collection: show both public and private
+        }
+        else if (schemaName) {
+            return true; // shared docs, only public should show
+        }
+        else {
+            return true; // primary docs, search all
+        }
+    };
+
     // =============
 
     this.logDocument = function () {
