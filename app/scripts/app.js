@@ -40,7 +40,8 @@ OSCR.config(
                 templateUrl: 'views/document-edit.html'
             })
             .when('/primary/:schema/:groupIdentifier/:identifier/view', {
-                templateUrl: 'views/document-view.html'
+                templateUrl: 'views/document-view.html',
+                controller: 'TreeController'
             })
             .when('/vocab/:vocab', {
                 templateUrl: 'views/vocab.html',
