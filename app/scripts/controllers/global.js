@@ -82,6 +82,14 @@ OSCR.controller(
             }
         }
 
+        function viewPathFromHeader(header) {
+            if (isShared(header.SchemaName)) {
+                return '/shared/' + header.SchemaName + '/' + header.Identifier + '/view';
+            } else {
+                return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/view';
+            }
+        }
+
         $rootScope.groupIdentifierForSave = function(schemaName, groupIdentifier) {
             if (isShared(schemaName)) {
                 if (groupIdentifier != 'OSCR') {
@@ -123,7 +131,7 @@ OSCR.controller(
 
 
         function buildMainMenu(user) {
-
+            if (!user) return;
             $scope.mainMenuBase = [
                 {name: "Home", path: "/home", icon: 'icon-home', active: false},
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
@@ -196,11 +204,16 @@ OSCR.controller(
             recentEntry.active = true;
         };
 
-        $scope.choosePath = function (path) {
+        $scope.choosePath = function (path, viewOnly) {
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
-                path = editPathFromHeader(header);
+                if(!viewOnly){
+                    path = editPathFromHeader(header);
+                }
+                else {
+                    path = viewPathFromHeader(header);
+                }
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);

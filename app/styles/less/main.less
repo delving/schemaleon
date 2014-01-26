@@ -245,6 +245,10 @@ body.admin {
 
 h1 small {
   font-size: 20px;
+  &.extra-info {
+    font-size: 16px;
+  }
+
 }
 
 .widget-row.home {
@@ -810,9 +814,32 @@ ul.value-list {
 }
 
 /* DOCUMENT VIEW */
+//legend {
+//  background: #009ae0;
+//}
+
+legend {
+  position: relative;
+}
+
+label {
+  cursor: default;
+}
 
 .indent {
   margin-left: 30px;
+  legend {
+    color: darken(@gray, 7%);
+    font-size: 18px;
+    border-bottom: none;
+    margin-bottom: 0px;
+    line-height: 28px;
+  }
+  .indent legend {
+    color: @gray;
+    font-size: 16px;
+    line-height: 28px;
+  }
 }
 
 .field {
@@ -823,6 +850,13 @@ ul.value-list {
   .data img {
     margin-bottom: 8px;
   }
+}
+
+.time-saved {
+  color: @grayLight;
+  display: inline-block;
+  .ie7-inline-block();
+  padding: 4px 10px;
 }
 
 .media {

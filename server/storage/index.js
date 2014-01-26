@@ -137,6 +137,18 @@ function Storage(home) {
         }
     };
 
+    this.onlyPublic = function(schemaName, groupIdentifier) {
+        if (groupIdentifier) {
+            return false; // searching your own collection: show both public and private
+        }
+        else if (schemaName) {
+            return true; // shared docs, only public should show
+        }
+        else {
+            return true; // primary docs, search all
+        }
+    };
+
     // =============
 
     this.logDocument = function () {
@@ -208,7 +220,6 @@ function Storage(home) {
     this.replace = function (message, path, content, receiver) {
         this.session.replace(path, content, function (error, reply) {
             if (reply.ok) {
-                log('replace ' + path + ': ' + content);
                 receiver(content);
             }
             else {

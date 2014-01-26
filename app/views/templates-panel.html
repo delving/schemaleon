@@ -1,6 +1,10 @@
 <!--This file contains only templates, and is tied to the controllers in element-edit.js-->
 
-<script type="text/ng-template" id="line-element.html">
+<script type="text/ng-template" id="panel-submenu.html">
+    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
+</script>
+
+<script type="text/ng-template" id="panel-line.html">
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
             <div ng-show="isActiveEl(el)">
@@ -21,7 +25,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="paragraph-element.html">
+<script type="text/ng-template" id="panel-paragraph.html">
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
             <div ng-show="isActiveEl(el)">
@@ -44,7 +48,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="vocabulary-element.html">
+<script type="text/ng-template" id="panel-vocabulary.html">
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
             <div ng-show="isActiveEl(el)">
@@ -69,7 +73,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="search-vocabulary.html">
+<script type="text/ng-template" id="panel-vocabulary-search.html">
     <div data-ng-controller="VocabularySearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
@@ -100,7 +104,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="media-element.html">
+<script type="text/ng-template" id="panel-media.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
         <div class="digital-object-input">
             <div ng-show="isActiveEl(el)">
@@ -136,7 +140,8 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="search-media.html">
+
+<script type="text/ng-template" id="panel-media-search.html">
     <div ng-controller="MediaSearchController">
         <tabset class="media-tabs">
             <tab>
@@ -168,7 +173,61 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="field-documentation-element.html">
+<script type="text/ng-template" id="panel-instance.html">
+    <!--todo: eric styling-->
+    <div class="panel-input vocabulary-element">
+        <div data-ng-controller="InstanceController" class="vocabulary-input">
+            <div ng-show="isActiveEl(el)">
+                <div ng-hide="el.searching" ng-click="enableInstanceEditor()" class="pointer chosen-value">
+                    <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
+                </div>
+                <div ng-show="el.searching">
+                    <!--<div class="input-append">-->
+                    <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
+                    <!-- todo: make it possible to ADD term by hitting add button or pressing ENTER on keyboard (but those are in the VocabularySearchController of the next panel//-->
+                    <!--<span class="add-on" ng-click="createNewValue()"><i class="icon-plus"></i></span>-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+            <div ng-hide="isActiveEl(el)">
+                <div ng-click="enableInstanceEditor()" class="pointer chosen-value" tabindex="0">
+                    <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="panel-instance-search.html">
+    <!--todo: eric styling-->
+    <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
+        <!-- DISPLAY CURRENT VALUE //-->
+        <div ng-show="el.value" i18n="CurrentValue" class="current">
+            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
+        </div>
+        <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+        <div i18n="SearchFor">
+            <label><span class="i18n"/>:</label>
+            <span class="value search-value">{{ el.searchValue }}</span>
+        </div>
+        <!-- DISPLAY LIST OF RETURNED VALUES //-->
+        <div ng-show="el.entries">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+                <li ng-repeat="entry in el.entries">
+                    <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
+                    <!--<div class="vocabulary-extended">-->
+                    <!--bla-->
+                    <!--</div>-->
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="panel-field-documentation.html">
     <div class="panel-input field-documentation-element">
         <div ng-hide="el.elements">
             <div ng-hide="annotationMode">
@@ -189,11 +248,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="submenu-element.html">
-    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
-</script>
-
-<script type="text/ng-template"  id="unrecognized-element.html">
+<script type="text/ng-template"  id="panel-unrecognized.html">
     <div class="panel-input">
         <span class="label">UNRECOGNIZED ELEMENT!</span>
     </div>

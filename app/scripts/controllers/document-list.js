@@ -4,11 +4,18 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'DocumentListController',
-    function ($rootScope, $scope, $routeParams, Document, Person) {
+    function ($rootScope, $scope, $routeParams, $location, Document, Person) {
 
         $rootScope.checkLoggedIn();
 
         $scope.schema = $routeParams.schema;
+
+        $scope.documentShared = function () {
+            if ($location.path().indexOf('/shared/') > -1 ){
+                return true;
+            }
+        }
+
         $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.headerList = [];
 

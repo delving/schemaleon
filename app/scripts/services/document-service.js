@@ -57,15 +57,17 @@ OSCR.service(
                 receiver(xmlToArray(data));
             }
 
+            var getPath;
             if (groupIdentifier) {
-                $http.get('/primary/' + schemaName + '/' + groupIdentifier + '/search', config()).success(success);
+                getPath = '/primary/' + schemaName + '/' + groupIdentifier + '/search';
             }
             else if (schemaName) {
-                $http.get('/shared/' + schemaName + '/search', config()).success(success);
+                getPath = '/shared/' + schemaName + '/search';
             }
             else {
-                $http.get('/primary/search', config()).success(success);
+                getPath = '/primary/search';
             }
+            $http.get(getPath, config()).success(success);
         };
 
         this.saveDocument = function (header, body, receiver) {
