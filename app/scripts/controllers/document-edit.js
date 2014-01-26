@@ -144,6 +144,10 @@ OSCR.controller(
             return getDocumentState($scope.header) == 'public';
         };
 
+        $scope.isDocumentPresent = function() {
+            return getDocumentState($scope.header) != 'deleted';
+        };
+
         // initialize, if there's an identifier we can fetch the document
         if ($scope.identifier) {
             Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {

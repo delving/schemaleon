@@ -131,6 +131,16 @@
                        <span class="i18n"/>
                    </span>
                </span>
+               <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPresent() }">
+                   <span ng-show="isDocumentPresent()" i18n="PutInTrash" ng-click="setDocumentState('deleted')">
+                       <i class="icon icon-red icon-trash"></i>
+                       <span class="i18n"/>
+                   </span>
+                   <span ng-hide="isDocumentPresent()" i18n="TakeOutOfTrash" ng-click="setDocumentState('private')">
+                       <i class="icon icon-trash"></i>
+                       <span class="i18n"/>
+                   </span>
+               </span>
             </li>
         </ul>
     </div> <!--document controls-->

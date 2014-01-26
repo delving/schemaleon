@@ -33,7 +33,6 @@
             <th i18n="State" width="100"><span class="i18n"/></th>
             <th i18n="Stored" width="150"><span class="i18n"/></th>
             <th i18n="SavedBy" width="200"><span class="i18n"/></th>
-            <th></th>
         </thead>
         <tbody>
         <tr data-ng-hide="headerList.length">
@@ -65,9 +64,6 @@
             <td>
                 <span ng-hide="header.userView">{{ header.SavedBy }}</span>
                 <span ng-show="header.userView">{{ header.userView.Profile.email }}</span>
-            </td>
-            <td>
-                <button class="btn btn-danger btn-small" i18n="MarkAsDeleted"><i class="icon icon-trash icon-white"></i> <span class="i18n"/></button>
             </td>
         </tr>
         </tbody>
