@@ -9,6 +9,7 @@ OSCR.controller(
 
         // the central scope elements
         $scope.tree = null;
+        $scope.treePath = [];
         $scope.document = null;
         $scope.documentJSon = null; // todo: should be in edit controller
 
@@ -82,6 +83,7 @@ OSCR.controller(
                     return;
                 }
                 $scope.tree = tree;
+                $scope.treePath = [tree, tree.elements[0]];
                 if (!emptyDocument) {
                     populateTree(tree, document.Body);
                 }
@@ -237,7 +239,7 @@ OSCR.controller(
 // handle just the panel array way of editing the tree
 OSCR.controller(
     'PanelArrayController',
-    function ($rootScope, $scope, $timeout, Document) {
+    function ($rootScope, $scope, $timeout) {
 
         $scope.panels = [];
         $scope.focusElement = [];
@@ -323,12 +325,14 @@ OSCR.controller(
             $scope.setActiveEl(chosen);
         };
 
-        $scope.addSibling = function (list, index, panelIndex) {
-            console.warn('not implemented'); // todo: call the tree controller
+        $scope.addSibling = function (element, index, panelIndex) {
+            var indexToChoose = $scope.addSiblingToParent(element, index);
+            $scope.choose(indexToChoose, panelIndex)
         };
 
-        $scope.removeSibling = function (list, index, panelIndex) {
-            console.warn('not implemented'); // todo: call the tree controller
+        $scope.removeSibling = function (element, index, panelIndex) {
+            var indexToChoose = $scope.removeSiblingFromParent(element, index);
+            $scope.choose(indexToChoose, panelIndex);
         };
 
         $scope.getPanelEditTemplate = function (el) {

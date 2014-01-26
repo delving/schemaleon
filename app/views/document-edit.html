@@ -25,7 +25,9 @@
             <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
         </div>
     </div>
-
+    <div data-ng-repeat="part in treePath">
+        {{ part.name }}
+    </div>
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
             <li ng-class="{ 'active': isTabActive('novice') }" ng-hide="user.viewer">
@@ -168,12 +170,12 @@
                                     <span class="icon-item status status-{{ element.invalid }}"></span>
                                         <span ng-show="element.config.multiple"
                                               class="display-{{ element.config.multiple }} icon-item pointer"
-                                              ng-click="addSibling(panel.element.elements, $index)">
+                                              ng-click="addSibling(panel.element, $index, panelIndex)">
                                             <i class="icon-plus-sign icon-white"></i>
                                         </span>
                                         <span ng-show="element.config.multiple"
                                               class="display-{{ element.config.multiple }} icon-item pointer"
-                                              ng-click="removeSibling(panel.element.elements, $index, panelIndex)">
+                                              ng-click="removeSibling(panel.element, $index, panelIndex)">
                                             <i class="icon-minus-sign icon-white"></i>
                                         </span>
                                 </div>
