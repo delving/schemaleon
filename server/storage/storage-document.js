@@ -45,7 +45,12 @@ P.searchDocuments = function (search, receiver) {
     if (s.onlyPublic(search.schemaName, search.groupIdentifier)) {
         q.push("and ($doc/Header/DocumentState/text() = 'public')");
     }
-    q.push('order by $doc/Header/TimeStamp descending');
+    if (s.isShared(search.schemaName)) {
+        q.push('order by $doc/Header/SummaryFields/Title ascending');
+    }
+    else {
+        q.push('order by $doc/Header/TimeStamp descending');
+    }
     q.push('return $doc');
     q.push('return subsequence($all, 1, ' + MAX_RESULTS + ')');
     q.push('}</Documents>');
