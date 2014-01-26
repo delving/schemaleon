@@ -42,6 +42,9 @@ P.searchDocuments = function (search, receiver) {
         q.push('$doc/Body//*[text() contains text ' + util.quote(search.query) + ' using stemming]');
         q.push(')')
     }
+    if (s.onlyPublic(search.schemaName, search.groupIdentifier)) {
+        q.push("and ($doc/Header/DocumentState/text() = 'public')");
+    }
     q.push('order by $doc/Header/TimeStamp descending');
     q.push('return $doc');
     q.push('return subsequence($all, 1, ' + MAX_RESULTS + ')');
