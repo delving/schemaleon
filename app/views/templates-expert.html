@@ -3,17 +3,7 @@
 <script type="text/ng-template" id="expert-field-label.html">
     <legend i18n="{{ el.name }}">
         <div class="field-controls">
-        <span ng-show="el.config.multiple"
-              class="display-{{ el.config.multiple }} icon-item pointer"
-              ng-click="addSibling(panel.element, $index, panelIndex)">
-        <i class="icon-plus-sign icon-white"></i>
-        </span>
-        <span ng-show="el.config.multiple"
-              class="display-{{ el.config.multiple }} icon-item pointer"
-              ng-click="addSibling(panel.element, $index, panelIndex)">
-        <i class="icon-plus-sign icon-white"></i>
-        </span>
-            <span class="icon-item status status-{{ el.invalid }}"></span>
+        <span class="icon-item status status-{{ el.invalid }}"></span>
         <span ng-show="el.config.multiple"
               class="display-{{ el.config.multiple }} icon-item pointer"
               ng-click="addSibling(panel.element, $index, panelIndex)">
