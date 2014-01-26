@@ -9,7 +9,6 @@ OSCR.controller(
 
         // the central scope elements
         $scope.tree = null;
-        $scope.treePath = [];
         $scope.document = null;
         $scope.documentJSon = null; // todo: should be in edit controller
 
@@ -83,7 +82,6 @@ OSCR.controller(
                     return;
                 }
                 $scope.tree = tree;
-                $scope.treePath = [tree, tree.elements[0]];
                 if (!emptyDocument) {
                     populateTree(tree, document.Body);
                 }
