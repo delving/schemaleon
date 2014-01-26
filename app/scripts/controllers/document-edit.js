@@ -477,6 +477,7 @@ OSCR.controller(
             if (el.config.paragraph) return "view-paragraph.html";
             if (el.config.vocabulary) return "view-vocabulary.html";
             if (el.config.media) return "view-media.html";
+            if (el.config.instance) return "view-instance.html";
             return "view-unrecognized.html"
         };
 
