@@ -24,24 +24,24 @@ OSCR.config(
                 controller: 'DocumentListController'
             })
             .when('/shared/:schema/create', {
-                templateUrl: 'views/document-edit.html',
-                controller: 'DocumentEditController'
+                templateUrl: 'views/document-edit.html'
             })
             .when('/shared/:schema/:identifier/edit', {
-                templateUrl: 'views/document-edit.html',
-                controller: 'DocumentEditController'
+                templateUrl: 'views/document-edit.html'
             })
             .when('/primary/:schema/:groupIdentifier', {
                 templateUrl: 'views/document-list.html',
                 controller: 'DocumentListController'
             })
             .when('/primary/:schema/:groupIdentifier/create', {
-                templateUrl: 'views/document-edit.html',
-                controller: 'DocumentEditController'
+                templateUrl: 'views/document-edit.html'
             })
             .when('/primary/:schema/:groupIdentifier/:identifier/edit', {
-                templateUrl: 'views/document-edit.html',
-                controller: 'DocumentEditController'
+                templateUrl: 'views/document-edit.html'
+            })
+            .when('/primary/:schema/:groupIdentifier/:identifier/view', {
+                templateUrl: 'views/document-view.html',
+                controller: 'TreeController'
             })
             .when('/vocab/:vocab', {
                 templateUrl: 'views/vocab.html',

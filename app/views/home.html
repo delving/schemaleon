@@ -77,12 +77,14 @@
             <li class="span3"  data-ng-repeat="header in headerList">
                 <div class="thumbnail">
                     <div class="media">
-                        <a href class="pull-left">
+                        <a href ng-click="choosePath(header, true)" class="pull-left">
                             <img ng-src="/media/thumbnail/{{getProperThumbExtension(xmlArray(header.SummaryFields.Thumbnail)[0].Identifier)}}" />
 
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading" data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</h4>
+                            <h4 class="media-heading" data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">
+                               <a href ng-click="choosePath(header, true)">{{ title }}</a>
+                            </h4>
                             <div class="mime" ng-bind="xmlArray(header.SummaryFields.Thumbnail)[0].MimeType"></div>
                             <div class="group">{{ header.group.Name }}</div>
                         </div>

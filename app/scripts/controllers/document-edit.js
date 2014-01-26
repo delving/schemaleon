@@ -2,124 +2,206 @@
 
 var OSCR = angular.module('OSCR');
 
-/* CRM OBJECT RELATED CONTROLLERS */
-
+// handle all things that show the tree, whether editing or viewing
 OSCR.controller(
-    'DocumentEditController',
-    function ($rootScope, $scope, $dialog, $routeParams, $location, $timeout, Document) {
+    'TreeController',
+    function ($rootScope, $scope, $routeParams, $timeout, Document) {
 
-        $rootScope.checkLoggedIn();
+        // the central scope elements
+        $scope.tree = null;
+        $scope.document = null;
+        $scope.documentJSon = null; // todo: should be in edit controller
 
+        // flags for view ()
+        $scope.documentDirty = false; // todo: should be in edit controller
+        $scope.saveSuccess = false; // todo: should be in edit controller
+
+        // constants for triggering server-side substitutions
         $scope.blankIdentifier = '#IDENTIFIER#';
         $scope.blankTimeStamp = '#TIMESTAMP#';
-        $scope.headerDisplay = '';
+
+        // things from the URL path
         $scope.schema = $routeParams.schema;
         $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.identifier = $routeParams.identifier;
-        $scope.header = {};
-        $scope.tree = null;
-        $scope.documentDirty = false;
-        $scope.tabEditActive = true;
-        $scope.tabViewActive = false;
-        $scope.saveSuccess = false;
 
-
-        // todo: Eric, this can be called in a template as getGroupName(groupIdentifier)
+        // some things for display
+        $scope.headerDisplay = '';
         $scope.groupName = $rootScope.getGroupName($scope.groupIdentifier);
+        $scope.header = {};
 
-        // If the user has role:Viewer then don't show the doc edit form, but only the preview
-        if($rootScope.user.viewer) {
-            $scope.tabEditActive = false;
-            $scope.tabViewActive = true;
-        }
-
-        // toggle tabs between edit and view
-        $scope.showTab = function (tab) {
-            if(tab == 'view'){
-                $scope.tabViewActive = true;
-                $scope.tabEditActive = false;
+        // re-internationalize the tree if the language changes
+        $scope.$watch('i18n', function (i18n, oldValue) {
+            if ($scope.tree && i18n) {
+                i18nTree($scope.tree, i18n);
             }
-            else {
-                $scope.tabViewActive = false;
-                $scope.tabEditActive = true;
+        });
+
+        // keep updating the time if there is a header
+        function tick() {
+            $timeout(
+                function () {
+                    if ($scope.header) {
+                        $scope.time = updateTimeString($scope.header.TimeStamp);
+                    }
+                },
+                15000
+            ).then(tick);
+        }
+        tick();
+
+        // run the validations in the tree's fields
+        $scope.validateTree = function () {
+            validateTree($scope.tree);
+            if (!$scope.documentDirty) {
+                if (!$scope.documentJSON) {
+                    $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
+                }
+                else {
+                    var json = JSON.stringify(treeToObject($scope.tree), null, 4);
+                    if ($scope.documentDirty = (json != $scope.documentJSON)) {
+                        $scope.time = updateTimeString($scope.header.TimeStamp);
+                    }
+                }
             }
         };
 
-        function getTime(millis) {
-            var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
-            var days = Math.floor(millis / ONE_DAY);
-            var hourMillis = Math.floor(millis - ONE_DAY * days);
-            var hours = Math.floor(hourMillis / ONE_HOUR);
-            var minuteMillis = Math.floor(millis - ONE_HOUR * hours);
-            var minutes = Math.floor(minuteMillis / ONE_MINUTE);
-            var secondMillis = Math.floor(minuteMillis - minutes * ONE_MINUTE);
-            var seconds = Math.floor(secondMillis / ONE_SECOND);
-            var time = {};
-            if (days > 0) {
-                time.days = days;
-                time.hours = hours;
+        // if the document changes, we set up a new tree for it and populate the tree with it
+        $scope.$watch('document', function (document, oldDocument) {
+            if (!document) return;
+            var emptyDocument = _.isString(document);
+            // if document is a string, it's a schema name
+            var schema = emptyDocument ? document : document.Header.SchemaName;
+            if (!schema) {
+                console.warn("Document header has no schema name");
+                return;
             }
-            else if (hours > 0) {
-                time.hours = hours;
-                time.minutes = minutes;
+            Document.fetchSchema(schema, function (tree) {
+                if (!tree) {
+                    console.warn("No tree was returned for schema "+schema);
+                    return;
+                }
+                $scope.tree = tree;
+                if (!emptyDocument) {
+                    populateTree(tree, document.Body);
+                }
+                installValidators(tree);
+                validateTree(tree);
+            });
+        });
+
+        // pressing the plus sign adds a sibling to the current parent
+        $scope.addSiblingToParent = function (parentElement, childIndex) {
+            var sibling = cloneAndPruneTree(parentElement.elements[childIndex]);
+            parentElement.elements.splice(childIndex + 1, 0, sibling);
+            return childIndex + 1; // the new position
+        };
+
+        // pressing the minus sign removes a child
+        $scope.removeSiblingFromParent = function (parentElement, childIndex) {
+            var list = parentElement.elements;
+            var childName = list[childIndex].name;
+            var hasSibling = false;
+            if (childIndex > 0 && list[childIndex - 1].name == childName) {
+                hasSibling = true;
             }
-            else if (minutes > 0) {
-                time.minutes = minutes;
-                if (minutes < 10) {
-                    time.seconds = seconds;
+            if (childIndex < list.length - 1 && list[childIndex + 1].name == childName) {
+                hasSibling = true;
+            }
+            if (hasSibling) {
+                list.splice(childIndex, 1);
+                if (childIndex >= list.length) {
+                    childIndex--;
                 }
             }
-            else {
-                time.seconds = seconds;
-            }
-            return time;
-        }
+            return childIndex;
+        };
 
-        function updateTimeString() {
-            if (!$scope.header.TimeStamp) {
-                delete $scope.time;
-            }
-            else {
-                var timeStamp = $scope.header.TimeStamp;
-                var now = new Date().getTime();
-                var elapsed = now - timeStamp;
-                var timeString = getTime(elapsed);
-                $scope.time = getTime(elapsed);
-            }
-        }
-
-        function tick() {
-            if (!$scope.header.TimeStamp) return;
-            $timeout(updateTimeString, 60000).then(tick);
-        }
-
-        function getDocumentState(h) {
-            if (h.DocumentState) {
-                return h.DocumentState;
+        function getDocumentState(header) {
+            if (header.DocumentState) {
+                return header.DocumentState;
             }
             else {
                 return $rootScope.defaultDocumentState($scope.schema);
             }
         }
 
-        function useHeader(h) {
+        $scope.useHeader = function(header) {
             $scope.header.SchemaName = $scope.schema;
-            $scope.header.Identifier = h.Identifier;
-            $scope.header.GroupIdentifier = h.GroupIdentifier;
-            $scope.headerDisplay = h.Identifier === $scope.blankIdentifier ? null : h.Identifier;
-            $scope.header.SummaryFields = h.SummaryFields;
-            $scope.header.DocumentState = getDocumentState(h);
+            $scope.header.Identifier = header.Identifier;
+            $scope.header.GroupIdentifier = header.GroupIdentifier;
+            $scope.header.SummaryFields = header.SummaryFields;
+            $scope.header.DocumentState = getDocumentState(header);
+            $scope.headerDisplay = header.Identifier === $scope.blankIdentifier ? null : header.Identifier;
             delete $scope.header.TimeStamp;
-            var millis = parseInt(h.TimeStamp);
+            var millis = parseInt(header.TimeStamp);
             if (!_.isNaN(millis)) {
                 $scope.header.TimeStamp = millis;
-                tick();
             }
-        }
+        };
 
         $scope.isDocumentPublic = function() {
             return getDocumentState($scope.header) == 'public';
         };
+
+        // initialize, if there's an identifier we can fetch the document
+        if ($scope.identifier) {
+            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
+                $scope.useHeader(document.Document.Header);
+                $scope.documentDirty = false;
+                $scope.document = document.Document; // triggers the editor
+                $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
+            });
+        }
+        else {
+            $scope.useHeader({
+                SchemaName: $scope.schema,
+                GroupIdentifier: $rootScope.groupIdentifierForSave($scope.schema, $rootScope.user.groupIdentifier),
+                Identifier: $scope.blankIdentifier
+            });
+            $scope.document = $scope.schema; // just a name triggers schema fetch
+            $scope.documentDirty = false;
+        }
+    }
+);
+
+// just mind the tabs and their activation
+OSCR.controller(
+    'TabController',
+    function ($rootScope, $scope) {
+
+        $scope.activeTab = "novice";
+
+        if($rootScope.user.viewer) {
+            $scope.activeTab = "viewer";
+        }
+
+        // toggle tabs between edit and view
+        $scope.isTabActive = function (tab) {
+            return $scope.activeTab == tab;
+        };
+
+        // switch tabs
+        $scope.setActiveTab = function(tab) {
+            $scope.activeTab = tab;
+        };
+
+    }
+);
+
+// for the different kinds of tree editing, either panel or expert
+OSCR.controller(
+    'TreeEditController',
+    function ($rootScope, $scope, $timeout, Document) {
+
+        $rootScope.checkLoggedIn();
+
+        // If the user has role:Viewer then don't show the doc edit form, but only the preview
+        if ($rootScope.user.viewer) {
+            // todo: they should not even see edit
+            // todo: and viewer should be normal, editor should be special.  the boolean should give them permission.
+            $scope.activeTab = "view";
+        }
 
         $scope.chooseListPath = function() {
             $scope.documentList($scope.schema);
@@ -130,60 +212,13 @@ OSCR.controller(
             $scope.documentDirty = true;
         };
 
-        $scope.setTree = function (tree) {
-            return $scope.tree = tree;
-        };
-
-        $scope.getMediaElements = function() {
-            if ($scope.tree) {
-                return collectMediaElements($scope.tree);
-            }
-            else {
-                return [];
-            }
-        };
-
-        $scope.validateTree = function () {
-            // todo: validateTree was commented out in schema-changes
-            validateTree($scope.tree);
-            if (!$scope.documentDirty) {
-                if (!$scope.documentJSON) {
-                    $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
-                }
-                else {
-                    var json = JSON.stringify(treeToObject($scope.tree), null, 4);
-                    if ($scope.documentDirty = (json != $scope.documentJSON)) {
-                        updateTimeString();
-                    }
-                }
-            }
-        };
-
-        if (!$scope.identifier) {
-            useHeader({
-                SchemaName: $scope.schema,
-                GroupIdentifier: $rootScope.groupIdentifierForSave($scope.schema, $rootScope.user.groupIdentifier),
-                Identifier: $scope.blankIdentifier
-            });
-            $scope.document = $scope.schema; // just a name triggers schema fetch
-            $scope.documentDirty = false;
-        }
-        else {
-            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
-                useHeader(document.Document.Header);
-                $scope.documentDirty = false;
-                $scope.document = document.Document; // triggers the editor
-                $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
-            });
-        }
-
         $scope.saveDocument = function () {
             console.log("saveDocument", $scope.header);
             collectSummaryFields($scope.tree, $scope.header);
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
-                useHeader(document.Header);
+                $scope.useHeader(document.Header);
                 $scope.documentDirty = false;
                 $scope.saveSuccess = true;
                 $timeout(function() {
@@ -199,22 +234,28 @@ OSCR.controller(
     }
 );
 
-/**
- * The document panel array controller handles the set of panels and manages them
- * as a group.
- *
- * It expects a $scope.document variable from a surrounding controller
- */
-
+// handle just the panel array way of editing the tree
 OSCR.controller(
-    'DocumentPanelArrayController',
-    function ($rootScope, $scope, $timeout, Document) {
+    'PanelArrayController',
+    function ($rootScope, $scope, $timeout) {
 
         $scope.panels = [];
         $scope.focusElement = [];
         $scope.choice = 0;
         $scope.selectedPanelIndex = 0;
+
+        // todo: should be a path up in the tree controller
         $scope.activeEl = undefined;
+
+        $scope.$watch('tree', function (newTree, oldTree) {
+            if (!newTree) return;
+            $scope.panels = [
+                { selected: 0, element: newTree }
+            ];
+            if (!$scope.annotationMode) {
+                $scope.choose(0, 0);
+            }
+        });
 
         $scope.getFocusElement = function(el) {
             return $scope.focusElement[el.focusElementIndex];
@@ -239,45 +280,9 @@ OSCR.controller(
         };
 
         $scope.valueChanged = function (el) {
-//            console.log("value changed: active=" + (el == $scope.activeEl));
-            $scope.revalidate();
-        };
-
-        $scope.$watch('i18n', function (i18n, oldValue) {
-            if ($scope.tree && i18n) {
-                i18nTree($scope.tree, i18n);
-            }
-        });
-
-        $scope.revalidate = function () { // called by fields for live validation bubbling up
-            _.each($scope.panels, function (panel) {
-                panel.element.dirty = true;
-            });
+// todo           console.log("value changed: active=" + (el == $scope.activeEl));
             $scope.validateTree();
         };
-
-        $scope.$watch('document', function (document, oldValue) {
-            // maybe use old value for something like making sure they're not making a mistake
-            if (!document) return;
-            var empty = _.isString(document);
-            var schema = empty ? document : document.Header.SchemaName;
-            if (!schema) return;
-            Document.fetchSchema(schema, function (tree) {
-                if (!tree) return;
-                tree = $scope.setTree(tree); // todo media.js:96
-                $scope.panels = [
-                    { selected: 0, element: tree }
-                ];
-                if (!$scope.annotationMode) {
-                    $scope.choose(0, 0);
-                }
-                if (!empty) {
-                    populateTree(tree, document.Body);
-                }
-                installValidators(tree);
-                validateTree(tree);
-            });
-        });
 
         $scope.choose = function (choice, panelIndex) {
 //            $scope.choice = choice;
@@ -318,94 +323,50 @@ OSCR.controller(
             $scope.setActiveEl(chosen);
         };
 
-        $scope.addSibling = function (list, index, panelIndex) {
-            // should be some kind of deep copy
-            var existing = list[index];
-            var fresh = cloneTree(existing);
-            validateTree(fresh);
-//            existing.classIndex = panelIndex + 1; // what does this do?
-            list.splice(index + 1, 0, fresh);
+        $scope.addSibling = function (element, index, panelIndex) {
+            var indexToChoose = $scope.addSiblingToParent(element, index);
+            $scope.choose(indexToChoose, panelIndex)
         };
 
-        $scope.removeSibling = function (list, index, panelIndex) {
-            var hasSibling = false;
-            if(index > 0) {
-                if (list[index-1].name == list[index].name) {
-                     hasSibling = true;
-                }
-            }
-            if(index < list.length-1){
-                if (list[index+1].name == list[index].name) {
-                    hasSibling = true;
-                }
-            }
-            if(hasSibling) {
-                // todo: are you sure?
-                list.splice(index,1);
-                if(index >= list.length){
-                    index--;
-                }
-                $scope.choose(index, panelIndex);
-            }
+        $scope.removeSibling = function (element, index, panelIndex) {
+            var indexToChoose = $scope.removeSiblingFromParent(element, index);
+            $scope.choose(indexToChoose, panelIndex);
         };
 
-        $scope.getElementEditor = function (el) {
-            if (el.elements) return "submenu-element.html";
-            if (el.config.line) return "line-element.html";
-            if (el.config.paragraph) return "paragraph-element.html";
-            if (el.config.vocabulary) return "vocabulary-element.html";
-            if (el.config.media) return "media-element.html";
-            return "unrecognized-element.html"
+        $scope.getPanelEditTemplate = function (el) {
+            if (el.elements) return "panel-submenu.html";
+            if (el.config.line) return "panel-line.html";
+            if (el.config.paragraph) return "panel-paragraph.html";
+            if (el.config.vocabulary) return "panel-vocabulary.html";
+            if (el.config.media) return "panel-media.html";
+            if (el.config.instance) return "panel-instance.html";
+            return "panel-unrecognized.html"
         };
 
         $scope.getDetailView = function (el) {
-            if (el.searching) {
-                if (el.config.media) { // todo: only when searching?
-                    return "search-media.html";
-                }
-                return "search-vocabulary.html";
+            if (!el) {
+//                console.warn("get detail view of nothing"); todo take care of this
+                return "panel-field-documentation.html";
             }
-            return "field-documentation-element.html"
-        };
-
-    }
-);
-
-
-OSCR.controller(
-    'ElementViewController',
-    function ($scope) {
-
-        $scope.getElementViewer = function (el) {
-            if (el.elements) return "submenu-view.html";
-            if (el.config.line) return "line-view.html";
-            if (el.config.paragraph) return "paragraph-view.html";
-            if (el.config.vocabulary) return "vocabulary-view.html";
-            if (el.config.media) return "media-view.html";
-            return "unrecognized-view.html"
-        };
-
-//        $scope.getMediaViewer = function (el) {
-//            if (el.config.media) return "media-view-extended.html";
-//            return "unrecognized-view.html"
-//        };
-//
-        $scope.nonMediaElements = function(elementList) {
-            return _.filter(elementList, function(element) {
-                return !element.config.media;
-            });
+            if (el.searching) {
+                if (el.config.media) {
+                    return "panel-media-search.html";
+                }
+                else if (el.config.vocabulary) {
+                    return "panel-vocabulary-search.html";
+                }
+                else if (el.config.instance) {
+                    return "panel-instance-search.html";
+                }
+            }
+            return "panel-field-documentation.html"
         };
     }
 );
 
-/**
- * There is a document panel controller for each panel in the display
- *
- * It puts "el" in scope, and holds which field is active.
- */
-
+// a single element within a panel, editing and some keyboard navigation
 OSCR.controller(
-    'ElementEditController',
+    'PanelElementController',
     function ($scope, $timeout) {
 
         $scope.el = $scope.element;
@@ -451,6 +412,164 @@ OSCR.controller(
     }
 );
 
+
+OSCR.directive('documentNavigation', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attr, ctrl) {
+            elem.bind('keydown', function (e) {
+                _.each([
+                    { code: 37, name: 'left'},
+                    { code: 39, name: 'right'},
+                    { code: 38, name: 'up'},
+                    { code: 40, name: 'down'},
+                    { code: 13, name: 'enter'},
+                    { code: 27, name: 'escape'}
+                ], function (pair) {
+                    if (pair.code === e.keyCode) {
+                        scope.$apply(function (s) {
+                            s.$eval(attr.documentNavigation, { $key: pair.name });
+                        });
+                    }
+                });
+            });
+        }
+    };
+});
+
+// the controller for viewing the tree only, not editing.  separates media from non-media.
+OSCR.controller(
+    'ViewTreeController',
+    function ($scope) {
+
+        // collect an array of only the media elements
+        $scope.$watch("tree", function(tree, oldTree) {
+            $scope.mediaElements = tree ? collectMediaElements(tree) : [];
+        });
+
+        $scope.mediaThumbnails = function() {
+            return _.map($scope.mediaElements, function(el){
+                console.log("return something from here", el);
+                return el;
+            });
+        };
+
+        $scope.filterNonMedia = function(elementList) {
+            return _.filter(elementList, function(element) {
+                return !element.config.media;
+            });
+        };
+
+        $scope.hasValue = function(el) {
+            return hasContent(el);
+        };
+
+    }
+);
+
+OSCR.controller(
+    'ViewElementController',
+    function ($scope) {
+
+        $scope.getViewTemplate = function (el) {
+            if (el.elements) return "view-submenu.html";
+            if (el.config.line) return "view-line.html";
+            if (el.config.paragraph) return "view-paragraph.html";
+            if (el.config.vocabulary) return "view-vocabulary.html";
+            if (el.config.media) return "view-media.html";
+            return "view-unrecognized.html"
+        };
+
+        
+    }
+    
+    
+);
+
+// the controller for the expert editing of the whole tree in view
+OSCR.controller(
+    'ExpertTreeController',
+    function ($rootScope, $scope, $timeout, Document) {
+
+        $scope.focusPath = [];
+
+        $scope.getFocusElement = function(el) {
+            return $scope.focusElement[el.focusElementIndex];
+        };
+
+        $scope.setActiveEl = function (el) {
+            $scope.activeEl = el;
+            $timeout(function () {
+                var fe = $scope.getFocusElement(el);
+                if (fe) {
+                    fe.focus();
+                }
+                else {
+                    console.warn("no focus element for ");
+                    console.log(el);
+                }
+            });
+        };
+
+        $scope.isActiveEl = function (el) {
+            return $scope.activeEl === el;
+        };
+
+        $scope.valueChanged = function (el) {
+//            console.log("value changed: active=" + (el == $scope.activeEl));
+            $scope.validateTree();
+        };
+
+        $scope.addSibling = function (list, index, panelIndex) {
+            console.warn('not implemented'); // todo: call the tree controller
+        };
+
+        $scope.removeSibling = function (list, index, panelIndex) {
+            console.warn('not implemented'); // todo: call the tree controller
+        };
+
+        $scope.getExpertEditTemplate = function (el) {
+            if (el.elements) return "expert-submenu.html";
+            if (el.config.line) return "expert-line.html";
+            if (el.config.paragraph) return "expert-paragraph.html";
+            if (el.config.vocabulary) return "expert-vocabulary.html";
+            if (el.config.media) return "expert-media.html";
+            if (el.config.instance) return "expert-instance.html";
+            return "expert-unrecognized.html"
+        };
+
+        $scope.getDetailTemplate = function (el) {
+            if (!el) {
+//                console.warn("get detail template of nothing"); // todo take care of this
+                return "expert-field-documentation.html"
+            }
+            if (el.searching) {
+                if (el.config.media) {
+                    return "expert-media-search.html";
+                }
+                else if (el.config.vocabulary) {
+                    return "expert-vocabulary-search.html";
+                }
+            }
+            return "expert-field-documentation.html"
+        };
+
+    }
+);
+
+OSCR.controller(
+    'ExpertElementController',
+    function ($scope, $timeout) {
+
+        $scope.el = $scope.element;
+
+        $scope.enableEditor = function () {
+            $scope.setActiveEl($scope.el);
+        };
+
+    }
+);
+
 OSCR.directive('elFocus',
     function () {
         return {
@@ -460,9 +579,13 @@ OSCR.directive('elFocus',
                 el: "=elFocus",
                 focusElement: "=elFocusElement"
             },
-            link: function (scope, element, attrs) {
-                scope.el.focusElementIndex = scope.focusElement.length;
-                scope.focusElement.push(element[0]);
+            link: function ($scope, $element) {
+                if (!$scope.focusElement) {
+//                    console.warn("elFocus no focus $element");  // todo: look into this
+                    return;
+                }
+                $scope.el.focusElementIndex = $scope.focusElement.length;
+                $scope.focusElement.push($element[0]);
             }
         };
     }
@@ -487,28 +610,4 @@ OSCR.directive('focus',
     }
 );
 
-OSCR.directive('documentNavigation', function () {
-
-    return {
-        restrict: 'A',
-        link: function (scope, elem, attr, ctrl) {
-            elem.bind('keydown', function (e) {
-                _.each([
-                    { code: 37, name: 'left'},
-                    { code: 39, name: 'right'},
-                    { code: 38, name: 'up'},
-                    { code: 40, name: 'down'},
-                    { code: 13, name: 'enter'},
-                    { code: 27, name: 'escape'}
-                ], function (pair) {
-                    if (pair.code === e.keyCode) {
-                        scope.$apply(function (s) {
-                            s.$eval(attr.documentNavigation, { $key: pair.name });
-                        });
-                    }
-                });
-            });
-        }
-    };
-});
 

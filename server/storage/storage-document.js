@@ -42,7 +42,15 @@ P.searchDocuments = function (search, receiver) {
         q.push('$doc/Body//*[text() contains text ' + util.quote(search.query) + ' using stemming]');
         q.push(')')
     }
-    q.push('order by $doc/Header/TimeStamp descending');
+    if (s.onlyPublic(search.schemaName, search.groupIdentifier)) {
+        q.push("and ($doc/Header/DocumentState/text() = 'public')");
+    }
+    if (s.isShared(search.schemaName)) {
+        q.push('order by $doc/Header/SummaryFields/Title ascending');
+    }
+    else {
+        q.push('order by $doc/Header/TimeStamp descending');
+    }
     q.push('return $doc');
     q.push('return subsequence($all, 1, ' + MAX_RESULTS + ')');
     q.push('}</Documents>');
@@ -95,7 +103,7 @@ P.saveDocument = function (envelope, receiver) {
     else {
         // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace('replace document ' + hdr.Identifier,
+        s.replace('replace document ' + JSON.stringify(hdr.SummaryFields) + ' with ' + stamped,
             s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
             stamped,
             receiver

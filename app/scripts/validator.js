@@ -113,9 +113,9 @@ function validateTree(tree) {
                     }
                 });
             }
-            else {
-                console.log('no validators ' + el.name);
-            }
+//            else {
+//                console.log('no validators ' + el.name);
+//            }
             delete el.dirty;
         }
         return el.invalid;
