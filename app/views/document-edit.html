@@ -207,7 +207,7 @@
     <div class="row-fluid" data-ng-controller="ViewTreeController">
         <div data-ng-controller="ViewElementController">
             <div class="span6">
-                <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="el.value"></div>
+                <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="hasValue(el)"></div>
             </div>
             <div class="span6">
                 <div class="field" ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>

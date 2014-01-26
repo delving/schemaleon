@@ -382,8 +382,5 @@ function getFirstValue(el) {
         var head = values.head;
         return head ? head.value : null;
     }
-    if (el.config.media) {
-        console.log("media", el);
-    }
     return el.config.media ? null : el.value;
 }
