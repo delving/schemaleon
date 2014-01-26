@@ -1,14 +1,14 @@
 <!--This file contains only templates, and is tied to the controllers in document-edit.js-->
 
 <script type="text/ng-template" id="view-submenu.html">
-    <div data-ng-controller="ViewElementController">
+    <!--<div data-ng-controller="ViewElementController">-->
         <label class="label">{{el.name}}:</label>
         <div class="field indent"
              ng-repeat="el in filterNonMedia(el.elements)"
              ng-include="getViewTemplate(el)"
              ng-show="hasValue(el)">
         </div>
-    </div>
+    <!--</div>-->
 </script>
 
 <script type="text/ng-template" id="view-line.html">
@@ -27,18 +27,28 @@
 </script>
 
 <script type="text/ng-template" id="view-media.html">
+
     <label class="label">{{el.name}}:</label>
-        <div class="field indent">
-            <label class="label" i18n="MimeType"><span class="i18n">MimeType</span></label>
-            <span class="data">{{ el.value.MimeType }}</span>
-         </div>
-        <div class="field indent">
-            <!--todo Eric switch on mime type-->
-            <label class="label" i18n="File"><span class="i18n"/></label>
-            <span class="data">
+    <span class="data">
+            <span ng-show="isImage(el.value.MimeType)">
                 <img ng-src="{{ el | mediaFile }}" alt="{{ el.name }}"/>
             </span>
-        </div>
+            <span ng-show="isVideo(el.value.MimeType)">
+                <video type="{{el.value.MimeType" src="{{ el | mediaFile }}" controls width="100%"/>
+            </span>
+        </span>
+
+        <!--<div class="field indent">-->
+            <!--<label class="label" i18n="MimeType"><span class="i18n">MimeType</span></label>-->
+            <!--<span class="data">{{ el.value.MimeType }}</span>-->
+         <!--</div>-->
+        <!--<div class="field indent">-->
+
+            <!--<label class="label" i18n="File"><span class="i18n"/></label>-->
+            <!--<span class="data">-->
+                <!--<img ng-src="{{ el | mediaFile }}" alt="{{ el.name }}"/>-->
+            <!--</span>-->
+        <!--</div>-->
 </script>
 
 <script type="text/ng-template"  id="view-unrecognized.html">

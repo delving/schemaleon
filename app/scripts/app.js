@@ -39,6 +39,9 @@ OSCR.config(
             .when('/primary/:schema/:groupIdentifier/:identifier/edit', {
                 templateUrl: 'views/document-edit.html'
             })
+            .when('/primary/:schema/:groupIdentifier/:identifier/view', {
+                templateUrl: 'views/document-view.html'
+            })
             .when('/vocab/:vocab', {
                 templateUrl: 'views/vocab.html',
                 controller: 'VocabularyEditController'
