@@ -240,6 +240,13 @@ OSCR.controller(
 
         $scope.el = $scope.panel.element;
 
+        $scope.instanceDetails = false;
+
+        $scope.showInstanceDetails = function() {
+            $scope.instanceDetails = !$scope.instanceDetails;
+            console.log($scope.instanceDetails);
+        }
+
         if (!$scope.el.config.instance) {
             return;
         }

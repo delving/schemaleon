@@ -896,6 +896,7 @@ label {
 }
 
 
+
 /* GROUPS PAGE */
 
 .group-page {
@@ -912,10 +913,14 @@ label {
 /* VOCABULARIES */
 
 .vocabulary-extended {
-  background: @grayLighter;
+  background: @white;
   border-bottom: 1px solid @gray;
-  padding: 3px 20px;
-
+  table {
+    width: 100%;
+    td,th {
+      font-size: smaller;
+    }
+  }
 }
 
 /* SEARCH RESULTS */

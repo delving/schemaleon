@@ -1526,8 +1526,14 @@ label {
 }
 /* VOCABULARIES */
 .vocabulary-extended {
-  background: #eeeeee;
+  background: #ffffff;
   border-bottom: 1px solid #999999;
-  padding: 3px 20px;
+}
+.vocabulary-extended table {
+  width: 100%;
+}
+.vocabulary-extended table td,
+.vocabulary-extended table th {
+  font-size: smaller;
 }
 /* SEARCH RESULTS */

@@ -203,6 +203,14 @@
     <!--todo: eric styling-->
     <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
+        <span i18n="MoreDetails" class="badge badge-info pointer" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
+            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+        </span>
+
+        <span i18n="LessDetails" class="badge badge-warning pointer" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
+            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+        </span>
+
         <div ng-show="el.value" i18n="CurrentValue" class="current">
             <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
         </div>
@@ -216,9 +224,62 @@
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
                 <li ng-repeat="entry in el.entries">
                     <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
-                    <!--<div class="vocabulary-extended">-->
-                    <!--bla-->
-                    <!--</div>-->
+                    <div class="vocabulary-extended" ng-show="instanceDetails" data-ng-switch="entry.Header.SchemaName">
+
+
+                            <table data-ng-switch-when="Person" class="table-condensed">
+                                <tr ng-show="entry.Body.Person.Birth.DateOfBirth">
+                                    <th i18n="DateOfBirth"><span class="i18n"/></th>
+                                    <td>{{ entry.Body.Person.Birth.DateOfBirth }}</td>
+                                </tr>
+                                <tr ng-show="entry.Body.Person.Birth.PlaceOfBirth.SummaryFields.Title">
+                                    <th i18n="PlaceOfBirth"><span class="i18n"/></th>
+                                    <td>{{ entry.Body.Person.Birth.PlaceOfBirth.SummaryFields.Title }}</td>
+                                </tr>
+                                <tr ng-show="entry.Body.Person.Appelation">
+                                    <th i18n="Appelation"><span class="i18n"/></th>
+                                    <td>{{ entry.Body.Person.Appelation }}</td>
+                                </tr>
+                                <tr ng-show="entry.Body.Person.GivenName">
+                                    <th i18n="GivenName"><span class="i18n"/></th>
+                                    <td>{{ entry.Body.Person.GivenName }}</td>
+                                </tr>
+                                <tr ng-show="entry.Body.Person.SurnamePrefix">
+                                    <th i18n="SurnamePrefix"><span class="i18n"/></th>
+                                    <td>{{ entry.Body.Person.SurnamePrefix }}</td>
+                                </tr>
+                                <tr ng-show="entry.Body.Person.Surname">
+                                    <th i18n="Surname"><span class="i18n"/></th>
+                                    <td>{{ entry.Body.Person.Surname }}</td>
+                                </tr>
+                            </table>
+
+                        <table data-ng-switch-when="Location" class="table-condensed"
+                            <tr ng-show="entry.Body.Location.LocationName.Appelation">
+                                <th i18n="Appelation"><span class="i18n"/></th>
+                                <td>{{  entry.Body.Location.LocationName.Appelation  }}</td>
+                            </tr>
+                            <tr ng-show="entry.Body.Location.GeonamesURI">
+                                <th i18n="GeonamesURI"><span class="i18n"/></th>
+                                <td>
+                                    <a href="{{ entry.Body.Location.GeonamesURI }}" target="_blank">
+                                        {{  entry.Body.Location.GeonamesURI  }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr ng-show="entry.Body.Location.Coordinates.Longitude">
+                                <th i18n="Longitude"><span class="i18n"/></th>
+                                <td>{{ entry.Body.Location.Coordinates.Longitude   }}</td>
+                            </tr>
+                        <tr ng-show="entry.Body.Location.Coordinates.Latitude">
+                            <th i18n="Latitude"><span class="i18n"/></th>
+                            <td>{{ entry.Body.Location.Coordinates.Latitude   }}</td>
+                        </tr>
+                        </table>
+
+
+
+                    </div>
                 </li>
             </ul>
         </div>
