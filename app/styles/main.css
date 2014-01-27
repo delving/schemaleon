@@ -1437,7 +1437,6 @@ form#fileupload .navbar .progress {
 /* bootstrap overrides */
 .dropdown-menu > li > a {
   white-space: normal !important;
-  border-bottom: 1px solid #eeeeee;
 }
 ul.value-list label {
   display: inline-block;
