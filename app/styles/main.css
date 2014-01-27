@@ -661,6 +661,12 @@ ul.media-list .media {
 ul.thumbnails li:nth-child(4n+1) {
   margin-left: 0px;
 }
+ul.thumbnails a {
+  color: #222222;
+}
+ul.thumbnails a:hover {
+  text-decoration: none;
+}
 ul.thumbnails .thumbnail {
   background: #ffffff;
   height: 100px;
@@ -670,8 +676,20 @@ ul.thumbnails .thumbnail img {
   width: auto;
 }
 ul.thumbnails .thumbnail .media-heading {
+  color: #009ae0;
   font-size: 14px;
   margin-bottom: 0px;
+}
+ul.thumbnails .thumbnail .value-list li {
+  line-height: 16px;
+}
+ul.thumbnails .thumbnail .value-list label,
+ul.thumbnails .thumbnail .value-list .value {
+  font-size: smaller;
+  margin: 0 0 0 0;
+}
+ul.thumbnails li:hover .thumbnail {
+  background: #eeeeee;
 }
 .list-controls {
   *zoom: 1;

@@ -7,6 +7,8 @@
 @import "/app/styles/less/media-upload.less";
 @import "/app/styles/less/icons.less";
 
+@delvingBlue: #009ae0;
+
 /* CUSTOM MIXINS */
 
 .makeFluidRow() {
@@ -96,6 +98,12 @@ ul.thumbnails {
   li:nth-child(4n+1) {
     margin-left: 0px;
   }
+  a {
+    color: @grayDark;
+    &:hover {
+      text-decoration: none;
+    }
+  }
   .thumbnail {
     background: @white;
     height: 100px;
@@ -104,9 +112,22 @@ ul.thumbnails {
       width:auto;
     }
     .media-heading {
+      color: @delvingBlue;
       font-size: 14px;
       margin-bottom: 0px;
     }
+    .value-list {
+      li {
+        line-height: 16px;
+      }
+      label, .value {
+        font-size: smaller;
+        margin: 0 0 0 0;
+      }
+    }
+  }
+  li:hover .thumbnail {
+    background: @grayLighter;
   }
 }
 

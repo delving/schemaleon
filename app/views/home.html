@@ -75,20 +75,33 @@
         <!--{{ headerList }}-->
         <ul class="thumbnails">
             <li class="span3"  data-ng-repeat="header in headerList">
+                <a href ng-click="choosePath(header, true)">
                 <div class="thumbnail">
                     <div class="media">
-                        <a href ng-click="choosePath(header, true)" class="pull-left" ng-show="hasThumbnail(header)">
-                            <img ng-src="{{ getThumbPath(header) }}"/>
-                        </a>
+                        <!--<a href ng-click="choosePath(header, true)" class="pull-left" ng-show="hasThumbnail(header)">-->
+                            <img ng-src="{{ getThumbPath(header) }}" class="pull-left" ng-show="hasThumbnail(header)"/>
+                        <!--</a>-->
                         <div class="media-body">
+                            <!--{{ header }}-->
                             <h4 class="media-heading" data-ng-repeat="title in getTitles(header)">
-                               <a href ng-click="choosePath(header, true)">{{ title }}</a>
+                               {{ title }}
                             </h4>
-                            <div class="mime" ng-bind="getMimeType(header)"></div>
-                            <div class="group">{{ header.group.Name }}</div>
+                            <ul class="value-list unstyled">
+                                <li>
+                                    <label i18n="Type"><span class="i18n"/></label>
+                                    <span class="value" i18n="{{header.SchemaName}}">
+                                        <span class="i18n"/>
+                                    </span>
+                                </li>
+                                <li>
+                                    <label i18n="OwningGroup"><span class="i18n"/></label>
+                                    <span class="value">{{ header.group.Name }}</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+                </a>
             </li>
         </ul>
         <div class="list-controls">

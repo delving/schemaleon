@@ -11,7 +11,7 @@ OSCR.controller(
         $scope.schema = $routeParams.schema;
         $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.searchString = '';
-        $scope.defaultMaxResults = 5;
+        $scope.defaultMaxResults = 10;
         $scope.expectedListLength = $scope.defaultMaxResults;
         $scope.headerList = [];
         $scope.searchParams = {
