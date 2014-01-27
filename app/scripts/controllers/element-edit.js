@@ -236,6 +236,12 @@ OSCR.controller(
     }
 );
 
+OSCR.controller(
+    'FieldDocumentationController',
+    function ($scope, Document) {
+        $scope.el = $scope.panel.element;
+    }
+);
 
 OSCR.filter('mediaThumbnail',
     function ($rootScope) {

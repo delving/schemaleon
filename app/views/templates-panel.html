@@ -269,20 +269,18 @@
 
 
 <script type="text/ng-template" id="panel-field-documentation.html">
-    <div class="panel-input field-documentation-element">
+    <div class="panel-input field-documentation-element" data-ng-controller="FieldDocumentationController">
         <div ng-hide="el.elements">
-            <div ng-hide="annotationMode">
-                <div class="widget-box">
-                    <div class="widget-title">
-                        <span class="icon"><i class=" icon-info-sign"></i></span>
-                        <h5>{{ el | elementTitle }}</h5>
-                    </div>
-                    <div class="widget-body">
-                        <p ng-show="el.doc">{{ el | elementDoc }}</p>
-                    </div>
-                    <div class="widget-footer">
-                        <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
-                    </div>
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class=" icon-info-sign"></i></span>
+                    <h5>{{ el | elementTitle }}</h5>
+                </div>
+                <div class="widget-body">
+                    <p ng-show="el.doc">{{ el | elementDoc }}</p>
+                </div>
+                <div class="widget-footer">
+                    <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
                 </div>
             </div>
         </div>

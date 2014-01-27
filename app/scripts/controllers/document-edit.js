@@ -263,9 +263,7 @@ OSCR.controller(
             $scope.panels = [
                 { selected: 0, element: newTree }
             ];
-            if (!$scope.annotationMode) {
-                $scope.choose(0, 0);
-            }
+            $scope.choose(0, 0);
         });
 
         $scope.setActiveEl = function (el) {
@@ -354,8 +352,8 @@ OSCR.controller(
 
         $scope.getDetailView = function (el) {
             if (!el) {
-//                console.warn("get detail view of nothing"); todo take care of this
-                return "panel-field-documentation.html";
+                console.warn("get detail view of nothing");
+                return "panel-unrecognized.html";
             }
             if ($scope.editing) {
                 if (el.config.media) {
@@ -381,7 +379,6 @@ OSCR.controller(
         $scope.el = $scope.element;
 
         $scope.navigationKeyPressed = function (key) {
-            if ($scope.annotationMode) return; // is there maybe a better way?
             var elements = $scope.panels[$scope.selectedPanelIndex].element.elements;
             if (!elements) return;
             var size = elements.length;

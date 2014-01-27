@@ -11,7 +11,6 @@ OSCR.controller(
     'CollectionChoiceController',
     function ($scope) {
 
-        $scope.annotationMode = true;
         $scope.document = $scope.schema;
         $scope.tree = null;
 

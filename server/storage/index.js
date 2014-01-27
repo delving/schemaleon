@@ -339,7 +339,6 @@ function open(databaseName, homeDir, receiver) {
 
         function loadPromise(filePath, docPath, replace) {
             var deferred = defer();
-            log('load promise ' + filePath + ' to ' + docPath);
             fs.readFile(filePath, 'utf8', function (err, contents) {
                 if (err) console.error(err);
                 if (replace) {
@@ -359,7 +358,7 @@ function open(databaseName, homeDir, receiver) {
         }
 
         function loadData(fsPath, docPath, replace) {
-            log('loading data from ' + fsPath + ' to ' + docPath);
+            console.log('loading data from ' + fsPath + ' to ' + docPath);
             var extension = ".xml";
             _.each(fs.readdirSync(fsPath), function (file) {
                 if (file[0] == '.') return;
