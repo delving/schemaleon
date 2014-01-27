@@ -50,6 +50,11 @@ OSCR.controller(
 //                console.log($scope.allUsers);
             });
         }
+        
+        $('#dd-group-select').on('change', function () {
+            var group = $(this).val();
+            $scope.populateGroup(group);
+        });
 
         $scope.canUserAdministrate = function (groupIdentifier) {
             if ($rootScope.user && $rootScope.user.Memberships) {
@@ -69,6 +74,8 @@ OSCR.controller(
         };
 
         $scope.populateGroup = function (group) {
+            console.log(group);
+            console.log(group.Identifier);
             Person.getUsersInGroup(group.Identifier, function (list) {
                 _.each(list, function (user) {
                     if (user.Memberships) {
@@ -81,7 +88,6 @@ OSCR.controller(
                 });
                 group.userList = list;
             });
-
             $scope.selectedGroup.Identifier = group.Identifier;
             $scope.selectedGroup.Name = group.Name;
         };

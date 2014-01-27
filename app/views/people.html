@@ -7,6 +7,9 @@
     <div class="navbar" data-private="canUserAdministrate('OSCR')">
         <div class="navbar-inner">
             <div class="controls">
+                <select id="dd-group-select">
+                    <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
+                </select>
                 <span i18n="NewGroup">
                     <a href class="btn btn-primary" ng-click="newGroupToggle()">
                         <i class="icon icon-plus icon-white"></i>
@@ -20,17 +23,11 @@
 
     <div class="user-management">
 
-    <div class="group-list">
 
-        <accordion class="action-accordion">
-            <accordion-group ng-repeat="group in groupList" class="group">
 
-                <accordion-heading>
-                    <div class="clearfix">
-                        <span ng-click="populateGroup(group)">{{ group.Name }}</span>
-                    </div>
-                </accordion-heading>
+        <div class="group-list">
 
+            <div class="selected-group">
                 <table class="table table-striped table-bordered table-grid">
                     <thead>
                     <tr>
@@ -63,12 +60,54 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        <!--<accordion class="action-accordion">-->
+            <!--<accordion-group ng-repeat="group in groupList" class="group">-->
 
-            </accordion-group>
-        </accordion>
+                <!--<accordion-heading>-->
+                    <!--<div class="clearfix">-->
+                        <!--<span ng-click="populateGroup(group)">{{ group.Name }}</span>-->
+                    <!--</div>-->
+                <!--</accordion-heading>-->
+
+                <!--<table class="table table-striped table-bordered table-grid">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th width="250" i18n="Email"><span class="i18n">Email</span></th>-->
+                        <!--<th width="250" i18n="Name"><span class="i18n">Name</span></th>-->
+                        <!--<th i18n="Role"><span class="i18n">Role</span></th>-->
+                        <!--<th width="300" private="canUserAdministrate(group.Identifier)">-->
+                            <!--<div class="btn-group">-->
+                                <!--<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">-->
+                                    <!--Add user to group-->
+                                    <!--<span class="caret"></span>-->
+                                <!--</a>-->
+                                <!--<ul class="dropdown-menu" class="z-index:100000">-->
+                                    <!--<li ng-repeat="role in roles">-->
+                                        <!--<a href ng-click="addUserToggle(role.name)">{{ role.name }}</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr ng-repeat="user in group.userList">-->
+                        <!--<td>{{ user.Profile.email }}</td>-->
+                        <!--<td><span class="eclipse">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</span></td>-->
+                        <!--<td><span class="label {{ user.GroupMember.Role}}">{{ user.GroupMember.Role}}</span></td>-->
+                        <!--<td private="canUserAdministrate(group.Identifier)">-->
+                            <!--<button class="btn btn-mini btn-danger" ng-click="removeUserFromGroup(user)"><i class="icon-trash icon-white"></i></button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+
+            <!--</accordion-group>-->
+        <!--</accordion>-->
     </div>
 
-    <div class="adding-users">
+        <div class="adding-users">
         <!-- GROUP CREATION //-->
         <div class="widget-box" ng-show="creatingGroup">
             <div class="widget-title">
