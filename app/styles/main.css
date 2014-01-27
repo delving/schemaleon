@@ -1525,6 +1525,18 @@ label {
   margin-right: 9px;
   padding: 4px 8px;
 }
+.vocabulary-list > li > a {
+  padding: 3px 10px;
+}
+.vocabulary-list > li > a:hover + .vocabulary-extended table {
+  background: #d1eef9;
+}
+.table-vocabulary-details {
+  color: #808080;
+}
+.table-vocabulary-details th {
+  padding-left: 10px;
+}
 /* GROUPS PAGE */
 .group-page address {
   background: #ffffff;
@@ -1538,6 +1550,9 @@ label {
 .vocabulary-extended {
   background: #ffffff;
   border-bottom: 1px solid #999999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .vocabulary-extended table {
   width: 100%;

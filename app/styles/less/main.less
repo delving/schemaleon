@@ -903,6 +903,21 @@ label {
   }
 }
 
+.vocabulary-list {
+  > li > a {
+    padding: 3px 10px;
+  }
+  > li > a:hover + .vocabulary-extended table {
+    background: lighten(@blue, 35%);
+  }
+}
+
+.table-vocabulary-details {
+  color: darken(@gray,10%);
+  th {
+    padding-left: 10px;
+  }
+}
 
 
 /* GROUPS PAGE */
@@ -923,6 +938,7 @@ label {
 .vocabulary-extended {
   background: @white;
   border-bottom: 1px solid @gray;
+  .box-sizing(border-box);
   table {
     width: 100%;
     td,th {

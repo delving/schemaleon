@@ -204,7 +204,7 @@ OSCR.controller(
 );
 OSCR.controller(
     'InstanceSearchController',
-    function ($scope, Document) {
+    function ($rootScope, $scope, Document) {
 
         $scope.el = $scope.panel.element;
 
@@ -218,7 +218,29 @@ OSCR.controller(
         if (!$scope.el.config.instance) {
             return;
         }
+
         $scope.schema = $scope.el.config.instance;
+
+//        $scope.instanceList = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
+//            var fieldList = [];
+//            switch(sharedSchema){
+//                case 'Person':
+//                fieldList = [
+//                    {
+//                        'name' :'entry.Body.Person.Birth.DateOfBirth',
+//                        'label': 'DateOfBirth'
+//                    }
+//
+//                ]
+//            }
+//            return {
+//                name: sharedSchema,
+//                path: "/shared/" + sharedSchema
+//                fields: fieldList
+//            };
+//        });
+//
+//        console.log( $scope.instanceList);
 
         $scope.setValue = function (value) {
             $scope.el.value = value.Header;  // instance controller is watching this
