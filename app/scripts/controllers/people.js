@@ -47,12 +47,11 @@ OSCR.controller(
         function getAllUsers() {
             Person.getAllUsers(function (list) {
                 $scope.allUsers = list;
-//                console.log($scope.allUsers);
             });
         }
         
         $('#dd-group-select').on('change', function () {
-            var group = $(this).val();
+            var group = JSON.parse($(this).val());
             $scope.populateGroup(group);
         });
 
@@ -74,8 +73,6 @@ OSCR.controller(
         };
 
         $scope.populateGroup = function (group) {
-            console.log(group);
-            console.log(group.Identifier);
             Person.getUsersInGroup(group.Identifier, function (list) {
                 _.each(list, function (user) {
                     if (user.Memberships) {
@@ -86,7 +83,8 @@ OSCR.controller(
                         });
                     }
                 });
-                group.userList = list;
+//                group.userList = list;
+                $scope.selectedGroup.UserList = list;
             });
             $scope.selectedGroup.Identifier = group.Identifier;
             $scope.selectedGroup.Name = group.Name;

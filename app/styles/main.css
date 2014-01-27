@@ -1402,8 +1402,8 @@ form#fileupload .navbar .progress {
 }
 .group-list {
   float: left;
-  width: 65.95744680851064%;
-  *width: 65.90425531914893%;
+  width: 57.44680851063829%;
+  *width: 57.39361702127659%;
   margin-left: 2.127659574468085%;
   *margin-left: 2.0212765957446805%;
 }
@@ -1412,10 +1412,13 @@ form#fileupload .navbar .progress {
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
 }
+.group-list .widget-body {
+  min-height: 200px;
+}
 .adding-users {
   float: left;
-  width: 31.914893617021278%;
-  *width: 31.861702127659576%;
+  width: 40.42553191489362%;
+  *width: 40.37234042553192%;
   margin-left: 2.127659574468085%;
   *margin-left: 2.0212765957446805%;
 }
@@ -1424,8 +1427,12 @@ form#fileupload .navbar .progress {
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
 }
-.group-list .accordion-inner {
-  min-height: 120px;
+.form-group-select label {
+  font-weight: bold;
+  vertical-align: baseline;
+}
+#dd-group-select {
+  vertical-align: baseline;
 }
 /* bootstrap overrides */
 .dropdown-menu > li > a {
