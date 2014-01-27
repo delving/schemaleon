@@ -669,7 +669,7 @@ ul.thumbnails a:hover {
 }
 ul.thumbnails .thumbnail {
   background: #ffffff;
-  height: 100px;
+  height: 120px;
 }
 ul.thumbnails .thumbnail img {
   height: 65px;
@@ -703,6 +703,17 @@ ul.thumbnails li:hover .thumbnail {
 }
 .list-controls:after {
   clear: both;
+}
+.pdf-controls {
+  background: #ffffff;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  padding: 3px 8px;
+}
+.pdf-controls .label {
+  margin-left: 10px;
 }
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */

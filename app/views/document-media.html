@@ -7,6 +7,21 @@
             <video width="100%" controls src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
             </video>
         </div>
+        <div data-ng-show="isPdf(file.value.MimeType)">
+            <div class="row">
+                <div class="btn-group pdf-controls">
+                    <button class="btn btn-small" ng-click="gotoPage(1)"><i class="icon-fast-backward"></i></button>
+                    <button class="btn btn-small" ng-click="prevPage()"><i class="icon-backward"></i></button>
+                    <button class="btn btn-small" ng-click="nextPage()"><i class="icon-forward"></i></button>
+                    <button class="btn btn-small" ng-click="gotoPage(totalPages)"><i class="icon-fast-forward"></i></button>
+                    <span class="label label-info" ng-show="totalPages"><i class="icon-file icon-white"></i> {{currentPage}} / {{totalPages}}</span>
+                </div>
+
+            </div>
+            <div class="row">
+                <pdfviewer src="{{ file | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+            </div>
+        </div>
     </div>
 </div>
 

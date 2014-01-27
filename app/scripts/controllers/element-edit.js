@@ -228,6 +228,7 @@ OSCR.controller(
 //                fieldList = [
 //                    {
 //                        'name' :'entry.Body.Person.Birth.DateOfBirth',
+//                        'name' :'entry.Body.Person.Birth.DateOfBirth',
 //                        'label': 'DateOfBirth'
 //                    }
 //

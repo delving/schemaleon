@@ -462,10 +462,8 @@ OSCR.directive('documentNavigation', function () {
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
 OSCR.controller(
-    'ViewTreeController',
+    'ViewTreeControllerasdfasfsaf',
     function ($scope, $timeout) {
-
-        $scope.mediaFiles = ['test','ing'];
 
         $scope.$watch("tree", function(tree, oldTree) {
             // collect an array of only the media elements
@@ -492,6 +490,61 @@ OSCR.controller(
 
     }
 );
+
+OSCR.controller('ViewTreeController', [ '$scope', 'PDFViewerService', function($scope, pdf) {
+
+    $scope.$watch("tree", function(tree, oldTree) {
+        // collect an array of only the media elements
+        $scope.mediaElements = tree ? collectMediaElements(tree) : [];
+        // collect an array of only the media files
+        var getMediaFiles = function() {
+            return _.map($scope.mediaElements, function(el){
+                return el;
+            });
+        };
+
+        $scope.mediaFiles = getMediaFiles();
+    });
+
+    $scope.filterNonMedia = function(elementList) {
+        return _.filter(elementList, function(element) {
+            return !element.config.media;
+        });
+    };
+
+    $scope.hasValue = function(el) {
+        return hasContent(el);
+    };
+
+    $scope.pdfURL = "";
+
+    $scope.setPdfPath = function (path) {
+        $scope.pdfURL = path;
+    }
+
+    $scope.instance = pdf.Instance("pdf-viewer");
+
+    $scope.nextPage = function() {
+        $scope.instance.nextPage();
+    };
+
+    $scope.prevPage = function() {
+        $scope.instance.prevPage();
+    };
+
+    $scope.gotoPage = function(page) {
+        $scope.instance.gotoPage(page);
+    };
+
+    $scope.pageLoaded = function(curPage, totalPages) {
+        $scope.currentPage = curPage;
+        $scope.totalPages = totalPages;
+    };
+
+    $scope.loadProgress = function(loaded, total, state) {
+        console.log('loaded =', loaded, 'total =', total, 'state =', state);
+    };
+}]);
 
 OSCR.controller(
     'ViewElementController',
