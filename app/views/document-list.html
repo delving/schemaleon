@@ -1,5 +1,4 @@
 <div class="fade-in">
-
     <div class="page-header">
         <h1 i18n="Documents">
             <span class="i18n"></span> - {{ schema }}
@@ -68,9 +67,10 @@
         </tr>
         <tr data-ng-show="couldBeMoreResults()">
             <td colspan="7" i18n="MoreThan">
-                <div class="badge badge-success" data-ng-mouseenter="getMoreResults()">
+                <div class="badge badge-success pointer" data-ng-click="getMoreResults()">
                     <span class="i18n"></span> <span>{{ headerList.length }}</span>
                 </div>
+                <div class="badge badge-info pointer pull-right" data-ng-click="scrollToTop()" data-ng-show="headerList.length > 10"><span i18n="BackToTop"><span class="i18n"/></div>
             </td>
         </tr>
         </tbody>

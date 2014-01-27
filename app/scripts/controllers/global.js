@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $timeout, $scope, $q, $location, $routeParams, Person, I18N) {
+    function ($rootScope, $cookieStore, $timeout, $scope, $q, $location, $anchorScroll, $routeParams, Person, I18N) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -340,6 +340,14 @@ OSCR.controller(
             setUser(null);
             $scope.choosePath('/');
         };
+
+        $rootScope.scrollToTop = function () {
+            var height =  $('body').height();
+            $('html,body').stop().animate({
+                scrollLeft: '+=' + 0,
+                scrollTop: '+=' + -height
+            })
+        }
 
         if ($location.host() == 'localhost') {
             var user = $cookieStore.get('user');
