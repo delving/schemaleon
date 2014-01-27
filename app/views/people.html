@@ -7,13 +7,13 @@
     <div class="navbar" data-private="canUserAdministrate('OSCR')">
         <div class="navbar-inner">
             <div class="controls">
-                <form class="navbar-form form-inline span4 form-group-select">
-                <label i18n="SelectGroup"><span class="i18n"/>: </label>
-                <select id="dd-group-select" class="input-xlarge">
-                    <option>------------------------------------------------------</option>
-                    <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
-                </select>
-                    </form>
+                <form class="navbar-form form-inline form-group-select pull-left">
+                    <label i18n="SelectGroup"><span class="i18n"/>: </label>
+                    <select id="dd-group-select" class="input-xlarge">
+                        <option>------------------------------------------------------</option>
+                        <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
+                    </select>
+                </form>
                 <span i18n="NewGroup" class="pull-right">
                     <a href class="btn btn-primary" ng-click="newGroupToggle()">
                         <i class="icon icon-plus icon-white"></i>
