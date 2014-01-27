@@ -258,6 +258,10 @@ OSCR.controller(
 
         $scope.activeEl = null;
 
+        $scope.isEditing = function(el) {
+            return $scope.isActiveEl(el) && $scope.editing;
+        };
+
         $scope.$watch('tree', function (newTree, oldTree) {
             if (!newTree) return;
             $scope.panels = [

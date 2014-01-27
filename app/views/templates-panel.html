@@ -7,7 +7,7 @@
 <script type="text/ng-template" id="panel-line.html">
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
-            <div data-ng-show="editing">
+            <div data-ng-show="isEditing(el)">
                 <input el-focus="el" class="input-block-level" type="text" ng-model="el.value" />
                 <div ng-show="el.invalidMessage">
                     <span class="label label-important">{{ el | invalidMessage }}</span>
@@ -17,7 +17,7 @@
                     </span>
                 </div>
             </div>
-            <div data-ng-show="!editing" ng-click="setEditing(true)">
+            <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
                 <input disabled class="input-block-level" type="text" ng-model="el.value" />
                 <input el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
             </div>
@@ -28,10 +28,10 @@
 <script type="text/ng-template" id="panel-paragraph.html">
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
-            <div data-ng-show="editing">
+            <div data-ng-show="isEditing(el)">
                 <textarea el-focus="el" ng-model="el.value" rows="5"></textarea>
             </div>
-            <div data-ng-show="!editing" ng-click="setEditing(true)">
+            <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
                 <textarea disabled ng-model="el.value" rows="5"></textarea>
                 <input el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
             </div>
@@ -42,10 +42,10 @@
 <script type="text/ng-template" id="panel-vocabulary.html">
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
-            <div data-ng-show="editing">
+            <div data-ng-show="isEditing(el)">
                 <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
             </div>
-            <div data-ng-show="!editing" ng-click="setEditing(true)">
+            <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
                 <div data-ng-show="el.value">
                     <input type="text" disabled ng-model="el.value.Label" class="input-block-level"/>
                 </div>
@@ -88,7 +88,7 @@
 
 <script type="text/ng-template" id="panel-media.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
-        <div data-ng-show="editing" class="digital-object-input">
+        <div data-ng-show="isEditing(el)" class="digital-object-input">
             <div ng-show="el.value" class="media">
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div data-ng-show="!editing" ng-click="setEditing(true)">
+        <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
             <div class="chosen-value" tabindex="0" i18n="Add">
                 <div ng-hide="el.value" ng-click="enableMediaEditor()">
                     <span class="btn"><span class="i18n"></span></span>
@@ -157,10 +157,10 @@
     <!--todo: eric styling-->
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
-            <div data-ng-show="editing">
+            <div data-ng-show="isEditing(el)">
                 <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
             </div>
-            <div data-ng-show="!editing" ng-click="setEditing(true)">
+            <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
                 <div data-ng-show="el.value">
                     <input type="text" disabled ng-model="el.value.SummaryFields.Title" class="input-block-level"/>
                 </div>
