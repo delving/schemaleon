@@ -211,15 +211,23 @@
             <label><span class="i18n"/>:</label>
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
-        <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
-        <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
-            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
-        </span>
-        <span i18n="LessDetails" class="badge badge-warning pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
-            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
-        </span>
-        <!-- DISPLAY LIST OF RETURNED VALUES //-->
         <div ng-show="el.entries">
+            <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
+        <div class="detail-controls">
+            <span i18n="Found">
+                <label><span class="i18n"/>:</label>
+            </span>
+            <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
+                <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+            </span>
+            <span i18n="LessDetails" class="badge badge-inverse pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
+                <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+            </span>
+        </div>
+
+
+
+            <!-- DISPLAY LIST OF RETURNED VALUES //-->
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
                 <li ng-repeat="entry in el.entries">
                     <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>

@@ -1515,8 +1515,15 @@ label {
 .vocabulary-controls .value {
   color: #eeeeee;
 }
-.vocabulary-controls .badge.pull-right {
-  margin-right: 10px;
+.vocabulary-controls .detail-controls {
+  background: #000000;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  height: 21px;
+  line-height: 21px;
+  margin-right: 9px;
+  padding: 4px 8px;
 }
 /* GROUPS PAGE */
 .group-page address {
