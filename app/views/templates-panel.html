@@ -80,7 +80,7 @@
             <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Label }}</span>
         </div>
         <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
-        <div i18n="SearchFor">
+        <div i18n="SearchingFor">
             <label><span class="i18n"/>:</label>
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
@@ -203,29 +203,27 @@
     <!--todo: eric styling-->
     <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
-        <span i18n="MoreDetails" class="badge badge-info pointer" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
-            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
-        </span>
-
-        <span i18n="LessDetails" class="badge badge-warning pointer" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
-            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
-        </span>
-
         <div ng-show="el.value" i18n="CurrentValue" class="current">
-            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
+            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.SummaryFields.Title }}</span>
         </div>
         <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
-        <div i18n="SearchFor">
+        <div i18n="SearchingFor">
             <label><span class="i18n"/>:</label>
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
+        <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
+        <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
+            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+        </span>
+        <span i18n="LessDetails" class="badge badge-warning pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
+            <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+        </span>
         <!-- DISPLAY LIST OF RETURNED VALUES //-->
         <div ng-show="el.entries">
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
                 <li ng-repeat="entry in el.entries">
                     <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
                     <div class="vocabulary-extended" ng-show="instanceDetails" data-ng-switch="entry.Header.SchemaName">
-
 
                             <table data-ng-switch-when="Person" class="table-condensed">
                                 <tr ng-show="entry.Body.Person.Birth.DateOfBirth">

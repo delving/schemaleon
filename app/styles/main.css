@@ -1515,6 +1515,9 @@ label {
 .vocabulary-controls .value {
   color: #eeeeee;
 }
+.vocabulary-controls .badge.pull-right {
+  margin-right: 10px;
+}
 /* GROUPS PAGE */
 .group-page address {
   background: #ffffff;
