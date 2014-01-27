@@ -19,7 +19,7 @@ OSCR.controller(
 
         $scope.headerList = [];
         $scope.searchString = '';
-        $scope.defaultMaxResults = 5;
+        $scope.defaultMaxResults = 12;
         $scope.expectedListLength = $scope.defaultMaxResults;
         $scope.headerList = [];
         $scope.searchParams = {

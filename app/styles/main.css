@@ -658,11 +658,12 @@ ul.translations .thumbnail {
 ul.media-list .media {
   margin-bottom: 20px !important;
 }
-ul.thumbnails li:nth-of-type(5) {
+ul.thumbnails li:nth-child(4n+1) {
   margin-left: 0px;
 }
 ul.thumbnails .thumbnail {
   background: #ffffff;
+  height: 100px;
 }
 ul.thumbnails .thumbnail img {
   height: 65px;
@@ -671,6 +672,19 @@ ul.thumbnails .thumbnail img {
 ul.thumbnails .thumbnail .media-heading {
   font-size: 14px;
   margin-bottom: 0px;
+}
+.list-controls {
+  *zoom: 1;
+  margin-bottom: 20px;
+}
+.list-controls:before,
+.list-controls:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.list-controls:after {
+  clear: both;
 }
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */

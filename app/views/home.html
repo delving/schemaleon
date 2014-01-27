@@ -91,11 +91,15 @@
                 </div>
             </li>
         </ul>
-        <div ng-show="couldBeMoreResults()">
-            <div colspan="7" i18n="MoreThan">
-                <span class="badge badge-success" data-ng-mouseenter="getMoreResults()">
-                    <span class="i18n"></span> <span>{{ headerList.length }}</span>
-                </span>
+        <div class="list-controls">
+            <div class="badge badge-success pointer" data-ng-click="getMoreResults()" i18n="MoreThan" ng-show="couldBeMoreResults()">
+                <i class="icon icon-white icon-hand-down"></i>
+                <span class="i18n"></span>
+                <span>{{ headerList.length }}</span>
+            </div>
+            <div class="badge badge-info pointer pull-right" data-ng-click="scrollToTop()" data-ng-show="headerList.length > 12" i18n="BackToTop">
+                <i class="icon icon-white icon-hand-up"></i>
+                <span class="i18n"/></span>
             </div>
         </div>
 

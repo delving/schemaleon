@@ -93,11 +93,12 @@ ul.media-list {
 }
 
 ul.thumbnails {
-  li:nth-of-type(5) {
+  li:nth-child(4n+1) {
     margin-left: 0px;
   }
   .thumbnail {
     background: @white;
+    height: 100px;
     img {
       height: 65px;
       width:auto;
@@ -107,6 +108,11 @@ ul.thumbnails {
       margin-bottom: 0px;
     }
   }
+}
+
+.list-controls {
+  .clearfix();
+  margin-bottom: 20px;
 }
 
 
