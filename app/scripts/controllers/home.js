@@ -18,28 +18,89 @@ OSCR.controller(
         });
 
         $scope.headerList = [];
+        $scope.searchString = '';
+        $scope.defaultMaxResults = 5;
+        $scope.expectedListLength = $scope.defaultMaxResults;
+        $scope.headerList = [];
+        $scope.searchParams = {
+            startIndex: 1,
+            maxResults: $scope.defaultMaxResults
+        };
 
-        $scope.$watch('searchString', function(newValue, oldValue) {
-                Document.searchDocuments(null, null, newValue, function (list) {
-                    $scope.headerList = _.map(list, function(document) {
-                        return document.Header;
-                    });
-                    var groupIdentifiers = _.uniq(_.map($scope.headerList, function(header){
-                        return header.GroupIdentifier;
-                    }));
-                    _.each(groupIdentifiers, function(groupIdentifier){
-                        Person.getGroup(groupIdentifier, function(group) {
-                            _.each($scope.headerList, function(header) {
-                                if (groupIdentifier == header.GroupIdentifier) {
-                                    header.group = group.Group;
-                                }
-                            });
+        function searchDocuments() {
+            Document.searchDocuments(null, null, $scope.searchParams, function (list) {
+                var headerList = _.map(list, function(document) {
+                    return document.Header;
+                });
+                var groupIdentifiers = _.uniq(_.map(headerList, function(header){
+                    return header.GroupIdentifier;
+                }));
+                _.each(groupIdentifiers, function(groupIdentifier){
+                    Person.getGroup(groupIdentifier, function(group) {
+                        _.each(headerList, function(header) {
+                            if (groupIdentifier == header.GroupIdentifier) {
+                                header.group = group.Group;
+                            }
                         });
                     });
                 });
+
+                if ($scope.searchParams.startIndex == 1) {
+                    $scope.headerList = headerList;
+                }
+                else {
+                    $scope.headerList = $scope.headerList.concat(headerList);
+                }
+
+            });
+        }
+
+        $scope.$watch('searchString', function(searchString, oldSearchString) {
+            $scope.searchParams.searchQuery = searchString;
+            $scope.searchParams.startIndex = 1;
+            $scope.searchParams.maxResults = $scope.defaultMaxResults;
+            $scope.expectedListLength = $scope.defaultMaxResults;
+            searchDocuments();
         });
 
-        // trigger fetching the list
-        $scope.searchString = '';
+        $scope.couldBeMoreResults = function() {
+            return $scope.headerList.length == $scope.expectedListLength;
+        };
+
+        $scope.getMoreResults = function() {
+            $scope.searchParams.startIndex = $scope.headerList.length + 1;
+            $scope.searchParams.maxResults = $scope.searchParams.maxResults * 2;
+            $scope.expectedListLength = $scope.headerList.length + $scope.searchParams.maxResults;
+            searchDocuments();
+        };
+
+        $scope.getTitles = function(header) {
+            return xmlArray(header.SummaryFields.Title);
+        };
+
+        $scope.hasThumbnail = function(header) {
+            return header.SummaryFields.Thumbnail;
+        };
+
+        $scope.getThumbPath = function(header) {
+            var thumbArray = xmlArray(header.SummaryFields.Thumbnail);
+            if (thumbArray.length) {
+                var thumbName = $scope.getProperThumbExtension(thumbArray[0].Identifier);
+                return '/media/thumbnail/' + thumbName;
+            }
+            else {
+                return ''; // todo: an image to indicate?
+            }
+        };
+
+        $scope.getMimeType = function(header) {
+            var thumbArray = xmlArray(header.SummaryFields.Thumbnail);
+            if (thumbArray.length) {
+                return thumbArray[0].MimeType;
+            }
+            else {
+                return '?';
+            }
+        };
     }
 );

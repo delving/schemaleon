@@ -9,38 +9,61 @@ OSCR.controller(
         $rootScope.checkLoggedIn();
 
         $scope.schema = $routeParams.schema;
-
-        $scope.documentShared = function () {
-            if ($location.path().indexOf('/shared/') > -1 ){
-                return true;
-            }
-        }
-
         $scope.groupIdentifier = $routeParams.groupIdentifier;
+        $scope.searchString = '';
+        $scope.defaultMaxResults = 5;
+        $scope.expectedListLength = $scope.defaultMaxResults;
         $scope.headerList = [];
+        $scope.searchParams = {
+            startIndex: 1,
+            maxResults: $scope.defaultMaxResults
+        };
 
-        $scope.$watch('searchString', function(newValue, oldValue) {
-            Document.searchDocuments($scope.schema, $scope.groupIdentifier, newValue, function (list) {
-                $scope.headerList = _.map(list, function(document) {
+        function searchDocuments() {
+            Document.searchDocuments($scope.schema, $scope.groupIdentifier, $scope.searchParams, function (list) {
+                var headerList = _.map(list, function(document) {
                     return document.Header;
                 });
                 // find unique user id's and map them. then fetch Person Profile for display of email
-                var userIds = _.uniq(_.map($scope.headerList, function(header){
+                var userIds = _.uniq(_.map(headerList, function(header){
                     return header.SavedBy;
                 }));
                 _.each(userIds, function(id){
                     Person.getUser(id, function(user) {
-                        _.each($scope.headerList, function(element) {
+                        _.each(headerList, function(element) {
                             if (id == element.SavedBy) {
                                 element.userView = user;
                             }
                         });
                     });
                 });
+                if ($scope.searchParams.startIndex == 1) {
+                    $scope.headerList = headerList;
+                }
+                else {
+                    $scope.headerList = $scope.headerList.concat(headerList);
+                }
             });
+        }
+
+        $scope.$watch('searchString', function(searchString, oldSearchString) {
+            $scope.searchParams.searchQuery = searchString;
+            $scope.searchParams.startIndex = 1;
+            $scope.searchParams.maxResults = $scope.defaultMaxResults;
+            $scope.expectedListLength = $scope.defaultMaxResults;
+            searchDocuments();
         });
 
-        $scope.searchString = '';
+        $scope.couldBeMoreResults = function() {
+            return $scope.headerList.length == $scope.expectedListLength;
+        };
+
+        $scope.getMoreResults = function() {
+            $scope.searchParams.startIndex = $scope.headerList.length + 1;
+            $scope.searchParams.maxResults = $scope.searchParams.maxResults * 2;
+            $scope.expectedListLength = $scope.headerList.length + $scope.searchParams.maxResults;
+            searchDocuments();
+        };
     }
 );
 

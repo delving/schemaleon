@@ -3,8 +3,6 @@
 var _ = require('underscore');
 var util = require('../util');
 
-var MAX_RESULTS = 30;
-
 module.exports = Document;
 
 function Document(storage) {
@@ -25,36 +23,37 @@ P.getDocumentSchema = function (schemaName, receiver) {
     );
 };
 
-P.searchDocuments = function (search, receiver) {
+P.searchDocuments = function (params, receiver) {
+    console.log("search", params); // todo
     var s = this.storage;
     var q = [];
     q.push('<Documents>{');
-    q.push('let $all := for $doc in ' + s.dataCollection(search.schemaName, search.groupIdentifier) + '/Document');
-    if (search.schemaName != 'MediaMetadata') { // if we're not searching for MM, we must exclude it
+    q.push('let $all := for $doc in ' + s.dataCollection(params.schemaName, params.groupIdentifier) + '/Document');
+    if (params.schemaName != 'MediaMetadata') { // if we're not searching for MM, we must exclude it
         q.push("where ($doc/Header/SchemaName/text() != 'MediaMetadata')");
     }
-    if (search.query && search.query.length) {
+    if (params.searchQuery && params.searchQuery.length) {
         q.push("and (");
-        if (search.wildcards) {
-            q.push('$doc/Body//*[text() contains text ' + util.quote(search.query + '.+') + ' using wildcards]');
+        if (params.wildcards) {
+            q.push('$doc/Body//*[text() contains text ' + util.quote(params.searchQuery + '.+') + ' using wildcards]');
             q.push('or');
         }
-        q.push('$doc/Body//*[text() contains text ' + util.quote(search.query) + ' using stemming]');
+        q.push('$doc/Body//*[text() contains text ' + util.quote(params.searchQuery) + ' using stemming]');
         q.push(')')
     }
-    if (s.onlyPublic(search.schemaName, search.groupIdentifier)) {
+    if (s.onlyPublic(params.schemaName, params.groupIdentifier)) {
         q.push("and ($doc/Header/DocumentState/text() = 'public')");
     }
-    if (s.isShared(search.schemaName)) {
+    if (s.isShared(params.schemaName)) {
         q.push('order by $doc/Header/SummaryFields/Title ascending');
     }
     else {
         q.push('order by $doc/Header/TimeStamp descending');
     }
     q.push('return $doc');
-    q.push('return subsequence($all, 1, ' + MAX_RESULTS + ')');
+    q.push('return subsequence($all, ' + params.startIndex + ', ' + params.maxResults + ')');
     q.push('}</Documents>');
-    s.query('select documents: ' + search.schemaName + ' ' + search.groupIdentifier + ' ' + JSON.stringify(search), q, receiver);
+    s.query('select documents: ' + JSON.stringify(params), q, receiver);
 };
 
 P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
