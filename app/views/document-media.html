@@ -9,7 +9,7 @@
         </div>
         <div data-ng-show="isPdf(file.value.MimeType)">
             <div class="row">
-                <div class="btn-group pdf-controls">
+                <div class="btn-group pdf-controls" ng-show="totalPages > 1">
                     <button class="btn btn-small" ng-click="gotoPage(1)"><i class="icon-fast-backward"></i></button>
                     <button class="btn btn-small" ng-click="prevPage()"><i class="icon-backward"></i></button>
                     <button class="btn btn-small" ng-click="nextPage()"><i class="icon-forward"></i></button>
