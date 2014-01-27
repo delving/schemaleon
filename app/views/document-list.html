@@ -66,11 +66,16 @@
             </td>
         </tr>
         <tr data-ng-show="couldBeMoreResults()">
-            <td colspan="7" i18n="MoreThan">
-                <div class="badge badge-success pointer" data-ng-click="getMoreResults()">
-                    <span class="i18n"></span> <span>{{ headerList.length }}</span>
+            <td colspan="7" >
+                <div class="badge badge-success pointer" data-ng-click="getMoreResults()" i18n="MoreThan">
+                    <i class="icon icon-white icon-hand-down"></i>
+                    <span class="i18n"></span>
+                    <span>{{ headerList.length }}</span>
                 </div>
-                <div class="badge badge-info pointer pull-right" data-ng-click="scrollToTop()" data-ng-show="headerList.length > 10"><span i18n="BackToTop"><span class="i18n"/></div>
+                <div class="badge badge-info pointer pull-right" data-ng-click="scrollToTop()" data-ng-show="headerList.length > 10" i18n="BackToTop">
+                    <i class="icon icon-white icon-hand-up"></i>
+                    <span class="i18n"/></span>
+                </div>
             </td>
         </tr>
         </tbody>
