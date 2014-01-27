@@ -11,6 +11,7 @@ OSCR.controller(
             console.warn("TextInputController used in the wrong place");
             return;
         }
+
         $scope.$watch('el.value', function (after, before) {
             if (after) {
                 $scope.valueChanged($scope.el);
@@ -27,19 +28,6 @@ OSCR.controller(
             return;
         }
         $scope.schema = $scope.el.config.vocabulary;
-
-        $scope.enableVocabularyEditor = function () {
-            console.log("enableVocabularyEditor", $scope.el);
-            $scope.enableEditor();
-            $scope.el.searching = true;
-        };
-
-        $scope.enableClearedEditor = function () {
-            if ($rootScope.config.showTranslationEditor) return;
-            $scope.chosenEntry = null;
-            $scope.el.value = null;
-            $scope.enableEditor();
-        };
 
         $scope.$watch('chosenEntry', function (value, before) {
             if (_.isObject(value)) {
@@ -65,7 +53,7 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             $scope.el.value = value;  // vocabulary controller is watching this
-            $scope.el.searching = false;
+            $scope.setEditing(false);
         };
 
         $scope.createNewValue = function () {
@@ -117,9 +105,9 @@ OSCR.controller(
             }
         };
 
+        // todo: should not be needed!
         $scope.enableMediaEditor = function () {
-            $scope.enableEditor();
-            $scope.el.searching = true;
+            $scope.setEditing(true);
             $scope.chosenMedia = null;
         };
     }
@@ -175,14 +163,12 @@ OSCR.controller(
         };
 
         $scope.setValue = function (value) {
-            $scope.el.value = angular.copy(value.Body);
-            $scope.el.value.Identifier = value.Header.Identifier;
-            if ($scope.el.tree) {
-                $scope.el.valueFields = _.map($scope.el.tree.elements, function (element) {
-                    return  { prompt: element.name, value: $scope.el.value[element.name] };
-                });
-            }
-//            todo: $scope.disableEditor();
+            // make a copy of the body and add header things to it
+            var augmentedBody = angular.copy(value.Body);
+            augmentedBody.Identifier = value.Header.Identifier;
+            augmentedBody.GroupIdentifier = value.Header.GroupIdentifier;
+            $scope.el.value = augmentedBody;
+//            $scope.setEditing(false);
         };
 
         $scope.refreshImageList = function () {
@@ -204,30 +190,12 @@ OSCR.controller(
         }
         $scope.schema = $scope.el.config.instance;
 
-        $scope.enableInstanceEditor = function () {
-            console.log("enableInstanceEditor", $scope.el);
-            $scope.enableEditor();
-            $scope.el.searching = true;
-        };
-
-        $scope.enableClearedEditor = function () {
-            if ($rootScope.config.showTranslationEditor) return;
-            $scope.chosenEntry = null;
-            $scope.el.value = null;
-            $scope.enableEditor();
-        };
-
         $scope.$watch('chosenEntry', function (value, before) {
             if (_.isObject(value)) {
                 $scope.el.value = value;
                 // todo: value's identifier as a link
             }
         });
-
-//        $scope.entryToString = function (entry) {
-//            if (!entry || !entry.Label) return '';
-//            return entry.Label;
-//        };
 
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
@@ -254,7 +222,7 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             $scope.el.value = value.Header;  // instance controller is watching this
-            $scope.el.searching = false;
+            $scope.setEditing(false);
         };
 
         $scope.$watch('el.searchValue', function (searchValue, oldSearchValue) {

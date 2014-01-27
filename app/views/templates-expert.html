@@ -54,10 +54,10 @@
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
-            <div ng-hide="el.searching" ng-click="enableVocabularyEditor()" class="pointer chosen-value">
+            <div ng-hide="el.editing" ng-click="enableVocabularyEditor()" class="pointer chosen-value">
                 <span class="label">{{ el.value.Label || '?' }}</span>
             </div>
-            <div ng-show="el.searching">
+            <div ng-show="el.editing">
                 <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
             </div>
         </div>
@@ -156,10 +156,10 @@
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
             <div ng-show="isActiveEl(el)">
-                <div ng-hide="el.searching" ng-click="enableInstanceEditor()" class="pointer chosen-value">
+                <div ng-hide="el.editing" ng-click="enableInstanceEditor()" class="pointer chosen-value">
                     <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
                 </div>
-                <div ng-show="el.searching">
+                <div ng-show="el.editing">
                     <!--<div class="input-append">-->
                     <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
                     <!-- todo: make it possible to ADD term by hitting add button or pressing ENTER on keyboard (but those are in the VocabularySearchController of the next panel//-->

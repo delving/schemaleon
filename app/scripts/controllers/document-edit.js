@@ -200,6 +200,15 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
 
+        // for handling focus in element fields
+        $scope.editing = false;
+        $scope.focusElementArray = [];
+        $scope.hiddenFocusElementArray = [];
+
+        $scope.setEditing = function(value) { // must have a function to mutate this primitive
+            $scope.editing = value;
+        };
+
         // If the user has role:Viewer then don't show the doc edit form, but only the preview
         if ($rootScope.user.viewer) {
             // todo: they should not even see edit
@@ -244,12 +253,10 @@ OSCR.controller(
     function ($rootScope, $scope, $timeout) {
 
         $scope.panels = [];
-        $scope.focusElement = [];
         $scope.choice = 0;
         $scope.selectedPanelIndex = 0;
 
-        // todo: should be a path up in the tree controller
-        $scope.activeEl = undefined;
+        $scope.activeEl = null;
 
         $scope.$watch('tree', function (newTree, oldTree) {
             if (!newTree) return;
@@ -261,20 +268,22 @@ OSCR.controller(
             }
         });
 
-        $scope.getFocusElement = function(el) {
-            return $scope.focusElement[el.focusElementIndex];
-        };
-
         $scope.setActiveEl = function (el) {
             $scope.activeEl = el;
             $timeout(function () {
-                var fe = $scope.getFocusElement(el);
+                var fe;
+                if ($scope.editing) {
+                    fe = $scope.focusElementArray[el.focusElementIndex];
+                }
+                else {
+                    fe = $scope.hiddenFocusElementArray[el.hiddenFocusElementIndex];
+                }
                 if (fe) {
+//                    console.log('requesting ' + $scope.editing + ' focus ' + el.name); // todo remove
                     fe.focus();
                 }
                 else {
-                    console.warn("no focus element for ");
-                    console.log(el);
+                    console.warn("no focus element for ", el);
                 }
             });
         };
@@ -284,13 +293,13 @@ OSCR.controller(
         };
 
         $scope.valueChanged = function (el) {
-// todo           console.log("value changed: active=" + (el == $scope.activeEl));
-            $scope.validateTree();
+            var elIsActive = (el == $scope.activeEl);
+            if (elIsActive) {
+                $scope.validateTree();
+            }
         };
 
         $scope.choose = function (choice, panelIndex) {
-//            $scope.choice = choice;
-//            $scope.selectedPanelIndex = panelIndex;
             $scope.choice = choice;
             $scope.selectedPanelIndex = panelIndex;
             var parentPanel = $scope.panels[panelIndex];
@@ -320,10 +329,6 @@ OSCR.controller(
                 leftPos = scroller.scrollLeft();
 
             scroller.animate({scrollLeft: leftPos + wTable}, 800);
-
-//            if ($scope.setChoice) {
-//                $scope.setChoice(childPanel.element);
-//            }
             $scope.setActiveEl(chosen);
         };
 
@@ -352,7 +357,7 @@ OSCR.controller(
 //                console.warn("get detail view of nothing"); todo take care of this
                 return "panel-field-documentation.html";
             }
-            if (el.searching) {
+            if ($scope.editing) {
                 if (el.config.media) {
                     return "panel-media-search.html";
                 }
@@ -375,10 +380,6 @@ OSCR.controller(
 
         $scope.el = $scope.element;
 
-        $scope.enableEditor = function () {
-            $scope.setActiveEl($scope.el);
-        };
-
         $scope.navigationKeyPressed = function (key) {
             if ($scope.annotationMode) return; // is there maybe a better way?
             var elements = $scope.panels[$scope.selectedPanelIndex].element.elements;
@@ -386,11 +387,9 @@ OSCR.controller(
             var size = elements.length;
             switch (key) {
                 case 'up':
-//                    $scope.disableEditor();
                     $scope.choose(($scope.choice + size - 1) % size, $scope.selectedPanelIndex);
                     break;
                 case 'down':
-//                    $scope.disableEditor();
                     $scope.choose(($scope.choice + 1) % size, $scope.selectedPanelIndex);
                     break;
                 case 'right':
@@ -398,25 +397,43 @@ OSCR.controller(
                         $scope.choose(0, $scope.selectedPanelIndex + 1);
                     }
                     else {
-                        $scope.enableEditor();
+                        $scope.setActiveEl($scope.el);
                     }
                     break;
                 case 'left':
-                    if ($scope.selectedPanelIndex > 0 && $scope.active == 'hidden') {
+                    if ($scope.selectedPanelIndex > 0) {
                         $scope.choose($scope.panels[$scope.selectedPanelIndex - 1].selected, $scope.selectedPanelIndex - 1);
                     }
                     break;
-                case 'enter': // todo: enter did nothing in schema-changes
-//                    if (!$scope.el.elements) {
-//                        $scope.enableEditor();
-//                    }
+                case 'enter':
+                    if ($scope.el.elements) {
+                        if ($scope.panels[$scope.selectedPanelIndex + 1].element.elements) {
+                            $scope.choose(0, $scope.selectedPanelIndex + 1);
+                        }
+                        else {
+                            $scope.setActiveEl($scope.el);
+                        }
+                    }
+                    else {
+                        $scope.setEditing(true);
+                        $scope.setActiveEl($scope.el); // to grab focus
+                    }
+                    break;
+                case 'escape':
+                    $scope.setEditing(false);
+                    if ($scope.el.elements) {
+                        if ($scope.selectedPanelIndex > 0) {
+                            $scope.choose($scope.panels[$scope.selectedPanelIndex - 1].selected, $scope.selectedPanelIndex - 1);
+                        }
+                    }
+                    else {
+                        $scope.setActiveEl($scope.el); // to grab focus
+                    }
                     break;
             }
         };
     }
 );
-
-
 OSCR.directive('documentNavigation', function () {
     return {
         restrict: 'A',
@@ -440,6 +457,7 @@ OSCR.directive('documentNavigation', function () {
         }
     };
 });
+
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
 OSCR.controller(
@@ -487,11 +505,7 @@ OSCR.controller(
             if (el.config.instance) return "view-instance.html";
             return "view-unrecognized.html"
         };
-
-
     }
-    
-    
 );
 
 // the controller for the expert editing of the whole tree in view
@@ -510,11 +524,12 @@ OSCR.controller(
             $timeout(function () {
                 var fe = $scope.getFocusElement(el);
                 if (fe) {
-                    fe.focus();
+                    $timeout(function () {
+                        fe.focus();
+                    });
                 }
                 else {
-                    console.warn("no focus element for ");
-                    console.log(el);
+                    console.warn("no focus element for ", el);
                 }
             });
         };
@@ -551,12 +566,15 @@ OSCR.controller(
 //                console.warn("get detail template of nothing"); // todo take care of this
                 return "expert-field-documentation.html"
             }
-            if (el.searching) {
+            if ($scope.editing) {
                 if (el.config.media) {
                     return "expert-media-search.html";
                 }
                 else if (el.config.vocabulary) {
                     return "expert-vocabulary-search.html";
+                }
+                else if (el.config.instance) {
+                    return "expert-instance-search.html";
                 }
             }
             return "expert-field-documentation.html"
@@ -567,14 +585,8 @@ OSCR.controller(
 
 OSCR.controller(
     'ExpertElementController',
-    function ($scope, $timeout) {
-
+    function ($scope) {
         $scope.el = $scope.element;
-
-        $scope.enableEditor = function () {
-            $scope.setActiveEl($scope.el);
-        };
-
     }
 );
 
@@ -583,39 +595,25 @@ OSCR.directive('elFocus',
         return {
             restrict: 'A',
             priority: 100,
-            scope: {
-                el: "=elFocus",
-                focusElement: "=elFocusElement"
-            },
             link: function ($scope, $element) {
-                if (!$scope.focusElement) {
-//                    console.warn("elFocus no focus $element");  // todo: look into this
-                    return;
-                }
-                $scope.el.focusElementIndex = $scope.focusElement.length;
-                $scope.focusElement.push($element[0]);
+                // add this element to the focus element array and tell it which one it is
+                $scope.el.focusElementIndex = $scope.focusElementArray.length;
+                $scope.focusElementArray.push($element[0]);
             }
         };
     }
 );
 
-// todo: this is deprecated
-OSCR.directive('focus',
-    function ($timeout) {
+OSCR.directive('elHiddenFocus',
+    function () {
         return {
             restrict: 'A',
             priority: 100,
-            link: function (scope, element, attrs) {
-                scope.$watch('active', function(active) {
-                    if (attrs.id === active && (attrs.id == 'hidden')) {
-                        $timeout(function () {
-                            element[0].focus();
-                        });
-                    }
-                });
+            link: function ($scope, $element) {
+                // add this element to the focus element array and tell it which one it is
+                $scope.el.hiddenFocusElementIndex = $scope.hiddenFocusElementArray.length;
+                $scope.hiddenFocusElementArray.push($element[0]);
             }
         };
     }
 );
-
-

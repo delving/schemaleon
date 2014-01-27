@@ -1,25 +1,25 @@
 <!--This file contains only templates, and is tied to the controllers in element-edit.js-->
 
 <script type="text/ng-template" id="panel-submenu.html">
-    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
+    <input el-focus="el" el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
 </script>
 
 <script type="text/ng-template" id="panel-line.html">
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
-            <div ng-show="isActiveEl(el)">
-                <input el-focus="el" el-focus-element="focusElement" id="textInput" class="input-block-level" type="text" ng-model="el.value" />
+            <div data-ng-show="editing">
+                <input el-focus="el" class="input-block-level" type="text" ng-model="el.value" />
                 <div ng-show="el.invalidMessage">
                     <span class="label label-important">{{ el | invalidMessage }}</span>
                     <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
-                          tooltip-placement="right" class="badge badge-warning badge-i18n">
+                          class="badge badge-warning badge-i18n">
                           <i class="icon-translate icon-white"></i>
                     </span>
                 </div>
             </div>
-            <div ng-hide="isActiveEl(el)">
-                    <input  type="text" ng-click="enableEditor()" value="{{el.value}}"/>
-                </div>
+            <div data-ng-show="!editing" ng-click="setEditing(true)">
+                <input disabled class="input-block-level" type="text" ng-model="el.value" />
+                <input el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
             </div>
         </div>
     </div>
@@ -28,21 +28,12 @@
 <script type="text/ng-template" id="panel-paragraph.html">
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
-            <div ng-show="isActiveEl(el)">
-                <textarea el-focus="el" el-focus-element="focusElement" id="textArea" ng-model="el.value" rows="5"></textarea>
+            <div data-ng-show="editing">
+                <textarea el-focus="el" ng-model="el.value" rows="5"></textarea>
             </div>
-            <div ng-hide="isActiveEl(el)">
-                <div ng-click="enableEditor()" tooltip-placement="right" tooltip="Click to edit"
-                     class="pointer chosen-value" tabindex="0">
-                    <div ng-hide="el.value">
-                        <span>?</span>
-                    </div>
-                    <div ng-show="el.value">
-                        <div ng-repeat="line in el.value.split('\n')">
-                            <span>{{ line }}</span><br/>
-                        </div>
-                    </div>
-                </div>
+            <div data-ng-show="!editing" ng-click="setEditing(true)">
+                <textarea disabled ng-model="el.value" rows="5"></textarea>
+                <input el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
             </div>
         </div>
     </div>
@@ -51,23 +42,17 @@
 <script type="text/ng-template" id="panel-vocabulary.html">
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
-            <div ng-show="isActiveEl(el)">
-                <div ng-hide="el.searching" ng-click="enableVocabularyEditor()" class="pointer chosen-value">
-                    <span class="label">{{ el.value.Label || '?' }}</span>
-                </div>
-                <div ng-show="el.searching">
-                    <!--<div class="input-append">-->
-                        <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
-                        <!-- todo: make it possible to ADD term by hitting add button or pressing ENTER on keyboard (but those are in the VocabularySearchController of the next panel//-->
-                        <!--<span class="add-on" ng-click="createNewValue()"><i class="icon-plus"></i></span>-->
-                    <!--</div>-->
-
-                </div>
+            <div data-ng-show="editing">
+                <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
             </div>
-            <div ng-hide="isActiveEl(el)">
-                <div ng-click="enableVocabularyEditor()" class="pointer chosen-value" tabindex="0">
-                    <span class="label">{{ el.value.Label || '?' }}</span>
+            <div data-ng-show="!editing" ng-click="setEditing(true)">
+                <div data-ng-show="el.value">
+                    <input type="text" disabled ng-model="el.value.Label" class="input-block-level"/>
                 </div>
+                <div data-ng-show="!el.value">
+                    <input type="text" disabled value="-" class="input-block-level"/>
+                </div>
+                <input el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
             </div>
         </div>
     </div>
@@ -95,9 +80,6 @@
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
                 <li ng-repeat="entry in el.entries">
                     <a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>
-                    <!--<div class="vocabulary-extended">-->
-                        <!--bla-->
-                    <!--</div>-->
                 </li>
             </ul>
         </div>
@@ -106,38 +88,36 @@
 
 <script type="text/ng-template" id="panel-media.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
-        <div class="digital-object-input">
-            <div ng-show="isActiveEl(el)">
-                <div ng-show="el.value" class="media">
-                    <div class="media-thumbnail">
-                        <img ng-src="{{ el | mediaThumbnail }}" /><br/>
-                        <div class="mime">{{ el.value.MimeType }}</div>
-                    </div>
-                    <div class="media-controls">
-                        <button tooltip-placement="bottom" tooltip="Click to edit" ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >
-                            <i class="icon-edit"></i>
-                            <span class="i18n"></span>
-                        </button>
-                        <button ng-show="isVideo(el.value.MimeType)" class="btn btn-small" ng-click="openVideoPreview(el.value.FileName)" i18n="PreviewVideo" >
-                            <i class="icon icon-film"></i>
-                            <span class="i18n"></span>
-                        </button>
-                    </div>
+        <div data-ng-show="editing" class="digital-object-input">
+            <div ng-show="el.value" class="media">
+                <div class="media-thumbnail">
+                    <img ng-src="{{ el | mediaThumbnail }}" /><br/>
+                    <div class="mime">{{ el.value.MimeType }}</div>
                 </div>
-            </div>
-            <div ng-hide="isActiveEl(el)">
-                <div class="chosen-value" tabindex="0">
-                    <div ng-hide="el.value" ng-click="enableMediaEditor()">
-                        <span class="btn">Add</span>
-                    </div>
-                    <div ng-show="el.value" class="media-thumbnail">
-                        <img ng-src="{{ el | mediaThumbnail }}" />
-                        <div class="mime">{{ el.value.MimeType }}</div>
-                    </div>
+                <div class="media-controls">
+                    <!--<button ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >-->
+                        <!--<i class="icon-edit"></i>-->
+                        <!--<span class="i18n"></span>-->
+                    <!--</button>-->
+                    <button ng-show="isVideo(el.value.MimeType)" class="btn btn-small" ng-click="openVideoPreview(el.value.FileName)" i18n="PreviewVideo" >
+                        <i class="icon icon-film"></i>
+                        <span class="i18n"></span>
+                    </button>
                 </div>
-                <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
             </div>
         </div>
+        <div data-ng-show="!editing" ng-click="setEditing(true)">
+            <div class="chosen-value" tabindex="0" i18n="Add">
+                <div ng-hide="el.value" ng-click="enableMediaEditor()">
+                    <span class="btn"><span class="i18n"></span></span>
+                </div>
+                <div ng-show="el.value" class="media-thumbnail">
+                    <img ng-src="{{ el | mediaThumbnail }}" />
+                    <div class="mime">{{ el.value.MimeType }}</div>
+                </div>
+            </div>
+        </div>
+        <input el-hidden-focus="el" el-focus="el" style="opacity: 0; width: 0; height: 0; "/>
     </div>
 </script>
 
@@ -177,23 +157,17 @@
     <!--todo: eric styling-->
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
-            <div ng-show="isActiveEl(el)">
-                <div ng-hide="el.searching" ng-click="enableInstanceEditor()" class="pointer chosen-value">
-                    <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
-                </div>
-                <div ng-show="el.searching">
-                    <!--<div class="input-append">-->
-                    <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
-                    <!-- todo: make it possible to ADD term by hitting add button or pressing ENTER on keyboard (but those are in the VocabularySearchController of the next panel//-->
-                    <!--<span class="add-on" ng-click="createNewValue()"><i class="icon-plus"></i></span>-->
-                    <!--</div>-->
-
-                </div>
+            <div data-ng-show="editing">
+                <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
             </div>
-            <div ng-hide="isActiveEl(el)">
-                <div ng-click="enableInstanceEditor()" class="pointer chosen-value" tabindex="0">
-                    <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
+            <div data-ng-show="!editing" ng-click="setEditing(true)">
+                <div data-ng-show="el.value">
+                    <input type="text" disabled ng-model="el.value.SummaryFields.Title" class="input-block-level"/>
                 </div>
+                <div data-ng-show="!el.value">
+                    <input type="text" disabled value="-" class="input-block-level"/>
+                </div>
+                <input el-hidden-focus="el" style="opacity: 0; width: 0; height: 0; "/>
             </div>
         </div>
     </div>

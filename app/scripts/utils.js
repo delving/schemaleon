@@ -227,7 +227,6 @@ function cloneAndPruneTree(tree) {
         }
         delete el.value;
         delete el.valueVisible; // only used in line
-        delete el.valueFields; // only used in media and vocab
     }
 
     var clone = angular.copy(tree);
