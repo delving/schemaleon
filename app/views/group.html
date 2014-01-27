@@ -4,18 +4,18 @@
         <h1 i18n="Group"><span class="i18n"/>: <span>{{ groupView.Name }}</span></h1>
     </div>
 
-
-
-
-
-
     <div class="row-fluid">
         <div class="span4">
             <address>
                 <h5 class="header">{{ groupView.Name }}</h5>
-                <span ng-show=" groupView.StreetNameAndNr">{{ groupView.StreetNameAndNr}}</span><br/>
-                <span ng-show="groupView.Zip">{{ groupView.Zip }}, </span><span ng-show="groupView.City">{{ groupView.City }}</span>
+                <span ng-show="groupView.Adres.Street">{{ groupView.Adres.Street}}</span><br/>
+                <span ng-show="groupView.Adres.Postcode">{{ groupView.Postcode }}, </span><span ng-show="groupView.Adres.Place">{{ groupView.Adres.Place }}</span><br/>
+                <span ng-show="groupView.Adres.Website"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
+                <span ng-show="groupView.Website"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
             </address>
+        </div>
+        <div class="span4">
+            <span ng-show="groupView.Flag"><img ng-src="{{groupView.Flag}}" width="100"></span>
         </div>
     </div>
 </div>
