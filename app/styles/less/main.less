@@ -7,7 +7,7 @@
 @import "/app/styles/less/media-upload.less";
 @import "/app/styles/less/icons.less";
 
-@delvingBlue: #009ae0;
+
 
 /* CUSTOM MIXINS */
 
@@ -156,6 +156,7 @@ ul.thumbnails {
 @baseLight: lighten(@baseDarker, 30%);
 @baseLighter: lighten(@baseDarker, 45%);
 @baseLightest: lighten(@baseDarker, 60%);
+@delvingBlue: #009ae0;
 
 @br-small: 4px;
 @br-med: 10px;
@@ -901,20 +902,6 @@ label {
   padding: 4px 10px;
 }
 
-.media {
-//  display: table-row;
-//  .media-file,
-//  .media-controls{
-//    display: table-cell;
-//    float: left;
-//  }
-//  .media-file {
-//    width: 100px;
-//  }
-//  .media-controls {
-//    width: 100px;
-//  }
-}
 .vocabulary-controls {
   color: @grayLight;
   label {
@@ -932,6 +919,10 @@ label {
     margin-right: 9px;
     padding: 4px 8px;
   }
+}
+
+.vocabulary-extended table {
+  background: #f1f1f1;
 }
 
 .vocabulary-list {

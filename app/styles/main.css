@@ -1554,6 +1554,9 @@ label {
   margin-right: 9px;
   padding: 4px 8px;
 }
+.vocabulary-extended table {
+  background: #f1f1f1;
+}
 .vocabulary-list > li > a {
   padding: 3px 10px;
 }
