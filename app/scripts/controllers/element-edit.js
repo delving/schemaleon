@@ -47,11 +47,6 @@ OSCR.controller(
             }
         });
 
-//        $scope.entryToString = function (entry) {
-//            if (!entry || !entry.Label) return '';
-//            return entry.Label;
-//        };
-
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
         });
@@ -73,12 +68,8 @@ OSCR.controller(
             $scope.el.searching = false;
         };
 
-//        $scope.createNew = function (index, parentIndex) { may want to move to the next place
-//            $scope.choose(0, parentIndex);
-//        };
-
         $scope.createNewValue = function () {
-            // todo: "are you sure" question
+            // todo: "are you sure?" question
             var newValue = {
                 "Entry": {
                     "Label": $scope.el.searchValue
@@ -162,7 +153,7 @@ OSCR.controller(
         }
 
         function refreshList() {
-            Document.searchDocuments($scope.schema, $scope.groupIdentifier, '', function(list) {
+            Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function(list) {
                 $scope.mediaList = list;
             });
         }
@@ -259,12 +250,13 @@ OSCR.controller(
             $scope.el.searching = false;
         };
 
-        $scope.$watch('el.searchValue', function (newSearchValue, before) {
-            if (newSearchValue) {
-                Document.searchDocuments($scope.schema, null, newSearchValue, function (entries) {
-                    $scope.el.entries = entries;
-                });
-            }
+        $scope.$watch('el.searchValue', function (searchValue, oldSearchValue) {
+            var searchParams = {
+                searchQuery: searchValue
+            };
+            Document.searchDocuments($scope.schema, null, searchParams, function (entries) {
+                $scope.el.entries = entries;
+            });
         });
     }
 );

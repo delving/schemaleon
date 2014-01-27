@@ -43,20 +43,8 @@ OSCR.service(
         };
 
         // search shared with schema or primary with or without schema, and maybe empty query
-        this.searchDocuments = function (schemaName, groupIdentifier, query, receiver) {
-
-            function config() {
-                var config = {};
-                if (query && query.length) {
-                    config.params = { q: query }
-                }
-                return config;
-            }
-
-            function success(data) {
-                receiver(xmlToArray(data));
-            }
-
+        // searchQuery, startIndex, maxResults, wildcards
+        this.searchDocuments = function (schemaName, groupIdentifier, params, receiver) {
             var getPath;
             if (groupIdentifier) {
                 getPath = '/primary/' + schemaName + '/' + groupIdentifier + '/search';
@@ -67,7 +55,9 @@ OSCR.service(
             else {
                 getPath = '/primary/search';
             }
-            $http.get(getPath, config()).success(success);
+            $http.get(getPath, { params: params }).success(function (data) {
+                receiver(xmlToArray(data));
+            });
         };
 
         this.saveDocument = function (header, body, receiver) {

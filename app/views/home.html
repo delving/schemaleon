@@ -77,22 +77,27 @@
             <li class="span3"  data-ng-repeat="header in headerList">
                 <div class="thumbnail">
                     <div class="media">
-                        <a href ng-click="choosePath(header, true)" class="pull-left">
-                            <img ng-src="/media/thumbnail/{{getProperThumbExtension(xmlArray(header.SummaryFields.Thumbnail)[0].Identifier)}}" />
-
+                        <a href ng-click="choosePath(header, true)" class="pull-left" ng-show="hasThumbnail(header)">
+                            <img ng-src="{{ getThumbPath(header) }}"/>
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading" data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">
+                            <h4 class="media-heading" data-ng-repeat="title in getTitles(header)">
                                <a href ng-click="choosePath(header, true)">{{ title }}</a>
                             </h4>
-                            <div class="mime" ng-bind="xmlArray(header.SummaryFields.Thumbnail)[0].MimeType"></div>
+                            <div class="mime" ng-bind="getMimeType(header)"></div>
                             <div class="group">{{ header.group.Name }}</div>
                         </div>
                     </div>
                 </div>
             </li>
         </ul>
-
+        <div ng-show="couldBeMoreResults()">
+            <div colspan="7" i18n="MoreThan">
+                <span class="badge badge-success" data-ng-click="getMoreResults()">
+                    <span class="i18n"></span> <span>{{ headerList.length }}</span>
+                </span>
+            </div>
+        </div>
 
     </div>
 </div>

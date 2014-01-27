@@ -311,43 +311,31 @@ Storage('oscr', homeDir, function (storage) {
         });
     }
 
-    // interpret the request
-    function schemaName(req) {
-        return req.params.schema;
-    }
-    function groupIdentifier(req) {
-        return req.params.groupIdentifier;
-    }
-    function query(req) {
-        var q = req.param('q');
-        return q ? q.toLowerCase() : '';
+    // interpret the request (filtering the unknown
+    function params(req) {
+        return {
+            schemaName: req.params.schemaName,
+            groupIdentifier: req.params.groupIdentifier,
+            searchQuery: req.query.searchQuery || '',
+            startIndex: req.query.startIndex || 1,
+            maxResults: req.query.maxResults || 10,
+            wildcards: req.query.wildcards || true
+        };
     }
 
     // search primary on schema and group
-    app.get('/primary/:schema/:groupIdentifier/search', function (req, res) {
-        searchDocuments(res, {
-            schemaName: schemaName(req),
-            groupIdentifier: groupIdentifier(req),
-            query: query(req),
-            wildcards: true
-        });
+    app.get('/primary/:schemaName/:groupIdentifier/search', function (req, res) {
+        searchDocuments(res, params(req))
     });
 
     // search shared on schema
-    app.get('/shared/:schema/search', function (req, res) {
-        searchDocuments(res, {
-            schemaName: schemaName(req),
-            query: query(req),
-            wildcards: true
-        });
+    app.get('/shared/:schemaName/search', function (req, res) {
+        searchDocuments(res, params(req))
     });
 
     // search primary all schemas
     app.get('/primary/search', function (req, res) {
-        searchDocuments(res, {
-            query: query(req),
-            wildcards: true
-        });
+        searchDocuments(res, params(req))
     });
 
     app.post('/document/save', function (req, res) {
