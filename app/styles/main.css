@@ -1568,7 +1568,7 @@ label {
 }
 /* GROUPS PAGE */
 .group-page address {
-  background: #ffffff;
+  background: transparent;
   margin: 0;
   padding: 8px;
 }

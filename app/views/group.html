@@ -3,19 +3,15 @@
     <div class="page-header">
         <h1 i18n="Group"><span class="i18n"/>: <span>{{ groupView.Name }}</span></h1>
     </div>
-
-    <div class="row-fluid">
-        <div class="span4">
+    <div class="media">
+        <span ng-show="groupView.Address.Thumbnail.length" class="pull-left"><img ng-src="{{groupView.Address.Thumbnail}}" width="100"></span>
+        <div class="media-body">
             <address>
                 <h5 class="header">{{ groupView.Name }}</h5>
                 <span ng-show="groupView.Address.Street">{{ groupView.Address.Street}}</span><br/>
                 <span ng-show="groupView.Address.Postcode">{{ groupView.Address.Postcode }}, </span><span ng-show="groupView.Address.Place">{{ groupView.Address.Place }}</span><br/>
-                <span ng-show="groupView.Website"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
-                <span ng-show="groupView.Website"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
+                <span ng-show="groupView.Website.length"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
             </address>
-        </div>
-        <div class="span4">
-            <span ng-show="groupView.Thumbnail"><img ng-src="{{groupView.Thumbnail}}" width="100"></span>
         </div>
     </div>
 </div>
