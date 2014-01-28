@@ -17,7 +17,8 @@
                 <span i18n="User">
                     <span class="i18n"></span>:
                     <input id="cau" type="text" ng-model="groupFindUser" class="input-large"
-                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"/>
+                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"
+                            typeahead-on-select="selectGroupFromUser(groupFindUser)"/>
                 </span>
                 <span i18n="NewGroup" class="pull-right">
                     <a href class="btn btn-primary" ng-click="newGroupToggle()">
