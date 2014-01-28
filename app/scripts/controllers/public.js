@@ -13,7 +13,8 @@ OSCR.controller(
 
         $('#list-current-groups').on('change',function(){
             var path = $(this).val();
-            $scope.$apply( $location.path(path) );
+//            $scope.$apply( $location.path(path) );
+            $scope.$apply($rootScope.choosePath(path));
         });
 
         $scope.headerList = [];
