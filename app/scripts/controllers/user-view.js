@@ -27,16 +27,10 @@ OSCR.controller(
 
         Person.getUser($scope.Identifier, function(user) {
             $scope.userView = user;
-            if (user.Memberships) {
-                _.each(xmlArray(user.Memberships.Membership), function (membership) {
-                    Person.getGroup(membership.GroupIdentifier, function (group) {
-                        membership.group = group.Group;
-//                        Person.getUsersInGroup(membership.group.Identifier, function (list) {
-//                            membership.group.userList = list;
-//                        });
-                    });
+            if (user.Membership) {
+                Person.getGroup(user.Membership.GroupIdentifier, function (group) {
+                    user.group = group.Group;
                 });
-                $scope.memberships = xmlArray(user.Memberships.Membership);
             }
         });
     }

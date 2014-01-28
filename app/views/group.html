@@ -1,21 +1,21 @@
 <div class="fade-in group-page">
 
     <div class="page-header">
-        <h1 i18n="Group"><span class="i18n"/>: <span>{{ groupView.Name }}</span></h1>
+        <h1 i18n="Group"><span class="i18n"/>: <span>{{ group.Name }}</span></h1>
     </div>
 
     <div class="row-fluid">
         <div class="span4">
             <address>
-                <h5 class="header">{{ groupView.Name }}</h5>
-                <span ng-show="groupView.Address.Street">{{ groupView.Address.Street}}</span><br/>
-                <span ng-show="groupView.Address.Postcode">{{ groupView.Address.Postcode }}, </span><span ng-show="groupView.Address.Place">{{ groupView.Address.Place }}</span><br/>
-                <span ng-show="groupView.Website"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
-                <span ng-show="groupView.Website"><a href="{{groupView.Website}}" target="_blank">{{ groupView.Website }}</a></span><br/>
+                <h5 class="header">{{ group.Name }}</h5>
+                <span ng-show="group.Address.Street">{{ group.Address.Street}}</span><br/>
+                <span ng-show="group.Address.Postcode">{{ group.Address.Postcode }}, </span><span ng-show="group.Address.Place">{{ group.Address.Place }}</span><br/>
+                <span ng-show="group.Website"><a href="{{group.Website}}" target="_blank">{{ group.Website }}</a></span><br/>
+                <span ng-show="group.Website"><a href="{{group.Website}}" target="_blank">{{ group.Website }}</a></span><br/>
             </address>
         </div>
         <div class="span4">
-            <span ng-show="groupView.Thumbnail"><img ng-src="{{groupView.Thumbnail}}" width="100"></span>
+            <span ng-show="group.Thumbnail"><img ng-src="{{group.Thumbnail}}" width="100"></span>
         </div>
     </div>
 </div>

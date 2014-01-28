@@ -22,24 +22,15 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'GroupViewController',
-    function ($rootScope, $scope, $routeParams, $location, $cookieStore, Person) {
-        $scope.Identifier = $routeParams.identifier;
+    function ($scope, $routeParams, Person) {
 
-        Person.getGroup($scope.Identifier, function(group) {
-            $scope.groupView = group.Group;
-            Person.getUsersInGroup($scope.Identifier, function (list) {
-                _.each(list, function (user) {
-                    if (user.Memberships) {
-                        _.each(xmlArray(user.Memberships.Membership), function (membership) {
-                            if (membership.GroupIdentifier === group.Identifier) {
-                                user.GroupMember = membership;
-                            }
-                        });
-                    }
-                });
-                $scope.groupView.userList = list;
+        $scope.identifier = $routeParams.identifier;
+
+        Person.getGroup($scope.identifier, function(group) {
+            $scope.group = group.Group;
+            Person.getUsersInGroup($scope.group.Identifier, function (list) {
+                $scope.group.userList = list;
             });
-
         });
     }
 );

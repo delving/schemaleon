@@ -43,7 +43,6 @@ OSCR.controller(
 
         getAllGroups();
 
-
         function getAllUsers() {
             Person.getAllUsers(function (list) {
                 $scope.allUsers = list;
@@ -56,34 +55,14 @@ OSCR.controller(
         });
 
         $scope.canUserAdministrate = function (groupIdentifier) {
-            if ($rootScope.user && $rootScope.user.Memberships) {
-                var memberships = $rootScope.user.Memberships.Membership;
-                if (memberships) {
-                    var membership = _.filter(memberships, function (membership) {
-                        return membership.GroupIdentifier === groupIdentifier && membership.Role === $scope.administratorRole;
-                    });
-                    if (membership.length) return true;
-                    membership = _.filter(memberships, function (membership) {
-                        return membership.GroupIdentifier === 'OSCR' && membership.Role === $scope.administratorRole; // true if they are god
-                    });
-                    if (membership.length) return true;
-                }
-            }
-            return false;
+            if (!$rootScope.user || !$rootScope.user.Membership) return false;
+            var membership = $rootScope.user.Membership;
+            return membership && membership.GroupIdentifer == groupIdentifier && membership.Role == 'Administrator';
         };
 
         $scope.populateGroup = function (group) {
             Person.getUsersInGroup(group.Identifier, function (list) {
-                _.each(list, function (user) {
-                    if (user.Memberships) {
-                        _.each(xmlArray(user.Memberships.Membership), function (membership) {
-                            if (membership.GroupIdentifier === group.Identifier) {
-                                user.GroupMember = membership;
-                            }
-                        });
-                    }
-                });
-//                group.userList = list;
+                // todo: UserList should not start with a capital
                 $scope.selectedGroup.UserList = list;
             });
             $scope.selectedGroup.Identifier = group.Identifier;
@@ -99,9 +78,7 @@ OSCR.controller(
         };
 
         $scope.userToString = function (user) {
-            if (!user) {
-                return [];
-            }
+            if (!user) return '';
             return user.Profile.firstName + ' ' + user.Profile.lastName + ' <' + user.Profile.email + '>';
         };
 
@@ -125,7 +102,6 @@ OSCR.controller(
             return group.Name;
         };
 
-
         $scope.creatingGroup = false;
         $scope.addingUser = false;
 
@@ -143,7 +119,6 @@ OSCR.controller(
             $scope.selectedGroup.Role = role;
             $scope.addingUser = true;
             $scope.creatingGroup = false;
-
         };
 
         $scope.createGroup = function () {
@@ -185,9 +160,7 @@ OSCR.controller(
                     });
                     $timeout(function () {
                         $scope.userAssigned = false;
-//                    $scope.addingUser = false;
                     }, 4000);
-                    $rootScope.refreshUser();
                 }
             )
         };
@@ -209,7 +182,6 @@ OSCR.controller(
                             $scope.populateGroup(group);
                         }
                     });
-                    $rootScope.refreshUser();
                 }
             )
         };

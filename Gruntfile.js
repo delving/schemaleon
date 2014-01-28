@@ -261,11 +261,20 @@ module.exports = function (grunt) {
             all: [
                 'test/server/*.js'
             ],
-            authenticate: [
-                'test/server/test-authenticate.js'
+            document: [
+                'test/server/test-storage-document.js'
             ],
-            image: [
-                'test/server/test-storage-image.js'
+            person: [
+                'test/server/test-storage-person.js'
+            ],
+            media: [
+                'test/server/test-storage-media.js'
+            ],
+            vocab: [
+                'test/server/test-storage-vocab.js'
+            ],
+            i18n: [
+                'test/server/test-storage-i18n.js'
             ]
         }
     });
@@ -295,6 +304,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test-server', [
         'nodeunit:all'
+    ]);
+
+    grunt.registerTask('test-person', [
+        'nodeunit:person'
     ]);
 
     grunt.registerTask('test-image', [
