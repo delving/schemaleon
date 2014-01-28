@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $timeout, $scope, $q, $location, $anchorScroll, $routeParams, Person, I18N) {
+    function ($rootScope, $cookieStore, $timeout, $scope, $q, $location, $anchorScroll, $routeParams, Person, I18N, Statistics) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -54,6 +54,13 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
+        $scope.recent = [];
+
+        $rootScope.schemaMap =  {
+            primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+            shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
+        };
+
         $rootScope.toggleTranslationEditor = function () {
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
         };
@@ -63,11 +70,6 @@ OSCR.controller(
                 $rootScope.i18n = lang;
                 alert('saved language');
             })
-        };
-
-        $rootScope.schemaMap =  {
-            primary: [ "Photo", "Film", "Memoriam", "Publication" ],
-            shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
         };
 
         function isShared(schemaName) {
@@ -136,8 +138,9 @@ OSCR.controller(
         // APPLICATION NAVIGATION ================================================================
 
 
-        function buildMainMenu(user) {
-            if (!user) return;
+        function buildMainMenu() {
+
+            if (!$rootScope.user) return;
 
             $scope.mainMenuBase = [
                 {name: "Public", path: "/public", icon: 'icon-road', active: false},
@@ -145,40 +148,57 @@ OSCR.controller(
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
             ];
 
+            var user = $rootScope.user;
             if (user.Membership) {
-                if (user.Membership.GroupIdentifier == 'OSCR') {
-                    $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
+
+                Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
+                    $scope.statistics = statistics;
+
+                    function getCountForSchema(statisticList, schemaName) {
+                        var found = _.find($scope.statistics[statisticList].Schema, function (entry) {
+                            return entry.Name == schemaName;
+                        });
+                        if (!found) {
+                            console.log("no stat found for", schemaName);
+                        }
+                        return  found.Count;
+                    }
+
+                    if (user.Membership.GroupIdentifier == 'OSCR') {
+                        $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function (sharedSchema) {
+                            return {
+                                name: sharedSchema,
+                                path: "/shared/" + sharedSchema,
+                                count: getCountForSchema('Shared', sharedSchema),
+                                icon: 'icon-th-list',
+                                active: false
+                            };
+                        });
+                    }
+
+                    $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
                         return {
-                            name: sharedSchema,
-                            path: "/shared/" + sharedSchema,
+                            name: primarySchema,
+                            path: "/primary/" + primarySchema + "/" + user.Membership.GroupIdentifier,
+                            count: getCountForSchema('Primary', primarySchema),
                             icon: 'icon-th-list',
                             active: false
                         };
                     });
-                }
 
-                $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
-                    return {
-                        name: primarySchema,
-                        path: "/primary/" + primarySchema + "/" + user.Membership.GroupIdentifier,
-                        icon: 'icon-th-list',
-                        active: false
-                    };
-                });
-            }
-
-            var anyActive = false;
-            _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
+                    var anyActive = false;
+                    _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
 //                console.log('locapath', $location.path());
 //                console.log('linkpath', link.path);
-
 //                console.log($location.path().indexOf(link.path));
-                link.active = ($location.path().indexOf(link.path) != -1);
-                if (link.active) anyActive = true;
-            });
+                        link.active = ($location.path().indexOf(link.path) != -1);
+                        if (link.active) anyActive = true;
+                    });
 //            if (!anyActive) {
 //                $scope.mainMenuBase[0].active = true;
 //            }
+                });
+            }
         }
 
         $rootScope.$watch('user', function (user, before) {
@@ -207,8 +227,6 @@ OSCR.controller(
             }
         });
 
-        $scope.recent = [];
-
         $scope.addToRecentMenu = function(header) {
             var recentEntry = _.find($scope.recent, function(entry) {
                 return header.Identifier == entry.header.Identifier;
@@ -226,7 +244,7 @@ OSCR.controller(
                 }
             }
             // activate the one we just
-            buildMainMenu($rootScope.user);
+            buildMainMenu();
             recentEntry.active = true;
         };
 
@@ -244,7 +262,7 @@ OSCR.controller(
             }
             $location.path(path);
             $cookieStore.put('oscr-path', path);
-            buildMainMenu($rootScope.user);
+            buildMainMenu();
         };
 
         $rootScope.chooseUserPath = function (id) {

@@ -170,6 +170,7 @@
                                 <a href ng-click="choosePath(link.path)">
                                     <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
+                                    <span> ({{ link.count }})</span>
                                 </a>
                                 <span ng-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"
@@ -185,6 +186,7 @@
                                 <a href ng-click="choosePath(link.path)">
                                     <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
+                                    <span> ({{ link.count }})</span>
                                 </a>
                                 <span ng-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"
