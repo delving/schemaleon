@@ -32,7 +32,7 @@ var profile = {
 var userIdentifier = '?';
 
 exports.testCreateThenGet = function (test) {
-    test.expect(3);
+    test.expect(4);
     log('get or create user');
     storage.Person.getOrCreateUser(profile, function (createdXml) {
         test.ok(createdXml, "no createdXml");
@@ -42,6 +42,7 @@ exports.testCreateThenGet = function (test) {
             log("fetched user again:\n" + fetchedXml);
             test.equal(createdXml, fetchedXml, "Fetched was different!");
             userIdentifier = util.getFromXml(fetchedXml, "Identifier");
+            test.ok(userIdentifier != '?', "user identifier not set");
             log("user identifier:" + userIdentifier);
             test.done();
         });
@@ -70,8 +71,8 @@ var oscrGroupIdentifier = '?';
 exports.testFetchGroupsFirstTime = function (test) {
     test.expect(2);
     storage.Person.getAllGroups(function (xml) {
-        test.ok(xml, "No xml");
-//        console.log(xml);
+        test.ok(xml, "No xml from getAllGroups!");
+//        console.log('get all groups', xml);
         test.ok(xml.indexOf("OSCR") > 0, "Missing default OSCR group");
         oscrGroupIdentifier = util.getFromXml(xml, "Identifier");
         test.done();
@@ -86,10 +87,11 @@ var group = {
 var groupIdentifier = '?';
 
 exports.testSaveAndFetchGroup = function (test) {
-    test.expect(3);
+    test.expect(4);
     storage.Person.saveGroup(group, function (createdXml) {
         test.ok(createdXml, "no createdXml");
         groupIdentifier = util.getFromXml(createdXml, "Identifier");
+        test.ok(groupIdentifier != '?', "group identifier not returned");
         log("group identifier:" + groupIdentifier);
         log("created group:\n" + createdXml);
         storage.Person.getGroup(groupIdentifier, function (fetchedXml) {
@@ -103,7 +105,7 @@ exports.testSaveAndFetchGroup = function (test) {
 
 exports.testSearchGroups = function (test) {
     test.expect(1);
-    storage.Person.getGroups('dorm', function (xml) {
+    storage.Person.getGroups('benidorm bastards', function (xml) {
         log("found groups:\n" + xml);
         test.equals(xml.match(/<Group>/g).length, 1, "Should be one group");
         test.done();
@@ -141,7 +143,7 @@ exports.testSaveGroupAgain = function (test) {
 
 exports.testSearchGroupsAgain = function (test) {
     test.expect(5);
-    storage.Person.getGroups('dorm', function (dormXml) {
+    storage.Person.getGroups('benidorm bastards', function (dormXml) {
         test.ok(dormXml, "no dormXml");
         test.ok(dormXml.indexOf('Benidorm') > 0, 'Missing result');
         log("fetched dorm groups:\n" + dormXml);
@@ -158,7 +160,9 @@ exports.testSearchGroupsAgain = function (test) {
 var userAfterFirstAdd;
 
 exports.testAddMembership = function (test) {
-    test.expect(1);
+    test.expect(3);
+    test.ok(userIdentifier.length > 1, "no user identifier");
+    test.ok(groupIdentifier.length > 1, "no group identifier");
     storage.Person.addUserToGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         userAfterFirstAdd = userXml;
@@ -177,7 +181,8 @@ exports.testAddMembershipDouble = function (test) {
 };
 
 exports.testAddAnotherMembership = function (test) {
-    var expectedUserXml = '<User>\n' +
+    var expectedUserXml =
+        '<User>\n' +
         '  <Identifier>' + userIdentifier + '</Identifier>\n' +
         '  <Profile>\n' +
         '    <firstName>Oscr</firstName>\n' +
@@ -185,26 +190,21 @@ exports.testAddAnotherMembership = function (test) {
         '    <username>oscr</username>\n' +
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
-        '  <Memberships>\n' +
-        '    <Membership>\n' +
-        '      <GroupIdentifier>' + oscrGroupIdentifier + '</GroupIdentifier>\n' +
-        '      <Role>Administrator</Role>\n' +
-        '    </Membership>\n' +
-        '    <Membership>\n' +
-        '      <GroupIdentifier>' + groupIdentifier + '</GroupIdentifier>\n' +
-        '      <Role>Member</Role>\n' +
-        '    </Membership>\n' +
-        '  </Memberships>\n' +
+        '  <Membership>\n' +
+        '    <GroupIdentifier>' + oscrGroupIdentifier + '</GroupIdentifier>\n' +
+        '    <Role>Member</Role>\n' +
+        '  </Membership>\n' +
         '</User>';
 
     test.expect(2);
     storage.Person.addUserToGroup(userIdentifier, 'Member', oscrGroupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
+        log("add user to group returns user xml "+userXml);
         userXml = (_.filter(userXml.split('\n'), function (line) {
             return !line.match(/SaveTime/);
         })).join('\n');
-        log(userXml);
-        log(expectedUserXml);
+        log('got', userXml);
+        log('expect', expectedUserXml);
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("added user to group:\n" + userXml);
         test.done();
@@ -232,7 +232,8 @@ exports.testSearchUsers = function (test) {
 };
 
 exports.testRemoveMembership = function (test) {
-    var expectedUserXml = '<User>\n' +
+    var expectedUserXml =
+        '<User>\n' +
         '  <Identifier>' + userIdentifier + '</Identifier>\n' +
         '  <Profile>\n' +
         '    <firstName>Oscr</firstName>\n' +
@@ -240,30 +241,18 @@ exports.testRemoveMembership = function (test) {
         '    <username>oscr</username>\n' +
         '    <email>oscr@delving.eu</email>\n' +
         '  </Profile>\n' +
-        '  <Memberships>\n' +
-        '    <Membership>\n' +
-        '      <GroupIdentifier>'+oscrGroupIdentifier+'</GroupIdentifier>\n' +
-        '      <Role>Administrator</Role>\n' +
-        '    </Membership>\n' +
-        '  </Memberships>\n' +
         '</User>';
 
     test.expect(2);
-    storage.Person.removeUserFromGroup(userIdentifier, 'Member', groupIdentifier, function (userXml) {
+    storage.Person.removeUserFromGroup(userIdentifier, oscrGroupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         userXml = (_.filter(userXml.split('\n'), function (line) {
             return !line.match(/SaveTime/);
         })).join('\n');
+        log('got', userXml);
+        log('expect', expectedUserXml);
         test.equal(userXml, expectedUserXml, "xml mismatch!");
         log("remove user from group:\n" + userXml);
-        test.done();
-    });
-};
-
-exports.testStatistics = function(test) {
-    test.expect(1);
-    storage.getStatistics(function(s) {
-        test.ok(s, "No stats");
         test.done();
     });
 };

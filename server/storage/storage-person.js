@@ -68,13 +68,9 @@ P.getOrCreateUser = function (profile, receiver) {
                     function (result) {
                         log('count: ' + result);
                         if (result === '0') {
-                            userObject.Memberships = {
-                                Membership: [
-                                    {
-                                        GroupIdentifier: 'OSCR',
-                                        Role: 'Administrator'
-                                    }
-                                ]
+                            userObject.Membership = {
+                                GroupIdentifier: 'OSCR',
+                                Role: 'Administrator'
                             };
                         }
                         addUser(userObject);
@@ -98,7 +94,7 @@ P.getUsersInGroup = function (identifier, receiver) {
     s.query('get users in group ' + identifier,
         [
             '<Users>',
-            '    { ' + s.userCollection() + '[Memberships/Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
+            '    { ' + s.userCollection() + '[Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
             '</Users>'
         ],
         receiver
@@ -142,18 +138,24 @@ P.saveGroup = function (group, receiver) {
         group.Identifier = util.generateGroupId();
     }
     var groupXml = util.objectToXml(group, "Group");
-    if (existing && group.Identifier != 'OSCR') {
-        s.replace('save existing group ' + group.Identifier,
-            s.groupDocument(group.Identifier), groupXml,
-            receiver
-        );
+//    console.log('save group', groupXml); // todo
+    if (existing) {
+        if (group.Identifier == 'OSCR') {
+            console.warn("Refuse to update OSCR group");
+        }
+        else {
+            s.replace('save existing group ' + group.Identifier,
+                s.groupDocument(group.Identifier), groupXml,
+                receiver
+            );
+        }
     }
     else { // here we could try fuzzy match or something
         log('search for ' + group.Name);
         s.query('check group',
             s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
             function(result) {
-                log(group.Name + ' result was '+result);
+//                console.log(group.Name + ' result was '+result);
                 if (result.length == 0) { // text is not found
                     s.add('add group ' + group.Identifier,
                         s.groupDocument(group.Identifier), groupXml,
@@ -161,7 +163,7 @@ P.saveGroup = function (group, receiver) {
                     );
                 }
                 else {
-                    receiver(null);
+                    receiver(result);
                 }
             }
         );
@@ -208,11 +210,11 @@ P.addUserToGroup = function (userIdentifier, role, groupIdentifier, receiver) {
             'let $user := ' + s.userPath(userIdentifier),
             'let $mem := ' + '<Membership><GroupIdentifier>' + groupIdentifier + '</GroupIdentifier><Role>' + role + '</Role></Membership>',
             'return',
-            'if (exists($user/Memberships/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']))',
+            'if (exists($user/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']))',
             'then ()',
-            'else ( if (exists($user/Memberships))',
-            'then (insert node $mem into $user/Memberships)',
-            'else (insert node <Memberships>{$mem}</Memberships> into $user))'
+            'else ( if (exists($user/Membership))',
+            'then (replace node $user/Membership with $mem)',
+            'else (insert node $mem into $user))'
         ],
         function (result) {
             if (result) {
@@ -228,14 +230,14 @@ P.addUserToGroup = function (userIdentifier, role, groupIdentifier, receiver) {
     );
 };
 
-P.removeUserFromGroup = function (userIdentifier, role, groupIdentifier, receiver) {
+P.removeUserFromGroup = function (userIdentifier, groupIdentifier, receiver) {
     var s = this.storage;
-    var addition = userIdentifier + ' ' + role + ' ' + groupIdentifier;
-    s.update('remove user from group ' + addition,
-        'delete node ' + s.userPath(userIdentifier) + '/Memberships/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
+    var removal = userIdentifier + ' ' + groupIdentifier;
+    s.update('remove user from group ' + removal,
+        'delete node ' + s.userPath(userIdentifier) + '/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
         function (result) {
             if (result) {
-                s.query('re-fetch user after remove membership ' + addition,
+                s.query('re-fetch user after remove membership ' + removal,
                     s.userPath(userIdentifier),
                     receiver
                 );

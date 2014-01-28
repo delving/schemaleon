@@ -62,13 +62,6 @@
                                 <span class="i18n"></span>: {{ user.Profile.firstName }} {{ user.Profile.lastName }}
                             </a>
                         </li>
-                        <li ng-show="user.god">
-                            <!--todo: this is expert functionality-->
-                            <select id="membership-select"
-                                    ng-model="user.groupIdentifier"
-                                    ng-options="um.GroupIdentifier as um.Label for um in userMemberships">
-                            </select>
-                        </li>
                         <li class="dropdown" ng-hide="user.viewer">
                             <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
                                 <i class="icon icon-file icon-white"></i> <span class="i18n"></span>

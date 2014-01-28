@@ -177,6 +177,7 @@ function Storage(home) {
     }
 
     this.query = function (message, query, receiver) {
+//        console.log(message || 'no message'); // todo: remove
         query = wrapQuery(query);
         this.session.execute(query, function (error, reply) {
             if (reply.ok) {
@@ -391,6 +392,7 @@ function open(databaseName, homeDir, receiver) {
             }
             dataPath = fs.realpathSync(dataPath);
             loadData(dataPath, '', false);
+            console.log('done loading bootstrap data');
         }
 
         function finish() {
