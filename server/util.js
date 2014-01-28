@@ -47,12 +47,14 @@ module.exports.inXml = function (value) {
 };
 
 module.exports.getFromXml = function (xml, tag) {
-    var start = xml.indexOf('<' + tag + '>');
-    if (start >= 0) {
-        var end = xml.indexOf('</' + tag + '>', start);
-        if (end > 0) {
-            start += tag.length + 2;
-            return xml.substring(start, end);
+    if (xml) {
+        var start = xml.indexOf('<' + tag + '>');
+        if (start >= 0) {
+            var end = xml.indexOf('</' + tag + '>', start);
+            if (end > 0) {
+                start += tag.length + 2;
+                return xml.substring(start, end);
+            }
         }
     }
     return '';

@@ -24,14 +24,12 @@
                         <dd>
                             <span>{{ user.Profile.email }}</span>
                         </dd>
-                        <dt i18n="Groups"><span class="i18n"/></dt>
-                        <dd>
-                            <ul class="stats stats-condensed">
-                                <li ng-repeat="membership in user.Memberships.Membership">
-                                    <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
-                                    <span class="label {{ membership.Role }} pull-right">{{ membership.Role }}</span>
-                                </li>
-                            </ul>
+                        <dt i18n="Group" data-ng-show="user.group"><span class="i18n"/></dt>
+                        <dd data-ng-show="user.group">
+                            <div class="stats stats-condensed">
+                                <span class="type">{{ user.group.Name }}</span>
+                                <span class="label {{ user.Membership.Role }} pull-right">{{ user.Membership.Role }}</span>
+                            </div>
                         </dd>
                     </dl>
                 </div>

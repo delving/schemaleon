@@ -28,15 +28,17 @@ OSCR.controller(
                 var userIds = _.uniq(_.map(headerList, function(header){
                     return header.SavedBy;
                 }));
-                _.each(userIds, function(id){
-                    Person.getUser(id, function(user) {
-                        _.each(headerList, function(element) {
-                            if (id == element.SavedBy) {
-                                element.userView = user;
-                            }
+                if (userIds) {
+                    _.each(userIds, function(id){
+                        Person.getUser(id, function(user) {
+                            _.each(headerList, function(element) {
+                                if (id == element.SavedBy) {
+                                    element.userView = user;
+                                }
+                            });
                         });
                     });
-                });
+                }
                 if ($scope.searchParams.startIndex == 1) {
                     $scope.headerList = headerList;
                 }

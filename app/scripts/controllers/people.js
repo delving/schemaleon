@@ -22,13 +22,14 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'PeopleController',
-    function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
+    function ($rootScope, $scope, $q, $location, Person, $timeout) {
 
         $rootScope.checkLoggedIn();
 
         $scope.administratorRole = 'Administrator';
         $scope.selectedGroup = {};
         $scope.chosenUser = null;
+        $scope.groupFindUser = null;
         $scope.groupCreated = false;
         $scope.userAssigned = false;
         $scope.roles = _.map(Person.roles, function (role) {
@@ -43,65 +44,56 @@ OSCR.controller(
 
         getAllGroups();
 
-
-        function getAllUsers() {
-            Person.getAllUsers(function (list) {
-                $scope.allUsers = list;
-            });
-        }
-        
         $('#dd-group-select').on('change', function () {
             var group = JSON.parse($(this).val());
             $scope.populateGroup(group);
         });
 
         $scope.canUserAdministrate = function (groupIdentifier) {
-            if ($rootScope.user && $rootScope.user.Memberships) {
-                var memberships = $rootScope.user.Memberships.Membership;
-                if (memberships) {
-                    var membership = _.filter(memberships, function (membership) {
-                        return membership.GroupIdentifier === groupIdentifier && membership.Role === $scope.administratorRole;
-                    });
-                    if (membership.length) return true;
-                    membership = _.filter(memberships, function (membership) {
-                        return membership.GroupIdentifier === 'OSCR' && membership.Role === $scope.administratorRole; // true if they are god
-                    });
-                    if (membership.length) return true;
-                }
-            }
-            return false;
+            if (!$rootScope.user || !$rootScope.user.Membership) return false;
+            var m = $rootScope.user.Membership;
+            if (m.GroupIdentifier == 'OSCR' && m.Role == $scope.administratorRole) return true; // gods
+            return m.GroupIdentifer == groupIdentifier && m.Role == $scope.administratorRole;
         };
 
         $scope.populateGroup = function (group) {
             Person.getUsersInGroup(group.Identifier, function (list) {
-                _.each(list, function (user) {
-                    if (user.Memberships) {
-                        _.each(xmlArray(user.Memberships.Membership), function (membership) {
-                            if (membership.GroupIdentifier === group.Identifier) {
-                                user.GroupMember = membership;
-                            }
-                        });
-                    }
-                });
-//                group.userList = list;
+                // todo: UserList should not start with a capital
                 $scope.selectedGroup.UserList = list;
             });
             $scope.selectedGroup.Identifier = group.Identifier;
             $scope.selectedGroup.Name = group.Name;
         };
 
-        $scope.typeAheadUsers = function (query) {
+        $scope.typeAheadUsers = function (query, onlyOrphans) {
             var deferred = $q.defer();
             Person.selectUsers(query, function (list) {
-                deferred.resolve(list);
+                // todo: do this in a query
+                if (onlyOrphans) {
+                    deferred.resolve(_.filter(list, function(user) {
+                        return !user.Membership;
+                    }));
+                }
+                else {
+                    deferred.resolve(_.filter(list, function(user) {
+                        return user.Membership;
+                    }));
+                }
             });
             return deferred.promise;
         };
 
+        $scope.selectGroupFromUser = function(user) {
+//            console.log("groupFindUser", user.Membership.GroupIdentifier);
+            Person.getGroup(user.Membership.GroupIdentifier, function(group) {
+                // todo: get groups should extract the group, look for all usages
+//                console.log("group", group.Group);
+                $scope.populateGroup(group.Group);
+            });
+        };
+
         $scope.userToString = function (user) {
-            if (!user) {
-                return [];
-            }
+            if (!user) return '';
             return user.Profile.firstName + ' ' + user.Profile.lastName + ' <' + user.Profile.email + '>';
         };
 
@@ -125,7 +117,6 @@ OSCR.controller(
             return group.Name;
         };
 
-
         $scope.creatingGroup = false;
         $scope.addingUser = false;
 
@@ -143,7 +134,6 @@ OSCR.controller(
             $scope.selectedGroup.Role = role;
             $scope.addingUser = true;
             $scope.creatingGroup = false;
-
         };
 
         $scope.createGroup = function () {
@@ -185,9 +175,7 @@ OSCR.controller(
                     });
                     $timeout(function () {
                         $scope.userAssigned = false;
-//                    $scope.addingUser = false;
                     }, 4000);
-                    $rootScope.refreshUser();
                 }
             )
         };
@@ -200,7 +188,7 @@ OSCR.controller(
         $scope.removeUserFromGroup = function (user) {
             Person.removeUserFromGroup(
                 user.Identifier,
-                user.GroupMember.Role,
+                user.Membership.Role,
                 $scope.selectedGroup.Identifier,
                 function () {
                     console.log("user removed");
@@ -209,7 +197,6 @@ OSCR.controller(
                             $scope.populateGroup(group);
                         }
                     });
-                    $rootScope.refreshUser();
                 }
             )
         };

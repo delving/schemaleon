@@ -224,14 +224,14 @@ Storage('oscr', homeDir, function (storage) {
 
     app.post('/person/group/:identifier/remove', function (req, res) {
         var userIdentifier = req.body.userIdentifier;
-        var userRole = req.body.userRole;
+//        var userRole = req.body.userRole;
         var groupIdentifier = req.params.identifier;
-        storage.Person.removeUserFromGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
+        storage.Person.removeUserFromGroup(userIdentifier, groupIdentifier, function (xml) {
             res.xml(xml);
             storage.Log.add(req, {
                 Op: "RemoveUserFromGroup",
                 UserIdentifier: userIdentifier,
-                UserRole: userRole,
+//                UserRole: userRole,
                 GroupIdentifier: groupIdentifier
             })
         });

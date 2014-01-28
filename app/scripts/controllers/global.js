@@ -158,10 +158,10 @@ OSCR.controller(
 
             var anyActive = false;
             _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-                console.log('locapath', $location.path());
-                console.log('linkpath', link.path);
+//                console.log('locapath', $location.path());
+//                console.log('linkpath', link.path);
 
-                console.log($location.path().indexOf(link.path));
+//                console.log($location.path().indexOf(link.path));
                 link.active = ($location.path().indexOf(link.path) != -1);
                 if (link.active) anyActive = true;
             });
@@ -171,16 +171,27 @@ OSCR.controller(
         }
 
         $rootScope.$watch('user', function (user, before) {
+            console.log("user changed", user);
             if (!user) return;
-            $rootScope.userMemberships = [];
-            if (user.Memberships) {
-                _.each(user.Memberships.Membership, function (membership) {
-                    Person.getGroup(membership.GroupIdentifier, function (group) {
-                        membership.group = group.Group;
-                        membership.Label = membership.group.Name + ' (' + membership.Role + ')';
-                        $rootScope.userMemberships.push(membership);
-                        user.groupIdentifier = membership.GroupIdentifier;
-                    });
+            if (user.Membership) {
+                switch (user.Membership.Role) {
+                    case 'Administrator':
+                        user.editor = true;
+                        if (user.Membership.GroupIdentifier == 'OSCR') {
+                            user.god = true;
+                            $('body').addClass('admin');
+                        }
+                        break;
+                    case 'Member':
+                        user.editor = true;
+                        break;
+                    case 'Viewer':
+                        user.viewer = true;
+                        break;
+                }
+                Person.getGroup(user.Membership.GroupIdentifier, function (group) {
+                    user.group = group.Group;
+                    user.groupLabel = user.group.Name + ' (' + user.Membership.Role + ')';
                 });
             }
         });
@@ -251,56 +262,30 @@ OSCR.controller(
         };
 
         $rootScope.isImage = function(mime) {
-            if(mime && mime.indexOf('image') >= 0){
-                return true;
-            }
+            return (mime && mime.indexOf('image') >= 0);
         };
 
         $rootScope.isVideo = function (mime) {
-            if (mime && mime.indexOf('video') >= 0){
-                return true;
-            }
+            return (mime && mime.indexOf('video') >= 0);
         };
 
         $rootScope.isPdf = function (mime) {
-            if (mime && mime.indexOf('pdf') >= 0){
-                return true;
-            }
+            return (mime && mime.indexOf('pdf') >= 0);
         };
-
-        // == this is from the former login.js
-
-        function setUser(user) {
-            if (user) {
-                $rootScope.user = user;
-                $cookieStore.put('user', user);
-                if ($rootScope.user.Memberships) {
-                    $rootScope.user.Memberships.Membership = xmlArray($rootScope.user.Memberships.Membership);
-                    _.each($rootScope.user.Memberships.Membership, function (membership) {
-                        if (membership.GroupIdentifier === 'OSCR' && membership.Role === 'Administrator') {
-                            $rootScope.user.god = true;
-                        }
-                        if (membership.Role === 'Viewer') {
-                            $rootScope.user.viewer = true;
-                        }
-                    });
-                }
-            }
-            else {
-                delete $rootScope.user;
-            }
-            if(user && user.god === true) {
-                $('body').addClass('admin');
-            }
-        }
 
         $rootScope.login = function (username, password) {
             $scope.loginFailed = false;
+            delete $rootScope.user;
             if (username && username.length) {
                 Person.authenticate(username, password, function (user) {
-                    setUser(user);
                     if (user) {
                         $scope.choosePath('/dashboard');
+                        $rootScope.user = user;
+                        $scope.choosePath('/home');
+                        if ($location.host() == 'localhost') {
+                            console.log('setting user identifier', user.Identifier);
+                            $cookieStore.put('oscr-user-identifier', user.Identifier);
+                        }
                     }
                     else {
                         $rootScope.loginFailed = true;
@@ -312,14 +297,6 @@ OSCR.controller(
             else {
                 alert('login, but username is empty!');
                 $scope.choosePath('/login');
-            }
-        };
-
-        $rootScope.refreshUser = function () {
-            if ($rootScope.user) {
-                Person.getUser($rootScope.user.Identifier, function (user) {
-                    setUser(user);
-                });
             }
         };
 
@@ -338,11 +315,10 @@ OSCR.controller(
 
         $rootScope.logout = function () {
             if ($rootScope.config.showTranslationEditor) return;
-            $cookieStore.remove('user');
-            delete $rootScope.user;
+            $cookieStore.remove('oscr-user-identifier');
             $('body').removeClass('admin');
-            setUser(null);
-            $scope.choosePath('/');
+            delete $rootScope.user;
+            $scope.choosePath('/login');
         };
 
         $rootScope.scrollToTop = function () {
@@ -351,21 +327,24 @@ OSCR.controller(
                 scrollLeft: '+=' + 0,
                 scrollTop: '+=' + -height
             })
-        }
+        };
 
         if ($location.host() == 'localhost') {
-            var user = $cookieStore.get('user');
-            if (user) {
-                setUser(user);
-                var oscrPath = $cookieStore.get('oscr-path');
-                if (oscrPath) {
-                    $timeout(
-                        function () {
-                            $scope.choosePath(oscrPath);
-                        },
-                        300
-                    );
-                }
+            var userIdentifier = $cookieStore.get('oscr-user-identifier');
+            console.log('getting userIdentifier ', userIdentifier);
+            if (userIdentifier) {
+                Person.getUser(userIdentifier, function(user) {
+                    $rootScope.user = user;
+                    var oscrPath = $cookieStore.get('oscr-path');
+                    if (oscrPath) {
+                        $timeout(
+                            function () {
+                                $scope.choosePath(oscrPath);
+                            },
+                            300
+                        );
+                    }
+                })
             }
         }
 
