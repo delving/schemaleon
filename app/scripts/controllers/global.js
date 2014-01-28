@@ -158,12 +158,16 @@ OSCR.controller(
 
             var anyActive = false;
             _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-                link.active = ($location.path().indexOf(link.path) >= 0);
+                console.log('locapath', $location.path());
+                console.log('linkpath', link.path);
+
+                console.log($location.path().indexOf(link.path));
+                link.active = ($location.path().indexOf(link.path) != -1);
                 if (link.active) anyActive = true;
             });
-            if (!anyActive) {
-                $scope.mainMenuBase[0].active = true;
-            }
+//            if (!anyActive) {
+//                $scope.mainMenuBase[0].active = true;
+//            }
         }
 
         $rootScope.$watch('user', function (user, before) {
@@ -215,7 +219,7 @@ OSCR.controller(
             recentEntry.active = true;
         };
 
-        $scope.choosePath = function (path, viewOnly) {
+        $rootScope.choosePath = function (path, viewOnly) {
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
@@ -275,6 +279,7 @@ OSCR.controller(
             if (username && username.length) {
                 Person.authenticate(username, password, function (user) {
                     if (user) {
+                        $scope.choosePath('/dashboard');
                         $rootScope.user = user;
                         $scope.choosePath('/home');
                         if ($location.host() == 'localhost') {
@@ -348,15 +353,16 @@ OSCR.controller(
         };
 
         // layout functions
-        $rootScope.equalHeight = function equalHeight(group) {
+        $rootScope.equalHeight = function equalHeight(elements) {
+            if(!elements) return;
             tallest = 0;
-            group.each(function() {
+            elements.each(function() {
                 thisHeight = $(this).height();
                 if(thisHeight > tallest) {
                     tallest = thisHeight;
                 }
             });
-            group.height(tallest);
+            elements.height(tallest);
         }
     }
 );
