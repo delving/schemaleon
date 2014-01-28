@@ -135,19 +135,21 @@
                     </div>
                     <div class="sidebar-nav">
                         <ul class="nav nav-pills nav-stacked main-menu">
-                            <li>
+                            <li  ng-class="{ active: link.active }">
                                 <div class="media">
-                                    <a href data-ng-click="chooseUserPath(user.Identifier)" class="pull-left">
-                                    <gravatar-image data-email="user.Profile.email" data-size="40" data-default="mm"  data-secure="false"></gravatar-image>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="media-heading">
-                                            <span>{{ user.Profile.firstName }}</span>
-                                            <span>{{ user.Profile.lastName }}</span>
+                                    <a href data-ng-click="chooseUserPath(user.Identifier)">
+                                        <div class="pull-left">
+                                            <gravatar-image data-email="user.Profile.email" data-size="40" data-default="mm"  data-secure="false"></gravatar-image>
                                         </div>
-                                        <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
-                                        <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span>
-                                    </div>
+                                        <div class="media-body">
+                                            <div class="media-heading">
+                                                <span>{{ user.Profile.firstName }}</span>
+                                                <span>{{ user.Profile.lastName }}</span>
+                                            </div>
+                                            <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
+                                            <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span>
+                                        </div>
+                                    </a>
                                 </div>
                             </li>
                             <!-- Base links -->
@@ -170,7 +172,7 @@
                                 <a href ng-click="choosePath(link.path)">
                                     <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
-                                    <span> ({{ link.count }})</span>
+                                    <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
                                 <span ng-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"
@@ -186,7 +188,7 @@
                                 <a href ng-click="choosePath(link.path)">
                                     <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
-                                    <span> ({{ link.count }})</span>
+                                    <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
                                 <span ng-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"

@@ -1201,6 +1201,15 @@ ul.main-menu .media {
   margin-right: 20px;
   margin-bottom: 10px;
 }
+ul.main-menu .media a {
+  color: #020202;
+}
+ul.main-menu .media a:hover {
+  text-decoration: none;
+}
+ul.main-menu .media .media-body {
+  padding-left: 4px;
+}
 ul.main-menu .media .media-heading {
   font-weight: bold;
   margin-bottom: 0px;

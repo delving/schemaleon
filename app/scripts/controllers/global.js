@@ -313,13 +313,12 @@ OSCR.controller(
             if (username && username.length) {
                 Person.authenticate(username, password, function (user) {
                     if (user) {
-                        $scope.choosePath('/dashboard');
                         $rootScope.user = user;
-                        $scope.choosePath('/home');
                         if ($location.host() == 'localhost') {
                             console.log('setting user identifier', user.Identifier);
                             $cookieStore.put('oscr-user-identifier', user.Identifier);
                         }
+                        $scope.choosePath('/dashboard');
                     }
                     else {
                         $rootScope.loginFailed = true;

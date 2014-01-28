@@ -13,20 +13,16 @@
         <div class="media-body">
             <ul ng-show="userView" class="label-list">
                 <li>
-                    <label i18n="Name"><span class="i18n"/></label>
-                    {{ userView.Profile.firstName }} {{ userView.Profile.lastName }}
+                    <label i18n="Name"><span class="i18n"/></label>: {{ userView.Profile.firstName }} {{ userView.Profile.lastName }}
                 </li>
                 <li>
-                    <label i18n="Email"><span class="i18n"/></label>
-                    {{ userView.Profile.email }}
+                    <label i18n="Email"><span class="i18n"/></label>: {{ userView.Profile.email }}
                 </li>
                 <li>
-                    <label i18n="Group"><span class="i18n"/></label>
-                    {{ userView.group.Name }}
+                    <label i18n="Group"><span class="i18n"/></label>: <a href="/#/people/group/{{userView.group.Identifier}}">{{ userView.group.Name }}</a>
                 </li>
                 <li>
-                    <label i18n="Role"><span class="i18n"/></label>
-                    <span class="label {{ userView.Membership.Role }}">{{ userView.Membership.Role }}</span>
+                    <label i18n="Role"><span class="i18n"/></label>: <span class="label {{ userView.Membership.Role }}">{{ userView.Membership.Role }}</span>
                 </li>
             </ul>
         </div>
