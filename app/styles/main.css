@@ -1192,11 +1192,10 @@ ul.main-menu .nav-header {
   text-shadow: none;
 }
 ul.main-menu .media {
-  background: #999999;
+  background: #eeeeee;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
-  border: 1px solid #999999;
   padding: 4px;
   margin-right: 20px;
   margin-bottom: 10px;

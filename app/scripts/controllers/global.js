@@ -231,7 +231,7 @@ OSCR.controller(
         };
 
         $rootScope.choosePath = function (path, viewOnly) {
-//            console.log('choosePath');
+            console.log(path);
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
@@ -246,6 +246,10 @@ OSCR.controller(
             $cookieStore.put('oscr-path', path);
             buildMainMenu($rootScope.user);
         };
+
+        $rootScope.chooseUserPath = function (id) {
+            $rootScope.choosePath('/people/user/'+id);
+        }
 
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {
