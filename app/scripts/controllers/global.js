@@ -370,9 +370,10 @@ OSCR.controller(
         };
 
         // layout functions
-        $rootScope.equalHeight = function equalHeight(group) {
+        $rootScope.equalHeight = function equalHeight(elements) {
+            if(!elements) return;
             tallest = 0;
-            group.each(function() {
+            elements.each(function() {
                 thisHeight = $(this).height();
                 if(thisHeight > tallest) {
                     tallest = thisHeight;
