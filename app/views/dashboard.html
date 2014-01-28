@@ -9,34 +9,6 @@
         <div class="span4">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><i class="icon-user"></i></span>
-                    <h5 i18n="YourProfile"><span class="i18n"></span></h5>
-                </div>
-                <div class="widget-body">
-                    <gravatar-image data-email="user.Profile.email" data-size="100" data-default="mm"  data-secure="false"></gravatar-image>
-                    <dl>
-                        <dt i18n="Name"><span class="i18n"/></dt>
-                        <dd>
-                            <span>{{ user.Profile.firstName }}</span>
-                            <span>{{ user.Profile.lastName }}</span>
-                        </dd>
-                        <dt i18n="Email"><span class="i18n"/></dt>
-                        <dd>
-                            <span>{{ user.Profile.email }}</span>
-                        </dd>
-                        <dt i18n="Group" data-ng-show="user.group"><span class="i18n"/></dt>
-                        <dd data-ng-show="user.group">
-                            <div class="stats stats-condensed">
-                                <span class="type">{{ user.group.Name }}</span>
-                                <span class="label {{ user.Membership.Role }} pull-right">{{ user.Membership.Role }}</span>
-                            </div>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
-
-            <div class="widget-box">
-                <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
                     <h5 i18n="Statistics"><span class="i18n"/></h5>
                 </div>

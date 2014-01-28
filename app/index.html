@@ -42,7 +42,7 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
 
-                    <a class="brand" href ng-click="choosePath('/')"><img src="img/logo.png"/>Delving OSCR</a>
+                    <a class="brand" href ng-click="choosePath('/public')"><img src="img/logo.png"/>Delving OSCR</a>
                     <ul class="nav" ng-hide="user">
                         <li>
                             <a href ng-click="choosePath('/login')" title="" i18n="Login">
@@ -135,6 +135,22 @@
                     </div>
                     <div class="sidebar-nav">
                         <ul class="nav nav-pills nav-stacked main-menu">
+                            <li>
+                                <div class="media">
+                                    <a href data-ng-click="choosePath('/people/user/{{user.Identifier}}')" class="pull-left">
+                                    <gravatar-image data-email="user.Profile.email" data-size="40" data-default="mm"  data-secure="false"></gravatar-image>
+                                    </a>
+                                    <div class="media-body">
+                                        <div class="media-header">
+                                            <span>{{ user.Profile.firstName }}</span>
+                                            <span>{{ user.Profile.lastName }}</span>
+                                        </div>
+
+                                        <span class="type" i18n="Group"><span class="i18n"/></span>:{{ user.group.Name }}
+                                        <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span>
+                                    </div>
+                                </div>
+                            </li>
                             <!-- Base links -->
                             <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">

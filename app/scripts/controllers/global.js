@@ -220,6 +220,7 @@ OSCR.controller(
         };
 
         $rootScope.choosePath = function (path, viewOnly) {
+//            console.log('choosePath');
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
