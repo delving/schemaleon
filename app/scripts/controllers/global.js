@@ -379,7 +379,7 @@ OSCR.controller(
                     tallest = thisHeight;
                 }
             });
-            group.height(tallest);
+            elements.height(tallest);
         }
     }
 );
