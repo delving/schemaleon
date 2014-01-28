@@ -57,7 +57,7 @@
                             <tr ng-repeat="user in selectedGroup.UserList">
                                 <td>{{ user.Profile.email }}</td>
                                 <td><span class="eclipse">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</span></td>
-                                <td><span class="label {{ user.GroupMember.Role}}">{{ user.GroupMember.Role}}</span></td>
+                                <td><span class="label {{ user.Membership.Role}}">{{ user.Membership.Role}}</span></td>
                                 <td private="canUserAdministrate(group.Identifier)">
                                     <button class="btn btn-mini btn-danger" ng-click="removeUserFromGroup(user)"><i class="icon-trash icon-white"></i></button>
                                 </td>

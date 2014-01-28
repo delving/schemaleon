@@ -318,7 +318,7 @@ OSCR.controller(
             $cookieStore.remove('oscr-user-identifier');
             $('body').removeClass('admin');
             delete $rootScope.user;
-            $scope.choosePath('/');
+            $scope.choosePath('/login');
         };
 
         $rootScope.scrollToTop = function () {

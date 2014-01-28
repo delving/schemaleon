@@ -178,7 +178,7 @@ OSCR.controller(
         $scope.removeUserFromGroup = function (user) {
             Person.removeUserFromGroup(
                 user.Identifier,
-                user.GroupMember.Role,
+                user.Membership.Role,
                 $scope.selectedGroup.Identifier,
                 function () {
                     console.log("user removed");
