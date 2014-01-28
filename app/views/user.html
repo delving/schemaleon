@@ -4,11 +4,13 @@
         <h1 i18n="User"><span class="i18n"/> <small>{{ Identifier }}</small></h1>
     </div>
 
-    <div class="row-fluid">
-        <div class="span2">
+
+    <div class="media">
+        <span class="pull-left">
             <gravatar-image ng-show="userView"  data-email="userView.Profile.email" data-size="160" data-default="mm" data-secure="false"></gravatar-image>
-        </div>
-        <div class="span10">
+        </span>
+
+        <div class="media-body">
             <ul ng-show="userView" class="label-list">
                 <li>
                     <label i18n="Name"><span class="i18n"/></label>
@@ -19,15 +21,15 @@
                     {{ userView.Profile.email }}
                 </li>
                 <li>
-                    <label i18n="Groups"><span class="i18n"/></label>
-                    <ol class="">
-                        <li ng-repeat="membership in memberships">
-                            <span ng-show="membership.group" class="type">{{ membership.group.Name }}</span>
-                            <span class="label {{ membership.Role }}">{{ membership.Role }}</span>
-                        </li>
-                    </ol>
+                    <label i18n="Group"><span class="i18n"/></label>
+                    {{ userView.group.Name }}
+                </li>
+                <li>
+                    <label i18n="Role"><span class="i18n"/></label>
+                    <span class="label {{ userView.Membership.Role }}">{{ userView.Membership.Role }}</span>
                 </li>
             </ul>
         </div>
     </div>
+
 </div>
