@@ -70,14 +70,18 @@ OSCR.controller(
             $scope.selectedGroup.Name = group.Name;
         };
 
-        $scope.typeAheadUsers = function (query) {
+        $scope.typeAheadUsers = function (query, onlyOrphans) {
             var deferred = $q.defer();
             Person.selectUsers(query, function (list) {
                 // todo: do this in a query
-                var filtered = _.filter(list, function(user) {
-                    return !user.Membership;
-                });
-                deferred.resolve(filtered);
+                if (onlyOrphans) {
+                    deferred.resolve(_.filter(list, function(user) {
+                        return !user.Membership;
+                    }));
+                }
+                else {
+                    deferred.resolve(list);
+                }
             });
             return deferred.promise;
         };

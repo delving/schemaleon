@@ -14,6 +14,11 @@
                         <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
                     </select>
                 </form>
+                <span i18n="User">
+                    <span class="i18n"></span>:
+                    <input id="cau" type="text" ng-model="groupFindUser" class="input-large"
+                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"/>
+                </span>
                 <span i18n="NewGroup" class="pull-right">
                     <a href class="btn btn-primary" ng-click="newGroupToggle()">
                         <i class="icon icon-plus icon-white"></i>
@@ -121,7 +126,7 @@
                 <label i18n="FindUser"><span class="i18n"/>:</label>
                 <div class="input-append">
                     <input id="cu" type="text" ng-model="chosenUser" class="input-large"
-                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue)"/>
+                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, true)"/>
                     <span class="add-on pointer" ng-show="chosenUser" ng-click="clearChosenUser()"><i class="icon-ban-circle"></i></span>
                 </div>
             </div>
