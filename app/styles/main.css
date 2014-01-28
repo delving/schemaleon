@@ -669,7 +669,7 @@ ul.thumbnails a:hover {
 }
 ul.thumbnails .thumbnail {
   background: #ffffff;
-  height: 120px;
+  height: auto;
 }
 ul.thumbnails .thumbnail img {
   height: 65px;
@@ -976,9 +976,6 @@ h1 small {
 }
 h1 small.extra-info {
   font-size: 16px;
-}
-.widget-row.home .widget-body {
-  min-height: 130px !important;
 }
 .navbar.navbar-list .navbar-inner {
   background: #999999;

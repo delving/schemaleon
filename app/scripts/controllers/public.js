@@ -1,8 +1,9 @@
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
-    'HomeController',
-    function ($scope, Person, Document, $location) {
+    'PublicController',
+    function ($rootScope, $scope, Person, Document, $location) {
+
         function getAllGroups() {
             Person.getAllGroups(function (list) {
                 $scope.groupList = list;
@@ -12,8 +13,6 @@ OSCR.controller(
 
         $('#list-current-groups').on('change',function(){
             var path = $(this).val();
-            console.log(path);
-
             $scope.$apply( $location.path(path) );
         });
 
@@ -26,6 +25,7 @@ OSCR.controller(
             startIndex: 1,
             maxResults: $scope.defaultMaxResults
         };
+
 
         function searchDocuments() {
             Document.searchDocuments(null, null, $scope.searchParams, function (list) {
@@ -51,6 +51,11 @@ OSCR.controller(
                 else {
                     $scope.headerList = $scope.headerList.concat(headerList);
                 }
+
+                // make sure all the grid items are of equal height for proper grid display
+                setTimeout(function(){
+                    $rootScope.equalHeight($("div.thumbnail"));
+                },300);
 
             });
         }

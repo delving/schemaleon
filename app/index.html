@@ -43,10 +43,15 @@
                 <div class="container-fluid">
 
                     <a class="brand" href ng-click="choosePath('/')"><img src="img/logo.png"/>Delving OSCR</a>
-                    <ul class="nav " ng-hide="user">
+                    <ul class="nav" ng-hide="user">
                         <li>
                             <a href ng-click="choosePath('/login')" title="" i18n="Login">
                                 <span class="i18n"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.brabantcloud.eu/registration" target="_blank">
+                                <span i18n="Register"><span class="i18n"/></span>
                             </a>
                         </li>
                     </ul>
@@ -195,8 +200,7 @@
                     <!--/.sidebar-nav -->
                     <div ng-include="getInclude()"></div>
                 </div>
-
-                <div id="mainBody" class="span10">
+                <div id="mainBody" ng-class="{'span10' : user, 'span12' : !user}">
                     <div ng-view id="view"><!-- Angular views are rendered here --></div>
                 </div>
             </div>
@@ -221,7 +225,7 @@
 
 <!-- build:js scripts/oscr.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/home.js"></script>
+<script src="scripts/controllers/public.js"></script>
 <script src="scripts/controllers/people.js"></script>
 <script src="scripts/controllers/global.js"></script>
 <script src="scripts/controllers/i18n.js"></script>

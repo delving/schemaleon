@@ -133,7 +133,7 @@ OSCR.controller(
         function buildMainMenu(user) {
             if (!user) return;
             $scope.mainMenuBase = [
-                {name: "Home", path: "/home", icon: 'icon-home', active: false},
+                {name: "Public", path: "/public", icon: 'icon-road', active: false},
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
             ];
@@ -368,6 +368,18 @@ OSCR.controller(
         $scope.xmlArray = function(node) {
             return xmlArray(node);
         };
+
+        // layout functions
+        $rootScope.equalHeight = function equalHeight(group) {
+            tallest = 0;
+            group.each(function() {
+                thisHeight = $(this).height();
+                if(thisHeight > tallest) {
+                    tallest = thisHeight;
+                }
+            });
+            group.height(tallest);
+        }
     }
 );
 

@@ -6,8 +6,8 @@ OSCR.config(
     function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/home.html',
-                controller: 'HomeController',
+                templateUrl: 'views/public.html',
+                controller: 'PublicController',
                 title: 'OSCR Home'
             })
             .when('/login', {
@@ -68,8 +68,8 @@ OSCR.config(
                 controller: 'UserViewController'
             })
             .otherwise({
-                templateUrl: 'views/home.html',
-                controller: 'HomeController',
+                templateUrl: 'views/public.html',
+                controller: 'PublicController',
                 title: 'OSCR Home'
             });
     }
