@@ -22,7 +22,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'PeopleController',
-    function ($rootScope, $scope, $q, $location, Person, $timeout, $cookieStore) {
+    function ($rootScope, $scope, $q, $location, Person, $timeout) {
 
         $rootScope.checkLoggedIn();
 
@@ -56,8 +56,9 @@ OSCR.controller(
 
         $scope.canUserAdministrate = function (groupIdentifier) {
             if (!$rootScope.user || !$rootScope.user.Membership) return false;
-            var membership = $rootScope.user.Membership;
-            return membership && membership.GroupIdentifer == groupIdentifier && membership.Role == 'Administrator';
+            var m = $rootScope.user.Membership;
+            if (m.GroupIdentifier == 'OSCR' && m.Role == $scope.administratorRole) return true; // gods
+            return m.GroupIdentifer == groupIdentifier && m.Role == $scope.administratorRole;
         };
 
         $scope.populateGroup = function (group) {

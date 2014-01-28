@@ -167,6 +167,7 @@ OSCR.controller(
         }
 
         $rootScope.$watch('user', function (user, before) {
+            console.log("user changed", user);
             if (!user) return;
             if (user.Membership) {
                 switch (user.Membership.Role) {
@@ -276,6 +277,10 @@ OSCR.controller(
                     if (user) {
                         $rootScope.user = user;
                         $scope.choosePath('/home');
+                        if ($location.host() == 'localhost') {
+                            console.log('setting user identifier', user.Identifier);
+                            $cookieStore.put('oscr-user-identifier', user.Identifier);
+                        }
                     }
                     else {
                         $rootScope.loginFailed = true;
@@ -305,7 +310,7 @@ OSCR.controller(
 
         $rootScope.logout = function () {
             if ($rootScope.config.showTranslationEditor) return;
-            $cookieStore.remove('user');
+            $cookieStore.remove('oscr-user-identifier');
             $('body').removeClass('admin');
             delete $rootScope.user;
             $scope.choosePath('/');
@@ -320,18 +325,21 @@ OSCR.controller(
         };
 
         if ($location.host() == 'localhost') {
-            var user = $cookieStore.get('user');
-            if (user) {
-                $rootScope.user = user;
-                var oscrPath = $cookieStore.get('oscr-path');
-                if (oscrPath) {
-                    $timeout(
-                        function () {
-                            $scope.choosePath(oscrPath);
-                        },
-                        300
-                    );
-                }
+            var userIdentifier = $cookieStore.get('oscr-user-identifier');
+            console.log('getting userIdentifier ', userIdentifier);
+            if (userIdentifier) {
+                Person.getUser(userIdentifier, function(user) {
+                    $rootScope.user = user;
+                    var oscrPath = $cookieStore.get('oscr-path');
+                    if (oscrPath) {
+                        $timeout(
+                            function () {
+                                $scope.choosePath(oscrPath);
+                            },
+                            300
+                        );
+                    }
+                })
             }
         }
 
