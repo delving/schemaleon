@@ -29,6 +29,7 @@ OSCR.controller(
         $scope.administratorRole = 'Administrator';
         $scope.selectedGroup = {};
         $scope.chosenUser = null;
+        $scope.groupFindUser = null;
         $scope.groupCreated = false;
         $scope.userAssigned = false;
         $scope.roles = _.map(Person.roles, function (role) {
@@ -43,12 +44,6 @@ OSCR.controller(
 
         getAllGroups();
 
-        function getAllUsers() {
-            Person.getAllUsers(function (list) {
-                $scope.allUsers = list;
-            });
-        }
-        
         $('#dd-group-select').on('change', function () {
             var group = JSON.parse($(this).val());
             $scope.populateGroup(group);
@@ -80,10 +75,21 @@ OSCR.controller(
                     }));
                 }
                 else {
-                    deferred.resolve(list);
+                    deferred.resolve(_.filter(list, function(user) {
+                        return user.Membership;
+                    }));
                 }
             });
             return deferred.promise;
+        };
+
+        $scope.selectGroupFromUser = function(user) {
+//            console.log("groupFindUser", user.Membership.GroupIdentifier);
+            Person.getGroup(user.Membership.GroupIdentifier, function(group) {
+                // todo: get groups should extract the group, look for all usages
+//                console.log("group", group.Group);
+                $scope.populateGroup(group.Group);
+            });
         };
 
         $scope.userToString = function (user) {

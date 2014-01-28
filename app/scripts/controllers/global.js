@@ -158,10 +158,10 @@ OSCR.controller(
 
             var anyActive = false;
             _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-                console.log('locapath', $location.path());
-                console.log('linkpath', link.path);
+//                console.log('locapath', $location.path());
+//                console.log('linkpath', link.path);
 
-                console.log($location.path().indexOf(link.path));
+//                console.log($location.path().indexOf(link.path));
                 link.active = ($location.path().indexOf(link.path) != -1);
                 if (link.active) anyActive = true;
             });
