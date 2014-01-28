@@ -141,12 +141,11 @@
                                     <gravatar-image data-email="user.Profile.email" data-size="40" data-default="mm"  data-secure="false"></gravatar-image>
                                     </a>
                                     <div class="media-body">
-                                        <div class="media-header">
+                                        <div class="media-heading">
                                             <span>{{ user.Profile.firstName }}</span>
                                             <span>{{ user.Profile.lastName }}</span>
                                         </div>
-
-                                        <span class="type" i18n="Group"><span class="i18n"/></span>:{{ user.group.Name }}
+                                        <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
                                         <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span>
                                     </div>
                                 </div>
@@ -166,7 +165,7 @@
                                 </span>
                             </li>
                             <!-- Primary document links -->
-                            <li class="nav-header" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary"><span class="i18n"/> </li>
+                            <li class="nav-header" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
                             <li ng-repeat="link in mainMenuPrimary" ng-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
                                     <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
@@ -181,7 +180,7 @@
                                 </span>
                             </li>
                             <!-- Shared document links -->
-                            <li class="nav-header" i18n="SharedDocuments" ng-show="mainMenuShared"><span class="i18n"/> </li>
+                            <li class="nav-header" i18n="SharedDocuments" ng-show="mainMenuShared.length"><span class="i18n"/> </li>
                             <li ng-repeat="link in mainMenuShared" ng-class="{ active: link.active }" ng-show="user.god">
                                 <a href ng-click="choosePath(link.path)">
                                     <i ng-show="link.icon" class="icon {{ link.icon }}"></i>

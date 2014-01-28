@@ -509,14 +509,21 @@ ul.main-menu {
     text-shadow: none;
   }
   .media {
-    background: #dddddd;
+    background: @gray;
     .border-radius(10px);
-//    border: 1px solid @gray;
+    font-size: smaller;
     padding: 4px;
     margin-right: 20px;
     margin-bottom: 10px;
+    .media-heading {
+      font-weight: bold;
+      margin-bottom: 0px;
+    }
     img {
       .border-radius(10px);
+    }
+    .label {
+      .opacity(70);
     }
   }
 }

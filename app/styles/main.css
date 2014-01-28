@@ -1192,18 +1192,27 @@ ul.main-menu .nav-header {
   text-shadow: none;
 }
 ul.main-menu .media {
-  background: #dddddd;
+  background: #999999;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
+  font-size: smaller;
   padding: 4px;
   margin-right: 20px;
   margin-bottom: 10px;
+}
+ul.main-menu .media .media-heading {
+  font-weight: bold;
+  margin-bottom: 0px;
 }
 ul.main-menu .media img {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
+}
+ul.main-menu .media .label {
+  opacity: 0.7;
+  filter: alpha(opacity=70);
 }
 .pointer {
   cursor: pointer;
