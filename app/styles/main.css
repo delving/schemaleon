@@ -1475,6 +1475,12 @@ form#fileupload .navbar .progress {
   vertical-align: baseline;
 }
 /* bootstrap overrides */
+.input-prepend select {
+  margin-top: 0px;
+  -webkit-border-radius: 0 0 0 0;
+  -moz-border-radius: 0 0 0 0;
+  border-radius: 0 0 0 0;
+}
 .dropdown-menu > li > a {
   white-space: normal !important;
 }

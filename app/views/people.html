@@ -8,17 +8,20 @@
         <div class="navbar-inner">
             <div class="controls">
                 <form class="navbar-form form-inline form-group-select pull-left">
-                    <label i18n="SelectGroup"><span class="i18n"/>: </label>
-                    <select id="dd-group-select" class="input-xlarge">
-                        <option>------------------------------------------------------</option>
-                        <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
-                    </select>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-users"></i> <label i18n="SelectGroup"><span class="i18n"/></label></span>
+                        <select id="dd-group-select" class="input-xlarge">
+                            <option>------------------------------------------------------</option>
+                            <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i> <label i18n="FindUser"><span class="i18n"/></label></span>
+                        <input type="text" ng-model="groupFindUser" class="input-large" typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"/>
+                    </div>
+
                 </form>
-                <span i18n="User">
-                    <span class="i18n"></span>:
-                    <input id="cau" type="text" ng-model="groupFindUser" class="input-large"
-                           typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"/>
-                </span>
                 <span i18n="NewGroup" class="pull-right">
                     <a href class="btn btn-primary" ng-click="newGroupToggle()">
                         <i class="icon icon-plus icon-white"></i>
