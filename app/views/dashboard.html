@@ -24,18 +24,12 @@
                             <span class="type i18n"/>
                             <span class="label label-info count">{{ statistics.People.Person }}</span>
                         </li>
-                        <!--<li ng-repeat="schema in statistics.Shared.Schema"><i class="icon icon-file"></i>-->
-                            <!--<span i18n="{{schema.Name}}">-->
-                                <!--<span class="type i18n"/>-->
-                            <!--</span>-->
-                            <!--<span class="label label-info count">{{ schema.Count }}</span>-->
-                        <!--</li>-->
-                        <!--<li ng-repeat="schema in statistics.Primary.Schema"><i class="icon icon-file"></i>-->
-                            <!--<span i18n="{{schema.Name}}">-->
-                                <!--<span class="type i18n"/>-->
-                            <!--</span>-->
-                            <!--<span class="label label-info count">{{ schema.Count }}</span>-->
-                        <!--</li>-->
+                        <li ng-repeat="schema in statistics.AllPrimary.Schema"><i class="icon icon-file"></i>
+                            <span i18n="{{schema.Name}}">
+                                <span class="type i18n"/>
+                            </span>
+                            <span class="label label-info count">{{ schema.Count }}</span>
+                        </li>
                     </ul>
                 </div>
             </div>

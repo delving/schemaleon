@@ -15,6 +15,7 @@ var Document = require('./storage-document');
 var Media = require('./storage-media');
 var Log = require('./storage-log');
 var Directories = require('../directories');
+var util = require('../util');
 
 function log(message) {
 //    console.log(message);
@@ -127,7 +128,12 @@ function Storage(home) {
 
     this.dataCollection = function (schemaName, groupIdentifier) {
         if (groupIdentifier) {
-            return "collection('" + this.database + this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "')";
+            if (schemaName) {
+                return "collection('" + this.database + this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "')";
+            }
+            else { // shouldn't matter
+                return "collection('" + this.database + "/primary/" + groupIdentifier + "')";
+            }
         }
         else if (schemaName) {
             return "collection('" + this.database + this.schemaDir(schemaName) + schemaName + "')";
@@ -135,6 +141,11 @@ function Storage(home) {
         else {
             return "collection('" + this.database + "/primary/" + "')";
         }
+    };
+
+    // todo: work this into dataCollection
+    this.dataDocumentCount = function (schemaName) {
+        return "count(collection('" + this.database + "')//Header[SchemaName=" + util.quote(schemaName) + "])";
     };
 
     this.onlyPublic = function(schemaName, groupIdentifier) {
@@ -230,7 +241,8 @@ function Storage(home) {
         });
     };
 
-    this.getStatistics = function (groupIdentifier, receiver) { // TODO: CHANGE TO GLOBAL AND GROUP SPECIFIC
+    // get the statistics for a group, or for primary of all groups
+    this.getStatistics = function (groupIdentifier, receiver) {
         var s = this;
         var q = [];
         q.push("<Statistics>");
@@ -254,8 +266,16 @@ function Storage(home) {
             q.push('  </Schema>');
         });
         q.push('  </Primary>');
+        q.push('  <AllPrimary>');
+        _.each(this.schemaMap.primary, function(schema){
+            q.push('  <Schema>');
+            q.push('    <Name>'+schema+'</Name>');
+            q.push('    <Count>{ ' + s.dataDocumentCount(schema) + ' }</Count>');
+            q.push('  </Schema>');
+        });
+        q.push('  </AllPrimary>');
         q.push("</Statistics>");
-        this.query('get global statistics', q, receiver);
+        this.query('get statistics', q, receiver);
     };
 
     this.snapshotName = function() {
