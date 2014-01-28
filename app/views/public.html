@@ -39,8 +39,12 @@
 
     <div class="row-fluid">
 
+        <div ng-hide="headerList.length" i18n="NoPublicDocuments">
+            <div class="badge badge-warning"><span class="i18n"></span></div>
+        </div>
+
         <!--{{ headerList }}-->
-        <ul class="thumbnails">
+        <ul class="thumbnails" ng-show="headerList.length">
             <li class="span3"  data-ng-repeat="header in headerList">
                 <a href ng-click="choosePath(header, true)">
                 <div class="thumbnail">
