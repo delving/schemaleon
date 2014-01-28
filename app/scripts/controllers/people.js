@@ -73,7 +73,11 @@ OSCR.controller(
         $scope.typeAheadUsers = function (query) {
             var deferred = $q.defer();
             Person.selectUsers(query, function (list) {
-                deferred.resolve(list);
+                // todo: do this in a query
+                var filtered = _.filter(list, function(user) {
+                    return !user.Membership;
+                });
+                deferred.resolve(filtered);
             });
             return deferred.promise;
         };
