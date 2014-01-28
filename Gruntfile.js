@@ -284,9 +284,17 @@ module.exports = function (grunt) {
     grunt.registerTask('run', [
         'clean:server',
         'less:server',
-        'livereload-start',
         'express:livereload', // port 9000
+        'livereload-start',
         'open',
+        'watch'
+    ]);
+
+    grunt.registerTask('load', [
+        'clean:server',
+        'less:server',
+        'express:livereload', // port 9000
+        'livereload-start',
         'watch'
     ]);
 
