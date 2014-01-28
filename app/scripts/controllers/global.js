@@ -90,7 +90,13 @@ OSCR.controller(
             }
         }
 
-        $rootScope.groupIdentifierForSave = function(schemaName, groupIdentifier) {
+        $rootScope.userGroupIdentifier = function() {
+            if (!($rootScope.user && $rootScope.user.Membership)) return 'unknown';
+            return $rootScope.user.Membership.GroupIdentifier;
+        };
+
+        $rootScope.groupIdentifierForSave = function(schemaName) {
+            var groupIdentifier = $rootScope.userGroupIdentifier();
             if (isShared(schemaName)) {
                 if (groupIdentifier != 'OSCR') {
                     throw "Cannot talk about any old group for shared schemas"
@@ -115,7 +121,7 @@ OSCR.controller(
             if (isShared(schema)) {
                 $scope.choosePath('/shared/' + schema + '/create');
             } else {
-                $scope.choosePath('/primary/' + schema + '/' + $rootScope.user.groupIdentifier + '/create');
+                $scope.choosePath('/primary/' + schema + '/' + $rootScope.userGroupIdentifier() + '/create');
             }
         };
 
@@ -123,7 +129,7 @@ OSCR.controller(
             if (isShared(schema)) {
                 $scope.choosePath('/shared/' + schema);
             } else {
-                $scope.choosePath('/primary/' + schema + '/' + $rootScope.user.groupIdentifier);
+                $scope.choosePath('/primary/' + schema + '/' + $rootScope.userGroupIdentifier());
             }
         };
 
@@ -132,29 +138,34 @@ OSCR.controller(
 
         function buildMainMenu(user) {
             if (!user) return;
+
             $scope.mainMenuBase = [
                 {name: "Public", path: "/public", icon: 'icon-road', active: false},
                 {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
                 {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
             ];
 
-            $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
-                return {
-                    name: sharedSchema,
-                    path: "/shared/" + sharedSchema,
-                    icon: 'icon-th-list',
-                    active: false
-                };
-            });
+            if (user.Membership) {
+                if (user.Membership.GroupIdentifier == 'OSCR') {
+                    $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
+                        return {
+                            name: sharedSchema,
+                            path: "/shared/" + sharedSchema,
+                            icon: 'icon-th-list',
+                            active: false
+                        };
+                    });
+                }
 
-            $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
-                return {
-                    name: primarySchema,
-                    path: "/primary/" + primarySchema + "/" + user.groupIdentifier,
-                    icon: 'icon-th-list',
-                    active: false
-                };
-            });
+                $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
+                    return {
+                        name: primarySchema,
+                        path: "/primary/" + primarySchema + "/" + user.Membership.GroupIdentifier,
+                        icon: 'icon-th-list',
+                        active: false
+                    };
+                });
+            }
 
             var anyActive = false;
             _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {

@@ -160,7 +160,7 @@ OSCR.controller(
         else {
             $scope.useHeader({
                 SchemaName: $scope.schema,
-                GroupIdentifier: $rootScope.groupIdentifierForSave($scope.schema, $rootScope.user.groupIdentifier),
+                GroupIdentifier: $rootScope.groupIdentifierForSave($scope.schema),
                 Identifier: $scope.blankIdentifier
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch

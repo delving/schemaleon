@@ -34,7 +34,7 @@ OSCR.controller(
         $rootScope.checkLoggedIn();
 
         $scope.schema = "MediaMetadata";
-        $scope.groupIdentifier = $rootScope.user.groupIdentifier;
+        $scope.groupIdentifier = $rootScope.userGroupIdentifier();
         $scope.committedFiles = [];
         $scope.options = {
             url: '/files'

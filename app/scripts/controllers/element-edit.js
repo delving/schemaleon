@@ -129,7 +129,7 @@ OSCR.controller(
         }
         $scope.chosenMedia = null;
         $scope.schema = $scope.el.config.media;
-        $scope.groupIdentifier = $rootScope.user.groupIdentifier;
+        $scope.groupIdentifier = $rootScope.userGroupIdentifier();
 
         if (!$scope.el.tree) {
             Document.fetchSchema($scope.schema, function (schema) {
