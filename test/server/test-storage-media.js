@@ -89,7 +89,7 @@ exports.testImageIngestion = function (test) {
                     log('listImageData for ' + schemaName);
                     log(results);
                     test.ok(results.indexOf("theteam") > 0, 'theteam not found');
-                    storage.Media.listMediaFiles(function (err, results) {
+                    storage.Media.listMediaFilesForTesting(function (err, results) {
                         log('list media file results');
                         log(results);
                         test.equals(results.length, 2, "should just be 2 files, but it's " + results.length);

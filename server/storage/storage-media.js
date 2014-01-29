@@ -65,44 +65,6 @@ P.getThumbnailPath = function (fileName) {
     return path.join(bucketPath, fileName);
 };
 
-// ============= for testing only:
-
-P.listMediaFiles = function (done) {
-    function walk(dir, done) {
-        var results = [];
-        fs.readdir(dir, function (err, list) {
-            if (err) {
-                done(err);
-            }
-            else {
-                var pending = list.length;
-                if (!pending) {
-                    done(null, results);
-                }
-                else {
-                    list.forEach(function (file) {
-                        file = dir + '/' + file;
-                        fs.stat(file, function (err, stat) {
-                            if (stat && stat.isDirectory()) {
-                                walk(file, function (err, res) {
-                                    results = results.concat(res);
-                                    if (!--pending) done(null, results);
-                                });
-                            }
-                            else {
-                                results.push(file);
-                                if (!--pending) done(null, results);
-                            }
-                        });
-                    });
-                }
-            }
-        });
-    }
-
-    walk(this.storage.directories.mediaStorage, done);
-};
-
 P.createFileName = function (body) {
     console.log("createFileName MimeType:" + body.MimeType);
     var s = this.storage;
@@ -187,4 +149,40 @@ function copyFile(source, target, cb) {
         }
     }
 }
+
+P.listMediaFilesForTesting = function (done) {
+    function walk(dir, done) {
+        var results = [];
+        fs.readdir(dir, function (err, list) {
+            if (err) {
+                done(err);
+            }
+            else {
+                var pending = list.length;
+                if (!pending) {
+                    done(null, results);
+                }
+                else {
+                    list.forEach(function (file) {
+                        file = dir + '/' + file;
+                        fs.stat(file, function (err, stat) {
+                            if (stat && stat.isDirectory()) {
+                                walk(file, function (err, res) {
+                                    results = results.concat(res);
+                                    if (!--pending) done(null, results);
+                                });
+                            }
+                            else {
+                                results.push(file);
+                                if (!--pending) done(null, results);
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    }
+
+    walk(this.storage.directories.mediaStorage, done);
+};
 
