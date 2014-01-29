@@ -132,7 +132,7 @@ OSCR.controller(
             $scope.header.GroupIdentifier = header.GroupIdentifier;
             $scope.header.SummaryFields = header.SummaryFields;
             $scope.header.DocumentState = getDocumentState(header);
-            $scope.headerDisplay = header.Identifier === $scope.blankIdentifier ? null : header.Identifier;
+            $scope.headerDisplay = header.Identifier === $scope.blankIdentifier ? null : header.SummaryFields.Title;
             delete $scope.header.TimeStamp;
             var millis = parseInt(header.TimeStamp);
             if (!_.isNaN(millis)) {

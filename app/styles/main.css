@@ -987,6 +987,7 @@ h1 small.extra-info {
 }
 .brand {
   width: 180px;
+  padding: 6px 20px 6px;
 }
 .brand img {
   height: 24px;
@@ -1001,17 +1002,18 @@ h1 small.extra-info {
   margin-left: 0px;
 }
 .page-header {
-  position: relative;
   border-color: #adafae;
+  margin-top: 0px;
   margin-bottom: 20px;
   text-shadow: 1px 1px 2px #FFFFFF;
+  padding: 0 0 0 0;
 }
 .page-header h1 {
   color: #999999;
   font-weight: 200;
-  font-size: 32px;
+  font-size: 28px;
   letter-spacing: 1px;
-  line-height: 32px;
+  line-height: 28px;
 }
 .page-header.sub-header h2 {
   color: #999999;
@@ -1019,6 +1021,12 @@ h1 small.extra-info {
   font-size: 21px;
   letter-spacing: 1px;
   line-height: 21px;
+}
+small.document-info {
+  margin: 3px 0 0 4px;
+  padding: 2px 4px;
+  display: inline-block;
+  background: #ffffff;
 }
 .controls .btn.disabled {
   cursor: pointer;
@@ -1192,7 +1200,7 @@ ul.main-menu .media {
   border-radius: 10px 10px 0 0;
   font-size: smaller;
   padding: 8px;
-  margin: -20px 0 1px -20px;
+  margin: -20px 0 10px -20px;
 }
 ul.main-menu .media a {
   color: #020202;
@@ -1621,4 +1629,7 @@ label {
 .vocabulary-extended table th {
   font-size: smaller;
 }
-/* SEARCH RESULTS */
+/* GRAVATAR */
+.gravatar-image-container {
+  max-width: 160px;
+}

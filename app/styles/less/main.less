@@ -309,32 +309,13 @@ h1 small {
 
 .brand {
   width: 180px;
+  padding: 6px 20px 6px;
   img {
     height: 24px;
     margin-right: 8px;
     vertical-align: text-bottom;
   }
 }
-
-// make static -- needs to extend the view window on longer pages
-//#sidebar {
-//  position: fixed;
-//  width: 260px;
-//  left: 20px;
-//  bottom: 0;
-//  top: 70px;
-//}
-//
-//.admin #sidebar {
-//  top: 120px;
-//}
-//
-//#mainBody {
-//  margin-left: 300px;
-//  min-width: 820px;
-//  //  float: left;
-//  //  position: absolute;
-//}
 
 .loggedin-false {
   #sidebar {
@@ -348,16 +329,18 @@ h1 small {
 
 .page-header {
 //  border-color: darken(@gray, 25%);
-  position: relative;
+//  position: relative;
   border-color: @grayLight;
+  margin-top: 0px;
   margin-bottom: @baseLineHeight;
   text-shadow:1px 1px 2px #FFFFFF;
+  padding: 0 0 0 0;
   h1 {
     color: @gray;
     font-weight: 200;
-    font-size: 32px;
+    font-size: 28px;
     letter-spacing: 1px;
-    line-height: 32px;
+    line-height: 28px;
   }
   &.sub-header {
     h2{
@@ -368,6 +351,13 @@ h1 small {
       line-height: 21px;
     }
   }
+}
+
+small.document-info {
+  margin: 3px 0 0 4px;
+  padding: 2px 4px;
+  display: inline-block;
+  background: @white;
 }
 
 .controls {
@@ -506,7 +496,7 @@ ul.main-menu {
 
     font-size: smaller;
     padding: 8px;
-    margin: -20px 0 1px -20px;
+    margin: -20px 0 10px -20px;
     a {
       color: @grayDarker;
       &:hover {
@@ -987,6 +977,10 @@ label {
   }
 }
 
-/* SEARCH RESULTS */
+/* GRAVATAR */
+
+.gravatar-image-container {
+  max-width: 160px;
+}
 
 
