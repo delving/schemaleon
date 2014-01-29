@@ -17,6 +17,8 @@ function log(message) {
     console.log('storage-media.js: ', message);
 }
 
+// TODO: directories has to be removed everywhere
+
 P.thumbNameProper = function (thumbName)  {
     var nameProper= thumbName;
     if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {

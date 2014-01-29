@@ -15,7 +15,6 @@
 
 'use strict';
 
-
 function log(message, lineNr) {
     if (!lineNr === "") {
         console.log('upload.js l.'+lineNr+':', message);
@@ -25,9 +24,6 @@ function log(message, lineNr) {
     }
 }
 
-var Directories = require('./directories');
-var directories = new Directories();
-
 var fs = require('fs');
 var path = require('path');
 var _existsSync = fs.existsSync || path.existsSync;
@@ -35,8 +31,6 @@ var formidable = require('formidable');
 var nodeStatic = require('node-static');
 var imageMagick = require('imagemagick');
 
-var uploadDir = directories.mediaUploadDir;
-var uploadUrl = '/files/';
 var pathRegExp = new RegExp('\/files\/([^/]*)(\/.*)');
 
 var options = {
@@ -59,33 +53,11 @@ var options = {
         allowOrigin: '*',
         allowMethods: 'OPTIONS, HEAD, GET, POST, PUT, DELETE',
         allowHeaders: 'Content-Type, Content-Range, Content-Disposition'
-    },
-    /* Uncomment and edit this section to provide the service via HTTPS:
-     ssl: {
-     key: fs.readFileSync('/Applications/XAMPP/etc/ssl.key/server.key'),
-     cert: fs.readFileSync('/Applications/XAMPP/etc/ssl.crt/server.crt')
-     },
-     */
-    nodeStatic: {
-        cache: 3600 // seconds to cache served files
     }
 };
 
 var utf8encode = function (str) {
     return unescape(encodeURIComponent(str));
-};
-
-var fileServer = new nodeStatic.Server(directories.mediaUploadDir, options.nodeStatic);
-
-fileServer.respond = function (pathname, status, _headers, files, stat, req, res, finish) {
-    // Prevent browsers from MIME-sniffing the content-type:
-    _headers['X-Content-Type-Options'] = 'nosniff';
-    if (!options.inlineFileTypes.test(files[0])) {
-        // Force a download dialog for unsafe file extensions:
-        _headers['Content-Type'] = 'application/octet-stream';
-        _headers['Content-Disposition'] = 'attachment; filename="' + utf8encode(path.basename(files[0])) + '"';
-    }
-    nodeStatic.Server.prototype.respond.call(this, pathname, status, _headers, files, stat, req, res, finish);
 };
 
 var nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/;
@@ -94,205 +66,203 @@ var nameCountFunc = function (s, index, ext) {
     return ' (' + ((parseInt(index, 10) || 0) + 1) + ')' + (ext || '');
 };
 
-var FileInfo = function (file) {
-    this.name = file.name;
-    this.size = file.size;
-    this.type = file.type;
-    this.deleteType = 'DELETE';
-};
-
-var UploadHandler = function (req, res, callback) {
+var UploadHandler = function (groupStorage, req, res, callback) {
     this.req = req;
     this.res = res;
     this.callback = callback;
-};
 
-var FIP = FileInfo.prototype;
-var UHP = UploadHandler.prototype;
+    var FileInfo = function (file) {
+        this.name = file.name;
+        this.size = file.size;
+        this.type = file.type;
+        this.deleteType = 'DELETE';
 
-FIP.validate = function () {
-    if (options.minFileSize && options.minFileSize > this.size) {
-        this.error = 'File is too small';
-    }
-    else if (options.maxFileSize && options.maxFileSize < this.size) {
-        this.error = 'File is too big';
-    }
-    else if (!options.acceptFileTypes.test(this.name)) {
-        this.error = 'Filetype not allowed';
-    }
-    return !this.error;
-};
-
-FIP.safeName = function () {
-    // Prevent directory traversal and creating hidden system files:
-    this.name = path.basename(this.name).replace(/^\.+/, '');
-    // Prevent overwriting existing files:
-    while (_existsSync(uploadDir + '/' + this.name)) {
-        this.name = this.name.replace(nameCountRegexp, nameCountFunc);
-    }
-};
-
-FIP.initUrls = function (req) {
-    if (!this.error) {
-        var self = this;
-        var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + uploadUrl; // todo: use groupId?
-        this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
-        Object.keys(options.imageVersions).forEach(function (version) {
-            if (_existsSync(uploadDir + '/' + version + '/' + self.name)) {
-                self[version + 'Url'] = baseUrl + version + '/' + encodeURIComponent(self.name);
+        this.validate = function () {
+            if (options.minFileSize && options.minFileSize > this.size) {
+                this.error = 'File is too small';
             }
-        });
-    }
-};
+            else if (options.maxFileSize && options.maxFileSize < this.size) {
+                this.error = 'File is too big';
+            }
+            else if (!options.acceptFileTypes.test(this.name)) {
+                this.error = 'Filetype not allowed';
+            }
+            return !this.error;
+        };
 
-UHP.get = function () {
-    var self = this;
-    var files = [];
-    fs.readdir(uploadDir, function (err, list) {
-        list.forEach(function (name) {
-            var stats = fs.statSync(uploadDir + '/' + name);
-            if (stats.isFile() && name[0] !== '.') {
-                var fileInfo = new FileInfo({
-                    name: name,
-                    size: stats.size
+        this.safeName = function () {
+            // Prevent directory traversal and creating hidden system files:
+            this.name = path.basename(this.name).replace(/^\.+/, '');
+            // Prevent overwriting existing files:
+            while (_existsSync(groupStorage.mediaUploadDir + '/' + this.name)) {
+                this.name = this.name.replace(nameCountRegexp, nameCountFunc);
+            }
+        };
+
+        this.initUrls = function (req) {
+            if (!this.error) {
+                var self = this;
+                var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/'; // todo: use groupId?
+                this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
+                Object.keys(options.imageVersions).forEach(function (version) {
+                    if (_existsSync(groupStorage.mediaUploadDir + '/' + version + '/' + self.name)) {
+                        self[version + 'Url'] = baseUrl + version + '/' + encodeURIComponent(self.name);
+                    }
                 });
-                fileInfo.initUrls(self.req);
-                files.push(fileInfo);
             }
-        });
-        self.callback({files: files});
-    });
-};
+        };
 
-UHP.post = function () {
-    var handler = this;
-    var form = new formidable.IncomingForm();
-    var tmpFiles = [], files = [];
-    var map = {};
-    var counter = 1;
-    var redirect;
-
-    var finish = function () {
-        counter -= 1;
-        if (!counter) {
-            files.forEach(function (fileInfo) {
-                fileInfo.initUrls(handler.req);
-            });
-            handler.callback({files: files}, redirect);
-        }
     };
 
-    // todo: temp name must depend on groupIdentifier
-    form.uploadDir = directories.mediaTempDir;
-
-    form.on('fileBegin',
-        function (name, file) {
-            tmpFiles.push(file.path);
-            var fileInfo = new FileInfo(file, handler.req, true);
-            fileInfo.safeName();
-            map[path.basename(file.path)] = fileInfo;
-            files.push(fileInfo);
-        }
-    ).on('field',
-        function (name, value) {
-            if (name === 'redirect') {
-                redirect = value;
-            }
-        }
-    ).on('file',
-        function (name, file) {
-            var fileInfo = map[path.basename(file.path)];
-            fileInfo.size = file.size;
-            console.log(fileInfo);
-            if (!fileInfo.validate()) {
-                fs.unlink(file.path);
-                return;
-            }
-            fs.renameSync(file.path, uploadDir + '/' + fileInfo.name);
-            if (options.imageTypes.test(fileInfo.name)) {
-                log("thumbing images")
-                Object.keys(options.imageVersions).forEach(function (version) {
-                    counter += 1;
-                    var opts = options.imageVersions[version];
-                    imageMagick.resize(
-                        {
-                            width: opts.width,
-                            height: opts.height,
-                            srcPath: uploadDir + '/' + fileInfo.name,
-                            dstPath: uploadDir + '/' + version + '/' + fileInfo.name
-                        },
-                        finish
-                    );
-                });
-            }
-            //TODO: PDF AND AUDIO - pdf use first page for thumb, audio -use and icon
-            else {
-                //TODO: allow for other video formats (MOV, VOB ...)
-                log("thumbing other")
-                Object.keys(options.imageVersions).forEach(function (version) {
-                    counter += 1;
-                    var opts = options.imageVersions[version];
-                    var originalFileName = fileInfo.name;
-                    var frameNr = '[20]';
-                    if (options.documentTypes.test(fileInfo.name)) {
-                        frameNr = '[0]';
-                    }
-                    var frameFileName = uploadDir + '/' + fileInfo.name + frameNr;
-                    var thumbName = uploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
-                    imageMagick.convert(
-                        [frameFileName, '-resize', '160x160', '-flatten', thumbName],
-                        finish
-                    );
-                });
-            }
-        }
-    ).on('aborted',
-        function () {
-            tmpFiles.forEach(function (file) {
-                fs.unlink(file);
+    this.get = function () {
+        var self = this;
+        var files = [];
+        fs.readdir(groupStorage.mediaUploadDir, function (err, list) {
+            list.forEach(function (name) {
+                var stats = fs.statSync(groupStorage.mediaUploadDir + '/' + name);
+                if (stats.isFile() && name[0] !== '.') {
+                    var fileInfo = new FileInfo({
+                        name: name,
+                        size: stats.size
+                    });
+                    fileInfo.initUrls(self.req);
+                    files.push(fileInfo);
+                }
             });
-        }
-    ).on('error',
-        function (e) {
-            console.log(e);
-        }
-    ).on('progress',
-        function (bytesReceived, bytesExpected) {
-            if (bytesReceived > options.maxPostSize) {
-                handler.req.connection.destroy();
-            }
-        }
-    ).on('end', finish).parse(handler.req);
-};
+            self.callback({files: files});
+        });
+    };
 
-UHP.destroy = function () {
-    var self = this;
-    var fileName = path.basename(decodeURIComponent(self.req.url));
-    if (fileName[0] !== '.') {
-        fs.unlink(
-            uploadDir + '/' + fileName,
-            function (ex) {
-                Object.keys(options.imageVersions).forEach(function (version) {
-                    fs.unlink(uploadDir + '/' + version + '/' + fileName);
+    this.post = function () {
+        var handler = this;
+        var form = new formidable.IncomingForm();
+        var tmpFiles = [], files = [];
+        var map = {};
+        var counter = 1;
+        var redirect;
+
+        var finish = function () {
+            counter -= 1;
+            if (!counter) {
+                files.forEach(function (fileInfo) {
+                    fileInfo.initUrls(handler.req);
                 });
-                self.callback({success: !ex});
+                handler.callback({files: files}, redirect);
             }
-        );
-        return;
-    }
-    self.callback({success: false});
+        };
+
+        form.uploadDir = groupStorage.mediaTempDir;
+
+        form.on('fileBegin',
+            function (name, file) {
+                tmpFiles.push(file.path);
+                var fileInfo = new FileInfo(file, handler.req, true);
+                fileInfo.safeName();
+                map[path.basename(file.path)] = fileInfo;
+                files.push(fileInfo);
+            }
+        ).on('field',
+            function (name, value) {
+                if (name === 'redirect') {
+                    redirect = value;
+                }
+            }
+        ).on('file',
+            function (name, file) {
+                var fileInfo = map[path.basename(file.path)];
+                fileInfo.size = file.size;
+                console.log(fileInfo);
+                if (!fileInfo.validate()) {
+                    fs.unlink(file.path);
+                    return;
+                }
+                fs.renameSync(file.path, groupStorage.mediaUploadDir + '/' + fileInfo.name);
+                if (options.imageTypes.test(fileInfo.name)) {
+                    log("thumbing images")
+                    Object.keys(options.imageVersions).forEach(function (version) {
+                        counter += 1;
+                        var opts = options.imageVersions[version];
+                        imageMagick.resize(
+                            {
+                                width: opts.width,
+                                height: opts.height,
+                                srcPath: groupStorage.mediaUploadDir + '/' + fileInfo.name,
+                                dstPath: groupStorage.mediaThumbnailDir + '/' + fileInfo.name
+                            },
+                            finish
+                        );
+                    });
+                }
+                //TODO: PDF AND AUDIO - pdf use first page for thumb, audio -use and icon
+                else {
+                    //TODO: allow for other video formats (MOV, VOB ...)
+                    log("thumbing other")
+                    Object.keys(options.imageVersions).forEach(function (version) {
+                        counter += 1;
+                        var opts = options.imageVersions[version];
+                        var originalFileName = fileInfo.name;
+                        var frameNr = '[20]';
+                        if (options.documentTypes.test(fileInfo.name)) {
+                            frameNr = '[0]';
+                        }
+                        var frameFileName = groupStorage.mediaUploadDir + '/' + fileInfo.name + frameNr;
+                        var thumbName = groupStorage.mediaUploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
+                        imageMagick.convert(
+                            [frameFileName, '-resize', '160x160', '-flatten', thumbName],
+                            finish
+                        );
+                    });
+                }
+            }
+        ).on('aborted',
+            function () {
+                tmpFiles.forEach(function (file) {
+                    fs.unlink(file);
+                });
+            }
+        ).on('error',
+            function (e) {
+                console.log(e);
+            }
+        ).on('progress',
+            function (bytesReceived, bytesExpected) {
+                if (bytesReceived > options.maxPostSize) {
+                    handler.req.connection.destroy();
+                }
+            }
+        ).on('end', finish).parse(handler.req);
+    };
+
+    this.destroy = function () {
+        var self = this;
+        var fileName = path.basename(decodeURIComponent(self.req.url));
+        if (fileName[0] !== '.') {
+            fs.unlink(
+                groupStorage.mediaUploadDir + '/' + fileName,
+                function (ex) {
+                    Object.keys(options.imageVersions).forEach(function (version) {
+                        fs.unlink(groupStorage.mediaUploadDir + '/' + version + '/' + fileName);
+                    });
+                    self.callback({success: !ex});
+                }
+            );
+            return;
+        }
+        self.callback({success: false});
+    };
+
 };
 
-var serve = function (req, res, next) {
+var serve = function (storage, req, res) {
     var pathMatch = pathRegExp.exec(req.url);
     if (!pathMatch) {
-        next();
+        res.status(404).send(); // todo: does this work?
         return
     }
     req.groupIdentifier = pathMatch[1];
     req.url = pathMatch[2];
 
-    // todo: make sure that groupIdentifier is used!!
+    var groupStorage = storage.forGroup(req.groupIdentifier);
 
     console.log("[U] upload " + req.method + " " + req.url);
 
@@ -300,7 +270,13 @@ var serve = function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', options.accessControl.allowMethods);
     res.setHeader('Access-Control-Allow-Headers', options.accessControl.allowHeaders);
 
-    var handleResult = function (result, redirect) {
+    function setNoCacheHeaders() {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        res.setHeader('Content-Disposition', 'inline; filename="files.json"');
+    }
+
+    var handler = new UploadHandler(groupStorage, req, res, function (result, redirect) {
         if (redirect) {
             res.writeHead(302, {
                 'Location': redirect.replace(/%s/, encodeURIComponent(JSON.stringify(result)))
@@ -314,17 +290,28 @@ var serve = function (req, res, next) {
             });
             res.end(JSON.stringify(result));
         }
+    });
+
+    var fileServer = new nodeStatic.Server(groupStorage.mediaUploadDir, {
+//    ssl: {
+//        key: fs.readFileSync('/Applications/XAMPP/etc/ssl.key/server.key'),
+//        cert: fs.readFileSync('/Applications/XAMPP/etc/ssl.crt/server.crt')
+//    },
+        cache: 3600
+    });
+
+    fileServer.respond = function (pathname, status, _headers, files, stat, req, res, finish) {
+        // Prevent browsers from MIME-sniffing the content-type:
+        _headers['X-Content-Type-Options'] = 'nosniff';
+        if (!options.inlineFileTypes.test(files[0])) {
+            // Force a download dialog for unsafe file extensions:
+            _headers['Content-Type'] = 'application/octet-stream';
+            _headers['Content-Disposition'] = 'attachment; filename="' + utf8encode(path.basename(files[0])) + '"';
+        }
+        nodeStatic.Server.prototype.respond.call(this, pathname, status, _headers, files, stat, req, res, finish);
     };
 
-    var setNoCacheHeaders = function () {
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-        res.setHeader('Content-Disposition', 'inline; filename="files.json"');
-    };
-
-    var handler = new UploadHandler(req, res, handleResult);
-
-    var get = function () {
+    function doGet() {
         if (req.url === '/') {
             setNoCacheHeaders();
             handler.get();
@@ -332,17 +319,17 @@ var serve = function (req, res, next) {
         else {
             fileServer.serve(req, res);
         }
-    };
+    }
 
     switch (req.method) {
         case 'OPTIONS':
             res.end();
             break;
         case 'HEAD':
-            get();
+            doGet();
             break;
         case 'GET':
-            get();
+            doGet();
             break;
         case 'POST':
             setNoCacheHeaders();

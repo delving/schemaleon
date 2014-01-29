@@ -15,7 +15,6 @@ var Document = require('./storage-document');
 var Media = require('./storage-media');
 var Log = require('./storage-log');
 var FileSystem = require('./storage-filesystem');
-var Directories = require('../directories');
 var util = require('../util');
 
 function log(message) {
@@ -25,7 +24,6 @@ function log(message) {
 function Storage(home) {
     this.session = new basex.Session();
     this.FileSystem = new FileSystem(home);
-    this.directories = new Directories(home);
     this.Person = new Person(this);
     this.I18N = new I18N(this);
     this.Vocab = new Vocab(this);
@@ -289,7 +287,7 @@ function Storage(home) {
 
     this.snapshotCreate = function (receiver) {
         var snapshotDir = this.snapshotName();
-        var exportPath = this.directories.snapshot + '/' + snapshotDir;
+        var exportPath = this.FileSystem.databaseSnapshotDir + '/' + snapshotDir;
         var zipFile = exportPath + '.zip';
         this.session.execute('export ' + exportPath, function () {
             var output = fs.createWriteStream(zipFile);

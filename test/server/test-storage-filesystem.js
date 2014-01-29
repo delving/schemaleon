@@ -40,6 +40,16 @@ exports.testAdoptFile = function (test) {
     });
 };
 
+exports.testAdoptThumbnail = function (test) {
+    test.expect(2);
+    groupFileSystem.adoptFile(testImage, true, function(target, error) {
+        test.ok(!error, "error:: " + error);
+        log(target);
+        test.equal(target, '/tmp/OSCR-Files/MediaStorage/groupie/68/thumbnail/685afa53c36d34768fe0a18980efea58.jpg', "bad match");
+        test.done();
+    });
+};
+
 function log(message) {
 //    console.log(message);
 }

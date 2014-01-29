@@ -9,7 +9,7 @@ var upload = require('./upload');
 var util = require('./util');
 
 var app = express();
-app.use(upload);
+//app.use(upload); replaced by the /files/groupIdentifier/* path
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.cookieSession({secret: 'oscr'}));
@@ -29,7 +29,7 @@ Storage('oscr', homeDir, function (storage) {
         var API_QUERY_PARAMS = {
             "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
             "apiOrgId": "delving",
-            "apiNode": "playground"
+            "apiNode": "playground" // todo: this should not be playground!
         };
         var queryParams = [];
         for (var key in API_QUERY_PARAMS) {
@@ -383,5 +383,8 @@ Storage('oscr', homeDir, function (storage) {
         res.redirect('/snapshot/'+storage.snapshotName());
     });
 
+    app.all('/files/:groupIdentifier/*', function (req, res) {
+        upload(req, res);
+    });
 });
 

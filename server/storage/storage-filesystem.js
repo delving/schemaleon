@@ -70,23 +70,29 @@ function FileSystem(home) {
     };
 
     function GroupFileSystem(fileSystem, groupIdentifier) {
-        this.fileSystem = fileSystem;
-        this.groupIdentifier = groupIdentifier;
-        this.groupMediaUpload = make(this.fileSystem.mediaUpload, groupIdentifier);
-        this.groupMediaStorage = make(this.fileSystem.mediaStorage, groupIdentifier);
+        var gfs = this;
+
+        // this is where we put stuff
+        this.groupMediaStorage = make(fileSystem.mediaStorage, groupIdentifier);
+        
+        // these are for blueimp file upload
+        this.groupMediaUpload = make(fileSystem.mediaUpload, groupIdentifier);
         this.mediaUploadDir = make(this.groupMediaUpload, 'files');
         this.mediaThumbnailDir = make(this.mediaUploadDir, 'thumbnail');
         this.mediaTempDir = make(this.groupMediaUpload, 'temp');
 
-        this.mediaBucketPath = function(fileName) {
+        // a bucket for the media
+        function mediaBucketPath(fileName) {
             var bucketDirName = fileName.slice(0, 2);
-            return make(this.groupMediaStorage, bucketDirName);
-        };
+            return make(gfs.groupMediaStorage, bucketDirName);
+        }
 
-        this.thumbnailBucketPath = function(fileName) {
-            return make(this.mediaBucketDir(fileName), 'thumbnail');
-        };
+        // a bucket for the thumbnails
+        function thumbnailBucketPath(fileName) {
+            return make(mediaBucketPath(fileName), 'thumbnail');
+        }
 
+        // take a file into the
         this.adoptFile = function (filePath, isThumbnail, callback) {
             var fileNameMatch = fileNameRegExp.exec(filePath);
             if (!fileNameMatch) {
@@ -95,7 +101,7 @@ function FileSystem(home) {
             else {
                 var fileName = fileNameMatch[1];
                 var gfs = this;
-                this.fileSystem.hashFile(filePath, function (hash, error) {
+                fileSystem.hashFile(filePath, function (hash, error) {
                     if (error) {
                         callback(null, "hash error:: " + error);
                     }
@@ -106,9 +112,9 @@ function FileSystem(home) {
                         }
                         else {
                             var extension = extensionMatch[1];
-                            var targetPath = isThumbnail ? gfs.thumbnailBucketPath(hash) : gfs.mediaBucketPath(hash);
+                            var targetPath = isThumbnail ? thumbnailBucketPath(hash) : mediaBucketPath(hash);
                             var target = path.join(targetPath, hash + extension);
-                            gfs.fileSystem.copyFile(filePath, target, function (copyErr) {
+                            fileSystem.copyFile(filePath, target, function (copyErr) {
                                 if (copyErr) {
                                     callback(null, 'copy error:: ' + copyErr);
                                 }
