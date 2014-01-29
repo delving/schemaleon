@@ -461,49 +461,30 @@ OSCR.directive('documentNavigation', function () {
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
-OSCR.controller(
-    'ViewTreeControllerasdfasfsaf',
-    function ($scope, $timeout) {
+OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf) {
 
-        $scope.$watch("tree", function(tree, oldTree) {
-            // collect an array of only the media elements
-            $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-            // collect an array of only the media files
-            var getMediaFiles = function() {
-                return _.map($scope.mediaElements, function(el){
-                    return el;
-                });
-            };
-
-            $scope.mediaFiles = getMediaFiles();
-        });
-
-        $scope.filterNonMedia = function(elementList) {
-            return _.filter(elementList, function(element) {
-                return !element.config.media;
-            });
-        };
-
-        $scope.hasValue = function(el) {
-            return hasContent(el);
-        };
-
-    }
-);
-
-OSCR.controller('ViewTreeController', [ '$scope', 'PDFViewerService', function($scope, pdf) {
+    var getMediaFiles, pdfViewer;
 
     $scope.$watch("tree", function(tree, oldTree) {
         // collect an array of only the media elements
         $scope.mediaElements = tree ? collectMediaElements(tree) : [];
         // collect an array of only the media files
-        var getMediaFiles = function() {
+        getMediaFiles = function() {
             return _.map($scope.mediaElements, function(el){
                 return el;
             });
         };
 
         $scope.mediaFiles = getMediaFiles();
+
+        // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
+        // hence this controller must always be nested inside of that in the html
+        $scope.pdfFiles = [];
+        _.each($scope.mediaFiles, function(file){
+            if($rootScope.isPdf(file.value.MimeType)){
+                $scope.pdfFiles.push(file);
+            }
+        });
     });
 
     $scope.filterNonMedia = function(elementList) {
@@ -516,34 +497,46 @@ OSCR.controller('ViewTreeController', [ '$scope', 'PDFViewerService', function($
         return hasContent(el);
     };
 
-    $scope.pdfURL = "";
+    // PDF viewing functionality: initialize only if there are pdf files
+    $scope.$watch('pdfFiles', function(){
 
-    $scope.setPdfPath = function (path) {
-        $scope.pdfURL = path;
-    }
+        // If there are no pdf's then abort this mission
+        // && for now also abort if more than one
+        // TODO: make this work for multiple pdf files
+        if(!$scope.pdfFiles.length || ($scope.pdfFiles.length > 1)) return;
 
-    $scope.instance = pdf.Instance("pdf-viewer");
+        $scope.pdfURL = "";
+        // Set the path for the pdf to get using the mediaFile filter
+        $scope.pdfURL = $filter('mediaFile')($scope.pdfFiles[0]);
 
-    $scope.nextPage = function() {
-        $scope.instance.nextPage();
-    };
+        $scope.setPdfPath = function (path) {
+            $scope.pdfURL = path;
+        };
 
-    $scope.prevPage = function() {
-        $scope.instance.prevPage();
-    };
+        pdfViewer = pdf.Instance("pdf-viewer");
 
-    $scope.gotoPage = function(page) {
-        $scope.instance.gotoPage(page);
-    };
+        $scope.nextPage = function() {
+            pdfViewer.nextPage();
+        };
 
-    $scope.pageLoaded = function(curPage, totalPages) {
-        $scope.currentPage = curPage;
-        $scope.totalPages = totalPages;
-    };
+        $scope.prevPage = function() {
+            pdfViewer.prevPage();
+        };
 
-    $scope.loadProgress = function(loaded, total, state) {
-        console.log('loaded =', loaded, 'total =', total, 'state =', state);
-    };
+        $scope.gotoPage = function(page) {
+            pdfViewer.gotoPage(page);
+        };
+
+        $scope.pageLoaded = function(curPage, totalPages) {
+            $scope.currentPage = curPage;
+            $scope.totalPages = totalPages;
+        };
+
+        $scope.loadProgress = function(loaded, total, state) {
+            console.log('loaded =', loaded, 'total =', total, 'state =', state);
+        };
+
+    });
 }]);
 
 OSCR.controller(

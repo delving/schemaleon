@@ -32,7 +32,6 @@ directive('pdfviewer', [ '$parse', function($parse) {
 			};
 
 			$scope.loadPDF = function(path) {
-				console.log('loadPDF ', path);
 				PDFJS.getDocument(path, null, null, $scope.documentProgress).then(function(_pdfDoc) {
 					$scope.pdfDoc = _pdfDoc;
 					$scope.renderPage($scope.pageNum, function(success) {
