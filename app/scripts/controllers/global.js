@@ -47,7 +47,7 @@ OSCR.controller(
                 {name: 'Nederlands', code: 'nl'},
                 {name: 'Frysk', code: 'fy'},
                 {name: 'Norsk', code: 'no'},
-                {name: 'Svenska', code: 'sw'}
+                {name: 'Svenska', code: 'sv'}
             ],
             interfaceLanguage: 'en',
             showInlinePreview: true,
@@ -181,15 +181,11 @@ OSCR.controller(
 
                     var anyActive = false;
                     _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-//                console.log('locapath', $location.path());
-//                console.log('linkpath', link.path);
-//                console.log($location.path().indexOf(link.path));
-                        link.active = ($location.path().indexOf(link.path) != -1);
-                        if (link.active) anyActive = true;
+                        if(link){
+                            link.active = ($location.path().indexOf(link.path) != -1);
+                            if (link.active) anyActive = true;
+                        }
                     });
-//            if (!anyActive) {
-//                $scope.mainMenuBase[0].active = true;
-//            }
                 });
             }
         }
