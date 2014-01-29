@@ -270,6 +270,9 @@ module.exports = function (grunt) {
             media: [
                 'test/server/test-storage-media.js'
             ],
+            filesystem: [
+                'test/server/test-storage-filesystem.js'
+            ],
             vocab: [
                 'test/server/test-storage-vocab.js'
             ],
@@ -320,6 +323,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test-media', [
         'nodeunit:media'
+    ]);
+
+    grunt.registerTask('test-filesystem', [
+        'nodeunit:filesystem'
     ]);
 
     grunt.registerTask('test-e2e', [

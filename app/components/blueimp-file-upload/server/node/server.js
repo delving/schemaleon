@@ -250,8 +250,7 @@
                         width: opts.width,
                         height: opts.height,
                         srcPath: options.uploadDir + '/' + fileInfo.name,
-                        dstPath: options.uploadDir + '/' + version + '/' +
-                            fileInfo.name
+                        dstPath: options.uploadDir + '/' + version + '/' + fileInfo.name
                     }, finish);
                 });
             }

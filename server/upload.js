@@ -37,6 +37,7 @@ var imageMagick = require('imagemagick');
 
 var uploadDir = directories.mediaUploadDir;
 var uploadUrl = '/files/';
+var pathRegExp = new RegExp('\/files\/([^/]*)(\/.*)');
 
 var options = {
     maxPostSize: 11000000000, // 11 GB
@@ -134,7 +135,7 @@ FIP.safeName = function () {
 FIP.initUrls = function (req) {
     if (!this.error) {
         var self = this;
-        var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + uploadUrl;
+        var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + uploadUrl; // todo: use groupId?
         this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
         Object.keys(options.imageVersions).forEach(function (version) {
             if (_existsSync(uploadDir + '/' + version + '/' + self.name)) {
@@ -181,6 +182,7 @@ UHP.post = function () {
         }
     };
 
+    // todo: temp name must depend on groupIdentifier
     form.uploadDir = directories.mediaTempDir;
 
     form.on('fileBegin',
@@ -282,79 +284,76 @@ UHP.destroy = function () {
 };
 
 var serve = function (req, res, next) {
-
-    var basePath = '/files';
-
-    if (req.url.indexOf(basePath) == 0) {
-
-        console.log("[U] upload " + req.method + " " + req.url);
-
-        req.url = req.url.substring(basePath.length);
-
-        req.url = req.url ? req.url : '/';
-
-        res.setHeader('Access-Control-Allow-Origin', options.accessControl.allowOrigin);
-        res.setHeader('Access-Control-Allow-Methods', options.accessControl.allowMethods);
-        res.setHeader('Access-Control-Allow-Headers', options.accessControl.allowHeaders);
-
-        var handleResult = function (result, redirect) {
-            if (redirect) {
-                res.writeHead(302, {
-                    'Location': redirect.replace(/%s/, encodeURIComponent(JSON.stringify(result)))
-                });
-                res.end();
-            }
-            else {
-                res.writeHead(200, {
-                    'Content-Type': req.headers.accept.indexOf('application/json') !== -1 ?
-                        'application/json' : 'text/plain'
-                });
-                res.end(JSON.stringify(result));
-            }
-        };
-
-        var setNoCacheHeaders = function () {
-            res.setHeader('Pragma', 'no-cache');
-            res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-            res.setHeader('Content-Disposition', 'inline; filename="files.json"');
-        };
-
-        var handler = new UploadHandler(req, res, handleResult);
-
-        var get = function () {
-            if (req.url === '/') {
-                setNoCacheHeaders();
-                handler.get();
-            }
-            else {
-                fileServer.serve(req, res);
-            }
-        };
-
-        switch (req.method) {
-            case 'OPTIONS':
-                res.end();
-                break;
-            case 'HEAD':
-                get();
-                break;
-            case 'GET':
-                get();
-                break;
-            case 'POST':
-                setNoCacheHeaders();
-                handler.post();
-                break;
-            case 'DELETE':
-                handler.destroy();
-                break;
-            default:
-                res.statusCode = 405;
-                res.end();
-        }
-    }
-    else {
+    var pathMatch = pathRegExp.exec(req.url);
+    if (!pathMatch) {
         next();
+        return
+    }
+    req.groupIdentifier = pathMatch[1];
+    req.url = pathMatch[2];
+
+    // todo: make sure that groupIdentifier is used!!
+
+    console.log("[U] upload " + req.method + " " + req.url);
+
+    res.setHeader('Access-Control-Allow-Origin', options.accessControl.allowOrigin);
+    res.setHeader('Access-Control-Allow-Methods', options.accessControl.allowMethods);
+    res.setHeader('Access-Control-Allow-Headers', options.accessControl.allowHeaders);
+
+    var handleResult = function (result, redirect) {
+        if (redirect) {
+            res.writeHead(302, {
+                'Location': redirect.replace(/%s/, encodeURIComponent(JSON.stringify(result)))
+            });
+            res.end();
+        }
+        else {
+            res.writeHead(200, {
+                'Content-Type': req.headers.accept.indexOf('application/json') !== -1 ?
+                    'application/json' : 'text/plain'
+            });
+            res.end(JSON.stringify(result));
+        }
+    };
+
+    var setNoCacheHeaders = function () {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        res.setHeader('Content-Disposition', 'inline; filename="files.json"');
+    };
+
+    var handler = new UploadHandler(req, res, handleResult);
+
+    var get = function () {
+        if (req.url === '/') {
+            setNoCacheHeaders();
+            handler.get();
+        }
+        else {
+            fileServer.serve(req, res);
+        }
+    };
+
+    switch (req.method) {
+        case 'OPTIONS':
+            res.end();
+            break;
+        case 'HEAD':
+            get();
+            break;
+        case 'GET':
+            get();
+            break;
+        case 'POST':
+            setNoCacheHeaders();
+            handler.post();
+            break;
+        case 'DELETE':
+            handler.destroy();
+            break;
+        default:
+            res.statusCode = 405;
+            res.end();
     }
 };
 
