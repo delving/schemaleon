@@ -74,14 +74,3 @@ P.setElementDoc = function (language, key, value, receiver) {
         receiver
     );
 };
-
-P.saveLanguage = function (language, receiver) {
-    var s = this.storage;
-    var i18nDir = path.join(s.directories.dataDir, 'i18n');
-    this.getLanguage(language, function(lang) {
-        var file = path.join(i18nDir, language+'.xml');
-        fs.writeFile(file, lang, function() {
-            receiver(lang);
-        });
-    });
-};

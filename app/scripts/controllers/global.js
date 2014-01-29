@@ -65,13 +65,6 @@ OSCR.controller(
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
         };
 
-        $rootScope.saveLanguage = function() {
-            I18N.saveLanguage($rootScope.lang, function (lang) {
-                $rootScope.i18n = lang;
-                alert('saved language');
-            })
-        };
-
         function isShared(schemaName) {
             return (_.contains($rootScope.schemaMap.shared, schemaName))
         }
