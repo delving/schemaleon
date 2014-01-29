@@ -24,7 +24,14 @@ P.getDocumentSchema = function (schemaName, receiver) {
 };
 
 P.searchDocuments = function (params, receiver) {
+
     console.log("search", params); // todo
+
+    // make sure these at least defaulted
+    params.searchQuery = params.searchQuery || '';
+    params.startIndex = params.startIndex || 1;
+    params.maxResults = params.maxResults || 8;
+
     var s = this.storage;
     var q = [];
     q.push('<Documents>{');
@@ -69,7 +76,7 @@ P.saveDocument = function (envelope, receiver) {
     var IDENTIFIER = '#IDENTIFIER#';
     var TIMESTAMP = '#TIMESTAMP#';
     var time = new Date().getTime();
-    var hdr = _.clone(envelope.header); // todo: header should optionally contain group identifier
+    var hdr = _.clone(envelope.header);
     var body = envelope.body;
 
     function addDocument() {

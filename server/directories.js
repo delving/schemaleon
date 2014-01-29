@@ -15,8 +15,6 @@ module.exports = function(home) {
     if (!home) {
         home = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
     }
-    this.dataDir = path.join('test', 'data', 'xml');
-    this.schemaFile = path.join(this.dataDir, "Schemas.xml");
     this.mediaStorage = make(home, 'OSCR-Media');
     this.mediaUpload = make(home, 'OSCR-Upload');
     this.snapshot = make(home, 'OSCR-Snapshot');
