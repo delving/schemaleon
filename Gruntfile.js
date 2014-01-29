@@ -318,8 +318,8 @@ module.exports = function (grunt) {
         'nodeunit:person'
     ]);
 
-    grunt.registerTask('test-image', [
-        'nodeunit:image'
+    grunt.registerTask('test-media', [
+        'nodeunit:media'
     ]);
 
     grunt.registerTask('test-e2e', [

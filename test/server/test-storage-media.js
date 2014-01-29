@@ -7,7 +7,7 @@ var Storage = require('../../server/storage');
 var util = require('../../server/util');
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
 var storage = null;
@@ -67,6 +67,7 @@ exports.testImageIngestion = function (test) {
             };
             var header = {
                 Identifier: '#IDENTIFIER#',
+                GroupIdentifier: 'OSCR',
                 SchemaName: 'MediaMetadata',
                 TimeStamp: "#TIMESTAMP#",
                 EMail: 'oscr@delving.eu'
@@ -79,8 +80,12 @@ exports.testImageIngestion = function (test) {
                 log('xml:');
                 log(xml);
                 var schemaName = util.getFromXml(xml, "SchemaName");
-                // todo: DOCZ
-                storage.Document.getAllDocuments(schemaName, function (results) {
+                var groupIdentifier = util.getFromXml(xml, "GroupIdentifier");
+                var params = {
+                    schemaName : schemaName,
+                    groupIdentifier: groupIdentifier
+                };
+                storage.Document.searchDocuments(params, function (results) {
                     log('listImageData for ' + schemaName);
                     log(results);
                     test.ok(results.indexOf("theteam") > 0, 'theteam not found');
@@ -89,7 +94,7 @@ exports.testImageIngestion = function (test) {
                         log(results);
                         test.equals(results.length, 2, "should just be 2 files, but it's " + results.length);
                         var newFileName = path.basename(results[0]);
-                        storage.Document.getDocument(schemaName, newFileName, function (doc) {
+                        storage.Document.getDocument(schemaName, groupIdentifier, newFileName, function (doc) {
                             test.ok(doc.indexOf("theteam") > 0, 'theteam not found');
                             test.done();
                         });
