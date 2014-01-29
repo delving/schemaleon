@@ -24,7 +24,7 @@ OSCR.controller(
     'UserViewController',
     function ($rootScope, $scope, $routeParams, $location, $cookieStore, Person) {
         $scope.Identifier = $routeParams.identifier;
-
+        
         Person.getUser($scope.Identifier, function(user) {
             $scope.userView = user;
             if (user.Membership) {
@@ -33,5 +33,7 @@ OSCR.controller(
                 });
             }
         });
+
+
     }
 );

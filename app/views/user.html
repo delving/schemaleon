@@ -5,13 +5,14 @@
     </div>
 
 
-    <div class="media">
-        <span class="pull-left">
-            <gravatar-image ng-show="userView"  data-email="userView.Profile.email" data-size="160" data-default="mm" data-secure="false"></gravatar-image>
+    <div class="media" ng-show="userView">
+        <span class="pull-left gravatar-image-container">
+            <gravatar-image data-email="userView.Profile.email" data-size="160" data-default="mm" data-secure="false"></gravatar-image><br/>
+            <a href="http://www.gravatar.com" target="_blank">Gravatar</a>
         </span>
 
         <div class="media-body">
-            <ul ng-show="userView" class="label-list">
+            <ul class="label-list">
                 <li>
                     <label i18n="Name"><span class="i18n"/></label>: {{ userView.Profile.firstName }} {{ userView.Profile.lastName }}
                 </li>
