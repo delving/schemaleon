@@ -31,7 +31,7 @@ var formidable = require('formidable');
 var nodeStatic = require('node-static');
 var imageMagick = require('imagemagick');
 
-var pathRegExp = new RegExp('\/files\/([^/]*)(\/.*)');
+var pathRegExp = new RegExp('\/files\/([^/]*)');
 
 var options = {
     maxPostSize: 11000000000, // 11 GB
@@ -66,7 +66,7 @@ var nameCountFunc = function (s, index, ext) {
     return ' (' + ((parseInt(index, 10) || 0) + 1) + ')' + (ext || '');
 };
 
-var UploadHandler = function (groupStorage, req, res, callback) {
+var UploadHandler = function (groupFileSystem, req, res, callback) {
     this.req = req;
     this.res = res;
     this.callback = callback;
@@ -94,7 +94,7 @@ var UploadHandler = function (groupStorage, req, res, callback) {
             // Prevent directory traversal and creating hidden system files:
             this.name = path.basename(this.name).replace(/^\.+/, '');
             // Prevent overwriting existing files:
-            while (_existsSync(groupStorage.mediaUploadDir + '/' + this.name)) {
+            while (_existsSync(groupFileSystem.mediaUploadDir + '/' + this.name)) {
                 this.name = this.name.replace(nameCountRegexp, nameCountFunc);
             }
         };
@@ -105,7 +105,7 @@ var UploadHandler = function (groupStorage, req, res, callback) {
                 var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/'; // todo: use groupId?
                 this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
                 Object.keys(options.imageVersions).forEach(function (version) {
-                    if (_existsSync(groupStorage.mediaUploadDir + '/' + version + '/' + self.name)) {
+                    if (_existsSync(groupFileSystem.mediaUploadDir + '/' + version + '/' + self.name)) {
                         self[version + 'Url'] = baseUrl + version + '/' + encodeURIComponent(self.name);
                     }
                 });
@@ -117,9 +117,9 @@ var UploadHandler = function (groupStorage, req, res, callback) {
     this.get = function () {
         var self = this;
         var files = [];
-        fs.readdir(groupStorage.mediaUploadDir, function (err, list) {
+        fs.readdir(groupFileSystem.mediaUploadDir, function (err, list) {
             list.forEach(function (name) {
-                var stats = fs.statSync(groupStorage.mediaUploadDir + '/' + name);
+                var stats = fs.statSync(groupFileSystem.mediaUploadDir + '/' + name);
                 if (stats.isFile() && name[0] !== '.') {
                     var fileInfo = new FileInfo({
                         name: name,
@@ -151,7 +151,7 @@ var UploadHandler = function (groupStorage, req, res, callback) {
             }
         };
 
-        form.uploadDir = groupStorage.mediaTempDir;
+        form.uploadDir = groupFileSystem.mediaTempDir;
 
         form.on('fileBegin',
             function (name, file) {
@@ -176,7 +176,7 @@ var UploadHandler = function (groupStorage, req, res, callback) {
                     fs.unlink(file.path);
                     return;
                 }
-                fs.renameSync(file.path, groupStorage.mediaUploadDir + '/' + fileInfo.name);
+                fs.renameSync(file.path, groupFileSystem.mediaUploadDir + '/' + fileInfo.name);
                 if (options.imageTypes.test(fileInfo.name)) {
                     log("thumbing images")
                     Object.keys(options.imageVersions).forEach(function (version) {
@@ -186,8 +186,8 @@ var UploadHandler = function (groupStorage, req, res, callback) {
                             {
                                 width: opts.width,
                                 height: opts.height,
-                                srcPath: groupStorage.mediaUploadDir + '/' + fileInfo.name,
-                                dstPath: groupStorage.mediaThumbnailDir + '/' + fileInfo.name
+                                srcPath: groupFileSystem.mediaUploadDir + '/' + fileInfo.name,
+                                dstPath: groupFileSystem.mediaThumbnailDir + '/' + fileInfo.name
                             },
                             finish
                         );
@@ -205,8 +205,8 @@ var UploadHandler = function (groupStorage, req, res, callback) {
                         if (options.documentTypes.test(fileInfo.name)) {
                             frameNr = '[0]';
                         }
-                        var frameFileName = groupStorage.mediaUploadDir + '/' + fileInfo.name + frameNr;
-                        var thumbName = groupStorage.mediaUploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
+                        var frameFileName = groupFileSystem.mediaUploadDir + '/' + fileInfo.name + frameNr;
+                        var thumbName = groupFileSystem.mediaUploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
                         imageMagick.convert(
                             [frameFileName, '-resize', '160x160', '-flatten', thumbName],
                             finish
@@ -238,10 +238,10 @@ var UploadHandler = function (groupStorage, req, res, callback) {
         var fileName = path.basename(decodeURIComponent(self.req.url));
         if (fileName[0] !== '.') {
             fs.unlink(
-                groupStorage.mediaUploadDir + '/' + fileName,
+                groupFileSystem.mediaUploadDir + '/' + fileName,
                 function (ex) {
                     Object.keys(options.imageVersions).forEach(function (version) {
-                        fs.unlink(groupStorage.mediaUploadDir + '/' + version + '/' + fileName);
+                        fs.unlink(groupFileSystem.mediaUploadDir + '/' + version + '/' + fileName);
                     });
                     self.callback({success: !ex});
                 }
@@ -260,9 +260,8 @@ var serve = function (storage, req, res) {
         return
     }
     req.groupIdentifier = pathMatch[1];
-    req.url = pathMatch[2];
 
-    var groupStorage = storage.forGroup(req.groupIdentifier);
+    var groupFileSystem = storage.FileSystem.forGroup(req.groupIdentifier);
 
     console.log("[U] upload " + req.method + " " + req.url);
 
@@ -276,7 +275,7 @@ var serve = function (storage, req, res) {
         res.setHeader('Content-Disposition', 'inline; filename="files.json"');
     }
 
-    var handler = new UploadHandler(groupStorage, req, res, function (result, redirect) {
+    var handler = new UploadHandler(groupFileSystem, req, res, function (result, redirect) {
         if (redirect) {
             res.writeHead(302, {
                 'Location': redirect.replace(/%s/, encodeURIComponent(JSON.stringify(result)))
@@ -292,7 +291,7 @@ var serve = function (storage, req, res) {
         }
     });
 
-    var fileServer = new nodeStatic.Server(groupStorage.mediaUploadDir, {
+    var fileServer = new nodeStatic.Server(groupFileSystem.mediaUploadDir, {
 //    ssl: {
 //        key: fs.readFileSync('/Applications/XAMPP/etc/ssl.key/server.key'),
 //        cert: fs.readFileSync('/Applications/XAMPP/etc/ssl.crt/server.crt')
