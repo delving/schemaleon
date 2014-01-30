@@ -139,7 +139,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
         var map = {};
         var counter = 1;
         var redirect;
-        console.log('incoming form', form);
 
         var finish = function () {
             console.log('finish');
