@@ -353,7 +353,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/media/file/:identifier', function (req, res) {
-        storage.Document.getMediaDocument(null, req.params.identifier, false, function(mediaDoc, error) {
+        storage.Document.getMediaDocument(null, req.params.identifier, function(mediaDoc, error) {
             if (error) {
                 res.status(500).send(error);
             }
@@ -367,7 +367,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/media/thumbnail/:identifier', function (req, res) {
-        storage.Document.getMediaDocument(null, req.params.identifier, false, function(doc, error) {
+        storage.Document.getMediaDocument(null, req.params.identifier, function(mediaDoc, error) {
             if (error) {
                 res.status(500).send(error);
             }

@@ -481,7 +481,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         // hence this controller must always be nested inside of that in the html
         $scope.pdfFiles = [];
         _.each($scope.mediaFiles, function(file){
-            if($rootScope.isPdf(file.value.MimeType)){
+            if (file.value && $rootScope.isPdf(file.value.MimeType)) {
                 $scope.pdfFiles.push(file);
             }
         });
