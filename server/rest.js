@@ -395,7 +395,8 @@ Storage('oscr', homeDir, function (storage) {
         res.redirect('/snapshot/'+storage.snapshotName());
     });
 
-    app.all('/files/:groupIdentifier/*', function (req, res) {
+    app.all('/files/:groupIdentifier', function (req, res) {
+        console.log("ALL FILES "+req.params.groupIdentifier);
         upload(storage, req, res);
     });
 });
