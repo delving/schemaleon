@@ -15,6 +15,7 @@ OSCR.controller(
         // flags for view ()
         $scope.documentDirty = false; // todo: should be in edit controller
         $scope.saveSuccess = false; // todo: should be in edit controller
+        $scope.fullScreenActive = false;
 
         // constants for triggering server-side substitutions
         $scope.blankIdentifier = '#IDENTIFIER#';
@@ -36,6 +37,21 @@ OSCR.controller(
                 i18nTree($scope.tree, i18n);
             }
         });
+
+        $scope.fullScreen = function(){
+            $scope.fullScreenActive = !$scope.fullScreenActive;
+            if($scope.fullScreenActive){
+                $('#view').addClass('full-screen');
+                var h = $(document).height();
+                $('.full-screen').css({
+                    height: h
+                });
+            }
+            else {
+                $('#view').removeClass('full-screen');
+            }
+
+        }
 
         // keep updating the time if there is a header
         function tick() {

@@ -2,7 +2,6 @@
 @import "/app/components/bootstrap/less/variables.less";
 @import "/app/components/bootstrap/less/mixins.less";
 @import "/app/styles/less/document-panels.less";
-@import "/app/styles/less/tabs.less";
 @import "/app/styles/less/widget-box.less";
 @import "/app/styles/less/media-upload.less";
 @import "/app/styles/less/icons.less";
@@ -325,6 +324,19 @@ h1 small {
   #mainBody {
     margin-left: 0px;
   }
+}
+
+#view.full-screen {
+  position:absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+
+  height: 100%;
+  width: 100%;
+  z-index: 1040;
+  margin: 0 0 0 0;
 }
 
 .page-header {
@@ -949,6 +961,26 @@ label {
   }
 }
 
+.tabbable {
+  background: #dddddd;
+  margin-bottom: @baseLineHeight*2;
+  margin-right: 10px;
+  .nav-tabs {
+    margin-bottom: 0px;
+    li:hover{
+      cursor: pointer;
+    }
+    > .active > a {
+      background: @tabContentBackground;
+    }
+  }
+  .tab-content {
+    background: @tabContentBackground;
+    padding: 10px;
+    .border-top-right-radius(@baseBorderRadius);
+    .border-bottom-radius(@baseBorderRadius);
+  }
+}
 
 /* GROUPS PAGE */
 

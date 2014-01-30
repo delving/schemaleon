@@ -390,32 +390,6 @@ ul.kv-list li span.value {
   right: 0px;
   top: 0px;
 }
-.tabbable {
-  margin-bottom: 40px;
-  margin-right: 10px;
-}
-.tabbable .nav-tabs {
-  margin-bottom: 0px;
-}
-.tabbable .nav-tabs li:hover {
-  cursor: pointer;
-}
-.tabbable .nav-tabs > .active > a {
-  background: none repeat scroll 0 0 #f6f6f6;
-}
-.tabbable .tab-content {
-  background: none repeat scroll 0 0 #f6f6f6;
-  padding: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topright: 10px;
-  border-top-right-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
-  -moz-border-radius-bottomright: 10px;
-  border-bottom-right-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-radius-bottomleft: 10px;
-  border-bottom-left-radius: 10px;
-}
 /* WIDGET BOX */
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
@@ -1000,6 +974,17 @@ h1 small.extra-info {
 }
 .loggedin-false #mainBody {
   margin-left: 0px;
+}
+#view.full-screen {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 1040;
+  margin: 0 0 0 0;
 }
 .page-header {
   border-color: #adafae;
@@ -1604,6 +1589,33 @@ label {
 }
 .table-vocabulary-details th {
   padding-left: 10px;
+}
+.tabbable {
+  background: #dddddd;
+  margin-bottom: 40px;
+  margin-right: 10px;
+}
+.tabbable .nav-tabs {
+  margin-bottom: 0px;
+}
+.tabbable .nav-tabs li:hover {
+  cursor: pointer;
+}
+.tabbable .nav-tabs > .active > a {
+  background: none repeat scroll 0 0 #f6f6f6;
+}
+.tabbable .tab-content {
+  background: none repeat scroll 0 0 #f6f6f6;
+  padding: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  border-bottom-right-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-bottom-left-radius: 10px;
 }
 /* GROUPS PAGE */
 .group-page address {
