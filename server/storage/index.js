@@ -104,29 +104,37 @@ function Storage(home) {
     };
 
     this.schemaDocument = function (schemaName) {
-        return "/schemas" + this.schemaDir(schemaName) + "/" + schemaName + ".xml";
+        return "/schemas" + this.schemaDir(schemaName) + schemaName + ".xml";
     };
 
     this.schemaPath = function (schemaName) {
         return "doc('" + this.database + this.schemaDocument(schemaName) + "')/" + schemaName;
     };
 
+    this.nonOSCRGroupIdentifier = function(schemaName, groupIdentifier) {
+        if (this.isShared(schemaName) && groupIdentifier == 'OSCR') return undefined;
+        return groupIdentifier;
+    };
+
     this.dataDocument = function (identifier, schemaName, groupIdentifier) {
+        groupIdentifier = this.nonOSCRGroupIdentifier(schemaName, groupIdentifier);
         if (groupIdentifier) {
             if (!this.isGroupSpecific(schemaName)) throw schemaName + " is not group "+ groupIdentifier +" specific!";
-            return this.schemaDir(schemaName) + "/" + groupIdentifier + "/" + schemaName + "/" + identifier + ".xml";
+            return this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "/" + identifier + ".xml";
         }
         else {
             if (!this.isShared(schemaName)) throw schemaName + " is not shared!";
-            return this.schemaDir(schemaName) + "/" + schemaName + "/" + identifier + ".xml";
+            return this.schemaDir(schemaName) + schemaName + "/" + identifier + ".xml";
         }
     };
 
     this.dataPath = function (identifier, schemaName, groupIdentifier) {
+        groupIdentifier = this.nonOSCRGroupIdentifier(schemaName, groupIdentifier);
         return "doc('" + this.database + this.dataDocument(identifier, schemaName, groupIdentifier) + "')/Document";
     };
 
     this.dataCollection = function (schemaName, groupIdentifier) {
+        groupIdentifier = this.nonOSCRGroupIdentifier(schemaName, groupIdentifier);
         if (groupIdentifier) {
             if (schemaName) {
                 return "collection('" + this.database + this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "')";

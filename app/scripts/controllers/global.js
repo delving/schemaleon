@@ -90,19 +90,6 @@ OSCR.controller(
             return $rootScope.user.Membership.GroupIdentifier;
         };
 
-        $rootScope.groupIdentifierForSave = function(schemaName) {
-            var groupIdentifier = $rootScope.userGroupIdentifier();
-            if (isShared(schemaName)) {
-                if (groupIdentifier != 'OSCR') {
-                    throw "Cannot talk about any old group for shared schemas"
-                }
-                return undefined;
-            }
-            else {
-                return groupIdentifier;
-            }
-        };
-
         $rootScope.defaultDocumentState = function(schemaName) {
             if (isShared(schemaName)) {
                 return 'public';
@@ -260,7 +247,7 @@ OSCR.controller(
 
         $rootScope.chooseUserPath = function (id) {
             $rootScope.choosePath('/people/user/'+id);
-        }
+        };
 
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {

@@ -350,20 +350,19 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/media/fetch/:fileName', function (req, res) {
-        var fileName = req.params.fileName;
-        var filePath = storage.Media.getMediaPath(fileName);
-        var mimeType = storage.Media.getMimeType(fileName);
-        res.setHeader('Content-Type', mimeType);
-        res.sendfile(filePath);
+    app.get('/media/file/:identifier', function (req, res) {
+        storage.Document.getMediaDocument(null, req.params.identifier, false, function(filePath, mimeType, error) {
+            res.setHeader('Content-Type', mimeType);
+            res.sendfile(filePath);
+        });
     });
 
+    // todo: this will have to fetch MediaMetadata first, then the file
     app.get('/media/thumbnail/:fileName', function (req, res) {
-        var fileName = req.params.fileName;
-        var filePath = storage.Media.getThumbnailPath(fileName);
-        var mimeType = storage.Media.getMimeType(fileName);
-        res.setHeader('Content-Type', mimeType);
-        res.sendfile(filePath);
+        storage.Document.getMediaDocument(null, req.params.identifier, false, function(filePath, mimeType, error) {
+            res.setHeader('Content-Type', mimeType);
+            res.sendfile(filePath);
+        });
     });
 
     app.get('/log', function (req, res) {
@@ -384,7 +383,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.all('/files/:groupIdentifier/*', function (req, res) {
-        upload(req, res);
+        upload(storage, req, res);
     });
 });
 

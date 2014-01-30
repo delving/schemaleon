@@ -71,48 +71,78 @@ P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
     );
 };
 
+P.getMediaDocument = function(groupIdentifier, identifier, receiver) {
+    var s = this.storage;
+    s.query('get media document ' + identifier + ' ' + groupIdentifier,
+        s.dataPath(identifier, 'MediaMetadata', groupIdentifier),
+        function(header, error) {
+            // todo: return mime type and thumbnail
+            receiver(header, error);
+        }
+    );
+};
+
 P.saveDocument = function (envelope, receiver) {
     var s = this.storage;
     var IDENTIFIER = '#IDENTIFIER#';
     var TIMESTAMP = '#TIMESTAMP#';
     var time = new Date().getTime();
-    var hdr = _.clone(envelope.header);
-    var body = envelope.body;
+    var header = _.clone(envelope.header);
+    var body = _.clone(envelope.body);
 
-    function addDocument() {
-        var xml = envelope.xml
-            .replace(IDENTIFIER, hdr.Identifier) // header
-            .replace(IDENTIFIER, hdr.Identifier) // maybe body
-            .replace(TIMESTAMP, time); // header
-        s.add('add document ' + hdr.Identifier,
-            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
-            xml,
-            receiver
-        );
+    function triggerGitCommit() {
+        console.log('Should eventually trigger git add/commit');
     }
 
-    hdr.TimeStamp = time;
-    if (hdr.Identifier === IDENTIFIER) {
-        if (envelope.header.SchemaName == 'MediaMetadata') {
+    if (!header.GroupIdentifier) {
+        receiver('');
+        return;
+    }
+    header.TimeStamp = time;
+    if (header.Identifier === IDENTIFIER) {
+        if (header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
             log('save media' + JSON.stringify(envelope));
-            s.Media.saveMedia(body, function (fileName) {
-                hdr.Identifier = fileName;
-                addDocument();
+            s.Media.saveMedia(header, body, function (base, extension, error) {
+                if (error) {
+                    console.error(error);
+                    receiver('');
+                }
+                else {
+                    header.Identifier = base;
+                    log('header with identifier ' + JSON.stringify(header));
+                    addDocument();
+                }
             });
         }
         else {
-            hdr.Identifier = util.generateDocumentId(hdr.SchemaName);
+            header.Identifier = util.generateDocumentId(header.SchemaName);
             addDocument();
         }
     }
     else {
-        // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace('replace document ' + JSON.stringify(hdr.SummaryFields) + ' with ' + stamped,
-            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
+        s.replace('replace document ' + JSON.stringify(header.SummaryFields) + ' with ' + stamped,
+            s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
             stamped,
-            receiver
+            function (header) {
+                triggerGitCommit();
+                receiver(header);
+            }
+        );
+    }
+
+    function addDocument() {
+        var xml = envelope.xml
+            .replace(IDENTIFIER, header.Identifier) // header
+            .replace(TIMESTAMP, time); // header
+        s.add('add document ' + header.Identifier,
+            s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
+            xml,
+            function(header) {
+                triggerGitCommit();
+                receiver(header);
+            }
         );
     }
 };

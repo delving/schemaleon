@@ -6,8 +6,8 @@ var crypto = require('crypto');
 
 module.exports = FileSystem;
 
-var fileNameRegExp = new RegExp('.*/([^/]*)');
-var extensionRegExp = new RegExp('.*([.][^.]*)');
+var fileExtractRegExp = new RegExp('.*/([^/]*)');
+var fileSplitRegExp = new RegExp('(.*)([.][^.]*)');
 
 function make(existing, subdir) {
     var dir = path.join(existing, subdir);
@@ -93,38 +93,55 @@ function FileSystem(home) {
         }
 
         // take a file into the
-        this.adoptFile = function (filePath, isThumbnail, callback) {
-            var fileNameMatch = fileNameRegExp.exec(filePath);
-            if (!fileNameMatch) {
-                callback(null, 'File path mismatch: ' + filePath);
+        this.adoptFile = function (sourcePath, targetFileName, callback) {
+            var gfs = this;
+            var fileExtract = fileExtractRegExp.exec(sourcePath);
+            if (!fileExtract) {
+                callback(null, null, 'File name extract mismatch: ' + sourcePath);
             }
             else {
-                var fileName = fileNameMatch[1];
-                var gfs = this;
-                fileSystem.hashFile(filePath, function (hash, error) {
-                    if (error) {
-                        callback(null, "hash error:: " + error);
+                var fileName = targetFileName || fileExtract[1];
+                var fileNameMatch = fileSplitRegExp.exec(fileName);
+                if (!fileNameMatch) {
+                    callback(null, null, 'File name split mismatch: '+fileName);
+                }
+                else {
+                    var base = fileNameMatch[1];
+                    var extension = fileNameMatch[2];
+                    if (targetFileName) {
+                        var targetPath = thumbnailBucketPath(base); // todo: assuming it's a thumbnail
+                        var target = path.join(targetPath, fileName);
+                        fileSystem.copyFile(sourcePath, target, function (copyErr) {
+                            if (copyErr) {
+                                callback(null, null, 'copy error:: ' + copyErr);
+                            }
+                            else {
+                                callback(base, extension, null);
+                            }
+                        });
                     }
                     else {
-                        var extensionMatch = extensionRegExp.exec(fileName);
-                        if (!extensionMatch) {
-                            callback(null, 'Cannot get extension: ' + fileName);
-                        }
-                        else {
-                            var extension = extensionMatch[1];
-                            var targetPath = isThumbnail ? thumbnailBucketPath(hash) : mediaBucketPath(hash);
-                            var target = path.join(targetPath, hash + extension);
-                            fileSystem.copyFile(filePath, target, function (copyErr) {
-                                if (copyErr) {
-                                    callback(null, 'copy error:: ' + copyErr);
-                                }
-                                else {
-                                    callback(target, null);
-                                }
-                            });
-                        }
+                        fileSystem.hashFile(sourcePath, function (hash, error) {
+                            if (error) {
+                                callback(null, null, "hash error:: " + error);
+                            }
+                            else {
+                                base = hash;
+                                fileName = base + extension;
+                                var targetPath = mediaBucketPath(base);
+                                var target = path.join(targetPath, fileName);
+                                fileSystem.copyFile(sourcePath, target, function (copyErr) {
+                                    if (copyErr) {
+                                        callback(null, null, 'copy error:: ' + copyErr);
+                                    }
+                                    else {
+                                        callback(base, extension, null);
+                                    }
+                                });
+                            }
+                        });
                     }
-                });
+                }
             }
         };
     }

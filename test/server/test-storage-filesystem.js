@@ -7,6 +7,7 @@ var _ = require('underscore');
 var FileSystem = require('../../server/storage/storage-filesystem');
 var fileSystem = new FileSystem('/tmp');
 var groupFileSystem = fileSystem.forGroup("groupie");
+var targetIdentifier = '685afa53c36d34768fe0a18980efea58';
 
 var testImage = path.join('test', 'server', 'theteam.jpg');
 
@@ -32,20 +33,20 @@ exports.testContentHash = function (test) {
 
 exports.testAdoptFile = function (test) {
     test.expect(2);
-    groupFileSystem.adoptFile(testImage, false, function(target, error) {
+    groupFileSystem.adoptFile(testImage, null, function(targetBase, targetExtension, error) {
         test.ok(!error, "error:: " + error);
-        log(target);
-        test.equal(target, '/tmp/OSCR-Files/MediaStorage/groupie/68/685afa53c36d34768fe0a18980efea58.jpg', "bad match");
+        log(targetBase);
+        test.equal(targetBase, targetIdentifier, "bad match");
         test.done();
     });
 };
 
 exports.testAdoptThumbnail = function (test) {
     test.expect(2);
-    groupFileSystem.adoptFile(testImage, true, function(target, error) {
+    groupFileSystem.adoptFile(testImage, targetIdentifier + '.jpg', function(targetBase, targetExtension, error) {
         test.ok(!error, "error:: " + error);
-        log(target);
-        test.equal(target, '/tmp/OSCR-Files/MediaStorage/groupie/68/thumbnail/685afa53c36d34768fe0a18980efea58.jpg', "bad match");
+        log(targetBase);
+        test.equal(targetBase, targetIdentifier, "bad match");
         test.done();
     });
 };
