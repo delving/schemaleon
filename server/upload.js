@@ -31,8 +31,6 @@ var formidable = require('formidable');
 var nodeStatic = require('node-static');
 var imageMagick = require('imagemagick');
 
-var pathRegExp = new RegExp('\/files\/([^/]*)');
-
 var options = {
     maxPostSize: 11000000000, // 11 GB
     minFileSize: 1,
@@ -134,14 +132,17 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
     };
 
     this.post = function () {
+        console.log('post');
         var handler = this;
         var form = new formidable.IncomingForm();
         var tmpFiles = [], files = [];
         var map = {};
         var counter = 1;
         var redirect;
+        console.log('incoming form', form);
 
         var finish = function () {
+            console.log('finish');
             counter -= 1;
             if (!counter) {
                 files.forEach(function (fileInfo) {
@@ -155,6 +156,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
 
         form.on('fileBegin',
             function (name, file) {
+                console.log('fileBegin');
                 tmpFiles.push(file.path);
                 var fileInfo = new FileInfo(file, handler.req, true);
                 fileInfo.safeName();
@@ -163,12 +165,14 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('field',
             function (name, value) {
+                console.log('field');
                 if (name === 'redirect') {
                     redirect = value;
                 }
             }
         ).on('file',
             function (name, file) {
+                console.log('file');
                 var fileInfo = map[path.basename(file.path)];
                 fileInfo.size = file.size;
                 console.log(fileInfo);
@@ -216,6 +220,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('aborted',
             function () {
+                console.log('aborted');
                 tmpFiles.forEach(function (file) {
                     fs.unlink(file);
                 });
@@ -226,7 +231,9 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('progress',
             function (bytesReceived, bytesExpected) {
+                console.log('progress ', bytesReceived, bytesExpected);
                 if (bytesReceived > options.maxPostSize) {
+                    console.log('DESTROY');
                     handler.req.connection.destroy();
                 }
             }
@@ -253,13 +260,17 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
 
 };
 
-var serve = function (storage, req, res) {
+var pathRegExp = new RegExp('\/files\/([^/]*)(.*)');
+
+var serve = function (req, res, next) {
     var pathMatch = pathRegExp.exec(req.url);
+    console.log("path match", pathMatch);
     if (!pathMatch) {
-        res.status(404).send(); // todo: does this work?
+        next();
         return
     }
     req.groupIdentifier = pathMatch[1];
+    req.url = pathMatch[2] || '/';
 
     var groupFileSystem = storage.FileSystem.forGroup(req.groupIdentifier);
 
@@ -277,12 +288,14 @@ var serve = function (storage, req, res) {
 
     var handler = new UploadHandler(groupFileSystem, req, res, function (result, redirect) {
         if (redirect) {
+            console.log('redirect');
             res.writeHead(302, {
                 'Location': redirect.replace(/%s/, encodeURIComponent(JSON.stringify(result)))
             });
             res.end();
         }
         else {
+            console.log('ok');
             res.writeHead(200, {
                 'Content-Type': req.headers.accept.indexOf('application/json') !== -1 ?
                     'application/json' : 'text/plain'
@@ -290,6 +303,8 @@ var serve = function (storage, req, res) {
             res.end(JSON.stringify(result));
         }
     });
+
+    console.log('the media upload dir', groupFileSystem.mediaUploadDir);
 
     var fileServer = new nodeStatic.Server(groupFileSystem.mediaUploadDir, {
 //    ssl: {

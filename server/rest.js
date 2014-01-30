@@ -9,7 +9,7 @@ var upload = require('./upload');
 var util = require('./util');
 
 var app = express();
-//app.use(upload); replaced by the /files/groupIdentifier/* path
+app.use(upload);
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.cookieSession({secret: 'oscr'}));
@@ -393,11 +393,6 @@ Storage('oscr', homeDir, function (storage) {
 
     app.get('/snapshot', function (req, res) {
         res.redirect('/snapshot/'+storage.snapshotName());
-    });
-
-    app.all('/files/:groupIdentifier', function (req, res) {
-        console.log("ALL FILES "+req.params.groupIdentifier);
-        upload(storage, req, res);
     });
 });
 
