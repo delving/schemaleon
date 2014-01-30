@@ -2,6 +2,12 @@
 
 var OSCR = angular.module('OSCR');
 
+
+// This class is set when keyboard nav is used.
+$('html').on('click',function(){
+    $('body').removeClass('keyboard-on');
+});
+
 // handle all things that show the tree, whether editing or viewing
 OSCR.controller(
     'TreeController',
@@ -466,6 +472,7 @@ OSCR.directive('documentNavigation', function () {
                 ], function (pair) {
                     if (pair.code === e.keyCode) {
                         scope.$apply(function (s) {
+                            $('body').addClass('keyboard-on');
                             s.$eval(attr.documentNavigation, { $key: pair.name });
                         });
                     }
@@ -497,7 +504,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         // hence this controller must always be nested inside of that in the html
         $scope.pdfFiles = [];
         _.each($scope.mediaFiles, function(file){
-            if($rootScope.isPdf(file.value.MimeType)){
+            if(file.value && $rootScope.isPdf(file.value.MimeType)){
                 $scope.pdfFiles.push(file);
             }
         });
