@@ -9,14 +9,6 @@ var upload = require('./upload');
 var util = require('./util');
 
 var app = express();
-app.use(upload);
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.cookieSession({secret: 'oscr'}));
-app.response.__proto__.xml = function (xmlString) {
-    this.setHeader('Content-Type', 'text/xml');
-    this.send(xmlString);
-};
 
 module.exports = app;
 
@@ -24,6 +16,16 @@ var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFIL
 
 Storage('oscr', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
+
+    app.use(upload);
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.cookieSession({secret: 'oscr'}));
+    app.response.__proto__.xml = function (xmlString) {
+        this.setHeader('Content-Type', 'text/xml');
+        this.send(xmlString);
+    };
+
 
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
