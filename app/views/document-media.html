@@ -20,7 +20,7 @@
 
             </div>
             <div class="row">
-                <pdfviewer ng-src="{{ file | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+                <pdfviewer src="{{ file | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
             </div>
         </div>
     </div>
