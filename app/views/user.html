@@ -8,7 +8,12 @@
     <div class="media" ng-show="userView">
         <span class="pull-left gravatar-image-container">
             <gravatar-image data-email="userView.Profile.email" data-size="160" data-default="mm" data-secure="false"></gravatar-image><br/>
-            <a href="http://www.gravatar.com" target="_blank">Gravatar</a>
+            <span ng-show="config.interfaceLanguage == 'nl'">
+                  <a href="http://nl.gravatar.com" target="_blank">Gravatar</a>
+            </span>
+            <span ng-show="config.interfaceLanguage != 'nl'">
+                <a href="http://www.gravatar.com" target="_blank">Gravatar</a>
+            </span>
         </span>
 
         <div class="media-body">
