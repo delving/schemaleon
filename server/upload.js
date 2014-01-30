@@ -102,7 +102,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
         this.initUrls = function (req) {
             if (!this.error) {
                 var self = this;
-                var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/'; // todo: use groupId?
+                var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/' + req.groupIdentifier;
                 this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
                 Object.keys(options.imageVersions).forEach(function (version) {
                     if (_existsSync(groupFileSystem.mediaUploadDir + '/' + version + '/' + self.name)) {
