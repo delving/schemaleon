@@ -47,7 +47,7 @@ OSCR.controller(
                 {name: 'Nederlands', code: 'nl'},
                 {name: 'Frysk', code: 'fy'},
                 {name: 'Norsk', code: 'no'},
-                {name: 'Svenska', code: 'sw'}
+                {name: 'Svenska', code: 'sv'}
             ],
             interfaceLanguage: 'en',
             showInlinePreview: true,
@@ -168,15 +168,11 @@ OSCR.controller(
 
                     var anyActive = false;
                     _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-//                console.log('locapath', $location.path());
-//                console.log('linkpath', link.path);
-//                console.log($location.path().indexOf(link.path));
-                        link.active = ($location.path().indexOf(link.path) != -1);
-                        if (link.active) anyActive = true;
+                        if(link){
+                            link.active = ($location.path().indexOf(link.path) != -1);
+                            if (link.active) anyActive = true;
+                        }
                     });
-//            if (!anyActive) {
-//                $scope.mainMenuBase[0].active = true;
-//            }
                 });
             }
         }
@@ -464,3 +460,66 @@ OSCR.directive('enterKey', function () {
         }
     };
 });
+
+
+OSCR.filter('mediaThumbnail',
+    function ($rootScope) {
+        return function (element) {
+            if (element.value && element.config.media) {
+                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('mediaFile',
+    function () {
+        return function (element) {
+            if (element.value && element.config.media) {
+                return '/media/fetch/' + element.value.Identifier;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('mediaLabel',
+    function () {
+        return function (element) {
+            if (_.isString(element.value)) {
+                return element.value;
+            }
+            else if (element.value) {
+                return element.value.Label;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('elementDisplay',
+    function () {
+        return function (element) {
+            if (!element.value) {
+                return 'empty';
+            }
+            else if (element.config.vocabulary) {
+                return element.value.Label; // todo
+            }
+            else if (element.config.media) {
+                return element.value.Identifier;
+            }
+            else {
+                return element.value;
+            }
+        };
+    }
+);
+

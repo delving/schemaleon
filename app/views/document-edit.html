@@ -6,20 +6,6 @@
     <div class="page-header">
         <h1 ng-show="headerDisplay">{{ headerDisplay }}</h1>
         <h1 ng-hide="headerDisplay" i18n="New"><span class="i18n"/> <span class="schema" ng-show="schema">{{schema}}</span></h1>
-        <small class="document-info">
-            <ul class="unstyled inline">
-                <li ng-show="header">
-                    <span i18n="Title"><strong><span class="i18n"/></strong></span>: {{ header.SummaryFields.Title }}
-                </li>
-                <li>
-                    <span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: {{ groupName }}
-                </li>
-                <li ng-show="header.TimeStamp">
-                    <strong><span i18n="SavedOn"><span class="i18n"/></span>: </strong>
-                    <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
-                </li>
-            </ul>
-        </small>
         <div class="alert alert-success alert-saved fade-in" ng-show="saveSuccess">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
@@ -119,6 +105,22 @@
                     </span>
                     <span i18n="Ago"><span class="i18n"/>)</span>
                 </span>
+            </li>
+            <li>
+                <small class="document-info">
+                    <ul class="unstyled inline">
+                        <li ng-show="header">
+                            <span i18n="Identifier"><strong><span class="i18n"/></strong></span>: {{ header.Identifier }}
+                        </li>
+                        <li>
+                            <span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: {{ groupName }}
+                        </li>
+                        <li ng-show="header.TimeStamp">
+                            <strong><span i18n="SavedOn"><span class="i18n"/></span>: </strong>
+                            <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
+                        </li>
+                    </ul>
+                </small>
             </li>
             <li class="pull-right">
                <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
