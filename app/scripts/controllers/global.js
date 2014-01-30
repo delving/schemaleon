@@ -266,6 +266,76 @@ OSCR.controller(
             return "";
         };
 
+        $rootScope.getExtensionFromMimeType = function(mimeType) {
+            var extension;
+            switch (mimeType) {
+                case 'image/jpeg':
+                    extension = '.jpg';
+                    break;
+                case 'image/png':
+                    extension = '.png';
+                    break;
+                case 'image/gif':
+                    extension = '.gif';
+                    break;
+                case 'video/mp4':
+                    extension = '.mp4';
+                    break;
+                case 'video/quicktime':
+                    extension = '.mov';
+                    break;
+                case 'application/pdf':
+                    extension = '.pdf';
+                    break;
+            }
+            return extension;
+        };
+
+        var fileSplitRegExp = new RegExp('(.*)([.][^.]*)');
+
+        function getExtension(fileName) {
+            var fileNameMatch = fileSplitRegExp.exec(fileName);
+            if (!fileNameMatch) {
+                console.error('file name did not have the right form to extract extension '+fileName);
+                return '.jpg';
+            }
+            else {
+                return fileNameMatch[2];
+            }
+        }
+
+        $rootScope.getMimeTypeFromFileName = function(fileName) {
+            var mimeType;
+            switch(getExtension(fileName)) {
+                case '.jpg':
+                    mimeType = 'image/jpeg';
+                    break;
+                case '.png':
+                    mimeType = 'image/png';
+                    break;
+                case '.gif':
+                    mimeType = 'image/gif';
+                    break;
+                case '.mp4':
+                    mimeType = 'video/mp4';
+                    break;
+                case '.mov':
+                    mimeType = 'video/quicktime';
+                    break;
+                case '.pdf':
+                    mimeType = 'application/pdf';
+                    break;
+                default:
+                    console.error('No mime type for extension '+getExtension(fileName));
+                    break;
+            }
+            return mimeType;
+        };
+
+        $rootScope.thumbnailExtension = '.jpg';
+
+        $rootScope.thumbnailMimeType = 'image/jpeg';
+
         // properFile name extension for multi-media thumbs
         $rootScope.getProperThumbExtension = function (name){
             var nameProper= name;

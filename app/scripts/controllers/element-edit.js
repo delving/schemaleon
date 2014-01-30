@@ -83,7 +83,7 @@ OSCR.controller(
     'MediaElementController',
     function ($rootScope, $scope, $q, $dialog, Document) {
         $scope.openVideoPreview = function (srcFile) {
-            var srcPath = '/media/fetch/' + srcFile;
+            var srcPath = '/media/file/' + srcFile;
             var dialog = $dialog.dialog({
                 dialogFade: true,
                 backdrop: true,
@@ -270,7 +270,7 @@ OSCR.filter('mediaThumbnail',
     function ($rootScope) {
         return function (element) {
             if (element.value && element.config.media) {
-                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
+                return '/media/thumbnail/' + element.value.Identifier
             }
             else {
                 return '';
@@ -283,7 +283,7 @@ OSCR.filter('mediaFile',
     function ($rootScope) {
         return function (element) {
             if (element.value && element.config.media) {
-                return '/media/fetch/' + element.value.Identifier;
+                return '/media/file/' + element.value.Identifier
             }
             else {
                 return '';

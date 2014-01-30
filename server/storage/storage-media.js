@@ -57,34 +57,6 @@ P.saveMedia = function (header, body, receiver) {
     }
 };
 
-P.getMimeType = function(fileName) {
-    var mimeType;
-    switch(path.extname(fileName)) {
-        case '.jpg':
-            mimeType = 'image/jpeg';
-            break;
-        case '.png':
-            mimeType = 'image/png';
-            break;
-        case '.gif':
-            mimeType = 'image/gif';
-            break;
-        case '.mp4':
-            mimeType = 'video/mp4';
-            break;
-        case '.mov':
-            mimeType = 'video/quicktime';
-            break;
-        case '.pdf':
-            mimeType = 'application/pdf';
-            break;
-        default:
-            console.error('No mime type for extension '+path.extname(fileName));
-            break;
-    }
-    return mimeType;
-};
-
 P.listMediaFilesForTesting = function (groupIdentifier, done) {
     function walk(dir, done) {
         var results = [];

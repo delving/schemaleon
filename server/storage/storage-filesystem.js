@@ -3,6 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
+var util = require('../util');
 
 module.exports = FileSystem;
 
@@ -82,15 +83,23 @@ function FileSystem(home) {
         this.mediaTempDir = make(this.groupMediaUpload, 'temp');
 
         // a bucket for the media
-        function mediaBucketPath(fileName) {
-            var bucketDirName = fileName.slice(0, 2);
+        function mediaBucketPath(identifier) {
+            var bucketDirName = identifier.slice(0, 2);
             return make(gfs.groupMediaStorage, bucketDirName);
         }
 
         // a bucket for the thumbnails
-        function thumbnailBucketPath(fileName) {
-            return make(mediaBucketPath(fileName), 'thumbnail');
+        function thumbnailBucketPath(identifier) {
+            return make(mediaBucketPath(identifier), 'thumbnail');
         }
+
+        this.getMedia = function(identifier, mimeType) {
+            return path.join(mediaBucketPath(identifier), identifier + util.getExtensionFromMimeType(mimeType));
+        };
+
+        this.getThumbnail = function(identifier) {
+            return path.join(thumbnailBucketPath(identifier), identifier + util.thumbnailExtension);
+        };
 
         // take a file into the
         this.adoptFile = function (sourcePath, targetFileName, callback) {

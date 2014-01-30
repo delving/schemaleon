@@ -45,30 +45,6 @@ OSCR.controller(
             return file.tree;
         }
 
-        function getMimeType(fileName) {
-            var matches = fileName.match(/\.(...)$/);
-            var extension = matches[1].toLowerCase();
-            switch (extension) {
-                case 'jpg':
-                    return 'image/jpeg';
-                case 'jpeg':
-                    return 'image/jpeg';
-                case 'png':
-                    return 'image/png';
-                case 'gif':
-                    return 'image/gif';
-                case 'mp4':
-                    return 'video/mp4';
-                case 'mov':
-                    return 'video/quicktime';
-                case 'pdf':
-                    return 'application/pdf';
-                default:
-                    log("UNRECOGNIZED extension: " + extension);
-                    return 'image/jpeg';
-            }
-        }
-
         function fetchCommitted() {
             Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function (list) {
                 console.log("all documents fetched", list);
@@ -107,11 +83,9 @@ OSCR.controller(
                 TimeStamp: "#TIMESTAMP#"
             };
             var body = {
-                GroupIdentifier: $scope.groupIdentifier,
                 UserIdentifier: $rootScope.user.Identifier,
-                FileName: '#IDENTIFIER#',
                 OriginalFileName: file.name,
-                MimeType: getMimeType(file.name)
+                MimeType: $rootScope.getMimeTypeFromFileName(file.name)
             };
             Document.saveDocument(header, body, function (header) {
                 log("saved image");

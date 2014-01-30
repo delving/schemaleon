@@ -62,7 +62,7 @@ function envelope(header, body) {
 }
 
 exports.testImageIngestion = function (test) {
-    test.expect(4);
+    test.expect(5);
     var fileName = 'theteam.jpg';
     var sourceDir = path.join('test', 'server');
     var mediaFile = path.join(sourceDir, fileName);
@@ -100,11 +100,16 @@ exports.testImageIngestion = function (test) {
                         log('list media file results', results);
                         test.equals(results.length, 2, "should just be 2 files, but it's " + results.length);
                         var identifier = path.basename(results[0], path.extname(results[0]));
-                        log('get media document with identifier', identifier);
-                        storage.Document.getMediaDocument(groupIdentifier, identifier, function (doc) {
-                            test.ok(doc.indexOf("theteam") > 0, 'theteam not found');
-                            log(doc);
-                            test.done();
+                        log('get media document with identifier and group', identifier);
+                        storage.Document.getMediaDocument(groupIdentifier, identifier, function (mediaDoc) {
+                            log(mediaDoc);
+                            test.ok(mediaDoc.xml.indexOf("theteam") > 0, 'theteam not found');
+                            log('get media document with only identifier', identifier);
+                            storage.Document.getMediaDocument(null, identifier, function (mediaDoc2) {
+                                log(mediaDoc2);
+                                test.ok(mediaDoc2.xml.indexOf("theteam") > 0, 'theteam not found');
+                                test.done();
+                            });
                         });
                     });
                 });

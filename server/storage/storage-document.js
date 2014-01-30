@@ -71,15 +71,47 @@ P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
     );
 };
 
+function wrapMediaDoc(doc) {
+    return {
+        identifier: util.getFromXml(doc, 'Identifier'),
+        mimeType: util.getFromXml(doc, 'MimeType'),
+        groupIdentifier: util.getFromXml(doc, 'GroupIdentifier'),
+        xml: doc
+    }
+}
+
 P.getMediaDocument = function(groupIdentifier, identifier, receiver) {
     var s = this.storage;
-    s.query('get media document ' + identifier + ' ' + groupIdentifier,
-        s.dataPath(identifier, 'MediaMetadata', groupIdentifier),
-        function(header, error) {
-            // todo: return mime type and thumbnail
-            receiver(header, error);
-        }
-    );
+    var schemaName = 'MediaMetadata';
+    if (groupIdentifier) {
+        s.query('get media document ' + identifier + ' ' + groupIdentifier,
+            s.dataPath(identifier, schemaName, groupIdentifier),
+            function(doc, error) {
+                if (error) {
+                    receiver(null, error);
+                }
+                else {
+                    receiver(wrapMediaDoc(doc), null);
+                }
+            }
+        );
+    }
+    else {
+        var q = [];
+        q.push('let $all := for $doc in ' + s.dataCollection(null, null) + '/Document[Header/SchemaName='+util.quote(schemaName)+']');
+        q.push('where ($doc/Header/SchemaName='+util.quote(schemaName)+')');
+        q.push('and ($doc/Header/Identifier='+util.quote(identifier)+')');
+        q.push('return $doc');
+        q.push('return subsequence($all, 1, 1)');
+        s.query('get media document (no group) ' + identifier, q, function(doc, error) {
+            if (error) {
+                receiver(null, error);
+            }
+            else {
+                receiver(wrapMediaDoc(doc), null);
+            }
+        });
+    }
 };
 
 P.saveDocument = function (envelope, receiver) {

@@ -351,17 +351,30 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/media/file/:identifier', function (req, res) {
-        storage.Document.getMediaDocument(null, req.params.identifier, false, function(filePath, mimeType, error) {
-            res.setHeader('Content-Type', mimeType);
-            res.sendfile(filePath);
+        storage.Document.getMediaDocument(null, req.params.identifier, false, function(mediaDoc, error) {
+            if (error) {
+                res.status(500).send(error);
+            }
+            else {
+                var groupFileSystem = storage.FileSystem.forGroup(mediaDoc.groupIdentifier);
+                var filePath = groupFileSystem.getMedia(mediaDoc.identifier, mediaDoc.mimeType);
+                res.setHeader('Content-Type', mediaDoc.mimeType);
+                res.sendfile(filePath);
+            }
         });
     });
 
-    // todo: this will have to fetch MediaMetadata first, then the file
-    app.get('/media/thumbnail/:fileName', function (req, res) {
-        storage.Document.getMediaDocument(null, req.params.identifier, false, function(filePath, mimeType, error) {
-            res.setHeader('Content-Type', mimeType);
-            res.sendfile(filePath);
+    app.get('/media/thumbnail/:identifier', function (req, res) {
+        storage.Document.getMediaDocument(null, req.params.identifier, false, function(doc, error) {
+            if (error) {
+                res.status(500).send(error);
+            }
+            else {
+                var groupFileSystem = storage.FileSystem.forGroup(mediaDoc.groupIdentifier);
+                var filePath = groupFileSystem.getThumbnail(mediaDoc.identifier);
+                res.setHeader('Content-Type', util.thumbnailMimeType);
+                res.sendfile(filePath);
+            }
         });
     });
 
