@@ -17,7 +17,7 @@ var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFIL
 Storage('oscr', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
-    app.use(upload);
+    app.use(upload(storage).serve);
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.cookieSession({secret: 'oscr'}));

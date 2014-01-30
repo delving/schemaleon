@@ -262,13 +262,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
 
 var pathRegExp = new RegExp('\/files\/([^/]*)(.*)');
 
-var serve = function (req, res, next) {
-    var pathMatch = pathRegExp.exec(req.url);
-    console.log("path match", pathMatch);
-    if (!pathMatch) {
-        next();
-        return
-    }
+var serve = function (storage, pathMatch, req, res) {
     req.groupIdentifier = pathMatch[1];
     req.url = pathMatch[2] || '/';
 
@@ -358,4 +352,20 @@ var serve = function (req, res, next) {
     }
 };
 
-module.exports = serve;
+var ServerWithStorage = function(storage) {
+    this.storage = storage;
+    this.serve = function(req, res, next) {
+        var pathMatch = pathRegExp.exec(req.url);
+        console.log("path match", pathMatch);
+        if (pathMatch) {
+            serve(storage, pathMatch, req, res);
+        }
+        else {
+            next();
+        }
+    }
+};
+
+module.exports = function(storage) {
+    return new ServerWithStorage(storage);
+};
