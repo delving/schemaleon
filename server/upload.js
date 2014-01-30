@@ -264,7 +264,7 @@ var pathRegExp = new RegExp('\/files\/([^/]*)(.*)');
 
 var serve = function (storage, pathMatch, req, res) {
     req.groupIdentifier = pathMatch[1];
-    req.url = pathMatch[2] || '/';
+    req.url = pathMatch[2].length ? pathMatch[2] : '/';
 
     var groupFileSystem = storage.FileSystem.forGroup(req.groupIdentifier);
 
@@ -356,7 +356,6 @@ var ServerWithStorage = function(storage) {
     this.storage = storage;
     this.serve = function(req, res, next) {
         var pathMatch = pathRegExp.exec(req.url);
-        console.log("path match", pathMatch);
         if (pathMatch) {
             serve(storage, pathMatch, req, res);
         }

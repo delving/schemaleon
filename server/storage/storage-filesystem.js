@@ -25,6 +25,7 @@ function FileSystem(home) {
 
     this.hashFile = function(source, callback) {
         var callbackCalled = false;
+        var hash = crypto.createHash('md5');
         function done(hash, error) {
             if (!callbackCalled) {
                 callback(hash, error);
@@ -39,7 +40,6 @@ function FileSystem(home) {
             hash.end();
             done(hash.read(), null);
         });
-        var hash = crypto.createHash('md5');
         hash.setEncoding('hex');
         rd.pipe(hash);
     };
