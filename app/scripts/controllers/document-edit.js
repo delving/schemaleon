@@ -2,6 +2,12 @@
 
 var OSCR = angular.module('OSCR');
 
+
+// This class is set when keyboard nav is used.
+$('html').on('click',function(){
+    $('body').removeClass('keyboard-on');
+});
+
 // handle all things that show the tree, whether editing or viewing
 OSCR.controller(
     'TreeController',
@@ -15,6 +21,7 @@ OSCR.controller(
         // flags for view ()
         $scope.documentDirty = false; // todo: should be in edit controller
         $scope.saveSuccess = false; // todo: should be in edit controller
+        $scope.fullScreenActive = false;
 
         // constants for triggering server-side substitutions
         $scope.blankIdentifier = '#IDENTIFIER#';
@@ -36,6 +43,21 @@ OSCR.controller(
                 i18nTree($scope.tree, i18n);
             }
         });
+
+        $scope.fullScreen = function(){
+            $scope.fullScreenActive = !$scope.fullScreenActive;
+            if($scope.fullScreenActive){
+                $('#view').addClass('full-screen');
+                var h = $(document).height();
+                $('.full-screen').css({
+                    height: h
+                });
+            }
+            else {
+                $('#view').removeClass('full-screen');
+            }
+
+        }
 
         // keep updating the time if there is a header
         function tick() {
@@ -450,6 +472,7 @@ OSCR.directive('documentNavigation', function () {
                 ], function (pair) {
                     if (pair.code === e.keyCode) {
                         scope.$apply(function (s) {
+                            $('body').addClass('keyboard-on');
                             s.$eval(attr.documentNavigation, { $key: pair.name });
                         });
                     }
@@ -481,7 +504,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         // hence this controller must always be nested inside of that in the html
         $scope.pdfFiles = [];
         _.each($scope.mediaFiles, function(file){
-            if (file.value && $rootScope.isPdf(file.value.MimeType)) {
+            if(file.value && $rootScope.isPdf(file.value.MimeType)){
                 $scope.pdfFiles.push(file);
             }
         });

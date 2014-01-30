@@ -461,32 +461,32 @@ OSCR.directive('enterKey', function () {
     };
 });
 
-
-OSCR.filter('mediaThumbnail',
-    function ($rootScope) {
-        return function (element) {
-            if (element.value && element.config.media) {
-                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
-
-OSCR.filter('mediaFile',
-    function () {
-        return function (element) {
-            if (element.value && element.config.media) {
-                return '/media/fetch/' + element.value.Identifier;
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
+//
+//OSCR.filter('mediaThumbnail',
+//    function ($rootScope) {
+//        return function (element) {
+//            if (element.value && element.config.media) {
+//                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
+//            }
+//            else {
+//                return '';
+//            }
+//        };
+//    }
+//);
+//
+//OSCR.filter('mediaFile',
+//    function () {
+//        return function (element) {
+//            if (element.value && element.config.media) {
+//                return '/media/fetch/' + element.value.Identifier;
+//            }
+//            else {
+//                return '';
+//            }
+//        };
+//    }
+//);
 
 OSCR.filter('mediaLabel',
     function () {

@@ -59,8 +59,6 @@
 
   /* panel body */
 
-  /* list with element labels */
-
   /* panel on right for user input */
 
 }
@@ -79,30 +77,15 @@
   border-top: none;
   border-radius: 0 0 10px 10px;
 }
-.panels ul.panel-list > li > a {
-  -webkit-border-top-right-radius: 0;
-  -moz-border-radius-topright: 0;
-  border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -moz-border-radius-bottomright: 0;
-  border-bottom-right-radius: 0;
-}
-.panels ul.panel-list li {
-  position: relative;
-  padding-left: 50px;
-}
-.panels ul.panel-list li .link-title {
-  color: #ffffff;
-}
-.panels ul.panel-list li a,
-.panels ul.panel-list li label {
-  padding-right: 10px;
-}
-.panels ul.panel-list li a:hover,
-.panels ul.panel-list li label:hover {
-  background: #adafae;
+.panels input[disabled],
+.panels select[disabled],
+.panels textarea[disabled],
+.panels input[readonly],
+.panels select[readonly],
+.panels textarea[readonly] {
   cursor: pointer;
-  text-decoration: none;
+  background-color: #222222;
+  color: #eeeeee;
 }
 .panels .panel-input {
   color: #222222;
@@ -121,6 +104,35 @@
 }
 .panels .contrast {
   color: #adafae;
+}
+/* list with element labels */
+ul.panel-list > li > a {
+  -webkit-border-top-right-radius: 0;
+  -moz-border-radius-topright: 0;
+  border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  border-bottom-right-radius: 0;
+}
+ul.panel-list li {
+  position: relative;
+  padding-left: 50px;
+}
+ul.panel-list li .link-title {
+  color: #ffffff;
+}
+ul.panel-list li a,
+ul.panel-list li label {
+  padding-right: 10px;
+}
+ul.panel-list li a:hover,
+ul.panel-list li label:hover {
+  background: #999999;
+  cursor: pointer;
+  text-decoration: none;
+}
+body.keyboard-on ul.panel-list li a:hover {
+  background: transparent;
 }
 input#hidden {
   background: transparent;
@@ -381,40 +393,16 @@ ul.kv-list li span.value {
   margin-bottom: 8px;
 }
 .media-thumbnail .mime {
-  background: #4f4f4f;
-  padding: 2px 4px;
+  background: #222222;
+  color: #eeeeee;
+  text-align: center;
+  padding: 4px;
 }
 .alert.alert-saved {
   width: 200px;
   position: absolute;
   right: 0px;
   top: 0px;
-}
-.tabbable {
-  margin-bottom: 40px;
-  margin-right: 10px;
-}
-.tabbable .nav-tabs {
-  margin-bottom: 0px;
-}
-.tabbable .nav-tabs li:hover {
-  cursor: pointer;
-}
-.tabbable .nav-tabs > .active > a {
-  background: none repeat scroll 0 0 #f6f6f6;
-}
-.tabbable .tab-content {
-  background: none repeat scroll 0 0 #f6f6f6;
-  padding: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topright: 10px;
-  border-top-right-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
-  -moz-border-radius-bottomright: 10px;
-  border-bottom-right-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-radius-bottomleft: 10px;
-  border-bottom-left-radius: 10px;
 }
 /* WIDGET BOX */
 .widget-box {
@@ -1000,6 +988,17 @@ h1 small.extra-info {
 }
 .loggedin-false #mainBody {
   margin-left: 0px;
+}
+#view.full-screen {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 1040;
+  margin: 0 0 0 0;
 }
 .page-header {
   border-color: #adafae;
@@ -1605,6 +1604,33 @@ label {
 .table-vocabulary-details th {
   padding-left: 10px;
 }
+.tabbable {
+  background: #dddddd;
+  margin-bottom: 40px;
+  margin-right: 10px;
+}
+.tabbable .nav-tabs {
+  margin-bottom: 0px;
+}
+.tabbable .nav-tabs li:hover {
+  cursor: pointer;
+}
+.tabbable .nav-tabs > .active > a {
+  background: none repeat scroll 0 0 #f6f6f6;
+}
+.tabbable .tab-content {
+  background: none repeat scroll 0 0 #f6f6f6;
+  padding: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  border-bottom-right-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-bottom-left-radius: 10px;
+}
 /* GROUPS PAGE */
 .group-page address {
   background: transparent;
@@ -1632,4 +1658,13 @@ label {
 /* GRAVATAR */
 .gravatar-image-container {
   max-width: 160px;
+}
+/* CAROUSEL */
+.carousel-indicators {
+  background: #222222;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #adafae;
+  padding: 10px;
 }

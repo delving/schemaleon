@@ -54,28 +54,10 @@
     border-top: none;
     border-radius: 0 0 @br-med @br-med;
   }
-  /* list with element labels */
-  ul.panel-list {
-    > li > a {
-      .border-right-radius(0);
-    }
-    li {
-      position: relative;
-      padding-left: 50px;
-      .link-title {
-        color: @white;
-      }
-      a, label {
-        padding-right: 10px;
-//        color: @white;
-        &:hover {
-          background: @grayLight;
-          cursor: pointer;
-          text-decoration: none;
-        }
-      }
-    }
-
+  input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+    cursor: pointer;
+    background-color: @grayDark;
+    color: @grayLighter;
   }
   /* panel on right for user input */
   .panel-input {
@@ -97,6 +79,33 @@
     color: @grayLight;
   }
 
+}
+
+/* list with element labels */
+ul.panel-list {
+  > li > a {
+    .border-right-radius(0);
+  }
+  li {
+    position: relative;
+    padding-left: 50px;
+    .link-title {
+      color: @white;
+    }
+    a, label {
+      padding-right: 10px;
+      &:hover {
+        background: @gray;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+  }
+
+}
+
+body.keyboard-on ul.panel-list li a:hover {
+  background: transparent;
 }
 
 input#hidden {
@@ -374,12 +383,19 @@ ul.kv-list {
   .ie7-inline-block();
   margin-bottom: 8px;
   .mime {
-    background: @baseLight;
-    padding: 2px 4px;
+    background: @grayDark;
+    color: @grayLighter;
+    text-align: center;
+    padding: 4px;
   }
-
 }
 
+//.panel-list {
+//  .mime {
+//    background: @baseLighter;
+//
+//  }
+//}
 .alert.alert-saved {
   width: 200px;
   position: absolute;
