@@ -4,7 +4,8 @@
             <img data-ng-src="{{ file | mediaFile }}"/>
         </div>
         <div data-ng-show="isVideo(file.value.MimeType)">
-            <video width="100%" controls src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
+            <video width="100%" controls>
+                <source ng-src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
             </video>
         </div>
         <div data-ng-show="isPdf(file.value.MimeType)">
@@ -19,7 +20,7 @@
 
             </div>
             <div class="row">
-                <pdfviewer src="{{ file | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+                <pdfviewer ng-src="{{ file | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
             </div>
         </div>
     </div>
@@ -34,7 +35,8 @@
                     <img data-ng-src="{{ file | mediaFile }}"/>
                 </div>
                 <div data-ng-show="isVideo(file.value.MimeType)">
-                    <video width="100%" controls src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
+                    <video width="100%" controls>
+                        <source ng-src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
                     </video>
                 </div>
             </slide>

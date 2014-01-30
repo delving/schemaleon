@@ -79,32 +79,33 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
     'MediaElementController',
-    function ($rootScope, $scope, $q, $dialog, Document) {
-        $scope.openVideoPreview = function (srcFile) {
-            var srcPath = '/media/fetch/' + srcFile;
-            var dialog = $dialog.dialog({
-                dialogFade: true,
-                backdrop: true,
-                fadeBackdrop: true,
-                keyboard: true,
-                controller: 'previewDialogController',
-                template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
-                    '<div class="modal-body">' +
-                    '<video width="320" height="240" controls>' +
-                    '<source src="' + srcPath + '" type="video/mp4" />' +
-                    '</video>' +
-                    '<div class="modal-footer">' +
-                    '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
-                    '</div>'
-
+    function ($rootScope, $scope, $q, $dialog, $filter, $timeout) {
+        $scope.openVideoPreview = function (elem) {
+            $scope.videoFile = '';
+            var videoMime = elem.value.MimeType;
+            $scope.videoFile = $filter('mediaFile')(elem);
+            $scope.$watch('videoFile', function () {
+                var dialog = $dialog.dialog({
+                    dialogFade: true,
+                    backdrop: true,
+                    fadeBackdrop: true,
+                    controller: 'previewDialogController',
+                    template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
+                        '<div class="modal-body">' +
+                        '<video width="320" height="240" controls autoplay="true">' +
+                        '<source src="' + $scope.videoFile + '" type="' + videoMime + '" />' +
+                        '</video>' +
+                        '<div class="modal-footer">' +
+                        '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
+                        '</div>'
+                });
+                if (!$rootScope.config.showTranslationEditor) {
+                    dialog.open();
+                }
             });
-            if(!$rootScope.config.showTranslationEditor){
-                dialog.open();
-            }
         };
-
         // todo: should not be needed!
         $scope.enableMediaEditor = function () {
             $scope.setEditing(true);
@@ -213,7 +214,7 @@ OSCR.controller(
         $scope.showInstanceDetails = function() {
             $scope.instanceDetails = !$scope.instanceDetails;
             console.log($scope.instanceDetails);
-        }
+        };
 
         if (!$scope.el.config.instance) {
             return;
@@ -301,3 +302,28 @@ OSCR.filter('elementDisplay',
     }
 );
 
+OSCR.filter('mediaThumbnail',
+    function ($rootScope) {
+        return function (element) {
+            if (element && element.value && element.config.media) {
+                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+OSCR.filter('mediaFile',
+    function () {
+        return function (element) {
+            if (element && element.value && element.config.media) {
+                return '/media/fetch/' + element.value.Identifier;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
