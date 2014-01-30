@@ -100,7 +100,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
         this.initUrls = function (req) {
             if (!this.error) {
                 var self = this;
-                var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/' + req.groupIdentifier;
+                var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/' + req.groupIdentifier + '/';
                 this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
                 Object.keys(options.imageVersions).forEach(function (version) {
                     if (_existsSync(groupFileSystem.mediaUploadDir + '/' + version + '/' + self.name)) {
@@ -155,7 +155,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
 
         form.on('fileBegin',
             function (name, file) {
-                console.log('fileBegin');
                 tmpFiles.push(file.path);
                 var fileInfo = new FileInfo(file, handler.req, true);
                 fileInfo.safeName();
@@ -164,24 +163,21 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('field',
             function (name, value) {
-                console.log('field');
                 if (name === 'redirect') {
                     redirect = value;
                 }
             }
         ).on('file',
             function (name, file) {
-                console.log('file');
                 var fileInfo = map[path.basename(file.path)];
                 fileInfo.size = file.size;
-                console.log(fileInfo);
                 if (!fileInfo.validate()) {
                     fs.unlink(file.path);
                     return;
                 }
                 fs.renameSync(file.path, groupFileSystem.mediaUploadDir + '/' + fileInfo.name);
                 if (options.imageTypes.test(fileInfo.name)) {
-                    log("thumbing images")
+                    log("thumbing images");
                     Object.keys(options.imageVersions).forEach(function (version) {
                         counter += 1;
                         var opts = options.imageVersions[version];
@@ -199,7 +195,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
                 //TODO: PDF AND AUDIO - pdf use first page for thumb, audio -use and icon
                 else {
                     //TODO: allow for other video formats (MOV, VOB ...)
-                    log("thumbing other")
+                    log("thumbing other");
                     Object.keys(options.imageVersions).forEach(function (version) {
                         counter += 1;
                         var opts = options.imageVersions[version];
@@ -356,6 +352,11 @@ var ServerWithStorage = function(storage) {
     this.serve = function(req, res, next) {
         var pathMatch = pathRegExp.exec(req.url);
         if (pathMatch) {
+            console.log('upload taking '+req.method+':'+req.url);
+            // upload taking GET:/files/OSCRthumbnail/flight-plan-cover.png
+            // todo: upload taking GET:/files/OSCR/thumbnail/flight-plan-cover.png
+            // upload taking DELETE:/files/OSCRflight-plan-cover.png
+            // todo: upload taking DELETE:/files/OSCR/flight-plan-cover.png
             serve(storage, pathMatch, req, res);
         }
         else {

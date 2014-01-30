@@ -37,7 +37,7 @@ OSCR.controller(
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
         $scope.committedFiles = [];
         $scope.options = {
-            url: '/files/'+$scope.groupIdentifier
+            url: '/files/'+$scope.groupIdentifier+'/'
         };
 
        function treeOf(file) {
