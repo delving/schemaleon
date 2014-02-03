@@ -81,7 +81,7 @@ function Storage(home) {
 
     // ========= the following have changed to accommodate shared and primary records
     this.schemaMap = {
-        primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+        primary: [ "Photo", "Film", "Memoriam", "Publication", "Object", "GemondeArchief" ],
         shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
     };
 
