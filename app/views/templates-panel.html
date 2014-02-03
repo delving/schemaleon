@@ -163,7 +163,7 @@
             <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
 
                 <div data-ng-show="isLinkFacts()" class="link-facts">
-                    <h6 class="heading">LinkFacts:</h6>
+                    <h6 class="heading" i18n="LinkFacts"><span class="i18n"/>:</h6>
                         <div data-ng-repeat="linkFact in xmlArray(el.value.LinkFact)">
                             <span i18n="{{ linkFact.Name }}" class="key"><span class="i18n"/></span>:  <span class="value">{{ linkFact.Value }}</span></span>
                         </div>
