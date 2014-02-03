@@ -161,15 +161,16 @@
                 <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
             </div>
             <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
-                <div data-ng-show="isLinkFacts()">
-                    <ul>
-                        <li data-ng-repeat="linkFact in xmlArray(el.value.LinkFact)">
-                            <span i18n="{{ linkFact.Name }}"><span class="label i18n"/></span>
-                            <span class="badge">{{ linkFact.Value }}</span></span>
-                        </li>
-                    </ul>
-                    <input type="text" disabled ng-model="el.value.SummaryFields.Title" class="input-block-level"/>
+
+                <div data-ng-show="isLinkFacts()" class="link-facts">
+                    <h6 class="heading">LinkFacts:</h6>
+                        <div data-ng-repeat="linkFact in xmlArray(el.value.LinkFact)">
+                            <span i18n="{{ linkFact.Name }}" class="key"><span class="i18n"/></span>:  <span class="value">{{ linkFact.Value }}</span></span>
+                        </div>
                 </div>
+
+                <input type="text" disabled ng-model="el.value.SummaryFields.Title" class="input-block-level"/>
+
                 <div data-ng-show="isHeader()">
                     <input type="text" disabled ng-model="el.value.SummaryFields.Title" class="input-block-level"/>
                 </div>
