@@ -230,6 +230,14 @@ OSCR.controller(
 
         $scope.schema = $scope.el.config.instance;
 
+        $scope.isLinkFacts = function() {
+            return $scope.el.value && $scope.el.value.LinkFact;
+        };
+
+        $scope.isHeader = function() {
+            return $scope.el.value && $scope.el.value.SummaryFields;
+        };
+
 //        $scope.instanceList = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
 //            var fieldList = [];
 //            switch(sharedSchema){
