@@ -28,3 +28,4 @@ syntax: glob
 dist
 
 oscr-data
+oscr-primary-data

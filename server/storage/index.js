@@ -357,82 +357,11 @@ function open(databaseName, homeDir, receiver) {
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
         var promise = null;
-
-        function loadPromise(filePath, docPath, replace) {
-            var deferred = defer();
-            fs.readFile(filePath, 'utf8', function (err, contents) {
-                if (err) console.error(err);
-                if (replace) {
-                    storage.replace(null, docPath, contents, function (results) {
-                        log('replaced ' + filePath + ' to ' + docPath);
-                        deferred.resolve(results);
-                    });
-                }
-                else {
-                    storage.add(null, docPath, contents, function (results) {
-                        log('added ' + filePath + ' to ' + docPath);
-                        deferred.resolve(results);
-                    });
-                }
-            });
-            return deferred.promise;
-        }
-
-        function loadData(fsPath, docPath, replace) {
-            console.log('loading data from ' + fsPath + ' to ' + docPath);
-            var extension = ".xml";
-            _.each(fs.readdirSync(fsPath), function (file) {
-                if (file[0] == '.') return;
-                var fileSystemPath = fsPath + '/' + file;
-                var documentPath = docPath + file;
-                if (fs.statSync(fileSystemPath).isDirectory()) {
-                    log('load directory ' + fileSystemPath);
-                    loadData(fileSystemPath, documentPath + '/', replace);
-                }
-                else if (file.lastIndexOf(extension) + extension.length == file.length) {
-                    log("Load file: " + fileSystemPath);
-                    if (promise) {
-                        log('new promise for ' + documentPath);
-                        promise = promise.then(function () {
-                            return loadPromise(fileSystemPath, documentPath, replace);
-                        });
-                    }
-                    else {
-                        log('first promise for ' + documentPath);
-                        promise = loadPromise(fileSystemPath, documentPath, replace);
-                    }
-                }
-            });
-        }
-
-        function loadBootstrapData() {
-            var dataPath = "../oscr-data";
-            if (!fs.existsSync(dataPath)) {
-                throw new Error("Cannot find "+dataPath+" for bootstrapping!");
-            }
-            dataPath = fs.realpathSync(dataPath);
-            loadData(dataPath, '', false);
-            console.log('done loading bootstrap data');
-        }
-
-        function finish() {
-            if (!promise) {
-                receiver(storage);
-            }
-            else {
-                promise.then(
-                    function () {
-                        receiver(storage);
-                    },
-                    function (error) {
-                        console.error("final problem! " + error);
-                    }
-                );
-            }
-        }
+        var dataLoadCount = 0;
 
         if (reply.ok) {
-            finish();
+            receiver(storage);
+            loadPrimaryData(true); // it's already in the db, so replace
         }
         else {
             storage.session.execute('create db ' + databaseName, function (error, reply) {
@@ -442,8 +371,9 @@ function open(databaseName, homeDir, receiver) {
                             console.error(er);
                         }
                         else {
+                            receiver(storage);
                             loadBootstrapData();
-                            finish();
+                            loadPrimaryData(false); // first time
                         }
                     });
                 }
@@ -454,6 +384,91 @@ function open(databaseName, homeDir, receiver) {
                 }
             });
         }
+
+        if (promise) {
+            promise.then(
+                function () {
+                    console.log('finished loading data');
+                },
+                function (error) {
+                    console.error("problem loading data! " + error);
+                }
+            );
+        }
+
+        // functions used above
+        function loadBootstrapData() {
+            var dataPath = "../oscr-data";
+            if (!fs.existsSync(dataPath)) {
+                throw new Error("Cannot find "+dataPath+" for bootstrapping!");
+            }
+            dataPath = fs.realpathSync(dataPath);
+            loadData(dataPath, '', false);
+            console.log('prepared to load bootstrap data');
+        }
+
+        function loadPrimaryData(replace) {
+            var dataPath = "../oscr-primary-data";
+            if (!fs.existsSync(dataPath)) {
+                console.log("Cannot find " + dataPath + " for loading primary data.  Skipping.");
+            }
+            dataPath = fs.realpathSync(dataPath);
+            loadData(dataPath, '/primary/', replace);
+            console.log('prepared for loading primary data, replace=' + replace);
+        }
+
+        function incrementLoadCount() {
+            dataLoadCount = dataLoadCount + 1;
+            if (dataLoadCount % 100 == 0) {
+                console.log('loaded '+dataLoadCount);
+            }
+        }
+
+        function loadPromise(filePath, docPath, replace) {
+            var deferred = defer();
+            fs.readFile(filePath, 'utf8', function (err, contents) {
+                if (err) console.error(err);
+                if (replace) {
+                    storage.replace(null, docPath, contents, function (results) {
+                        incrementLoadCount();
+//                        console.log('replaced ' + filePath + ' to ' + docPath);
+                        deferred.resolve(results);
+                    });
+                }
+                else {
+                    incrementLoadCount();
+                    storage.add(null, docPath, contents, function (results) {
+//                        console.log('added ' + filePath + ' to ' + docPath);
+                        deferred.resolve(results);
+                    });
+                }
+            });
+            return deferred.promise;
+        }
+
+        function loadData(fsPath, docPath, replace) {
+            var extension = ".xml";
+            _.each(fs.readdirSync(fsPath), function (file) {
+                if (file[0] == '.') return;
+                var fileSystemPath = fsPath + '/' + file;
+                var documentPath = docPath + file;
+                if (fs.statSync(fileSystemPath).isDirectory()) {
+                    loadData(fileSystemPath, documentPath + '/', replace);
+                }
+                else if (file.lastIndexOf(extension) + extension.length == file.length) {
+                    if (promise) {
+                        promise = promise.then(function () {
+                            return loadPromise(fileSystemPath, documentPath, replace);
+                        });
+                    }
+                    else {
+                        promise = loadPromise(fileSystemPath, documentPath, replace);
+                    }
+                }
+            });
+        }
+
+
     });
 }
 
