@@ -26,6 +26,9 @@ Storage('oscr', homeDir, function (storage) {
         this.send(xmlString);
     };
 
+    function logSession(req) {
+        console.log('session', req.session);
+    }
 
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
@@ -77,10 +80,12 @@ Storage('oscr', homeDir, function (storage) {
                                 req.session.profile = profile;
                                 storage.Person.getOrCreateUser(profile, function (xml) {
                                     req.session.Identifier = util.getFromXml(xml, 'Identifier');
+                                    req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
                                     res.xml(xml);
                                     storage.Log.add(req, {
                                         Op: "Authenticate"
                                     });
+                                    logSession(req);
                                 });
                             });
                         }
@@ -94,6 +99,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/i18n/:lang', function (req, res) {
+        logSession(req);
         replyWithLanguage(req.params.lang, res);
     });
 
@@ -287,6 +293,7 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch shared
     app.get('/shared/:schema/:identifier/fetch', function (req, res) {
+        logSession(req);
         storage.Document.getDocument(req.params.schema, undefined, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -294,6 +301,7 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch primary
     app.get('/primary/:schema/:groupIdentifier/:identifier/fetch', function (req, res) {
+        logSession(req);
         storage.Document.getDocument(req.params.schema, req.params.groupIdentifier, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -334,6 +342,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/document/save', function (req, res) {
+        logSession(req);
         // kind of interesting to receive xml within json, but seems to work
         storage.Document.saveDocument(req.body, function (header) {
             res.xml(header);
