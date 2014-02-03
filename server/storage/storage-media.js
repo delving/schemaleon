@@ -17,140 +17,39 @@ function log(message) {
     console.log('storage-media.js: ', message);
 }
 
-P.thumbNameProper = function (thumbName)  {
-    var nameProper= thumbName;
-    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
-        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
-    }
-    return nameProper;
-};
-
-P.saveMedia = function (body, receiver) {
-    log('saveMedia', body);
+P.saveMedia = function (header, body, receiver) {
+    console.log('saveMedia', header, body);
     var s = this.storage;
-    var imagePath = path.join(s.directories.mediaUploadDir, body.OriginalFileName);
-    var thumbnailPath = path.join(s.directories.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));
-    if (!fs.existsSync(imagePath) || !fs.existsSync(thumbnailPath)) {
-        console.error('Missing a media file: ' + imagePath + ' or ' + thumbnailPath);
+    var groupFileSystem = s.FileSystem.forGroup(header.GroupIdentifier);
+    var mediaPath = path.join(groupFileSystem.mediaUploadDir, body.OriginalFileName);
+    var thumbnailPath = path.join(groupFileSystem.mediaThumbnailDir, util.thumbNameProper(body.OriginalFileName));
+    if (!fs.existsSync(mediaPath)) {
+        receiver(null, null, 'Missing a media file: ' + mediaPath);
     }
-    var fileName = s.Media.createFileName(body);
-    log("filename:"+fileName);
-    var bucketPath = s.directories.mediaBucketDir(fileName);
-    var thumbnailBucketPath = s.directories.thumbnailBucketDir(fileName);
-    copyFile(imagePath, path.join(bucketPath, fileName), function (err) {
-        if (err) {
-            throw err;
-        }
-        log('File has been copied ' + fileName);
-        var thumbnailProper = P.thumbNameProper(fileName);
-        copyFile(thumbnailPath, path.join(thumbnailBucketPath, thumbnailProper), function (err) {
-            if (err) {
-                throw err;
+    else if (!fs.existsSync(thumbnailPath)) {
+        receiver(null, null, 'Missing a thumbnail file: ' + thumbnailPath);
+    }
+    else {
+        groupFileSystem.adoptFile(mediaPath, null, function(mediaBase, mediaExtension, error) {
+            if (error) {
+                receiver(null, null, error);
             }
-            log('Thumbnail has been copied ' + fileName);
-            receiver(fileName);
+            else {
+                groupFileSystem.adoptFile(thumbnailPath, util.thumbNameProper(mediaBase + mediaExtension), function(thumbnailBase, thumbnailExtension, error) {
+                    if (error) {
+                        receiver(null, null, error);
+                    }
+                    else {
+                        receiver(mediaBase, mediaExtension, null);
+                        // todo: this ties media and thumbnail together still.  should be separate
+                    }
+                });
+            }
         });
-    });
-};
-
-P.getMediaPath = function (fileName) {
-    var s = this.storage;
-    var bucketPath = s.directories.mediaBucketDir(fileName);
-    return path.join(bucketPath, fileName);
-};
-
-P.getThumbnailPath = function (fileName) {
-    var s = this.storage;
-    var bucketPath = s.directories.thumbnailBucketDir(fileName);
-    return path.join(bucketPath, fileName);
-};
-
-P.createFileName = function (body) {
-    console.log("createFileName MimeType:" + body.MimeType);
-    var s = this.storage;
-    var fileName = util.generateImageId();
-    switch (body.MimeType) {
-        case 'image/jpeg':
-            fileName += '.jpg';
-            break;
-        case 'image/png':
-            fileName += '.png';
-            break;
-        case 'image/gif':
-            fileName += '.gif';
-            break;
-        case 'video/mp4':
-            fileName += '.mp4';
-            break;
-        case 'video/quicktime':
-            fileName += '.mov';
-            break;
-        case 'application/pdf':
-            fileName += '.pdf';
-            break;
-        default:
-            console.log("UNKOWN MIME: " + body.MimeType);
-            fileName += '.jpg';
-            break;
     }
-    return fileName;
 };
 
-P.getMimeType = function(fileName) {
-    var mimeType;
-    switch(path.extname(fileName)) {
-        case '.jpg':
-            mimeType = 'image/jpeg';
-            break;
-        case '.png':
-            mimeType = 'image/png';
-            break;
-        case '.gif':
-            mimeType = 'image/gif';
-            break;
-        case '.mp4':
-            mimeType = 'video/mp4';
-            break;
-        case '.mov':
-            mimeType = 'video/quicktime';
-            break;
-        case '.pdf':
-            mimeType = 'application/pdf';
-            break;
-        default:
-            console.error('No mime type for extension '+path.extname(fileName));
-            break;
-    }
-    return mimeType;
-};
-
-function copyFile(source, target, cb) {
-
-    log('Copy file ' + source + ' ' + target);
-    var cbCalled = false;
-
-    var rd = fs.createReadStream(source);
-    rd.on("error", function (err) {
-        done(err);
-    });
-    var wr = fs.createWriteStream(target);
-    wr.on("error", function (err) {
-        done(err);
-    });
-    wr.on("close", function (ex) {
-        done();
-    });
-    rd.pipe(wr);
-
-    function done(err) {
-        if (!cbCalled) {
-            cb(err);
-            cbCalled = true;
-        }
-    }
-}
-
-P.listMediaFilesForTesting = function (done) {
+P.listMediaFilesForTesting = function (groupIdentifier, done) {
     function walk(dir, done) {
         var results = [];
         fs.readdir(dir, function (err, list) {
@@ -183,6 +82,6 @@ P.listMediaFilesForTesting = function (done) {
         });
     }
 
-    walk(this.storage.directories.mediaStorage, done);
+    walk(this.storage.FileSystem.forGroup(groupIdentifier).groupMediaStorage, done);
 };
 

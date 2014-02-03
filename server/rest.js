@@ -9,14 +9,6 @@ var upload = require('./upload');
 var util = require('./util');
 
 var app = express();
-app.use(upload);
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.cookieSession({secret: 'oscr'}));
-app.response.__proto__.xml = function (xmlString) {
-    this.setHeader('Content-Type', 'text/xml');
-    this.send(xmlString);
-};
 
 module.exports = app;
 
@@ -25,11 +17,24 @@ var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFIL
 Storage('oscr', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
+    app.use(upload(storage).serve);
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.cookieSession({secret: 'oscr'}));
+    app.response.__proto__.xml = function (xmlString) {
+        this.setHeader('Content-Type', 'text/xml');
+        this.send(xmlString);
+    };
+
+    function logSession(req) {
+        console.log('session', req.session);
+    }
+
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
             "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
             "apiOrgId": "delving",
-            "apiNode": "playground"
+            "apiNode": "playground" // todo: this should not be playground!
         };
         var queryParams = [];
         for (var key in API_QUERY_PARAMS) {
@@ -75,10 +80,12 @@ Storage('oscr', homeDir, function (storage) {
                                 req.session.profile = profile;
                                 storage.Person.getOrCreateUser(profile, function (xml) {
                                     req.session.Identifier = util.getFromXml(xml, 'Identifier');
+                                    req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
                                     res.xml(xml);
                                     storage.Log.add(req, {
                                         Op: "Authenticate"
                                     });
+                                    logSession(req);
                                 });
                             });
                         }
@@ -92,6 +99,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/i18n/:lang', function (req, res) {
+        logSession(req);
         replyWithLanguage(req.params.lang, res);
     });
 
@@ -285,6 +293,7 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch shared
     app.get('/shared/:schema/:identifier/fetch', function (req, res) {
+        logSession(req);
         storage.Document.getDocument(req.params.schema, undefined, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -292,6 +301,7 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch primary
     app.get('/primary/:schema/:groupIdentifier/:identifier/fetch', function (req, res) {
+        logSession(req);
         storage.Document.getDocument(req.params.schema, req.params.groupIdentifier, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -332,6 +342,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/document/save', function (req, res) {
+        logSession(req);
         // kind of interesting to receive xml within json, but seems to work
         storage.Document.saveDocument(req.body, function (header) {
             res.xml(header);
@@ -350,20 +361,32 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/media/fetch/:fileName', function (req, res) {
-        var fileName = req.params.fileName;
-        var filePath = storage.Media.getMediaPath(fileName);
-        var mimeType = storage.Media.getMimeType(fileName);
-        res.setHeader('Content-Type', mimeType);
-        res.sendfile(filePath);
+    app.get('/media/file/:identifier', function (req, res) {
+        storage.Document.getMediaDocument(null, req.params.identifier, function(mediaDoc, error) {
+            if (error) {
+                res.status(500).send(error);
+            }
+            else {
+                var groupFileSystem = storage.FileSystem.forGroup(mediaDoc.groupIdentifier);
+                var filePath = groupFileSystem.getMedia(mediaDoc.identifier, mediaDoc.mimeType);
+                res.setHeader('Content-Type', mediaDoc.mimeType);
+                res.sendfile(filePath);
+            }
+        });
     });
 
-    app.get('/media/thumbnail/:fileName', function (req, res) {
-        var fileName = req.params.fileName;
-        var filePath = storage.Media.getThumbnailPath(fileName);
-        var mimeType = storage.Media.getMimeType(fileName);
-        res.setHeader('Content-Type', mimeType);
-        res.sendfile(filePath);
+    app.get('/media/thumbnail/:identifier', function (req, res) {
+        storage.Document.getMediaDocument(null, req.params.identifier, function(mediaDoc, error) {
+            if (error) {
+                res.status(500).send(error);
+            }
+            else {
+                var groupFileSystem = storage.FileSystem.forGroup(mediaDoc.groupIdentifier);
+                var filePath = groupFileSystem.getThumbnail(mediaDoc.identifier);
+                res.setHeader('Content-Type', util.thumbnailMimeType);
+                res.sendfile(filePath);
+            }
+        });
     });
 
     app.get('/log', function (req, res) {
@@ -382,6 +405,5 @@ Storage('oscr', homeDir, function (storage) {
     app.get('/snapshot', function (req, res) {
         res.redirect('/snapshot/'+storage.snapshotName());
     });
-
 });
 

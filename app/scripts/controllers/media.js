@@ -29,7 +29,7 @@ OSCR.controller(
 
 OSCR.controller(
     'MediaUploadController',
-    function ($rootScope, $scope, $http, $timeout, Document) {
+    function ($rootScope, $scope, $http, $timeout, $filter, Document) {
 
         $rootScope.checkLoggedIn();
 
@@ -37,36 +37,12 @@ OSCR.controller(
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
         $scope.committedFiles = [];
         $scope.options = {
-            url: '/files'
+            url: '/files/'+$scope.groupIdentifier+'/'
         };
 
        function treeOf(file) {
             if (!file.tree && $scope.treeJSON) file.tree = JSON.parse($scope.treeJSON);
             return file.tree;
-        }
-
-        function getMimeType(fileName) {
-            var matches = fileName.match(/\.(...)$/);
-            var extension = matches[1].toLowerCase();
-            switch (extension) {
-                case 'jpg':
-                    return 'image/jpeg';
-                case 'jpeg':
-                    return 'image/jpeg';
-                case 'png':
-                    return 'image/png';
-                case 'gif':
-                    return 'image/gif';
-                case 'mp4':
-                    return 'video/mp4';
-                case 'mov':
-                    return 'video/quicktime';
-                case 'pdf':
-                    return 'application/pdf';
-                default:
-                    log("UNRECOGNIZED extension: " + extension);
-                    return 'image/jpeg';
-            }
         }
 
         function fetchCommitted() {
@@ -75,7 +51,8 @@ OSCR.controller(
                 $scope.committedFiles = _.map(list, function (doc) {
                     // $rootScope.getProperThumbExtension checks file extension.
                     // For video/audio files the extension will be replaced by .png
-                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperThumbExtension(doc.Header.Identifier);;
+//                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperThumbExtension(doc.Header.Identifier);;
+                    doc.thumbnail = $filter('mediaThumbnail')(doc.Header.Identifier);
                     doc.date = new Date(parseInt(doc.Header.TimeStamp));
                     return doc;
                 });
@@ -107,11 +84,9 @@ OSCR.controller(
                 TimeStamp: "#TIMESTAMP#"
             };
             var body = {
-                GroupIdentifier: $scope.groupIdentifier,
                 UserIdentifier: $rootScope.user.Identifier,
-                FileName: '#IDENTIFIER#',
                 OriginalFileName: file.name,
-                MimeType: getMimeType(file.name)
+                MimeType: $rootScope.getMimeTypeFromFileName(file.name)
             };
             Document.saveDocument(header, body, function (header) {
                 log("saved image");

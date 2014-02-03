@@ -71,48 +71,110 @@ P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
     );
 };
 
+function wrapMediaDoc(doc) {
+    return {
+        identifier: util.getFromXml(doc, 'Identifier'),
+        mimeType: util.getFromXml(doc, 'MimeType'),
+        groupIdentifier: util.getFromXml(doc, 'GroupIdentifier'),
+        xml: doc
+    }
+}
+
+P.getMediaDocument = function(groupIdentifier, identifier, receiver) {
+    var s = this.storage;
+    var schemaName = 'MediaMetadata';
+    if (groupIdentifier) {
+        s.query('get media document ' + identifier + ' ' + groupIdentifier,
+            s.dataPath(identifier, schemaName, groupIdentifier),
+            function(doc, error) {
+                if (error) {
+                    receiver(null, error);
+                }
+                else {
+                    receiver(wrapMediaDoc(doc), null);
+                }
+            }
+        );
+    }
+    else {
+        var q = [];
+        q.push('let $all := for $doc in ' + s.dataCollection(null, null) + '/Document[Header/SchemaName='+util.quote(schemaName)+']');
+        q.push('where ($doc/Header/SchemaName='+util.quote(schemaName)+')');
+        q.push('and ($doc/Header/Identifier='+util.quote(identifier)+')');
+        q.push('return $doc');
+        q.push('return subsequence($all, 1, 1)');
+        s.query('get media document (no group) ' + identifier, q, function(doc, error) {
+            if (error) {
+                receiver(null, error);
+            }
+            else {
+                receiver(wrapMediaDoc(doc), null);
+            }
+        });
+    }
+};
+
 P.saveDocument = function (envelope, receiver) {
     var s = this.storage;
     var IDENTIFIER = '#IDENTIFIER#';
     var TIMESTAMP = '#TIMESTAMP#';
     var time = new Date().getTime();
-    var hdr = _.clone(envelope.header);
-    var body = envelope.body;
+    var header = _.clone(envelope.header);
+    var body = _.clone(envelope.body);
 
-    function addDocument() {
-        var xml = envelope.xml
-            .replace(IDENTIFIER, hdr.Identifier) // header
-            .replace(IDENTIFIER, hdr.Identifier) // maybe body
-            .replace(TIMESTAMP, time); // header
-        s.add('add document ' + hdr.Identifier,
-            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
-            xml,
-            receiver
-        );
+    function triggerGitCommit() {
+        console.log('Should eventually trigger git add/commit');
     }
 
-    hdr.TimeStamp = time;
-    if (hdr.Identifier === IDENTIFIER) {
-        if (envelope.header.SchemaName == 'MediaMetadata') {
+    if (!header.GroupIdentifier) {
+        receiver('');
+        return;
+    }
+    header.TimeStamp = time;
+    if (header.Identifier === IDENTIFIER) {
+        if (header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
             log('save media' + JSON.stringify(envelope));
-            s.Media.saveMedia(body, function (fileName) {
-                hdr.Identifier = fileName;
-                addDocument();
+            s.Media.saveMedia(header, body, function (base, extension, error) {
+                if (error) {
+                    console.error(error);
+                    receiver('');
+                }
+                else {
+                    header.Identifier = base;
+                    log('header with identifier ' + JSON.stringify(header));
+                    addDocument();
+                }
             });
         }
         else {
-            hdr.Identifier = util.generateDocumentId(hdr.SchemaName);
+            header.Identifier = util.generateDocumentId(header.SchemaName);
             addDocument();
         }
     }
     else {
-        // todo: move the current one to the backup collection
         var stamped = envelope.xml.replace(TIMESTAMP, time);
-        s.replace('replace document ' + JSON.stringify(hdr.SummaryFields) + ' with ' + stamped,
-            s.dataDocument(hdr.Identifier, hdr.SchemaName, hdr.GroupIdentifier),
+        s.replace('replace document ' + JSON.stringify(header.SummaryFields) + ' with ' + stamped,
+            s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
             stamped,
-            receiver
+            function (header) {
+                triggerGitCommit();
+                receiver(header);
+            }
+        );
+    }
+
+    function addDocument() {
+        var xml = envelope.xml
+            .replace(IDENTIFIER, header.Identifier) // header
+            .replace(TIMESTAMP, time); // header
+        s.add('add document ' + header.Identifier,
+            s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
+            xml,
+            function(header) {
+                triggerGitCommit();
+                receiver(header);
+            }
         );
     }
 };

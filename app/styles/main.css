@@ -1668,3 +1668,13 @@ label {
   border: 1px solid #adafae;
   padding: 10px;
 }
+.link-facts {
+  margin-bottom: 8px;
+  color: #eeeeee;
+}
+.link-facts .heading {
+  margin: 0;
+}
+.link-facts .key {
+  color: #adafae;
+}

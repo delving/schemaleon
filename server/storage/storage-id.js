@@ -30,14 +30,6 @@ P.generateDocumentId = function (schemaName) {
     return generateId(schemaName);
 };
 
-P.generateImageId = function () {
-    return generateId('IM');
-};
-
 P.generateVocabId = function () {
     return generateId('VO');
-};
-
-P.generateCollectionId = function () {
-    return generateId('CO');
 };

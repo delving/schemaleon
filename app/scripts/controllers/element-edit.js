@@ -81,7 +81,7 @@ OSCR.controller(
 
 OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
     'MediaElementController',
-    function ($rootScope, $scope, $q, $dialog, $filter, $timeout) {
+    function ($rootScope, $scope, $q, $dialog, $filter) {
         $scope.openVideoPreview = function (elem) {
             $scope.videoFile = '';
             var videoMime = elem.value.MimeType;
@@ -198,7 +198,23 @@ OSCR.controller(
             }
         });
 
+        $scope.isLinkFacts = function() {
+            return $scope.el.value && $scope.el.value.LinkFact;
+        };
+
+        $scope.isHeader = function() {
+            return $scope.el.value && $scope.el.value.SummaryFields;
+        };
+
         $scope.$watch('el.value', function (after, before) {
+            if ($scope.isLinkFacts()) {
+                $scope.el.linkFacts = _.map(xmlArray($scope.el.value.LinkFact), function (fact) {
+                    return {
+                        name: fact.Name,
+                        value: fact.Value
+                    }
+                })
+            }
             $scope.valueChanged($scope.el);
         });
     }
@@ -221,6 +237,14 @@ OSCR.controller(
         }
 
         $scope.schema = $scope.el.config.instance;
+
+        $scope.isLinkFacts = function() {
+            return $scope.el.value && $scope.el.value.LinkFact;
+        };
+
+        $scope.isHeader = function() {
+            return $scope.el.value && $scope.el.value.SummaryFields;
+        };
 
 //        $scope.instanceList = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
 //            var fieldList = [];
@@ -267,63 +291,3 @@ OSCR.controller(
     }
 );
 
-OSCR.filter('mediaLabel',
-    function () {
-        return function (element) {
-            if (_.isString(element.value)) {
-                return element.value;
-            }
-            else if (element.value) {
-                return element.value.Label;
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
-
-OSCR.filter('elementDisplay',
-    function () {
-        return function (element) {
-            if (!element.value) {
-                return 'empty';
-            }
-            else if (element.config.vocabulary) {
-                return element.value.Label; // todo
-            }
-            else if (element.config.media) {
-                return element.value.Identifier;
-            }
-            else {
-                return element.value;
-            }
-        };
-    }
-);
-
-OSCR.filter('mediaThumbnail',
-    function ($rootScope) {
-        return function (element) {
-            if (element && element.value && element.config.media) {
-                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
-
-OSCR.filter('mediaFile',
-    function () {
-        return function (element) {
-            if (element && element.value && element.config.media) {
-                return '/media/fetch/' + element.value.Identifier;
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);

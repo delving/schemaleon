@@ -16,11 +16,8 @@ OSCR.controller(
         // the central scope elements
         $scope.tree = null;
         $scope.document = null;
-        $scope.documentJSon = null; // todo: should be in edit controller
 
         // flags for view ()
-        $scope.documentDirty = false; // todo: should be in edit controller
-        $scope.saveSuccess = false; // todo: should be in edit controller
         $scope.fullScreenActive = false;
 
         // constants for triggering server-side substitutions
@@ -38,7 +35,7 @@ OSCR.controller(
         $scope.header = {};
 
         // re-internationalize the tree if the language changes
-        $scope.$watch('i18n', function (i18n, oldValue) {
+        $scope.$watch('i18n', function (i18n) {
             if ($scope.tree && i18n) {
                 i18nTree($scope.tree, i18n);
             }
@@ -56,8 +53,7 @@ OSCR.controller(
             else {
                 $('#view').removeClass('full-screen');
             }
-
-        }
+        };
 
         // keep updating the time if there is a header
         function tick() {
@@ -72,24 +68,8 @@ OSCR.controller(
         }
         tick();
 
-        // run the validations in the tree's fields
-        $scope.validateTree = function () {
-            validateTree($scope.tree);
-            if (!$scope.documentDirty) {
-                if (!$scope.documentJSON) {
-                    $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
-                }
-                else {
-                    var json = JSON.stringify(treeToObject($scope.tree), null, 4);
-                    if ($scope.documentDirty = (json != $scope.documentJSON)) {
-                        $scope.time = updateTimeString($scope.header.TimeStamp);
-                    }
-                }
-            }
-        };
-
         // if the document changes, we set up a new tree for it and populate the tree with it
-        $scope.$watch('document', function (document, oldDocument) {
+        $scope.$watch('document', function (document) {
             if (!document) return;
             var emptyDocument = _.isString(document);
             // if document is a string, it's a schema name
@@ -103,10 +83,10 @@ OSCR.controller(
                     console.warn("No tree was returned for schema "+schema);
                     return;
                 }
-                $scope.tree = tree;
                 if (!emptyDocument) {
                     populateTree(tree, document.Body);
                 }
+                $scope.tree = tree; // already populated
                 installValidators(tree);
                 validateTree(tree);
             });
@@ -139,21 +119,21 @@ OSCR.controller(
             return childIndex;
         };
 
-        function getDocumentState(header) {
+        $scope.getDocumentState = function(header) {
             if (header.DocumentState) {
                 return header.DocumentState;
             }
             else {
                 return $rootScope.defaultDocumentState($scope.schema);
             }
-        }
+        };
 
         $scope.useHeader = function(header) {
             $scope.header.SchemaName = $scope.schema;
             $scope.header.Identifier = header.Identifier;
             $scope.header.GroupIdentifier = header.GroupIdentifier;
             $scope.header.SummaryFields = header.SummaryFields;
-            $scope.header.DocumentState = getDocumentState(header);
+            $scope.header.DocumentState = $scope.getDocumentState(header);
             $scope.headerDisplay = header.Identifier === $scope.blankIdentifier ? null : header.SummaryFields.Title;
             delete $scope.header.TimeStamp;
             var millis = parseInt(header.TimeStamp);
@@ -162,19 +142,10 @@ OSCR.controller(
             }
         };
 
-        $scope.isDocumentPublic = function() {
-            return getDocumentState($scope.header) == 'public';
-        };
-
-        $scope.isDocumentPresent = function() {
-            return getDocumentState($scope.header) != 'deleted';
-        };
-
         // initialize, if there's an identifier we can fetch the document
         if ($scope.identifier) {
             Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.identifier, function (document) {
                 $scope.useHeader(document.Document.Header);
-                $scope.documentDirty = false;
                 $scope.document = document.Document; // triggers the editor
                 $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
             });
@@ -182,11 +153,10 @@ OSCR.controller(
         else {
             $scope.useHeader({
                 SchemaName: $scope.schema,
-                GroupIdentifier: $rootScope.groupIdentifierForSave($scope.schema),
+                GroupIdentifier: $rootScope.userGroupIdentifier(),
                 Identifier: $scope.blankIdentifier
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch
-            $scope.documentDirty = false;
         }
     }
 );
@@ -222,6 +192,42 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
 
+        // for paying attention to whether the document has changed
+        $scope.documentJSON = null;
+        $scope.documentDirty = false;
+        $scope.headerDocumentState = null;
+        $scope.saveSuccess = false;
+
+        function freezeTree() {
+            if (!$scope.tree) return;
+            $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
+            $scope.documentDirty = false;
+            $scope.headerDocumentState = null;
+        }
+
+        function checkTreeDirty() {
+            if (!$scope.tree) return;
+            if ($scope.headerDocumentState && $scope.headerDocumentState != $scope.header.DocumentState) {
+                $scope.documentDirty = true;
+                return;
+            }
+            var json = JSON.stringify(treeToObject($scope.tree), null, 4);
+            $scope.documentDirty = json != $scope.documentJSON;
+            if ($scope.documentDirty) {
+                $scope.time = updateTimeString($scope.header.TimeStamp);
+            }
+        }
+
+        $scope.isDocumentPublic = function() {
+            var documentState = $scope.headerDocumentState || $scope.getDocumentState($scope.header);
+            return documentState == 'public';
+        };
+
+        $scope.isDocumentPresent = function() {
+            var documentState = $scope.headerDocumentState || $scope.getDocumentState($scope.header);
+            return documentState != 'deleted';
+        };
+
         // for handling focus in element fields
         $scope.editing = false;
         $scope.focusElementArray = [];
@@ -238,13 +244,27 @@ OSCR.controller(
             $scope.activeTab = "view";
         }
 
+        // if the tree changes, we set it up
+        $scope.$watch('tree', function (tree, oldTree) {
+            if (!tree) return;
+            installValidators(tree);
+            validateTree(tree);
+            freezeTree();
+        });
+
+        // run the validations in the tree's fields
+        $scope.validateTree = function () {
+            validateTree($scope.tree);
+            checkTreeDirty();
+        };
+
         $scope.chooseListPath = function() {
             $scope.documentList($scope.schema);
         };
 
         $scope.setDocumentState = function(state) {
-            $scope.header.DocumentState = state;
-            $scope.documentDirty = true;
+            $scope.headerDocumentState = state;
+            checkTreeDirty();
         };
 
         $scope.saveDocument = function () {
@@ -254,7 +274,8 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 $scope.useHeader(document.Header);
-                $scope.documentDirty = false;
+                populateTree($scope.tree, document.Body);
+                freezeTree();
                 $scope.saveSuccess = true;
                 $timeout(function() {
                     $(".alert-saved").hide('slow');

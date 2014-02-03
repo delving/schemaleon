@@ -2,7 +2,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'PublicController',
-    function ($rootScope, $scope, Person, Document, $location) {
+    function ($rootScope, $scope, Person, Document, $filter) {
 
         function getAllGroups() {
             Person.getAllGroups(function (list) {
@@ -91,8 +91,9 @@ OSCR.controller(
         $scope.getThumbPath = function(header) {
             var thumbArray = xmlArray(header.SummaryFields.Thumbnail);
             if (thumbArray.length) {
-                var thumbName = $scope.getProperThumbExtension(thumbArray[0].Identifier);
-                return '/media/thumbnail/' + thumbName;
+                return $filter('mediaThumbnail')(thumbArray[0].Identifier);
+//                var thumbName = $scope.getProperThumbExtension(thumbArray[0].Identifier);
+//                return '/media/thumbnail/' + thumbName;
             }
             else {
                 return ''; // todo: an image to indicate?

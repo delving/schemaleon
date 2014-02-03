@@ -6,11 +6,18 @@ var _ = require('underscore');
 var Storage = require('../../server/storage');
 var util = require('../../server/util');
 
-function log(message) {
-    console.log(message);
+function log(message, thing) {
+    if (thing) {
+        console.log(message, thing);
+    }
+    else {
+        console.log(message);
+    }
 }
 
+var groupIdentifier = 'OSCR';
 var storage = null;
+var groupFileSystem = null;
 
 function rmdir(dir) {
     var list = fs.readdirSync(dir);
@@ -36,6 +43,7 @@ exports.createDatabase = function (test) {
     Storage('oscrtest', '/tmp', function (s) {
         test.ok(s, 'problem creating database');
         storage = s;
+        groupFileSystem = s.FileSystem.forGroup(groupIdentifier);
         test.done();
     });
 };
@@ -54,49 +62,54 @@ function envelope(header, body) {
 }
 
 exports.testImageIngestion = function (test) {
-    test.expect(4);
+    test.expect(5);
     var fileName = 'theteam.jpg';
-    copyFile(path.join('test/server', fileName), path.join(storage.directories.mediaUploadDir, fileName), function () {
-        copyFile(path.join('test/data', fileName), path.join(storage.directories.mediaThumbnailDir, fileName), function () {
-            var body = {
-                UserIdentifier: 'OSCR-US-???-???',
-                GroupIdentifier: 'OSCR',
-                FileName: '#IDENTIFIER#',
-                OriginalFileName: fileName,
-                MimeType: 'image/jpeg'
-            };
+    var sourceDir = path.join('test', 'server');
+    var mediaFile = path.join(sourceDir, fileName);
+    var thumbnailFile = path.join(sourceDir, 'theteam-thumb.jpg');
+    copyFile(mediaFile, path.join(groupFileSystem.mediaUploadDir, fileName), function () {
+        copyFile(thumbnailFile, path.join(groupFileSystem.mediaThumbnailDir, fileName), function () {
             var header = {
                 Identifier: '#IDENTIFIER#',
-                GroupIdentifier: 'OSCR',
+                GroupIdentifier: groupIdentifier,
                 SchemaName: 'MediaMetadata',
-                TimeStamp: "#TIMESTAMP#",
-                EMail: 'oscr@delving.eu'
+                TimeStamp: "#TIMESTAMP#"
+            };
+            var body = {
+                OriginalFileName: fileName,
+                MimeType: 'image/jpeg',
+                HasThumbnail: 'true'
             };
             var envel = envelope(header, body);
-            log('about to save document');
-            log(envel);
+            log('about to save document envelope', envel);
             storage.Document.saveDocument(envel, function (xml) {
-                test.ok(xml, "no xml");
-                log('xml:');
-                log(xml);
+                test.ok(xml.length, "no xml");
+                log('saved document xml', xml);
                 var schemaName = util.getFromXml(xml, "SchemaName");
                 var groupIdentifier = util.getFromXml(xml, "GroupIdentifier");
                 var params = {
                     schemaName : schemaName,
                     groupIdentifier: groupIdentifier
                 };
+                log('search with params', params);
                 storage.Document.searchDocuments(params, function (results) {
-                    log('listImageData for ' + schemaName);
+                    log('listImageData', schemaName);
                     log(results);
                     test.ok(results.indexOf("theteam") > 0, 'theteam not found');
-                    storage.Media.listMediaFilesForTesting(function (err, results) {
-                        log('list media file results');
-                        log(results);
+                    storage.Media.listMediaFilesForTesting(groupIdentifier, function (err, results) {
+                        log('list media file results', results);
                         test.equals(results.length, 2, "should just be 2 files, but it's " + results.length);
-                        var newFileName = path.basename(results[0]);
-                        storage.Document.getDocument(schemaName, groupIdentifier, newFileName, function (doc) {
-                            test.ok(doc.indexOf("theteam") > 0, 'theteam not found');
-                            test.done();
+                        var identifier = path.basename(results[0], path.extname(results[0]));
+                        log('get media document with identifier and group', identifier);
+                        storage.Document.getMediaDocument(groupIdentifier, identifier, function (mediaDoc) {
+                            log(mediaDoc);
+                            test.ok(mediaDoc.xml.indexOf("theteam") > 0, 'theteam not found');
+                            log('get media document with only identifier', identifier);
+                            storage.Document.getMediaDocument(null, identifier, function (mediaDoc2) {
+                                log(mediaDoc2);
+                                test.ok(mediaDoc2.xml.indexOf("theteam") > 0, 'theteam not found');
+                                test.done();
+                            });
                         });
                     });
                 });
@@ -108,8 +121,7 @@ exports.testImageIngestion = function (test) {
 
 exports.dropIt = function (test) {
     test.expect(1);
-    rmdir(storage.directories.mediaStorage);
-    rmdir(storage.directories.mediaUpload);
+    rmdir('/tmp/OSCR-Files');
     storage.session.execute('drop db oscrtest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
         storage.session.close(function () {

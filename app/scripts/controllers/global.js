@@ -90,19 +90,6 @@ OSCR.controller(
             return $rootScope.user.Membership.GroupIdentifier;
         };
 
-        $rootScope.groupIdentifierForSave = function(schemaName) {
-            var groupIdentifier = $rootScope.userGroupIdentifier();
-            if (isShared(schemaName)) {
-                if (groupIdentifier != 'OSCR') {
-                    throw "Cannot talk about any old group for shared schemas"
-                }
-                return undefined;
-            }
-            else {
-                return groupIdentifier;
-            }
-        };
-
         $rootScope.defaultDocumentState = function(schemaName) {
             if (isShared(schemaName)) {
                 return 'public';
@@ -257,7 +244,7 @@ OSCR.controller(
 
         $rootScope.chooseUserPath = function (id) {
             $rootScope.choosePath('/people/user/'+id);
-        }
+        };
 
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {
@@ -276,8 +263,80 @@ OSCR.controller(
             return "";
         };
 
+        $rootScope.getExtensionFromMimeType = function(mimeType) {
+            var extension;
+            switch (mimeType) {
+                case 'image/jpeg':
+                    extension = '.jpg';
+                    break;
+                case 'image/png':
+                    extension = '.png';
+                    break;
+                case 'image/gif':
+                    extension = '.gif';
+                    break;
+                case 'video/mp4':
+                    extension = '.mp4';
+                    break;
+                case 'video/quicktime':
+                    extension = '.mov';
+                    break;
+                case 'application/pdf':
+                    extension = '.pdf';
+                    break;
+            }
+            return extension;
+        };
+
+        var fileSplitRegExp = new RegExp('(.*)([.][^.]*)');
+
+        function getExtension(fileName) {
+            var fileNameMatch = fileSplitRegExp.exec(fileName);
+            if (!fileNameMatch) {
+                console.error('file name did not have the right form to extract extension '+fileName);
+                return '.jpg';
+            }
+            else {
+                return fileNameMatch[2];
+            }
+        }
+
+        $rootScope.getMimeTypeFromFileName = function(fileName) {
+            var mimeType;
+            switch(getExtension(fileName)) {
+                case '.jpg':
+                    mimeType = 'image/jpeg';
+                    break;
+                case '.png':
+                    mimeType = 'image/png';
+                    break;
+                case '.gif':
+                    mimeType = 'image/gif';
+                    break;
+                case '.mp4':
+                    mimeType = 'video/mp4';
+                    break;
+                case '.mov':
+                    mimeType = 'video/quicktime';
+                    break;
+                case '.pdf':
+                    mimeType = 'application/pdf';
+                    break;
+                default:
+                    console.error('No mime type for extension '+getExtension(fileName));
+                    break;
+            }
+            return mimeType;
+        };
+
+        $rootScope.thumbnailExtension = '.jpg';
+
+        $rootScope.thumbnailMimeType = 'image/jpeg';
+
         // properFile name extension for multi-media thumbs
+        // todo: this should no longer be necessary
         $rootScope.getProperThumbExtension = function (name){
+            console.log('getProperThumb', name);
             var nameProper= name;
             if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
                 nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
@@ -405,25 +464,49 @@ OSCR.directive('enterKey', function () {
     };
 });
 
-//
-//OSCR.filter('mediaThumbnail',
-//    function ($rootScope) {
-//        return function (element) {
-//            if (element.value && element.config.media) {
-//                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
-//            }
-//            else {
-//                return '';
-//            }
-//        };
-//    }
-//);
-//
-//OSCR.filter('mediaFile',
+// filter either an element or an identifier to pick up thumbmnail
+OSCR.filter('mediaThumbnail',
+    function () {
+        return function (source) {
+            if (source.value && source.config.media) {
+                return '/media/thumbnail/' + source.value.Identifier;
+            }
+            else if (_.isString(source)) {
+                return '/media/thumbnail/' + source; // just an identifier
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+// filter either an element or an identifier to pick up a media file
+OSCR.filter('mediaFile',
+    function () {
+        return function (source) {
+            if (source.value && source.config.media) {
+                return '/media/file/' + source.value.Identifier;
+            }
+            else if (_.isString(source)) {
+                return '/media/file/' + source;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+// not used, it seems
+//OSCR.filter('mediaLabel',
 //    function () {
 //        return function (element) {
-//            if (element.value && element.config.media) {
-//                return '/media/fetch/' + element.value.Identifier;
+//            if (_.isString(element.value)) {
+//                return element.value;
+//            }
+//            else if (element.value) {
+//                return element.value.Label;
 //            }
 //            else {
 //                return '';
@@ -431,4 +514,23 @@ OSCR.directive('enterKey', function () {
 //        };
 //    }
 //);
+
+OSCR.filter('elementDisplay',
+    function () {
+        return function (element) {
+            if (!element.value) {
+                return 'empty';
+            }
+            else if (element.config.vocabulary) {
+                return element.value.Label; // todo
+            }
+            else if (element.config.media) {
+                return element.value.Identifier;
+            }
+            else {
+                return element.value;
+            }
+        };
+    }
+);
 

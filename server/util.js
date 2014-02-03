@@ -24,16 +24,8 @@ module.exports.generateDocumentId = function (schemaName) {
     return this.generateId(schemaName);
 };
 
-module.exports.generateImageId = function () {
-    return this.generateId('IM');
-};
-
 module.exports.generateVocabId = function () {
     return this.generateId('VO');
-};
-
-module.exports.generateCollectionId = function () {
-    return this.generateId('CO');
 };
 
 module.exports.quote = function (value) {
@@ -104,3 +96,67 @@ module.exports.objectToXml = function (object, tag) {
     return out.join('\n');
 };
 
+module.exports.getExtensionFromMimeType = function(mimeType) {
+    var extension;
+    switch (mimeType) {
+        case 'image/jpeg':
+            extension = '.jpg';
+            break;
+        case 'image/png':
+            extension = '.png';
+            break;
+        case 'image/gif':
+            extension = '.gif';
+            break;
+        case 'video/mp4':
+            extension = '.mp4';
+            break;
+        case 'video/quicktime':
+            extension = '.mov';
+            break;
+        case 'application/pdf':
+            extension = '.pdf';
+            break;
+    }
+    return extension;
+};
+
+module.exports.getMimeTypeFromFileName = function(fileName) {
+    var mimeType;
+    switch(path.extname(fileName)) {
+        case '.jpg':
+            mimeType = 'image/jpeg';
+            break;
+        case '.png':
+            mimeType = 'image/png';
+            break;
+        case '.gif':
+            mimeType = 'image/gif';
+            break;
+        case '.mp4':
+            mimeType = 'video/mp4';
+            break;
+        case '.mov':
+            mimeType = 'video/quicktime';
+            break;
+        case '.pdf':
+            mimeType = 'application/pdf';
+            break;
+        default:
+            console.error('No mime type for extension '+path.extname(fileName));
+            break;
+    }
+    return mimeType;
+};
+
+module.exports.thumbNameProper = function (thumbName)  {
+    var nameProper= thumbName;
+    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
+        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
+    }
+    return nameProper;
+};
+
+module.exports.thumbnailExtension = '.jpg';
+
+module.exports.thumbnailMimeType = 'image/jpeg';
