@@ -135,7 +135,7 @@
                         <li data-ng-repeat="entry in mediaList">
                             <div class="media-thumb pointer">
                                 <img id="oscr-media-grid-thumb-{{$index}}"
-                                     ng-src="/media/thumbnail/{{getProperThumbExtension(entry.Header.Identifier)}}"
+                                     ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
                                      ng-click="selectMedia(entry)"/>
                             </div>
                             <div class="mime">{{ entry.Body.MimeType }}</div>

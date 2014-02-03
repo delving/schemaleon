@@ -49,7 +49,7 @@
             <td ng-hide="isShared(schema)">
                 <ul class="unstyled inline">
                     <li data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)">
-                        <img ng-src="/media/thumbnail/{{getProperThumbExtension(thumbnail.Identifier)}}" width="65px"/>
+                        <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" width="65px"/>
                     </li>
                 </ul>
             </td>

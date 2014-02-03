@@ -81,7 +81,7 @@ OSCR.controller(
 
 OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
     'MediaElementController',
-    function ($rootScope, $scope, $q, $dialog, $filter, $timeout) {
+    function ($rootScope, $scope, $q, $dialog, $filter) {
         $scope.openVideoPreview = function (elem) {
             $scope.videoFile = '';
             var videoMime = elem.value.MimeType;
@@ -267,28 +267,3 @@ OSCR.controller(
     }
 );
 
-OSCR.filter('mediaThumbnail',
-    function ($rootScope) {
-        return function (element) {
-            if (element && element.value && element.config.media) {
-                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);
-
-OSCR.filter('mediaFile',
-    function () {
-        return function (element) {
-            if (element && element.value && element.config.media) {
-                return '/media/fetch/' + element.value.Identifier;
-            }
-            else {
-                return '';
-            }
-        };
-    }
-);

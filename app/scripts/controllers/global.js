@@ -333,7 +333,9 @@ OSCR.controller(
         $rootScope.thumbnailMimeType = 'image/jpeg';
 
         // properFile name extension for multi-media thumbs
+        // todo: this should no longer be necessary
         $rootScope.getProperThumbExtension = function (name){
+            console.log('getProperThumb', name);
             var nameProper= name;
             if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
                 nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
@@ -461,41 +463,15 @@ OSCR.directive('enterKey', function () {
     };
 });
 
-//
-//OSCR.filter('mediaThumbnail',
-//    function ($rootScope) {
-//        return function (element) {
-//            if (element.value && element.config.media) {
-//                return '/media/thumbnail/' + $rootScope.getProperThumbExtension(element.value.Identifier);
-//            }
-//            else {
-//                return '';
-//            }
-//        };
-//    }
-//);
-//
-//OSCR.filter('mediaFile',
-//    function () {
-//        return function (element) {
-//            if (element.value && element.config.media) {
-//                return '/media/fetch/' + element.value.Identifier;
-//            }
-//            else {
-//                return '';
-//            }
-//        };
-//    }
-//);
-
-OSCR.filter('mediaLabel',
+// filter either an element or an identifier to pick up thumbmnail
+OSCR.filter('mediaThumbnail',
     function () {
-        return function (element) {
-            if (_.isString(element.value)) {
-                return element.value;
+        return function (source) {
+            if (source.value && source.config.media) {
+                return '/media/thumbnail/' + source.value.Identifier;
             }
-            else if (element.value) {
-                return element.value.Label;
+            else if (_.isString(source)) {
+                return '/media/thumbnail/' + source; // just an identifier
             }
             else {
                 return '';
@@ -503,6 +479,40 @@ OSCR.filter('mediaLabel',
         };
     }
 );
+
+// filter either an element or an identifier to pick up a media file
+OSCR.filter('mediaFile',
+    function () {
+        return function (source) {
+            if (source.value && source.config.media) {
+                return '/media/file/' + source.value.Identifier;
+            }
+            else if (_.isString(source)) {
+                return '/media/file/' + source;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+// not used, it seems
+//OSCR.filter('mediaLabel',
+//    function () {
+//        return function (element) {
+//            if (_.isString(element.value)) {
+//                return element.value;
+//            }
+//            else if (element.value) {
+//                return element.value.Label;
+//            }
+//            else {
+//                return '';
+//            }
+//        };
+//    }
+//);
 
 OSCR.filter('elementDisplay',
     function () {

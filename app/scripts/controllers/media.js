@@ -29,7 +29,7 @@ OSCR.controller(
 
 OSCR.controller(
     'MediaUploadController',
-    function ($rootScope, $scope, $http, $timeout, Document) {
+    function ($rootScope, $scope, $http, $timeout, $filter, Document) {
 
         $rootScope.checkLoggedIn();
 
@@ -51,7 +51,8 @@ OSCR.controller(
                 $scope.committedFiles = _.map(list, function (doc) {
                     // $rootScope.getProperThumbExtension checks file extension.
                     // For video/audio files the extension will be replaced by .png
-                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperThumbExtension(doc.Header.Identifier);;
+//                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperThumbExtension(doc.Header.Identifier);;
+                    doc.thumbnail = $filter('mediaThumbnail')(doc.Header.Identifier);
                     doc.date = new Date(parseInt(doc.Header.TimeStamp));
                     return doc;
                 });
