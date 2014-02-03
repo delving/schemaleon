@@ -207,6 +207,14 @@ OSCR.controller(
         };
 
         $scope.$watch('el.value', function (after, before) {
+            if ($scope.isLinkFacts()) {
+                $scope.el.linkFacts = _.map(xmlArray($scope.el.value.LinkFact), function (fact) {
+                    return {
+                        name: fact.Name,
+                        value: fact.Value
+                    }
+                })
+            }
             $scope.valueChanged($scope.el);
         });
     }
