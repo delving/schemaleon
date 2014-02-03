@@ -198,6 +198,21 @@ OSCR.controller(
             }
         });
 
+        $scope.isLinkFacts = function() {
+            console.log("isLinkFacts", $scope.el.value);
+            return $scope.el.value && $scope.el.value.LinkFact;
+        };
+
+        $scope.linkFacts = function() {
+            return _.map(xmlArray($scope.el.value.LinkFact), function(linkFact) {
+                console.log('linkFact', linkFact);
+            })
+        };
+
+        $scope.isHeader = function() {
+            return $scope.el.value && $scope.el.value.SummaryFields;
+        };
+
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
         });
