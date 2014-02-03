@@ -304,6 +304,11 @@ function populateTree(tree, object) {
                     if (_.isArray(subValue)) {
                         return createClones(element, subValue);
                     }
+                    else if (_.isObject(subValue)) {
+                        if (!_.isEmpty(subValue)) {
+                            populate(element, key, sub);
+                        }
+                    }
                     else {
                         populate(element, key, sub);
                     }
@@ -317,9 +322,12 @@ function populateTree(tree, object) {
         if (key == el.name) {
             el.value = node[key];
             if (el.elements) {
-                for (var subKey in el.value) {
+                _.each(_.keys(el.value), function(subKey) {
                     el.elements = _.flatten(_.map(el.elements, createPopulator(el.value, subKey)));
-                }
+                });
+//                for (var subKey in el.value) {
+//                    el.elements = _.flatten(_.map(el.elements, createPopulator(el.value, subKey)));
+//                }
             }
         }
         else {
@@ -327,12 +335,12 @@ function populateTree(tree, object) {
         }
     }
 
-    for (var key in object) {
+    _.each(_.keys(object), function(key) {
         if (key != tree.name) {
             throw "Mismatch: " + key + " != " + tree.name;
         }
         populate(tree, key, object);
-    }
+    });
 }
 
 function getTime(millis) {

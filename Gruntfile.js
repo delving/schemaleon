@@ -293,14 +293,6 @@ module.exports = function (grunt) {
         'watch'
     ]);
 
-    grunt.registerTask('load', [
-        'clean:server',
-        'less:server',
-        'express:livereload', // port 9000
-        'livereload-start',
-        'watch'
-    ]);
-
     grunt.registerTask('prod', [
         'clean:server',
         'express:prod',

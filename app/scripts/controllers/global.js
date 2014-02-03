@@ -57,7 +57,7 @@ OSCR.controller(
         $scope.recent = [];
 
         $rootScope.schemaMap =  {
-            primary: [ "Photo", "Film", "Memoriam", "Publication" ],
+            primary: [ "Photo", "Film", "Memoriam", "Publication", "Object", "GemondeArchief" ],
             shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
         };
 
@@ -140,6 +140,7 @@ OSCR.controller(
                         });
                         if (!found) {
                             console.log("no stat found for", schemaName);
+                            return 0;
                         }
                         return  found.Count;
                     }
