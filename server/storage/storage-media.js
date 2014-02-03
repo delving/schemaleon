@@ -17,20 +17,12 @@ function log(message) {
     console.log('storage-media.js: ', message);
 }
 
-P.thumbNameProper = function (thumbName)  {
-    var nameProper= thumbName;
-    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
-        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
-    }
-    return nameProper;
-};
-
 P.saveMedia = function (header, body, receiver) {
     console.log('saveMedia', header, body);
     var s = this.storage;
     var groupFileSystem = s.FileSystem.forGroup(header.GroupIdentifier);
     var mediaPath = path.join(groupFileSystem.mediaUploadDir, body.OriginalFileName);
-    var thumbnailPath = path.join(groupFileSystem.mediaThumbnailDir, P.thumbNameProper(body.OriginalFileName));
+    var thumbnailPath = path.join(groupFileSystem.mediaThumbnailDir, util.thumbNameProper(body.OriginalFileName));
     if (!fs.existsSync(mediaPath)) {
         receiver(null, null, 'Missing a media file: ' + mediaPath);
     }

@@ -30,6 +30,7 @@ var _existsSync = fs.existsSync || path.existsSync;
 var formidable = require('formidable');
 var nodeStatic = require('node-static');
 var imageMagick = require('imagemagick');
+var util = require('util');
 
 var options = {
     maxPostSize: 11000000000, // 11 GB
@@ -103,8 +104,9 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
                 var baseUrl = (options.ssl ? 'https:' : 'http:') + '//' + req.headers.host + '/files/' + req.groupIdentifier + '/';
                 this.url = this.deleteUrl = baseUrl + encodeURIComponent(this.name);
                 Object.keys(options.imageVersions).forEach(function (version) {
-                    if (_existsSync(groupFileSystem.mediaUploadDir + '/' + version + '/' + self.name)) {
-                        self[version + 'Url'] = baseUrl + version + '/' + encodeURIComponent(self.name);
+                    var name = util.thumbNameProper(self.name);
+                    if (_existsSync(groupFileSystem.mediaUploadDir + '/' + version + '/' + name)) {
+                        self[version + 'Url'] = baseUrl + version + '/' + encodeURIComponent(name);
                     }
                 });
             }
@@ -205,7 +207,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
                             frameNr = '[0]';
                         }
                         var frameFileName = groupFileSystem.mediaUploadDir + '/' + fileInfo.name + frameNr;
-                        var thumbName = groupFileSystem.mediaUploadDir + '/' + version + '/' + originalFileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
+                        var thumbName = groupFileSystem.mediaUploadDir + '/' + version + '/' + util.thumbNameProper(originalFileName);
                         imageMagick.convert(
                             [frameFileName, '-resize', '160x160', '-flatten', thumbName],
                             finish

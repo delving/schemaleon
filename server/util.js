@@ -149,6 +149,14 @@ module.exports.getMimeTypeFromFileName = function(fileName) {
     return mimeType;
 };
 
+module.exports.thumbNameProper = function (thumbName)  {
+    var nameProper= thumbName;
+    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
+        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
+    }
+    return nameProper;
+};
+
 module.exports.thumbnailExtension = '.jpg';
 
 module.exports.thumbnailMimeType = 'image/jpeg';
