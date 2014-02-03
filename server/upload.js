@@ -30,7 +30,7 @@ var _existsSync = fs.existsSync || path.existsSync;
 var formidable = require('formidable');
 var nodeStatic = require('node-static');
 var imageMagick = require('imagemagick');
-var util = require('util');
+var util = require('./util');
 
 var options = {
     maxPostSize: 11000000000, // 11 GB
