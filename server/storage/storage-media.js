@@ -35,7 +35,7 @@ P.saveMedia = function (header, body, receiver) {
                 receiver(null, null, error);
             }
             else {
-                groupFileSystem.adoptFile(thumbnailPath, mediaBase + mediaExtension, function(thumbnailBase, thumbnailExtension, error) {
+                groupFileSystem.adoptFile(thumbnailPath, util.thumbNameProper(mediaBase + mediaExtension), function(thumbnailBase, thumbnailExtension, error) {
                     if (error) {
                         receiver(null, null, error);
                     }
