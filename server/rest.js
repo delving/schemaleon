@@ -148,7 +148,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/statistics/:groupIdentifier', function (req, res) {
-        storage.getStatistics(req.params.groupIdentifier, function (xml) {
+        storage.ETC.getStatistics(req.params.groupIdentifier, function (xml) {
             res.xml(xml);
         });
     });
@@ -403,7 +403,30 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/snapshot', function (req, res) {
-        res.redirect('/snapshot/'+storage.snapshotName());
+        res.redirect('/snapshot/'+storage.ETC.snapshotName());
+    });
+
+    app.get('/data/import/:data/please', function(req, res) {
+        var data = req.params.data;
+        var answer;
+        switch (data) {
+            case 'primary-replace':
+                storage.ETC.loadPrimaryData(true);
+                answer = 'Importing primary data, replacing';
+                break;
+            case 'primary-new':
+                answer = 'Loading primary data, first time';
+                storage.ETC.loadPrimaryData(false);
+                break;
+            case 'bootstrap':
+                answer = 'Loading bootstrap data';
+                storage.ETC.loadBootstrapData();
+                break;
+            default :
+                answer = 'Did not understand';
+                break;
+        }
+        res.send(answer);
     });
 });
 
