@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $cookieStore, $timeout, $scope, $q, $location, $anchorScroll, $routeParams, Person, I18N, Statistics) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $anchorScroll, $routeParams, $filter, Person, I18N, Statistics) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -226,7 +226,6 @@ OSCR.controller(
         };
 
         $rootScope.choosePath = function (path, viewOnly) {
-            console.log(path);
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
@@ -303,7 +302,7 @@ OSCR.controller(
 
         $rootScope.getMimeTypeFromFileName = function(fileName) {
             var mimeType;
-            switch(getExtension(fileName)) {
+            switch(getExtension(fileName.toLowerCase())) {
                 case '.jpg':
                     mimeType = 'image/jpeg';
                     break;
