@@ -395,16 +395,16 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/snapshot/:fileName', function (req, res) {
-        storage.ETC.snapshotCreate(function (localFile) {
-            console.log("sending " + localFile);
-            res.sendfile(localFile);
-        });
-    });
-
-    app.get('/snapshot', function (req, res) {
-        res.redirect('/snapshot/'+storage.ETC.snapshotName());
-    });
+//    app.get('/snapshot/:fileName', function (req, res) {
+//        storage.ETC.snapshotCreate(function (localFile) {
+//            console.log("sending " + localFile);
+//            res.sendfile(localFile);
+//        });
+//    });
+//
+//    app.get('/snapshot', function (req, res) {
+//        res.redirect('/snapshot/'+storage.ETC.snapshotName());
+//    });
 
     app.get('/data/import/:data/please', function(req, res) {
         var data = req.params.data;

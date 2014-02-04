@@ -84,9 +84,11 @@ OSCR.controller(
                 TimeStamp: "#TIMESTAMP#"
             };
             var body = {
-                UserIdentifier: $rootScope.user.Identifier,
-                OriginalFileName: file.name,
-                MimeType: $rootScope.getMimeTypeFromFileName(file.name)
+                MediaMetadata: {
+                    UserIdentifier: $rootScope.user.Identifier,
+                    OriginalFileName: file.name,
+                    MimeType: $rootScope.getMimeTypeFromFileName(file.name)
+                }
             };
             Document.saveDocument(header, body, function (header) {
                 log("saved image");

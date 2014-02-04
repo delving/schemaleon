@@ -3,7 +3,7 @@
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
-var archiver = require('archiver');
+//var archiver = require('archiver');
 var defer = require('node-promise').defer;
 
 module.exports = ETC;
@@ -15,7 +15,6 @@ function ETC(storage) {
 }
 
 var P = ETC.prototype;
-
 
 // get the statistics for a group, or for primary of all groups
 P.getStatistics = function (groupIdentifier, receiver) {
@@ -67,62 +66,62 @@ P.snapshotCreate = function (receiver) {
     var exportPath = s.FileSystem.databaseSnapshotDir + '/' + snapshotDir;
     var zipFile = exportPath + '.zip';
     s.session.execute('export ' + exportPath, function () {
-        var output = fs.createWriteStream(zipFile);
-        var archive = archiver('zip');
-
-        archive.on('error', function (err) {
-            throw err;
-        });
-        output.on('close', function () {
-            receiver(zipFile);
-        });
-
-        archive.pipe(output);
-
-        function rmdir(dir) {
-            var list = fs.readdirSync(dir);
-            _.each(list, function (entry) {
-                if (entry[0] != '.') {
-                    var fileName = path.join(dir, entry);
-                    var stat = fs.statSync(fileName);
-                    if (stat.isDirectory()) {
-                        rmdir(fileName);
-                    }
-                    else {
-                        fs.unlinkSync(fileName);
-                    }
-                }
-            });
-            fs.rmdirSync(dir);
-        }
-
-        function appendToArchive(dir, zipPath) {
-            var list = fs.readdirSync(dir);
-            _.each(list, function (entry) {
-                if (entry[0] != '.') {
-                    var fileName = path.join(dir, entry);
-                    var stat = fs.statSync(fileName);
-                    var zipFileName = zipPath + '/' + entry;
-                    if (stat.isDirectory()) {
-                        appendToArchive(fileName, zipFileName);
-                    }
-                    else {
-                        archive.file(fileName, { name: zipFileName });
-                    }
-                }
-            });
-        }
-
-        appendToArchive(exportPath, snapshotDir);
-//            rmdir(exportPath);
-
-        archive.finalize(function (err, bytes) {
-            if (err) {
-                throw err;
-            }
-            console.log(zipFile + ': ' + bytes + ' total bytes');
-        });
-
+//        var output = fs.createWriteStream(zipFile);
+//        var archive = archiver('zip');
+//
+//        archive.on('error', function (err) {
+//            throw err;
+//        });
+//        output.on('close', function () {
+//            receiver(zipFile);
+//        });
+//
+//        archive.pipe(output);
+//
+//        function rmdir(dir) {
+//            var list = fs.readdirSync(dir);
+//            _.each(list, function (entry) {
+//                if (entry[0] != '.') {
+//                    var fileName = path.join(dir, entry);
+//                    var stat = fs.statSync(fileName);
+//                    if (stat.isDirectory()) {
+//                        rmdir(fileName);
+//                    }
+//                    else {
+//                        fs.unlinkSync(fileName);
+//                    }
+//                }
+//            });
+//            fs.rmdirSync(dir);
+//        }
+//
+//        function appendToArchive(dir, zipPath) {
+//            var list = fs.readdirSync(dir);
+//            _.each(list, function (entry) {
+//                if (entry[0] != '.') {
+//                    var fileName = path.join(dir, entry);
+//                    var stat = fs.statSync(fileName);
+//                    var zipFileName = zipPath + '/' + entry;
+//                    if (stat.isDirectory()) {
+//                        appendToArchive(fileName, zipFileName);
+//                    }
+//                    else {
+//                        archive.file(fileName, { name: zipFileName });
+//                    }
+//                }
+//            });
+//        }
+//
+//        appendToArchive(exportPath, snapshotDir);
+////            rmdir(exportPath);
+//
+//        archive.finalize(function (err, bytes) {
+//            if (err) {
+//                throw err;
+//            }
+//            console.log(zipFile + ': ' + bytes + ' total bytes');
+//        });
+//
     })
 };
 

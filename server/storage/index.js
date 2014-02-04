@@ -2,7 +2,6 @@
 
 var _ = require('underscore');
 var fs = require('fs');
-var archiver = require('archiver');
 var path = require('path');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
