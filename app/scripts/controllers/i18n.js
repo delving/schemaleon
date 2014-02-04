@@ -153,7 +153,7 @@ OSCR.controller(
                         '</div>'
 
                 });
-                modal.open().then(function (labelEntry) {
+                modal.result.then(function (labelEntry) {
                     if (labelEntry && labelEntry.label) {
                         I18N.setLabel(labelEntry.key, labelEntry.label);
                     }
@@ -188,7 +188,8 @@ OSCR.controller(
                         '</div>'
 
                 });
-                modal.open().then(function (title) {
+
+                modal.result.then(function (title) {
                     if (title) {
                         element.title = title;
                         I18N.setTitle(element.name, title);
@@ -225,7 +226,7 @@ OSCR.controller(
                         '</div>'
 
                 });
-                modal.open().then(function (doc) {
+                modal.result.then(function (doc) {
                     if (doc) {
                         element.doc = doc;
                         I18N.setDoc(element.name, doc);
