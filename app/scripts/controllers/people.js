@@ -32,6 +32,7 @@ OSCR.controller(
         $scope.groupFindUser = null;
         $scope.groupCreated = false;
         $scope.userAssigned = false;
+        $scope.groupList = [];
         $scope.roles = _.map(Person.roles, function (role) {
             return { name: role }
         });
@@ -39,8 +40,7 @@ OSCR.controller(
 
         $scope.populateGroup = function (group) {
             Person.getUsersInGroup(group.Identifier, function (list) {
-                // todo: UserList should not start with a capital
-                $scope.selectedGroup.UserList = list;
+                $scope.selectedGroup.userList = list;
             });
             $scope.selectedGroup.Identifier = group.Identifier;
             $scope.selectedGroup.Name = group.Name;
@@ -60,18 +60,6 @@ OSCR.controller(
             }
         }
 
-        $('#dd-group-select').on('change', function () {
-            var group = JSON.parse($(this).val());
-            $scope.populateGroup(group);
-        });
-
-        $scope.canUserAdministrate = function (groupIdentifier) {
-            if (!$rootScope.user || !$rootScope.user.Membership) return false;
-            var m = $rootScope.user.Membership;
-            if (m.GroupIdentifier == 'OSCR' && m.Role == $scope.administratorRole) return true; // gods
-            return m.GroupIdentifer == groupIdentifier && m.Role == $scope.administratorRole;
-        };
-
         $scope.typeAheadUsers = function (query, onlyOrphans) {
             var deferred = $q.defer();
             Person.selectUsers(query, function (list) {
@@ -90,17 +78,15 @@ OSCR.controller(
             return deferred.promise;
         };
 
-        $scope.typeAheadGroups = function (query) {
-            var deferred = $q.defer();
-            Person.selectGroups(query, function (list) {
-                deferred.resolve(list);
-            });
-            return deferred.promise;
+        $scope.selectGroup = function(group) {
+            $scope.populateGroup(group);
+            $scope.groupChoice = '';
         };
 
         $scope.selectGroupFromUser = function(user) {
             Person.getGroup(user.Membership.GroupIdentifier, function(group) {
                 $scope.populateGroup(group);
+                $scope.groupFindUser = '';
             });
         };
 
@@ -123,9 +109,7 @@ OSCR.controller(
         };
 
         $scope.groupToString = function (group) {
-            if (!group) {
-                return [];
-            }
+            if (!group) return '';
             return group.Name;
         };
 

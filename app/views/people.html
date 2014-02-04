@@ -10,19 +10,15 @@
                 <form class="navbar-form form-inline form-group-select pull-left">
 
                     <div class="input-prepend">
-                        <span class="add-on"><i class="icon-users"></i> <label i18n="SelectGroup"><span class="i18n"/></label></span>
-                        <select id="dd-group-select" class="input-xlarge">
-                            <option>------------------------------------------------------</option>
-                            <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
-                        </select>
-                        <!--<input id="cai" type="text" ng-model="sle" class="input-large"-->
-                               <!--typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"-->
-                               <!--typeahead-on-select="selectGroupFromUser(groupFindUser)"/>-->
+                        <span class="add-on"><i class="icon-users"></i> <label i18n="FindGroup"><span class="i18n"/></label></span>
+                        <input id="cai" type="text" ng-model="groupChoice" class="input-xxlarge"
+                               typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"
+                               typeahead-on-select="selectGroup(groupChoice)"/>
                     </div>
 
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-user"></i> <label i18n="FindUser"><span class="i18n"/></label></span>
-                        <input id="cau" type="text" ng-model="groupFindUser" class="input-large"
+                        <input id="cau" type="text" ng-model="groupFindUser" class="input-xlarge"
                                typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"
                                typeahead-on-select="selectGroupFromUser(groupFindUser)"/>
                     </div>
@@ -53,7 +49,7 @@
                                 <th width="250" i18n="Email"><span class="i18n">Email</span></th>
                                 <th width="250" i18n="Name"><span class="i18n">Name</span></th>
                                 <th i18n="Role"><span class="i18n">Role</span></th>
-                                <th width="300" private="canUserAdministrate(group.Identifier)">
+                                <th width="300">
                                     <div class="btn-group">
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                             Add user to group
@@ -69,11 +65,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="user in selectedGroup.UserList">
+                            <tr ng-repeat="user in selectedGroup.userList">
                                 <td>{{ user.Profile.email }}</td>
                                 <td><span class="eclipse">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</span></td>
                                 <td><span class="label {{ user.Membership.Role}}">{{ user.Membership.Role}}</span></td>
-                                <td private="canUserAdministrate(group.Identifier)">
+                                <td>
                                     <button class="btn btn-mini btn-danger" ng-click="removeUserFromGroup(user)"><i class="icon-trash icon-white"></i></button>
                                 </td>
                             </tr>
@@ -109,7 +105,7 @@
                 <textarea ng-model="groupDescription"></textarea>
             </div>
             <div class="widget-footer">
-                <div private="canUserAdministrate('OSCR')">
+                <div private="user.god">
                     <button ng-click="createGroup()" class="btn btn-success" data-i18n="CreateGroup">
                         <i class="icon-download-alt icon-white"></i> <span class="i18n"></span>
                     </button>
