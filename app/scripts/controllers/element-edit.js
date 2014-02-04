@@ -242,28 +242,6 @@ OSCR.controller(
             return $scope.el.value && $scope.el.value.SummaryFields;
         };
 
-//        $scope.instanceList = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
-//            var fieldList = [];
-//            switch(sharedSchema){
-//                case 'Person':
-//                fieldList = [
-//                    {
-//                        'name' :'entry.Body.Person.Birth.DateOfBirth',
-//                        'name' :'entry.Body.Person.Birth.DateOfBirth',
-//                        'label': 'DateOfBirth'
-//                    }
-//
-//                ]
-//            }
-//            return {
-//                name: sharedSchema,
-//                path: "/shared/" + sharedSchema
-//                fields: fieldList
-//            };
-//        });
-//
-//        console.log( $scope.instanceList);
-
         $scope.setValue = function (value) {
             $scope.el.value = value.Header;  // instance controller is watching this
             $scope.setEditing(false);
@@ -277,6 +255,26 @@ OSCR.controller(
                 $scope.el.entries = entries;
             });
         });
+
+        $scope.getInstanceDetails = function (schema) {
+            if ($scope.editing) {
+                if (schema == "Person") {
+                    return "instance-details-person.html";
+                }
+                else if (schema == "Location") {
+                    return "instance-details-location.html";
+                }
+                else if (schema == "Organization") {
+                    return "instance-details-organization.html";
+                }
+                else if (schema == "HistoricalEvent") {
+                    return "instance-details-historical-event.html";
+                }
+                else {
+                    return "instance-details-default.html";
+                }
+            }
+        };
     }
 );
 
