@@ -273,6 +273,7 @@ OSCR.controller(
         $scope.saveDocument = function () {
             console.log("saveDocument", $scope.header);
             collectSummaryFields($scope.tree, $scope.header);
+            $scope.header.DocumentState = $scope.headerDocumentState || $scope.header.DocumentState;
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
