@@ -29,7 +29,7 @@
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input line-element">
         <div class="input-block-level" data-ng-controller="TextInputController">
-            <input el-focus="el" el-focus-element="focusElement" id="textInput" class="input-block-level" type="text" ng-model="el.value" />
+            <input el-focus="el" el-focus-element="focusElement" class="input-block-level" type="text" ng-model="el.value" />
             <div ng-show="el.invalidMessage">
                 <span class="label label-important">{{ el | invalidMessage }}</span>
                 <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"

@@ -256,7 +256,7 @@ OSCR.controller(
         };
 
         $scope.getInclude = function () {
-            if ($routeParams.identifier && $location.path().match(/\/edit/) ) {
+            if ($location.path().match(/.*\/(edit|create)/) ) {
                 return "views/document-edit-legend.html";
             }
             return "";
