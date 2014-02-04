@@ -45,6 +45,10 @@ describe('tooltip', function() {
     expect( elmScope.tt_isOpen ).toBe( false );
   }));
 
+  it('should not animate on animation set to false', inject(function() {
+    expect( elmScope.tt_animation ).toBe( false );
+  }));
+
   it('should have default placement of "top"', inject(function() {
     elm.trigger( 'mouseenter' );
     expect( elmScope.tt_placement ).toBe( "top" );
@@ -94,7 +98,7 @@ describe('tooltip', function() {
     scope.alt = "Alt Message";
 
     elmBody = $compile( angular.element( 
-      '<div><span alt={{alt}} tooltip="{{tooltipMsg}}">Selector Text</span></div>' 
+      '<div><span alt={{alt}} tooltip="{{tooltipMsg}}" tooltip-animation="false">Selector Text</span></div>'
     ) )( scope );
 
     $compile( elmBody )( scope );
@@ -105,11 +109,18 @@ describe('tooltip', function() {
     elm.trigger( 'mouseenter' );
     expect( elm.attr( 'alt' ) ).toBe( scope.alt );
 
-    ttScope = angular.element( elmBody.children()[1] ).scope();
+    ttScope = angular.element( elmBody.children()[1] ).isolateScope();
     expect( ttScope.placement ).toBe( 'top' );
     expect( ttScope.content ).toBe( scope.tooltipMsg );
 
     elm.trigger( 'mouseleave' );
+
+    //Isolate scope contents should be the same after hiding and showing again (issue 1191)
+    elm.trigger( 'mouseenter' );
+
+    ttScope = angular.element( elmBody.children()[1] ).isolateScope();
+    expect( ttScope.placement ).toBe( 'top' );
+    expect( ttScope.content ).toBe( scope.tooltipMsg );
   }));
 
   it('should not show tooltips if there is nothing to show - issue #129', inject(function ($compile) {
@@ -131,6 +142,56 @@ describe('tooltip', function() {
     elmScope.$destroy();
     expect( elmBody.children().length ).toBe( 0 );
   }));
+
+  it('issue 1191 - isolate scope on the popup should always be child of correct element scope', inject( function ( $compile ) {
+    var ttScope;
+    elm.trigger( 'mouseenter' );
+
+    ttScope = angular.element( elmBody.children()[1] ).isolateScope();
+    expect( ttScope.$parent ).toBe( elmScope );
+
+    elm.trigger( 'mouseleave' );
+
+    // After leaving and coming back, the scope's parent should be the same
+    elm.trigger( 'mouseenter' );
+
+    ttScope = angular.element( elmBody.children()[1] ).isolateScope();
+    expect( ttScope.$parent ).toBe( elmScope );
+
+    elm.trigger( 'mouseleave' );
+  }));
+
+  describe('with specified enable expression', function() {
+
+    beforeEach(inject(function ($compile) {
+      scope.enable = false;
+      elmBody = $compile(angular.element(
+        '<div><span tooltip="tooltip text" tooltip-enable="enable">Selector Text</span></div>'
+      ))(scope);
+      scope.$digest();
+      elm = elmBody.find('span');
+      elmScope = elm.scope();
+
+    }));
+
+    it('should not open ', inject(function () {
+
+      elm.trigger('mouseenter');
+      expect(elmScope.tt_isOpen).toBeFalsy();
+      expect(elmBody.children().length).toBe(1);
+
+    }));
+
+    it('should open', inject(function () {
+
+      scope.enable = true;
+      scope.$digest();
+      elm.trigger('mouseenter');
+      expect(elmScope.tt_isOpen).toBeTruthy();
+      expect(elmBody.children().length).toBe(2);
+
+    }));
+  });
 
   describe('with specified popup delay', function () {
 
@@ -209,6 +270,32 @@ describe('tooltip', function() {
       elm.trigger('fakeTriggerAttr');
       expect( elmScope.tt_isOpen ).toBeFalsy();
     }));
+
+    it('should not share triggers among different element instances - issue 692', inject( function ($compile) {
+
+      scope.test = true;
+      elmBody = angular.element(
+        '<div>' +
+          '<input tooltip="Hello!" tooltip-trigger="{{ (test && \'mouseenter\' || \'click\') }}" />' +
+          '<input tooltip="Hello!" tooltip-trigger="{{ (test && \'mouseenter\' || \'click\') }}" />' +
+        '</div>'
+      );
+
+      $compile(elmBody)(scope);
+      scope.$apply();
+      var elm1 = elmBody.find('input').eq(0);
+      var elm2 = elmBody.find('input').eq(1);
+      var elmScope1 = elm1.scope();
+      var elmScope2 = elm2.scope();
+
+      scope.$apply('test = false');
+
+      elm2.trigger('mouseenter');
+      expect( elmScope2.tt_isOpen ).toBeFalsy();
+
+      elm2.click();
+      expect( elmScope2.tt_isOpen ).toBeTruthy();
+    }));
   });
 
   describe( 'with an append-to-body attribute', function() {
@@ -245,7 +332,7 @@ describe('tooltip', function() {
       var match = false;
 
       angular.forEach(angular.element.cache, function (item) {
-        if (item.data && item.data.$scope === tooltipScope) {
+        if (item.data && item.data.$isolateScope === tooltipScope) {
           match = true;
         }
       });
@@ -261,20 +348,13 @@ describe('tooltip', function() {
 
       elm = elmBody.find('input');
       elmScope = elm.scope();
+      elm.trigger('fooTrigger');
       tooltipScope = elmScope.$$childTail;
     }));
 
-    it( 'should not contain a cached reference', function() {
-      expect( inCache() ).toBeTruthy();
-      elmScope.$destroy();
-      expect( inCache() ).toBeFalsy();
-    });
-
     it( 'should not contain a cached reference when visible', inject( function( $timeout ) {
       expect( inCache() ).toBeTruthy();
-      elm.trigger('fooTrigger');
       elmScope.$destroy();
-      $timeout.flush();
       expect( inCache() ).toBeFalsy();
     }));
   });
@@ -335,6 +415,11 @@ describe( 'tooltipHtmlUnsafe', function() {
     scope.$digest();
     elm = elmBody.find('span');
     elmScope = elm.scope();
+  }));
+
+  it( 'should render html properly', inject( function () {
+    elm.trigger( 'mouseenter' );
+    expect( elmBody.find('.tooltip-inner').html() ).toBe( scope.html );
   }));
 
   it( 'should show on mouseenter and hide on mouseleave', inject( function () {
@@ -465,6 +550,24 @@ describe( '$tooltipProvider', function() {
         elm.trigger('focus');
         expect( elmScope.tt_isOpen ).toBeTruthy();
         elm.trigger('blur');
+        expect( elmScope.tt_isOpen ).toBeFalsy();
+      }));
+
+      it( 'should override the show and hide triggers if there is an attribute', inject( function ( $rootScope, $compile ) {
+        elmBody = angular.element(
+          '<div><input tooltip="tooltip text" tooltip-trigger="mouseenter"/></div>'
+        );
+
+        scope = $rootScope;
+        $compile(elmBody)(scope);
+        scope.$digest();
+        elm = elmBody.find('input');
+        elmScope = elm.scope();
+
+        expect( elmScope.tt_isOpen ).toBeFalsy();
+        elm.trigger('mouseenter');
+        expect( elmScope.tt_isOpen ).toBeTruthy();
+        elm.trigger('mouseleave');
         expect( elmScope.tt_isOpen ).toBeFalsy();
       }));
     });
