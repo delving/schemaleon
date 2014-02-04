@@ -82,7 +82,7 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
     function ($rootScope, $scope, $q, $modal, $filter) {
         $scope.openVideoPreview = function (elem) {
             $scope.videoFile = '';
-            var videoMime = elem.value.MimeType;
+            var videoMime = $filter('mediaMimeType')(elem);
             $scope.videoFile = $filter('mediaFile')(elem);
             $scope.$watch('videoFile', function () {
                 var modal = $modal.open({
@@ -104,6 +104,7 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
                         '</div>'
                 });
                 if (!$rootScope.config.showTranslationEditor) {
+                    // todo: review this
                     modal.open();
                 }
             });
@@ -161,10 +162,10 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             // make a copy of the body and add header things to it
-            var augmentedBody = angular.copy(value.Body);
-            augmentedBody.Identifier = value.Header.Identifier;
-            augmentedBody.GroupIdentifier = value.Header.GroupIdentifier;
-            $scope.el.value = augmentedBody;
+            var augmented = angular.copy(value.Body.MediaMetadata);
+            augmented.Identifier = value.Header.Identifier;
+            augmented.GroupIdentifier = value.Header.GroupIdentifier;
+            $scope.el.value = augmented;
 //            $scope.setEditing(false);
         };
 

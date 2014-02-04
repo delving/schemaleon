@@ -1,13 +1,13 @@
 <div data-ng-if="mediaElement">
-        <div data-ng-if="isImage(mediaElement.value.MimeType)">
+        <div data-ng-if="isImage(mediaElement)">
             <img data-ng-src="{{ mediaElement | mediaFile }}"/>
         </div>
-        <div data-ng-if="isVideo(mediaElement.value.MimeType)">
+        <div data-ng-if="isVideo(mediaElement)">
             <video width="100%" controls>
-                <source ng-src="{{ mediaElement | mediaFile }}" type="{{ mediaElement.value.MimeType }}">
+                <source ng-src="{{ mediaElement | mediaFile }}" type="{{ mediaElement | mediaMimeType }}">
             </video>
         </div>
-        <div data-ng-if="isPdf(mediaElement.value.MimeType)">
+        <div data-ng-if="isPdf(mediaElement)">
             <div class="row">
                 <div class="btn-group pdf-controls" ng-show="totalPages > 1">
                     <button class="btn btn-small" ng-click="gotoPage(1)"><i class="icon-fast-backward"></i></button>
@@ -24,22 +24,22 @@
         </div>
 </div>
 <div data-ng-if="mediaElements.length > 1">
-    <div ng-if="!isPdf(mediaElements[0].value.MimeType)">
+    <div ng-if="!isPdf(mediaElements[0])">
         <carousel>
             <slide ng-repeat="file in mediaElements">
-                <div data-ng-if="isImage(file.value.MimeType)">
+                <div data-ng-if="isImage(file)">
                     <img data-ng-src="{{ file | mediaFile }}"/>
                 </div>
-                <div data-ng-if="isVideo(file.value.MimeType)">
+                <div data-ng-if="isVideo(file)">
                     <video width="100%" controls>
-                        <source ng-src="{{ file | mediaFile }}" type="{{ file.value.MimeType }}">
+                        <source ng-src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
                     </video>
                 </div>
             </slide>
         </carousel>
     </div>
 
-    <div ng-if="isPdf(mediaFiles[0].value.MimeType)">
+    <div ng-if="isPdf(mediaFiles[0])">
         <div class="alert alert-warning">
             <strong>Attention!</strong> Currently multiple pdf files cannot be displayed in this view
         </div>

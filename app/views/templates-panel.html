@@ -92,7 +92,7 @@
             <div ng-show="el.value" class="media">
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
-                    <div class="mime">{{ el.value.MimeType }}</div>
+                    <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
                 <div class="media-controls">
                     <!--<button ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >-->
@@ -113,7 +113,7 @@
                 </div>
                 <div ng-show="el.value" class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" />
-                    <div class="mime">{{ el.value.MimeType }}</div>
+                    <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                                      ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
                                      ng-click="selectMedia(entry)"/>
                             </div>
-                            <div class="mime">{{ entry.Body.MimeType }}</div>
+                            <div class="mime">{{ entry | mediaMimeType }}</div>
                         </li>
                     </ul>
                 </div>

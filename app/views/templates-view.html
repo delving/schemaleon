@@ -29,11 +29,11 @@
 <script type="text/ng-template" id="view-media.html">
     <label class="label">{{el.name}}:</label><br/>
     <span class="data">
-        <span ng-show="isImage(el.value.MimeType)">
+        <span ng-show="isImage(el)">
             <img ng-src="{{ el | mediaFile }}" alt="{{ el.name }}"/>
         </span>
-        <span ng-show="isVideo(el.value.MimeType)">
-            <video type="{{el.value.MimeType" src="{{ el | mediaFile }}" controls width="100%"/>
+        <span ng-show="isVideo(el)">
+            <video type="{{el | mediaMimeType }}" src="{{ el | mediaFile }}" controls width="100%"/>
         </span>
     </span>
 

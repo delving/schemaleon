@@ -100,6 +100,7 @@ module.exports.getExtensionFromMimeType = function(mimeType) {
     var extension;
     switch (mimeType) {
         case 'image/jpeg':
+        case 'image/jpg': // todo: from Sjoerd's import
             extension = '.jpg';
             break;
         case 'image/png':

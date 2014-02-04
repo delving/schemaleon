@@ -266,6 +266,7 @@ OSCR.controller(
             var extension;
             switch (mimeType) {
                 case 'image/jpeg':
+                case 'image/jpg': // todo: from Sjoerd's import
                     extension = '.jpg';
                     break;
                 case 'image/png':
@@ -343,15 +344,35 @@ OSCR.controller(
             return nameProper;
         };
 
-        $rootScope.isImage = function(mime) {
+        $rootScope.extractMimeType = function(source) {
+            var mime = '';
+            if (source) {
+                if (source.value) {
+                    mime = source.value.MimeType;
+                }
+                else if (source.Body && source.Body.MediaMetadata) {
+                    mime = source.Body.MediaMetadata.MimeType;
+                }
+                else if (_.isString(source)) {
+                    mime = source;
+                }
+            }
+            console.log('extractedMimeType=' + mime, source);
+            return mime;
+        };
+
+        $rootScope.isImage = function(source) {
+            var mime = $rootScope.extractMimeType(source);
             return (mime && mime.indexOf('image') >= 0);
         };
 
-        $rootScope.isVideo = function (mime) {
+        $rootScope.isVideo = function (source) {
+            var mime = $rootScope.extractMimeType(source);
             return (mime && mime.indexOf('video') >= 0);
         };
 
-        $rootScope.isPdf = function (mime) {
+        $rootScope.isPdf = function (source) {
+            var mime = $rootScope.extractMimeType(source);
             return (mime && mime.indexOf('pdf') >= 0);
         };
 
@@ -489,6 +510,48 @@ OSCR.filter('mediaFile',
             }
             else if (_.isString(source)) {
                 return '/media/file/' + source;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+// filter either an element or an identifier to pick up a media file
+OSCR.filter('mediaMimeType',
+    function () {
+        return function (source) {
+            if (!source) return '';
+            if (source.value) {
+                return source.value.MimeType;
+            }
+            else if (source.Body) {
+                return source.Body.MediaMetadata.MimeType;
+            }
+            else if (_.isString(source)) {
+                return source;
+            }
+            else {
+                return '';
+            }
+        };
+    }
+);
+
+// filter either an element or an identifier to pick up a media file
+OSCR.filter('mediaFileName',
+    function () {
+        return function (source) {
+            if (!source) return '';
+            if (source.value) {
+                return source.value.FileName;
+            }
+            else if (source.Body) {
+                return source.Body.MediaMetadata.FileName;
+            }
+            else if (_.isString(source)) {
+                return source;
             }
             else {
                 return '';

@@ -102,14 +102,14 @@
             <div ng-show="el.value" class="media">
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
-                    <div class="mime">{{ el.value.MimeType }}</div>
+                    <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
                 <div class="media-controls">
                     <button tooltip-placement="bottom" tooltip="Click to edit" ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >
                         <i class="icon-edit"></i>
                         <span class="i18n"></span>
                     </button>
-                    <button ng-show="isVideo(el.value.MimeType)" class="btn btn-small" ng-click="openVideoPreview(el.value.FileName)" i18n="PreviewVideo" >
+                    <button ng-show="isVideo(el)" class="btn btn-small" ng-click="openVideoPreview(el)" i18n="PreviewVideo" >
                         <i class="icon icon-film"></i>
                         <span class="i18n"></span>
                     </button>
@@ -136,7 +136,7 @@
                                      ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
                                      ng-click="selectMedia(entry)"/>
                             </div>
-                            <div class="mime">{{ entry.Body.MimeType }}</div>
+                            <div class="mime">{{ entry | mediaMimeType }}</div>
                         </li>
                     </ul>
                 </div>
