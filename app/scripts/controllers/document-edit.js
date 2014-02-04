@@ -31,8 +31,11 @@ OSCR.controller(
 
         // some things for display
         $scope.headerDisplay = '';
-        $scope.groupName = $rootScope.getGroupName($scope.groupIdentifier);
         $scope.header = {};
+
+        $rootScope.getGroupName($scope.groupIdentifier).then(function(groupName){
+            $scope.groupName = groupName;
+        });
 
         // re-internationalize the tree if the language changes
         $scope.$watch('i18n', function (i18n) {
