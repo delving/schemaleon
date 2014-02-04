@@ -35,14 +35,30 @@ OSCR.controller(
         $scope.roles = _.map(Person.roles, function (role) {
             return { name: role }
         });
+        $scope.membership = $rootScope.user.Membership;
 
-        function getAllGroups() {
-            Person.getAllGroups(function (list) {
-                $scope.groupList = list;
+        $scope.populateGroup = function (group) {
+            Person.getUsersInGroup(group.Identifier, function (list) {
+                // todo: UserList should not start with a capital
+                $scope.selectedGroup.UserList = list;
             });
-        }
+            $scope.selectedGroup.Identifier = group.Identifier;
+            $scope.selectedGroup.Name = group.Name;
+        };
 
-        getAllGroups();
+        if ($scope.membership.Role == $scope.administratorRole) {
+            if ($scope.membership.GroupIdentifier == 'OSCR') {
+                Person.getAllGroups(function (list) {
+                    $scope.groupList = list;
+                });
+            }
+            else {
+                Person.getGroup($scope.membership.GroupIdentifier, function(group) {
+                    console.log("group", group);
+                    $scope.populateGroup(group);
+                })
+            }
+        }
 
         $('#dd-group-select').on('change', function () {
             var group = JSON.parse($(this).val());
@@ -54,15 +70,6 @@ OSCR.controller(
             var m = $rootScope.user.Membership;
             if (m.GroupIdentifier == 'OSCR' && m.Role == $scope.administratorRole) return true; // gods
             return m.GroupIdentifer == groupIdentifier && m.Role == $scope.administratorRole;
-        };
-
-        $scope.populateGroup = function (group) {
-            Person.getUsersInGroup(group.Identifier, function (list) {
-                // todo: UserList should not start with a capital
-                $scope.selectedGroup.UserList = list;
-            });
-            $scope.selectedGroup.Identifier = group.Identifier;
-            $scope.selectedGroup.Name = group.Name;
         };
 
         $scope.typeAheadUsers = function (query, onlyOrphans) {
@@ -83,12 +90,17 @@ OSCR.controller(
             return deferred.promise;
         };
 
+        $scope.typeAheadGroups = function (query) {
+            var deferred = $q.defer();
+            Person.selectGroups(query, function (list) {
+                deferred.resolve(list);
+            });
+            return deferred.promise;
+        };
+
         $scope.selectGroupFromUser = function(user) {
-//            console.log("groupFindUser", user.Membership.GroupIdentifier);
             Person.getGroup(user.Membership.GroupIdentifier, function(group) {
-                // todo: get groups should extract the group, look for all usages
-//                console.log("group", group.Group);
-                $scope.populateGroup(group.Group);
+                $scope.populateGroup(group);
             });
         };
 
@@ -156,7 +168,9 @@ OSCR.controller(
                     $scope.groupCreated = false;
                     $scope.creatingGroup = false;
                 }, 4000);
-                getAllGroups();
+                Person.getAllGroups(function (list) {
+                    $scope.groupList = list;
+                });
             });
         };
 

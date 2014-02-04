@@ -75,12 +75,15 @@
 
                     </ul>
 
-                    <ul class="nav" id="user-controls" ng-show="user.god">
+                    <ul class="nav" id="user-controls" ng-show="user.Membership.Role == 'Administrator'">
                         <li>
-                            <a href ng-click="choosePath('/people')">
-                                <i class="icon icon-white icon-users"></i> <span>Manage groups & users</span>
+                            <a href ng-click="choosePath('/people')" i18n="GroupManagement">
+                                <i class="icon icon-white icon-users"></i> <span class="i18n"/>
                             </a>
                         </li>
+                    </ul>
+
+                    <ul class="nav" id="god-controls" ng-show="user.god">
                         <li>
                             <a href="/snapshot">
                                 <i class="icon icon-white icon-briefcase"></i> <span>Get Snapshot</span>

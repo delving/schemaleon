@@ -198,7 +198,7 @@ OSCR.controller(
                         break;
                 }
                 Person.getGroup(user.Membership.GroupIdentifier, function (group) {
-                    user.group = group.Group;
+                    user.group = group;
                     user.groupLabel = user.group.Name + ' (' + user.Membership.Role + ')';
                 });
             }
@@ -386,7 +386,7 @@ OSCR.controller(
             var deferred = $q.defer();
             if (groupIdentifier) {
                 Person.getGroup(groupIdentifier, function (group) {
-                    deferred.resolve(group.Group.Name);
+                    deferred.resolve(group.Name);
                 });
             }
             else {

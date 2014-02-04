@@ -4,7 +4,7 @@
         <h1 i18n="People"><span class="i18n"/></h1>
     </div>
 
-    <div class="navbar" data-private="canUserAdministrate('OSCR')">
+    <div class="navbar" data-private="user.god">
         <div class="navbar-inner">
             <div class="controls">
                 <form class="navbar-form form-inline form-group-select pull-left">
@@ -15,6 +15,9 @@
                             <option>------------------------------------------------------</option>
                             <option data-ng-repeat="group in groupList" value="{{ group }}">{{ group.Name }}</option>
                         </select>
+                        <!--<input id="cai" type="text" ng-model="sle" class="input-large"-->
+                               <!--typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"-->
+                               <!--typeahead-on-select="selectGroupFromUser(groupFindUser)"/>-->
                     </div>
 
                     <div class="input-prepend">

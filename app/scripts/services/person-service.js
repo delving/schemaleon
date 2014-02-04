@@ -59,7 +59,7 @@ angular.module('OSCR').service(
 
         this.getGroup = function (identifier, accept) {
             $http.get('/person/group/fetch/' + identifier).success(function (xml) {
-                accept(xmlToObject(xml));
+                accept(xmlToObject(xml).Group);
             });
         };
 

@@ -40,7 +40,7 @@ OSCR.controller(
                     Person.getGroup(groupIdentifier, function(group) {
                         _.each(headerList, function(header) {
                             if (groupIdentifier == header.GroupIdentifier) {
-                                header.group = group.Group;
+                                header.group = group;
                             }
                         });
                     });

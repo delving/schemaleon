@@ -29,7 +29,7 @@ OSCR.controller(
             $scope.userView = user;
             if (user.Membership) {
                 Person.getGroup(user.Membership.GroupIdentifier, function (group) {
-                    user.group = group.Group;
+                    user.group = group;
                 });
             }
         });
