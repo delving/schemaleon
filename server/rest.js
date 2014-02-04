@@ -396,7 +396,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/snapshot/:fileName', function (req, res) {
-        storage.snapshotCreate(function (localFile) {
+        storage.ETC.snapshotCreate(function (localFile) {
             console.log("sending " + localFile);
             res.sendfile(localFile);
         });
@@ -423,7 +423,7 @@ Storage('oscr', homeDir, function (storage) {
                 storage.ETC.loadBootstrapData();
                 break;
             default :
-                answer = 'Did not understand';
+                answer = 'Did not understand: bootstrap, primary-new, primary-replace';
                 break;
         }
         res.send(answer);

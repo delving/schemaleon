@@ -250,10 +250,6 @@ function Storage(home) {
             }
         });
     };
-
-    this.importPrimaryData = function () {
-        // todo: don't do this by default but only on this trigger
-    };
 }
 
 function open(databaseName, homeDir, receiver) {
