@@ -1,7 +1,5 @@
 'use strict';
 
-// todo: this should replace field.js
-
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
@@ -81,17 +79,21 @@ OSCR.controller(
 
 OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
     'MediaElementController',
-    function ($rootScope, $scope, $q, $dialog, $filter) {
+    function ($rootScope, $scope, $q, $modal, $filter) {
         $scope.openVideoPreview = function (elem) {
             $scope.videoFile = '';
             var videoMime = elem.value.MimeType;
             $scope.videoFile = $filter('mediaFile')(elem);
             $scope.$watch('videoFile', function () {
-                var dialog = $dialog.dialog({
+                var modal = $modal.open({
                     dialogFade: true,
                     backdrop: true,
                     fadeBackdrop: true,
-                    controller: 'previewDialogController',
+                    controller: function($scope, $modalInstance) {
+                        $scope.close = function () {
+                            $modalInstance.close();
+                        };
+                    },
                     template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
                         '<div class="modal-body">' +
                         '<video width="320" height="240" controls autoplay="true">' +
@@ -102,7 +104,7 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
                         '</div>'
                 });
                 if (!$rootScope.config.showTranslationEditor) {
-                    dialog.open();
+                    modal.open();
                 }
             });
         };
@@ -114,15 +116,9 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
     }
 );
 
-function previewDialogController($scope, dialog) {
-    $scope.close = function () {
-        dialog.close();
-    };
-}
-
 OSCR.controller(
     'MediaSearchController',
-    function ($rootScope, $scope, $q, $dialog, Document) {
+    function ($rootScope, $scope, $q, Document) {
         $scope.el = $scope.panel.element;
         if (!$scope.el.config.media) {
             console.warn("MediaSearchController with no config media");

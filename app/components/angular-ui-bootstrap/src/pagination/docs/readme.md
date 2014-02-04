@@ -5,17 +5,25 @@ A lightweight pagination directive that is focused on ... providing pagination &
 
 Settings can be provided as attributes in the `<pagination>` or globally configured through the `paginationConfig`.
 
- * `num-pages` <i class="icon-eye-open"></i>
+ * `page` <i class="glyphicon glyphicon-eye-open"></i>
  	:
- 	Number of total pages.
+ 	Current page number. First page is 1.
 
- * `current-page` <i class="icon-eye-open"></i>
+ * `total-items` <i class="glyphicon glyphicon-eye-open"></i>
  	:
- 	Current page number.
+ 	Total number of items in all pages.
 
- * `max-size` <i class="icon-eye-open"></i>
+ * `items-per-page` <i class="glyphicon glyphicon-eye-open"></i>
+ 	_(Defaults: 10)_ :
+ 	Maximum number of items per page. A value less than one indicates all items on one page.
+
+ * `max-size` <i class="glyphicon glyphicon-eye-open"></i>
  	_(Defaults: null)_ :
  	Limit number for pagination size.
+
+ * `num-pages` <small class="badge">readonly</small>
+ 	_(Defaults: angular.noop)_ :
+ 	An optional expression assigned the total number of pages to display.
 
  * `rotate`
  	_(Defaults: true)_ :
@@ -52,7 +60,7 @@ Settings can be provided as attributes in the `<pagination>` or globally configu
 ### Pager Settings ###
 
 Settings can be provided as attributes in the `<pager>` or globally configured through the `pagerConfig`.  
-For `num-pages`,  `current-page` and `on-select-page (page)` see pagination settings. Other settings are:
+For `page`, `total-items`, `items-per-page`, `num-pages` and `on-select-page (page)` see pagination settings. Other settings are:
 
  * `align`
  	_(Default: true)_ :
