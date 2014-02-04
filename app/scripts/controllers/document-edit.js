@@ -524,6 +524,8 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
 
         $scope.mediaFiles = getMediaFiles();
 
+        $('video,audio').mediaelementplayer();
+
         // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
         // hence this controller must always be nested inside of that in the html
         $scope.pdfFiles = [];
@@ -533,6 +535,8 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
             }
         });
     });
+
+
 
     $scope.filterNonMedia = function(elementList) {
         return _.filter(elementList, function(element) {
