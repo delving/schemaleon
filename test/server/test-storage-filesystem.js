@@ -9,7 +9,7 @@ var fileSystem = new FileSystem('/tmp');
 var groupFileSystem = fileSystem.forGroup("groupie");
 var targetIdentifier = '685afa53c36d34768fe0a18980efea58';
 
-var testImage = path.join('test', 'server', 'theteam.jpg');
+var testImage = path.join('test', 'server', 'the-team.JPG');
 
 exports.testRegex = function (test) {
     test.expect(3);

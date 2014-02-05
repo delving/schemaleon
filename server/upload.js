@@ -246,7 +246,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('progress',
             function (bytesReceived, bytesExpected) {
-                console.log('progress ', bytesReceived, bytesExpected);
                 if (bytesReceived > options.maxPostSize) {
                     console.log('DESTROY');
                     handler.req.connection.destroy();

@@ -63,10 +63,10 @@ function envelope(header, body) {
 
 exports.testImageIngestion = function (test) {
     test.expect(5);
-    var fileName = 'theteam.jpg';
+    var fileName = 'the-team.JPG';
     var sourceDir = path.join('test', 'server');
     var mediaFile = path.join(sourceDir, fileName);
-    var thumbnailFile = path.join(sourceDir, 'theteam-thumb.jpg');
+    var thumbnailFile = path.join(sourceDir, 'the-team-thumb.JPG');
     copyFile(mediaFile, path.join(groupFileSystem.mediaUploadDir, fileName), function () {
         copyFile(thumbnailFile, path.join(groupFileSystem.mediaThumbnailDir, fileName), function () {
             var header = {

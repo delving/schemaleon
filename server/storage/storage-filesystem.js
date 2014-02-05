@@ -109,7 +109,7 @@ function FileSystem(home) {
                 callback(null, null, 'File name extract mismatch: ' + sourcePath);
             }
             else {
-                var fileName = targetFileName || fileExtract[1];
+                var fileName = (targetFileName || fileExtract[1]).toLowerCase();
                 var fileNameMatch = fileSplitRegExp.exec(fileName);
                 if (!fileNameMatch) {
                     callback(null, null, 'File name split mismatch: '+fileName);
