@@ -1,7 +1,6 @@
 <div class="page-header">
     <h1 i18n="Login"></h1>
 </div>
-
 <table cellpadding="6">
     <tr>
         <th><span i18n="Username"></span></th>
@@ -18,12 +17,10 @@
     <tr>
         <td></td>
         <td align="right">
+            <div class="alert alert-danger" ng-if="loginFailed">
+                <span i18n="LoginFailed"></span>
+            </div>
             <button class="btn" ng-click="login(username, password)" id="login" name="login"><span i18n="Login"></span></button>
-        </td>
-    </tr>
-    <tr ng-show="loginFailed">
-        <td>
-            <span i18n="LoginFailed"></span>
         </td>
     </tr>
 </table>

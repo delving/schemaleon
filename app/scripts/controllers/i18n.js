@@ -115,7 +115,7 @@ OSCR.filter(
 
 OSCR.controller(
     'I18NController',
-        function ($rootScope, $scope, $dialog, $window, I18N) {
+        function ($rootScope, $scope, $modal, $window, I18N) {
 
 //            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
 
@@ -124,10 +124,16 @@ OSCR.controller(
             });
 
             $scope.openLabelDialog = function (keyHolder) {
-//                console.log('openLabelDialog'); // todo
-//                console.log(keyHolder);// todo
-                var dialog = $dialog.dialog({
-                    controller: 'LabelDialogController',
+                var modal = $modal.open({
+                    controller: function ($scope, $modalInstance, I18N, key) {
+                        $scope.key = key;
+                        if (I18N.isReady()) {
+                            $scope.label = I18N.label(key);
+                        }
+                        $scope.close = function (label) {
+                            $modalInstance.close({ label: label, key: $scope.key });
+                        };
+                    },
                     dialogFade: true,
                     backdrop: true,
                     fadeBackdrop: true,
@@ -147,7 +153,7 @@ OSCR.controller(
                         '</div>'
 
                 });
-                dialog.open().then(function (labelEntry) {
+                modal.result.then(function (labelEntry) {
                     if (labelEntry && labelEntry.label) {
                         I18N.setLabel(labelEntry.key, labelEntry.label);
                     }
@@ -155,15 +161,23 @@ OSCR.controller(
             };
 
             $scope.openTitleDialog = function (element) {
-                var dialog = $dialog.dialog({
-                    controller: 'TitleDialogController',
+                var modal = $modal.open({
+                    controller: function ($scope, $modalInstance, element) {
+                        $scope.element = element;
+                        $scope.title = element.title;
+                        $scope.close = function (result) {
+                            $modalInstance.close(result);
+                        };
+                    },
                     dialogFade: true,
                     backdrop: true,
                     fadeBackdrop: true,
                     keyboard: true,
-                    resolve: { element: function () {
-                        return element;
-                    } },
+                    resolve: {
+                        element: function () {
+                            return element;
+                        }
+                    },
                     template: '<div class="modal-header"><h3>Title</h3></div>' +
                         '<div class="modal-body">' +
                         'Translate &quot;<span>{{ element.name }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
@@ -174,7 +188,8 @@ OSCR.controller(
                         '</div>'
 
                 });
-                dialog.open().then(function (title) {
+
+                modal.result.then(function (title) {
                     if (title) {
                         element.title = title;
                         I18N.setTitle(element.name, title);
@@ -183,15 +198,23 @@ OSCR.controller(
             };
 
             $scope.openDocDialog = function (element) {
-                var dialog = $dialog.dialog({
-                    controller: 'DocDialogController',
+                var modal = $modal.open({
+                    controller: function DocDialogController($scope, $modalInstance, element) {
+                        $scope.element = element;
+                        $scope.doc = element.doc;
+                        $scope.close = function (result) {
+                            modal.close(result);
+                        };
+                    },
                     dialogFade: true,
                     backdrop: true,
                     fadeBackdrop: true,
                     keyboard: true,
-                    resolve: { element: function () {
-                        return element;
-                    } },
+                    resolve: {
+                        element: function () {
+                            return element;
+                        }
+                    },
                     template: '<div class="modal-header"><h3>Explanation</h3></div>' +
                         '<div class="modal-body">' +
                         'Explain &quot;<span>{{ element.name }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
@@ -203,7 +226,7 @@ OSCR.controller(
                         '</div>'
 
                 });
-                dialog.open().then(function (doc) {
+                modal.result.then(function (doc) {
                     if (doc) {
                         element.doc = doc;
                         I18N.setDoc(element.name, doc);
@@ -213,30 +236,6 @@ OSCR.controller(
         }
 );
 
-function LabelDialogController($scope, I18N, dialog, key) {
-    $scope.key = key;
-    if (I18N.isReady()) {
-        $scope.label = I18N.label(key);
-    }
-//    console.log("Key=" + key); // todo
-    $scope.close = function (label) {
-        dialog.close({ label: label, key: $scope.key });
-    };
-}
 
-function TitleDialogController($scope, dialog, element) {
-    $scope.element = element;
-    $scope.title = element.title;
-    $scope.close = function (result) {
-        dialog.close(result);
-    };
-}
 
-function DocDialogController($scope, dialog, element) {
-    $scope.element = element;
-    $scope.doc = element.doc;
-    $scope.close = function (result) {
-        dialog.close(result);
-    };
-}
 

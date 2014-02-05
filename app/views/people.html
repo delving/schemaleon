@@ -11,14 +11,14 @@
 
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-users"></i> <label i18n="FindGroup"><span class="i18n"/></label></span>
-                        <input id="cai" type="text" ng-model="groupChoice" class="input-xxlarge"
+                        <input id="cai" type="text" ng-model="groupChoice" class="input-large"
                                typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"
                                typeahead-on-select="selectGroup(groupChoice)"/>
                     </div>
 
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-user"></i> <label i18n="FindUser"><span class="i18n"/></label></span>
-                        <input id="cau" type="text" ng-model="groupFindUser" class="input-xlarge"
+                        <input id="cau" type="text" ng-model="groupFindUser" class="input-large"
                                typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"
                                typeahead-on-select="selectGroupFromUser(groupFindUser)"/>
                     </div>

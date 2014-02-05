@@ -7,11 +7,17 @@
 
     <div class="navbar navbar-list">
         <div class="navbar-inner">
-            <form class="navbar-form pull-left form-inline">
+            <!--<form class="navbar-form pull-left form-inline">-->
+                <!--<div class="input-prepend input-append">-->
+                    <!--<span class="add-on" i18n="Search"><span class="i18n"></span></span>-->
+                    <!--<input type="text" ng-model="searchString">-->
+                    <!--<button class="btn" type="reset" ng-click="searchString = ''"><i class="icon-ban-circle "></i> </button>-->
+                <!--</div>-->
+            <!--</form>-->
+            <form ng-submit="doPublicSearch(searchString)" class="navbar-form pull-left form-inline">
                 <div class="input-prepend input-append">
-                    <span class="add-on" i18n="Search"><span class="i18n"></span></span>
-                    <input type="text" ng-model="searchString">
-                    <button class="btn" type="reset" ng-click="searchString = ''"><i class="icon-ban-circle "></i> </button>
+                    <input type="text" ng-model="searchString"/>
+                    <button class="btn" type="submit" ng-click="doDocumentSearch(searchString)"><i class="icon-search "></i> </button>
                 </div>
             </form>
             <span class="controls pull-right" i18n="NewDocument" ng-hide="user.viewer">

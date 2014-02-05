@@ -48,13 +48,16 @@ OSCR.controller(
             });
         }
 
-        $scope.$watch('searchString', function(searchString, oldSearchString) {
+        // initialize the document list with results
+        searchDocuments();
+
+        $scope.doDocumentSearch = function (searchString) {
             $scope.searchParams.searchQuery = searchString;
             $scope.searchParams.startIndex = 1;
             $scope.searchParams.maxResults = $scope.defaultMaxResults;
             $scope.expectedListLength = $scope.defaultMaxResults;
             searchDocuments();
-        });
+        };
 
         $scope.couldBeMoreResults = function() {
             return $scope.headerList.length == $scope.expectedListLength;

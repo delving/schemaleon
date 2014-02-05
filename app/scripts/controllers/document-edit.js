@@ -31,8 +31,11 @@ OSCR.controller(
 
         // some things for display
         $scope.headerDisplay = '';
-        $scope.groupName = $rootScope.getGroupName($scope.groupIdentifier);
         $scope.header = {};
+
+        $rootScope.getGroupName($scope.groupIdentifier).then(function(groupName){
+            $scope.groupName = groupName;
+        });
 
         // re-internationalize the tree if the language changes
         $scope.$watch('i18n', function (i18n) {
@@ -168,7 +171,7 @@ OSCR.controller(
 
         $scope.activeTab = "novice";
 
-        if($rootScope.user.viewer) {
+        if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
         }
 
@@ -198,21 +201,26 @@ OSCR.controller(
         $scope.headerDocumentState = null;
         $scope.saveSuccess = false;
 
+        function setDocumentDirty(dirty) {
+            $scope.documentDirty = dirty;
+            $rootScope.disableChoosePath = dirty;
+        }
+
         function freezeTree() {
             if (!$scope.tree) return;
             $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
-            $scope.documentDirty = false;
+            setDocumentDirty(false);
             $scope.headerDocumentState = null;
         }
 
         function checkTreeDirty() {
             if (!$scope.tree) return;
             if ($scope.headerDocumentState && $scope.headerDocumentState != $scope.header.DocumentState) {
-                $scope.documentDirty = true;
+                setDocumentDirty(true);
                 return;
             }
             var json = JSON.stringify(treeToObject($scope.tree), null, 4);
-            $scope.documentDirty = json != $scope.documentJSON;
+            setDocumentDirty(json != $scope.documentJSON);
             if ($scope.documentDirty) {
                 $scope.time = updateTimeString($scope.header.TimeStamp);
             }
@@ -238,7 +246,7 @@ OSCR.controller(
         };
 
         // If the user has role:Viewer then don't show the doc edit form, but only the preview
-        if ($rootScope.user.viewer) {
+        if ($rootScope.user && $rootScope.user.viewer) {
             // todo: they should not even see edit
             // todo: and viewer should be normal, editor should be special.  the boolean should give them permission.
             $scope.activeTab = "view";
@@ -270,6 +278,7 @@ OSCR.controller(
         $scope.saveDocument = function () {
             console.log("saveDocument", $scope.header);
             collectSummaryFields($scope.tree, $scope.header);
+            $scope.header.DocumentState = $scope.headerDocumentState || $scope.header.DocumentState;
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
@@ -505,31 +514,41 @@ OSCR.directive('documentNavigation', function () {
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
-OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf) {
+OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf, $timeout) {
 
-    var getMediaFiles, pdfViewer;
+    var pdfViewer;
 
     $scope.$watch("tree", function(tree, oldTree) {
         // collect an array of only the media elements
         $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-        // collect an array of only the media files
-        getMediaFiles = function() {
-            return _.map($scope.mediaElements, function(el){
-                return el;
-            });
-        };
 
-        $scope.mediaFiles = getMediaFiles();
+        if($scope.mediaElements.length === 1) {
+            $scope.mediaElement = $scope.mediaElements[0];
+        }
+        else {
+            $scope.mediaElement = null;
+        }
+        $scope.$watch('mediaElements',function(){
+            $('video,audio').mediaelementplayer();
+        });
 
         // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
         // hence this controller must always be nested inside of that in the html
         $scope.pdfFiles = [];
-        _.each($scope.mediaFiles, function(file){
-            if(file.value && $rootScope.isPdf(file.value.MimeType)){
+        _.each($scope.mediaElements, function(file){
+            if (file.value && $rootScope.isPdf(file)) {
                 $scope.pdfFiles.push(file);
             }
         });
     });
+
+
+
+//            $timeout(function(){
+//            $('video,audio').mediaelementplayer();
+//        },1000);
+
+
 
     $scope.filterNonMedia = function(elementList) {
         return _.filter(elementList, function(element) {

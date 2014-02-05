@@ -105,7 +105,7 @@ ul.thumbnails {
   }
   .thumbnail {
     background: @white;
-    height: auto;
+    min-height:80px;
     img {
       height: 65px;
       width:auto;
@@ -127,6 +127,12 @@ ul.thumbnails {
   }
   li:hover .thumbnail {
     background: @grayLighter;
+  }
+}
+
+@media (max-width: 1450px) {
+  ul.thumbnails {
+    font-size: smaller;
   }
 }
 
@@ -478,7 +484,7 @@ ol.striped {
 ul.main-menu {
   background: @grayLight;
   border-radius: @br-med;
-  padding-left: 20px;
+  padding-left: 8px;
   padding-top: @baseLineHeight;
   padding-bottom: @baseLineHeight*1.5;
  &.nav-pills > li > a {
@@ -490,7 +496,7 @@ ul.main-menu {
   &> li > a {
     color: @black;
     .icon {
-      margin: 0 10px 0 0;
+      margin: 0 4px 0 0;
     }
   }
   &> .active > a,
@@ -506,9 +512,8 @@ ul.main-menu {
     background: @gray;
     .border-radius(10px 10px 0 0);
 
-    font-size: smaller;
     padding: 8px;
-    margin: -20px 0 10px -20px;
+    margin: -20px 0 10px -8px;
     a {
       color: @grayDarker;
       &:hover {
@@ -525,11 +530,14 @@ ul.main-menu {
     img {
       .border-radius(10px);
     }
-    .label {
-      .opacity(70);
-    }
   }
 }
+//
+//@media screen and (min-width : 1224px) and (max-width: 1450px) {
+//  ul.main-menu {
+//    font-size: smaller;
+//  }
+//}
 
 
 .pointer {
@@ -747,52 +755,52 @@ form#fileupload {
 
 /* ACCORDION */
 
-.accordion-group {
-  background: @white;
-}
-
-.accordion-heading .accordion-toggle {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.action-accordion {
-
-  .accordion-group {
-    background: @white;
-    margin-bottom: 0px;
-    .border-radius(0px);
-    &:first-of-type {
-      .border-top-radius(@br-small);
-    }
-    &:last-of-type {
-      .border-bottom-radius(@br-small);
-    }
-    .accordion-inner {
-      border-top: 1px solid @grayLighter;
-    }
-  }
-
-  .accordion-heading {
-    .accordion-toggle {
-      padding: 0;
-      font-weight: bold;
-      span {
-        display: block;
-        padding: 8px 15px;
-      }
-    }
-  }
-
-  .accordion-inner {
-    border-top: 1px solid @grayLighter;
-    padding: 0px;
-    .table-bordered {
-      .border-radius(0) !important;
-    }
-  }
-
-}
+//.accordion-group {
+//  background: @white;
+//}
+//
+//.accordion-heading .accordion-toggle {
+//  padding-top: 0;
+//  padding-bottom: 0;
+//}
+//
+//.action-accordion {
+//
+//  .accordion-group {
+//    background: @white;
+//    margin-bottom: 0px;
+//    .border-radius(0px);
+//    &:first-of-type {
+//      .border-top-radius(@br-small);
+//    }
+//    &:last-of-type {
+//      .border-bottom-radius(@br-small);
+//    }
+//    .accordion-inner {
+//      border-top: 1px solid @grayLighter;
+//    }
+//  }
+//
+//  .accordion-heading {
+//    .accordion-toggle {
+//      padding: 0;
+//      font-weight: bold;
+//      span {
+//        display: block;
+//        padding: 8px 15px;
+//      }
+//    }
+//  }
+//
+//  .accordion-inner {
+//    border-top: 1px solid @grayLighter;
+//    padding: 0px;
+//    .table-bordered {
+//      .border-radius(0) !important;
+//    }
+//  }
+//
+//}
 
 .label {
   &.Member {
@@ -1019,10 +1027,28 @@ label {
 /* CAROUSEL */
 
 .carousel-indicators {
+  position: static;
+  text-align: center;
   background: @grayDark;
   .border-radius(4px);
   border: 1px solid @grayLight;
   padding: 10px;
+  margin: 0 0px 8px 0px;
+  height: 18px;
+  li{
+    margin: 4px;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  li:first-of-type {
+    margin-left: 100px;
+  }
+}
+
+.carousel-control {
+  margin-top: 0px;
+  top: 0px;
 }
 
 .link-facts {
@@ -1034,6 +1060,10 @@ label {
   .key {
     color: @grayLight;
   }
+}
+
+.break-word {
+  word-wrap: break-word;
 }
 
 

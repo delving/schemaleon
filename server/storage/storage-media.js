@@ -21,8 +21,8 @@ P.saveMedia = function (header, body, receiver) {
     console.log('saveMedia', header, body);
     var s = this.storage;
     var groupFileSystem = s.FileSystem.forGroup(header.GroupIdentifier);
-    var mediaPath = path.join(groupFileSystem.mediaUploadDir, body.OriginalFileName);
-    var thumbnailPath = path.join(groupFileSystem.mediaThumbnailDir, util.thumbNameProper(body.OriginalFileName));
+    var mediaPath = path.join(groupFileSystem.mediaUploadDir, body.MediaMetadata.OriginalFileName);
+    var thumbnailPath = path.join(groupFileSystem.mediaThumbnailDir, util.thumbNameProper(body.MediaMetadata.OriginalFileName));
     if (!fs.existsSync(mediaPath)) {
         receiver(null, null, 'Missing a media file: ' + mediaPath);
     }

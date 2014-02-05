@@ -18,7 +18,7 @@ angular.module('plunker', [])
           '    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/'+ngVersion+'/angular.js"></script>\n' +
           '    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-'+version+'.js"></script>\n' +
           '    <script src="example.js"></script>\n' +
-          '    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/'+bsVersion+'/css/bootstrap-combined.min.css" rel="stylesheet">\n' +
+          '    <link href="//netdna.bootstrapcdn.com/bootstrap/'+bsVersion+'/css/bootstrap.min.css" rel="stylesheet">\n' +
           '  </head>\n' +
           '  <body>\n\n' +
           content + '\n' +
@@ -52,7 +52,7 @@ angular.module('plunker', [])
   .directive('plunkerContent', function () {
     return {
       link:function (scope, element, attrs) {
-        scope.$parent.content[attrs.plunkerContent] = element.text();
+        scope.content[attrs.plunkerContent] = element.text().trim();
       }
     }
   });

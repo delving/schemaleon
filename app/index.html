@@ -96,7 +96,7 @@
                         </li>
                     </ul>
 
-                    <form class="navbar-form pull-right"  ng-show="user">
+                    <form class="navbar-form pull-right">
 
                         <select id="language-select" class="span2"
                                 ng-model="config.interfaceLanguage"
@@ -204,6 +204,10 @@
                     <div ng-include="getInclude()"></div>
                 </div>
                 <div id="mainBody" ng-class="{'span10' : user, 'span12' : !user}">
+                    <div class="alert alert-danger fade-in" data-ng-show="globalError">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ globalError }}
+                    </div>
                     <div ng-view id="view"><!-- Angular views are rendered here --></div>
                 </div>
             </div>
@@ -213,14 +217,15 @@
 <!-- // APPLICATION CONTAINER -->
 
 <!-- build:js scripts/scripts.js -->
- <script src="components/jquery/jquery.min.js"></script>
+<script src="components/jquery/jquery.min.js"></script>
 <script src="components/angular/angular.js"></script>
+<script src="components/angular-route/angular-route.js"></script>
 <script src="components/underscore/underscore.js"></script>
 <script src="components/angular-cookies/angular-cookies.js"></script>
 <script src="components/x2js/xml2json.js"></script>
-<!--todo: note that gerald@delving.eu has modified this file:-->
 <script src="components/bootstrap/js/bootstrap-alert.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="components/media-elements/js/mediaelement-and-player.js"></script>
 <!-- endbuild -->
 
 <script src="components/pdf-viewer/pdf.compat.js"></script>

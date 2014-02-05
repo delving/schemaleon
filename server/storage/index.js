@@ -2,7 +2,6 @@
 
 var _ = require('underscore');
 var fs = require('fs');
-var archiver = require('archiver');
 var path = require('path');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
@@ -15,6 +14,7 @@ var Document = require('./storage-document');
 var Media = require('./storage-media');
 var Log = require('./storage-log');
 var FileSystem = require('./storage-filesystem');
+var ETC = require('./storage-etc');
 var util = require('../util');
 
 function log(message) {
@@ -24,6 +24,7 @@ function log(message) {
 function Storage(home) {
     this.session = new basex.Session();
     this.FileSystem = new FileSystem(home);
+    this.ETC = new ETC(this);
     this.Person = new Person(this);
     this.I18N = new I18N(this);
     this.Vocab = new Vocab(this);
@@ -248,114 +249,6 @@ function Storage(home) {
             }
         });
     };
-
-    // get the statistics for a group, or for primary of all groups
-    this.getStatistics = function (groupIdentifier, receiver) {
-        var s = this;
-        var q = [];
-        q.push("<Statistics>");
-        q.push('  <People>');
-        q.push('    <Person>{ count(' + s.userCollection() + ') }</Person>');
-        q.push('    <Group>{ count(' + s.groupCollection() + ') }</Group>');
-        q.push('  </People>');
-        q.push('  <Shared>');
-        _.each(this.schemaMap.shared, function(schema){
-            q.push('  <Schema>');
-            q.push('    <Name>'+schema+'</Name>');
-            q.push('    <Count>{ count(' + s.dataCollection(schema, null) + ') }</Count>');
-            q.push('  </Schema>');
-        });
-        q.push('  </Shared>');
-        q.push('  <Primary>');
-        _.each(this.schemaMap.primary, function(schema){
-            q.push('  <Schema>');
-            q.push('    <Name>'+schema+'</Name>');
-            q.push('    <Count>{ count(' + s.dataCollection(schema, groupIdentifier) + ') }</Count>');
-            q.push('  </Schema>');
-        });
-        q.push('  </Primary>');
-        q.push('  <AllPrimary>');
-        _.each(this.schemaMap.primary, function(schema){
-            q.push('  <Schema>');
-            q.push('    <Name>'+schema+'</Name>');
-            q.push('    <Count>{ ' + s.dataDocumentCount(schema) + ' }</Count>');
-            q.push('  </Schema>');
-        });
-        q.push('  </AllPrimary>');
-        q.push("</Statistics>");
-        this.query('get statistics', q, receiver);
-    };
-
-    this.snapshotName = function() {
-        var now = new Date();
-        var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +
-            '-' + now.getHours() + '-' + now.getMinutes();
-        return 'OSCR-Snapshot-' + dateString;
-    };
-
-    this.snapshotCreate = function (receiver) {
-        var snapshotDir = this.snapshotName();
-        var exportPath = this.FileSystem.databaseSnapshotDir + '/' + snapshotDir;
-        var zipFile = exportPath + '.zip';
-        this.session.execute('export ' + exportPath, function () {
-            var output = fs.createWriteStream(zipFile);
-            var archive = archiver('zip');
-
-            archive.on('error', function (err) {
-                throw err;
-            });
-            output.on('close', function () {
-                receiver(zipFile);
-            });
-
-            archive.pipe(output);
-
-            function rmdir(dir) {
-                var list = fs.readdirSync(dir);
-                _.each(list, function (entry) {
-                    if (entry[0] != '.') {
-                        var fileName = path.join(dir, entry);
-                        var stat = fs.statSync(fileName);
-                        if (stat.isDirectory()) {
-                            rmdir(fileName);
-                        }
-                        else {
-                            fs.unlinkSync(fileName);
-                        }
-                    }
-                });
-                fs.rmdirSync(dir);
-            }
-
-            function appendToArchive(dir, zipPath) {
-                var list = fs.readdirSync(dir);
-                _.each(list, function (entry) {
-                    if (entry[0] != '.') {
-                        var fileName = path.join(dir, entry);
-                        var stat = fs.statSync(fileName);
-                        var zipFileName = zipPath + '/' + entry;
-                        if (stat.isDirectory()) {
-                            appendToArchive(fileName, zipFileName);
-                        }
-                        else {
-                            archive.append(fs.createReadStream(fileName), { name: zipFileName });
-                        }
-                    }
-                });
-            }
-
-            appendToArchive(exportPath, snapshotDir);
-            rmdir(exportPath);
-
-            archive.finalize(function (err, bytes) {
-                if (err) {
-                    throw err;
-                }
-                console.log(zipFile + ': ' + bytes + ' total bytes');
-            });
-
-        })
-    };
 }
 
 function open(databaseName, homeDir, receiver) {
@@ -364,12 +257,9 @@ function open(databaseName, homeDir, receiver) {
 
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
-        var promise = null;
-        var dataLoadCount = 0;
 
         if (reply.ok) {
             receiver(storage);
-            loadPrimaryData(true); // it's already in the db, so replace
         }
         else {
             storage.session.execute('create db ' + databaseName, function (error, reply) {
@@ -380,8 +270,7 @@ function open(databaseName, homeDir, receiver) {
                         }
                         else {
                             receiver(storage);
-                            loadBootstrapData();
-                            loadPrimaryData(false); // first time
+                            storage.ETC.loadBootstrapData(false);
                         }
                     });
                 }
@@ -392,91 +281,6 @@ function open(databaseName, homeDir, receiver) {
                 }
             });
         }
-
-        if (promise) {
-            promise.then(
-                function () {
-                    console.log('finished loading data');
-                },
-                function (error) {
-                    console.error("problem loading data! " + error);
-                }
-            );
-        }
-
-        // functions used above
-        function loadBootstrapData() {
-            var dataPath = "../oscr-data";
-            if (!fs.existsSync(dataPath)) {
-                throw new Error("Cannot find "+dataPath+" for bootstrapping!");
-            }
-            dataPath = fs.realpathSync(dataPath);
-            loadData(dataPath, '', false);
-            console.log('prepared to load bootstrap data');
-        }
-
-        function loadPrimaryData(replace) {
-            var dataPath = "../oscr-primary-data";
-            if (!fs.existsSync(dataPath)) {
-                console.log("Cannot find " + dataPath + " for loading primary data.  Skipping.");
-            }
-            dataPath = fs.realpathSync(dataPath);
-            loadData(dataPath, '/primary/', replace);
-            console.log('prepared for loading primary data, replace=' + replace);
-        }
-
-        function incrementLoadCount() {
-            dataLoadCount = dataLoadCount + 1;
-            if (dataLoadCount % 100 == 0) {
-                console.log('loaded '+dataLoadCount);
-            }
-        }
-
-        function loadPromise(filePath, docPath, replace) {
-            var deferred = defer();
-            fs.readFile(filePath, 'utf8', function (err, contents) {
-                if (err) console.error(err);
-                if (replace) {
-                    storage.replace(null, docPath, contents, function (results) {
-                        incrementLoadCount();
-//                        console.log('replaced ' + filePath + ' to ' + docPath);
-                        deferred.resolve(results);
-                    });
-                }
-                else {
-                    incrementLoadCount();
-                    storage.add(null, docPath, contents, function (results) {
-//                        console.log('added ' + filePath + ' to ' + docPath);
-                        deferred.resolve(results);
-                    });
-                }
-            });
-            return deferred.promise;
-        }
-
-        function loadData(fsPath, docPath, replace) {
-            var extension = ".xml";
-            _.each(fs.readdirSync(fsPath), function (file) {
-                if (file[0] == '.') return;
-                var fileSystemPath = fsPath + '/' + file;
-                var documentPath = docPath + file;
-                if (fs.statSync(fileSystemPath).isDirectory()) {
-                    loadData(fileSystemPath, documentPath + '/', replace);
-                }
-                else if (file.lastIndexOf(extension) + extension.length == file.length) {
-                    if (promise) {
-                        promise = promise.then(function () {
-                            return loadPromise(fileSystemPath, documentPath, replace);
-                        });
-                    }
-                    else {
-                        promise = loadPromise(fileSystemPath, documentPath, replace);
-                    }
-                }
-            });
-        }
-
-
     });
 }
 

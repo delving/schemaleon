@@ -1,7 +1,5 @@
 'use strict';
 
-// todo: this should replace field.js
-
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
@@ -81,17 +79,21 @@ OSCR.controller(
 
 OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
     'MediaElementController',
-    function ($rootScope, $scope, $q, $dialog, $filter) {
+    function ($rootScope, $scope, $q, $modal, $filter) {
         $scope.openVideoPreview = function (elem) {
             $scope.videoFile = '';
-            var videoMime = elem.value.MimeType;
+            var videoMime = $filter('mediaMimeType')(elem);
             $scope.videoFile = $filter('mediaFile')(elem);
             $scope.$watch('videoFile', function () {
-                var dialog = $dialog.dialog({
+                var modal = $modal.open({
                     dialogFade: true,
                     backdrop: true,
                     fadeBackdrop: true,
-                    controller: 'previewDialogController',
+                    controller: function($scope, $modalInstance) {
+                        $scope.close = function () {
+                            $modalInstance.close();
+                        };
+                    },
                     template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
                         '<div class="modal-body">' +
                         '<video width="320" height="240" controls autoplay="true">' +
@@ -102,7 +104,8 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
                         '</div>'
                 });
                 if (!$rootScope.config.showTranslationEditor) {
-                    dialog.open();
+                    // todo: review this
+                    modal.open();
                 }
             });
         };
@@ -114,15 +117,9 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
     }
 );
 
-function previewDialogController($scope, dialog) {
-    $scope.close = function () {
-        dialog.close();
-    };
-}
-
 OSCR.controller(
     'MediaSearchController',
-    function ($rootScope, $scope, $q, $dialog, Document) {
+    function ($rootScope, $scope, $q, Document) {
         $scope.el = $scope.panel.element;
         if (!$scope.el.config.media) {
             console.warn("MediaSearchController with no config media");
@@ -165,10 +162,10 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             // make a copy of the body and add header things to it
-            var augmentedBody = angular.copy(value.Body);
-            augmentedBody.Identifier = value.Header.Identifier;
-            augmentedBody.GroupIdentifier = value.Header.GroupIdentifier;
-            $scope.el.value = augmentedBody;
+            var augmented = angular.copy(value.Body.MediaMetadata);
+            augmented.Identifier = value.Header.Identifier;
+            augmented.GroupIdentifier = value.Header.GroupIdentifier;
+            $scope.el.value = augmented;
 //            $scope.setEditing(false);
         };
 
@@ -246,28 +243,6 @@ OSCR.controller(
             return $scope.el.value && $scope.el.value.SummaryFields;
         };
 
-//        $scope.instanceList = _.map($rootScope.schemaMap.shared, function(sharedSchema) {
-//            var fieldList = [];
-//            switch(sharedSchema){
-//                case 'Person':
-//                fieldList = [
-//                    {
-//                        'name' :'entry.Body.Person.Birth.DateOfBirth',
-//                        'name' :'entry.Body.Person.Birth.DateOfBirth',
-//                        'label': 'DateOfBirth'
-//                    }
-//
-//                ]
-//            }
-//            return {
-//                name: sharedSchema,
-//                path: "/shared/" + sharedSchema
-//                fields: fieldList
-//            };
-//        });
-//
-//        console.log( $scope.instanceList);
-
         $scope.setValue = function (value) {
             $scope.el.value = value.Header;  // instance controller is watching this
             $scope.setEditing(false);
@@ -281,6 +256,26 @@ OSCR.controller(
                 $scope.el.entries = entries;
             });
         });
+
+        $scope.getInstanceDetails = function (schema) {
+            if ($scope.editing) {
+                if (schema == "Person") {
+                    return "instance-details-person.html";
+                }
+                else if (schema == "Location") {
+                    return "instance-details-location.html";
+                }
+                else if (schema == "Organization") {
+                    return "instance-details-organization.html";
+                }
+                else if (schema == "HistoricalEvent") {
+                    return "instance-details-historical-event.html";
+                }
+                else {
+                    return "instance-details-default.html";
+                }
+            }
+        };
     }
 );
 

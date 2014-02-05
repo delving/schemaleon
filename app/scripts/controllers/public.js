@@ -2,7 +2,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'PublicController',
-    function ($rootScope, $scope, Person, Document, $filter) {
+    function ($rootScope, $scope, Person, Document, $filter, $timeout) {
 
         function getAllGroups() {
             Person.getAllGroups(function (list) {
@@ -13,7 +13,6 @@ OSCR.controller(
 
         $('#list-current-groups').on('change',function(){
             var path = $(this).val();
-//            $scope.$apply( $location.path(path) );
             $scope.$apply($rootScope.choosePath(path));
         });
 
@@ -54,20 +53,29 @@ OSCR.controller(
                 }
 
                 // make sure all the grid items are of equal height for proper grid display
-                setTimeout(function(){
-                    $rootScope.equalHeight($("div.thumbnail"));
-                },300);
-
+                    $timeout(function(){
+                        $rootScope.equalHeight($("div.thumbnail"));
+                    },2000);
             });
         }
 
-        $scope.$watch('searchString', function(searchString, oldSearchString) {
+        searchDocuments();
+
+//        $scope.$watch('searchString', function(searchString, oldSearchString) {
+//            $scope.searchParams.searchQuery = searchString;
+//            $scope.searchParams.startIndex = 1;
+//            $scope.searchParams.maxResults = $scope.defaultMaxResults;
+//            $scope.expectedListLength = $scope.defaultMaxResults;
+//            searchDocuments();
+//        });
+
+        $scope.doPublicSearch = function (searchString) {
             $scope.searchParams.searchQuery = searchString;
             $scope.searchParams.startIndex = 1;
             $scope.searchParams.maxResults = $scope.defaultMaxResults;
             $scope.expectedListLength = $scope.defaultMaxResults;
             searchDocuments();
-        });
+        };
 
         $scope.couldBeMoreResults = function() {
             return $scope.headerList.length == $scope.expectedListLength;

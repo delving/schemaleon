@@ -92,7 +92,7 @@
             <div ng-show="el.value" class="media">
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
-                    <div class="mime">{{ el.value.MimeType }}</div>
+                    <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
                 <div class="media-controls">
                     <!--<button ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >-->
@@ -113,7 +113,7 @@
                 </div>
                 <div ng-show="el.value" class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" />
-                    <div class="mime">{{ el.value.MimeType }}</div>
+                    <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                                      ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
                                      ng-click="selectMedia(entry)"/>
                             </div>
-                            <div class="mime">{{ entry.Body.MimeType }}</div>
+                            <div class="mime">{{ entry | mediaMimeType }}</div>
                         </li>
                     </ul>
                 </div>
@@ -213,76 +213,116 @@
                 <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
             </span>
         </div>
-
-
-
-            <!-- DISPLAY LIST OF RETURNED VALUES //-->
-            <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
-                <li ng-repeat="entry in el.entries">
-                    <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
-                    <div class="vocabulary-extended" ng-show="instanceDetails" data-ng-switch="entry.Header.SchemaName">
-
-                        <table data-ng-switch-when="Person" class="table-condensed table-vocabulary-details">
-                            <tr ng-show="entry.Body.Person.Birth.DateOfBirth">
-                                <th i18n="DateOfBirth"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Person.Birth.DateOfBirth }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Person.Birth.PlaceOfBirth.SummaryFields.Title">
-                                <th i18n="PlaceOfBirth"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Person.Birth.PlaceOfBirth.SummaryFields.Title }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Person.Appelation">
-                                <th i18n="Appelation"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Person.Appelation }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Person.GivenName">
-                                <th i18n="GivenName"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Person.GivenName }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Person.SurnamePrefix">
-                                <th i18n="SurnamePrefix"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Person.SurnamePrefix }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Person.Surname">
-                                <th i18n="Surname"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Person.Surname }}</td>
-                            </tr>
-                        </table>
-
-                        <table data-ng-switch-when="Location" class="table-condensed table-vocabulary-details">
-                            <tr ng-show="entry.Body.Location.LocationName.Appelation">
-                                <th i18n="Appelation"><span class="i18n"/></th>
-                                <td>{{  entry.Body.Location.LocationName.Appelation  }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Location.GeonamesURI">
-                                <th i18n="GeonamesURI"><span class="i18n"/></th>
-                                <td>
-                                    <a href="{{ entry.Body.Location.GeonamesURI }}" target="_blank">
-                                        {{  entry.Body.Location.GeonamesURI  }}
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr ng-show="entry.Body.Location.Coordinates.Longitude">
-                                <th i18n="Longitude"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Location.Coordinates.Longitude   }}</td>
-                            </tr>
-                            <tr ng-show="entry.Body.Location.Coordinates.Latitude">
-                                <th i18n="Latitude"><span class="i18n"/></th>
-                                <td>{{ entry.Body.Location.Coordinates.Latitude }}</td>
-                            </tr>
-                        </table>
-
-
-
-
-                    </div>
-                </li>
-            </ul>
+        <!-- DISPLAY LIST OF RETURNED VALUES //-->
+        <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+            <li ng-repeat="entry in el.entries">
+                <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
+                <div class="vocabulary-extended" ng-show="instanceDetails">
+                    <div ng-include="getInstanceDetails(entry.Header.SchemaName)"></div>
+                </div>
+            </li>
+        </ul>
         </div>
     </div>
 </script>
 
+<script type="text/ng-template" id="instance-details-person.html">
+    <table class="table-condensed table-vocabulary-details">
+        <tr ng-show="entry.Body.Person.Birth.DateOfBirth">
+            <th i18n="DateOfBirth"><span class="i18n"/></th>
+            <td>{{ entry.Body.Person.Birth.DateOfBirth }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Person.Birth.PlaceOfBirth.SummaryFields.Title">
+            <th i18n="PlaceOfBirth"><span class="i18n"/></th>
+            <td>{{ entry.Body.Person.Birth.PlaceOfBirth.SummaryFields.Title }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Person.Appelation">
+            <th i18n="Appelation"><span class="i18n"/></th>
+            <td>{{ entry.Body.Person.Appelation }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Person.GivenName">
+            <th i18n="GivenName"><span class="i18n"/></th>
+            <td>{{ entry.Body.Person.GivenName }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Person.SurnamePrefix">
+            <th i18n="SurnamePrefix"><span class="i18n"/></th>
+            <td>{{ entry.Body.Person.SurnamePrefix }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Person.Surname">
+            <th i18n="Surname"><span class="i18n"/></th>
+            <td>{{ entry.Body.Person.Surname }}</td>
+        </tr>
+    </table>
+</script>
 
+<script type="text/ng-template" id="instance-details-location.html">
+    <table class="table-condensed table-vocabulary-details">
+        <tr ng-show="entry.Body.Location.LocationName.Appelation">
+            <th i18n="Appelation"><span class="i18n"/></th>
+            <td>{{  entry.Body.Location.LocationName.Appelation  }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Location.GeonamesURI">
+            <th i18n="GeonamesURI"><span class="i18n"/></th>
+            <td>
+                <a href="{{ entry.Body.Location.GeonamesURI }}" target="_blank">
+                    {{  entry.Body.Location.GeonamesURI  }}
+                </a>
+            </td>
+        </tr>
+        <tr ng-show="entry.Body.Location.Coordinates.Longitude">
+            <th i18n="Longitude"><span class="i18n"/></th>
+            <td>{{ entry.Body.Location.Coordinates.Longitude   }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Location.Coordinates.Latitude">
+            <th i18n="Latitude"><span class="i18n"/></th>
+            <td>{{ entry.Body.Location.Coordinates.Latitude }}</td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="instance-details-organization.html">
+    <table class="table-condensed table-vocabulary-details">
+        <tr ng-show="entry.Body.Organization.Appellation">
+            <th i18n="Appelation"><span class="i18n"/></th>
+            <td>{{  entry.Body.Organization.Appellation  }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Organization.OrganizationType.Label">
+            <th i18n="OrganizationType"><span class="i18n"/></th>
+            <td>{{  entry.Body.Organization.OrganizationType.Label  }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Organization.OrganizationBeginDate">
+            <th i18n="OrganizationBeginDate"><span class="i18n"/></th>
+            <td>{{  entry.Body.Organization.OrganizationBeginDate  }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Organization.OrganizationEndDate">
+            <th i18n="OrganizationEndDate"><span class="i18n"/></th>
+            <td>{{  entry.Body.Organization.OrganizationEndDate  }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Organization.ContactInfo.PostAddressLine">
+            <th i18n="PostAddressLine"><span class="i18n"/></th>
+            <td>{{  entry.Body.Organization.ContactInfo.PostAddressLine  }}</td>
+        </tr>
+        <tr ng-show="entry.Body.Organization.ContactInfo.HeadquartersLocation.SummaryFields.Title">
+            <th i18n="Place"><span class="i18n"/></th>
+            <td>{{  entry.Body.Organization.ContactInfo.HeadquartersLocation.SummaryFields.Title  }}</td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="instance-details-historical-event.html">
+    <table class="table-condensed table-vocabulary-details">
+        <!-- todo: get historical event detailled info -->
+    </table>
+</script>
+
+<script type="text/ng-template" id="instance-details-default.html">
+    <table class="table-condensed table-vocabulary-details">
+        <tr>
+            <th i18n="Title"><span class="i18n"/></th>
+            <td>{{ entry.Header.SummaryFields.Title }}</td>
+        </tr>
+    </table>
+</script>
 
 <script type="text/ng-template" id="panel-field-documentation.html">
     <div class="panel-input field-documentation-element" data-ng-controller="FieldDocumentationController">
@@ -302,6 +342,8 @@
         </div>
     </div>
 </script>
+
+
 
 <script type="text/ng-template"  id="panel-unrecognized.html">
     <div class="panel-input">

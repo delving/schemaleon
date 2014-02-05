@@ -157,7 +157,7 @@
                                          ng-src="{{ doc.thumbnail }}"
                                             />
                                 </div>
-                                <div class="mime">{{ doc.Body.MimeType }}</div>
+                                <div class="mime">{{ doc | mediaMimeType }}</div>
                             </li>
                         </ul>
                     </div>

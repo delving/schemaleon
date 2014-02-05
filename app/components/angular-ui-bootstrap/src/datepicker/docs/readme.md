@@ -5,15 +5,15 @@ The datepicker shows dates that come from other than the main month being displa
 
 Everything is formatted using the [date filter](http://docs.angularjs.org/api/ng.filter:date) and thus is also localized.
 
-### Settings ###
+### Datepicker Settings ###
 
 All settings can be provided as attributes in the `<datepicker>` or globally configured through the `datepickerConfig`.
 
- * `ng-model` <i class="icon-eye-open"></i>
+ * `ng-model` <i class="glyphicon glyphicon-eye-open"></i>
  	:
  	The date object.
 
- * `show-weeks` <i class="icon-eye-open"></i>
+ * `show-weeks` <i class="glyphicon glyphicon-eye-open"></i>
  	_(Defaults: true)_ :
  	Whether to display week numbers.
 
@@ -21,11 +21,11 @@ All settings can be provided as attributes in the `<datepicker>` or globally con
  	_(Defaults: 0)_ :
  	Starting day of the week from 0-6 (0=Sunday, ..., 6=Saturday).
 
- * `min` <i class="icon-eye-open"></i>
+ * `min` <i class="glyphicon glyphicon-eye-open"></i>
  	_(Default: null)_ :
  	Defines the minimum available date.
 
- * `max` <i class="icon-eye-open"></i>
+ * `max` <i class="glyphicon glyphicon-eye-open"></i>
  	_(Default: null)_ :
  	Defines the maximum available date.
 
@@ -60,3 +60,41 @@ All settings can be provided as attributes in the `<datepicker>` or globally con
  * `month-title-format`
  	_(Default: 'yyyy')_ :
  	Format of title when selecting month.
+
+
+### Popup Settings ###
+
+Options for datepicker can be passed as JSON using the `datepicker-options` attribute.
+Specific settings for the `datepicker-popup`, that can globally configured through the `datepickerPopupConfig`, are:
+
+ * `datepicker-popup`
+ 	_(Default: 'yyyy-MM-dd')_ :
+ 	The format for displayed dates.
+
+ * `show-button-bar`
+ 	_(Default: true)_ :
+ 	Whether to display a button bar underneath the datepicker.
+
+ * `current-text`
+ 	_(Default: 'Today')_ :
+ 	The text to display for the current day button.
+
+ * `toggle-weeks-text`
+ 	_(Default: 'Weeks')_ :
+ 	The text to display for the toggling week numbers button.
+
+ * `clear-text`
+ 	_(Default: 'Clear')_ :
+ 	The text to display for the clear button.
+
+ * `close-text`
+ 	_(Default: 'Done')_ :
+ 	The text to display for the close button.
+
+ * `close-on-date-selection`
+ 	_(Default: true)_ :
+ 	Whether to close calendar when a date is chosen.
+
+ * `datepicker-append-to-body`
+  _(Default: false)_:
+  Append the datepicker popup element to `body`, rather than inserting after `datepicker-popup`. For global configuration, use `datepickerPopupConfig.appendToBody`.

@@ -100,6 +100,7 @@ module.exports.getExtensionFromMimeType = function(mimeType) {
     var extension;
     switch (mimeType) {
         case 'image/jpeg':
+        case 'image/jpg': // todo: from Sjoerd's import
             extension = '.jpg';
             break;
         case 'image/png':
@@ -160,3 +161,20 @@ module.exports.thumbNameProper = function (thumbName)  {
 module.exports.thumbnailExtension = '.jpg';
 
 module.exports.thumbnailMimeType = 'image/jpeg';
+
+module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, res, action) {
+    if (groupIdentifier != req.session.GroupIdentifier && req.session.GroupIdentifier != 'OSCR') {
+        res.status(403).send("<Error>Illegal Group: " + req.session.GroupIdentifier + "</Error>");
+    }
+    else if (roleArray.length && _.indexOf(roleArray, req.session.Role) < 0) {
+        res.status(403).send("<Error>Illegal Role: " + req.session.Role + "</Error>");
+    }
+    else {
+        console.log('ok '+groupIdentifier + '/' + roleArray + ' for ' + JSON.stringify(req.session));
+        action();
+    }
+};
+
+module.exports.authenticatedGod = function(req, res, action) {
+    this.authenticatedGroup('OSCR', ['Administrator'], req, res, action);
+};
