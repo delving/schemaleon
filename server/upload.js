@@ -117,12 +117,12 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
     this.destroy = function () {
         var fileName;
         var handler = this;
-        if (handler.req.url.slice(0, options.uploadUrl.length) === options.uploadUrl) {
+        if (handler.req.url.slice(0, groupFileSystem.mediaUploadDir.length) === groupFileSystem.mediaUploadDir) {
             fileName = path.basename(decodeURIComponent(handler.req.url));
             if (fileName[0] !== '.') {
-                fs.unlink(options.uploadDir + '/' + fileName, function (ex) {
+                fs.unlink(groupFileSystem.mediaUploadDir + '/' + fileName, function (ex) {
                     Object.keys(options.imageVersions).forEach(function (version) {
-                        fs.unlink(options.uploadDir + '/' + version + '/' + util.thumbNameProper(fileName));
+                        fs.unlink(groupFileSystem.mediaUploadDir + '/' + version + '/' + util.thumbNameProper(fileName));
                     });
                     handler.callback({success: !ex});
                 });
