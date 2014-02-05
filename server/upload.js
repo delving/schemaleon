@@ -254,25 +254,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('end', finish).parse(handler.req);
     };
-
-    this.destroy = function () {
-        var self = this;
-        var fileName = path.basename(decodeURIComponent(self.req.url));
-        if (fileName[0] !== '.') {
-            fs.unlink(
-                groupFileSystem.mediaUploadDir + '/' + fileName,
-                function (ex) {
-                    Object.keys(options.imageVersions).forEach(function (version) {
-                        fs.unlink(groupFileSystem.mediaUploadDir + '/' + version + '/' + fileName);
-                    });
-                    self.callback({success: !ex});
-                }
-            );
-            return;
-        }
-        self.callback({success: false});
-    };
-
 };
 
 var pathRegExp = new RegExp('\/files\/([^/]*)(.*)');
