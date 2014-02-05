@@ -2,7 +2,7 @@
   "name": "cultureCollector",
   "version": "0.0.0",
   "dependencies": {
+    "angular-deckgrid": "~0.2.1"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

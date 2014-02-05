@@ -49,8 +49,7 @@ OSCR.controller(
                 {name: 'Norsk', code: 'no'},
                 {name: 'Svenska', code: 'sv'}
             ],
-            interfaceLanguage: 'en',
-            showInlinePreview: true,
+            interfaceLanguage: 'nl',
             showTranslationEditor: false
         };
 
@@ -357,7 +356,7 @@ OSCR.controller(
                     mime = source;
                 }
             }
-            console.log('extractedMimeType=' + mime, source);
+//            console.log('extractedMimeType=' + mime, source);
             return mime;
         };
 
@@ -390,9 +389,8 @@ OSCR.controller(
                         $scope.choosePath('/dashboard');
                     }
                     else {
-                        $rootScope.loginFailed = true;
-                        $rootScope.password = '';
-                        $scope.choosePath('/login');
+                        $scope.loginFailed = true;
+                        $scope.password = '';
                     }
                 });
             }
@@ -455,16 +453,19 @@ OSCR.controller(
         };
 
         // layout functions
-        $rootScope.equalHeight = function equalHeight(elements) {
+        // todo: replace this with https://github.com/akoenig/angular-deckgrid
+        $rootScope.equalHeight = function (elements) {
             if(!elements) return;
-            tallest = 0;
+            var tallest = 0;
             elements.each(function() {
-                thisHeight = $(this).height();
+                var thisHeight = $(this).height();
                 if(thisHeight > tallest) {
                     tallest = thisHeight;
                 }
             });
-            elements.height(tallest);
+            elements.each(function(){
+                $(this).css('height',tallest);
+            });
         }
     }
 );

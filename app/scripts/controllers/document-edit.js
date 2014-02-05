@@ -509,7 +509,7 @@ OSCR.directive('documentNavigation', function () {
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
-OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf) {
+OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf, $timeout) {
 
     var pdfViewer;
 
@@ -523,8 +523,9 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         else {
             $scope.mediaElement = null;
         }
-
-        $('video,audio').mediaelementplayer();
+        $scope.$watch('mediaElements',function(){
+            $('video,audio').mediaelementplayer();
+        });
 
         // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
         // hence this controller must always be nested inside of that in the html
@@ -535,6 +536,12 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
             }
         });
     });
+
+
+
+//            $timeout(function(){
+//            $('video,audio').mediaelementplayer();
+//        },1000);
 
 
 

@@ -130,6 +130,12 @@ ul.thumbnails {
   }
 }
 
+@media (max-width: 1450px) {
+  ul.thumbnails {
+    font-size: smaller;
+  }
+}
+
 .list-controls {
   .clearfix();
   margin-bottom: 20px;
@@ -478,7 +484,7 @@ ol.striped {
 ul.main-menu {
   background: @grayLight;
   border-radius: @br-med;
-  padding-left: 20px;
+  padding-left: 8px;
   padding-top: @baseLineHeight;
   padding-bottom: @baseLineHeight*1.5;
  &.nav-pills > li > a {
@@ -490,7 +496,7 @@ ul.main-menu {
   &> li > a {
     color: @black;
     .icon {
-      margin: 0 10px 0 0;
+      margin: 0 4px 0 0;
     }
   }
   &> .active > a,
@@ -506,9 +512,8 @@ ul.main-menu {
     background: @gray;
     .border-radius(10px 10px 0 0);
 
-    font-size: smaller;
     padding: 8px;
-    margin: -20px 0 10px -20px;
+    margin: -20px 0 10px -8px;
     a {
       color: @grayDarker;
       &:hover {
@@ -525,11 +530,14 @@ ul.main-menu {
     img {
       .border-radius(10px);
     }
-    .label {
-      .opacity(70);
-    }
   }
 }
+//
+//@media screen and (min-width : 1224px) and (max-width: 1450px) {
+//  ul.main-menu {
+//    font-size: smaller;
+//  }
+//}
 
 
 .pointer {
@@ -1033,13 +1041,14 @@ label {
       cursor: pointer;
     }
   }
+  li:first-of-type {
+    margin-left: 100px;
+  }
 }
 
 .carousel-control {
   margin-top: 0px;
-  top: 60px;
-//  width: 38px;
-//  height: 38px;
+  top: 0px;
 }
 
 .link-facts {
@@ -1051,6 +1060,10 @@ label {
   .key {
     color: @grayLight;
   }
+}
+
+.break-word {
+  word-wrap: break-word;
 }
 
 

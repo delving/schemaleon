@@ -1,11 +1,10 @@
+<!-- DISPLAY OF A SINGE MEDIA ITEM -->
 <div data-ng-if="mediaElement">
         <div data-ng-if="isImage(mediaElement)">
             <img data-ng-src="{{ mediaElement | mediaFile }}"/>
         </div>
         <div data-ng-if="isVideo(mediaElement)">
-            <video width="100%" controls>
-                <source ng-src="{{ mediaElement | mediaFile }}" type="{{ mediaElement | mediaMimeType }}">
-            </video>
+            <video width="100%" id="player1" src="{{ mediaElement | mediaFile }}" type="{{ mediaElement | mediaMimeType }}" controls="controls"></video>
         </div>
         <div data-ng-if="isPdf(mediaElement)">
             <div class="row">
@@ -23,6 +22,7 @@
             </div>
         </div>
 </div>
+<!-- DISPLAY OF MULTIPLE MEDIA ITEMS -->
 <div data-ng-if="mediaElements.length > 1">
     <div ng-if="!isPdf(mediaElements[0])">
         <carousel>
@@ -32,7 +32,7 @@
                 </div>
                 <div data-ng-if="isVideo(file)">
                     <video width="100%" controls>
-                        <source ng-src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
+                        <source src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
                     </video>
                 </div>
             </slide>

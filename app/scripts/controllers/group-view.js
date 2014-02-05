@@ -27,7 +27,7 @@ OSCR.controller(
         $scope.identifier = $routeParams.identifier;
 
         Person.getGroup($scope.identifier, function(group) {
-            $scope.group = group.Group;
+            $scope.group = group;
             Person.getUsersInGroup($scope.group.Identifier, function (list) {
                 $scope.group.userList = list;
             });
