@@ -46,17 +46,8 @@ OSCR.controller(
     'VocabularySearchController',
     function ($scope, Vocabulary) {
 
-        if($scope.panel){
-            $scope.el = $scope.panel.element;    
-        }
-        else {
-            console.log($scope.el); 
-        }
-        
-
-        if (!$scope.el.config.vocabulary) {
-            return;
-        }
+        if ($scope.panel) $scope.el = $scope.panel.element;
+        if (!$scope.el.config.vocabulary) return;
         $scope.schema = $scope.el.config.vocabulary;
 
         $scope.setValue = function (value) {

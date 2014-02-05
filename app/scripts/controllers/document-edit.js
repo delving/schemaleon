@@ -617,34 +617,32 @@ OSCR.controller(
     'ExpertTreeController',
     function ($rootScope, $scope, $timeout, Document) {
 
-        $scope.focusPath = [];
-
-        $scope.getFocusElement = function(el) {
-            return $scope.focusElement[el.focusElementIndex];
-        };
+        $scope.activeEl = null;
 
         $scope.setActiveEl = function (el) {
-            $scope.activeEl = el;
-            $timeout(function () {
-                var fe = $scope.getFocusElement(el);
-                if (fe) {
-                    $timeout(function () {
-                        fe.focus();
-                    });
-                }
-                else {
-                    console.warn("no focus element for ", el);
-                }
-            });
+            if ($scope.activeEl) {
+                console.log('no longer editing', $scope.activeEl.name);
+                $scope.activeEl.editing = false;
+            }
+            if ($scope.activeEl = el) {
+                console.log('starting to edit', el.name);
+                $scope.setEditing(el.editing = true);
+            }
         };
 
         $scope.isActiveEl = function (el) {
             return $scope.activeEl === el;
         };
 
+        $scope.isEditing = function(el) {
+            return $scope.isActiveEl(el) && $scope.editing;
+        };
+
         $scope.valueChanged = function (el) {
-//            console.log("value changed: active=" + (el == $scope.activeEl));
-            $scope.validateTree();
+            var active = el == $scope.activeEl;
+            if (active) {
+                $scope.validateTree();
+            }
         };
 
         $scope.addSibling = function (list, index, panelIndex) {
