@@ -64,6 +64,7 @@ OSCR.controller(
             globalErrorErasePromise  = $timeout(
                 function() {
                     $rootScope.globalError = null;
+                    globalErrorErasePromise = null;
                 },
                 3000
             );
