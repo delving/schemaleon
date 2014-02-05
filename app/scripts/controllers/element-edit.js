@@ -200,7 +200,7 @@ OSCR.controller(
         };
 
         $scope.isHeader = function() {
-            return $scope.el.value && $scope.el.value.SummaryFields;
+            return $scope.el.value && $scope.el.value.Header;
         };
 
         $scope.$watch('el.value', function (after, before) {
@@ -211,6 +211,14 @@ OSCR.controller(
                         value: fact.Value
                     }
                 })
+            }
+            if ($scope.isHeader()) {
+                if ($scope.el.value.Header.SummaryFields) {
+                    $scope.el.headerTitle = $scope.el.value.Header.SummaryFields.Title;
+                }
+                else {
+                    $scope.el.headerTitle = "?";
+                }
             }
             $scope.valueChanged($scope.el);
         });
@@ -240,11 +248,13 @@ OSCR.controller(
         };
 
         $scope.isHeader = function() {
-            return $scope.el.value && $scope.el.value.SummaryFields;
+            return $scope.el.value && $scope.el.value.Header;
         };
 
         $scope.setValue = function (value) {
-            $scope.el.value = value.Header;  // instance controller is watching this
+            $scope.el.value = {
+                Header: value.Header
+            };
             $scope.setEditing(false);
         };
 

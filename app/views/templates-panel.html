@@ -167,8 +167,8 @@
                             <span i18n="{{ linkFact.name }}" class="key"><span class="i18n"/></span>:  <span class="value">{{ linkFact.value }}</span></span>
                         </div>
                 </div>
-                <div data-ng-show="isHeader()">
-                    <input type="text" disabled ng-model="el.value.SummaryFields.Title" class="input-block-level"/>
+                <div data-ng-show="el.value">
+                    <input type="text" disabled ng-model="el.headerTitle" class="input-block-level"/>
                 </div>
                 <div data-ng-show="!el.value">
                     <input type="text" disabled value="-" class="input-block-level"/>
@@ -192,7 +192,7 @@
                 </div>
             </div>
             <div data-ng-show="isHeader()">
-                <span class="value">{{ el.value.SummaryFields.Title }}</span>
+                <span class="value">{{ el.headerTitle }}</span>
             </div>
         </div>
         <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
