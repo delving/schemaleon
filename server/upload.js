@@ -114,6 +114,24 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
 
     };
 
+    this.destroy = function () {
+        var fileName;
+        var handler = this;
+        if (handler.req.url.slice(0, options.uploadUrl.length) === options.uploadUrl) {
+            fileName = path.basename(decodeURIComponent(handler.req.url));
+            if (fileName[0] !== '.') {
+                fs.unlink(options.uploadDir + '/' + fileName, function (ex) {
+                    Object.keys(options.imageVersions).forEach(function (version) {
+                        fs.unlink(options.uploadDir + '/' + version + '/' + util.thumbNameProper(fileName));
+                    });
+                    handler.callback({success: !ex});
+                });
+                return;
+            }
+        }
+        handler.callback({success: false});
+    };
+
     this.get = function () {
         var self = this;
         var files = [];
