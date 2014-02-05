@@ -521,17 +521,19 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
     $scope.$watch("tree", function(tree, oldTree) {
         // collect an array of only the media elements
         $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-
+        // set a single mediaElement if there is only one
         if($scope.mediaElements.length === 1) {
             $scope.mediaElement = $scope.mediaElements[0];
         }
         else {
             $scope.mediaElement = null;
         }
-        $scope.$watch('mediaElements',function(){
-            $('video,audio').mediaelementplayer();
+        // trigger media viewer after the mediaElements arrive
+        $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
+            if(mediaElements.length){
+                $('video,audio').mediaelementplayer();
+            }
         });
-
         // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
         // hence this controller must always be nested inside of that in the html
         $scope.pdfFiles = [];
@@ -541,14 +543,6 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
             }
         });
     });
-
-
-
-//            $timeout(function(){
-//            $('video,audio').mediaelementplayer();
-//        },1000);
-
-
 
     $scope.filterNonMedia = function(elementList) {
         return _.filter(elementList, function(element) {
