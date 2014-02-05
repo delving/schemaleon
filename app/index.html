@@ -204,6 +204,11 @@
                     <div ng-include="getInclude()"></div>
                 </div>
                 <div id="mainBody" ng-class="{'span10' : user, 'span12' : !user}">
+
+                    <div class="alert alert-danger fade-in" ng-show="globalError">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ globalError }}
+                    </div>
                     <div ng-view id="view"><!-- Angular views are rendered here --></div>
                 </div>
             </div>

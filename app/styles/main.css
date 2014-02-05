@@ -657,7 +657,7 @@ ul.thumbnails a:hover {
 }
 ul.thumbnails .thumbnail {
   background: #ffffff;
-  height: auto;
+  min-height: 80px;
 }
 ul.thumbnails .thumbnail img {
   height: 65px;

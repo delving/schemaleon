@@ -12,14 +12,14 @@
                     <h5 i18n="SearchAllDocuments"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-                    <form ng-submit="doPublicSearch(searchString)" class="form-inline">
-                    <div class="input-prepend input-append">
-                        <!--<span class="add-on" i18n="Search"><span class="i18n"></span></span>-->
-                        <!-- TODO: this taken from document list page : implement similar backend but for all doc types and all groups public pages-->
-                        <input type="text" ng-model="searchString"/>
-                        <!--<button class="btn" type="reset" ng-click="searchString = ''"><i class="icon-ban-circle "></i> </button>-->
-                        <button class="btn" type="submit" ng-click="doPublicSearch(searchString)"><i class="icon-search "></i> </button>
-                    </div>
+                    <form ng-submit="doPublicSearch(searchString)" class="navbar-form form-inline">
+                        <div class="input-prepend input-append">
+                            <!--<span class="add-on" i18n="Search"><span class="i18n"></span></span>-->
+                            <!-- TODO: this taken from document list page : implement similar backend but for all doc types and all groups public pages-->
+                            <input type="text" ng-model="searchString"/>
+                            <!--<button class="btn" type="reset" ng-click="searchString = ''"><i class="icon-ban-circle "></i> </button>-->
+                            <button class="btn" type="submit" ng-click="doPublicSearch(searchString)"><i class="icon-search "></i> </button>
+                        </div>
                     </form>
                 </div>
             </div>
