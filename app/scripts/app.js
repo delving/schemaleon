@@ -76,7 +76,7 @@ OSCR.config(
 );
 
 OSCR.config(
-    function ($httpProvider, $locationProvider, fileUploadProvider) {
+    function ($httpProvider, fileUploadProvider) {
         // for fileUploadProvider
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         fileUploadProvider.defaults.redirect = window.location.href.replace(
@@ -84,49 +84,37 @@ OSCR.config(
             '/cors/result.html?%s'
         );
 
-        // for general intercepting
-        $httpProvider.responseInterceptors.push(function ($q, $cookieStore) {
-
-            function showNetworkProblem(problem) {
-                alert("Network problem. See console for details.");
-                console.log(problem);
+        $httpProvider.interceptors.push(function($q, $rootScope) {
+            function reportError(message) {
+                $rootScope.setGlobalError(message);
             }
 
-            function onSuccess(response) {
-                if ("success_condition") {
-//                    if (response.headers('Content-Type').indexOf("xml") > 0) {
-//                        if (_.isArray(response.data)) {
-//                            console.log("XML ARRAY "+response.headers('Content-Type'));
-//                            console.log(response.data[0]);
-//                        }
-//                        else {
-//                            console.log("XML "+response.headers('Content-Type'));
-//                            console.log(response);
-//                        }
-//                    }
-//                    else {
-//                        if (_.isArray(response.data)) {
-//                            console.log("ARRAY NOT XML but " + response.headers('Content-Type'));
-//                            console.log(response.data[0]);
-//                        }
-//                    }
-                    return response;
+            return {
+                'responseError': function(rejection) {
+                    var error = xmlToObject(rejection.data);
+                    if (error.Error) {
+                        error = error.Error;
+                        switch (rejection.status) {
+                            case 403:
+                                // todo politely inform them
+                                reportError(rejection.status + ":" + error);
+                                break;
+                            case 500:
+                                // todo: apologize
+                                reportError(rejection.status + ":" + error);
+                                break;
+                            default:
+                                reportError(rejection.status + ":" + error);
+                                break;
+                        }
+                    }
+                    else {
+                        reportError(rejection.status);
+                    }
+                    return $q.reject(rejection);
                 }
-                else {
-                    showNetworkProblem(response.data);
-                    $q.reject(response);
-                    return null;
-                }
-            }
-
-            function onError(response) {
-                showNetworkProblem(response.data);
-                $q.reject(response);
-            }
-
-            return function (promise) {
-                return promise.then(onSuccess, onError);
             };
         });
+
     }
 );

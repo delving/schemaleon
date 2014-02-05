@@ -81,6 +81,7 @@ Storage('oscr', homeDir, function (storage) {
                                 storage.Person.getOrCreateUser(profile, function (xml) {
                                     req.session.Identifier = util.getFromXml(xml, 'Identifier');
                                     req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
+                                    req.session.Role = util.getFromXml(xml, 'Role');
                                     res.xml(xml);
                                     storage.Log.add(req, {
                                         Op: "Authenticate"
@@ -104,47 +105,51 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/i18n/:lang/element', function (req, res) {
-        var lang = req.params.lang;
-        var key = req.body.key;
-        if (key) {
-            var title = req.body.title;
-            if (title) storage.I18N.setElementTitle(lang, key, title, function (ok) {
-                replyWithLanguage(lang, res);
-                storage.Log.add(req, {
-                    Op: "TranslateTitle",
-                    Lang: lang,
-                    Key: key,
-                    Value: title
-                });
+        util.authenticatedGod(req, res, function() {
+            var lang = req.params.lang;
+            var key = req.body.key;
+            if (key) {
+                var title = req.body.title;
+                if (title) storage.I18N.setElementTitle(lang, key, title, function (ok) {
+                    replyWithLanguage(lang, res);
+                    storage.Log.add(req, {
+                        Op: "TranslateTitle",
+                        Lang: lang,
+                        Key: key,
+                        Value: title
+                    });
 
-            });
-            if (req.body.doc) storage.I18N.setElementDoc(lang, key, req.body.doc, function (ok) {
-                replyWithLanguage(lang, res);
-                storage.Log.add(req, {
-                    Op: "TranslateDoc",
-                    Lang: lang,
-                    Key: key,
-                    Value: req.body.doc
                 });
-            });
-        }
+                if (req.body.doc) storage.I18N.setElementDoc(lang, key, req.body.doc, function (ok) {
+                    replyWithLanguage(lang, res);
+                    storage.Log.add(req, {
+                        Op: "TranslateDoc",
+                        Lang: lang,
+                        Key: key,
+                        Value: req.body.doc
+                    });
+                });
+            }
+        });
     });
 
     app.post('/i18n/:lang/label', function (req, res) {
-        var lang = req.params.lang;
-        var key = req.body.key;
-        if (key) {
-            var label = req.body.label;
-            if (label) storage.I18N.setLabel(lang, key, label, function (ok) {
-                replyWithLanguage(lang, res);
-                storage.Log.add(req, {
-                    Op: "TranslateLabel",
-                    Lang: lang,
-                    Key: key,
-                    Value: label
+        util.authenticatedGod(req, res, function() {
+            var lang = req.params.lang;
+            var key = req.body.key;
+            if (key) {
+                var label = req.body.label;
+                if (label) storage.I18N.setLabel(lang, key, label, function (ok) {
+                    replyWithLanguage(lang, res);
+                    storage.Log.add(req, {
+                        Op: "TranslateLabel",
+                        Lang: lang,
+                        Key: key,
+                        Value: label
+                    });
                 });
-            });
-        }
+            }
+        });
     });
 
     app.get('/statistics/:groupIdentifier', function (req, res) {
@@ -192,11 +197,13 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/person/group/save', function (req, res) {
-        storage.Person.saveGroup(req.body, function (xml) {
-            res.xml(xml);
-            storage.Log.add(req, {
-                Op: "SaveGroup",
-                Group: req.body
+        util.authenticatedGod(req, res, function() {
+            storage.Person.saveGroup(req.body, function (xml) {
+                res.xml(xml);
+                storage.Log.add(req, {
+                    Op: "SaveGroup",
+                    Group: req.body
+                });
             });
         });
     });
@@ -211,39 +218,33 @@ Storage('oscr', homeDir, function (storage) {
         var userIdentifier = req.body.userIdentifier;
         var userRole = req.body.userRole;
         var groupIdentifier = req.params.identifier;
-        storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
-            res.xml(xml);
-            storage.Log.add(req, {
-                Op: "AddUserToGroup",
-                UserIdentifier: userIdentifier,
-                UserRole: userRole,
-                GroupIdentifier: groupIdentifier
+        util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function() {
+            storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
+                res.xml(xml);
+                storage.Log.add(req, {
+                    Op: "AddUserToGroup",
+                    UserIdentifier: userIdentifier,
+                    UserRole: userRole,
+                    GroupIdentifier: groupIdentifier
+                });
             });
-
         });
     });
 
     app.post('/person/group/:identifier/remove', function (req, res) {
         var userIdentifier = req.body.userIdentifier;
-//        var userRole = req.body.userRole;
         var groupIdentifier = req.params.identifier;
-        storage.Person.removeUserFromGroup(userIdentifier, groupIdentifier, function (xml) {
-            res.xml(xml);
-            storage.Log.add(req, {
-                Op: "RemoveUserFromGroup",
-                UserIdentifier: userIdentifier,
-//                UserRole: userRole,
-                GroupIdentifier: groupIdentifier
-            })
+        util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function() {
+            storage.Person.removeUserFromGroup(userIdentifier, groupIdentifier, function (xml) {
+                res.xml(xml);
+                storage.Log.add(req, {
+                    Op: "RemoveUserFromGroup",
+                    UserIdentifier: userIdentifier,
+                    GroupIdentifier: groupIdentifier
+                });
+            });
         });
     });
-
-// for now, all vocabulary schemas are just Identifier/Label
-//    app.get('/vocabulary/:vocab', function (req, res) {
-//        storage.Vocab.getVocabularySchema(req.params.vocab, function (xml) {
-//            res.xml(xml);
-//        });
-//    });
 
     app.get('/vocabulary/:vocab/all', function (req, res) {
         storage.Vocab.getVocabulary(req.params.vocab, function (xml) {
@@ -266,6 +267,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/vocabulary/:vocab/add', function (req, res) {
+        // todo: anybody can do this?
         var entry = req.body.Entry;
         var vocabName = req.params.vocab;
         storage.Vocab.addVocabularyEntry(vocabName, entry, function (xml) {
@@ -343,21 +345,24 @@ Storage('oscr', homeDir, function (storage) {
 
     app.post('/document/save', function (req, res) {
         logSession(req);
-        // kind of interesting to receive xml within json, but seems to work
-        storage.Document.saveDocument(req.body, function (header) {
-            res.xml(header);
-            if (header) {
-                var entry = {
-                    Op: "SaveDocument",
-                    Identifier: util.getFromXml(header, "Identifier"),
-                    SchemaName: util.getFromXml(header, "SchemaName")
-                };
-                var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
-                if (groupIdentifier.length) {
-                    entry.GroupIdentifier = groupIdentifier;
+        var groupIdentifier = req.body.header.GroupIdentifier;
+        util.authenticatedGroup(groupIdentifier, ['Administrator', 'Member'], req, res, function() {
+            // kind of interesting to receive xml within json, but seems to work
+            storage.Document.saveDocument(req.body, function (header) {
+                res.xml(header);
+                if (header) {
+                    var entry = {
+                        Op: "SaveDocument",
+                        Identifier: util.getFromXml(header, "Identifier"),
+                        SchemaName: util.getFromXml(header, "SchemaName")
+                    };
+                    var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
+                    if (groupIdentifier.length) {
+                        entry.GroupIdentifier = groupIdentifier;
+                    }
+                    storage.Log.add(req, entry)
                 }
-                storage.Log.add(req, entry)
-            }
+            });
         });
     });
 

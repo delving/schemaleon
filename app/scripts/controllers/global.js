@@ -53,6 +53,22 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
+        $rootScope.globalError = null;
+        var globalErrorErasePromise;
+
+        $rootScope.setGlobalError = function(error) {
+            if (globalErrorErasePromise) {
+                $timeout.cancel(globalErrorErasePromise);
+            }
+            $rootScope.globalError = error;
+            globalErrorErasePromise  = $timeout(
+                function() {
+                    $rootScope.globalError = null;
+                },
+                3000
+            );
+        };
+
         $scope.recent = [];
 
         $rootScope.schemaMap =  {
