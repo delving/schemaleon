@@ -36,13 +36,23 @@ OSCR.controller(
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
         });
+        
+        $scope.enableVocabularyEditor = function () {
+            console.log('vocabulary focussed');
+        }
     }
 );
 OSCR.controller(
     'VocabularySearchController',
     function ($scope, Vocabulary) {
 
-        $scope.el = $scope.panel.element;
+        if($scope.panel){
+            $scope.el = $scope.panel.element;    
+        }
+        else {
+            console.log($scope.el); 
+        }
+        
 
         if (!$scope.el.config.vocabulary) {
             return;

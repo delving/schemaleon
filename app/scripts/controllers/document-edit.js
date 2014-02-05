@@ -670,16 +670,14 @@ OSCR.controller(
 //                console.warn("get detail template of nothing"); // todo take care of this
                 return "expert-field-documentation.html"
             }
-            if ($scope.editing) {
-                if (el.config.media) {
-                    return "expert-media-search.html";
-                }
-                else if (el.config.vocabulary) {
-                    return "expert-vocabulary-search.html";
-                }
-                else if (el.config.instance) {
-                    return "expert-instance-search.html";
-                }
+            if (el.config.media) {
+                return "expert-media-search.html";
+            }
+            else if (el.config.vocabulary) {
+                return "expert-vocabulary-search.html";
+            }
+            else if (el.config.instance) {
+                return "expert-instance-search.html";
             }
             return "expert-field-documentation.html"
         };
