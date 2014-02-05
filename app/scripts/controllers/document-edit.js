@@ -201,21 +201,26 @@ OSCR.controller(
         $scope.headerDocumentState = null;
         $scope.saveSuccess = false;
 
+        function setDocumentDirty(dirty) {
+            $scope.documentDirty = dirty;
+            $rootScope.disableChoosePath = dirty;
+        }
+
         function freezeTree() {
             if (!$scope.tree) return;
             $scope.documentJSON = JSON.stringify(treeToObject($scope.tree), null, 4);
-            $scope.documentDirty = false;
+            setDocumentDirty(false);
             $scope.headerDocumentState = null;
         }
 
         function checkTreeDirty() {
             if (!$scope.tree) return;
             if ($scope.headerDocumentState && $scope.headerDocumentState != $scope.header.DocumentState) {
-                $scope.documentDirty = true;
+                setDocumentDirty(true);
                 return;
             }
             var json = JSON.stringify(treeToObject($scope.tree), null, 4);
-            $scope.documentDirty = json != $scope.documentJSON;
+            setDocumentDirty(json != $scope.documentJSON);
             if ($scope.documentDirty) {
                 $scope.time = updateTimeString($scope.header.TimeStamp);
             }

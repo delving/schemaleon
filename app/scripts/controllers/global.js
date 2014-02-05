@@ -53,6 +53,8 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
+        $rootScope.disableChoosePath = false;
+
         $rootScope.globalError = null;
         var globalErrorErasePromise;
 
@@ -66,7 +68,7 @@ OSCR.controller(
                     $rootScope.globalError = null;
                     globalErrorErasePromise = null;
                 },
-                3000
+                6000
             );
         };
 
@@ -242,6 +244,12 @@ OSCR.controller(
         };
 
         $rootScope.choosePath = function (path, viewOnly) {
+            if($rootScope.disableChoosePath) {
+                $rootScope.setGlobalError('Please save your document first');
+                // todo: modal to save or continue;
+                return;
+            }
+            //todo: catch a dirty document
             var header = undefined;
             if (_.isObject(path)) { // they may have given us a header to define the path
                 header = path;
