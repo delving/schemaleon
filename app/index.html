@@ -134,8 +134,13 @@
                                                 <span>{{ user.Profile.firstName }}</span>
                                                 <span>{{ user.Profile.lastName }}</span>
                                             </div>
-                                            <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
-                                            <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
+                                            <div data-ng-if="user.group">
+                                                <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
+                                                <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
+                                            </div>
+                                            <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
+                                                <span class="label i18n"/><br/>
+                                            </div>
                                             <a href ng-click="logout()" title="" i18n="Logout">
                                                 <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
                                             </a>

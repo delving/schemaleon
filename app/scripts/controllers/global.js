@@ -142,12 +142,15 @@ OSCR.controller(
 
             $scope.mainMenuBase = [
                 {name: "Public", path: "/public", icon: 'icon-road', active: false},
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
-                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
+                {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false}
             ];
 
             var user = $rootScope.user;
             if (user.Membership) {
+
+                if (_.indexOf(['Administrator', 'Member'], user.Membership.Role) >= 0) {
+                    $scope.mainMenuBase.push({name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false});
+                }
 
                 Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
                     $scope.statistics = statistics;
@@ -192,6 +195,11 @@ OSCR.controller(
                             if (link.active) anyActive = true;
                         }
                     });
+                });
+            }
+            else {
+                Statistics.getGlobalStatistics(null, function (statistics) {
+                    $scope.statistics = statistics;
                 });
             }
         }

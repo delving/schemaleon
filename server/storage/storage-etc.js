@@ -5,7 +5,6 @@ var fs = require('fs');
 var path = require('path');
 var defer = require('node-promise').defer;
 var archiver = require('node-archiver');
-var exec = require('child_process').exec
 
 module.exports = ETC;
 
