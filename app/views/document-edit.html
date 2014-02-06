@@ -118,7 +118,7 @@
                     </ul>
                 </small>
             </li>
-            <li class="pull-right">
+            <li class="pull-right" ng-if="!user.viewer">
                <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
                    <span ng-show="isDocumentPublic()" i18n="Public" ng-click="setDocumentState('private')">
                        <i class="icon icon-white icon-eye-open"></i>
