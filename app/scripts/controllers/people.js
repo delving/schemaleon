@@ -67,8 +67,10 @@ OSCR.controller(
         $scope.typeAheadUsers = function (query, onlyOrphans) {
             var search = query.toLowerCase();
             var selectedUsers = _.filter($scope.userList, function (user) {
+                console.log(user);
                 return user.Profile.firstName.toLowerCase().indexOf(search) >= 0 ||
-                    user.Profile.lastName.toLowerCase().indexOf(search) >= 0;
+                    user.Profile.lastName.toLowerCase().indexOf(search) >= 0 ||
+                    user.Profile.email.toLowerCase().indexOf(search) >= 0
             });
             // todo: splice when it gets too big
             if (!selectedUsers.length) {
@@ -100,7 +102,7 @@ OSCR.controller(
 
         $scope.userToString = function (user) {
             if (!user) return '';
-            return user.Profile.firstName + ' ' + user.Profile.lastName + ' <' + user.Profile.email + '>';
+            return user.Profile.firstName + ' ' + user.Profile.lastName + ' &lt;' + user.Profile.email + '&gt;';
         };
 
         $scope.typeAheadGroups = function (query) {
