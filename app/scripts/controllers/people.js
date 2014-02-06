@@ -33,6 +33,7 @@ OSCR.controller(
         $scope.groupCreated = false;
         $scope.userAssigned = false;
         $scope.groupList = [];
+        $scope.userList = [];
         $scope.roles = _.map(Person.roles, function (role) {
             return { name: role }
         });
@@ -51,6 +52,9 @@ OSCR.controller(
                 Person.getAllGroups(function (list) {
                     $scope.groupList = list;
                 });
+                Person.getAllUsers(function(list) {
+                    $scope.userList = list;
+                });
             }
             else {
                 Person.getGroup($scope.membership.GroupIdentifier, function(group) {
@@ -61,21 +65,17 @@ OSCR.controller(
         }
 
         $scope.typeAheadUsers = function (query, onlyOrphans) {
-            var deferred = $q.defer();
-            Person.selectUsers(query, function (list) {
-                // todo: do this in a query
-                if (onlyOrphans) {
-                    deferred.resolve(_.filter(list, function(user) {
-                        return !user.Membership;
-                    }));
-                }
-                else {
-                    deferred.resolve(_.filter(list, function(user) {
-                        return user.Membership;
-                    }));
-                }
+            var search = query.toLowerCase();
+            var selectedUsers = _.filter($scope.userList, function (user) {
+                return user.Profile.firstName.toLowerCase().indexOf(search) >= 0 ||
+                    user.Profile.lastName.toLowerCase().indexOf(search) >= 0;
             });
-            return deferred.promise;
+            // todo: splice when it gets too big
+            if (!selectedUsers.length) {
+                selectedUsers = $scope.userList;
+            }
+            return selectedUsers;
+
         };
 
         $scope.selectGroup = function(group) {

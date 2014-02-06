@@ -27,11 +27,11 @@ angular.module('OSCR').service(
             });
         };
 
-        this.selectUsers = function (query, accept) {
-            $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
-                accept(xmlToArray(xml));
-            });
-        };
+//        this.selectUsers = function (query, accept) {
+//            $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
+//                accept(xmlToArray(xml));
+//            });
+//        };
 
         this.getUser = function (identifier, accept) {
             $http.get('/person/user/fetch/' + identifier).success(function (xml) {

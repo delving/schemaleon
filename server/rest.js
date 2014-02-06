@@ -164,12 +164,12 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/person/user/select', function (req, res) {
-        var search = req.param('q').toLowerCase();
-        storage.Person.getUsers(search, function (xml) {
-            res.xml(xml);
-        });
-    });
+//    app.get('/person/user/select', function (req, res) {
+//        var search = req.param('q').toLowerCase();
+//        storage.Person.getUsers(search, function (xml) {
+//            res.xml(xml);
+//        });
+//    });
 
     app.get('/person/user/all', function (req, res) {
         storage.Person.getAllUsers(function (xml) {
