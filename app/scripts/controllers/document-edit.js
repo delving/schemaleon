@@ -435,9 +435,7 @@ OSCR.controller(
         $scope.el = $scope.element;
 
         $scope.focusArrived = function(el, index, panelIndex) {
-//            console.log('focusArrived index='+index+' panelIndex='+panelIndex, el);
-//            $scope.choose(index, panelIndex);
-            $scope.navigationKeyPressed('down');
+            $scope.choose(index, panelIndex);
         };
 
         $scope.navigationKeyPressed = function (key) {
