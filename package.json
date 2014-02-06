@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "basex": "~0.6.1",
-    "archiver": "~0.4.9"
+    "archiver": "~0.4.9",
+    "node-archiver": "~0.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
