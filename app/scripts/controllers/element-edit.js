@@ -191,6 +191,7 @@ OSCR.controller(
         if (!$scope.el.config.instance) {
             return;
         }
+
         $scope.schema = $scope.el.config.instance;
 
         $scope.$watch('chosenEntry', function (value, before) {
@@ -233,7 +234,9 @@ OSCR.controller(
     'InstanceSearchController',
     function ($rootScope, $scope, Document) {
 
-        $scope.el = $scope.panel.element;
+        if ($scope.panel) $scope.el = $scope.panel.element;
+        if (!$scope.el.config.instance) return;
+        $scope.schema = $scope.el.config.instance;
 
         $scope.instanceDetails = false;
 

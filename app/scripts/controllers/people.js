@@ -67,7 +67,6 @@ OSCR.controller(
         $scope.typeAheadUsers = function (query, onlyOrphans) {
             var search = query.toLowerCase();
             var selectedUsers = _.filter($scope.userList, function (user) {
-                console.log(user);
                 return user.Profile.firstName.toLowerCase().indexOf(search) >= 0 ||
                     user.Profile.lastName.toLowerCase().indexOf(search) >= 0 ||
                     user.Profile.email.toLowerCase().indexOf(search) >= 0
