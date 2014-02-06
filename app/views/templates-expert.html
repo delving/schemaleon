@@ -177,14 +177,15 @@
 </script>
 
 <script type="text/ng-template" id="expert-instance.html">
+    <!-- TODO: show initial values, get them from el.value.Header ??? -->
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
-            <div ng-if="!el.value">
+            <div ng-if="!el.value.Header">
                 <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
             </div>
-            <div ng-if="el.value">
-                <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-model="el.value.SummaryFields.Title" data-ng-focus="setActiveEl(el)"/>
+            <div ng-if="el.value.Header">
+                <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-value="el.value.Header.Title" data-ng-focus="setActiveEl(el)"/>
                 <input ng-if="isEditing(el)" type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
             </div>
 
