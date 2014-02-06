@@ -62,30 +62,59 @@
             </div>
         </div>
         <div data-ng-if="isEditing(el)">
-            <div data-ng-controller="VocabularySearchController" class="vocabulary-controls">
+            <div data-ng-controller="VocabularySearchController" class="vocabulary-extended">
+                <table class="table-condensed table-vocabulary-details">
+                    <!-- DISPLAY CURRENT VALUE //-->
+                    <tr ng-show="el.value.Label">
+                        <th i18n="CurrentValue" width="120"><span class="i18n"/></th>
+                        <td>{{ el.value.Label }}</td>
+                    </tr>
+                    <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+                    <tr>
+                        <th i18n="SearchFor" width="120"><span class="i18n"/></th>
+                        <td>{{ el.searchValue }}</td>
+                    </tr>
+                    <!-- DISPLAY LIST OF RETURNED VALUES //-->
+                    <tr>
+                        <td colspan="2">
+                            <div ng-if="el.entries">
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+                                    <li ng-repeat="entry in el.entries">
+                                        <a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ng-show="el.entries && el.entries.length == 0">
+                                <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
+                                    <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <!-- DISPLAY CURRENT VALUE //-->
-                <div ng-show="el.value" i18n="CurrentValue" class="current">
-                    <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Label }}</span>
-                </div>
+                <!--<div ng-show="el.value" i18n="CurrentValue" class="current">-->
+                    <!--<label><span class="i18n"/>:</label> <span class="value">{{ el.value.Label }}</span>-->
+                <!--</div>-->
                 <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
-                <div i18n="SearchFor">
-                    <label><span class="i18n"/>:</label>
-                    <span class="value search-value">{{ el.searchValue }}</span>
-                </div>
+                <!--<div i18n="SearchFor">-->
+                    <!--<label><span class="i18n"/>:</label>-->
+                    <!--<span class="value search-value">{{ el.searchValue }}</span>-->
+                <!--</div>-->
                 <!-- DISPLAY ADD BUTTON FOR NEW VALUE //-->
-                <span ng-hide="el.entries">
-                    <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
-                        <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
-                    </button>
-                </span>
+                <!--<span ng-show="el.entries && el.entries.length == 0">-->
+                    <!--<button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">-->
+                        <!--<i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>-->
+                    <!--</button>-->
+                <!--</span>-->
                 <!-- DISPLAY LIST OF RETURNED VALUES //-->
-                <div ng-show="el.entries">
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
-                        <li ng-repeat="entry in el.entries">
-                            <a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>
-                        </li>
-                    </ul>
-                </div>
+                <!--<div ng-show="el.entries">-->
+                    <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">-->
+                        <!--<li ng-repeat="entry in el.entries">-->
+                            <!--<a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
