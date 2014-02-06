@@ -54,11 +54,11 @@
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
             <div ng-if="!el.value">
-                <input type="text" ng-model="el.searchValue" class="input-block-level" data-ng-focus="setActiveEl(el)"/>
+                <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
             </div>
             <div ng-if="el.value">
-                <input style="opacity: 0; width: 0; height: 0; " data-ng-focus="setActiveEl(el)"/>
-                <span class="label" ng-click="setActiveEl(el)">{{ el.value.Label }}</span>
+                <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-model="el.value.Label" data-ng-focus="setActiveEl(el)"/>
+                <input ng-if="isEditing(el)" type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
             </div>
         </div>
         <div data-ng-if="isEditing(el)">

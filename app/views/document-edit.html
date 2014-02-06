@@ -210,7 +210,7 @@
 <script type="text/ng-template" id="expert-tab.html">
     <div data-ng-controller="ExpertTreeController" class="row-fluid">
         <div class="span6" data-ng-controller="ExpertElementController">
-            <form>
+            <form class="form-expert">
                     <fieldset class="field" ng-repeat="el in tree.elements" ng-include="getExpertEditTemplate(el)"/>
             </form>
         </div>

@@ -52,7 +52,10 @@ OSCR.controller(
 
         $scope.setValue = function (value) {
             $scope.el.value = value;  // vocabulary controller is watching this
+            console.log('given value', value);
+            console.log('$scope.el.value', $scope.el.value);
             $scope.setEditing(false);
+            $scope.el.searchValue = '';
         };
 
         $scope.createNewValue = function () {
