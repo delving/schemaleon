@@ -74,8 +74,16 @@ OSCR.controller(
             if (!selectedUsers.length) {
                 selectedUsers = $scope.userList;
             }
-            return selectedUsers;
-
+            if (onlyOrphans) {
+                return _.filter(selectedUsers, function (user) {
+                    return !user.Membership;
+                });
+            }
+            else {
+                return _.filter(selectedUsers, function (user) {
+                    return user.Membership;
+                });
+            }
         };
 
         $scope.selectGroup = function(group) {
