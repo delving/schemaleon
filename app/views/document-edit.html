@@ -164,7 +164,8 @@
                     <div ng-show="panel.element.elements">
                         <ul class="nav nav-pills nav-stacked panel-list">
                             <li ng-repeat="element in panel.element.elements">
-                                <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                                <a class="level{{ element.classIndex }} link-{{ element.name }}"
+                                   ng-click="choose($index, $parent.$index)">
                                         <span class="link-title">
                                             {{ element | elementTitle }}
                                             <span ng-show="config.showTranslationEditor"
@@ -178,6 +179,7 @@
                                             <span ng-include="getPanelEditTemplate(element)"></span>
                                         </span>
                                 </a>
+
                                 <div class="icon-container">
                                     <span class="icon-item status status-{{ element.invalid }}"></span>
                                         <span ng-show="element.config.multiple"
@@ -191,7 +193,6 @@
                                             <i class="icon-minus-sign icon-white"></i>
                                         </span>
                                 </div>
-
                             </li>
                         </ul>
                     </div>

@@ -205,7 +205,7 @@ OSCR.controller(
         }
 
         $rootScope.$watch('user', function (user, before) {
-            console.log("user changed", user);
+//            console.log("user changed", user);
             if (!user) return;
             if (user.Membership) {
                 switch (user.Membership.Role) {
@@ -464,7 +464,6 @@ OSCR.controller(
 
         if ($location.host() == 'localhost') {
             var userIdentifier = $cookieStore.get('oscr-user-identifier');
-            console.log('getting userIdentifier ', userIdentifier);
             if (userIdentifier) {
                 Person.getUser(userIdentifier, function(user) {
                     $rootScope.user = user;

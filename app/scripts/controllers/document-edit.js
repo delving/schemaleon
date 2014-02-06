@@ -435,7 +435,13 @@ OSCR.controller(
         $scope.el = $scope.element;
 
         $scope.focusArrived = function(el, index, panelIndex) {
-            $scope.choose(index, panelIndex);
+            if (panelIndex > $scope.selectedPanelIndex) {
+                // refuse to skip ahead of selectedPanelIndex, instead cycle to 0
+                $scope.choose(0, $scope.selectedPanelIndex);
+            }
+            else {
+                $scope.choose(index, panelIndex);
+            }
         };
 
         $scope.navigationKeyPressed = function (key) {
