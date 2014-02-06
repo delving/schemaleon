@@ -9,6 +9,8 @@ var upload = require('./upload');
 var util = require('./util');
 
 var app = express();
+app.use(express.cookieParser());
+app.use(express.cookieSession({secret: 'oscr'}));
 
 module.exports = app;
 
@@ -19,8 +21,6 @@ Storage('oscr', homeDir, function (storage) {
 
     app.use(upload(storage).serve);
     app.use(express.bodyParser());
-    app.use(express.cookieParser());
-    app.use(express.cookieSession({secret: 'oscr'}));
     app.response.__proto__.xml = function (xmlString) {
         this.setHeader('Content-Type', 'text/xml');
         this.send(xmlString);

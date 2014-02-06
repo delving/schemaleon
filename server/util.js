@@ -163,7 +163,11 @@ module.exports.thumbnailExtension = '.jpg';
 module.exports.thumbnailMimeType = 'image/jpeg';
 
 module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, res, action) {
-    if (groupIdentifier != req.session.GroupIdentifier && req.session.GroupIdentifier != 'OSCR') {
+    if (!req.session) {
+        console.error('no session for '+groupIdentifier);
+        res.status(403).send("<Error>No session</Error>");
+    }
+    else if (groupIdentifier != req.session.GroupIdentifier && req.session.GroupIdentifier != 'OSCR') {
         res.status(403).send("<Error>Illegal Group: " + req.session.GroupIdentifier + "</Error>");
     }
     else if (roleArray.length && _.indexOf(roleArray, req.session.Role) < 0) {
