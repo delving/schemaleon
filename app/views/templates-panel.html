@@ -1,7 +1,7 @@
 <!--This file contains only templates, and is tied to the controllers in element-edit.js-->
 
 <script type="text/ng-template" id="panel-submenu.html">
-    <input el-focus="el" el-hidden-focus="el" class="stealth" data-ng-focus="alert('panel-submenu')"/>
+    <input el-focus="el" el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
 </script>
 
 <script type="text/ng-template" id="panel-line.html">
@@ -19,7 +19,7 @@
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <input disabled class="input-block-level" type="text" ng-model="el.value" />
-                <input el-hidden-focus="el" class="stealth" data-ng-focus="alert('line')"/>
+                <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>
@@ -33,8 +33,7 @@
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <textarea disabled ng-model="el.value" rows="5"></textarea>
-                <input value="paragraph" ng-focus="alert('paragraph')"/>
-                <!--<input el-hidden-focus="el" class="stealth" ng-focus="alert('paragraph')"/>-->
+                <input el-hidden-focus="el" class="stealth" ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>
@@ -53,7 +52,7 @@
                 <div data-ng-show="!el.value">
                     <input type="text" disabled value="-" class="input-block-level"/>
                 </div>
-                <input el-hidden-focus="el" class="stealth" data-ng-focus="alert('vocab')"/>
+                <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>
@@ -118,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="alert('panel-media')"/>
+        <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
     </div>
 </script>
 
@@ -174,7 +173,7 @@
                 <div data-ng-show="!el.value">
                     <input type="text" disabled value="-" class="input-block-level"/>
                 </div>
-                <input el-hidden-focus="el" class="stealth" data-ng-focus="alert('instance')"/>
+                <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>

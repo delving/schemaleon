@@ -404,6 +404,11 @@ ul.kv-list li span.value {
   right: 0px;
   top: 0px;
 }
+.stealth {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 /* WIDGET BOX */
 .widget-box {
   background: none repeat scroll 0 0 #f6f6f6;
