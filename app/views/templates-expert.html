@@ -185,7 +185,7 @@
                 <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
             </div>
             <div ng-if="el.value.Header">
-                <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-value="el.value.Header.Title" data-ng-focus="setActiveEl(el)"/>
+                <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-value="el.headerTitle" data-ng-focus="setActiveEl(el)"/>
                 <input ng-if="isEditing(el)" type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
             </div>
 
@@ -195,7 +195,7 @@
     <div ng-if="isEditing(el)" data-ng-controller="InstanceSearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
-            <label><span class="i18n"/>:</label> <span class="value">{{ el.value..Header.SummaryFields.Title }}</span>
+            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
         </div>
         <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
         <div i18n="SearchFor">
@@ -206,7 +206,7 @@
         <div ng-show="el.entries">
             <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
                 <li ng-repeat="entry in el.entries">
-                    <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
+                    <a href tabindex="-1" ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
                     <div class="vocabulary-extended" ng-show="instanceDetails">
                         <div ng-include="getInstanceDetails(entry.Header.SchemaName)"></div>
                     </div>
