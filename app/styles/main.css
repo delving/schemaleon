@@ -408,6 +408,10 @@ ul.kv-list li span.value {
   opacity: 0;
   width: 0;
   height: 0;
+  font-size: 0px;
+  line-height: 0px;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
 }
 /* WIDGET BOX */
 .widget-box {
@@ -1546,6 +1550,30 @@ label {
 }
 .form-expert .vocabulary-controls .value {
   color: #999999;
+}
+.expert-left-col {
+  float: left;
+  width: 31.914893617021278%;
+  *width: 31.861702127659576%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+.expert-left-col:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
+}
+.expert-right-col {
+  float: left;
+  width: 48.93617021276595%;
+  *width: 48.88297872340425%;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.0212765957446805%;
+}
+.expert-right-col:first-child {
+  margin-left: 0;
+  margin-left: 0%;
+  *margin-left: -0.10638297872340438%;
 }
 .vocabulary-extended table {
   background: #f1f1f1;
