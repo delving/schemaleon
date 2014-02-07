@@ -225,7 +225,7 @@ function cloneAndPruneTree(tree) {
             });
         }
         delete el.value;
-        delete el.valueVisible; // only used in line
+        delete el.$$hashKey;
     }
 
     var clone = angular.copy(tree);
@@ -266,7 +266,6 @@ function collectMediaElements(tree) {
             });
         }
         else if (el.config.media && el.value) {
-//            mediaElements.push(el);
             mediaElements.push(angular.copy(el));
         }
     }
@@ -280,9 +279,8 @@ function populateTree(tree, object) {
         if (!element.config.multiple) {
             throw "Multiple values for " + element.name + ":" + valueArray;
         }
-        var stamp = JSON.stringify(element);
         return _.map(valueArray, function (value) {
-            var clone = JSON.parse(stamp);
+            var clone = angular.copy(element);
             installValidators(clone);
             if (_.isObject(value)) {
                 var node = {};

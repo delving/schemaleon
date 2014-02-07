@@ -15,6 +15,7 @@ OSCR.controller(
 
         // the central scope elements
         $scope.tree = null;
+        $scope.cleanTree = null;
         $scope.document = null;
 
         // flags for view ()
@@ -86,41 +87,15 @@ OSCR.controller(
                     console.warn("No tree was returned for schema "+schema);
                     return;
                 }
+                installValidators(tree);
+                $scope.cleanTree = angular.copy(tree); // keep a clean copy
                 if (!emptyDocument) {
                     populateTree(tree, document.Body);
                 }
                 $scope.tree = tree; // already populated
-                installValidators(tree);
                 validateTree(tree);
             });
         });
-
-        // pressing the plus sign adds a sibling to the current parent
-        $scope.addSiblingToParent = function (parentElement, childIndex) {
-            var sibling = cloneAndPruneTree(parentElement.elements[childIndex]);
-            parentElement.elements.splice(childIndex + 1, 0, sibling);
-            return childIndex + 1; // the new position
-        };
-
-        // pressing the minus sign removes a child
-        $scope.removeSiblingFromParent = function (parentElement, childIndex) {
-            var list = parentElement.elements;
-            var childName = list[childIndex].name;
-            var hasSibling = false;
-            if (childIndex > 0 && list[childIndex - 1].name == childName) {
-                hasSibling = true;
-            }
-            if (childIndex < list.length - 1 && list[childIndex + 1].name == childName) {
-                hasSibling = true;
-            }
-            if (hasSibling) {
-                list.splice(childIndex, 1);
-                if (childIndex >= list.length) {
-                    childIndex--;
-                }
-            }
-            return childIndex;
-        };
 
         $scope.getDocumentState = function(header) {
             if (header.DocumentState) {
@@ -270,6 +245,35 @@ OSCR.controller(
             $scope.activeTab = "view";
         }
 
+        // pressing the plus sign adds a sibling to the current parent
+        $scope.addSiblingToParent = function (parentElement, childIndex) {
+            var sibling = cloneAndPruneTree(parentElement.elements[childIndex]);
+            parentElement.elements.splice(childIndex + 1, 0, sibling);
+            setDocumentDirty(true);
+            return childIndex + 1; // the new position
+        };
+
+        // pressing the minus sign removes a child
+        $scope.removeSiblingFromParent = function (parentElement, childIndex) {
+            var list = parentElement.elements;
+            var childName = list[childIndex].name;
+            var hasSibling = false;
+            if (childIndex > 0 && list[childIndex - 1].name == childName) {
+                hasSibling = true;
+            }
+            if (childIndex < list.length - 1 && list[childIndex + 1].name == childName) {
+                hasSibling = true;
+            }
+            if (hasSibling) {
+                list.splice(childIndex, 1);
+                if (childIndex >= list.length) {
+                    childIndex--;
+                }
+            }
+            setDocumentDirty(true);
+            return childIndex;
+        };
+
         // if the tree changes, we set it up
         $scope.$watch('tree', function (tree, oldTree) {
             if (!tree) return;
@@ -301,7 +305,7 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 $scope.useHeader(document.Header);
-                populateTree($scope.tree, document.Body);
+                populateTree(angular.copy($scope.cleanTree), document.Body);
                 freezeTree();
                 $scope.saveSuccess = true;
                 $timeout(function() {
