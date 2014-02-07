@@ -1574,10 +1574,13 @@ label {
 .form-expert {
   background: #222222;
   color: #eeeeee;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: -10px;
   padding: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 0 0 10px 10px;
+  -moz-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
 }
 .form-expert legend {
   color: #eeeeee;
@@ -1697,3 +1700,4 @@ label {
 .break-word {
   word-wrap: break-word;
 }
+/* chat */

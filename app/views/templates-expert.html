@@ -132,10 +132,6 @@
     </div>
     <div class="expert-right-col">
         <div ng-if="isEditing(el)" data-ng-controller="InstanceSearchController" class="vocabulary-controls">
-            <!-- DISPLAY CURRENT VALUE //-->
-            <!--<div ng-show="el.value" i18n="CurrentValue" class="current">-->
-                <!--<label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>-->
-            <!--</div>-->
             <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
             <div class="detail-controls">
                 <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
@@ -143,9 +139,6 @@
                     <label><span class="i18n"/>:</label>
                     <span class="value search-value">{{ el.searchValue }}</span>
                 </span>
-                <!--<span i18n="Found">-->
-                    <!--<label><span class="i18n"/>:</label>-->
-                <!--</span>-->
                 <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
                     <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
                 </span>

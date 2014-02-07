@@ -211,7 +211,7 @@
 <script type="text/ng-template" id="expert-tab.html">
     <div data-ng-controller="ExpertTreeController">
         <form class="form-expert" ng-if="tree">
-            {{ schema }}
+            <!--{{ schema }}-->
             <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)">
                 <div class="row-fluid" ng-repeat="(elIndex, el) in parentEl.elements" data-ng-controller="ExpertElementController">
                     <fieldset class="field" ng-include="getExpertEditTemplate(el)"/>
