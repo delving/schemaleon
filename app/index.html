@@ -201,7 +201,9 @@
                                 <a href ng-click="choosePath(link.path)">
                                     <i class="icon-leaf"></i>
                                     {{ link | linkTitle }}
-                                    <span class="badge-important" ng-if="link.leased" i18n="Leased"><span class="i18n"/></span>
+                                    <span class="badge badge-important" ng-if="link.leased">
+                                        <i class="icon icon-lock icon-white"></i>
+                                    </span>
                                 </a>
                             </li>
                         </ul>
