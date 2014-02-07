@@ -59,6 +59,14 @@
     background-color: @grayDark;
     color: @grayLighter;
   }
+
+  input, select, textarea {
+    &.disabled {
+      cursor: pointer;
+      background-color: @grayDark;
+      color: @grayLighter;
+    }
+  }
   /* panel on right for user input */
   .panel-input {
     color: @grayDark;

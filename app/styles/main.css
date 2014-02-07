@@ -87,6 +87,13 @@
   background-color: #222222;
   color: #eeeeee;
 }
+.panels input.disabled,
+.panels select.disabled,
+.panels textarea.disabled {
+  cursor: pointer;
+  background-color: #222222;
+  color: #eeeeee;
+}
 .panels .panel-input {
   color: #222222;
   padding: 0 20px;

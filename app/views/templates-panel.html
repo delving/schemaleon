@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <input disabled class="input-block-level" type="text" ng-model="el.value" />
+                <input class="input-block-level disabled" type="text" ng-model="el.value" />
                 <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 <textarea el-focus="el" ng-model="el.value" rows="5"></textarea>
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <textarea disabled ng-model="el.value" rows="5"></textarea>
+                <textarea class="disabled" ng-model="el.value" rows="5"></textarea>
                 <input el-hidden-focus="el" class="stealth" ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
@@ -47,10 +47,10 @@
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <div data-ng-show="el.value">
-                    <input type="text" disabled ng-model="el.value.Label" class="input-block-level"/>
+                    <input type="text" ng-model="el.value.Label" class="input-block-level disabled"/>
                 </div>
                 <div data-ng-show="!el.value">
-                    <input type="text" disabled value="-" class="input-block-level"/>
+                    <input type="text" value="-" class="input-block-level disabled"/>
                 </div>
                 <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
@@ -168,10 +168,10 @@
                         </div>
                 </div>
                 <div data-ng-show="el.value">
-                    <input type="text" disabled ng-model="el.headerTitle" class="input-block-level"/>
+                    <input type="text" ng-model="el.headerTitle" class="input-block-level disabled"/>
                 </div>
                 <div data-ng-show="!el.value">
-                    <input type="text" disabled value="-" class="input-block-level"/>
+                    <input type="text" value="-" class="input-block-level disabled"/>
                 </div>
                 <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>

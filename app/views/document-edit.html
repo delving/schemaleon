@@ -166,7 +166,7 @@
                     <div ng-show="panel.element.elements">
                         <ul class="nav nav-pills nav-stacked panel-list">
                             <li ng-repeat="element in panel.element.elements">
-                                <a class="level{{ element.classIndex }} link-{{ element.name }}"
+                                <a href class="level{{ element.classIndex }} link-{{ element.name }}"
                                    ng-click="choose($index, $parent.$index)">
                                         <span class="link-title">
                                             {{ element | elementTitle }}
