@@ -45,7 +45,7 @@
                     <div class="message-list">
                         <ul class="unstyled">
                             <li ng-repeat="message in chatMessageList">
-                                <span class="message-time">{{ message.time |  date:'yyyy/MM/dd @ h:mma'}}</span>
+                                <span class="message-time">{{ message.time | date:'MM/dd@H:mm'}}</span>
                                 <span class="badge" ng-class="{ 'badge-info' : user.Profile.firstName + ' ' + user.Profile.lastName == message.user }">{{ message.user }}</span>
                                 <span>{{ message.text }}</span>
                             </li>

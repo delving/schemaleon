@@ -26,7 +26,7 @@ Storage('oscr', homeDir, function (storage) {
         this.send(xmlString);
     };
 
-    var now = new Date();
+    var now = new Date().getTime();
     var chatMessages = [];
 
     function isYoungEnough(message) {
@@ -39,11 +39,13 @@ Storage('oscr', homeDir, function (storage) {
 
     function publishChatMessage(req) {
         if (req.query.message && req.query.message.length) {
-            chatMessages.push({
-                time: new Date(),
+            var chatMessage = {
+                time: new Date().getTime(),
                 text: req.query.message,
                 user: chatUserString(req.session.profile)
-            });
+            };
+            chatMessages.push(chatMessage);
+            storage.Log.chat(req, chatMessage);
             now = new Date();
             chatMessages = _.filter(chatMessages, isYoungEnough);
         }
@@ -103,7 +105,7 @@ Storage('oscr', homeDir, function (storage) {
                                     req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
                                     req.session.Role = util.getFromXml(xml, 'Role');
                                     res.xml(xml);
-                                    storage.Log.add(req, {
+                                    storage.Log.activity(req, {
                                         Op: "Authenticate"
                                     });
                                 });
@@ -130,7 +132,7 @@ Storage('oscr', homeDir, function (storage) {
                 var title = req.body.title;
                 if (title) storage.I18N.setElementTitle(lang, key, title, function (ok) {
                     replyWithLanguage(lang, res);
-                    storage.Log.add(req, {
+                    storage.Log.activity(req, {
                         Op: "TranslateTitle",
                         Lang: lang,
                         Key: key,
@@ -140,7 +142,7 @@ Storage('oscr', homeDir, function (storage) {
                 });
                 if (req.body.doc) storage.I18N.setElementDoc(lang, key, req.body.doc, function (ok) {
                     replyWithLanguage(lang, res);
-                    storage.Log.add(req, {
+                    storage.Log.activity(req, {
                         Op: "TranslateDoc",
                         Lang: lang,
                         Key: key,
@@ -159,7 +161,7 @@ Storage('oscr', homeDir, function (storage) {
                 var label = req.body.label;
                 if (label) storage.I18N.setLabel(lang, key, label, function (ok) {
                     replyWithLanguage(lang, res);
-                    storage.Log.add(req, {
+                    storage.Log.activity(req, {
                         Op: "TranslateLabel",
                         Lang: lang,
                         Key: key,
@@ -222,7 +224,7 @@ Storage('oscr', homeDir, function (storage) {
         util.authenticatedGod(req, res, function() {
             storage.Person.saveGroup(req.body, function (xml) {
                 res.xml(xml);
-                storage.Log.add(req, {
+                storage.Log.activity(req, {
                     Op: "SaveGroup",
                     Group: req.body
                 });
@@ -243,7 +245,7 @@ Storage('oscr', homeDir, function (storage) {
         util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function() {
             storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
                 res.xml(xml);
-                storage.Log.add(req, {
+                storage.Log.activity(req, {
                     Op: "AddUserToGroup",
                     UserIdentifier: userIdentifier,
                     UserRole: userRole,
@@ -259,7 +261,7 @@ Storage('oscr', homeDir, function (storage) {
         util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function() {
             storage.Person.removeUserFromGroup(userIdentifier, groupIdentifier, function (xml) {
                 res.xml(xml);
-                storage.Log.add(req, {
+                storage.Log.activity(req, {
                     Op: "RemoveUserFromGroup",
                     UserIdentifier: userIdentifier,
                     GroupIdentifier: groupIdentifier
@@ -294,7 +296,7 @@ Storage('oscr', homeDir, function (storage) {
         var vocabName = req.params.vocab;
         storage.Vocab.addVocabularyEntry(vocabName, entry, function (xml) {
             res.xml(xml);
-            storage.Log.add(req, {
+            storage.Log.activity(req, {
                 Op: "AddVocabularyEntry",
                 Vocabulary: vocabName,
                 Entry: entry
@@ -383,7 +385,7 @@ Storage('oscr', homeDir, function (storage) {
                         if (groupIdentifier.length) {
                             entry.GroupIdentifier = groupIdentifier;
                         }
-                        storage.Log.add(req, entry)
+                        storage.Log.activity(req, entry)
                     }
                 }
             });
@@ -419,7 +421,7 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/log', function (req, res) {
-        storage.Log.getEntries(function (xml) {
+        storage.Log.getActivityEntries(function (xml) {
             res.xml(xml);
         });
     });

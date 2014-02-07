@@ -11,24 +11,24 @@ function Log(storage) {
 
 var P = Log.prototype;
 
-P.add = function (req, entry) {
+P.activity = function (req, entry) {
     var s = this.storage;
     entry.Who = req.session.Identifier;
     entry.TimeStamp = (new Date()).getTime();
-    var logXml = util.objectToXml(entry, 'Log');
+    var activityXml = util.objectToXml(entry, 'Activity');
     s.update(
-        'insert log entry',
-        "insert node (" + logXml + ") into " + s.logPath() + '/Entries',
+        'insert activity entry',
+        "insert node (" + activityXml + ") into " + s.activityPath() + '/Activities',
         function (result) {
             if (!result) {
-                var entries = { Log: [entry] };
-                var entriesXml = util.objectToXml(entries, 'Entries');
+                var entries = { Activity: [entry] };
+                var entriesXml = util.objectToXml(entries, 'Activities');
                 s.add(
-                    'creating new log file',
-                    s.logDocument(),
+                    'creating new activity file',
+                    s.activityDocument(),
                     entriesXml,
                     function (xml) {
-                        console.log("new log file:\n" + xml);
+                        console.log("new activity file:\n" + xml);
                     }
                 );
             }
@@ -36,11 +36,36 @@ P.add = function (req, entry) {
     );
 };
 
-P.getEntries = function (receiver) {
+P.chat = function (req, entry) {
+    var s = this.storage;
+    entry.Who = req.session.Identifier;
+    entry.TimeStamp = (new Date()).getTime();
+    var chatXml = util.objectToXml(entry, 'ChatMessage');
+    s.update(
+        'insert chat entry',
+        "insert node (" + chatXml + ") into " + s.chatPath() + '/ChatMessages',
+        function (result) {
+            if (!result) {
+                var entries = { ChatMessage: [entry] };
+                var entriesXml = util.objectToXml(entries, 'ChatMessages');
+                s.add(
+                    'creating new chat file',
+                    s.chatDocument(),
+                    entriesXml,
+                    function (xml) {
+                        console.log("new chat file:\n" + xml);
+                    }
+                );
+            }
+        }
+    );
+};
+
+P.getActivityEntries = function (receiver) {
     var s = this.storage;
     s.query(
         'fetch log entries',
-        s.logPath(),
+        s.activityPath(),
         receiver
     );
 };

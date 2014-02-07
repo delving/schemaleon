@@ -171,13 +171,22 @@ function Storage(home) {
 
     // =============
 
-    this.logDocument = function () {
+    this.activityDocument = function () {
         var now = new Date();
-        return "/log/" + now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + ".xml";
+        return "/log/activity-" + now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + ".xml";
     };
 
-    this.logPath = function () {
-        return "doc('" + this.database + this.logDocument() + "')";
+    this.activityPath = function () {
+        return "doc('" + this.database + this.activityDocument() + "')";
+    };
+
+    this.chatDocument = function () {
+        var now = new Date();
+        return "/log/chat-" + now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + ".xml";
+    };
+
+    this.chatPath = function () {
+        return "doc('" + this.database + this.chatDocument() + "')";
     };
 
     function wrapQuery(query) {
