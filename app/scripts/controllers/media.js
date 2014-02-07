@@ -3,10 +3,6 @@
 
 var OSCR = angular.module('OSCR');
 
-function log(message) {
-//    console.log(message);
-}
-
 OSCR.controller(
     'CollectionChoiceController',
     function ($scope) {
@@ -47,7 +43,7 @@ OSCR.controller(
 
         function fetchCommitted() {
             Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function (list) {
-                console.log("all documents fetched", list);
+                console.log("media fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
                     // $rootScope.getProperThumbExtension checks file extension.
                     // For video/audio files the extension will be replaced by .png
@@ -75,8 +71,7 @@ OSCR.controller(
         });
 
         $scope.commit = function (file) {
-            log('commit');
-            log(file);
+            console.log('commit', file);
             var header = {
                 SchemaName: $scope.schema,
                 GroupIdentifier: $scope.groupIdentifier,
@@ -91,8 +86,7 @@ OSCR.controller(
                 }
             };
             Document.saveDocument(header, body, function (header) {
-                log("saved image");
-                log(header);
+                console.log("saved image, destroying", header);
                 file.$destroy();
                 fetchCommitted();
             });

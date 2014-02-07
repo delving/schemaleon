@@ -6,12 +6,12 @@
             <span class="icon-item status status-{{ el.invalid }}"></span>
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
-                  ng-click="addSibling(panel.element, $index, panelIndex)">
+                  ng-click="addSibling(el)">
                     <i class="icon-plus-sign"></i>
             </span>
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
-                  ng-click="removeSibling(panel.element, $index, panelIndex)">
+                  ng-click="removeSibling(el)">
                     <i class="icon-minus-sign"></i>
             </span>
         </div>

@@ -655,12 +655,14 @@ OSCR.controller(
             }
         };
 
-        $scope.addSibling = function (list, index, panelIndex) {
-            console.warn('not implemented'); // todo: call the tree controller
+        $scope.addSibling = function (el) {
+//            var indexToChoose = $scope.addSiblingToParent(element, index);
+            console.warn('add', el);
         };
 
-        $scope.removeSibling = function (list, index, panelIndex) {
-            console.warn('not implemented'); // todo: call the tree controller
+        $scope.removeSibling = function () {
+//            var indexToChoose = $scope.removeSiblingFromParent(element, index);
+            console.warn('remove', el);
         };
 
         $scope.getExpertEditTemplate = function (el) {

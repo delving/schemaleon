@@ -162,16 +162,32 @@ module.exports.thumbnailExtension = '.jpg';
 
 module.exports.thumbnailMimeType = 'image/jpeg';
 
+module.exports.sendError = function(res, status, error) {
+    res.status(status).send("<Error>"+error+"</Error>");
+};
+
+module.exports.sendErrorMessage = function(res, error) {
+    this.sendError(res, 200, error);
+};
+
+module.exports.sendPermissionDenied = function(res, error) {
+    this.sendError(res, 403, error);
+};
+
+module.exports.sendServerError = function(res, error) {
+    this.sendError(res, 500, error);
+};
+
 module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, res, action) {
     if (!req.session) {
         console.error('no session for '+groupIdentifier);
-        res.status(403).send("<Error>No session</Error>");
+        this.sendPermissionDenied(res, 'No session');
     }
     else if (groupIdentifier != req.session.GroupIdentifier && req.session.GroupIdentifier != 'OSCR') {
-        res.status(403).send("<Error>Illegal Group: " + req.session.GroupIdentifier + "</Error>");
+        this.sendPermissionDenied(res, 'Illegal Group: ' + req.session.GroupIdentifier);
     }
     else if (roleArray.length && _.indexOf(roleArray, req.session.Role) < 0) {
-        res.status(403).send("<Error>Illegal Role: " + req.session.Role + "</Error>");
+        this.sendPermissionDenied(res, 'Illegal Role: ' + req.session.Role);
     }
     else {
         console.log('ok '+groupIdentifier + '/' + roleArray + ' for ' + JSON.stringify(req.session));
@@ -182,3 +198,4 @@ module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, re
 module.exports.authenticatedGod = function(req, res, action) {
     this.authenticatedGroup('OSCR', ['Administrator'], req, res, action);
 };
+

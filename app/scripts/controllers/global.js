@@ -68,7 +68,7 @@ OSCR.controller(
                     $rootScope.globalError = null;
                     globalErrorErasePromise = null;
                 },
-                6000
+                10000
             );
         };
 

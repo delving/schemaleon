@@ -126,23 +126,26 @@ P.saveDocument = function (envelope, receiver) {
         console.log('Should eventually trigger git add/commit');
     }
 
+//    console.log('savedoc: header', header); // todo
+//    console.log('savedoc: body', body); // todo
+
     if (!header.GroupIdentifier) {
-        receiver('');
+        reportError('No group identifier');
         return;
     }
     header.TimeStamp = time;
     if (header.Identifier === IDENTIFIER) {
         if (header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
-            log('save media' + JSON.stringify(envelope));
+//            console.log('savedoc: save media'); // todo
             s.Media.saveMedia(header, body, function (base, extension, error) {
+                console.log('save media returns ', base, extension, error); // todo
                 if (error) {
-                    console.error(error);
-                    receiver('');
+                    reportError(error);
                 }
                 else {
                     header.Identifier = base;
-                    log('header with identifier ' + JSON.stringify(header));
+                    console.log('savedoc: header with identifier', base); // todo
                     addDocument();
                 }
             });
@@ -157,23 +160,29 @@ P.saveDocument = function (envelope, receiver) {
         s.replace('replace document ' + JSON.stringify(header.SummaryFields) + ' with ' + stamped,
             s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
             stamped,
-            function (header) {
+            function (header) { // todo: what about if there is an error?
                 triggerGitCommit();
-                receiver(header);
+                receiver(header, null);
             }
         );
+    }
+
+    function reportError(error) {
+        receiver(null, error);
     }
 
     function addDocument() {
         var xml = envelope.xml
             .replace(IDENTIFIER, header.Identifier) // header
             .replace(TIMESTAMP, time); // header
+        console.log('savedoc: add document', xml); // todo
         s.add('add document ' + header.Identifier,
             s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
             xml,
             function(header) {
+//                console.log('savedoc: add document header is', header); // todo
                 triggerGitCommit();
-                receiver(header);
+                receiver(header, null);
             }
         );
     }

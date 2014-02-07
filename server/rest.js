@@ -26,10 +26,6 @@ Storage('oscr', homeDir, function (storage) {
         this.send(xmlString);
     };
 
-    function logSession(req) {
-        console.log('session', req.session);
-    }
-
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
             "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
@@ -86,21 +82,19 @@ Storage('oscr', homeDir, function (storage) {
                                     storage.Log.add(req, {
                                         Op: "Authenticate"
                                     });
-                                    logSession(req);
                                 });
                             });
                         }
                     ).end();
                 }
                 else {
-                    res.send("<Error>Failed to authenticate</Error>");
+                    util.sendErrorMessage(res, 'Failed to authenticate');
                 }
             }
         ).end();
     });
 
     app.get('/i18n/:lang', function (req, res) {
-        logSession(req);
         replyWithLanguage(req.params.lang, res);
     });
 
@@ -295,7 +289,6 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch shared
     app.get('/shared/:schema/:identifier/fetch', function (req, res) {
-        logSession(req);
         storage.Document.getDocument(req.params.schema, undefined, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -303,7 +296,6 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch primary
     app.get('/primary/:schema/:groupIdentifier/:identifier/fetch', function (req, res) {
-        logSession(req);
         storage.Document.getDocument(req.params.schema, req.params.groupIdentifier, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -344,23 +336,27 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.post('/document/save', function (req, res) {
-        logSession(req);
         var groupIdentifier = req.body.header.GroupIdentifier;
         util.authenticatedGroup(groupIdentifier, ['Administrator', 'Member'], req, res, function() {
             // kind of interesting to receive xml within json, but seems to work
-            storage.Document.saveDocument(req.body, function (header) {
-                res.xml(header);
-                if (header) {
-                    var entry = {
-                        Op: "SaveDocument",
-                        Identifier: util.getFromXml(header, "Identifier"),
-                        SchemaName: util.getFromXml(header, "SchemaName")
-                    };
-                    var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
-                    if (groupIdentifier.length) {
-                        entry.GroupIdentifier = groupIdentifier;
+            storage.Document.saveDocument(req.body, function (header, error) {
+                if (error) {
+                    util.sendServerError(res, error);
+                }
+                else {
+                    res.xml(header);
+                    if (header) {
+                        var entry = {
+                            Op: "SaveDocument",
+                            Identifier: util.getFromXml(header, "Identifier"),
+                            SchemaName: util.getFromXml(header, "SchemaName")
+                        };
+                        var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
+                        if (groupIdentifier.length) {
+                            entry.GroupIdentifier = groupIdentifier;
+                        }
+                        storage.Log.add(req, entry)
                     }
-                    storage.Log.add(req, entry)
                 }
             });
         });
