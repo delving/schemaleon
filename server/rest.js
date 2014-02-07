@@ -26,6 +26,30 @@ Storage('oscr', homeDir, function (storage) {
         this.send(xmlString);
     };
 
+    var now = new Date();
+    var chatMessages = [];
+
+    function isYoungEnough(message) {
+        return (now - message.time) < 60000; // one minute
+    }
+
+    function chatUserString(profile) {
+        return profile.firstName + ' ' + profile.lastName;
+    }
+
+    function publishChatMessage(req) {
+        if (req.query.message && req.query.message.length) {
+            chatMessages.push({
+                time: new Date(),
+                text: req.query.message,
+                user: chatUserString(req.session.profile)
+            });
+            now = new Date();
+            chatMessages = _.filter(chatMessages, isYoungEnough);
+        }
+        return chatMessages;
+    }
+
     function commonsQueryString() {
         var API_QUERY_PARAMS = {
             "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
@@ -164,6 +188,10 @@ Storage('oscr', homeDir, function (storage) {
 //            res.xml(xml);
 //        });
 //    });
+
+    app.get('/person/chat', function (req, res) {
+        res.send(publishChatMessage(req));
+    });
 
     app.get('/person/user/all', function (req, res) {
         storage.Person.getAllUsers(function (xml) {

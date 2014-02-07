@@ -1,6 +1,6 @@
 <div class="fade-in">
     <div class="page-header">
-        <h1 i18n="Dashboard"><span class="i18n"/></h1>
+        <h1 i18n="Community"><span class="i18n"/></h1>
     </div>
 
     <!--<input type="file" accept="video/*" capture="camera">-->
@@ -10,7 +10,7 @@
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="icon-signal"></i></span>
-                    <h5 i18n="Statistics"><span class="i18n"/></h5>
+                    <h5 i18n="GlobalStatistics"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
                     <ul class="stats">
@@ -33,7 +33,27 @@
                     </ul>
                 </div>
             </div>
+        </div>
 
+        <div class="span8">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class="icon-signal"></i></span>
+                    <h5 i18n="Chat"><span class="i18n"/></h5>
+                </div>
+                <div class="widget-body">
+                    <ul>
+                        <li ng-repeat="message in chatMessageList">
+                            <span class="badge">{{ message.user }}</span>
+                            <span>{{ message.text }}</span>
+                        </li>
+                        <li>
+                            <span class="badge">{{ user.Profile.firstName + ' ' + user.Profile.lastName }}</span>
+                            <span><input data-ng-model="chatMessage" chat-enter="chatSend(chatMessage)"/></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="span8">

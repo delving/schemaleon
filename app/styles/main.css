@@ -1044,21 +1044,21 @@ small.document-info {
 .controls .btn.disabled {
   cursor: pointer;
 }
-.dashboard-header {
+.community-header {
   width: 100%;
   *zoom: 1;
   margin-bottom: 20px;
 }
-.dashboard-header:before,
-.dashboard-header:after {
+.community-header:before,
+.community-header:after {
   display: table;
   content: "";
   line-height: 0;
 }
-.dashboard-header:after {
+.community-header:after {
   clear: both;
 }
-.dashboard-header .statistics {
+.community-header .statistics {
   float: left;
   width: 100%;
   *width: 99.94680851063829%;
@@ -1066,17 +1066,17 @@ small.document-info {
   *margin-left: 2.0212765957446805%;
   text-align: center;
 }
-.dashboard-header .statistics:first-child {
+.community-header .statistics:first-child {
   margin-left: 0;
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
 }
-.dashboard-header .statistics .icon {
+.community-header .statistics .icon {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-.dashboard-header .statistics .btn,
-.dashboard-header .statistics btn.ng-scope {
+.community-header .statistics .btn,
+.community-header .statistics btn.ng-scope {
   *margin-left: .3em;
   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
@@ -1090,22 +1090,22 @@ small.document-info {
   position: relative;
   cursor: defaul;
 }
-.dashboard-header .statistics .btn:first-child,
-.dashboard-header .statistics btn.ng-scope:first-child {
+.community-header .statistics .btn:first-child,
+.community-header .statistics btn.ng-scope:first-child {
   *margin-left: 0;
 }
-.dashboard-header .statistics .btn h5,
-.dashboard-header .statistics btn.ng-scope h5 {
+.community-header .statistics .btn h5,
+.community-header .statistics btn.ng-scope h5 {
   margin: 2px 0;
 }
-.dashboard-header .statistics .btn .badge,
-.dashboard-header .statistics btn.ng-scope .badge {
+.community-header .statistics .btn .badge,
+.community-header .statistics btn.ng-scope .badge {
   padding: 10px 14px;
   position: absolute;
   top: -15px;
   right: 10px;
 }
-.dashboard-header .statistics .btn-group .btn:first-of-type {
+.community-header .statistics .btn-group .btn:first-of-type {
   -webkit-border-top-left-radius: 6px;
   -moz-border-radius-topleft: 6px;
   border-top-left-radius: 6px;
@@ -1113,7 +1113,7 @@ small.document-info {
   -moz-border-radius-bottomleft: 6px;
   border-bottom-left-radius: 6px;
 }
-.dashboard-header .statistics .btn-group .btn:last-of-type {
+.community-header .statistics .btn-group .btn:last-of-type {
   -webkit-border-top-right-radius: 6px;
   -moz-border-radius-topright: 6px;
   border-top-right-radius: 6px;

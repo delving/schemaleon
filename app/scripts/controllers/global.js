@@ -58,7 +58,7 @@ OSCR.controller(
         $rootScope.setDocumentDirty = function(dirty, saveDocument) {
             $rootScope.disableChoosePath = dirty;
             $rootScope.saveDocument = saveDocument;
-        }
+        };
 
         $rootScope.globalError = null;
         var globalErrorErasePromise;
@@ -147,7 +147,7 @@ OSCR.controller(
 
             $scope.mainMenuBase = [
                 {name: "Public", path: "/public", icon: 'icon-road', active: false},
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false}
+                {name: "Community", path: "/community", icon: 'icon-cog', active: false}
             ];
 
             var user = $rootScope.user;
@@ -442,7 +442,7 @@ OSCR.controller(
                             console.log('setting user identifier', user.Identifier);
                             $cookieStore.put('oscr-user-identifier', user.Identifier);
                         }
-                        $scope.choosePath('/dashboard');
+                        $scope.choosePath('/community');
                     }
                     else {
                         $scope.loginFailed = true;

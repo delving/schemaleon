@@ -21,6 +21,10 @@ angular.module('OSCR').service(
             });
         };
 
+        this.publishChatMessage = function(message, accept) {
+            $http.get('/person/chat', {params: {message: message}}).success(accept);
+        };
+
         this.getStats = function(accept) {
             $http.get('/person/stats').success(function (xml) {
                 accept(xmlToObject(xml));

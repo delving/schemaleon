@@ -1,8 +1,8 @@
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
-    'DashboardController',
-    function ($rootScope, $scope, $location, $cookieStore, Statistics, Person) {
+    'CommunityController',
+    function ($rootScope, $scope, $location, $cookieStore, $timeout, Statistics, Person) {
         $rootScope.checkLoggedIn();
 
         Statistics.getLogEntries(function (entries) {
@@ -64,12 +64,53 @@ OSCR.controller(
             }
         };
 
+        $scope.chatMessage = '';
+        $scope.chatMessageSend = false;
+        $scope.chatMessageList = [];
 
+        var chatPollPromise;
 
+        function chatPoll() {
+            if ($scope.chatMessageSend) {
+                Person.publishChatMessage($scope.chatMessage, function (messageList) {
+                    $scope.chatMessageSend = false;
+                    $scope.chatMessage = '';
+                    $scope.chatMessageList = messageList;
+                });
+            }
+            else {
+                Person.publishChatMessage('', function (messageList) {
+                    $scope.chatMessageList = messageList;
+                });
+            }
+            chatPollPromise = $timeout(chatPoll, 5000);
+        }
+        chatPoll();
 
-
+        $scope.chatSend = function(chatMessage) {
+            $scope.chatMessage = chatMessage;
+            if (chatPollPromise) {
+                $timeout.cancel(chatPollPromise);
+                chatPollPromise = null;
+            }
+            $scope.chatMessageSend = true;
+            chatPoll();
+        };
     }
 );
+
+OSCR.directive('chatEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.chatEnter);
+                });
+                event.preventDefault();
+            }
+        });
+    };
+});
 
 OSCR.filter(
     'logDetails',
