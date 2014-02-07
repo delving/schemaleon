@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $anchorScroll, $routeParams, $filter, Person, I18N, Statistics) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $anchorScroll, $routeParams, $filter, Person, I18N, Statistics, $modal) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -55,6 +55,11 @@ OSCR.controller(
 
         $rootScope.disableChoosePath = false;
 
+        $rootScope.setDocumentDirty = function(dirty, saveDocument) {
+            $rootScope.disableChoosePath = dirty;
+            $rootScope.saveDocument = saveDocument;
+        }
+
         $rootScope.globalError = null;
         var globalErrorErasePromise;
 
@@ -68,7 +73,7 @@ OSCR.controller(
                     $rootScope.globalError = null;
                     globalErrorErasePromise = null;
                 },
-                10000
+                7000
             );
         };
 
@@ -254,7 +259,25 @@ OSCR.controller(
         $rootScope.choosePath = function (path, viewOnly) {
             if($rootScope.disableChoosePath) {
                 $rootScope.setGlobalError('Please save your document first');
-                // todo: modal to save or continue;
+                var modalInstance = $modal.open({
+                    templateUrl: 'confirm-save-document.html',
+                    controller: function($scope, $modalInstance) {
+                        $scope.whatever = {};
+                        $scope.ok = function () {
+                            $rootScope.saveDocument();
+                            $rootScope.disableChoosePath = false;
+                            $rootScope.globalError = null;
+                            $modalInstance.close();
+                            $rootScope.choosePath(path, viewOnly);
+                        };
+                        $scope.cancel = function () {
+                            $rootScope.disableChoosePath = false;
+                            $rootScope.globalError = null;
+                            $modalInstance.dismiss('cancel');
+                            $rootScope.choosePath(path, viewOnly);
+                        };
+                    },
+                });
                 return;
             }
             //todo: catch a dirty document

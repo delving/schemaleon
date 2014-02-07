@@ -164,7 +164,7 @@ OSCR.controller(
     }
 );
 
-// just mind the tabs and their activation
+// just mind the tabs and their activation and who can see what
 OSCR.controller(
     'TabController',
     function ($rootScope, $scope) {
@@ -203,8 +203,8 @@ OSCR.controller(
 
         function setDocumentDirty(dirty) {
             $scope.documentDirty = dirty;
-            $rootScope.disableChoosePath = dirty;
-        }
+            $rootScope.setDocumentDirty(dirty, $scope.saveDocument);
+         }
 
         function freezeTree() {
             if (!$scope.tree) return;
@@ -538,6 +538,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         else {
             $scope.mediaElement = null;
         }
+
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
             if(mediaElements.length){
@@ -566,7 +567,6 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
 
     // PDF viewing functionality: initialize only if there are pdf files
     $scope.$watch('pdfFiles', function(){
-
         // If there are no pdf's then abort this mission
         // && for now also abort if more than one
         // TODO: make this work for multiple pdf files
@@ -604,6 +604,10 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         };
 
     });
+
+
+
+
 }]);
 
 OSCR.controller(

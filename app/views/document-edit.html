@@ -235,3 +235,18 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="confirm-save-document.html">
+    <div data-ng-controller="TreeEditController">
+        <div class="modal-header">
+            <h3>Warning</h3>
+        </div>
+        <div class="modal-body">
+            <P>You have made changes to your document. Do you want to save it first?</P>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>
+            <button class="btn btn-danger" ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>
+        </div>
+    </div>
+</script>
+

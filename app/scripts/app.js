@@ -1,6 +1,6 @@
 'use strict';
 
-var OSCR = angular.module('OSCR', ['ngRoute','ngCookies', 'ui.bootstrap', 'blueimp.fileupload','md5', 'ui-gravatar', 'ngPDFViewer']);
+var OSCR = angular.module('OSCR', ['ngRoute','ngCookies', 'ui.bootstrap', 'blueimp.fileupload','md5', 'ui-gravatar', 'ngPDFViewer','pasvaz.bindonce']);
 
 OSCR.config(
     function ($routeProvider) {
