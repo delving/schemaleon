@@ -201,9 +201,27 @@ OSCR.controller(
         $scope.headerDocumentState = null;
         $scope.saveSuccess = false;
 
+        $scope.leasedDocument = '';
+        var leasePollPromise;
+
+        function leasePoll() {
+            Document.leaseDocument($scope.leasedDocument, function (documentLeases) {
+                $scope.leasedDocument = '';
+                $rootScope.showDocumentsLeased(documentLeases);
+            });
+            leasePollPromise = $timeout(leasePoll, 10000);
+        }
+        leasePoll();
+
         function setDocumentDirty(dirty) {
-            $scope.documentDirty = dirty;
-            $rootScope.setDocumentDirty(dirty, $scope.saveDocument);
+            if (dirty != $scope.documentDirty) {
+                $scope.documentDirty = dirty;
+                $rootScope.setDocumentDirty(dirty, $scope.saveDocument);
+                $scope.leasedDocument = $scope.header.Identifier || '';
+            }
+            if (!dirty) {
+                $scope.leasedDocument = '';
+            }
          }
 
         function freezeTree() {

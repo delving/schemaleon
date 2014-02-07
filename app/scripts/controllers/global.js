@@ -256,6 +256,17 @@ OSCR.controller(
             recentEntry.active = true;
         };
 
+        $rootScope.showDocumentsLeased = function(documentLeases) {
+            if (!$scope.recent) return;
+            _.each($scope.recent, function(entry) {
+                entry.leased = false;
+                _.each(documentLeases, function(lease) {
+                    if (lease.user == $rootScope.user.Identifier) return;
+                    if (!entry.leased) entry.leased = (entry.header.Identifier == lease.document);
+                });
+            });
+        };
+
         $rootScope.choosePath = function (path, viewOnly) {
             if($rootScope.disableChoosePath) {
                 $rootScope.setGlobalError('Please save your document first');

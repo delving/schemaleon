@@ -60,6 +60,10 @@ OSCR.service(
             });
         };
 
+        this.leaseDocument = function(identifier, accept) {
+            $http.get('/document/lease', {params: {document: identifier}}).success(accept);
+        };
+
         this.saveDocument = function (header, body, receiver) {
 
             function envelope(header, body) {

@@ -26,15 +26,20 @@ Storage('oscr', homeDir, function (storage) {
         this.send(xmlString);
     };
 
-    var now = new Date().getTime();
     var chatMessages = [];
-
-    function isYoungEnough(message) {
-        return (now - message.time) < 60000; // one minute
-    }
 
     function chatUserString(profile) {
         return profile.firstName + ' ' + profile.lastName;
+    }
+
+    function filterOutOld(list, secondsOld) {
+        var now = new Date().getTime();
+        var millisOld = secondsOld * 1000;
+        return _.filter(list, function(entry) {
+            var ago = (now - entry.time);
+            console.log(millisOld+' ago '+secondsOld, ago);
+            return ago < millisOld;
+        });
     }
 
     function publishChatMessage(req) {
@@ -46,10 +51,25 @@ Storage('oscr', homeDir, function (storage) {
             };
             chatMessages.push(chatMessage);
             storage.Log.chat(req, chatMessage);
-            now = new Date();
-            chatMessages = _.filter(chatMessages, isYoungEnough);
         }
-        return chatMessages;
+        return chatMessages = filterOutOld(chatMessages, 60);
+    }
+
+    var documentLeases = [];
+
+    function leaseDocument(req) {
+        if (req.query.document) {
+//            console.log('lease taken', req.query.document);
+            var documentLease = {
+                time: new Date().getTime(),
+                document: req.query.document,
+                user: req.session.Identifier
+            };
+            documentLeases.push(documentLease);
+        }
+        documentLeases = filterOutOld(documentLeases, 19);
+//        console.log('leases', documentLeases);
+        return documentLeases;
     }
 
     function commonsQueryString() {
@@ -363,6 +383,10 @@ Storage('oscr', homeDir, function (storage) {
     // search primary all schemas
     app.get('/primary/search', function (req, res) {
         searchDocuments(res, params(req))
+    });
+
+    app.get('/document/lease', function (req, res) {
+        res.send(leaseDocument(req));
     });
 
     app.post('/document/save', function (req, res) {
