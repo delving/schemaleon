@@ -1485,37 +1485,6 @@ ul.value-list label {
   font-weight: bold;
 }
 /* DOCUMENT VIEW */
-legend {
-  position: relative;
-}
-label {
-  cursor: default;
-}
-.indent {
-  margin-left: 30px;
-}
-.indent legend {
-  color: #878787;
-  font-size: 18px;
-  border-bottom: none;
-  margin-bottom: 0px;
-  line-height: 28px;
-}
-.indent .indent legend {
-  color: #999999;
-  font-size: 16px;
-  line-height: 28px;
-}
-.field {
-  display: block;
-}
-.field label,
-.field .data {
-  vertical-align: top;
-}
-.field .data img {
-  margin-bottom: 8px;
-}
 .time-saved {
   color: #adafae;
   display: inline-block;
@@ -1548,13 +1517,16 @@ label {
   margin-right: 9px;
   padding: 4px 8px;
 }
-.form-expert .vocabulary-controls .value {
-  color: #999999;
+legend {
+  position: relative;
+}
+label {
+  cursor: default;
 }
 .expert-left-col {
   float: left;
-  width: 31.914893617021278%;
-  *width: 31.861702127659576%;
+  width: 40.42553191489362%;
+  *width: 40.37234042553192%;
   margin-left: 2.127659574468085%;
   *margin-left: 2.0212765957446805%;
 }
@@ -1569,11 +1541,52 @@ label {
   *width: 48.88297872340425%;
   margin-left: 2.127659574468085%;
   *margin-left: 2.0212765957446805%;
+  position: relative;
 }
 .expert-right-col:first-child {
   margin-left: 0;
   margin-left: 0%;
   *margin-left: -0.10638297872340438%;
+}
+.expert-right-col .vocabulary-controls {
+  width: 100%;
+  position: absolute;
+  z-index: 10000;
+}
+.indent {
+  margin-left: 30px;
+}
+.indent legend {
+  border-bottom: none;
+  margin-bottom: 0px;
+}
+.field {
+  display: block;
+}
+.field label,
+.field .data {
+  vertical-align: top;
+  display: inline-block;
+}
+.field .data img {
+  margin-bottom: 8px;
+}
+.form-expert {
+  background: #222222;
+  color: #eeeeee;
+  padding: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+.form-expert legend {
+  color: #eeeeee;
+  border-color: #999999;
+  font-size: 14px;
+  line-height: 24px;
+}
+.form-expert .vocabulary-controls .value {
+  color: #999999;
 }
 .vocabulary-extended table {
   background: #f1f1f1;

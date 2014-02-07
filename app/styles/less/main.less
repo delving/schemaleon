@@ -218,18 +218,6 @@ ul.thumbnails {
 // BUTTONS
 // -----------------------------------------------------
 
-//.btn {
-//  //  .box-shadow(1px 1px 2px #111);
-//  .buttonBackground(darken(@gray, 20%), darken(@gray, 30%));
-//  color: @white;
-//  text-shadow: none;
-//  .border-radius(@br-small);
-//  &:hover {
-//    text-shadow: none;
-//    color: @white;
-//  }
-//}
-
 .btn-primary {
   .buttonBackground(@blue, darken(@blue, 10%));
 }
@@ -889,40 +877,6 @@ ul.value-list {
 //  background: #009ae0;
 //}
 
-legend {
-  position: relative;
-}
-
-label {
-  cursor: default;
-}
-
-.indent {
-  margin-left: 30px;
-  legend {
-    color: darken(@gray, 7%);
-    font-size: 18px;
-    border-bottom: none;
-    margin-bottom: 0px;
-    line-height: 28px;
-  }
-  .indent legend {
-    color: @gray;
-    font-size: 16px;
-    line-height: 28px;
-  }
-}
-
-.field {
-  display: block;
-  label, .data {
-    vertical-align: top;
-  }
-  .data img {
-    margin-bottom: 8px;
-  }
-}
-
 .time-saved {
   color: @grayLight;
   display: inline-block;
@@ -949,18 +903,75 @@ label {
   }
 }
 
-.form-expert .vocabulary-controls {
-  .value {
-    color: @gray;
-  }
+legend {
+  position: relative;
 }
 
+label {
+  cursor: default;
+}
+
+
+
 .expert-left-col {
-  .makeFluidCol(4);
+  .makeFluidCol(5);
 }
 
 .expert-right-col {
   .makeFluidCol(6);
+  position: relative;
+  .vocabulary-controls {
+    width: 100%;
+    position: absolute;
+    z-index: 10000;
+  }
+}
+
+
+.indent {
+  margin-left: 30px;
+  legend {
+//    color: darken(@gray, 7%);
+//    font-size: 18px;
+    border-bottom: none;
+    margin-bottom: 0px;
+//    line-height: 28px;
+  }
+  .indent legend {
+//    color: @gray;
+//    font-size: 16px;
+//    line-height: 28px;
+  }
+}
+
+.field {
+  display: block;
+  label, .data {
+    vertical-align: top;
+    display: inline-block;
+  }
+  .data img {
+    margin-bottom: 8px;
+  }
+}
+
+.form-expert {
+  background: @grayDark;
+  color: @grayLighter;
+  padding: 10px;
+  .border-radius(10px);
+  legend {
+    color: @grayLighter;
+    border-color: @gray;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+.form-expert .vocabulary-controls {
+  .value {
+    color: @gray;
+  }
 }
 
 

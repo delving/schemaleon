@@ -7,12 +7,12 @@
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
                   ng-click="addSibling(el)">
-                    <i class="icon-plus-sign"></i>
+                    <i class="icon-plus-sign icon-white"></i>
             </span>
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
                   ng-click="removeSibling(el)">
-                    <i class="icon-minus-sign"></i>
+                    <i class="icon-minus-sign icon-white"></i>
             </span>
         </div>
         <span class="i18n"></span>:
@@ -118,7 +118,14 @@
                 </div>
                 <div ng-if="el.value.Header">
                     <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-value="el.headerTitle" data-ng-focus="setActiveEl(el)"/>
-                    <input ng-if="isEditing(el)" type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
+                    <div ng-if="isEditing(el)">
+                        <input type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
+                        <!-- DISPLAY CURRENT VALUE //-->
+                        <div ng-show="el.value" i18n="CurrentValue" class="current">
+                            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -126,19 +133,19 @@
     <div class="expert-right-col">
         <div ng-if="isEditing(el)" data-ng-controller="InstanceSearchController" class="vocabulary-controls">
             <!-- DISPLAY CURRENT VALUE //-->
-            <div ng-show="el.value" i18n="CurrentValue" class="current">
-                <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
-            </div>
-            <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
-            <div i18n="SearchFor">
-                <label><span class="i18n"/>:</label>
-                <span class="value search-value">{{ el.searchValue }}</span>
-            </div>
+            <!--<div ng-show="el.value" i18n="CurrentValue" class="current">-->
+                <!--<label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>-->
+            <!--</div>-->
             <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
             <div class="detail-controls">
-                <span i18n="Found">
+                <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+                <span i18n="SearchFor">
                     <label><span class="i18n"/>:</label>
+                    <span class="value search-value">{{ el.searchValue }}</span>
                 </span>
+                <!--<span i18n="Found">-->
+                    <!--<label><span class="i18n"/>:</label>-->
+                <!--</span>-->
                 <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
                     <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
                 </span>

@@ -180,19 +180,18 @@
 </script>
 
 <script type="text/ng-template" id="panel-instance-search.html">
-    <!--todo: eric styling-->
     <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
         <!-- DISPLAY CURRENT VALUE //-->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
+
             <label><span class="i18n"/>:</label>
+            <span class="value" data-ng-show="isHeader()">{{ el.headerTitle }}</span>
+
             <div data-ng-show="isLinkFacts()" class="link-facts">
                 <h6 class="heading" i18n="LinkFacts"><span class="i18n"/>:</h6>
                 <div data-ng-repeat="linkFact in el.linkFacts">
                     <span i18n="{{ linkFact.name }}" class="key"><span class="i18n"/></span>:  <span class="value">{{ linkFact.value }}</span></span>
                 </div>
-            </div>
-            <div data-ng-show="isHeader()">
-                <span class="value">{{ el.headerTitle }}</span>
             </div>
         </div>
         <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
