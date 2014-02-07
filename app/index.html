@@ -129,6 +129,14 @@
                                             user.group.Name }}<br/>
                                             <span class="pull-left label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
                                         </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- Base links -->
+                            <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
                                         <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
                                             <span class="label i18n"/><br/>
                                         </div>
@@ -137,6 +145,24 @@
                                         </a>
                                     </div>
                                 </a>
+                                <span ng-show="config.showTranslationEditor"
+                                     ng-click="openLabelDialog(link)"
+                                     tooltip="Click to translate"
+                                     tooltip-placement="right"
+                                     class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
+                                </span>
+                            </li>
+                            <!-- Primary document links -->
+                            <li class="nav-header" i18n="PrimaryDocuments" ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
+                            <li data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i data-ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
+                                    <span class="badge badge-info pull-right">{{ link.count }}</span>
+                                </a>
+                                <span ng-show="config.showTranslationEditor"
+                                      ng-click="openLabelDialog(link)"
                             </div>
                         </div>
                         <!-- Base links -->
@@ -184,6 +210,21 @@
                                       class="badge badge-warning badge-translate">
                                     <i class="glyphicon glyphicon-globe"></i>
                                 </span>
+                            </li>
+                            <!-- Shared document links -->
+                            <li class="nav-header" i18n="SharedDocuments" data-ng-show="mainMenuShared.length"><span class="i18n"/> </li>
+                            <li data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-show="user.god">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i data--show="link.icon" class="icon {{ link.icon }}"></i>
+                                    {{ link | linkTitle }}
+                                    <span class="badge badge-info pull-right">{{ link.count }}</span>
+                                </a>
+                                <span ng-show="config.showTranslationEditor"
+                                      ng-click="openLabelDialog(link)"
+                                      tooltip="Click to translate"
+                                      tooltip-placement="right"
+                                      class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
                         </a>
                         <!-- Recent document links -->
                         <div data-ng-show="recent.length > 0" class="list-group-item-heading" i18n="RecentDocuments">
@@ -195,6 +236,20 @@
                                 <span class="badge badge-important" ng-if="link.leased">
                                     <i class="icon icon-lock icon-white"></i>
                                 </span>
+                            </li>
+                            <!-- Recent document links -->
+                            <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
+                            </li>
+                            <li data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
+                                <a href ng-click="choosePath(link.path)">
+                                    <i class="icon-file"></i>
+                                    {{ link | linkTitle }}
+                                    <span class="badge badge-important" ng-if="link.leased">
+                                        <i class="icon icon-lock icon-white"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
                             </a>
                     </div>
                     <div data-ng-include="getInclude()"></div>
