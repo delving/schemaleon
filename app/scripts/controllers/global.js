@@ -268,7 +268,6 @@ OSCR.controller(
                             $rootScope.disableChoosePath = false;
                             $rootScope.globalError = null;
                             $modalInstance.close();
-                            $rootScope.choosePath(path, viewOnly);
                         };
                         $scope.cancel = function () {
                             $rootScope.disableChoosePath = false;

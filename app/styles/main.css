@@ -1701,3 +1701,11 @@ label {
   word-wrap: break-word;
 }
 /* chat */
+/* modal */
+.modal-header {
+  background: #cc0000;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  color: #eeeeee;
+}

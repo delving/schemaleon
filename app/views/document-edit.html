@@ -9,17 +9,28 @@
         </div>
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
-            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer">
-                <a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
+            <li ng-class="{ 'active': isTabActive('viewer') }">
+                <a href="" i18n="Viewer" ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
             </li>
             <li ng-class="{ 'active': isTabActive('novice') }" ng-hide="user.viewer">
                 <a href="" i18n="Novice" ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
             </li>
-            <li ng-class="{ 'active': isTabActive('viewer') }">
-                <a href="" i18n="Viewer" ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
+            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer">
+                <a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
+            <!--todo: this one should not be within the TreeEditController-->
+            <div class="tab-pane active" ng-if="isTabActive('viewer')">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
+                <div data-ng-include="'view-tab.html'">view tab</div>
+            </div>
+            <div class="tab-pane active" ng-if="isTabActive('novice')">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
+                <div data-ng-include="'panel-array.html'">panel array</div>
+            </div>
             <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <hr style="margin: 8px 0"/>
@@ -28,17 +39,6 @@
                     <strong>Warning!</strong> This view is in BETA - not all field elements are functional.
                 </div>
                 <div data-ng-include="'expert-tab.html'">expert tab</div>
-            </div>
-            <div class="tab-pane active" ng-if="isTabActive('novice')">
-                <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
-                <div data-ng-include="'panel-array.html'">panel array</div>
-            </div>
-            <!--todo: this one should not be within the TreeEditController-->
-            <div class="tab-pane active" ng-if="isTabActive('viewer')">
-                <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
-                <div data-ng-include="'view-tab.html'">view tab</div>
             </div>
         </div>
     </div>

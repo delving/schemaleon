@@ -154,7 +154,7 @@
                                     <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                 </a>
-                                <span bo-show="config.showTranslationEditor"
+                                <span ng-show="config.showTranslationEditor"
                                      ng-click="openLabelDialog(link)"
                                      tooltip="Click to translate"
                                      tooltip-placement="right"
@@ -164,9 +164,9 @@
                             </li>
                             <!-- Primary document links -->
                             <li class="nav-header" i18n="PrimaryDocuments" ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
-                            <li ng-repeat="link in mainMenuPrimary" ng-class="{ active: link.active }">
+                            <li bindonce ng-repeat="link in mainMenuPrimary" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                     <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
@@ -186,7 +186,7 @@
                                     {{ link | linkTitle }}
                                     <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
-                                <span bo-show="config.showTranslationEditor"
+                                <span ng-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right"
