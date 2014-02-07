@@ -32,7 +32,7 @@
                 </div>
                 <div data-ng-if="isVideo(file)">
                     <video width="100%" controls>
-                        <source src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
+                        <source ng-src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
                     </video>
                 </div>
             </slide>

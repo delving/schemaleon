@@ -266,7 +266,8 @@ function collectMediaElements(tree) {
             });
         }
         else if (el.config.media && el.value) {
-            mediaElements.push(el);
+//            mediaElements.push(el);
+            mediaElements.push(angular.copy(el));
         }
     }
     collect(tree);
