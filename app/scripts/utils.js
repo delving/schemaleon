@@ -265,7 +265,7 @@ function collectMediaElements(tree) {
                 collect(element);
             });
         }
-        else if (el.config.media) {
+        else if (el.config.media && el.value) {
             mediaElements.push(el);
         }
     }
