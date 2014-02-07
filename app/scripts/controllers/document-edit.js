@@ -183,7 +183,9 @@ OSCR.controller(
 
         function leasePoll() {
             Document.leaseDocument($scope.leasedDocument, function (documentLeases) {
-                $scope.leasedDocument = '';
+                if (!scope.documentDirty) {
+                    $scope.leasedDocument = '';
+                }
                 $rootScope.showDocumentsLeased(documentLeases);
             });
             leasePollPromise = $timeout(leasePoll, 10000);
