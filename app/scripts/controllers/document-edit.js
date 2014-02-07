@@ -89,10 +89,12 @@ OSCR.controller(
                 }
                 installValidators(tree);
                 $scope.cleanTree = angular.copy(tree); // keep a clean copy
-                if (!emptyDocument) {
-                    populateTree(tree, document.Body);
+                if (emptyDocument) {
+                    $scope.tree = tree;
                 }
-                $scope.tree = tree; // already populated
+                else {
+                    $scope.tree = populateTree(tree, document.Body);
+                }
                 validateTree(tree);
             });
         });
@@ -305,7 +307,7 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 $scope.useHeader(document.Header);
-                populateTree(angular.copy($scope.cleanTree), document.Body);
+                $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
                 freezeTree();
                 $scope.saveSuccess = true;
                 $timeout(function() {

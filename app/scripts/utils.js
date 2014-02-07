@@ -339,6 +339,7 @@ function populateTree(tree, object) {
         }
         populate(tree, key, object);
     });
+    return tree;
 }
 
 function getTime(millis) {
