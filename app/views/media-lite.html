@@ -60,32 +60,28 @@
             </div>
         </td>
         <td>
-                <span i18n="Upload">
-                    <button type="button" class="btn btn-primary btn-mini start"
-                            data-ng-click="fileSubmit(file)" data-ng-hide="!file.$submit">
-                        <i class="icon-upload icon-white"></i>
-                        <span class="i18n"/>
-                    </button>
-                </span>
-                <span i18n="Remove">
-                    <button type="button" class="btn btn-warning btn-mini cancel"
-                            data-ng-click="fileCancel(file)" data-ng-hide="!file.$cancel">
-                        <i class="icon-ban-circle icon-white"></i>
-                        <span class="i18n"/>
-                    </button>
-                </span>
+            <span i18n="Upload">
+                <button type="button" class="btn btn-primary btn-mini start"
+                        data-ng-click="fileSubmit(file)" data-ng-hide="!file.$submit">
+                    <i class="icon-upload icon-white"></i>
+                    <span class="i18n"/>
+                </button>
+            </span>
+            <span i18n="Remove">
+                <button type="button" class="btn btn-warning btn-mini cancel"
+                        data-ng-click="fileCancel(file)" data-ng-hide="!file.$cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span class="i18n"/>
+                </button>
+            </span>
 
-            <div ng-show="file.selectCollectionWarning" class="alert alert-error"
-                 i18n="SelectACollectionFirstPlease">
-                <span class="i18n"/>
-            </div>
-                <span i18n="Delete">
-                    <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
-                            data-ng-show="!!file.$destroy" data-ng-click="fileDestroy(file)">
-                        <i class="icon-ban-circle icon-white"></i>
-                        <span class="i18n"/>
-                    </button>
-                </span>
+            <span i18n="Delete">
+                <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy"
+                        data-ng-show="!!file.$destroy" data-ng-click="fileDestroy(file)">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span class="i18n"/>
+                </button>
+            </span>
         </td>
     </tr>
     </tbody>

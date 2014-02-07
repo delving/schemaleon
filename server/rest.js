@@ -9,6 +9,8 @@ var upload = require('./upload');
 var util = require('./util');
 
 var app = express();
+app.use(express.cookieParser());
+app.use(express.cookieSession({secret: 'oscr'}));
 
 module.exports = app;
 
@@ -19,15 +21,55 @@ Storage('oscr', homeDir, function (storage) {
 
     app.use(upload(storage).serve);
     app.use(express.bodyParser());
-    app.use(express.cookieParser());
-    app.use(express.cookieSession({secret: 'oscr'}));
     app.response.__proto__.xml = function (xmlString) {
         this.setHeader('Content-Type', 'text/xml');
         this.send(xmlString);
     };
 
-    function logSession(req) {
-        console.log('session', req.session);
+    var chatMessages = [];
+
+    function chatUserString(profile) {
+        return profile.firstName + ' ' + profile.lastName;
+    }
+
+    function filterOutOld(list, secondsOld) {
+        var now = new Date().getTime();
+        var millisOld = secondsOld * 1000;
+        return _.filter(list, function(entry) {
+            var ago = (now - entry.time);
+            console.log(millisOld+' ago '+secondsOld, ago);
+            return ago < millisOld;
+        });
+    }
+
+    function publishChatMessage(req) {
+        if (req.query.message && req.query.message.length) {
+            var chatMessage = {
+                time: new Date().getTime(),
+                text: req.query.message,
+                user: chatUserString(req.session.profile)
+            };
+            chatMessages.push(chatMessage);
+            storage.Log.chat(req, chatMessage);
+        }
+        return chatMessages = filterOutOld(chatMessages, 60);
+    }
+
+    var documentLeases = [];
+
+    function leaseDocument(req) {
+        if (req.query.document) {
+//            console.log('lease taken', req.query.document);
+            var documentLease = {
+                time: new Date().getTime(),
+                document: req.query.document,
+                user: req.session.Identifier
+            };
+            documentLeases.push(documentLease);
+        }
+        documentLeases = filterOutOld(documentLeases, 19);
+//        console.log('leases', documentLeases);
+        return documentLeases;
     }
 
     function commonsQueryString() {
@@ -83,24 +125,22 @@ Storage('oscr', homeDir, function (storage) {
                                     req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
                                     req.session.Role = util.getFromXml(xml, 'Role');
                                     res.xml(xml);
-                                    storage.Log.add(req, {
+                                    storage.Log.activity(req, {
                                         Op: "Authenticate"
                                     });
-                                    logSession(req);
                                 });
                             });
                         }
                     ).end();
                 }
                 else {
-                    res.send("<Error>Failed to authenticate</Error>");
+                    util.sendErrorMessage(res, 'Failed to authenticate');
                 }
             }
         ).end();
     });
 
     app.get('/i18n/:lang', function (req, res) {
-        logSession(req);
         replyWithLanguage(req.params.lang, res);
     });
 
@@ -112,7 +152,7 @@ Storage('oscr', homeDir, function (storage) {
                 var title = req.body.title;
                 if (title) storage.I18N.setElementTitle(lang, key, title, function (ok) {
                     replyWithLanguage(lang, res);
-                    storage.Log.add(req, {
+                    storage.Log.activity(req, {
                         Op: "TranslateTitle",
                         Lang: lang,
                         Key: key,
@@ -122,7 +162,7 @@ Storage('oscr', homeDir, function (storage) {
                 });
                 if (req.body.doc) storage.I18N.setElementDoc(lang, key, req.body.doc, function (ok) {
                     replyWithLanguage(lang, res);
-                    storage.Log.add(req, {
+                    storage.Log.activity(req, {
                         Op: "TranslateDoc",
                         Lang: lang,
                         Key: key,
@@ -141,7 +181,7 @@ Storage('oscr', homeDir, function (storage) {
                 var label = req.body.label;
                 if (label) storage.I18N.setLabel(lang, key, label, function (ok) {
                     replyWithLanguage(lang, res);
-                    storage.Log.add(req, {
+                    storage.Log.activity(req, {
                         Op: "TranslateLabel",
                         Lang: lang,
                         Key: key,
@@ -164,11 +204,15 @@ Storage('oscr', homeDir, function (storage) {
         });
     });
 
-    app.get('/person/user/select', function (req, res) {
-        var search = req.param('q').toLowerCase();
-        storage.Person.getUsers(search, function (xml) {
-            res.xml(xml);
-        });
+//    app.get('/person/user/select', function (req, res) {
+//        var search = req.param('q').toLowerCase();
+//        storage.Person.getUsers(search, function (xml) {
+//            res.xml(xml);
+//        });
+//    });
+
+    app.get('/person/chat', function (req, res) {
+        res.send(publishChatMessage(req));
     });
 
     app.get('/person/user/all', function (req, res) {
@@ -200,7 +244,7 @@ Storage('oscr', homeDir, function (storage) {
         util.authenticatedGod(req, res, function() {
             storage.Person.saveGroup(req.body, function (xml) {
                 res.xml(xml);
-                storage.Log.add(req, {
+                storage.Log.activity(req, {
                     Op: "SaveGroup",
                     Group: req.body
                 });
@@ -221,7 +265,7 @@ Storage('oscr', homeDir, function (storage) {
         util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function() {
             storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
                 res.xml(xml);
-                storage.Log.add(req, {
+                storage.Log.activity(req, {
                     Op: "AddUserToGroup",
                     UserIdentifier: userIdentifier,
                     UserRole: userRole,
@@ -237,7 +281,7 @@ Storage('oscr', homeDir, function (storage) {
         util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function() {
             storage.Person.removeUserFromGroup(userIdentifier, groupIdentifier, function (xml) {
                 res.xml(xml);
-                storage.Log.add(req, {
+                storage.Log.activity(req, {
                     Op: "RemoveUserFromGroup",
                     UserIdentifier: userIdentifier,
                     GroupIdentifier: groupIdentifier
@@ -272,7 +316,7 @@ Storage('oscr', homeDir, function (storage) {
         var vocabName = req.params.vocab;
         storage.Vocab.addVocabularyEntry(vocabName, entry, function (xml) {
             res.xml(xml);
-            storage.Log.add(req, {
+            storage.Log.activity(req, {
                 Op: "AddVocabularyEntry",
                 Vocabulary: vocabName,
                 Entry: entry
@@ -295,7 +339,6 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch shared
     app.get('/shared/:schema/:identifier/fetch', function (req, res) {
-        logSession(req);
         storage.Document.getDocument(req.params.schema, undefined, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -303,7 +346,6 @@ Storage('oscr', homeDir, function (storage) {
 
     // fetch primary
     app.get('/primary/:schema/:groupIdentifier/:identifier/fetch', function (req, res) {
-        logSession(req);
         storage.Document.getDocument(req.params.schema, req.params.groupIdentifier, req.params.identifier, function (xml) {
             res.xml(xml);
         });
@@ -343,24 +385,32 @@ Storage('oscr', homeDir, function (storage) {
         searchDocuments(res, params(req))
     });
 
+    app.get('/document/lease', function (req, res) {
+        res.send(leaseDocument(req));
+    });
+
     app.post('/document/save', function (req, res) {
-        logSession(req);
         var groupIdentifier = req.body.header.GroupIdentifier;
         util.authenticatedGroup(groupIdentifier, ['Administrator', 'Member'], req, res, function() {
             // kind of interesting to receive xml within json, but seems to work
-            storage.Document.saveDocument(req.body, function (header) {
-                res.xml(header);
-                if (header) {
-                    var entry = {
-                        Op: "SaveDocument",
-                        Identifier: util.getFromXml(header, "Identifier"),
-                        SchemaName: util.getFromXml(header, "SchemaName")
-                    };
-                    var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
-                    if (groupIdentifier.length) {
-                        entry.GroupIdentifier = groupIdentifier;
+            storage.Document.saveDocument(req.body, function (header, error) {
+                if (error) {
+                    util.sendServerError(res, error);
+                }
+                else {
+                    res.xml(header);
+                    if (header) {
+                        var entry = {
+                            Op: "SaveDocument",
+                            Identifier: util.getFromXml(header, "Identifier"),
+                            SchemaName: util.getFromXml(header, "SchemaName")
+                        };
+                        var groupIdentifier = util.getFromXml(header, "GroupIdentifier");
+                        if (groupIdentifier.length) {
+                            entry.GroupIdentifier = groupIdentifier;
+                        }
+                        storage.Log.activity(req, entry)
                     }
-                    storage.Log.add(req, entry)
                 }
             });
         });
@@ -395,21 +445,21 @@ Storage('oscr', homeDir, function (storage) {
     });
 
     app.get('/log', function (req, res) {
-        storage.Log.getEntries(function (xml) {
+        storage.Log.getActivityEntries(function (xml) {
             res.xml(xml);
         });
     });
 
-//    app.get('/snapshot/:fileName', function (req, res) {
-//        storage.ETC.snapshotCreate(function (localFile) {
-//            console.log("sending " + localFile);
-//            res.sendfile(localFile);
-//        });
-//    });
-//
-//    app.get('/snapshot', function (req, res) {
-//        res.redirect('/snapshot/'+storage.ETC.snapshotName());
-//    });
+    app.get('/snapshot/:fileName', function (req, res) {
+        storage.ETC.snapshotCreate(req.params.fileName, function (localFile) {
+            console.log("sending " + localFile);
+            res.sendfile(localFile);
+        });
+    });
+
+    app.get('/snapshot', function (req, res) {
+        res.redirect('/snapshot/'+storage.ETC.snapshotName());
+    });
 
     app.get('/data/import/:data/please', function(req, res) {
         var data = req.params.data;

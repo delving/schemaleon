@@ -3,8 +3,8 @@
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
-//var archiver = require('archiver');
 var defer = require('node-promise').defer;
+var archiver = require('node-archiver');
 
 module.exports = ETC;
 
@@ -57,71 +57,39 @@ P.snapshotName = function() {
     var now = new Date();
     var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +
         '-' + now.getHours() + '-' + now.getMinutes();
-    return 'OSCR-Snapshot-' + dateString;
+    return 'OSCR-Snapshot-' + dateString + '.tgz';
 };
 
-P.snapshotCreate = function (receiver) {
+P.snapshotCreate = function (fileName, receiver) {
     var s = this.storage;
-    var snapshotDir = this.snapshotName();
-    var exportPath = s.FileSystem.databaseSnapshotDir + '/' + snapshotDir;
-    var zipFile = exportPath + '.zip';
+    var match = fileName.match(/(.*)\.tgz/);
+    if (!match) {
+        console.error("File name mismatch " + fileName);
+    }
+    var fileBase = match[1];
+    var exportPath = s.FileSystem.databaseSnapshotDir + '/' + fileBase;
+    var archiveFile = exportPath + '.tgz';
     s.session.execute('export ' + exportPath, function () {
-//        var output = fs.createWriteStream(zipFile);
-//        var archive = archiver('zip');
-//
-//        archive.on('error', function (err) {
-//            throw err;
-//        });
-//        output.on('close', function () {
-//            receiver(zipFile);
-//        });
-//
-//        archive.pipe(output);
-//
-//        function rmdir(dir) {
-//            var list = fs.readdirSync(dir);
-//            _.each(list, function (entry) {
-//                if (entry[0] != '.') {
-//                    var fileName = path.join(dir, entry);
-//                    var stat = fs.statSync(fileName);
-//                    if (stat.isDirectory()) {
-//                        rmdir(fileName);
-//                    }
-//                    else {
-//                        fs.unlinkSync(fileName);
-//                    }
-//                }
-//            });
-//            fs.rmdirSync(dir);
-//        }
-//
-//        function appendToArchive(dir, zipPath) {
-//            var list = fs.readdirSync(dir);
-//            _.each(list, function (entry) {
-//                if (entry[0] != '.') {
-//                    var fileName = path.join(dir, entry);
-//                    var stat = fs.statSync(fileName);
-//                    var zipFileName = zipPath + '/' + entry;
-//                    if (stat.isDirectory()) {
-//                        appendToArchive(fileName, zipFileName);
-//                    }
-//                    else {
-//                        archive.file(fileName, { name: zipFileName });
-//                    }
-//                }
-//            });
-//        }
-//
-//        appendToArchive(exportPath, snapshotDir);
-////            rmdir(exportPath);
-//
-//        archive.finalize(function (err, bytes) {
-//            if (err) {
-//                throw err;
-//            }
-//            console.log(zipFile + ': ' + bytes + ' total bytes');
-//        });
-//
+
+        function remove(itemPath) {
+            if (fs.statSync(itemPath).isDirectory()) {
+                _.each(fs.readdirSync(itemPath), function(childItemName) {
+                    remove(path.join(itemPath, childItemName));
+                });
+                fs.rmdirSync(itemPath);
+            }
+            else {
+                fs.unlinkSync(itemPath);
+            }
+        }
+
+        archiver(exportPath, archiveFile, function(err) {
+            if (err) {
+                console.error(err);
+            }
+            receiver(archiveFile);
+            remove(exportPath);
+        });
     })
 };
 

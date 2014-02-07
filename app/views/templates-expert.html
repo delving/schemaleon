@@ -6,13 +6,13 @@
             <span class="icon-item status status-{{ el.invalid }}"></span>
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
-                  ng-click="addSibling(panel.element, $index, panelIndex)">
-                    <i class="icon-plus-sign"></i>
+                  ng-click="addSibling(el)">
+                    <i class="icon-plus-sign icon-white"></i>
             </span>
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
-                  ng-click="removeSibling(panel.element, $index, panelIndex)">
-                    <i class="icon-minus-sign"></i>
+                  ng-click="removeSibling(el)">
+                    <i class="icon-minus-sign icon-white"></i>
             </span>
         </div>
         <span class="i18n"></span>:
@@ -20,77 +20,143 @@
 </script>
 
 <script type="text/ng-template" id="expert-submenu.html">
-    <input el-focus="el" el-focus-element="focusElement" style="opacity: 0; width: 0; height: 0; "/>
     <div data-ng-include="'expert-field-label.html'"/>
-    <div class="field indent" ng-repeat="el in el.elements" ng-include="getExpertEditTemplate(el)"></div>
+    <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(el)">
+        <div class="field indent" ng-repeat="(elIndex, el) in parentEl.elements">
+            <div data-ng-controller="ExpertElementController">
+                <div class="field indent" ng-include="getExpertEditTemplate(el)"/>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="expert-line.html">
     <div data-ng-include="'expert-field-label.html'"/>
-    <div class="panel-input line-element">
-        <div class="input-block-level" data-ng-controller="TextInputController">
-            <input el-focus="el" el-focus-element="focusElement" class="input-block-level" type="text" ng-model="el.value" />
-            <div ng-show="el.invalidMessage">
-                <span class="label label-important">{{ el | invalidMessage }}</span>
-                <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
-                      tooltip-placement="right" class="badge badge-warning badge-i18n">
-                      <i class="icon-translate icon-white"></i>
-                </span>
+    <div class="expert-left-col">
+        <div class="panel-input line-element">
+            <div class="input-block-level" data-ng-controller="TextInputController">
+                <input class="input-block-level" type="text" ng-model="el.value" data-ng-focus="setActiveEl(el)"/>
+                <div ng-show="el.invalidMessage">
+                    <span class="label label-important">{{ el | invalidMessage }}</span>
+                    <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
+                          tooltip-placement="right" class="badge badge-warning badge-i18n">
+                          <i class="icon-translate icon-white"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
+    <div class="expert-right-col"></div>
 </script>
 
 <script type="text/ng-template" id="expert-paragraph.html">
     <div data-ng-include="'expert-field-label.html'"/>
-    <div class="panel-input paragraph-element">
-        <div class="textarea-input" data-ng-controller="TextInputController">
-            <textarea el-focus="el" el-focus-element="focusElement" class=" input-block-level" ng-model="el.value" rows="5"></textarea>
+    <div class="expert-left-col">
+        <div class="panel-input paragraph-element">
+            <div class="textarea-input" data-ng-controller="TextInputController">
+                <textarea class=" input-block-level" ng-model="el.value" rows="5" data-ng-focus="setActiveEl(el)"></textarea>
+            </div>
         </div>
     </div>
+    <div class="expert-right-col"></div>
 </script>
 
 <script type="text/ng-template" id="expert-vocabulary.html">
     <div data-ng-include="'expert-field-label.html'"/>
-    <div class="panel-input vocabulary-element">
-        <div data-ng-controller="VocabularyController" class="vocabulary-input">
-            <div ng-hide="el.editing" ng-click="enableVocabularyEditor()" class="pointer chosen-value">
-                <span class="label">{{ el.value.Label || '?' }}</span>
-            </div>
-            <div ng-show="el.editing">
-                <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
+    <div class="expert-left-col">
+        <div class="panel-input vocabulary-element">
+            <div data-ng-controller="VocabularyController" class="vocabulary-input">
+                <div ng-if="!el.value">
+                    <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
+                </div>
+                <div ng-if="el.value">
+                    <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-model="el.value.Label" data-ng-focus="setActiveEl(el)"/>
+                    <input ng-if="isEditing(el)" type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
+                </div>
             </div>
         </div>
     </div>
+    <div class="expert-right-col">
+        <div  data-ng-if="isEditing(el)" data-ng-controller="VocabularySearchController" class="vocabulary-controls">
+            <!-- DISPLAY CURRENT VALUE //-->
+            <div ng-show="el.value" i18n="CurrentValue" class="current">
+                <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Label }}</span>
+            </div>
+            <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+            <div i18n="SearchFor">
+                <label><span class="i18n"/>:</label>
+                <span class="value search-value">{{ el.searchValue }}</span>
+            </div>
+            <!-- DISPLAY LIST OF RETURNED VALUES //-->
+            <div ng-if="el.entries">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+                    <li ng-repeat="entry in el.entries">
+                        <a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>
+                        <div class="vocabulary-extended" ng-show="instanceDetails">
+                            <div ng-include="getInstanceDetails(entry.Header.SchemaName)"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div ng-show="el.entries && el.entries.length == 0">
+                <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
+                    <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
 </script>
 
-<script type="text/ng-template" id="expert-vocabulary-search.html">
-    <div data-ng-controller="VocabularySearchController" class="vocabulary-controls">
-        <!-- DISPLAY CURRENT VALUE //-->
-        <div ng-show="el.value" i18n="CurrentValue" class="current">
-            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Label }}</span>
+<script type="text/ng-template" id="expert-instance.html">
+    <div data-ng-include="'expert-field-label.html'"/>
+    <div class="expert-left-col">
+        <div class="panel-input vocabulary-element">
+            <div data-ng-controller="InstanceController" class="vocabulary-input">
+                <div ng-if="!el.value.Header">
+                    <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
+                </div>
+                <div ng-if="el.value.Header">
+                    <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-value="el.headerTitle" data-ng-focus="setActiveEl(el)"/>
+                    <div ng-if="isEditing(el)">
+                        <input type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
+                        <!-- DISPLAY CURRENT VALUE //-->
+                        <div ng-show="el.value" i18n="CurrentValue" class="current">
+                            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
-        <div i18n="SearchFor">
-            <label><span class="i18n"/>:</label>
-            <span class="value search-value">{{ el.searchValue }}</span>
-        </div>
-        <!-- DISPLAY ADD BUTTON FOR NEW VALUE //-->
-        <span ng-hide="el.entries">
-            <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
-                <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
-            </button>
-        </span>
-        <!-- DISPLAY LIST OF RETURNED VALUES //-->
-        <div ng-show="el.entries">
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
-                <li ng-repeat="entry in el.entries">
-                    <a href tabindex="-1"  ng-click="setValue(entry)">{{entry.Label}}</a>
-                    <!--<div class="vocabulary-extended">-->
-                        <!--bla-->
-                    <!--</div>-->
-                </li>
-            </ul>
+    </div>
+    <div class="expert-right-col">
+        <div ng-if="isEditing(el)" data-ng-controller="InstanceSearchController" class="vocabulary-controls">
+            <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
+            <div class="detail-controls">
+                <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+                <span i18n="SearchFor">
+                    <label><span class="i18n"/>:</label>
+                    <span class="value search-value">{{ el.searchValue }}</span>
+                </span>
+                <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
+                    <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+                </span>
+                <span i18n="LessDetails" class="badge badge-inverse pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
+                    <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+                </span>
+            </div>
+            <!-- DISPLAY LIST OF RETURNED VALUES //-->
+            <div ng-show="el.entries">
+                <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+                    <li ng-repeat="entry in el.entries">
+                        <a href ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
+                        <div class="vocabulary-extended" ng-show="instanceDetails">
+                            <div ng-include="getInstanceDetails(entry.Header.SchemaName)"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </script>
@@ -119,6 +185,7 @@
     </div>
 </script>
 
+<!--todo: this template should be adopted by the one above, like vocabulary and instance        -->
 <script type="text/ng-template" id="expert-media-search.html">
     <div ng-controller="MediaSearchController">
         <tabset class="media-tabs">
@@ -151,58 +218,6 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="expert-instance.html">
-    <!--todo: eric styling-->
-    <div class="panel-input vocabulary-element">
-        <div data-ng-controller="InstanceController" class="vocabulary-input">
-            <div ng-show="isActiveEl(el)">
-                <div ng-hide="el.editing" ng-click="enableInstanceEditor()" class="pointer chosen-value">
-                    <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
-                </div>
-                <div ng-show="el.editing">
-                    <!--<div class="input-append">-->
-                    <input el-focus="el" el-focus-element="focusElement" type="text" ng-model="el.searchValue" class="input-block-level"/>
-                    <!-- todo: make it possible to ADD term by hitting add button or pressing ENTER on keyboard (but those are in the VocabularySearchController of the next panel//-->
-                    <!--<span class="add-on" ng-click="createNewValue()"><i class="icon-plus"></i></span>-->
-                    <!--</div>-->
-
-                </div>
-            </div>
-            <div ng-hide="isActiveEl(el)">
-                <div ng-click="enableInstanceEditor()" class="pointer chosen-value" tabindex="0">
-                    <span class="label">{{ el.value.SummaryFields.Title || '?' }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="expert-instance-search.html">
-    <!--todo: eric styling-->
-    <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
-        <!-- DISPLAY CURRENT VALUE //-->
-        <div ng-show="el.value" i18n="CurrentValue" class="current">
-            <label><span class="i18n"/>:</label> <span class="value">{{ el.value..Header.SummaryFields.Title }}</span>
-        </div>
-        <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
-        <div i18n="SearchFor">
-            <label><span class="i18n"/>:</label>
-            <span class="value search-value">{{ el.searchValue }}</span>
-        </div>
-        <!-- DISPLAY LIST OF RETURNED VALUES //-->
-        <div ng-show="el.entries">
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
-                <li ng-repeat="entry in el.entries">
-                    <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.SummaryFields.Title }}</a>
-                    <!--<div class="vocabulary-extended">-->
-                    <!--bla-->
-                    <!--</div>-->
-                </li>
-            </ul>
-        </div>
-    </div>
-</script>
-
 <script type="text/ng-template" id="expert-field-documentation.html">
     <div class="panel-input field-documentation-element" data-ng-controller="FieldDocumentationController">
         <div ng-hide="el.elements">
@@ -219,6 +234,12 @@
                 </div>
             </div>
         </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="expert-unrecognized.html">
+    <div class="panel-input">
+        unrecognized field type
     </div>
 </script>
 

@@ -59,6 +59,14 @@
     background-color: @grayDark;
     color: @grayLighter;
   }
+
+  input, select, textarea {
+    &.disabled {
+      cursor: pointer;
+      background-color: @grayDark;
+      color: @grayLighter;
+    }
+  }
   /* panel on right for user input */
   .panel-input {
     color: @grayDark;
@@ -403,4 +411,12 @@ ul.kv-list {
   top: 0px;
 }
 
-
+.stealth {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  font-size: 0px;
+  line-height: 0px;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}

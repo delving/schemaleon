@@ -15,6 +15,7 @@ OSCR.controller(
 
         // the central scope elements
         $scope.tree = null;
+        $scope.cleanTree = null;
         $scope.document = null;
 
         // flags for view ()
@@ -86,41 +87,17 @@ OSCR.controller(
                     console.warn("No tree was returned for schema "+schema);
                     return;
                 }
-                if (!emptyDocument) {
-                    populateTree(tree, document.Body);
-                }
-                $scope.tree = tree; // already populated
                 installValidators(tree);
+                $scope.cleanTree = angular.copy(tree); // keep a clean copy
+                if (emptyDocument) {
+                    $scope.tree = tree;
+                }
+                else {
+                    $scope.tree = populateTree(tree, document.Body);
+                }
                 validateTree(tree);
             });
         });
-
-        // pressing the plus sign adds a sibling to the current parent
-        $scope.addSiblingToParent = function (parentElement, childIndex) {
-            var sibling = cloneAndPruneTree(parentElement.elements[childIndex]);
-            parentElement.elements.splice(childIndex + 1, 0, sibling);
-            return childIndex + 1; // the new position
-        };
-
-        // pressing the minus sign removes a child
-        $scope.removeSiblingFromParent = function (parentElement, childIndex) {
-            var list = parentElement.elements;
-            var childName = list[childIndex].name;
-            var hasSibling = false;
-            if (childIndex > 0 && list[childIndex - 1].name == childName) {
-                hasSibling = true;
-            }
-            if (childIndex < list.length - 1 && list[childIndex + 1].name == childName) {
-                hasSibling = true;
-            }
-            if (hasSibling) {
-                list.splice(childIndex, 1);
-                if (childIndex >= list.length) {
-                    childIndex--;
-                }
-            }
-            return childIndex;
-        };
 
         $scope.getDocumentState = function(header) {
             if (header.DocumentState) {
@@ -164,12 +141,12 @@ OSCR.controller(
     }
 );
 
-// just mind the tabs and their activation
+// just mind the tabs and their activation and who can see what
 OSCR.controller(
     'TabController',
     function ($rootScope, $scope) {
 
-        $scope.activeTab = "novice";
+        $scope.activeTab = $scope.identifier ? 'viewer' : 'novice';
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
@@ -201,10 +178,28 @@ OSCR.controller(
         $scope.headerDocumentState = null;
         $scope.saveSuccess = false;
 
-        function setDocumentDirty(dirty) {
-            $scope.documentDirty = dirty;
-            $rootScope.disableChoosePath = dirty;
+        $scope.leasedDocument = '';
+        var leasePollPromise;
+
+        function leasePoll() {
+            Document.leaseDocument($scope.leasedDocument, function (documentLeases) {
+                $scope.leasedDocument = '';
+                $rootScope.showDocumentsLeased(documentLeases);
+            });
+            leasePollPromise = $timeout(leasePoll, 10000);
         }
+        leasePoll();
+
+        function setDocumentDirty(dirty) {
+            if (dirty != $scope.documentDirty) {
+                $scope.documentDirty = dirty;
+                $rootScope.setDocumentDirty(dirty, $scope.saveDocument);
+                $scope.leasedDocument = $scope.header.Identifier || '';
+            }
+            if (!dirty) {
+                $scope.leasedDocument = '';
+            }
+         }
 
         function freezeTree() {
             if (!$scope.tree) return;
@@ -252,6 +247,35 @@ OSCR.controller(
             $scope.activeTab = "view";
         }
 
+        // pressing the plus sign adds a sibling to the current parent
+        $scope.addSiblingToParent = function (parentElement, childIndex) {
+            var sibling = cloneAndPruneTree(parentElement.elements[childIndex]);
+            parentElement.elements.splice(childIndex + 1, 0, sibling);
+            setDocumentDirty(true);
+            return childIndex + 1; // the new position
+        };
+
+        // pressing the minus sign removes a child
+        $scope.removeSiblingFromParent = function (parentElement, childIndex) {
+            var list = parentElement.elements;
+            var childName = list[childIndex].name;
+            var hasSibling = false;
+            if (childIndex > 0 && list[childIndex - 1].name == childName) {
+                hasSibling = true;
+            }
+            if (childIndex < list.length - 1 && list[childIndex + 1].name == childName) {
+                hasSibling = true;
+            }
+            if (hasSibling) {
+                list.splice(childIndex, 1);
+                if (childIndex >= list.length) {
+                    childIndex--;
+                }
+            }
+            setDocumentDirty(true);
+            return childIndex;
+        };
+
         // if the tree changes, we set it up
         $scope.$watch('tree', function (tree, oldTree) {
             if (!tree) return;
@@ -283,7 +307,7 @@ OSCR.controller(
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
                 $scope.useHeader(document.Header);
-                populateTree($scope.tree, document.Body);
+                $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
                 freezeTree();
                 $scope.saveSuccess = true;
                 $timeout(function() {
@@ -386,13 +410,13 @@ OSCR.controller(
             $scope.setActiveEl(chosen);
         };
 
-        $scope.addSibling = function (element, index, panelIndex) {
-            var indexToChoose = $scope.addSiblingToParent(element, index);
+        $scope.addSibling = function (parentElement, index, panelIndex) {
+            var indexToChoose = $scope.addSiblingToParent(parentElement, index);
             $scope.choose(indexToChoose, panelIndex)
         };
 
-        $scope.removeSibling = function (element, index, panelIndex) {
-            var indexToChoose = $scope.removeSiblingFromParent(element, index);
+        $scope.removeSibling = function (parentElement, index, panelIndex) {
+            var indexToChoose = $scope.removeSiblingFromParent(parentElement, index);
             $scope.choose(indexToChoose, panelIndex);
         };
 
@@ -433,6 +457,16 @@ OSCR.controller(
     function ($scope, $timeout) {
 
         $scope.el = $scope.element;
+
+        $scope.focusArrived = function(el, index, panelIndex) {
+            if (panelIndex > $scope.selectedPanelIndex) {
+                // refuse to skip ahead of selectedPanelIndex, instead cycle to 0
+                $scope.choose(0, $scope.selectedPanelIndex);
+            }
+            else {
+                $scope.choose(index, panelIndex);
+            }
+        };
 
         $scope.navigationKeyPressed = function (key) {
             var elements = $scope.panels[$scope.selectedPanelIndex].element.elements;
@@ -528,6 +562,9 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         else {
             $scope.mediaElement = null;
         }
+        
+        console.log('mediaElements', $scope.mediaElements);
+
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
             if(mediaElements.length){
@@ -556,7 +593,6 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
 
     // PDF viewing functionality: initialize only if there are pdf files
     $scope.$watch('pdfFiles', function(){
-
         // If there are no pdf's then abort this mission
         // && for now also abort if more than one
         // TODO: make this work for multiple pdf files
@@ -594,6 +630,10 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         };
 
     });
+
+
+
+
 }]);
 
 OSCR.controller(
@@ -615,44 +655,57 @@ OSCR.controller(
 // the controller for the expert editing of the whole tree in view
 OSCR.controller(
     'ExpertTreeController',
-    function ($rootScope, $scope, $timeout, Document) {
+    function ($rootScope, $scope) {
 
-        $scope.focusPath = [];
-
-        $scope.getFocusElement = function(el) {
-            return $scope.focusElement[el.focusElementIndex];
-        };
+        $scope.activeEl = null;
 
         $scope.setActiveEl = function (el) {
-            $scope.activeEl = el;
-            $timeout(function () {
-                var fe = $scope.getFocusElement(el);
-                if (fe) {
-                    $timeout(function () {
-                        fe.focus();
-                    });
-                }
-                else {
-                    console.warn("no focus element for ", el);
-                }
-            });
+            if ($scope.activeEl) {
+                console.log('no longer editing', $scope.activeEl.name);
+                $scope.activeEl.editing = false;
+            }
+            if ($scope.activeEl = el) {
+                console.log('starting to edit', el.name);
+                $scope.setEditing(el.editing = true);
+            }
         };
 
         $scope.isActiveEl = function (el) {
             return $scope.activeEl === el;
         };
 
+        $scope.isEditing = function(el) {
+            return $scope.isActiveEl(el) && $scope.editing;
+        };
+
         $scope.valueChanged = function (el) {
-//            console.log("value changed: active=" + (el == $scope.activeEl));
-            $scope.validateTree();
+            var active = el == $scope.activeEl;
+            if (active) {
+                $scope.validateTree();
+            }
+        };
+    }
+);
+
+OSCR.controller(
+    'ExpertSubtreeController',
+    function ($scope) {
+        $scope.setParentEl = function(parentEl) {
+            $scope.parentEl = parentEl;
+        };
+    }
+);
+
+OSCR.controller(
+    'ExpertElementController',
+    function ($scope) {
+
+        $scope.addSibling = function (el) {
+            $scope.addSiblingToParent($scope.parentEl, $scope.elIndex);
         };
 
-        $scope.addSibling = function (list, index, panelIndex) {
-            console.warn('not implemented'); // todo: call the tree controller
-        };
-
-        $scope.removeSibling = function (list, index, panelIndex) {
-            console.warn('not implemented'); // todo: call the tree controller
+        $scope.removeSibling = function (el) {
+            $scope.removeSiblingFromParent($scope.parentEl, $scope.elIndex);
         };
 
         $scope.getExpertEditTemplate = function (el) {
@@ -665,32 +718,12 @@ OSCR.controller(
             return "expert-unrecognized.html"
         };
 
-        $scope.getDetailTemplate = function (el) {
-            if (!el) {
-//                console.warn("get detail template of nothing"); // todo take care of this
-                return "expert-field-documentation.html"
+        $scope.getDetailTemplate = function (el) { // todo: shouldn't be necessary
+            if (el && el.config.media) {
+                return "expert-media-search.html"; // todo: adopt it into expert-media.html
             }
-            if ($scope.editing) {
-                if (el.config.media) {
-                    return "expert-media-search.html";
-                }
-                else if (el.config.vocabulary) {
-                    return "expert-vocabulary-search.html";
-                }
-                else if (el.config.instance) {
-                    return "expert-instance-search.html";
-                }
-            }
-            return "expert-field-documentation.html"
+            return "expert-unrecognized.html"
         };
-
-    }
-);
-
-OSCR.controller(
-    'ExpertElementController',
-    function ($scope) {
-        $scope.el = $scope.element;
     }
 );
 

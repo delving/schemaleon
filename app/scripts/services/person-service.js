@@ -21,17 +21,21 @@ angular.module('OSCR').service(
             });
         };
 
+        this.publishChatMessage = function(message, accept) {
+            $http.get('/person/chat', {params: {message: message}}).success(accept);
+        };
+
         this.getStats = function(accept) {
             $http.get('/person/stats').success(function (xml) {
                 accept(xmlToObject(xml));
             });
         };
 
-        this.selectUsers = function (query, accept) {
-            $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
-                accept(xmlToArray(xml));
-            });
-        };
+//        this.selectUsers = function (query, accept) {
+//            $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
+//                accept(xmlToArray(xml));
+//            });
+//        };
 
         this.getUser = function (identifier, accept) {
             $http.get('/person/user/fetch/' + identifier).success(function (xml) {

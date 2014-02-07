@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $anchorScroll, $routeParams, $filter, Person, I18N, Statistics) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $anchorScroll, $routeParams, $filter, Person, I18N, Statistics, $modal) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -55,6 +55,11 @@ OSCR.controller(
 
         $rootScope.disableChoosePath = false;
 
+        $rootScope.setDocumentDirty = function(dirty, saveDocument) {
+            $rootScope.disableChoosePath = dirty;
+            $rootScope.saveDocument = saveDocument;
+        };
+
         $rootScope.globalError = null;
         var globalErrorErasePromise;
 
@@ -68,7 +73,7 @@ OSCR.controller(
                     $rootScope.globalError = null;
                     globalErrorErasePromise = null;
                 },
-                6000
+                7000
             );
         };
 
@@ -142,12 +147,15 @@ OSCR.controller(
 
             $scope.mainMenuBase = [
                 {name: "Public", path: "/public", icon: 'icon-road', active: false},
-                {name: "Dashboard", path: "/dashboard", icon: 'icon-cog', active: false},
-                {name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false}
+                {name: "Community", path: "/community", icon: 'icon-cog', active: false}
             ];
 
             var user = $rootScope.user;
             if (user.Membership) {
+
+                if (_.indexOf(['Administrator', 'Member'], user.Membership.Role) >= 0) {
+                    $scope.mainMenuBase.push({name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false});
+                }
 
                 Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
                     $scope.statistics = statistics;
@@ -194,10 +202,15 @@ OSCR.controller(
                     });
                 });
             }
+            else {
+                Statistics.getGlobalStatistics(null, function (statistics) {
+                    $scope.statistics = statistics;
+                });
+            }
         }
 
         $rootScope.$watch('user', function (user, before) {
-            console.log("user changed", user);
+//            console.log("user changed", user);
             if (!user) return;
             if (user.Membership) {
                 switch (user.Membership.Role) {
@@ -243,10 +256,38 @@ OSCR.controller(
             recentEntry.active = true;
         };
 
+        $rootScope.showDocumentsLeased = function(documentLeases) {
+            if (!$scope.recent) return;
+            _.each($scope.recent, function(entry) {
+                entry.leased = false;
+                _.each(documentLeases, function(lease) {
+                    if (lease.user == $rootScope.user.Identifier) return;
+                    if (!entry.leased) entry.leased = (entry.header.Identifier == lease.document) ? lease.user : null;
+                });
+            });
+        };
+
         $rootScope.choosePath = function (path, viewOnly) {
             if($rootScope.disableChoosePath) {
                 $rootScope.setGlobalError('Please save your document first');
-                // todo: modal to save or continue;
+                var modalInstance = $modal.open({
+                    templateUrl: 'confirm-save-document.html',
+                    controller: function($scope, $modalInstance) {
+                        $scope.whatever = {};
+                        $scope.ok = function () {
+                            $rootScope.saveDocument();
+                            $rootScope.disableChoosePath = false;
+                            $rootScope.globalError = null;
+                            $modalInstance.close();
+                        };
+                        $scope.cancel = function () {
+                            $rootScope.disableChoosePath = false;
+                            $rootScope.globalError = null;
+                            $modalInstance.dismiss('cancel');
+                            $rootScope.choosePath(path, viewOnly);
+                        };
+                    }
+                });
                 return;
             }
             //todo: catch a dirty document
@@ -411,7 +452,7 @@ OSCR.controller(
                             console.log('setting user identifier', user.Identifier);
                             $cookieStore.put('oscr-user-identifier', user.Identifier);
                         }
-                        $scope.choosePath('/dashboard');
+                        $scope.choosePath('/community');
                     }
                     else {
                         $scope.loginFailed = true;
@@ -456,7 +497,6 @@ OSCR.controller(
 
         if ($location.host() == 'localhost') {
             var userIdentifier = $cookieStore.get('oscr-user-identifier');
-            console.log('getting userIdentifier ', userIdentifier);
             if (userIdentifier) {
                 Person.getUser(userIdentifier, function(user) {
                     $rootScope.user = user;

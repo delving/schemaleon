@@ -36,22 +36,26 @@ OSCR.controller(
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
         });
+        
+        $scope.enableVocabularyEditor = function () {
+            console.log('vocabulary focussed');
+        }
     }
 );
 OSCR.controller(
     'VocabularySearchController',
     function ($scope, Vocabulary) {
 
-        $scope.el = $scope.panel.element;
-
-        if (!$scope.el.config.vocabulary) {
-            return;
-        }
+        if ($scope.panel) $scope.el = $scope.panel.element;
+        if (!$scope.el.config.vocabulary) return;
         $scope.schema = $scope.el.config.vocabulary;
 
         $scope.setValue = function (value) {
             $scope.el.value = value;  // vocabulary controller is watching this
+            console.log('given value', value);
+            console.log('$scope.el.value', $scope.el.value);
             $scope.setEditing(false);
+            $scope.el.searchValue = '';
         };
 
         $scope.createNewValue = function () {
@@ -74,6 +78,7 @@ OSCR.controller(
                 });
             }
         });
+
     }
 );
 
@@ -186,6 +191,7 @@ OSCR.controller(
         if (!$scope.el.config.instance) {
             return;
         }
+
         $scope.schema = $scope.el.config.instance;
 
         $scope.$watch('chosenEntry', function (value, before) {
@@ -228,7 +234,9 @@ OSCR.controller(
     'InstanceSearchController',
     function ($rootScope, $scope, Document) {
 
-        $scope.el = $scope.panel.element;
+        if ($scope.panel) $scope.el = $scope.panel.element;
+        if (!$scope.el.config.instance) return;
+        $scope.schema = $scope.el.config.instance;
 
         $scope.instanceDetails = false;
 

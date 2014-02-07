@@ -4,10 +4,10 @@
             <img data-ng-src="{{ mediaElement | mediaFile }}"/>
         </div>
         <div data-ng-if="isVideo(mediaElement)">
-            <video width="100%" id="player1" src="{{ mediaElement | mediaFile }}" type="{{ mediaElement | mediaMimeType }}" controls="controls"></video>
+            <video width="100%" id="player1" ng-src="{{ mediaElement | mediaFile }}" type="{{ mediaElement | mediaMimeType }}" controls="controls"></video>
         </div>
         <div data-ng-if="isPdf(mediaElement)">
-            <div class="row">
+            <div class="row-fluid">
                 <div class="btn-group pdf-controls" ng-show="totalPages > 1">
                     <button class="btn btn-small" ng-click="gotoPage(1)"><i class="icon-fast-backward"></i></button>
                     <button class="btn btn-small" ng-click="prevPage()"><i class="icon-backward"></i></button>
@@ -17,7 +17,7 @@
                 </div>
 
             </div>
-            <div class="row">
+            <div class="row-fluid">
                 <pdfviewer src="{{ mediaElement | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 </div>
                 <div data-ng-if="isVideo(file)">
                     <video width="100%" controls>
-                        <source src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
+                        <source ng-src="{{ file | mediaFile }}" type="{{ file | mediaMimeType }}">
                     </video>
                 </div>
             </slide>

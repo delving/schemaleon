@@ -1,16 +1,16 @@
-<div class="fade-in group-page">
+<div class="fade-in group-page" bindonce="group">
 
     <div class="page-header">
-        <h1><span>{{ group.Name }}</span></h1>
+        <h1><span bo-text="group.Name"></span></h1>
     </div>
     <div class="media">
-        <span ng-show="group.Address.Thumbnail.length" class="pull-left"><img ng-src="{{group.Address.Thumbnail}}" width="100"></span>
+        <span ng-show="group.Address.Thumbnail.length" class="pull-left"><img bo-src="group.Address.Thumbnail" width="100"></span>
         <div class="media-body">
             <address>
-                <h5 class="header">{{ group.Name }}</h5>
-                <span ng-show="group.Address.Street">{{ group.Address.Street}}</span><br/>
-                <span ng-show="group.Address.Postcode">{{ group.Address.Postcode }}, </span><span ng-show="group.Address.Place">{{ group.Address.Place }}</span><br/>
-                <span ng-show="group.Website.length"><a href="{{group.Website}}" target="_blank">{{ group.Website }}</a></span><br/>
+                <h5 class="header" bo-text="group.Name"></h5>
+                <span ng-show="group.Address.Street" bo-text="group.Address.Street"></span><br/>
+                <span ng-show="group.Address.Postcode" bo-text="group.Address.Postcode + ', '"></span><span ng-show="group.Address.Place" bo-text="group.Address.Place"></span><br/>
+                <span ng-show="group.Website.length"><a bo-href="group.Website" target="_blank" bo-text="group.Website"></a></span><br/>
             </address>
         </div>
     </div>

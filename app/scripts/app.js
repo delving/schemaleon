@@ -1,6 +1,6 @@
 'use strict';
 
-var OSCR = angular.module('OSCR', ['ngRoute','ngCookies', 'ui.bootstrap', 'blueimp.fileupload','md5', 'ui-gravatar', 'ngPDFViewer']);
+var OSCR = angular.module('OSCR', ['ngRoute','ngCookies', 'ui.bootstrap', 'blueimp.fileupload','md5', 'ui-gravatar', 'ngPDFViewer','pasvaz.bindonce']);
 
 OSCR.config(
     function ($routeProvider) {
@@ -14,10 +14,10 @@ OSCR.config(
                 templateUrl: 'views/login.html',
                 title: 'OSCR Login'
             })
-            .when('/dashboard', {
-                templateUrl: 'views/dashboard.html',
-                controller: 'DashboardController',
-                title: 'OSCR Dashboard'
+            .when('/community', {
+                templateUrl: 'views/community.html',
+                controller: 'CommunityController',
+                title: 'OSCR Community'
             })
             .when('/shared/:schema', {
                 templateUrl: 'views/document-list.html',

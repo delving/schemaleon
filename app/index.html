@@ -134,8 +134,13 @@
                                                 <span>{{ user.Profile.firstName }}</span>
                                                 <span>{{ user.Profile.lastName }}</span>
                                             </div>
-                                            <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
-                                            <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
+                                            <div data-ng-if="user.group">
+                                                <span i18n="Group" class="strong"><span class="i18n"/></span>: {{ user.group.Name }}<br/>
+                                                <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
+                                            </div>
+                                            <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
+                                                <span class="label i18n"/><br/>
+                                            </div>
                                             <a href ng-click="logout()" title="" i18n="Logout">
                                                 <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
                                             </a>
@@ -144,9 +149,9 @@
                                 </div>
                             </li>
                             <!-- Base links -->
-                            <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
+                            <li bindonce ng-repeat="link in mainMenuBase" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                 </a>
                                 <span ng-show="config.showTranslationEditor"
@@ -158,10 +163,10 @@
                                 </span>
                             </li>
                             <!-- Primary document links -->
-                            <li class="nav-header" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
-                            <li ng-repeat="link in mainMenuPrimary" ng-class="{ active: link.active }">
+                            <li class="nav-header" i18n="PrimaryDocuments" ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
+                            <li bindonce ng-repeat="link in mainMenuPrimary" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                     <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
@@ -175,9 +180,9 @@
                             </li>
                             <!-- Shared document links -->
                             <li class="nav-header" i18n="SharedDocuments" ng-show="mainMenuShared.length"><span class="i18n"/> </li>
-                            <li ng-repeat="link in mainMenuShared" ng-class="{ active: link.active }" ng-show="user.god">
+                            <li bindonce ng-repeat="link in mainMenuShared" bo-class="{ active: link.active }" bo-show="user.god">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                     <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
@@ -192,10 +197,13 @@
                             <!-- Recent document links -->
                             <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
                             </li>
-                            <li ng-repeat="link in recent" ng-class="{ active: link.active }">
+                            <li bindonce ng-repeat="link in recent" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
                                     <i class="icon-leaf"></i>
                                     {{ link | linkTitle }}
+                                    <span class="badge badge-important" ng-if="link.leased">
+                                        <i class="icon icon-lock icon-white"></i>
+                                    </span>
                                 </a>
                             </li>
                         </ul>
@@ -205,7 +213,6 @@
                 </div>
                 <div id="mainBody" ng-class="{'span10' : user, 'span12' : !user}">
                     <div class="alert alert-danger fade-in" data-ng-show="globalError">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
                         {{ globalError }}
                     </div>
                     <div ng-view id="view"><!-- Angular views are rendered here --></div>
@@ -220,6 +227,7 @@
 <script src="components/jquery/jquery.min.js"></script>
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-route/angular-route.js"></script>
+<script src="components/angular-bindonce/bindonce.js"></script>
 <script src="components/underscore/underscore.js"></script>
 <script src="components/angular-cookies/angular-cookies.js"></script>
 <script src="components/x2js/xml2json.js"></script>
@@ -237,7 +245,7 @@
 <script src="scripts/controllers/people.js"></script>
 <script src="scripts/controllers/global.js"></script>
 <script src="scripts/controllers/i18n.js"></script>
-<script src="scripts/controllers/dashboard.js"></script>
+<script src="scripts/controllers/community.js"></script>
 <script src="scripts/controllers/document-list.js"></script>
 <script src="scripts/controllers/document-edit.js"></script>
 <script src="scripts/controllers/media.js"></script>

@@ -9,18 +9,29 @@
         </div>
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
-            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer">
-                <a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
+            <li ng-class="{ 'active': isTabActive('viewer') }">
+                <a href="" i18n="Viewer" ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
             </li>
             <li ng-class="{ 'active': isTabActive('novice') }" ng-hide="user.viewer">
                 <a href="" i18n="Novice" ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
             </li>
-            <li ng-class="{ 'active': isTabActive('viewer') }">
-                <a href="" i18n="Viewer" ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
+            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer">
+                <a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
-            <div class="tab-pane" ng-class="{ 'active': isTabActive('expert') }">
+            <!--todo: this one should not be within the TreeEditController-->
+            <div class="tab-pane active" ng-if="isTabActive('viewer')">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
+                <div data-ng-include="'view-tab.html'">view tab</div>
+            </div>
+            <div class="tab-pane active" ng-if="isTabActive('novice')">
+                <div data-ng-include="'document-controls.html'">document controls</div>
+                <hr style="margin: 8px 0"/>
+                <div data-ng-include="'panel-array.html'">panel array</div>
+            </div>
+            <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <hr style="margin: 8px 0"/>
                 <div class="alert alert-danger">
@@ -28,17 +39,6 @@
                     <strong>Warning!</strong> This view is in BETA - not all field elements are functional.
                 </div>
                 <div data-ng-include="'expert-tab.html'">expert tab</div>
-            </div>
-            <div class="tab-pane" ng-class="{ 'active': isTabActive('novice') }">
-                <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
-                <div data-ng-include="'panel-array.html'">panel array</div>
-            </div>
-            <!--todo: this one should not be within the TreeEditController-->
-            <div class="tab-pane" ng-class="{ 'active': isTabActive('viewer') }">
-                <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
-                <div data-ng-include="'view-tab.html'">view tab</div>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
                     </ul>
                 </small>
             </li>
-            <li class="pull-right">
+            <li class="pull-right" ng-if="!user.viewer">
                <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
                    <span ng-show="isDocumentPublic()" i18n="Public" ng-click="setDocumentState('private')">
                        <i class="icon icon-white icon-eye-open"></i>
@@ -153,7 +153,9 @@
         <table class="table panels" id="panel-table" ng-show="panels">
             <thead>
             <tr>
-                <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
+                <th ng-repeat="panel in panels" class="panel-header">
+                    {{ panel.element | elementTitle }}
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -164,7 +166,8 @@
                     <div ng-show="panel.element.elements">
                         <ul class="nav nav-pills nav-stacked panel-list">
                             <li ng-repeat="element in panel.element.elements">
-                                <a class="level{{ element.classIndex }} link-{{ element.name }}" ng-click="choose($index, $parent.$index)">
+                                <a href class="level{{ element.classIndex }} link-{{ element.name }}"
+                                   ng-click="choose($index, $parent.$index)">
                                         <span class="link-title">
                                             {{ element | elementTitle }}
                                             <span ng-show="config.showTranslationEditor"
@@ -178,6 +181,7 @@
                                             <span ng-include="getPanelEditTemplate(element)"></span>
                                         </span>
                                 </a>
+
                                 <div class="icon-container">
                                     <span class="icon-item status status-{{ element.invalid }}"></span>
                                         <span ng-show="element.config.multiple"
@@ -191,7 +195,6 @@
                                             <i class="icon-minus-sign icon-white"></i>
                                         </span>
                                 </div>
-
                             </li>
                         </ul>
                     </div>
@@ -208,12 +211,15 @@
 </script>
 
 <script type="text/ng-template" id="expert-tab.html">
-    <div data-ng-controller="ExpertTreeController" class="row-fluid">
-        <div class="span6" data-ng-controller="ExpertElementController">
-            <form>
-                    <fieldset class="field" ng-repeat="el in tree.elements" ng-include="getExpertEditTemplate(el)"/>
-            </form>
-        </div>
+    <div data-ng-controller="ExpertTreeController">
+        <form class="form-expert" ng-if="tree">
+            <span class="form-header" i18n="{{ schema }}"><span class="i18n"/></span>
+            <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)" class="form-inner">
+                <div class="row-fluid" ng-repeat="(elIndex, el) in parentEl.elements" data-ng-controller="ExpertElementController">
+                    <fieldset class="field" ng-include="getExpertEditTemplate(el)"/>
+                </div>
+            </div>
+        </form>
     </div>
 </script>
 
@@ -229,5 +235,18 @@
             </div>
         </div>
     </div>
+</script>
+
+<script type="text/ng-template" id="confirm-save-document.html">
+        <div class="modal-header warning">
+            <h3>Warning</h3>
+        </div>
+        <div class="modal-body">
+            <P>You have made changes to your document. Do you want to save it first?</P>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>
+            <button class="btn btn-danger" ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>
+        </div>
 </script>
 
