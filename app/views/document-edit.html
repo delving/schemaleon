@@ -153,7 +153,9 @@
         <table class="table panels" id="panel-table" ng-show="panels">
             <thead>
             <tr>
-                <th ng-repeat="panel in panels" class="panel-header">{{ panel.element | elementTitle }}</th>
+                <th ng-repeat="panel in panels" class="panel-header">
+                    {{ panel.element | elementTitle }}
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -211,8 +213,8 @@
 <script type="text/ng-template" id="expert-tab.html">
     <div data-ng-controller="ExpertTreeController">
         <form class="form-expert" ng-if="tree">
-            <!--{{ schema }}-->
-            <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)">
+            <span class="form-header" i18n="{{ schema }}"><span class="i18n"/></span>
+            <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)" class="form-inner">
                 <div class="row-fluid" ng-repeat="(elIndex, el) in parentEl.elements" data-ng-controller="ExpertElementController">
                     <fieldset class="field" ng-include="getExpertEditTemplate(el)"/>
                 </div>
@@ -236,8 +238,7 @@
 </script>
 
 <script type="text/ng-template" id="confirm-save-document.html">
-    <div data-ng-controller="TreeEditController">
-        <div class="modal-header">
+        <div class="modal-header warning">
             <h3>Warning</h3>
         </div>
         <div class="modal-body">
@@ -247,6 +248,5 @@
             <button class="btn btn-success" ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>
             <button class="btn btn-danger" ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>
         </div>
-    </div>
 </script>
 

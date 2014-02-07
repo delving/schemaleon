@@ -150,6 +150,10 @@ ul.thumbnails {
   }
 }
 
+pdfviewer canvas {
+  max-width: 100%;
+}
+
 
 
 /* COLOR VARIABLES */
@@ -958,10 +962,20 @@ label {
 .form-expert {
   background: @grayDark;
   color: @grayLighter;
+  margin-top: 0px;
   margin-left: -10px;
   margin-right: -10px;
   margin-bottom: -10px;
-  padding: 10px;
+  .form-inner {
+    padding: 10px;
+  }
+  .form-header {
+    background: @delvingBlue;
+    color: @white;
+    display: block;
+    font-size: 18px;
+    padding: 6px 10px;
+  }
   .border-radius( 0 0 10px 10px);
   legend {
     color: @grayLighter;
@@ -971,9 +985,11 @@ label {
   }
 }
 
-.form-expert .vocabulary-controls {
-  .value {
-    color: @gray;
+.form-expert {
+  .vocabulary-controls {
+    .value {
+      color: @gray;
+    }
   }
 }
 
@@ -1055,8 +1071,8 @@ label {
 /* CAROUSEL */
 
 .carousel-indicators {
-  position: static;
-  text-align: center;
+//  position: static;
+//  text-align: center;
   background: @grayDark;
   .border-radius(4px);
   border: 1px solid @grayLight;
@@ -1074,10 +1090,10 @@ label {
   }
 }
 
-.carousel-control {
-  margin-top: 0px;
-  top: 0px;
-}
+//.carousel-control {
+//  margin-top: 0px;
+//  top: 0px;
+//}
 
 .link-facts {
   margin-bottom: 8px;
@@ -1106,11 +1122,13 @@ label {
 
 //.modal-d
 
-.modal-header {
+.modal-header.warning {
   background: @red;
   .border-radius(5px 5px 0 0);
   color: @grayLighter;
 }
+
+
 
 
 

@@ -169,7 +169,7 @@ OSCR.controller(
     'TabController',
     function ($rootScope, $scope) {
 
-        $scope.activeTab = "expert";
+        $scope.activeTab = "view";
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
@@ -538,6 +538,8 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         else {
             $scope.mediaElement = null;
         }
+        
+        console.log('mediaElements', $scope.mediaElements);
 
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){

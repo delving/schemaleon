@@ -717,6 +717,9 @@ ul.thumbnails li:hover .thumbnail {
 .pdf-controls .label {
   margin-left: 10px;
 }
+pdfviewer canvas {
+  max-width: 100%;
+}
 /* COLOR VARIABLES */
 /* make keyframes that tell the start state and the end state of our object */
 @-webkit-keyframes fadeIn {
@@ -1574,13 +1577,23 @@ label {
 .form-expert {
   background: #222222;
   color: #eeeeee;
+  margin-top: 0px;
   margin-left: -10px;
   margin-right: -10px;
   margin-bottom: -10px;
-  padding: 10px;
   -webkit-border-radius: 0 0 10px 10px;
   -moz-border-radius: 0 0 10px 10px;
   border-radius: 0 0 10px 10px;
+}
+.form-expert .form-inner {
+  padding: 10px;
+}
+.form-expert .form-header {
+  background: #009ae0;
+  color: #ffffff;
+  display: block;
+  font-size: 18px;
+  padding: 6px 10px;
 }
 .form-expert legend {
   color: #eeeeee;
@@ -1663,8 +1676,6 @@ label {
 }
 /* CAROUSEL */
 .carousel-indicators {
-  position: static;
-  text-align: center;
   background: #222222;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1683,10 +1694,6 @@ label {
 .carousel-indicators li:first-of-type {
   margin-left: 100px;
 }
-.carousel-control {
-  margin-top: 0px;
-  top: 0px;
-}
 .link-facts {
   margin-bottom: 8px;
   color: #eeeeee;
@@ -1702,7 +1709,7 @@ label {
 }
 /* chat */
 /* modal */
-.modal-header {
+.modal-header.warning {
   background: #cc0000;
   -webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
