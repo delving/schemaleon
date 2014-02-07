@@ -21,7 +21,13 @@
 
 <script type="text/ng-template" id="expert-submenu.html">
     <div data-ng-include="'expert-field-label.html'"/>
-    <div class="field indent" ng-repeat="el in el.elements" ng-include="getExpertEditTemplate(el)"></div>
+    <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(el)">
+        <div class="field indent" ng-repeat="(elIndex, el) in parentEl.elements">
+            <div data-ng-controller="ExpertElementController">
+                <div class="field indent" ng-include="getExpertEditTemplate(el)"/>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="expert-line.html">
@@ -179,6 +185,7 @@
     </div>
 </script>
 
+<!--todo: this template should be adopted by the one above, like vocabulary and instance        -->
 <script type="text/ng-template" id="expert-media-search.html">
     <div ng-controller="MediaSearchController">
         <tabset class="media-tabs">

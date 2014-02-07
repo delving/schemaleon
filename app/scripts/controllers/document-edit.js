@@ -386,13 +386,13 @@ OSCR.controller(
             $scope.setActiveEl(chosen);
         };
 
-        $scope.addSibling = function (element, index, panelIndex) {
-            var indexToChoose = $scope.addSiblingToParent(element, index);
+        $scope.addSibling = function (parentElement, index, panelIndex) {
+            var indexToChoose = $scope.addSiblingToParent(parentElement, index);
             $scope.choose(indexToChoose, panelIndex)
         };
 
-        $scope.removeSibling = function (element, index, panelIndex) {
-            var indexToChoose = $scope.removeSiblingFromParent(element, index);
+        $scope.removeSibling = function (parentElement, index, panelIndex) {
+            var indexToChoose = $scope.removeSiblingFromParent(parentElement, index);
             $scope.choose(indexToChoose, panelIndex);
         };
 
@@ -625,7 +625,7 @@ OSCR.controller(
 // the controller for the expert editing of the whole tree in view
 OSCR.controller(
     'ExpertTreeController',
-    function ($rootScope, $scope, $timeout, Document) {
+    function ($rootScope, $scope) {
 
         $scope.activeEl = null;
 
@@ -654,15 +654,28 @@ OSCR.controller(
                 $scope.validateTree();
             }
         };
+    }
+);
+
+OSCR.controller(
+    'ExpertSubtreeController',
+    function ($scope) {
+        $scope.setParentEl = function(parentEl) {
+            $scope.parentEl = parentEl;
+        };
+    }
+);
+
+OSCR.controller(
+    'ExpertElementController',
+    function ($scope) {
 
         $scope.addSibling = function (el) {
-//            var indexToChoose = $scope.addSiblingToParent(element, index);
-            console.warn('add', el);
+            $scope.addSiblingToParent($scope.parentEl, $scope.elIndex);
         };
 
-        $scope.removeSibling = function () {
-//            var indexToChoose = $scope.removeSiblingFromParent(element, index);
-            console.warn('remove', el);
+        $scope.removeSibling = function (el) {
+            $scope.removeSiblingFromParent($scope.parentEl, $scope.elIndex);
         };
 
         $scope.getExpertEditTemplate = function (el) {
@@ -675,30 +688,12 @@ OSCR.controller(
             return "expert-unrecognized.html"
         };
 
-        $scope.getDetailTemplate = function (el) {
-            if (!el) {
-//                console.warn("get detail template of nothing"); // todo take care of this
-                return "expert-field-documentation.html"
+        $scope.getDetailTemplate = function (el) { // todo: shouldn't be necessary
+            if (el && el.config.media) {
+                return "expert-media-search.html"; // todo: adopt it into expert-media.html
             }
-            if (el.config.media) {
-                return "expert-media-search.html";
-            }
-            else if (el.config.vocabulary) {
-                return "expert-vocabulary-search.html";
-            }
-            else if (el.config.instance) {
-                return "expert-instance-search.html";
-            }
-            return "expert-field-documentation.html"
+            return "expert-unrecognized.html"
         };
-
-    }
-);
-
-OSCR.controller(
-    'ExpertElementController',
-    function ($scope) {
-        $scope.el = $scope.element;
     }
 );
 

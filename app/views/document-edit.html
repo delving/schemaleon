@@ -210,13 +210,14 @@
 
 <script type="text/ng-template" id="expert-tab.html">
     <div data-ng-controller="ExpertTreeController">
-            <form class="form-expert" data-ng-controller="ExpertElementController">
-                <div class="row-fluid" ng-repeat="el in tree.elements">
+        <form class="form-expert" ng-if="tree">
+            <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)">
+                <div class="row-fluid" ng-repeat="(elIndex, el) in parentEl.elements">
+                    <div data-ng-controller="ExpertElementController"">
                     <fieldset class="field" ng-include="getExpertEditTemplate(el)"/>
                 </div>
-
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </script>
 
