@@ -262,7 +262,7 @@ OSCR.controller(
                 entry.leased = false;
                 _.each(documentLeases, function(lease) {
                     if (lease.user == $rootScope.user.Identifier) return;
-                    if (!entry.leased) entry.leased = (entry.header.Identifier == lease.document);
+                    if (!entry.leased) entry.leased = (entry.header.Identifier == lease.document) ? lease.user : null;
                 });
             });
         };
