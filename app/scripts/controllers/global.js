@@ -286,7 +286,7 @@ OSCR.controller(
                             $modalInstance.dismiss('cancel');
                             $rootScope.choosePath(path, viewOnly);
                         };
-                    },
+                    }
                 });
                 return;
             }
