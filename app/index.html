@@ -149,12 +149,12 @@
                                 </div>
                             </li>
                             <!-- Base links -->
-                            <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
+                            <li bindonce ng-repeat="link in mainMenuBase" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                 </a>
-                                <span ng-show="config.showTranslationEditor"
+                                <span bo-show="config.showTranslationEditor"
                                      ng-click="openLabelDialog(link)"
                                      tooltip="Click to translate"
                                      tooltip-placement="right"
@@ -163,14 +163,14 @@
                                 </span>
                             </li>
                             <!-- Primary document links -->
-                            <li class="nav-header" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
-                            <li ng-repeat="link in mainMenuPrimary" ng-class="{ active: link.active }">
+                            <li class="nav-header" i18n="PrimaryDocuments" ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
+                            <li bindonce ng-repeat="link in mainMenuPrimary" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                     <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
-                                <span ng-show="config.showTranslationEditor"
+                                <span bo-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right"
@@ -180,13 +180,13 @@
                             </li>
                             <!-- Shared document links -->
                             <li class="nav-header" i18n="SharedDocuments" ng-show="mainMenuShared.length"><span class="i18n"/> </li>
-                            <li ng-repeat="link in mainMenuShared" ng-class="{ active: link.active }" ng-show="user.god">
+                            <li bindonce ng-repeat="link in mainMenuShared" bo-class="{ active: link.active }" bo-show="user.god">
                                 <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
+                                    <i bo-show="link.icon" class="icon {{ link.icon }}"></i>
                                     {{ link | linkTitle }}
                                     <span class="badge badge-info pull-right">{{ link.count }}</span>
                                 </a>
-                                <span ng-show="config.showTranslationEditor"
+                                <span bo-show="config.showTranslationEditor"
                                       ng-click="openLabelDialog(link)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right"
@@ -197,7 +197,7 @@
                             <!-- Recent document links -->
                             <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
                             </li>
-                            <li ng-repeat="link in recent" ng-class="{ active: link.active }">
+                            <li bindonce ng-repeat="link in recent" bo-class="{ active: link.active }">
                                 <a href ng-click="choosePath(link.path)">
                                     <i class="icon-leaf"></i>
                                     {{ link | linkTitle }}
@@ -210,7 +210,6 @@
                 </div>
                 <div id="mainBody" ng-class="{'span10' : user, 'span12' : !user}">
                     <div class="alert alert-danger fade-in" data-ng-show="globalError">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
                         {{ globalError }}
                     </div>
                     <div ng-view id="view"><!-- Angular views are rendered here --></div>
@@ -225,6 +224,7 @@
 <script src="components/jquery/jquery.min.js"></script>
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-route/angular-route.js"></script>
+<script src="components/angular-bindonce/bindonce.js"></script>
 <script src="components/underscore/underscore.js"></script>
 <script src="components/angular-cookies/angular-cookies.js"></script>
 <script src="components/x2js/xml2json.js"></script>
