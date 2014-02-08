@@ -3,10 +3,6 @@
 <div ng-include="'/views/templates-view.html'"></div>
 
 <div data-ng-controller="TreeController">
-        <div class="alert alert-success alert-saved fade-in" data-ng-show="saveSuccess">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
-        </div>
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
             <li ng-class="{ 'active': isTabActive('viewer') }">
@@ -20,6 +16,10 @@
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
+            <div class="alert alert-success document-saved fade-in" data-ng-show="saveSuccess">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
+            </div>
             <!--todo: this one should not be within the TreeEditController-->
             <div class="tab-pane active" ng-if="isTabActive('viewer')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
@@ -144,7 +144,7 @@
                        <span class="i18n"/>
                    </span>
                </span>
-               <span class="btn btn-inverse" data-ng-click="fullScreen()" ng-class="{'btn-success':fullScreenActive}">
+               <span class="btn btn-default" data-ng-click="fullScreen()" ng-class="{'btn-success':fullScreenActive}">
                    <i class="glyphicon glyphicon-fullscreen"></i>
                </span>
             </li>
@@ -229,13 +229,12 @@
 </script>
 
 <script type="text/ng-template" id="view-tab.html">
-    <div class="row-fluid" data-ng-controller="ViewTreeController">
+    <div class="row" data-ng-controller="ViewTreeController">
         <div data-ng-controller="ViewElementController">
-            <div class="span6">
+            <div class="col-sm-6 document-metadata">
                 <div class="field" data-ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" data-ng-show="hasValue(el)"></div>
             </div>
-            <div class="span6">
-                <!--<div class="field" data-ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
+            <div class="col-sm-6 document-media">
                 <div class="field" ng-include="'views/document-media.html'"></div>
             </div>
         </div>
