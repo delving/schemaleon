@@ -48,14 +48,10 @@ OSCR.controller(
         $scope.fullScreen = function(){
             $scope.fullScreenActive = !$scope.fullScreenActive;
             if($scope.fullScreenActive){
-                $('#view').addClass('full-screen');
-                var h = $(document).height();
-                $('.full-screen').css({
-                    height: h
-                });
+                $('body').addClass('full-screen');
             }
             else {
-                $('#view').removeClass('full-screen');
+                $('body').removeClass('full-screen');
             }
         };
 
@@ -146,7 +142,7 @@ OSCR.controller(
     'TabController',
     function ($rootScope, $scope) {
 
-        $scope.activeTab = $scope.identifier ? 'expert' : 'novice';
+        $scope.activeTab = $scope.identifier ? 'viewer' : 'novice';
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
@@ -308,6 +304,7 @@ OSCR.controller(
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
+                $(".alert-saved").show('slow');
                 $scope.useHeader(document.Header);
                 $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
                 freezeTree();

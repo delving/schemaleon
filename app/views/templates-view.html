@@ -1,33 +1,33 @@
 <!--This file contains only templates, and is tied to the controllers in document-edit.js-->
 
 <script type="text/ng-template" id="view-submenu.html">
-    <!--<div data-ng-controller="ViewElementController">-->
-        <label class="label">{{el.name}}:</label>
+    <div class="indent">
+        <label>{{el.name}}:</label>
         <div class="field indent"
              ng-repeat="el in filterNonMedia(el.elements)"
              ng-include="getViewTemplate(el)"
              ng-show="hasValue(el)">
         </div>
-    <!--</div>-->
+    </div>
 </script>
 
 <script type="text/ng-template" id="view-line.html">
-    <label class="label">{{el.name}}:</label>
+    <label>{{el.name}}:</label>
     <span class="data">{{ el.value }}</span>
 </script>
 
 <script type="text/ng-template" id="view-paragraph.html">
-    <label class="label">{{el.name}}:</label>
+    <label>{{el.name}}:</label>
     <span class="data">{{ el.value }}</span>
 </script>
 
 <script type="text/ng-template" id="view-vocabulary.html">
-    <label class="label">{{el.name}}:</label>
+    <label>{{el.name}}:</label>
     <span class="data">{{ el.value.Label }}</span>
 </script>
 
 <script type="text/ng-template" id="view-media.html">
-    <label class="label">{{el.name}}:</label><br/>
+    <label>{{el.name}}:</label><br/>
     <span class="data">
         <span ng-show="isImage(el)">
             <img ng-src="{{ el | mediaFile }}" alt="{{ el.name }}"/>
@@ -40,12 +40,12 @@
 </script>
 
 <script type="text/ng-template" id="view-instance.html">
-    <label class="label">{{el.name}}:</label>
-    <span class="data">{{ el.value.SummaryFields.Title }}</span>
+    <label>{{el.name}}:</label>
+    <span class="data">{{ el.value.Header.SummaryFields.Title }}</span>
 </script>
 
 <script type="text/ng-template"  id="view-unrecognized.html">
     <div class="panel-input">
-        <span class="label">UNRECOGNIZED VIEW!</span>
+        <label>UNRECOGNIZED VIEW!</label>
     </div>
 </script>
