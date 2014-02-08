@@ -14,7 +14,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/bootstrap.css"/>
+    <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap-theme.css"/>-->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <style>
@@ -38,7 +39,7 @@
 <!-- APPLICATION CONTAINER -->
 <div ng-app="OSCR" ng-controller="GlobalController" ng-cloak class="ng-cloak" id="ng-app">
     <div ng-controller="I18NController" class="loggedin-{{ user != undefined }}">
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-nav">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-collapse-top">
@@ -47,9 +48,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href data-ng-click="choosePath('/public')" class="navbar-brand">
-                        <img src="img/logo.png"/>Delving OSCR
-                    </a>
+                    <a href data-ng-click="choosePath('/public')" class="navbar-brand"><img src="img/logo.png"/>Delving
+                        OSCR</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navigation-collapse-top">
                     <ul class="nav navbar-nav" data-ng-hide="user">
@@ -91,7 +91,7 @@
                     <ul class="nav navbar-nav" id="god-controls" data-ng-show="user.god">
                         <li>
                             <a href="/snapshot">
-                                <i class="glyphicon glyphicon-compressed"></i> <span>Get Snapshot</span>
+                                <i class="glyphicon glyphicon-briefcase"></i> <span>Get Snapshot</span>
                             </a>
                         </li>
                         <li>
@@ -111,13 +111,12 @@
         <div class="viewport row">
             <div class="viewport-left col-md-2" data-ng-show="user">
                 <div class="sidebar-nav">
-
-                   <div class="list-group nav-left">
-                        <div class="list-group-item-heading user-info">
+                    <ul class="nav nav-pills nav-stacked main-menu">
+                        <li data-ng-class="{ active: link.active }">
                             <div class="media">
                                 <a href data-ng-click="chooseUserPath(user.Identifier)">
                                     <div class="pull-left">
-                                        <gravatar-image data-email="user.Profile.email" data-size="50" data-default="mm" data-secure="false"></gravatar-image>
+                                        <gravatar-image data-email="user.Profile.email" data-size="65" data-default="mm" data-secure="false"></gravatar-image>
                                     </div>
                                     <div class="media-body">
                                         <div class="media-heading">
@@ -127,131 +126,80 @@
                                         <div data-ng-if="user.group">
                                             <span i18n="Group" class="strong"><span class="i18n"/></span>: {{
                                             user.group.Name }}<br/>
-                                            <span class="pull-left label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
+                                            <span class="label {{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
                                         </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <!-- Base links -->
-                            <li ng-repeat="link in mainMenuBase" ng-class="{ active: link.active }">
-                                <a href ng-click="choosePath(link.path)">
-                                    <i ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                    {{ link | linkTitle }}
                                         <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
                                             <span class="label i18n"/><br/>
                                         </div>
-                                        <a href ng-click="logout()" title="" class="btn btn-inverse btn-xs btn-logout" i18n="Logout">
-                                            <i class="glyphicon glyphicon-off"></i> <span class="i18n"/>
+                                        <a href ng-click="logout()" title="" i18n="Logout">
+                                            <i class="icon icon-white icon-share-alt"></i> <span class="i18n"/>
                                         </a>
                                     </div>
                                 </a>
-                                <span ng-show="config.showTranslationEditor"
-                                     ng-click="openLabelDialog(link)"
-                                     tooltip="Click to translate"
-                                     tooltip-placement="right"
-                                     class="badge badge-warning btn-i18n">
-                                    <i class="icon-translate icon-white"></i>
-                                </span>
-                            </li>
-                            <!-- Primary document links -->
-                            <li class="nav-header" i18n="PrimaryDocuments" ng-show="mainMenuPrimary.length"><span class="i18n"/> </li>
-                            <li data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }">
-                                <a href ng-click="choosePath(link.path)">
-                                    <i data-ng-show="link.icon" class="icon {{ link.icon }}"></i>
-                                    {{ link | linkTitle }}
-                                    <span class="badge badge-info pull-right">{{ link.count }}</span>
-                                </a>
-                                <span ng-show="config.showTranslationEditor"
-                                      ng-click="openLabelDialog(link)"
                             </div>
-                        </div>
+                        </li>
                         <!-- Base links -->
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuBase" data-ng-class="{ active: link.active }">
-                             <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                            <span data-ng-show="config.showTranslationEditor"
-                                data-ng-click="openLabelDialog(link)"
-                                tooltip="Click to translate"
-                                tooltip-placement="right"
-                                class="badge badge-warning badge-translate">
-                                <i class="glyphicon glyphicon-globe"></i>
-                            </span>
-                        </a>
-                        <!-- Primary document links -->
-                        <div class="list-group-item-heading" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length">
-                            <span class="i18n"/>
-                        </div>
-                        <a  href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }">
+                        <li data-ng-repeat="link in mainMenuBase" data-ng-class="{ active: link.active }">
+                            <a href data-ng-click="choosePath(link.path)">
                                 <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
-                                <span class="badge badge-info pull-right">{{ link.count }}</span>
-
-                            <span data-ng-show="config.showTranslationEditor"
-                                  data-ng-click="openLabelDialog(link)"
-                                  tooltip="Click to translate"
-                                  tooltip-placement="right"
-                                  class="badge badge-warning badge-translate">
-                                <i class="glyphicon glyphicon-globe"></i>
-                            </span>
-                        </a>
-                        <!-- Shared document links -->
-                        <div class="list-group-item-heading" i18n="SharedDocuments" data-ng-show="mainMenuShared.length">
-                            <span class="i18n"/>
-                        </div>
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item"  data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-show="user.god">
-                            <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                                <span class="badge badge-info pull-right">{{ link.count }}</span>
-
+                            </a>
                                 <span data-ng-show="config.showTranslationEditor"
                                       data-ng-click="openLabelDialog(link)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right"
-                                      class="badge badge-warning badge-translate">
-                                    <i class="glyphicon glyphicon-globe"></i>
+                                      class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
                                 </span>
-                            </li>
-                            <!-- Shared document links -->
-                            <li class="nav-header" i18n="SharedDocuments" data-ng-show="mainMenuShared.length"><span class="i18n"/> </li>
-                            <li data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-show="user.god">
-                                <a href ng-click="choosePath(link.path)">
-                                    <i data--show="link.icon" class="icon {{ link.icon }}"></i>
-                                    {{ link | linkTitle }}
-                                    <span class="badge badge-info pull-right">{{ link.count }}</span>
-                                </a>
-                                <span ng-show="config.showTranslationEditor"
-                                      ng-click="openLabelDialog(link)"
+                        </li>
+                        <!-- Primary document links -->
+                        <li class="nav-header" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length">
+                            <span class="i18n"/></li>
+                        <li data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }">
+                            <a href data-ng-click="choosePath(link.path)">
+                                <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
+                                {{ link | linkTitle }}
+                                <span class="badge badge-info pull-right">{{ link.count }}</span>
+                            </a>
+                                <span data-ng-show="config.showTranslationEditor"
+                                      data-ng-click="openLabelDialog(link)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right"
                                       class="badge badge-warning btn-i18n">
                                     <i class="icon-translate icon-white"></i>
-                        </a>
+                                </span>
+                        </li>
+                        <!-- Shared document links -->
+                        <li class="nav-header" i18n="SharedDocuments" data-ng-show="mainMenuShared.length">
+                            <span class="i18n"/></li>
+                        <li data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-show="user.god">
+                            <a href data-ng-click="choosePath(link.path)">
+                                <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
+                                {{ link | linkTitle }}
+                                <span class="badge badge-info pull-right">{{ link.count }}</span>
+                            </a>
+                                <span data-ng-show="config.showTranslationEditor"
+                                      data-ng-click="openLabelDialog(link)"
+                                      tooltip="Click to translate"
+                                      tooltip-placement="right"
+                                      class="badge badge-warning btn-i18n">
+                                    <i class="icon-translate icon-white"></i>
+                                </span>
+                        </li>
                         <!-- Recent document links -->
-                        <div data-ng-show="recent.length > 0" class="list-group-item-heading" i18n="RecentDocuments">
+                        <li data-ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments">
                             <span class="i18n"/>
-                        </div>
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
+                        </li>
+                        <li data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
+                            <a href data-ng-click="choosePath(link.path)">
                                 <i class="glyphicon glyphicon-file"></i>
                                 {{ link | linkTitle }}
                                 <span class="badge badge-important" ng-if="link.leased">
                                     <i class="icon icon-lock icon-white"></i>
                                 </span>
-                            </li>
-                            <!-- Recent document links -->
-                            <li ng-show="recent.length > 0" class="nav-header" i18n="RecentDocuments"><span class="i18n"/>
-                            </li>
-                            <li data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
-                                <a href ng-click="choosePath(link.path)">
-                                    <i class="icon-file"></i>
-                                    {{ link | linkTitle }}
-                                    <span class="badge badge-important" ng-if="link.leased">
-                                        <i class="icon icon-lock icon-white"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
                             </a>
-                    </div>
+                        </li>
+                    </ul>
                     <div data-ng-include="getInclude()"></div>
                 </div>
             </div>
@@ -276,7 +224,7 @@
 <script src="components/bootstrap/js/bootstrap-alert.js"></script>
 <script src="components/bootstrap/js/bootstrap-collapse.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
-<!--<script src="components/media-elements/js/mediaelement-and-player.js"></script>-->
+<script src="components/media-elements/js/mediaelement-and-player.js"></script>
 <!-- endbuild -->
 
 <script src="components/pdf-viewer/pdf.compat.js"></script>

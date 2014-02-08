@@ -3,6 +3,10 @@
 <div ng-include="'/views/templates-view.html'"></div>
 
 <div data-ng-controller="TreeController">
+        <div class="alert alert-success alert-saved fade-in" data-ng-show="saveSuccess">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
+        </div>
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
             <li ng-class="{ 'active': isTabActive('viewer') }">
@@ -16,10 +20,6 @@
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
-            <div class="alert alert-success alert-dismissable document-saved fade-in" data-ng-show="saveSuccess">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
-            </div>
             <!--todo: this one should not be within the TreeEditController-->
             <div class="tab-pane active" ng-if="isTabActive('viewer')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
@@ -47,40 +47,40 @@
 <script type="text/ng-template" id="document-controls.html">
     <div class="document-last-saved alert alert-warning alert-dismissable" data-ng-show="documentDirty && time" >
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span class="time-saved">
-            <span i18n="DocumentLastSaved"><span class="i18n"/></span>
-            <span data-ng-show="time.days">
-                <span>{{ time.days }}</span>
-                <span data-ng-show="time.days > 1" i18n="Days">
-                    <span class="i18n"/>
+                <span class="time-saved">
+                    <span i18n="DocumentLastSaved"><span class="i18n"/></span>
+                    <span data-ng-show="time.days">
+                        <span>{{ time.days }}</span>
+                        <span data-ng-show="time.days > 1" i18n="Days">
+                            <span class="i18n"/>
+                        </span>
+                        <span data-ng-show="time.days == 1" i18n="Day">
+                            <span class="i18n"/>
+                        </span>
+                    </span>
+                    <span data-ng-show="time.hours">
+                        <span>{{ time.hours }}</span>
+                        <span data-ng-show="time.hours > 1" i18n="Hours">
+                            <span class="i18n"/>
+                        </span>
+                        <span data-ng-show="time.hours == 1" i18n="Hour">
+                            <span class="i18n"/>
+                        </span>
+                    </span>
+                    <span data-ng-show="time.minutes">
+                        <span>{{ time.minutes }}</span>
+                        <span data-ng-show="time.minutes > 1" i18n="Minutes">
+                            <span class="i18n"/>
+                        </span>
+                        <span data-ng-show="time.minutes == 1" i18n="Minute">
+                            <span class="i18n"/>
+                        </span>
+                    </span>
+                    <span data-ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
+                        <span class="i18n"/>
+                    </span>
+                    <span i18n="Ago"><span class="i18n"/></span>
                 </span>
-                <span data-ng-show="time.days == 1" i18n="Day">
-                    <span class="i18n"/>
-                </span>
-            </span>
-            <span data-ng-show="time.hours">
-                <span>{{ time.hours }}</span>
-                <span data-ng-show="time.hours > 1" i18n="Hours">
-                    <span class="i18n"/>
-                </span>
-                <span data-ng-show="time.hours == 1" i18n="Hour">
-                    <span class="i18n"/>
-                </span>
-            </span>
-            <span data-ng-show="time.minutes">
-                <span>{{ time.minutes }}</span>
-                <span data-ng-show="time.minutes > 1" i18n="Minutes">
-                    <span class="i18n"/>
-                </span>
-                <span data-ng-show="time.minutes == 1" i18n="Minute">
-                    <span class="i18n"/>
-                </span>
-            </span>
-            <span data-ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
-                <span class="i18n"/>
-            </span>
-            <span i18n="Ago"><span class="i18n"/></span>
-        </span>
     </div>
 
 
@@ -108,11 +108,14 @@
             <li>
                 <small class="document-info">
                     <ul class="list-unstyled list-inline">
+                        <li data-ng-show="header">
+                            <span i18n="Identifier"><strong><span class="i18n"/></strong></span>: {{ header.Identifier }}
+                        </li>
                         <li>
-                            <strong><span i18n="OwningGroup"><span class="i18n"/></span>:</strong> {{ groupName }}
+                            <span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: {{ groupName }}
                         </li>
                         <li data-ng-show="header.TimeStamp">
-                            <strong><span i18n="SavedOn"><span class="i18n"/></span>:</strong>
+                            <strong><span i18n="SavedOn"><span class="i18n"/></span>: </strong>
                             <span data-ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
                         </li>
                     </ul>
@@ -141,7 +144,7 @@
                        <span class="i18n"/>
                    </span>
                </span>
-               <span class="btn btn-default" data-ng-click="fullScreen()" ng-class="{'btn-success':fullScreenActive}">
+               <span class="btn btn-inverse" data-ng-click="fullScreen()" ng-class="{'btn-success':fullScreenActive}">
                    <i class="glyphicon glyphicon-fullscreen"></i>
                </span>
             </li>
@@ -152,7 +155,7 @@
 <script type="text/ng-template" id="panel-array.html">
     <div id="panel-container" ng-controller="PanelArrayController">
         <p data-ng-hide="panels" i18n="NoDocumentToEdit"></p>
-        <table class="table table-panels" id="panel-table" data-ng-show="panels">
+        <table class="table panels" id="panel-table" data-ng-show="panels">
             <thead>
             <tr>
                 <th data-ng-repeat="panel in panels" class="panel-header">
@@ -226,12 +229,13 @@
 </script>
 
 <script type="text/ng-template" id="view-tab.html">
-    <div class="row" data-ng-controller="ViewTreeController">
+    <div class="row-fluid" data-ng-controller="ViewTreeController">
         <div data-ng-controller="ViewElementController">
-            <div class="col-sm-6 document-metadata">
+            <div class="span6">
                 <div class="field" data-ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" data-ng-show="hasValue(el)"></div>
             </div>
-            <div class="col-sm-6 document-media">
+            <div class="span6">
+                <!--<div class="field" data-ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
                 <div class="field" ng-include="'views/document-media.html'"></div>
             </div>
         </div>
