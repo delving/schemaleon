@@ -1,0 +1,34 @@
+// Border Radius
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+// Inverse button style
+.btn-inverse {
+  .button-variant(@white; @baseLight; @baseLight);
+}
+
+.btn-off {
+  .button-variant(@gray-light; @gray-dark; @gray-dark);
+  &:hover {
+    .button-variant(@gray-light; @brand-primary; @brand-primary);
+  }
+}
+
+.btn-on {
+  .button-variant(@gray-lighter; @brand-primary; @brand-primary);
+}
+
+.badge-info {
+   background: @brand-primary;
+}
+
+.badge-warning {
+  background: @brand-warning;
+}
