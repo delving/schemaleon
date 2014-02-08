@@ -4,12 +4,12 @@
     <small class="extra-info"><span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: <a href="/#/people/group/{{header.GroupIdentifier}}">{{ groupName }}</a></small>
 </h1>
 
-<div class="row-fluid" data-ng-controller="ViewTreeController">
+<div class="row" data-ng-controller="ViewTreeController">
     <div data-ng-controller="ViewElementController">
-        <div class="span6">
+        <div class="col-sm-6">
             <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="hasValue(el)"></div>
         </div>
-        <div class="span6">
+        <div class="col-sm-6">
             <!--<div class="field" ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
             <div class="field" ng-include="'views/document-media.html'"></div>
         </div>
