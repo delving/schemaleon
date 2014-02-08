@@ -147,15 +147,15 @@ OSCR.controller(
             if (!$rootScope.user) return;
 
             $scope.mainMenuBase = [
-                {name: "Public", path: "/public", icon: 'icon-road', active: false},
-                {name: "Community", path: "/community", icon: 'icon-cog', active: false}
+                {name: "Public", path: "/public", icon: 'glyphicon-road', active: false},
+                {name: "Community", path: "/community", icon: 'glyphicon-cog', active: false}
             ];
 
             var user = $rootScope.user;
             if (user.Membership) {
 
                 if (_.indexOf(['Administrator', 'Member'], user.Membership.Role) >= 0) {
-                    $scope.mainMenuBase.push({name: "MediaUpload", path: "/media", icon: 'icon-upload', active: false});
+                    $scope.mainMenuBase.push({name: "MediaUpload", path: "/media", icon: 'glyphicon-upload', active: false});
                 }
 
                 Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
@@ -178,7 +178,7 @@ OSCR.controller(
                                 name: sharedSchema,
                                 path: "/shared/" + sharedSchema,
                                 count: getCountForSchema('Shared', sharedSchema),
-                                icon: 'icon-th-list',
+                                icon: 'glyphicon-th-list',
                                 active: false
                             };
                         });
@@ -189,7 +189,7 @@ OSCR.controller(
                             name: primarySchema,
                             path: "/primary/" + primarySchema + "/" + user.Membership.GroupIdentifier,
                             count: getCountForSchema('Primary', primarySchema),
-                            icon: 'icon-th-list',
+                            icon: 'glyphicon-th-list',
                             active: false
                         };
                     });
@@ -531,7 +531,7 @@ OSCR.controller(
                 }
             });
             elements.each(function(){
-                $(this).css('height',tallest);
+                $(this).css('height',tallest+10);
             });
         }
     }

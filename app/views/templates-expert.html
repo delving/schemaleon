@@ -7,12 +7,12 @@
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
                   ng-click="addSibling(el)">
-                    <i class="icon-plus-sign icon-white"></i>
+                    <i class="glyphicon glyphicon-plus-sign icon-white"></i>
             </span>
             <span ng-show="el.config.multiple"
                   class="display-{{ el.config.multiple }} icon-item pointer"
                   ng-click="removeSibling(el)">
-                    <i class="icon-minus-sign icon-white"></i>
+                    <i class="glyphicon glyphicon-minus-sign icon-white"></i>
             </span>
         </div>
         <span class="i18n"></span>:
@@ -34,8 +34,8 @@
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="expert-left-col">
         <div class="panel-input line-element">
-            <div class="input-block-level" data-ng-controller="TextInputController">
-                <input class="input-block-level" type="text" ng-model="el.value" data-ng-focus="setActiveEl(el)"/>
+            <div class="" data-ng-controller="TextInputController">
+                <input class="form-control" type="text" ng-model="el.value" data-ng-focus="setActiveEl(el)"/>
                 <div ng-show="el.invalidMessage">
                     <span class="label label-important">{{ el | invalidMessage }}</span>
                     <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
@@ -54,7 +54,7 @@
     <div class="expert-left-col">
         <div class="panel-input paragraph-element">
             <div class="textarea-input" data-ng-controller="TextInputController">
-                <textarea class=" input-block-level" ng-model="el.value" rows="5" data-ng-focus="setActiveEl(el)"></textarea>
+                <textarea class=" form-control" ng-model="el.value" rows="5" data-ng-focus="setActiveEl(el)"></textarea>
             </div>
         </div>
     </div>
@@ -67,11 +67,11 @@
         <div class="panel-input vocabulary-element">
             <div data-ng-controller="VocabularyController" class="vocabulary-input">
                 <div ng-if="!el.value">
-                    <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
+                    <input type="text" class="form-control" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
                 </div>
                 <div ng-if="el.value">
-                    <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-model="el.value.Label" data-ng-focus="setActiveEl(el)"/>
-                    <input ng-if="isEditing(el)" type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
+                    <input ng-if="!isEditing(el)" type="text" class="form-control" ng-model="el.value.Label" data-ng-focus="setActiveEl(el)"/>
+                    <input ng-if="isEditing(el)" type="text" class="form-control" ng-model="el.searchValue" autofocus="true"/>
                 </div>
             </div>
         </div>
@@ -99,8 +99,8 @@
                 </ul>
             </div>
             <div ng-show="el.entries && el.entries.length == 0">
-                <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
-                    <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
+                <button ng-click="createNewValue()" class="btn btn-default" i18n="AddTerm">
+                    <i class="glyphicon glyphicon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
                 </button>
             </div>
         </div>
@@ -114,12 +114,12 @@
         <div class="panel-input vocabulary-element">
             <div data-ng-controller="InstanceController" class="vocabulary-input">
                 <div ng-if="!el.value.Header">
-                    <input type="text" class="input-block-level" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
+                    <input type="text" class="form-control" ng-model="el.searchValue" data-ng-focus="setActiveEl(el)"/>
                 </div>
                 <div ng-if="el.value.Header">
-                    <input ng-if="!isEditing(el)" type="text" class="input-block-level" ng-value="el.headerTitle" data-ng-focus="setActiveEl(el)"/>
+                    <input ng-if="!isEditing(el)" type="text" class="form-control" ng-value="el.headerTitle" data-ng-focus="setActiveEl(el)"/>
                     <div ng-if="isEditing(el)">
-                        <input type="text" class="input-block-level" ng-model="el.searchValue" autofocus="true"/>
+                        <input type="text" class="form-control" ng-model="el.searchValue" autofocus="true"/>
                         <!-- DISPLAY CURRENT VALUE //-->
                         <div ng-show="el.value" i18n="CurrentValue" class="current">
                             <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
@@ -148,7 +148,7 @@
             </div>
             <!-- DISPLAY LIST OF RETURNED VALUES //-->
             <div ng-show="el.entries">
-                <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+                <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 98.5%;">
                     <li ng-repeat="entry in el.entries">
                         <a href ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
                         <div class="vocabulary-extended" ng-show="instanceDetails">

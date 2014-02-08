@@ -3,20 +3,20 @@
 <div ng-include="'/views/templates-view.html'"></div>
 
 <div data-ng-controller="TreeController">
-        <div class="alert alert-success alert-saved fade-in" ng-show="saveSuccess">
+        <div class="alert alert-success alert-saved fade-in" data-ng-show="saveSuccess">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
         </div>
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
             <li ng-class="{ 'active': isTabActive('viewer') }">
-                <a href="" i18n="Viewer" ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
+                <a href="" i18n="Viewer" data-ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
             </li>
-            <li ng-class="{ 'active': isTabActive('novice') }" ng-hide="user.viewer">
-                <a href="" i18n="Novice" ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
+            <li ng-class="{ 'active': isTabActive('novice') }" data-ng-hide="user.viewer">
+                <a href="" i18n="Novice" data-ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
             </li>
-            <li ng-class="{ 'active': isTabActive('expert') }" ng-hide="user.viewer">
-                <a href="" i18n="Expert" ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
+            <li ng-class="{ 'active': isTabActive('expert') }" data-ng-hide="user.viewer">
+                <a href="" i18n="Expert" data-ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
@@ -45,102 +45,107 @@
 </div>
 
 <script type="text/ng-template" id="document-controls.html">
-    <div class="document-controls">
-        <ul class="nav nav-pills">
-            <li>
-                <a href ng-click="chooseListPath()">
-                    <i class="icon-th-list icon-white"></i>
-                </a>
-            </li>
-            <li ng-hide="user.viewer">
-                <!-- document  save -->
-                <a href ng-class="{ 'attention' : documentDirty }" ng-click="saveDocument()" i18n="Save">
-                    <i class="icon icon-check icon-white"></i>
-                    <span class="i18n"/>
-                </a>
-            </li>
-            <li ng-hide="activeTab == 'viewer' || user.viewer">
-                <!-- document preview and save -->
-                <a href ng-class="{ 'attention' : documentDirty }" ng-click="setActiveTab('viewer')" i18n="PreviewAndSave">
-                    <i class="icon icon-check icon-white"></i>
-                    <span class="i18n"/>
-                </a>
-            </li>
-            <li ng-show="documentDirty" >
-                <span ng-show="time" class="time-saved">
-                    <span i18n="DocumentLastSaved">(<span class="i18n"/></span>
-                    <span ng-show="time.days">
+    <div class="document-last-saved alert alert-warning alert-dismissable" data-ng-show="documentDirty && time" >
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <span class="time-saved">
+                    <span i18n="DocumentLastSaved"><span class="i18n"/></span>
+                    <span data-ng-show="time.days">
                         <span>{{ time.days }}</span>
-                        <span ng-show="time.days > 1" i18n="Days">
+                        <span data-ng-show="time.days > 1" i18n="Days">
                             <span class="i18n"/>
                         </span>
-                        <span ng-show="time.days == 1" i18n="Day">
+                        <span data-ng-show="time.days == 1" i18n="Day">
                             <span class="i18n"/>
                         </span>
                     </span>
-                    <span ng-show="time.hours">
+                    <span data-ng-show="time.hours">
                         <span>{{ time.hours }}</span>
-                        <span ng-show="time.hours > 1" i18n="Hours">
+                        <span data-ng-show="time.hours > 1" i18n="Hours">
                             <span class="i18n"/>
                         </span>
-                        <span ng-show="time.hours == 1" i18n="Hour">
+                        <span data-ng-show="time.hours == 1" i18n="Hour">
                             <span class="i18n"/>
                         </span>
                     </span>
-                    <span ng-show="time.minutes">
+                    <span data-ng-show="time.minutes">
                         <span>{{ time.minutes }}</span>
-                        <span ng-show="time.minutes > 1" i18n="Minutes">
+                        <span data-ng-show="time.minutes > 1" i18n="Minutes">
                             <span class="i18n"/>
                         </span>
-                        <span ng-show="time.minutes == 1" i18n="Minute">
+                        <span data-ng-show="time.minutes == 1" i18n="Minute">
                             <span class="i18n"/>
                         </span>
                     </span>
-                    <span ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
+                    <span data-ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
                         <span class="i18n"/>
                     </span>
-                    <span i18n="Ago"><span class="i18n"/>)</span>
+                    <span i18n="Ago"><span class="i18n"/></span>
                 </span>
+    </div>
+
+
+    <div class="document-controls">
+        <ul class="list-unstyled list-inline">
+            <li>
+                <a href class="btn btn-primary" data-ng-click="chooseListPath()">
+                    <i class="glyphicon glyphicon-th-list"></i>
+                </a>
+            </li>
+            <li data-ng-hide="user.viewer">
+                <!-- document  save -->
+                <a href class="btn btn-default" data-ng-class="{ 'btn-success' : documentDirty }" data-ng-click="saveDocument()" i18n="Save">
+                    <i class="glyphicon glyphicon-check"></i>
+                    <span class="i18n"/>
+                </a>
+            </li>
+            <li data-ng-hide="activeTab == 'viewer' || user.viewer">
+                <!-- document preview and save -->
+                <a href class="btn btn-default" data-ng-class="{ 'btn-success' : documentDirty }" data-ng-click="setActiveTab('viewer')" i18n="PreviewAndSave">
+                    <i class="glyphicon glyphicon-check"></i>
+                    <span class="i18n"/>
+                </a>
             </li>
             <li>
                 <small class="document-info">
-                    <ul class="unstyled inline">
-                        <li ng-show="header">
+                    <ul class="list-unstyled list-inline">
+                        <li data-ng-show="header">
                             <span i18n="Identifier"><strong><span class="i18n"/></strong></span>: {{ header.Identifier }}
                         </li>
                         <li>
                             <span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: {{ groupName }}
                         </li>
-                        <li ng-show="header.TimeStamp">
+                        <li data-ng-show="header.TimeStamp">
                             <strong><span i18n="SavedOn"><span class="i18n"/></span>: </strong>
-                            <span ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
+                            <span data-ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
                         </li>
                     </ul>
                 </small>
             </li>
             <li class="pull-right" ng-if="!user.viewer">
-               <span class="badge pointer" ng-class="{ 'badge-success' : isDocumentPublic() }">
-                   <span ng-show="isDocumentPublic()" i18n="Public" ng-click="setDocumentState('private')">
-                       <i class="icon icon-white icon-eye-open"></i>
+               <div class="btn-group">
+                       <span i18n="Public" data-ng-click="setDocumentState('public')" class="btn btn-off" ng-class="{ 'btn-on' : isDocumentPublic() }">
+                           <i class="glyphicon glyphicon-eye-open"></i>
+                           <span class="i18n"/>
+                       </span>
+                       <span i18n="Private" data-ng-click="setDocumentState('private')" class="btn btn-off" ng-class="{ 'btn-on' : !isDocumentPublic() }">
+                           <i class="glyphicon glyphicon-eye-close"></i>
+                           <span class="i18n"/>
+                       </span>
+
+               </div>
+
+                <span class="btn" ng-class="{ 'btn-danger' : isDocumentPresent() }">
+                   <span data-ng-show="isDocumentPresent()" i18n="PutInTrash" data-ng-click="setDocumentState('deleted')">
+                       <i class="glyphicon glyphicon-trash"></i>
                        <span class="i18n"/>
                    </span>
-                   <span ng-hide="isDocumentPublic()" i18n="Private" ng-click="setDocumentState('public')">
-                       <i class="icon icon-white icon-eye-close"></i>
+                   <span data-ng-hide="isDocumentPresent()" i18n="TakeOutOfTrash" data-ng-click="setDocumentState('private')">
+                       <i class="glyphicon glyphicon-trash"></i>
                        <span class="i18n"/>
                    </span>
                </span>
-               <span class="badge pointer" ng-class="{ 'badge-important' : isDocumentPresent() }">
-                   <span ng-show="isDocumentPresent()" i18n="PutInTrash" ng-click="setDocumentState('deleted')">
-                       <i class="icon icon-white icon-trash"></i>
-                       <span class="i18n"/>
-                   </span>
-                   <span ng-hide="isDocumentPresent()" i18n="TakeOutOfTrash" ng-click="setDocumentState('private')">
-                       <i class="icon icon-trash"></i>
-                       <span class="i18n"/>
-                   </span>
-               </span>
-               <span class="badge pointer" ng-click="fullScreen()" ng-class="{'badge-success':fullScreenActive}">
-                   <i class=" icon-fullscreen icon-white"></i>
+               <span class="btn btn-inverse" data-ng-click="fullScreen()" ng-class="{'btn-success':fullScreenActive}">
+                   <i class="glyphicon glyphicon-fullscreen"></i>
                </span>
             </li>
         </ul>
@@ -149,31 +154,31 @@
 
 <script type="text/ng-template" id="panel-array.html">
     <div id="panel-container" ng-controller="PanelArrayController">
-        <p ng-hide="panels" i18n="NoDocumentToEdit"></p>
-        <table class="table panels" id="panel-table" ng-show="panels">
+        <p data-ng-hide="panels" i18n="NoDocumentToEdit"></p>
+        <table class="table panels" id="panel-table" data-ng-show="panels">
             <thead>
             <tr>
-                <th ng-repeat="panel in panels" class="panel-header">
+                <th data-ng-repeat="panel in panels" class="panel-header">
                     {{ panel.element | elementTitle }}
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td ng-repeat="(panelIndex, panel) in panels"
+                <td data-ng-repeat="(panelIndex, panel) in panels"
                     class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
 
-                    <div ng-show="panel.element.elements">
+                    <div data-ng-show="panel.element.elements">
                         <ul class="nav nav-pills nav-stacked panel-list">
-                            <li ng-repeat="element in panel.element.elements">
+                            <li data-ng-repeat="element in panel.element.elements">
                                 <a href class="level{{ element.classIndex }} link-{{ element.name }}"
-                                   ng-click="choose($index, $parent.$index)">
+                                   data-ng-click="choose($index, $parent.$index)">
                                         <span class="link-title">
                                             {{ element | elementTitle }}
-                                            <span ng-show="config.showTranslationEditor"
-                                                  ng-click="openTitleDialog(element)"
+                                            <span data-ng-show="config.showTranslationEditor"
+                                                  data-ng-click="openTitleDialog(element)"
                                                   class="badge badge-warning badge-i18n">
-                                                  <i class="icon-translate icon-white"></i>
+                                                  <i class="glyphicon-translate"></i>
                                             </span>
                                         </span>
                                         <span data-ng-controller="PanelElementController"
@@ -183,23 +188,23 @@
                                 </a>
 
                                 <div class="icon-container">
-                                    <span class="icon-item status status-{{ element.invalid }}"></span>
-                                        <span ng-show="element.config.multiple"
+                                    <span class="glyphicon-item status status-{{ element.invalid }}"></span>
+                                        <span data-ng-show="element.config.multiple"
                                               class="display-{{ element.config.multiple }} icon-item pointer"
-                                              ng-click="addSibling(panel.element, $index, panelIndex)">
-                                            <i class="icon-plus-sign icon-white"></i>
+                                              data-ng-click="addSibling(panel.element, $index, panelIndex)">
+                                            <i class="glyphicon glyphicon-plus-sign"></i>
                                         </span>
-                                        <span ng-show="element.config.multiple"
+                                        <span data-ng-show="element.config.multiple"
                                               class="display-{{ element.config.multiple }} icon-item pointer"
-                                              ng-click="removeSibling(panel.element, $index, panelIndex)">
-                                            <i class="icon-minus-sign icon-white"></i>
+                                              data-ng-click="removeSibling(panel.element, $index, panelIndex)">
+                                            <i class="glyphicon glyphicon-minus-sign"></i>
                                         </span>
                                 </div>
                             </li>
                         </ul>
                     </div>
 
-                    <div ng-hide="panel.element.elements">
+                    <div data-ng-hide="panel.element.elements">
                         <div ng-include="getDetailView(panel.element)"></div>
                     </div>
 
@@ -215,7 +220,7 @@
         <form class="form-expert" ng-if="tree">
             <span class="form-header" i18n="{{ schema }}"><span class="i18n"/></span>
             <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)" class="form-inner">
-                <div class="row-fluid" ng-repeat="(elIndex, el) in parentEl.elements" data-ng-controller="ExpertElementController">
+                <div class="row-fluid" data-ng-repeat="(elIndex, el) in parentEl.elements" data-ng-controller="ExpertElementController">
                     <fieldset class="field" ng-include="getExpertEditTemplate(el)"/>
                 </div>
             </div>
@@ -227,10 +232,10 @@
     <div class="row-fluid" data-ng-controller="ViewTreeController">
         <div data-ng-controller="ViewElementController">
             <div class="span6">
-                <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="hasValue(el)"></div>
+                <div class="field" data-ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" data-ng-show="hasValue(el)"></div>
             </div>
             <div class="span6">
-                <!--<div class="field" ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
+                <!--<div class="field" data-ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
                 <div class="field" ng-include="'views/document-media.html'"></div>
             </div>
         </div>
@@ -245,8 +250,8 @@
             <P>You have made changes to your document. Do you want to save it first?</P>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-success" ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>
-            <button class="btn btn-danger" ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>
+            <button class="btn btn-success" data-ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>
+            <button class="btn btn-danger" data-ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>
         </div>
 </script>
 
