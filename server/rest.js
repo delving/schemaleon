@@ -37,7 +37,6 @@ Storage('oscr', homeDir, function (storage) {
         var millisOld = secondsOld * 1000;
         return _.filter(list, function(entry) {
             var ago = (now - entry.time);
-            console.log(millisOld+' ago '+secondsOld, ago);
             return ago < millisOld;
         });
     }
