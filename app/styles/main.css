@@ -531,7 +531,7 @@ fieldset[disabled] .btn-on.active {
   overflow-x: auto;
 }
 /* panels table */
-.panels {
+.table-panels {
   background: transparent;
   width: auto;
   margin-bottom: 1.428571429;
@@ -542,15 +542,17 @@ fieldset[disabled] .btn-on.active {
   /* panel on right for user input */
 
 }
-.panels th.panel-header {
-  background: #009ae0;
-  border-radius: 10px 10px 0 0;
-  color: #ffffff;
-  font-weight: bold;
-  padding-left: 20px;
-  text-shadow: 1px 1px 1px #999999;
+.table-panels thead > tr > th {
+  border-bottom: none !important;
 }
-.panels td.panel {
+.table-panels th.panel-header {
+  background: #428bca;
+  border-radius: 10px 10px 0 0;
+  color: #eeeeee;
+  font-weight: normal;
+  padding-left: 20px;
+}
+.table-panels td.panel {
   padding: 20px 0 20px 10px;
   width: 340px;
   min-width: 300px;
@@ -558,34 +560,34 @@ fieldset[disabled] .btn-on.active {
   border-radius: 0 0 10px 10px;
   color: #eeeeee;
 }
-.panels input[disabled],
-.panels select[disabled],
-.panels textarea[disabled],
-.panels input[readonly],
-.panels select[readonly],
-.panels textarea[readonly] {
+.table-panels input[disabled],
+.table-panels select[disabled],
+.table-panels textarea[disabled],
+.table-panels input[readonly],
+.table-panels select[readonly],
+.table-panels textarea[readonly] {
   cursor: pointer;
   background-color: #222222;
   color: #eeeeee;
 }
-.panels label {
+.table-panels label {
   color: #999999;
 }
-.panels input.disabled,
-.panels select.disabled,
-.panels textarea.disabled {
+.table-panels input.disabled,
+.table-panels select.disabled,
+.table-panels textarea.disabled {
   cursor: pointer;
   background-color: #222222;
   color: #eeeeee;
 }
-.panels .panel-input {
+.table-panels .panel-input {
   color: #222222;
   padding: 0 20px;
 }
-.panels .panel-input textarea {
+.table-panels .panel-input textarea {
   width: 95%;
 }
-.panels .chosen-value {
+.table-panels .chosen-value {
   background: #eeeeee;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -593,7 +595,7 @@ fieldset[disabled] .btn-on.active {
   padding: 4px;
   margin: 0 0 10px 0;
 }
-.panels .contrast {
+.table-panels .contrast {
   color: #adafae;
 }
 /* list with element labels */
@@ -771,35 +773,6 @@ ul.kv-list li span.key {
 }
 ul.kv-list li span.value {
   color: #999999;
-}
-.collection {
-  /* panels table */
-
-}
-.collection .panels {
-  background: transparent;
-  width: auto;
-  /* panel header */
-
-  /* panel body */
-
-}
-.collection .panels th.panel-header {
-  background-image: -webkit-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #ffffff 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
-  border-radius: 4px 4px 0 0;
-  color: #000000;
-  font-weight: normal;
-  padding-left: 40px;
-}
-.collection .panels td.panel {
-  padding: 20px 0 20px 10px;
-  width: 340px;
-  min-width: 340px;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
 }
 /* MEDIA **********************************/
 /* media select grid */
