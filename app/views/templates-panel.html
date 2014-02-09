@@ -108,7 +108,7 @@
         </div>
         <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
             <div class="chosen-value" tabindex="0" i18n="Add">
-                <div ng-hide="el.value" ng-click="enableMediaEditor()">
+                <div ng-show="!el.value" ng-click="enableMediaEditor()">
                     <span class="btn"><span class="i18n"></span></span>
                 </div>
                 <div ng-show="el.value" class="media-thumbnail">
@@ -136,7 +136,7 @@
                             <div class="media-thumb pointer">
                                 <img id="oscr-media-grid-thumb-{{$index}}"
                                      ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
-                                     ng-click="selectMedia(entry)"/>
+                                     ng-click="setValue(entry)"/>
                             </div>
                             <div class="mime">{{ entry | mediaMimeType }}</div>
                         </li>

@@ -4,26 +4,6 @@
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
-    'CollectionChoiceController',
-    function ($scope) {
-
-        $scope.document = $scope.schema;
-        $scope.tree = null;
-
-        $scope.setTree = function (tree) {
-            var collectionTree = tree.elements[0]; // only "collection"
-            var json = JSON.stringify(tree);
-            $scope.prepareMediaUploadController(json, collectionTree);
-            return $scope.tree = collectionTree;
-        };
-
-        $scope.validateTree = function () {
-            if ($scope.tree) validateTree($scope.tree);
-        };
-    }
-);
-
-OSCR.controller(
     'MediaUploadController',
     function ($rootScope, $scope, $http, $timeout, $filter, Document) {
 
@@ -36,14 +16,8 @@ OSCR.controller(
             url: '/files/'+$scope.groupIdentifier+'/'
         };
 
-       function treeOf(file) {
-            if (!file.tree && $scope.treeJSON) file.tree = JSON.parse($scope.treeJSON);
-            return file.tree;
-        }
-
         function fetchCommitted() {
             Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function (list) {
-                console.log("media fetched", list);
                 $scope.committedFiles = _.map(list, function (doc) {
                     // $rootScope.getProperThumbExtension checks file extension.
                     // For video/audio files the extension will be replaced by .png
@@ -55,20 +29,6 @@ OSCR.controller(
             });
         }
         fetchCommitted();
-
-        $scope.prepareMediaUploadController = function (treeJSON, collectionTree) { // set by CollectionChoiceController
-            $scope.treeJSON = treeJSON;
-            $scope.collectionTree = collectionTree;
-            $http.get($scope.options.url).then(function (response) {
-                $scope.queue = response.data.files || [];
-            });
-        };
-
-        $scope.$watch('queue', function(queue, before) {
-            _.each(queue, function (file) {
-                treeOf(file);
-            });
-        });
 
         $scope.commitFile = function (file, done) {
             console.log('commit', file);
