@@ -115,19 +115,31 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
     };
 
     this.destroy = function () {
-        var fileName;
         var handler = this;
-        if (handler.req.url.slice(0, groupFileSystem.mediaUploadDir.length) === groupFileSystem.mediaUploadDir) {
-            fileName = path.basename(decodeURIComponent(handler.req.url));
-            if (fileName[0] !== '.') {
-                fs.unlink(groupFileSystem.mediaUploadDir + '/' + fileName, function (ex) {
+        console.log('destroy', handler.req.url);
+        var fileName = path.basename(decodeURIComponent(handler.req.url));
+        console.log('fileName', fileName);
+        if (fileName[0] !== '.') {
+            fs.unlink(groupFileSystem.mediaUploadDir + '/' + fileName, function (error) {
+                if (error) {
+                    util.sendServerError(res, "unable to unlink " + groupFileSystem.mediaUploadDir + '/' + fileName);
+                    console.error(error);
+                }
+                else {
                     Object.keys(options.imageVersions).forEach(function (version) {
-                        fs.unlink(groupFileSystem.mediaUploadDir + '/' + version + '/' + util.thumbNameProper(fileName));
+                        fs.unlink(groupFileSystem.mediaUploadDir + '/' + version + '/' + util.thumbNameProper(fileName), function(error) {
+                            if (error) {
+                                util.sendServerError(res, "unable to unlink " + groupFileSystem.mediaUploadDir + '/' + version + '/' + util.thumbNameProper(fileName));
+                                console.error(error);
+                            }
+                            else {
+                                handler.callback({success: true});
+                            }
+                        });
                     });
-                    handler.callback({success: !ex});
-                });
-                return;
-            }
+                }
+            });
+            return;
         }
         handler.callback({success: false});
     };
@@ -354,6 +366,7 @@ var ServerWithStorage = function(storage) {
     this.storage = storage;
     this.serve = function(req, res, next) {
         var pathMatch = pathRegExp.exec(req.url);
+        console.log('serve: '+req.method+": "+req.url, pathMatch);
         if (pathMatch) {
             serve(storage, pathMatch, req, res);
         }
