@@ -55,7 +55,7 @@
                 {{ header.Identifier }}
             </td>
             <td>
-                <span class="label" ng-class="{'label-success' : header.DocumentState == 'public' }">{{ header.DocumentState }}</span>
+                <span class="label label-default" ng-class="{'label-success' : header.DocumentState == 'public' }">{{ header.DocumentState }}</span>
             </td>
             <td><span data-ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
             <td>
