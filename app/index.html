@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width">
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css"/>
-    <!--<link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap-theme.css"/>-->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <style>
@@ -48,8 +47,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href data-ng-click="choosePath('/public')" class="navbar-brand"><img src="img/logo.png"/>Delving
-                        OSCR</a>
+                    <a href data-ng-click="choosePath('/public')" class="navbar-brand">
+                        <img src="img/logo.png"/>Delving OSCR
+                    </a>
                 </div>
                 <div class="collapse navbar-collapse" id="navigation-collapse-top">
                     <ul class="nav navbar-nav" data-ng-hide="user">
@@ -91,7 +91,7 @@
                     <ul class="nav navbar-nav" id="god-controls" data-ng-show="user.god">
                         <li>
                             <a href="/snapshot">
-                                <i class="glyphicon glyphicon-briefcase"></i> <span>Get Snapshot</span>
+                                <i class="glyphicon glyphicon-compressed"></i> <span>Get Snapshot</span>
                             </a>
                         </li>
                         <li>
@@ -112,7 +112,7 @@
             <div class="viewport-left col-md-2" data-ng-show="user">
                 <div class="sidebar-nav">
 
-                        <div class="list-group">
+                   <div class="list-group nav-left">
                         <div class="list-group-item-heading user-info">
                             <div class="media">
                                 <a href data-ng-click="chooseUserPath(user.Identifier)">
@@ -147,8 +147,8 @@
                                 data-ng-click="openLabelDialog(link)"
                                 tooltip="Click to translate"
                                 tooltip-placement="right"
-                                class="badge badge-warning btn-i18n">
-                                <i class="icon-translate icon-white"></i>
+                                class="badge badge-warning badge-translate">
+                                <i class="glyphicon glyphicon-globe"></i>
                             </span>
                         </a>
                         <!-- Primary document links -->
@@ -159,14 +159,15 @@
                                 <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
                                 <span class="badge badge-info pull-right">{{ link.count }}</span>
-                            </a>
+
                             <span data-ng-show="config.showTranslationEditor"
                                   data-ng-click="openLabelDialog(link)"
                                   tooltip="Click to translate"
                                   tooltip-placement="right"
-                                  class="badge badge-warning btn-i18n">
-                                <i class="icon-translate icon-white"></i>
+                                  class="badge badge-warning badge-translate">
+                                <i class="glyphicon glyphicon-globe"></i>
                             </span>
+                        </a>
                         <!-- Shared document links -->
                         <div class="list-group-item-heading" i18n="SharedDocuments" data-ng-show="mainMenuShared.length">
                             <span class="i18n"/>
@@ -175,14 +176,15 @@
                             <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
                                 <span class="badge badge-info pull-right">{{ link.count }}</span>
-                            </a>
+
                                 <span data-ng-show="config.showTranslationEditor"
                                       data-ng-click="openLabelDialog(link)"
                                       tooltip="Click to translate"
                                       tooltip-placement="right"
-                                      class="badge badge-warning btn-i18n">
-                                    <i class="icon-translate icon-white"></i>
+                                      class="badge badge-warning badge-translate">
+                                    <i class="glyphicon glyphicon-globe"></i>
                                 </span>
+                        </a>
                         <!-- Recent document links -->
                         <div data-ng-show="recent.length > 0" class="list-group-item-heading" i18n="RecentDocuments">
                             <span class="i18n"/>

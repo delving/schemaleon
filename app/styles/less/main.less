@@ -63,6 +63,7 @@
 @import "/app/styles/less/widget-box.less";
 @import "/app/styles/less/fade.less";
 @import "/app/styles/less/document-panels.less";
+@import "/app/styles/less/media-upload.less";
 
 /* BODY */
 
@@ -88,10 +89,17 @@ body.full-screen {
   }
 }
 
+/* i18n */
+
+
+
 /* NAVBAR TOP */
 
+.navbar-header {
+  .make-md-column(2);
+}
 .navbar-brand {
-  padding: 12px 0 0 20px;
+  padding: 12px 0;
   img {
     height: 24px;
     margin-right: 8px;
@@ -101,7 +109,7 @@ body.full-screen {
 
 /* NAVBAR LEFT */
 
-.sidebar-nav {
+.nav-left {
 //  .list-group a {
 //    color: @link-color;
 //  }

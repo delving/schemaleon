@@ -16,7 +16,7 @@
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
-            <div class="alert alert-success document-saved fade-in" data-ng-show="saveSuccess">
+            <div class="alert alert-success alert-dismissable document-saved fade-in" data-ng-show="saveSuccess">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
             </div>
@@ -47,40 +47,40 @@
 <script type="text/ng-template" id="document-controls.html">
     <div class="document-last-saved alert alert-warning alert-dismissable" data-ng-show="documentDirty && time" >
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <span class="time-saved">
-                    <span i18n="DocumentLastSaved"><span class="i18n"/></span>
-                    <span data-ng-show="time.days">
-                        <span>{{ time.days }}</span>
-                        <span data-ng-show="time.days > 1" i18n="Days">
-                            <span class="i18n"/>
-                        </span>
-                        <span data-ng-show="time.days == 1" i18n="Day">
-                            <span class="i18n"/>
-                        </span>
-                    </span>
-                    <span data-ng-show="time.hours">
-                        <span>{{ time.hours }}</span>
-                        <span data-ng-show="time.hours > 1" i18n="Hours">
-                            <span class="i18n"/>
-                        </span>
-                        <span data-ng-show="time.hours == 1" i18n="Hour">
-                            <span class="i18n"/>
-                        </span>
-                    </span>
-                    <span data-ng-show="time.minutes">
-                        <span>{{ time.minutes }}</span>
-                        <span data-ng-show="time.minutes > 1" i18n="Minutes">
-                            <span class="i18n"/>
-                        </span>
-                        <span data-ng-show="time.minutes == 1" i18n="Minute">
-                            <span class="i18n"/>
-                        </span>
-                    </span>
-                    <span data-ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
-                        <span class="i18n"/>
-                    </span>
-                    <span i18n="Ago"><span class="i18n"/></span>
+        <span class="time-saved">
+            <span i18n="DocumentLastSaved"><span class="i18n"/></span>
+            <span data-ng-show="time.days">
+                <span>{{ time.days }}</span>
+                <span data-ng-show="time.days > 1" i18n="Days">
+                    <span class="i18n"/>
                 </span>
+                <span data-ng-show="time.days == 1" i18n="Day">
+                    <span class="i18n"/>
+                </span>
+            </span>
+            <span data-ng-show="time.hours">
+                <span>{{ time.hours }}</span>
+                <span data-ng-show="time.hours > 1" i18n="Hours">
+                    <span class="i18n"/>
+                </span>
+                <span data-ng-show="time.hours == 1" i18n="Hour">
+                    <span class="i18n"/>
+                </span>
+            </span>
+            <span data-ng-show="time.minutes">
+                <span>{{ time.minutes }}</span>
+                <span data-ng-show="time.minutes > 1" i18n="Minutes">
+                    <span class="i18n"/>
+                </span>
+                <span data-ng-show="time.minutes == 1" i18n="Minute">
+                    <span class="i18n"/>
+                </span>
+            </span>
+            <span data-ng-show="!time.days && !time.hours && !time.minutes && time.seconds" i18n="LessThanAMinute">
+                <span class="i18n"/>
+            </span>
+            <span i18n="Ago"><span class="i18n"/></span>
+        </span>
     </div>
 
 
@@ -108,9 +108,6 @@
             <li>
                 <small class="document-info">
                     <ul class="list-unstyled list-inline">
-                        <li data-ng-show="header">
-                            <span i18n="Identifier"><strong><span class="i18n"/></strong></span>: {{ header.Identifier }}
-                        </li>
                         <li>
                             <span i18n="OwningGroup"><strong><span class="i18n"/></strong></span>: {{ groupName }}
                         </li>
