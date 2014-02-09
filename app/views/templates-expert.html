@@ -163,7 +163,8 @@
 
 <script type="text/ng-template" id="expert-media.html">
     <div data-ng-include="'expert-field-label.html'"/>
-    <div data-ng-controller="MediaElementController" class="panel-input media-element">
+    <div class="expert-left-col">
+        <div data-ng-controller="MediaElementController" class="panel-input media-element">
         <div class="digital-object-input">
             <div data-ng-show="isEditing(el)" class="media">
                 <div data-ng-show="el.value">
@@ -198,8 +199,9 @@
             </div>
         </div>
     </div>
+    </div>
     <div class="expert-right-col" ng-if="isEditing(el)">
-        <div data-ng-controller="MediaSearchController">
+        <div data-ng-controller="MediaSearchController" class="expert-media-controls">
             <tabset>
                 <tab>
                     <tab-heading>
