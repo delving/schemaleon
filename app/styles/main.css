@@ -1037,6 +1037,27 @@ body.full-screen .viewport-right {
 .table-document-list {
   background: #ffffff;
 }
+/* DOCUMENT LIST */
+.table-document-list {
+  background: #333333;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  width: 100%;
+}
+.table-document-list thead {
+  color: #999999;
+}
+.table-document-list thead tr > th {
+  border-bottom: none;
+  font-weight: normal;
+}
+.table-document-list thead tr > th:first-of-type {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.table-document-list tbody {
+  background: #ffffff;
+}
 /* DOCUMENT EDIT */
 .tabbable {
   background: #dddddd;

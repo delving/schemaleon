@@ -246,6 +246,28 @@ body.full-screen {
   background: @white;
 }
 
+
+/* DOCUMENT LIST */
+
+.table-document-list {
+  background: @gray-dark;
+  .border-top-radius(4px);
+  width: 100%;
+  thead {
+    color: @gray-light;
+    tr > th {
+      border-bottom: none;
+      font-weight: normal;
+      &:first-of-type {
+        .border-top-radius(4px);
+      }
+    }
+  }
+  tbody {
+    background: @white;
+  }
+}
+
 /* DOCUMENT EDIT */
 
 .tabbable {
