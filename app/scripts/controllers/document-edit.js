@@ -415,6 +415,7 @@ OSCR.controller(
 
             scroller.animate({scrollLeft: leftPos + wTable}, 800);
             $scope.setActiveEl(chosen);
+            $rootScope.scrollToTop();
         };
 
         $scope.addSibling = function (parentElement, index, panelIndex) {
