@@ -873,6 +873,12 @@ ul.kv-list li span.value {
   display: block;
   margin-top: 10px;
 }
+.media-upload-controls.media-lite form {
+  margin-bottom: 10px;
+}
+.preview video {
+  max-width: 150px;
+}
 .fileinput-button {
   position: relative;
   overflow: hidden;
@@ -1057,16 +1063,20 @@ body.full-screen .viewport-right {
 }
 .table-document-list tbody {
   background: #ffffff;
+  color: #999999;
 }
 /* DOCUMENT EDIT */
 .tabbable {
-  background: #dddddd;
+  background: transparent;
   margin-bottom: 1.428571429;
   margin-right: 10px;
 }
 .tabbable .nav-tabs {
   margin-bottom: 0px;
   margin-left: 10px;
+}
+.tabbable .nav-tabs li a {
+  background: #dddddd;
 }
 .tabbable .nav-tabs li:hover {
   cursor: pointer;

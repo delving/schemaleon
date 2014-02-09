@@ -265,18 +265,22 @@ body.full-screen {
   }
   tbody {
     background: @white;
+    color: @gray;
   }
 }
 
 /* DOCUMENT EDIT */
 
 .tabbable {
-  background: #dddddd;
+  background: transparent;
   margin-bottom: @line-height-base;
   margin-right: 10px;
   .nav-tabs {
     margin-bottom: 0px;
     margin-left: 10px;
+    li a {
+      background: @bodyBackground;
+    }
     li:hover{
       cursor: pointer;
     }
