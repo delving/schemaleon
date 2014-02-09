@@ -1198,3 +1198,6 @@ body.full-screen .viewport-right {
   width: 100%;
   z-indez: 1000;
 }
+.expert-media-controls {
+  position: absolute;
+}
