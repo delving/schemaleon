@@ -9,17 +9,26 @@
 }
 
 /*bootstrap overrides */
-.list-group {
+.nav-left {
   margin: 0 0 0 0;
   .list-group-item {
     padding: @padding-base-vertical @padding-base-horizontal;
-    &.active .glyphicon {
-      color: @white;
+    &.active {
+      background: @gray-lighter;
+      color: @gray-dark;
+      border: none;
+      .glyphicon {
+        color: @brand-primary;
+      }
     }
+
   }
   .glyphicon {
     color: @gray;
     margin-right: 8px;
+  }
+  .badge-translate .glyphicon {
+    margin: 0;
   }
   .label {
     float:right;

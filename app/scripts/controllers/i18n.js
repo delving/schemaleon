@@ -39,8 +39,8 @@ OSCR.directive(
             },
             template:
                 '<span ng-transclude></span> ' +
-                '<span class="badge badge-warning pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +
-                '<i class="icon-translate icon-white"></i>' +
+                '<span class="badge badge-warning badge-translate pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +
+                '<i class="glyphicon glyphicon-globe"></i>' +
                 '</span>'
         }
     }

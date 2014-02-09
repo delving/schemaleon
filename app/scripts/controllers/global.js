@@ -269,6 +269,7 @@ OSCR.controller(
         };
 
         $rootScope.choosePath = function (path, viewOnly) {
+            if($rootScope.config.showTranslationEditor) return;
             if($rootScope.disableChoosePath) {
                 $rootScope.setGlobalError('Please save your document first');
                 var modalInstance = $modal.open({
