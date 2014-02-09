@@ -1006,6 +1006,24 @@ body.full-screen .viewport-right {
   color: #428bca;
   font-weight: bold;
 }
+.thumbnail-nav .thumbnail {
+  height: 140px;
+  position: relative;
+}
+.thumbnail-nav a {
+  display: block;
+}
+.thumbnail-nav img {
+  max-height: 100px;
+}
+.thumbnail-nav .mime {
+  position: absolute;
+  bottom: 0px;
+}
+.media-viewer img,
+.media-viewer pdfviewer canvas {
+  max-width: 100%;
+}
 /* DOCUMENT LIST */
 .navbar-document-list form {
   margin: 0 0 0 0;
