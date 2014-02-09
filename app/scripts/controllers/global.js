@@ -55,9 +55,10 @@ OSCR.controller(
 
         $rootScope.disableChoosePath = false;
 
-        $rootScope.setDocumentDirty = function(dirty, saveDocument) {
+        $rootScope.setDocumentDirty = function(dirty, saveDocument, revertDocument) {
             $rootScope.disableChoosePath = dirty;
             $rootScope.saveDocument = saveDocument;
+            $rootScope.revertDocument = revertDocument;
         };
 
         $rootScope.globalError = null;
@@ -281,6 +282,7 @@ OSCR.controller(
                             $rootScope.globalError = null;
                             $modalInstance.close();
                         };
+                        // todo revert button $rootScope.revertDocument();
                         $scope.cancel = function () {
                             $rootScope.disableChoosePath = false;
                             $rootScope.globalError = null;

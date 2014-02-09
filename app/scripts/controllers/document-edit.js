@@ -179,7 +179,7 @@ OSCR.controller(
 
         function leasePoll() {
             Document.leaseDocument($scope.leasedDocument, function (documentLeases) {
-                if (!$scope.documentDirty) {
+                if (!$scope.documentDirty) { // todo: doesn't get set when you leave
                     $scope.leasedDocument = '';
                 }
                 $rootScope.showDocumentsLeased(documentLeases);
@@ -191,7 +191,7 @@ OSCR.controller(
         function setDocumentDirty(dirty) {
             if (dirty != $scope.documentDirty) {
                 $scope.documentDirty = dirty;
-                $rootScope.setDocumentDirty(dirty, $scope.saveDocument);
+                $rootScope.setDocumentDirty(dirty, $scope.saveDocument, $scope.revertDocument);
                 $scope.leasedDocument = $scope.header.Identifier || '';
             }
             if (!dirty) {
@@ -315,10 +315,18 @@ OSCR.controller(
                         $scope.saveSuccess = false;
                     },250);
                 }, 5000);
-                $scope.choosePath(document.Header);
+                $scope.choosePath(document.Header); // todo: only if the identifier has been set by this save
             });
         };
 
+        $scope.revertDocument = function() {
+            console.log("revertDocument", $scope.header);
+            Document.getDocument($scope.schema, $scope.groupIdentifier, $scope.header.Identifier, function(document) {
+                $scope.useHeader(document.Header);
+                $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
+                freezeTree();
+            });
+        };
     }
 );
 
