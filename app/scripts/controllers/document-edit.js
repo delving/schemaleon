@@ -556,33 +556,104 @@ OSCR.directive('documentNavigation', function () {
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
-OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf, $timeout) {
+OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', '$timeout', function($rootScope, $scope, $filter, pdf, $timeout) {
 
     var pdfViewer;
+
+    function initializeViewStates(){
+        $scope.showImage = false;
+        $scope.showVideo = false;
+        $scope.showAudio = false;
+        $scope.showPdf = false;
+        $scope.videoSrc = '';
+        $scope.videoMime = '';
+    }
+
+    // sets up the video player
+    function intializeVideoPlayer(el) {
+
+
+
+        $scope.videoSrc = $filter('mediaFile')(el);
+        $scope.videoMime = $filter('mediaMimeType')(el);
+
+        $scope.$watch('videoSrc',function(src){
+            var $target = $('#video-container');
+            $target.html('');
+            var html =  '<video controls="controls" width="100%">' +
+                '<source src="'+ $scope.videoSrc +'" type="' + $scope.videoMime + '"/>' +
+                '</video>';
+            $timeout(function(){
+                $target.html(html);
+            },500);
+
+        });
+    }
+
+    initializeViewStates();
 
     $scope.$watch("tree", function(tree, oldTree) {
         // collect an array of only the media elements
         $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-        // set a single mediaElement if there is only one
-        if($scope.mediaElements.length === 1) {
-            $scope.mediaElement = $scope.mediaElements[0];
-        }
-        else {
-            $scope.mediaElement = null;
-        }
-        
+
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
-            if(mediaElements.length){
-                $('video,audio').mediaelementplayer();
+            
+            // set the intital element
+            $scope.mediaElement = $scope.mediaElements[0];
+            
+            // what are we going to show first?
+            var initialMime = $filter('mediaMimeType')($scope.mediaElement);
+
+
+
+            switch(initialMime) {
+                case 'image/jpeg':
+                case 'image/jpg':
+                    $scope.showImage = true;
+                    break;
+                case 'image/png':
+                    $scope.showImage = true;
+                    break;
+                case 'image/gif':
+                    $scope.showImage = true;
+                    break;
+                case 'video/mp4':
+                    $scope.showVideo = true;
+                    intializeVideoPlayer($scope.mediaElement);
+                    break;
+                case 'video/quicktime':
+                    $scope.showVideo = true;
+                    intializeVideoPlayer($scope.mediaElement);
+                    break;
+                case 'application/pdf':
+                    $scope.showPdf = true;
+                    break;
             }
-        });
-        // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
-        // hence this controller must always be nested inside of that in the html
-        $scope.pdfFiles = [];
-        _.each($scope.mediaElements, function(file){
-            if (file.value && $rootScope.isPdf(file)) {
-                $scope.pdfFiles.push(file);
+
+            // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
+            // hence this controller must always be nested inside of that in the html
+            $scope.pdfFiles = [];
+            _.each($scope.mediaElements, function(file){
+                if (file.value && $rootScope.isPdf(file)) {
+                    $scope.pdfFiles.push(file);
+                }
+            });
+            
+            $scope.switchViewSource = function (el) {
+                initializeViewStates();
+                if($rootScope.isImage(el)){
+                    $scope.showImage = true;
+                    $('#image-viewer').attr('src', $filter('mediaFile')(el));
+                }
+                if($rootScope.isVideo(el)){
+                    $scope.showVideo = true;
+                    intializeVideoPlayer(el);
+                }
+                if($rootScope.isPdf(el)){
+                    $scope.showPdf = true;
+                    $('#pdf-viewer').attr('src', $filter('mediaFile')(el));
+                }
             }
         });
     });
