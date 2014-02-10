@@ -446,7 +446,6 @@ fieldset[disabled] .btn-on.active {
 }
 .widget-body {
   clear: both;
-  font-size: small;
   padding: 12px 15px;
   overflow-y: auto;
   -webkit-box-sizing: border-box;
@@ -1218,4 +1217,8 @@ body.full-screen .viewport-right {
 /* COMMUNITY / DASHBOARD / WIDGETS */
 .statistics .label.count {
   float: right;
+}
+/* USER MANAGEMENT */
+.user-management .widget-body {
+  min-height: 150px;
 }
