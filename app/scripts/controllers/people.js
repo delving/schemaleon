@@ -175,10 +175,13 @@ OSCR.controller(
                 function (xml) {
                     $scope.userAssigned = true;
                     $scope.chosenUser = null;
-                    _.each($scope.groupList, function (group) {
-                        if (group.Identifier === $scope.selectedGroup.Identifier) {
-                            $scope.populateGroup(group);
-                        }
+                    Person.getAllUsers(function(list) {
+                        $scope.userList = list;
+                        _.each($scope.groupList, function (group) {
+                            if (group.Identifier === $scope.selectedGroup.Identifier) {
+                                $scope.populateGroup(group);
+                            }
+                        });
                     });
                     $timeout(function () {
                         $scope.userAssigned = false;
@@ -199,10 +202,13 @@ OSCR.controller(
                 $scope.selectedGroup.Identifier,
                 function () {
                     console.log("user removed");
-                    _.each($scope.groupList, function (group) {
-                        if (group.Identifier === $scope.selectedGroup.Identifier) {
-                            $scope.populateGroup(group);
-                        }
+                    Person.getAllUsers(function(list) {
+                        $scope.userList = list;
+                        _.each($scope.groupList, function (group) {
+                            if (group.Identifier === $scope.selectedGroup.Identifier) {
+                                $scope.populateGroup(group);
+                            }
+                        });
                     });
                 }
             )
