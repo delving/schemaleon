@@ -6,19 +6,19 @@
 
 <script type="text/ng-template" id="panel-line.html">
     <div class="panel-input line-element">
-        <div class="input-block-level" data-ng-controller="TextInputController">
+        <div data-ng-controller="TextInputController">
             <div data-ng-if="isEditing(el)">
-                <input el-focus="el" class="input-block-level" type="text" ng-model="el.value" />
+                <input el-focus="el" class="form-control" type="text" ng-model="el.value" />
                 <div ng-show="el.invalidMessage">
                     <span class="label label-important">{{ el | invalidMessage }}</span>
                     <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
                           class="badge badge-warning badge-i18n">
-                          <i class="icon-translate icon-white"></i>
+                          <i class="glyphicon glyphicon-globe"></i>
                     </span>
                 </div>
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <input class="input-block-level disabled" type="text" ng-model="el.value" />
+                <input class="form-control disabled" type="text" ng-model="el.value" />
                 <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
@@ -29,10 +29,10 @@
     <div class="panel-input paragraph-element">
         <div class="textarea-input" data-ng-controller="TextInputController">
             <div data-ng-if="isEditing(el)">
-                <textarea el-focus="el" ng-model="el.value" rows="5"></textarea>
+                <textarea el-focus="el" ng-model="el.value" rows="5" class="form-control"></textarea>
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <textarea class="disabled" ng-model="el.value" rows="5"></textarea>
+                <textarea class="disabled" ng-model="el.value" rows="5" class="form-control"></textarea>
                 <input el-hidden-focus="el" class="stealth" ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
@@ -43,14 +43,14 @@
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="VocabularyController" class="vocabulary-input">
             <div data-ng-if="isEditing(el)">
-                <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
+                <input el-focus="el" type="text" ng-model="el.searchValue" class="form-control"/>
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <div data-ng-show="el.value">
-                    <input type="text" ng-model="el.value.Label" class="input-block-level disabled"/>
+                    <input type="text" ng-model="el.value.Label" class="form-control disabled"/>
                 </div>
                 <div data-ng-show="!el.value">
-                    <input type="text" value="-" class="input-block-level disabled"/>
+                    <input type="text" value="-" class="form-control disabled"/>
                 </div>
                 <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
@@ -70,9 +70,9 @@
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
         <!-- DISPLAY ADD BUTTON FOR NEW VALUE //-->
-        <span ng-hide="el.entries">
-            <button ng-click="createNewValue()" class="btn btn-small" i18n="AddTerm">
-                <i class="icon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
+        <span ng-show="el.entries.length == 0">
+            <button ng-click="createNewValue()" class="btn btn-default" i18n="AddTerm">
+                <i class="glyphicon glyphicon-plus"></i> <span class="i18n"/>: <span class="label label-success">{{ el.searchValue }}</span>
             </button>
         </span>
         <!-- DISPLAY LIST OF RETURNED VALUES //-->
@@ -158,7 +158,7 @@
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
             <div data-ng-show="isEditing(el)">
-                <input el-focus="el" type="text" ng-model="el.searchValue" class="input-block-level"/>
+                <input el-focus="el" type="text" ng-model="el.searchValue" class="form-control"/>
             </div>
             <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
                 <div data-ng-show="isLinkFacts()" class="link-facts">
@@ -168,10 +168,10 @@
                         </div>
                 </div>
                 <div data-ng-show="el.value">
-                    <input type="text" ng-model="el.headerTitle" class="input-block-level disabled"/>
+                    <input type="text" ng-model="el.headerTitle" class="form-control disabled"/>
                 </div>
                 <div data-ng-show="!el.value">
-                    <input type="text" value="-" class="input-block-level disabled"/>
+                    <input type="text" value="-" class="form-control disabled"/>
                 </div>
                 <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
@@ -206,10 +206,10 @@
                 <label><span class="i18n"/>:</label>
             </span>
             <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
-                <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+                <i class="glyphicon glyphicon-info-sign"></i> <span class="i18n"/>
             </span>
-            <span i18n="LessDetails" class="badge badge-inverse pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
-                <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
+            <span i18n="LessDetails" class="badge badge-warning pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-show="instanceDetails">
+                <i class="glyphicon glyphicon-info-sign"></i> <span class="i18n"/>
             </span>
         </div>
         <!-- DISPLAY LIST OF RETURNED VALUES //-->
@@ -226,7 +226,7 @@
 </script>
 
 <script type="text/ng-template" id="instance-details-person.html">
-    <table class="table-condensed table-vocabulary-details">
+    <table class="table table-condensed table-vocabulary-details">
         <tr ng-show="entry.Body.Person.Birth.DateOfBirth">
             <th i18n="DateOfBirth"><span class="i18n"/></th>
             <td>{{ entry.Body.Person.Birth.DateOfBirth }}</td>
@@ -255,7 +255,7 @@
 </script>
 
 <script type="text/ng-template" id="instance-details-location.html">
-    <table class="table-condensed table-vocabulary-details">
+    <table class="table table-condensed table-vocabulary-details">
         <tr ng-show="entry.Body.Location.LocationName.Appelation">
             <th i18n="Appelation"><span class="i18n"/></th>
             <td>{{  entry.Body.Location.LocationName.Appelation  }}</td>
@@ -328,14 +328,14 @@
         <div ng-hide="el.elements">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><i class=" icon-info-sign"></i></span>
+                    <span class="icon"><i class="glyphicon glyphicon-info-sign"></i></span>
                     <h5>{{ el | elementTitle }}</h5>
                 </div>
                 <div class="widget-body">
                     <p ng-show="el.doc">{{ el | elementDoc }}</p>
                 </div>
                 <div class="widget-footer">
-                    <button ng-click="openDocDialog(el)" class="btn btn-small"><i class="icon-edit"></i></button>
+                    <button ng-click="openDocDialog(el)" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-edit"></i></button>
                 </div>
             </div>
         </div>

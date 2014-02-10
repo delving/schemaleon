@@ -4,34 +4,31 @@
         <h1>Welcome to OSCR <small>The Open Source Collection Registration system</small></h1>
     </div>
 
-    <div class="row-fluid widget-row home">
-        <div class="span6">
+    <div class="row widget-row home">
+        <div class="col-md-6">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><i class="icon-search"></i></span>
+                    <span class="icon"><i class="glyphicon glyphicon-search"></i></span>
                     <h5 i18n="SearchAllDocuments"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-                    <form ng-submit="doPublicSearch(searchString)" class="navbar-form form-inline">
-                        <div class="input-prepend input-append">
-                            <!--<span class="add-on" i18n="Search"><span class="i18n"></span></span>-->
-                            <!-- TODO: this taken from document list page : implement similar backend but for all doc types and all groups public pages-->
-                            <input type="text" ng-model="searchString"/>
-                            <!--<button class="btn" type="reset" ng-click="searchString = ''"><i class="icon-ban-circle "></i> </button>-->
-                            <button class="btn" type="submit" ng-click="doPublicSearch(searchString)"><i class="icon-search "></i> </button>
+                    <form data-ng-submit="doPublicSearch(searchString)" class="navbar-form form-inline">
+                        <div class="input-group">
+                            <input type="text" data-ng-model="searchString" class="form-control"/>
+                            <span class="input-group-addon pointer" type="submit" ng-click="doPublicSearch(searchString)"><i class="glyphicon glyphicon-search "></i> </span>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="span6">
+        <div class="col-md-6">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><i class="icon-users"></i></span>
+                    <span class="icon"><i class="glyphicon glyphicon-user"></i></span>
                     <h5 i18n="CurrentGroups"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-                    <select class="input-block-level" id="list-current-groups">
+                    <select class="form-control" id="list-current-groups">
                         <option>- - - - - - - - - - - - - - - - - - - - - - - - - </option>
                         <option bindonce ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}" bo-text="group.Name"></option>
                     </select>
@@ -40,44 +37,47 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
 
-        <div ng-hide="headerList.length" i18n="NoPublicDocuments">
+        <div data-ng-hide="headerList.length" i18n="NoPublicDocuments">
             <div class="badge badge-warning"><span class="i18n"></span></div>
         </div>
 
-        <!--{{ headerList }}-->
-        <ul class="thumbnails" ng-show="headerList.length">
-            <li class="span3"  data-ng-repeat="header in headerList">
-                <a href ng-click="choosePath(header, true)">
+        <div class="thumbnails" data-ng-show="headerList.length">
+            <div data-ng-repeat="header in headerList" class="col-sm-6 col-md-3">
                 <div class="thumbnail">
-                    <div class="media">
-                        <!--<a href ng-click="choosePath(header, true)" class="pull-left" ng-show="hasThumbnail(header)">-->
-                            <img ng-src="{{ getThumbPath(header) }}" class="pull-left" ng-show="hasThumbnail(header)"/>
-                        <!--</a>-->
-                        <div class="media-body">
-                            <!--{{ header }}-->
-                            <h4 class="media-heading" data-ng-repeat="title in getTitles(header)">
-                               {{ title }}
-                            </h4>
-                            <ul class="value-list unstyled">
-                                <li>
-                                    <label i18n="Type"><span class="i18n"/></label>
-                                    <span class="value" i18n="{{header.SchemaName}}">
-                                        <span class="i18n"/>
-                                    </span>
-                                </li>
-                                <li>
-                                    <label i18n="OwningGroup"><span class="i18n"/></label>
-                                    <span class="value">{{ header.group.Name }}</span>
-                                </li>
-                            </ul>
+                    <a href ng-click="choosePath(header, true)">
+                        <div class="media">
+                            <img ng-src="{{ getThumbPath(header) }}" class="pull-left" data-ng-show="hasThumbnail(header)"/>
+                            <div class="media-body">
+                                <div class="media-heading" data-ng-repeat="title in getTitles(header)">
+                                    {{ title }}
+                                </div>
+                                <ul class="list-unstyled list-key-value">
+                                    <li>
+                                        <span class="key" i18n="Type">
+                                            <span class="i18n"/>
+                                        </span>
+                                        <span class="value" i18n="{{header.SchemaName}}">
+                                            <span class="i18n"/>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="key" i18n="OwningGroup">
+                                            <span class="i18n"/>
+                                        </span>
+                                        <span class="value">
+                                            {{ header.group.Name }}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-                </a>
-            </li>
-        </ul>
+            </div>
+        </div>
+
         <div class="list-controls">
             <div class="badge badge-success pointer" data-ng-click="getMoreResults()" i18n="MoreThan" ng-show="couldBeMoreResults()">
                 <i class="icon icon-white icon-hand-down"></i>

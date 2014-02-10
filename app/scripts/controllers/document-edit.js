@@ -48,14 +48,10 @@ OSCR.controller(
         $scope.fullScreen = function(){
             $scope.fullScreenActive = !$scope.fullScreenActive;
             if($scope.fullScreenActive){
-                $('#view').addClass('full-screen');
-                var h = $(document).height();
-                $('.full-screen').css({
-                    height: h
-                });
+                $('body').addClass('full-screen');
             }
             else {
-                $('#view').removeClass('full-screen');
+                $('body').removeClass('full-screen');
             }
         };
 
@@ -144,13 +140,14 @@ OSCR.controller(
 // just mind the tabs and their activation and who can see what
 OSCR.controller(
     'TabController',
-    function ($rootScope, $scope) {
+    function ($rootScope, $scope, $timeout) {
 
-        $scope.activeTab = $scope.identifier ? 'viewer' : 'novice';
+        $scope.activeTab = $scope.identifier ? 'novice' : 'viewer';
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
         }
+
 
         // toggle tabs between edit and view
         $scope.isTabActive = function (tab) {
@@ -171,6 +168,8 @@ OSCR.controller(
     function ($rootScope, $scope, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
+        
+        $scope.viewportHeight = $rootScope.getWindowHeight()-200+'px';
 
         // for paying attention to whether the document has changed
         $scope.documentJSON = null;
@@ -308,6 +307,7 @@ OSCR.controller(
             $scope.header.TimeStamp = $scope.blankTimeStamp;
             $scope.header.SavedBy = $rootScope.user.Identifier;
             Document.saveDocument($scope.header, treeToObject($scope.tree), function (document) {
+                $(".alert-saved").show('slow');
                 $scope.useHeader(document.Header);
                 $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
                 freezeTree();
@@ -418,6 +418,7 @@ OSCR.controller(
 
             scroller.animate({scrollLeft: leftPos + wTable}, 800);
             $scope.setActiveEl(chosen);
+            $rootScope.scrollToTop();
         };
 
         $scope.addSibling = function (parentElement, index, panelIndex) {
@@ -558,36 +559,10 @@ OSCR.directive('documentNavigation', function () {
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
-OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', function($rootScope, $scope, $filter, pdf, $timeout) {
+OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', '$timeout', function($rootScope, $scope, $filter, pdf, $timeout) {
 
     var pdfViewer;
 
-    $scope.$watch("tree", function(tree, oldTree) {
-        // collect an array of only the media elements
-        $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-        // set a single mediaElement if there is only one
-        if($scope.mediaElements.length === 1) {
-            $scope.mediaElement = $scope.mediaElements[0];
-        }
-        else {
-            $scope.mediaElement = null;
-        }
-        
-        // trigger media viewer after the mediaElements arrive
-        $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
-            if(mediaElements.length){
-                $('video,audio').mediaelementplayer();
-            }
-        });
-        // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
-        // hence this controller must always be nested inside of that in the html
-        $scope.pdfFiles = [];
-        _.each($scope.mediaElements, function(file){
-            if (file.value && $rootScope.isPdf(file)) {
-                $scope.pdfFiles.push(file);
-            }
-        });
-    });
 
     $scope.filterNonMedia = function(elementList) {
         return _.filter(elementList, function(element) {
@@ -599,16 +574,103 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         return hasContent(el);
     };
 
-    // PDF viewing functionality: initialize only if there are pdf files
-    $scope.$watch('pdfFiles', function(){
-        // If there are no pdf's then abort this mission
-        // && for now also abort if more than one
-        // TODO: make this work for multiple pdf files
-        if(!$scope.pdfFiles.length || ($scope.pdfFiles.length > 1)) return;
+    function initializeViewStates(){
+        $scope.showImage = false;
+        $scope.showVideo = false;
+        $scope.showAudio = false;
+        $scope.showPdf = false;
+        $scope.videoSrc = '';
+        $scope.videoMime = '';
+    }
+    initializeViewStates();
 
+    // TODO: crossbrowser video support. Only Safari works good
+    // sets up the video player
+    function intializeVideoPlayer(el) {
+        console.log('video initializing');
+        $scope.videoSrc = $filter('mediaFile')(el);
+        $scope.videoMime = $filter('mediaMimeType')(el);
+    }
+
+    function switchVideo(){
+        $scope.$watch('videoSrc',function(src){
+            var $target = $('#video-container');
+            $target.html('');
+            var html =  '<video width="460" height="340" style="width:100%; height:100%;" controls="controls">' +
+                '<source src="'+ $scope.videoSrc +'" type="' + $scope.videoMime + '"/>' +
+                '</video>';
+                $timeout(function(){
+                    $target.html(html);
+//                    $('video,audo').mediaelementplayer();
+                },500);
+        });
+    }
+
+    $scope.$watch("tree", function(tree, oldTree) {
+        // collect an array of only the media elements
+        $scope.mediaElements = tree ? collectMediaElements(tree) : [];
+        // trigger media viewer after the mediaElements arrive
+        $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
+            // set the intital element
+            $scope.mediaElement = $scope.mediaElements[0];
+            // what are we going to show first?
+            var initialMime = $filter('mediaMimeType')($scope.mediaElement);
+            switch(initialMime) {
+                case 'image/jpeg':
+                case 'image/jpg':
+                    $scope.showImage = true;
+                    break;
+                case 'image/png':
+                    $scope.showImage = true;
+                    break;
+                case 'image/gif':
+                    $scope.showImage = true;
+                    break;
+                case 'video/mp4':
+                    $scope.showVideo = true;
+                    intializeVideoPlayer($scope.mediaElement);
+                    break;
+                case 'video/quicktime':
+                    $scope.showVideo = true;
+                    intializeVideoPlayer($scope.mediaElement);
+                    break;
+                case 'application/pdf':
+                    $scope.showPdf = true;
+                    break;
+            }
+
+            // list of pdf files: note $scope.mediaFiles is inherited from the ViewTreeController
+            // hence this controller must always be nested inside of that in the html
+            $scope.pdfFiles = [];
+            _.each($scope.mediaElements, function(file){
+                if (file.value && $rootScope.isPdf(file)) {
+                    $scope.pdfFiles.push(file);
+                }
+            });
+            
+            $scope.switchViewSource = function (el) {
+                initializeViewStates();
+                if($rootScope.isImage(el)){
+                    $scope.showImage = true;
+                    $('#image-viewer').attr('src', $filter('mediaFile')(el));
+                }
+                if($rootScope.isVideo(el)){
+                    $scope.showVideo = true;
+                    switchVideo();
+                    intializeVideoPlayer(el);
+                }
+                if($rootScope.isPdf(el)){
+                    $scope.showPdf = true;
+                    showPdf(el);
+                }
+            }
+        });
+    });
+
+    function showPdf(el){
         $scope.pdfURL = "";
         // Set the path for the pdf to get using the mediaFile filter
-        $scope.pdfURL = $filter('mediaFile')($scope.pdfFiles[0]);
+        $scope.pdfURL = $filter('mediaFile')(el);
 
         $scope.setPdfPath = function (path) {
             $scope.pdfURL = path;
@@ -636,6 +698,19 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         $scope.loadProgress = function(loaded, total, state) {
             console.log('loaded =', loaded, 'total =', total, 'state =', state);
         };
+    }
+
+    // PDF viewing functionality: initialize only if there are pdf files
+    $scope.$watch('pdfFiles', function(){
+        // If there are no pdf's then abort this mission
+        // && for now also abort if more than one
+        // TODO: make this work for multiple pdf files
+        if(!$scope.pdfFiles.length || ($scope.pdfFiles.length > 1)) return;
+
+        $scope.pdfURL = "";
+        // Set the path for the pdf to get using the mediaFile filter
+        $scope.pdfURL = $filter('mediaFile')($scope.pdfFiles[0]);
+        showPdf($scope.pdfFiles[0]);
     });
 }]);
 
