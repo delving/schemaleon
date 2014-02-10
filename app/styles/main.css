@@ -181,6 +181,9 @@ fieldset[disabled] .btn-on.active {
 .badge-warning {
   background: #f0ad4e;
 }
+.badge-success {
+  background: #5cb85c;
+}
 .badge-translate {
   background: #f0ad4e !important;
 }
