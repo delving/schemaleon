@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $anchorScroll, $routeParams, $filter, Person, I18N, Statistics, $modal) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $routeParams, $filter, Person, I18N, Statistics, $modal) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -496,6 +496,11 @@ OSCR.controller(
                 scrollLeft: '+=' + 0,
                 scrollTop: '+=' + -height
             })
+        };
+
+        $rootScope.getWindowHeight = function (){
+            console.log($($window).height());
+            return $($window).height();
         };
 
         if ($location.host() == 'localhost') {

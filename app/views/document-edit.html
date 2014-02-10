@@ -24,17 +24,17 @@
             <div class="tab-pane active" ng-if="isTabActive('viewer')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <hr style="margin: 8px 0"/>
-                <div data-ng-include="'view-tab.html'">view tab</div>
+                <div data-ng-include="'view-tab.html'" class="document-content">view tab</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('novice')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <hr style="margin: 8px 0"/>
-                <div data-ng-include="'panel-array.html'">panel array</div>
+                <div data-ng-include="'panel-array.html'" class="document-content">panel array</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <hr style="margin: 8px 0"/>
-                <div data-ng-include="'expert-tab.html'">expert tab</div>
+                    <div data-ng-include="'expert-tab.html'" class="document-content" style="height: {{documentHeight}}">expert tab</div>
             </div>
         </div>
     </div>

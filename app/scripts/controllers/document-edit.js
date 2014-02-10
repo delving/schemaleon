@@ -140,13 +140,14 @@ OSCR.controller(
 // just mind the tabs and their activation and who can see what
 OSCR.controller(
     'TabController',
-    function ($rootScope, $scope) {
+    function ($rootScope, $scope, $timeout) {
 
         $scope.activeTab = $scope.identifier ? 'viewer' : 'novice';
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
         }
+
 
         // toggle tabs between edit and view
         $scope.isTabActive = function (tab) {
@@ -167,6 +168,8 @@ OSCR.controller(
     function ($rootScope, $scope, $timeout, Document) {
 
         $rootScope.checkLoggedIn();
+        
+        $scope.documentHeight = $rootScope.getWindowHeight()-200+'px';
 
         // for paying attention to whether the document has changed
         $scope.documentJSON = null;
