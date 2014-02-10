@@ -405,13 +405,14 @@ fieldset[disabled] .btn-on.active {
   margin-top: 0px;
 }
 .widget-title {
-  background: #eeeeee;
+  background: #333333;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   height: 36px;
 }
 .widget-title .icon {
   border-right: 1px solid #fff;
+  color: #eeeeee;
   padding: 9px 10px 7px 11px;
   float: left;
   opacity: .7;
@@ -428,8 +429,7 @@ fieldset[disabled] .btn-on.active {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
 }
 .widget-title h5 {
-  color: #666666;
-  text-shadow: 0 1px 0 #ffffff;
+  color: #222222;
   float: left;
   font-size: 12px;
   font-weight: bold;
@@ -438,7 +438,7 @@ fieldset[disabled] .btn-on.active {
   margin: 0;
 }
 .widget-title h5 span {
-  color: #669900;
+  color: #eeeeee;
 }
 .widget-title .buttons {
   float: right;
@@ -1059,7 +1059,7 @@ body.full-screen .viewport-right {
 /* DOCUMENT EDIT */
 .tabbable {
   background: transparent;
-  margin-bottom: 1.428571429;
+  margin-bottom: 20px;
   margin-right: 10px;
 }
 .tabbable .nav-tabs {
@@ -1200,4 +1200,8 @@ body.full-screen .viewport-right {
 }
 .expert-media-controls {
   position: absolute;
+}
+/* COMMUNITY / DASHBOARD / WIDGETS */
+.statistics .label.count {
+  float: right;
 }

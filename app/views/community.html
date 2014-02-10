@@ -14,23 +14,23 @@
                 </div>
                 <div class="widget-body">
 
-                    <ul class="list-group">
+                    <ul class="list-group statistics">
                         <li i18n="Groups" class="list-group-item">
                             <i class="glyphicon glyphicon-user"></i>
                             <span class="type i18n"/>
-                            <span class="label label-primary count">{{ statistics.People.Group }}</span>
+                            <span class="label label-default count">{{ statistics.People.Group }}</span>
                         </li>
                         <li i18n="People" class="list-group-item">
                             <i class="glyphicon glyphicon-user"></i>
                             <span class="type i18n"/>
-                            <span class="label label-primary count">{{ statistics.People.Person }}</span>
+                            <span class="label label-default count">{{ statistics.People.Person }}</span>
                         </li>
                         <li ng-repeat="schema in statistics.AllPrimary.Schema" class="list-group-item">
                             <i class="glyphicon glyphicon-file"></i>
                             <span i18n="{{schema.Name}}">
                                 <span class="type i18n"/>
                             </span>
-                            <span class="label label-primary count">{{ schema.Count }}</span>
+                            <span class="label label-default count">{{ schema.Count }}</span>
                         </li>
                     </ul>
                 </div>
