@@ -573,8 +573,6 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
             $scope.mediaElement = null;
         }
         
-        console.log('mediaElements', $scope.mediaElements);
-
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
             if(mediaElements.length){
@@ -638,12 +636,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         $scope.loadProgress = function(loaded, total, state) {
             console.log('loaded =', loaded, 'total =', total, 'state =', state);
         };
-
     });
-
-
-
-
 }]);
 
 OSCR.controller(
@@ -670,6 +663,7 @@ OSCR.controller(
         $scope.activeEl = null;
 
         $scope.setActiveEl = function (el) {
+            if ($scope.activeEl === el) return;
             if ($scope.activeEl) {
                 console.log('no longer editing', $scope.activeEl.name);
                 $scope.activeEl.editing = false;

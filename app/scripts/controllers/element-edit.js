@@ -84,8 +84,10 @@ OSCR.controller(
 
 OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
     'MediaElementController',
-    function ($rootScope, $scope, $q, $modal, $filter) {
+    function ($rootScope, $scope, $modal, $filter) {
+
         $scope.openVideoPreview = function (elem) {
+            if ($rootScope.config.showTranslationEditor) return;
             $scope.videoFile = '';
             var videoMime = $filter('mediaMimeType')(elem);
             $scope.videoFile = $filter('mediaFile')(elem);
@@ -108,40 +110,29 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
                         '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
                         '</div>'
                 });
-                if (!$rootScope.config.showTranslationEditor) {
-                    // todo: review this
-                    modal.open();
-                }
             });
         };
+
         // todo: should not be needed!
-        $scope.enableMediaEditor = function () {
+        $scope.enableMediaEditor = function (el) {
+            if (el) $scope.setActiveEl(el);
             $scope.setEditing(true);
-            $scope.chosenMedia = null;
         };
+
+        $scope.$watch('el.value', function (value, before) {
+            $scope.valueChanged($scope.el);
+        });
     }
 );
 
 OSCR.controller(
     'MediaSearchController',
     function ($rootScope, $scope, $q, Document) {
-        $scope.el = $scope.panel.element;
-        if (!$scope.el.config.media) {
-            console.warn("MediaSearchController with no config media");
-            return;
-        }
-        $scope.chosenMedia = null;
+        if ($scope.panel) $scope.el = $scope.panel.element;
+        if (!$scope.el.config.media) return;
+
         $scope.schema = $scope.el.config.media;
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
-
-        if (!$scope.el.tree) {
-            Document.fetchSchema($scope.schema, function (schema) {
-                $scope.el.tree = {
-                    name: 'Entry',
-                    elements: schema.elements
-                };
-            });
-        }
 
         function refreshList() {
             Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function(list) {
@@ -151,36 +142,18 @@ OSCR.controller(
 
         refreshList();
 
-        if (!$scope.valueChecked) {
-            if ($scope.el.value) {
-//                todo $scope.disableEditor();
-                Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.el.value.Identifier, function (fetchedValue) {
-                    $scope.setValue(fetchedValue.Document);
-                });
-            }
-            $scope.valueChecked = true;
-        }
-
-        $scope.selectMedia = function(entry) {
-            $scope.setValue(entry);
-        };
-
         $scope.setValue = function (value) {
             // make a copy of the body and add header things to it
             var augmented = angular.copy(value.Body.MediaMetadata);
             augmented.Identifier = value.Header.Identifier;
             augmented.GroupIdentifier = value.Header.GroupIdentifier;
             $scope.el.value = augmented;
-//            $scope.setEditing(false);
+            $scope.setEditing(false);
         };
 
         $scope.refreshImageList = function () {
             refreshList();
         };
-
-        $scope.$watch('el.value', function (after, before) {
-            $scope.validateTree();
-        });
     }
 );
 
