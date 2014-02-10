@@ -366,7 +366,6 @@ var ServerWithStorage = function(storage) {
     this.storage = storage;
     this.serve = function(req, res, next) {
         var pathMatch = pathRegExp.exec(req.url);
-        console.log('serve: '+req.method+": "+req.url, pathMatch);
         if (pathMatch) {
             serve(storage, pathMatch, req, res);
         }
