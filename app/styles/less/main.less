@@ -417,7 +417,7 @@ body.full-screen {
 /* EXPERT INPUT FORM */
 
 .expert-left-col {
-  .make-lg-column(5);
+  .make-lg-column(6);
 }
 
 .expert-right-col {
@@ -462,6 +462,15 @@ body.full-screen {
 
 .expert-media-controls {
   position: absolute;
+}
+
+@media (max-width: 1350px) {
+  .expert-media-controls {
+    position: static;
+  }
+  .form-expert .vocabulary-controls {
+    position: static;
+  }
 }
 
 

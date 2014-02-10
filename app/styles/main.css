@@ -1162,7 +1162,7 @@ body.full-screen .viewport-right {
 @media (min-width: 1200px) {
   .expert-left-col {
     float: left;
-    width: 41.66666666666667%;
+    width: 50%;
   }
 }
 .expert-right-col {
@@ -1206,6 +1206,14 @@ body.full-screen .viewport-right {
 }
 .expert-media-controls {
   position: absolute;
+}
+@media (max-width: 1350px) {
+  .expert-media-controls {
+    position: static;
+  }
+  .form-expert .vocabulary-controls {
+    position: static;
+  }
 }
 /* COMMUNITY / DASHBOARD / WIDGETS */
 .statistics .label.count {
