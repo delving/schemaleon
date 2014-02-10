@@ -499,7 +499,6 @@ OSCR.controller(
         };
 
         $rootScope.getWindowHeight = function (){
-            console.log($($window).height());
             return $($window).height();
         };
 
