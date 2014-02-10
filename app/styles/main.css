@@ -910,7 +910,7 @@ ul.kv-list li span.value {
 /* BODY */
 body {
   background: #dddddd;
-  margin: 0px 10px;
+  margin: 0px 20px;
   padding-top: 70px;
   color: #333333;
 }
@@ -930,8 +930,8 @@ body.full-screen .viewport-right {
 .navbar-header {
   position: relative;
   min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 @media (min-width: 992px) {
   .navbar-header {
@@ -1156,8 +1156,8 @@ body.full-screen .viewport-right {
 .expert-left-col {
   position: relative;
   min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 @media (min-width: 1200px) {
   .expert-left-col {
@@ -1167,8 +1167,8 @@ body.full-screen .viewport-right {
 }
 .expert-right-col {
   min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   position: relative;
 }
 @media (min-width: 1200px) {

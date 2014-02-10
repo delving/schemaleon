@@ -142,7 +142,7 @@ OSCR.controller(
     'TabController',
     function ($rootScope, $scope, $timeout) {
 
-        $scope.activeTab = $scope.identifier ? 'viewer' : 'novice';
+        $scope.activeTab = $scope.identifier ? 'novice' : 'viewer';
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = "viewer";
