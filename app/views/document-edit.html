@@ -34,7 +34,7 @@
             <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <hr style="margin: 8px 0"/>
-                    <div data-ng-include="'expert-tab.html'" class="document-content" style="height: {{documentHeight}}">expert tab</div>
+                <div data-ng-include="'expert-tab.html'" class="document-content" data-ng-style="{height:viewportHeight}">expert tab</div>
             </div>
         </div>
     </div>

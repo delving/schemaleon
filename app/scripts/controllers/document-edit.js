@@ -169,7 +169,7 @@ OSCR.controller(
 
         $rootScope.checkLoggedIn();
         
-        $scope.documentHeight = $rootScope.getWindowHeight()-200+'px';
+        $scope.viewportHeight = $rootScope.getWindowHeight()-200+'px';
 
         // for paying attention to whether the document has changed
         $scope.documentJSON = null;
