@@ -563,6 +563,17 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
 
     var pdfViewer;
 
+
+    $scope.filterNonMedia = function(elementList) {
+        return _.filter(elementList, function(element) {
+            return !element.config.media;
+        });
+    };
+
+    $scope.hasValue = function(el) {
+        return hasContent(el);
+    };
+
     function initializeViewStates(){
         $scope.showImage = false;
         $scope.showVideo = false;
@@ -571,45 +582,39 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         $scope.videoSrc = '';
         $scope.videoMime = '';
     }
+    initializeViewStates();
 
+    // TODO: crossbrowser video support. Only Safari works good
     // sets up the video player
     function intializeVideoPlayer(el) {
-
-
-
+        console.log('video initializing');
         $scope.videoSrc = $filter('mediaFile')(el);
         $scope.videoMime = $filter('mediaMimeType')(el);
+    }
 
+    function switchVideo(){
         $scope.$watch('videoSrc',function(src){
             var $target = $('#video-container');
             $target.html('');
-            var html =  '<video controls="controls" width="100%">' +
+            var html =  '<video width="460" height="340" style="width:100%; height:100%;" controls="controls">' +
                 '<source src="'+ $scope.videoSrc +'" type="' + $scope.videoMime + '"/>' +
                 '</video>';
-            $timeout(function(){
-                $target.html(html);
-            },500);
-
+                $timeout(function(){
+                    $target.html(html);
+//                    $('video,audo').mediaelementplayer();
+                },500);
         });
     }
-
-    initializeViewStates();
 
     $scope.$watch("tree", function(tree, oldTree) {
         // collect an array of only the media elements
         $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
-            
             // set the intital element
             $scope.mediaElement = $scope.mediaElements[0];
-            
             // what are we going to show first?
             var initialMime = $filter('mediaMimeType')($scope.mediaElement);
-
-
-
             switch(initialMime) {
                 case 'image/jpeg':
                 case 'image/jpg':
@@ -651,36 +656,21 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
                 }
                 if($rootScope.isVideo(el)){
                     $scope.showVideo = true;
+                    switchVideo();
                     intializeVideoPlayer(el);
                 }
                 if($rootScope.isPdf(el)){
                     $scope.showPdf = true;
-                    $('#pdf-viewer').attr('src', $filter('mediaFile')(el));
+                    showPdf(el);
                 }
             }
         });
     });
 
-    $scope.filterNonMedia = function(elementList) {
-        return _.filter(elementList, function(element) {
-            return !element.config.media;
-        });
-    };
-
-    $scope.hasValue = function(el) {
-        return hasContent(el);
-    };
-
-    // PDF viewing functionality: initialize only if there are pdf files
-    $scope.$watch('pdfFiles', function(){
-        // If there are no pdf's then abort this mission
-        // && for now also abort if more than one
-        // TODO: make this work for multiple pdf files
-        if(!$scope.pdfFiles.length || ($scope.pdfFiles.length > 1)) return;
-
+    function showPdf(el){
         $scope.pdfURL = "";
         // Set the path for the pdf to get using the mediaFile filter
-        $scope.pdfURL = $filter('mediaFile')($scope.pdfFiles[0]);
+        $scope.pdfURL = $filter('mediaFile')(el);
 
         $scope.setPdfPath = function (path) {
             $scope.pdfURL = path;
@@ -708,6 +698,19 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         $scope.loadProgress = function(loaded, total, state) {
             console.log('loaded =', loaded, 'total =', total, 'state =', state);
         };
+    }
+
+    // PDF viewing functionality: initialize only if there are pdf files
+    $scope.$watch('pdfFiles', function(){
+        // If there are no pdf's then abort this mission
+        // && for now also abort if more than one
+        // TODO: make this work for multiple pdf files
+        if(!$scope.pdfFiles.length || ($scope.pdfFiles.length > 1)) return;
+
+        $scope.pdfURL = "";
+        // Set the path for the pdf to get using the mediaFile filter
+        $scope.pdfURL = $filter('mediaFile')($scope.pdfFiles[0]);
+        showPdf($scope.pdfFiles[0]);
     });
 }]);
 

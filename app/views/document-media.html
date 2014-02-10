@@ -14,24 +14,23 @@
     </div>
     <div data-ng-if="showVideo">
         <div id="video-container">
-            <video controls="controls" width="100%">
-                <source ng-src="{{ videoSrc }}" type="{{ videoMime }}"/>
+            <video  width="100%" height="100%" style="width:100%; height:100%;" controls="controls">
+                <source type="{{ videoMime }}" ng-src="{{ videoSrc }}" />
             </video>
         </div>
     </div>
-    <div data-ng-if="showPdf">
+    <div data-ng-if="showPdf">{{ pdfUrl }}
         <div class="row">
-            <div class="btn-group pdf-controls" ng-show="totalPages > 1">
-                <button class="btn btn-sm" ng-click="gotoPage(1)"><i class="glyphicon glyphicon-fast-backward"></i></button>
-                <button class="btn btn-sm" ng-click="prevPage()"><i class="glyphicon glyphicon-backward"></i></button>
-                <button class="btn btn-sm" ng-click="nextPage()"><i class="glyphicon glyphicon-forward"></i></button>
-                <button class="btn btn-sm" ng-click="gotoPage(totalPages)"><i class="glyphicon glyphicon-fast-forward"></i></button>
-                <span class="label label-info" ng-show="totalPages"><i class="glyphicon glyphicon-file"></i> {{currentPage}} / {{totalPages}}</span>
+            <div class="btn-group pdf-controls well well-sm" ng-show="totalPages > 1">
+                <button class="btn btn-default btn-sm" ng-click="gotoPage(1)"><i class="glyphicon glyphicon-fast-backward"></i></button>
+                <button class="btn btn-default btn-sm" ng-click="prevPage()"><i class="glyphicon glyphicon-backward"></i></button>
+                <button class="btn btn-default btn-sm" ng-click="nextPage()"><i class="glyphicon glyphicon-forward"></i></button>
+                <button class="btn btn-default btn-sm" ng-click="gotoPage(totalPages)"><i class="glyphicon glyphicon-fast-forward"></i></button>
+                &nbsp;<span class="label label-info" ng-show="totalPages"><i class="glyphicon glyphicon-file"></i> {{currentPage}} / {{totalPages}}</span>
             </div>
-
         </div>
         <div class="row">
-            <pdfviewer id="pdf-viewer" src="{{ mediaElement | mediaFile }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+            <pdfviewer id="pdf-viewer" src="{{ pdfURL }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
         </div>
     </div>
 </div>
