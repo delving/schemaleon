@@ -45,8 +45,6 @@ OSCR.controller(
             interfaceLanguages: [
                 {name: 'English', code: 'en'},
                 {name: 'Nederlands', code: 'nl'},
-                {name: 'Frysk', code: 'fy'},
-                {name: 'Norsk', code: 'no'},
                 {name: 'Svenska', code: 'sv'}
             ],
             interfaceLanguage: 'nl',
