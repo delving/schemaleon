@@ -86,6 +86,7 @@ OSCR.config(
 
         $httpProvider.interceptors.push(function($q, $rootScope) {
             function reportError(message) {
+                console.error(message);
                 $rootScope.setGlobalError(message);
             }
 

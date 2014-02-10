@@ -70,7 +70,7 @@ OSCR.controller(
             });
         });
 
-        $scope.commit = function (file) {
+        $scope.commitFile = function (file, done) {
             console.log('commit', file);
             var header = {
                 SchemaName: $scope.schema,
@@ -86,8 +86,7 @@ OSCR.controller(
                 }
             };
             Document.saveDocument(header, body, function (header) {
-                console.log("saved image, destroying", header);
-                file.$destroy();
+                done();
                 fetchCommitted();
             });
         };
@@ -116,28 +115,29 @@ OSCR.controller(
     function ($scope, $http, $timeout) {
         var file = $scope.file, state;
         if (file.url) {
-            $scope.commit(file);
-            file.$state = function () {
-                return state;
-            };
-            file.$destroy = function () {
-                state = 'pending';
-                return $http({
-                    url: file.deleteUrl,
-                    method: file.deleteType
-                }).then(
-                    function () {
-                        state = 'resolved';
-                        $scope.clear(file);
-                    },
-                    function () {
-                        state = 'rejected';
-                    }
-                );
-            };
-//            $timeout(function () {
-//                file.$destroy(); // as soon as you've got it, kill it
-//            }, 5000);
+            $scope.commitFile(file, function() {
+                file.$state = function () {
+                    return state;
+                };
+                file.$destroy = function () {
+                    state = 'pending';
+                    return $http({
+                        url: file.deleteUrl,
+                        method: file.deleteType
+                    }).then(
+                        function () {
+                            state = 'resolved';
+                            $scope.clear(file);
+                        },
+                        function () {
+                            state = 'rejected';
+                        }
+                    );
+                };
+                $timeout(function () {
+                    file.$destroy(); // as soon as you've got it, kill it
+                }, 1000);
+            });
         }
         else if (!file.$cancel && !file._index) {
             file.$cancel = function () {
