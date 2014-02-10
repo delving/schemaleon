@@ -32,6 +32,7 @@ OSCR.directive(
                     setText($attrs.i18n);
                 });
                 $scope.key = $attrs.i18n;
+                $scope.allKeysI18N[$attrs.i18n] = true;
                 $attrs.$observe('i18n', function (newValue) {
                     $scope.key = newValue;
                 });
@@ -118,6 +119,8 @@ OSCR.controller(
         function ($rootScope, $scope, $modal, $window, I18N) {
 
 //            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
+
+            $scope.allKeysI18N = {};
 
             $scope.$watch('config.interfaceLanguage', function (newValue, oldValue) {
                 I18N.fetchList(newValue);

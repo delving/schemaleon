@@ -27,24 +27,36 @@ OSCR.controller(
         $scope.langCode = $routeParams.lang;
 
         function setLanguage(lang) {
-            $scope.labels = [];
-            _.each(_.pairs(lang.label), function(pair) {
-                $scope.labels.push({
+            $scope.labels = _.map(_.pairs(lang.label), function(pair) {
+                $scope.allKeysI18N[pair[0]] = false;
+                return {
                     Key: pair[0],
                     Value: pair[1],
                     StoredValue: pair[1]
-                });
+                };
             });
-            $scope.elements = [];
-            for (var key in lang.element) {
-                $scope.elements.push({
+            var unassigned = _.filter(_.pairs($scope.allKeysI18N), function (pair) {
+                return pair[1];
+            });
+            $scope.unassigned = _.map(unassigned, function(pair) {
+                return {
+                    Key: pair[0],
+                    Value: '',
+                    StoredValue: ''
+                };
+            });
+            $scope.elements = _.map(_.pairs(lang.element), function(pair) {
+                var key = pair[0];
+                var title = pair[1].title;
+                var doc = pair[1].doc;
+                return {
                     Key: key,
-                    Title: lang.element[key].title,
-                    StoredTitle: lang.element[key].title,
-                    Doc: lang.element[key].doc,
-                    StoredDoc: lang.element[key].doc
-                });
-            }
+                    Title: title,
+                    StoredTitle: title,
+                    Doc: doc,
+                    StoredDoc: doc
+                };
+            });
             if ($scope.langCode == $rootScope.lang) {
                 $rootScope.i18n = lang;
             }

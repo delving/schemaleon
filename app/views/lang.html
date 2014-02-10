@@ -4,6 +4,23 @@
         <h1 i18n="Translations"><span class="i18n">Translations</span> "{{ langCode }}"</h1>
     </div>
 
+    <h4>Unassigned</h4>
+
+    <div class="row-fluid">
+        <ul class="inline columns-6 reset translations">
+            <li ng-repeat="label in unassigned">
+                <span class="label">{{ label.Key }}</span><br/>
+                <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
+                <div class="input-append"  ng-show="config.showTranslationEditor">
+                    <input class="input-block-level" type="text" ng-model="label.Value"/>
+                    <span class="add-on btn btn-success" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
+                        <i class="icon icon-ok"></i>
+                    </span>
+                 </div>
+            </li>
+        </ul>
+    </div>
+
     <h4>Labels</h4>
 
     <div class="row-fluid">
