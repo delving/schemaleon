@@ -4,62 +4,54 @@
         <h1 i18n="Translations"><span class="i18n">Translations</span> "{{ langCode }}"</h1>
     </div>
     <div class="row">
-        <div class="col-md-4">
-            <legend>Unassigned</legend>
+        <div class="col-sm-4">
+            <legend i18n="Unassigned"><span class="i18n"/></legend>
+            <div ng-repeat="label in unassigned" class="form-group">
+                    <label class="control-label">{{ label.Key }}</label>
+                    <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
+                    <div  ng-show="config.showTranslationEditor">
+                    <input class="form-control" type="text" ng-model="label.Value"/>
+                    <span class="input-group-addon bg-success pointer" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </span>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <legend i18n="Labels"><span class="i18n"/></legend>
             <ul class="list-unstyled translations">
-                <li ng-repeat="label in unassigned">
+                <div ng-repeat="label in labels" class="form-group">
                     <label>{{ label.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
-                    <div class="form-group"  ng-show="config.showTranslationEditor">
+                    <div ng-show="config.showTranslationEditor">
                         <input class="form-control" type="text" ng-model="label.Value"/>
-                    <span class="add-on btn btn-success" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
-                        <i class="icon icon-ok"></i>
+                    <span class="input-group-addon bg-success pointer" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
+                        <i class="glyphicon glyphicon-ok"></i>
                     </span>
                     </div>
-                </li>
+                </div>
             </ul>
         </div>
 
-        <div class="col-md-4">
-            <legend>Labels</legend>
-            <ul class="list-unstyled translations">
-                <li ng-repeat="label in labels">
-                    <label>{{ label.Key }}</label>
-                    <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
-                    <div class="form-group"  ng-show="config.showTranslationEditor">
-                        <input class="form-control" type="text" ng-model="label.Value"/>
-                    <span class="add-on btn btn-success" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
-                        <i class="icon icon-ok"></i>
-                    </span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="col-md-4">
-            <legend>Fields</legend>
-            <ul class="list-unstyled translation">
-                <li ng-repeat="element in elements" class="span3">
+        <div class="col-sm-4">
+            <legend i18n="Fields"><span class="i18n"/></legend>
+                <div ng-repeat="element in elements" class="form-group">
                     <label>{{ element.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ element.Title }}"</p>
-                    <div class="form-group"  ng-show="config.showTranslationEditor">
+                    <div ng-show="config.showTranslationEditor">
                         <input class="form-control" type="text" ng-model="element.Title"/>
-                    <span class="add-on btn btn-success" ng-click="setTitle(element)" ng-show="element.Title != element.StoredTitle">
-                        <i class="icon icon-ok"></i>
-                    </span>
-                        <h6>Documentation:</h6>
+                        <span class="input-group-addon  btn btn-success" ng-click="setTitle(element)" ng-show="element.Title != element.StoredTitle">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </span>
+                        <h6 i18n="Documentation"><span class="i18n"/>:</h6>
                         <!--todo: "focus" below is suspect-->
                         <textarea focus id="textArea" class="form-control" ng-model="element.Doc" rows="5"></textarea>
-                    <span class="btn btn-success" ng-click="setDoc(element)" ng-show="element.Doc != element.StoredDoc">
-                        <i class="glyphicion glyphicon-ok"></i>
-                    </span>
+                        <span class="btn btn-success" ng-click="setDoc(element)" ng-show="element.Doc != element.StoredDoc">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </span>
                     </div>
-                </li>
-            </ul>
+                </div>
         </div>
     </div>
-
-
-
-
 </div>

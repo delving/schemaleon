@@ -96,13 +96,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/#/lang/{{ config.interfaceLanguage }}">
-                                <i class="glyphicon glyphicon-globe"></i> <span>Translations [{{ config.interfaceLanguage }}]</span>
+                            <a data-ng-href="/#/lang/{{config.interfaceLanguage}}">
+                                <i class="glyphicon glyphicon-globe"></i> <span i18n="Translations"><span class="i18n"/> [{{ config.interfaceLanguage }}]</span>
                             </a>
                         </li>
                         <li>
                             <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
-                                <i class="glyphicon glyphicon-globe"></i> <span>Translate UI</span>
+                                <i class="glyphicon glyphicon-globe"></i> <span i18n="TranslateUi"><span class="i18n"/></span>
                             </a>
                         </li>
                     </ul>
