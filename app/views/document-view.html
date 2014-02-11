@@ -6,10 +6,10 @@
 
 <div class="row" data-ng-controller="ViewTreeController">
     <div data-ng-controller="ViewElementController">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <div class="field" ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" ng-show="hasValue(el)"></div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <!--<div class="field" ng-repeat="el in mediaElements" ng-include="getViewTemplate(el)"></div>-->
             <div class="field" ng-include="'views/document-media.html'"></div>
         </div>

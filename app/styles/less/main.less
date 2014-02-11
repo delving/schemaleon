@@ -232,6 +232,10 @@ body.full-screen {
 }
 
 .thumbnail-nav {
+  background: @gray-dark;
+  .border-radius(@border-radius-base);
+  padding: @padding-base-vertical @padding-base-horizontal;
+  .clearfix();
   .thumbnail {
     height: 140px;
     position:relative;
@@ -249,10 +253,23 @@ body.full-screen {
 }
 
 .media-viewer {
+  background: @gray-dark;
+  .border-radius(8px);
+  margin-bottom: @navbar-margin-bottom;
+  padding: 10px;
+  .media-thumbnails {
+    .box-sizing(border-box);
+    color: @gray-lighter;
+    li {
+      text-align: center;
+    }
+    img {
+      max-width: 100px;
+    }
+  }
   img, pdfviewer canvas {
     max-width: 100%;
   }
-
 }
 
 /* DOCUMENT LIST */
@@ -363,6 +380,10 @@ body.full-screen {
    label {
 
    }
+}
+
+.video-player video {
+
 }
 
 
@@ -485,6 +506,8 @@ body.full-screen {
 .user-management .widget-body {
   min-height: 150px;
 }
+
+@import "/app/styles/less/video-player.less";
 
 
 

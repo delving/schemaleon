@@ -224,10 +224,10 @@
 <script type="text/ng-template" id="view-tab.html">
     <div class="row" data-ng-controller="ViewTreeController">
         <div data-ng-controller="ViewElementController">
-            <div class="col-sm-6 document-metadata">
+            <div class="col-md-6 document-metadata">
                 <div class="field" data-ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" data-ng-show="hasValue(el)"></div>
             </div>
-            <div class="col-sm-6 document-media">
+            <div class="col-md-6 document-media">
                 <div class="field" ng-include="'views/document-media.html'"></div>
             </div>
         </div>
