@@ -1,96 +1,77 @@
-![delving logo](http://delving.eu/sites/all/themes/delving_pool/logo.png)
+![delving logo](https://github.com/delving/oscr/blob/master/docs/DelvingLogo.png)
 
 ----
 
-# OSCR
+# OSCR: Open Source Collection Registration
 
-## Open Source Collection Registration
+## Introduction
 
-The OSCR project is dedicated to building a streamlined client and server side platform for properly capturing
-cultural heritage data.  Users will be young and old, expert and novice.
+The Open Source Collection Registration (OSCR) system is built for historical societies and small museums as a tool for them to record and publish media and information about their cultural heritage artifacts.  At its core are flexibility, transparency, and user interface attention to detail, and its purpose is to have users contextualize rather than enter data.  This means that it focuses on selecting rather than typing, and encourages linking to shared lists.
 
-The purpose is to capture data properly according to the [CIDOC Conceptual Reference Model](http://www.cidoc-crm.org/)
-and OSCR stores such data in an XML database.  The dominant theme in this approach to registering data is
-contextualization, which means that users choose from shared lists much more than they type field values.
+The flexibility of OSCR lies in the ability to generate user interface elements based on the content of a series of schemas.  When everything depends on the schemas, it becomes easy to define proper formats for different kinds of cultural heritage artifacts, and put them to use immediately.  New things can be recorded in their own way without any changes to the code.
 
-The key feature of OSCR is the fact that it is schema-driven, in other words the user interface is actually
-generated rather than built by hand.  This means that it can support the creation and evolution of a series
-of schema descriptions for the documents it stores, and the database will contain objects built from any of
-these schemas.
+The data stored by OSCR is in the form of XML, in a database which holds XML in a form as if it were simply a file system filled with XML files.  In fact, OSCR has a database dump function which exports the entire database contents as a ZIP file which unpacks to exactly that, a directory structure of files.  This makes data storage extremely transparent.
 
-Tree-shaped documents are created and edited in a way that makes it possible for their parts to link explicitly
-to items from external authority lists and services. The intended user base for OSCR is the membership of local
-historical societies, so the user-friendliness is among the highest priorities.
+To make OSCR adaptable in an international environment, special attention has been paid to making the application very easily translatable.  When it is to appear in a new country, a user speaking the target language can just toggle “translation mode” and add translations for every bit of text.  This is a quick process, and the results are stored in the database.
+
+## Technologies
+
+OSCR has been built on the basis of three technologies which have insipired many of the design aspects of the platform.  Data is stored in an XML database, and the rest of the platform is built with Javascript technologies.
+
+### [Angular JS](http://angularjs.org/)
+
+The challenge in building OSCR lie in the fact that it is to act like an application but function in a browser, which means that it must be a “one-page app”.  It needed to be much more complicated than typical browser application to the Angular javascript framework was used to manage the complexity.
+
+AngularJS provides a clean separation between model (data) and view (HTML), and contains some indispensable code organization principles.  The binding mechanism, which changes the HTML page automatically upon changes in the model, made it possible to build an application that acts as a chameleon, changing appearance for different schemas.
+
+### [Node JS](http://nodejs.org/)
+
+For the initial version of OSCR we have chosen to use Javascript for the back-end as well as the front end, building the server using NodeJS technology.  The server side of OSCR bridges the gap between the client application to the storage system for the data, and 
+
+### [BaseX](http://basex.org/)
+
+The XML stored by OSCR in the BaseX database is queried using standard XPath/XQuery with a few extensions.  It can be instructed to index specific fields in the XML, and it can also easily use full-text search according to the 1.0 W3C standard. 
+
+## Design Principles
+
+At its core, OSCR is a system for describing cultural heritage objects and storing the associated digital representations, but since a number such systems have been built in the past it is important to understand how OSCR is different and why various design choices were made.
+
+### Schema-Driven
+
+The platform is intended to make the best use of the latest browser technologies, and its design was clearly inspired by the ideas behind the Angular JS framework.  It was built to be extremely flexible in terms of defining the structure of the documents that it stores, since the user interface structure and behavior is generate on-the-fly on the basis of the schemas that are deployed into the database.
+
+### International
+
+To make it easy to deploy OSCR internationally, extra effort has been put into allowing administrators to adjust language tags within the application itself.  This is much faster and more convenient than maintaining translation files separately, and the results are immediately available to users.
+
+### Educational
+
+There is a learning process involved when people want to properly document cultural heritage objects, so OSCR was built with education in mind.  There are different modes of operation for experts and beginners, and the beginner interface provides documentation about each field in the data model.  As with the language features described above, adding content to these instructional descriptions is something done interactively within the program itself.
+
+### Link-Oriented
+
+The documents stored in OSCR are not simply the typed contents of a number of fields in a web form.  Actually only a minority of fields such as titles, descriptions, and notes are to contain typed text.  Most fields have content which was chosen from lists, or found through search interfaces to internal or external instances of other documents.  Contextualization involves pointing from object documentation to shared authority data.
+
+### Transparent
+
+Comprehensive transparency is also a design principle of OSCR, which is manifest in the ability for administrators to download the entire contents of the data storage whenever they wish.
+
+The ability to upload media files and store them for describing and later for viewing is another important aspect of the platform. To resolve the issue of file naming and potential conflicts, media files are given names based on an MD5 hash of their contents so that the name depends purely on the content.
+
+### Open-Ended
+
+A number of specific things have been implemented in OSCR so that it can function as a basic collection management system for historical societies and small museums, but the emphasis in the design is to have a framework in place which can be easily extended with new and potentially parallel approaches to user interface elements.
 
 ## Documentation
 
-In the docs directory you will find documents describing the various aspects of the OSCR system.
+We decribe the important aspects of the OSCR platform in a series of documents in the *docs* directory of this project. Please let us know if you think there are things missing.
 
-* **[oscr-i18n.md](https://github.com/delving/oscr/blob/master/docs/oscr-i18n.md)**:
-explains how the multi-language interface works
+* **[Storage](https://github.com/delving/oscr/blob/master/docs/storage.md)** - how documents and media are stored
 
-* **[oscr-schemas.md](https://github.com/delving/oscr/blob/master/docs/oscr-schemas.md)**:
-explains the prototype-style schemas and how they work
+* **[Schemas](https://github.com/delving/oscr/blob/master/docs/schemas.md)** - what the schemas look like and how they work
 
-## Development Environment
+* **[Development](https://github.com/delving/oscr/blob/master/docs/development.md)** - how to set up for development
 
-The development environment is end-to-end Javascript, with **Angular JS** as the framework for the client
-side and **Node JS** as the prototype back-end server providing a REST interface that interfaces to the
-**BaseX** database.
-
-### Prerequisites
-
-Before you can get to work on developing OSCR you will need to have the following installed on your system:
-
-1. **Node JS**: server side Javascript framework
-
-    You can download and install Node.js directly from here: <http://nodejs.org/download/>, or if you have a package manager installed on your system you can follow the instructions found here: <https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>.
-
-1. **NPM**: node package manager for handling server side dependencies
-
-    The Node Package Manager is included with your NodeJS installation
-
-1. **Bower**: package manager for client-side dependencies.
-
-    To install Bower open up the terminal and type the following (you will want to sudo this):
-
-        npm install -g bower
-
-1. **Grunt**: build tool
-
-    To install Grunt open up the terminal and type the following (you will want to sudo this):
-
-        npm install -g grunt-cli
-
-1. **BaseX**: database for persisting XML
-
-    You can get the BaseX client application here: <http://basex.org/products/download/all-downloads/>
-
-### Developing
-	
-1. clone the OSCR source-code from this repository
-
-        git clone git@github.com:delving/oscr.git
-
-1. start up the BaseX application, start its server
-
-        go to Database / Server Administration...
-        click on Local Server "start" button
-
-1. via the terminal navigate to the root of the application:
-
-        cd /path/to/cloned/oscr
-
-1. run the application:
-
-        grunt run
-
-1. currently the Gruntfile.js in the root of the project is set to load Chrome with following url:
-
-        http://localhost:9000/
-        
-    * edit Gruntfile.js for your own browser preference
-    * changes made and saved in the application code will trigger the browser to reload the page
 
 ===
 
