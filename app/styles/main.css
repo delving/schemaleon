@@ -1318,6 +1318,16 @@ body.full-screen .viewport-right {
   min-height: 150px;
 }
 /* chat */
+.oscr-chat .list-chat {
+  margin-bottom: 21px;
+}
+.oscr-chat .widget-body {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.oscr-chat .message-time {
+  font-size: smaller;
+}
 /*!
 Video.js Default Styles (http://videojs.com)
 Version 4.3.0

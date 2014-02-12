@@ -519,12 +519,18 @@ body.full-screen {
 
 /* chat */
 //
-//.oscr-chat {
-//  position: absolute;
-//  top: 0px;
-//  z-index: @zindex-modal;
-//  width: 400px;
-//}
+.oscr-chat {
+  .list-chat {
+    margin-bottom: 21px;
+  }
+  .widget-body {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .message-time {
+    font-size: smaller;
+  }
+}
 
 @import "/app/styles/less/video-player.less";
 

@@ -2,7 +2,7 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'CommunityController',
-    function ($rootScope, $scope, $location, $cookieStore, $timeout, Statistics, Person) {
+    function ($rootScope, $scope, $location, $anchorScroll, $cookieStore, $timeout, Statistics, Person) {
         $rootScope.checkLoggedIn();
 
         Statistics.getLogEntries(function (entries) {
@@ -71,6 +71,8 @@ OSCR.controller(
         var chatPollPromise;
 
         function chatPoll() {
+            $location.hash('chat-bottom');
+            $anchorScroll();
             if ($scope.chatMessageSend) {
                 Person.publishChatMessage($scope.chatMessage, function (messageList) {
                     $scope.chatMessageSend = false;

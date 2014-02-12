@@ -7,22 +7,24 @@
 
     <div class="row widget-row">
         <div class="col-md-4">
-            <div class="widget-box">
+            <div class="widget-box oscr-chat">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-comment"></i></span>
                     <h5 i18n="Chat"><span class="i18n"/> (BETA)</h5>
                 </div>
                 <div class="widget-body">
                     <div class="message-list">
-                        <ul class="list-unstyled">
+                        <ul class="list-unstyled list-chat">
                             <li data-ng-repeat="message in chatMessageList">
                                 <span class="message-time">{{ message.time | date:'MM/dd@H:mm'}}</span>
                                 <span class="label label-default" data-ng-class="{ 'label-primary' : user.Profile.firstName + ' ' + user.Profile.lastName == message.user }">{{ message.user }}</span>
                                 <span>{{ message.text }}</span>
                             </li>
                         </ul>
+                        <a id="chat-bottom"></a>
                     </div>
-                    <hr/>
+                </div>
+                <div class="widget-footer">
                     <div class="input-group">
                         <input data-ng-model="chatMessage" data-chat-enter="chatSend(chatMessage)" type="text" class="form-control"/>
                         <span class="input-group-addon  pointer" data-ng-click="chatSend(chatMessage)"><i class="glyphicon glyphicon-comment"></i></span>
