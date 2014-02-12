@@ -988,6 +988,10 @@ body.full-screen .viewport-right {
 .nav-left gravatar-image {
   margin-right: 8px;
 }
+.nav-left .label {
+  font-size: 12px;
+  margin: 4px 0;
+}
 /* PAGE HEADERS */
 .page-header {
   border-color: #adafae;
@@ -1209,10 +1213,10 @@ body.full-screen .viewport-right {
 .document-metadata {
   background: #ffffff;
   /* border-radius */
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  padding: 10px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  padding: 20px 24px;
 }
 /* VOCABUARY / INSTANCES CONTROLS */
 .vocabulary-controls label {

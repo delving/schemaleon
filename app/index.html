@@ -85,7 +85,7 @@
                     <ul class="nav navbar-nav" id="user-controls" ng-show="user.Membership.Role == 'Administrator'">
                         <li>
                             <a href ng-click="choosePath('/people')" i18n="GroupManagement">
-                                <i class="glyphicon glyphicon-user"></i> <span class="i18n"/>
+                                <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-user"></i> <span class="i18n"/>
                             </a>
                         </li>
                     </ul>
@@ -121,28 +121,31 @@
                    <div class="list-group nav-left">
                         <div class="list-group-item-heading user-info">
                             <div class="media">
-                                <a href data-ng-click="chooseUserPath(user.Identifier)">
-                                    <div class="pull-left">
-                                        <gravatar-image data-email="user.Profile.email" data-size="50" data-default="mm" data-secure="false"></gravatar-image>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="media-heading">
+                                <div class="pull-left">
+                                    <a href data-ng-click="chooseUserPath(user.Identifier)">
+                                        <gravatar-image data-email="user.Profile.email" data-size="32" data-default="mm" data-secure="false"></gravatar-image>
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <div class="media-heading">
+                                        <a href data-ng-click="chooseUserPath(user.Identifier)">
                                             <span>{{ user.Profile.firstName }}</span>
                                             <span>{{ user.Profile.lastName }}</span>
-                                        </div>
-                                        <div data-ng-if="user.group">
-                                            <span i18n="Group" class="strong"><span class="i18n"/></span>: {{
-                                            user.group.Name }}<br/>
-                                            <span class="pull-left label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
-                                        </div>
-                                        <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
-                                            <span class="label i18n"/><br/>
-                                        </div>
-                                        <a href ng-click="logout()" title="" class="btn btn-inverse btn-xs btn-logout" i18n="Logout">
-                                            <i class="glyphicon glyphicon-off"></i> <span class="i18n"/>
                                         </a>
                                     </div>
-                                </a>
+                                    <div data-ng-if="user.group">
+                                        <a ng-href="/#/people/group/{{ user.Membership.GroupIdentifier }}">
+                                            <span i18n="Group" class="strong"><span class="i18n"/></span>:{{ user.group.Name }}
+                                        </a>
+                                        <span class="pull-left label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role }}</span>
+                                    </div>
+                                    <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
+                                        <span class="label i18n"/><br/>
+                                    </div>
+                                    <a href ng-click="logout()" title="" class="btn btn-inverse btn-xs btn-logout" i18n="Logout">
+                                        <i class="glyphicon glyphicon-off"></i> <span class="i18n"/>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <!-- Base links -->
