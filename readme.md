@@ -2,7 +2,11 @@
 
 ----
 
-# OSCR: Open Source Collection Registration
+# OSCR
+
+### Open Source Collection Registration
+
+---
 
 ## Introduction
 
