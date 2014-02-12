@@ -199,6 +199,24 @@ fieldset[disabled] .btn-on.active {
 .label-Viewer {
   background: #428bca !important;
 }
+.alert-login {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+.jumbotron-login {
+  background: #428bca;
+  /* border-radius */
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  color: #ffffff;
+}
+.i18n-heading {
+  color: #999999;
+}
+.i18n-heading span {
+  color: #333333;
+}
 .list-key-value .key {
   color: #999999;
 }
@@ -1073,8 +1091,14 @@ body.full-screen .viewport-right {
 .media-viewer .media-thumbnails img {
   max-width: 100px;
 }
+.media-viewer .media-item {
+  text-align: center;
+}
+.media-viewer .media-item .navbar {
+  text-align: left;
+}
 .media-viewer img,
-.media-viewer pdfviewer canvas {
+.media-viewer canvas {
   max-width: 100%;
 }
 /* DOCUMENT LIST */

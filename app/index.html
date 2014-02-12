@@ -199,14 +199,16 @@
                                 <i class="glyphicon glyphicon-file"></i>
                                 {{ link | linkTitle }}
                                 <span class="badge badge-important" ng-if="link.leased">
-                                    <i class="icon icon-lock icon-white"></i>
+                                    <i class="glyphicon glyphicon-lock"></i>
                                 </span>
                             </a>
                     </div>
                     <div data-ng-include="getInclude()"></div>
                 </div>
             </div>
-            <div class="viewport-right col-md-10">
+            <!--{{ !user }}-->
+            <div class="viewport-right" data-ng-class="{'col-md-12' : !user, 'col-md-10' : user }">
+                {{ user.length }}
                 <div class="alert alert-danger fade-in" data-ng-show="globalError">
                     {{ globalError }}
                 </div>
