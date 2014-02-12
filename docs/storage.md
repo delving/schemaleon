@@ -1,4 +1,4 @@
-![delving logo](DelvingLogo.png)
+![delving logo](DelvingLogo.png?raw=true)
 
 ----
 

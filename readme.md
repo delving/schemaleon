@@ -1,4 +1,4 @@
-![delving logo](https://github.com/delving/oscr/blob/master/docs/DelvingLogo.png)
+![delving logo](https://github.com/delving/oscr/blob/master/docs/DelvingLogo.png?raw=true)
 
 ----
 
