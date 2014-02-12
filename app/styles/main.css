@@ -1152,6 +1152,9 @@ body.full-screen .viewport-right {
   background: #ffffff;
   color: #999999;
 }
+.table-oscr ul {
+  margin: 0;
+}
 /* DOCUMENT EDIT */
 .tabbable {
   background: transparent;

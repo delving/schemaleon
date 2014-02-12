@@ -284,7 +284,7 @@ OSCR.controller(
                         $scope.cancel = function () {
                             $rootScope.disableChoosePath = false;
                             $rootScope.globalError = null;
-                            $modalInstance.dismiss('cancel');
+                            $modalInstance.dismiss();
                             $rootScope.choosePath(path, viewOnly);
                         };
                     }
