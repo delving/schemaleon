@@ -17,7 +17,7 @@
                         <ul class="list-unstyled">
                             <li data-ng-repeat="message in chatMessageList">
                                 <span class="message-time">{{ message.time | date:'MM/dd@H:mm'}}</span>
-                                <span class="badge" data-ng-class="{ 'bg-primary' : user.Profile.firstName + ' ' + user.Profile.lastName == message.user }">{{ message.user }}</span>
+                                <span class="label label-default" data-ng-class="{ 'label-primary' : user.Profile.firstName + ' ' + user.Profile.lastName == message.user }">{{ message.user }}</span>
                                 <span>{{ message.text }}</span>
                             </li>
                         </ul>
