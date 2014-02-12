@@ -847,8 +847,11 @@ OSCR.directive('uiVideo', function () {
             '<video ng-src="{{ videoSrc }}" id="video-' + videoId + '" class="video-js vjs-default-skin" controls preload="auto">' +
             'Your browser does not support the video tag. ' +
             '</video></div>',
-        link: function (sscope, element, attrs) {
-            if (vp) vp.dispose();
+        link: function (scope, element, attrs) {
+//            if (vp) vp.dispose();
+            scope.$on('$destroy', function () {
+                vp.dispose();
+            });
             vp = videojs('video-' + videoId, {"width": '100%', "height": 400 });
         }
     };
