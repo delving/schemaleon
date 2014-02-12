@@ -1206,6 +1206,14 @@ body.full-screen .viewport-right {
   border-bottom: none;
   margin-bottom: 0px;
 }
+.document-metadata {
+  background: #ffffff;
+  /* border-radius */
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
 /* VOCABUARY / INSTANCES CONTROLS */
 .vocabulary-controls label {
   display: inline-block;
