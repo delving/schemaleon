@@ -625,6 +625,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
                     break;
                 case 'application/pdf':
                     $scope.showPdf = true;
+                    showPdf($scope.mediaElement);
                     break;
             }
 
@@ -656,7 +657,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
     });
 
     function showPdf(el){
-        $scope.pdfURL = "";
+//        $scope.pdfURL = "";
         // Set the path for the pdf to get using the mediaFile filter
         $scope.pdfURL = $filter('mediaFile')(el);
 
