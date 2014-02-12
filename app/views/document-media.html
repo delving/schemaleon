@@ -2,7 +2,7 @@
     <div class="media-thumbnails" data-ng-if="mediaElements.length > 1">
         <ul class="list-unstyled list-inline">
             <li data-ng-repeat="el in mediaElements" data-ng-click="switchViewSource(el)" class="pointer">
-                <img data-ng-src="{{ el | mediaThumbnail }}" height="100"/><br/>
+                <img data-ng-src="{{ el | mediaThumbnail }}" /><br/>
                 <span class="mime">{{ el | mediaMimeType }}</span>
             </li>
         </ul>
