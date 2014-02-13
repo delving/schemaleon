@@ -51,7 +51,7 @@ Storage('oscr', homeDir, function (storage) {
             chatMessages.push(chatMessage);
             storage.Log.chat(req, chatMessage);
         }
-        return chatMessages = filterOutOld(chatMessages, 60);
+        return chatMessages = filterOutOld(chatMessages, 600);
     }
 
     var documentLeases = [];
