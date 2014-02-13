@@ -114,9 +114,9 @@
             </button>
             </div>
         </div>
-        <div ng-show="mediaList" class="oscr-media-grid">
-            <ul class="media-thumb-list">
-                <li data-ng-repeat="entry in mediaList">
+        <div class="media-thumbnails" ng-show="mediaList">
+            <ul class="list-unstyled list-inline">
+                <li data-ng-repeat="entry in mediaList" class="pointer">
                     <div class="media-thumb pointer">
                         <img id="oscr-media-grid-thumb-{{$index}}"
                              ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
@@ -126,6 +126,7 @@
                 </li>
             </ul>
         </div>
+
         <div data-ng-controller="MediaUploadController" data-ng-show="mediaAsideActive">
             <div class="aside-backdrop am-fade" style=""></div>
             <div class="aside right aside-media" tabindex="-1" role="dialog">
