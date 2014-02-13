@@ -339,7 +339,7 @@ OSCR.controller(
     function ($rootScope, $scope, $timeout) {
 
         $scope.panels = [];
-        $scope.choice = 0;
+
         $scope.selectedPanelIndex = 0;
 
         $scope.activeEl = null;
@@ -388,9 +388,9 @@ OSCR.controller(
         };
 
         $scope.choose = function (choice, panelIndex) {
-            $scope.choice = choice;
-            $scope.selectedPanelIndex = panelIndex;
             var parentPanel = $scope.panels[panelIndex];
+            parentPanel.choice = choice;
+            $scope.selectedPanelIndex = panelIndex;
             parentPanel.selected = choice;
             var chosen = parentPanel.element.elements[choice];
             parentPanel.element.elements.forEach(function (el) {
@@ -480,15 +480,16 @@ OSCR.controller(
         };
 
         $scope.navigationKeyPressed = function (key) {
-            var elements = $scope.panels[$scope.selectedPanelIndex].element.elements;
+            var panel = $scope.panels[$scope.selectedPanelIndex];
+            var elements = panel.element.elements;
             if (!elements) return;
             var size = elements.length;
             switch (key) {
                 case 'up':
-                    $scope.choose(($scope.choice + size - 1) % size, $scope.selectedPanelIndex);
+                    $scope.choose((panel.choice + size - 1) % size, $scope.selectedPanelIndex);
                     break;
                 case 'down':
-                    $scope.choose(($scope.choice + 1) % size, $scope.selectedPanelIndex);
+                    $scope.choose((panel.choice + 1) % size, $scope.selectedPanelIndex);
                     break;
                 case 'right':
                     if ($scope.panels[$scope.selectedPanelIndex + 1].element.elements) {

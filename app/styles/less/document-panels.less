@@ -1,30 +1,3 @@
-/* LEVEL COLORS */
-
-.level0 {
-  background: @black;
-  background: @gray-darker;
-}
-
-.level1 {
-  background: @gray-dark;
-}
-
-.level2 {
-  background: @baseLight;
-}
-
-.level3 {
-  background: @baseLighter;
-}
-
-.level4 {
-  background: lighten(@baseLighter, 10%);
-}
-
-.level5 {
-  background: lighten(@baseLighter, 15%);
-}
-
 /* DOCUMENT PANELS **************************************/
 
 #panel-container {
@@ -32,31 +5,17 @@
   overflow-x: auto; // horizontal scrollbars appear when needed
 }
 
-///* panels table */
-//.table-panels {
-//  background: transparent;
-//  width: auto;
-//  /* panel header */
-//  thead > tr > th {
-//    border-bottom: none !important;
-//  }
-//  th.panel-header {
-//    background: @brand-primary;
-//    border-radius: @br-med @br-med 0 0;
-//    color: @gray-lighter;
-//    font-weight: normal;
-//    padding-left: 15px;
-//  }
-//  /* panel body */
-//  td.panel {
-//    padding: 20px 0 20px 10px;
-//    width: 340px;
-//    min-width: 340px;
-//    border-top: none;
-//    border-radius: 0 0 @br-small @br-small;
-//  }
-//}
-
+.active-indicator {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+//  border-width: 10.5px 18.2px 10.5px 0;
+  border-width: 19px 32.9px 19px 0;
+  border-color: transparent @gray transparent transparent;
+}
 
 /* panels table */
 .table-panels {
@@ -76,34 +35,38 @@
   }
   /* panel body */
   td.panel {
-    padding: 20px 0 20px 10px;
+    padding: 20px 20px 20px 10px;
     width: 340px;
     min-width: 300px;
     border-top: none;
     border-radius: 0 0 @br-med @br-med;
-    color: @gray-lighter;
+    color: @gray-dark;
+    &.even{
+        background: @bodyBackground;
+        .active-indicator {
+          border-color: transparent @white transparent transparent;
+        }
+    }
+    &.odd {
+      background: @white;
+      .active-indicator {
+        border-color: transparent @bodyBackground transparent transparent;
+      }
+    }
   }
   input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
     cursor: pointer;
-    background-color: @grayDark;
-    color: @grayLighter;
+    background-color: @gray-dark;
+    color: @gray-light;
   }
   label {
-    color: @gray-light;
+    color: @gray-dark;
   }
   input, select, textarea {
     &.disabled {
       cursor: pointer;
-      background-color: @grayDark;
-      color: @grayLighter;
-    }
-  }
-  /* panel on right for user input */
-  .panel-input {
-    color: @grayDark;
-    padding: 0 20px;
-    textarea {
-      width: 95%;
+      background-color: @gray-lighter;
+      color: @gray-light;
     }
   }
 
@@ -120,21 +83,26 @@
 
 }
 
+
+
+.panel.even .active-indicator {
+  border-color: transparent @white transparent transparent;
+}
+
+.panel.odd .active-indicator {
+  border-color: transparent @gray-lighter transparent transparent;
+}
+
 /* list with element labels */
 ul.panel-list {
-  > li > a {
-    .border-right-radius(0);
-  }
   li {
+    padding-bottom: 8px;
     position: relative;
-    padding-left: 50px;
-    .link-title {
-      color: @white;
+    .panel-input {
+      margin-left: 60px;
     }
     a, label {
-      padding-right: 10px;
       &:hover {
-        background: @gray;
         cursor: pointer;
         text-decoration: none;
       }
@@ -142,6 +110,9 @@ ul.panel-list {
   }
 
 }
+
+
+
 
 body.keyboard-on ul.panel-list li a:hover {
   background: transparent;
@@ -165,10 +136,11 @@ input#hidden {
 /* CRM LINKS */
 
 .link-title {
-  color: @white;
+  color: @gray-dark;
   display: inline-block;
+  font-weight: bold;
   margin-left: 0px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .chosen-value {
@@ -202,11 +174,12 @@ input#hidden {
 }
 
 .icon-container {
-  position: absolute;
-  left: 0px;
-  top: 10px;
-  width: 70px;
+//  position: absolute;
+//  left: 0px;
+//  top: 0px;
+  width: 55px;
   //  text-align: right;
+  display: inline-block;
   .icon-item {
       display: inline-block;
       background-position: 14px 14px;
@@ -286,7 +259,6 @@ input#hidden {
     }
   }
 }
-
 
 //
 .status {
@@ -387,10 +359,11 @@ ul.kv-list {
 
 .stealth {
   opacity: 0;
-  width: 0;
-  height: 0;
+  width: 0px;
+  height: 0px;
   font-size: 0px;
   line-height: 0px;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
+  position: absolute;
 }

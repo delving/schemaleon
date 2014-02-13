@@ -5,36 +5,31 @@
 </script>
 
 <script type="text/ng-template" id="panel-line.html">
-    <div class="panel-input line-element">
-        <div data-ng-controller="TextInputController">
-            <div data-ng-if="isEditing(el)">
-                <input el-focus="el" class="form-control" type="text" ng-model="el.value" />
-                <div ng-show="el.invalidMessage">
-                    <span class="label label-important">{{ el | invalidMessage }}</span>
-                    <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
-                          class="badge badge-warning badge-i18n">
-                          <i class="glyphicon glyphicon-globe"></i>
-                    </span>
-                </div>
+    <div class="panel-input line-element editing-{{isEditing(el)}}" data-ng-controller="TextInputController">
+        <div data-ng-if="isEditing(el)">
+            <input el-focus="el" class="form-control" type="text" ng-model="el.value" />
+            <div data-ng-if="el.invalidMessage">
+                <span class="label label-important">{{ el | invalidMessage }}</span>
+                <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
+                      class="badge badge-warning badge-i18n">
+                      <i class="glyphicon glyphicon-globe"></i>
+                </span>
             </div>
-            <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <input class="form-control disabled" type="text" ng-model="el.value" />
-                <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
-            </div>
+        </div>
+        <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
+            <input class="form-control disabled" type="text" ng-model="el.value" /><input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
         </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="panel-paragraph.html">
-    <div class="panel-input paragraph-element">
-        <div class="textarea-input" data-ng-controller="TextInputController">
-            <div data-ng-if="isEditing(el)">
-                <textarea el-focus="el" ng-model="el.value" rows="5" class="form-control"></textarea>
-            </div>
-            <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <textarea class="disabled" ng-model="el.value" rows="5" class="form-control"></textarea>
-                <input el-hidden-focus="el" class="stealth" ng-focus="focusArrived(el, $index, panelIndex)"/>
-            </div>
+    <div class="panel-input paragraph-element" data-ng-controller="TextInputController">
+        <div data-ng-if="isEditing(el)">
+            <textarea el-focus="el" ng-model="el.value" rows="5" class="form-control"></textarea>
+        </div>
+        <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
+            <textarea class="disabled form-control" ng-model="el.value" rows="5" ></textarea>
+            <input el-hidden-focus="el" class="stealth" ng-focus="focusArrived(el, $index, panelIndex)"/>
         </div>
     </div>
 </script>
@@ -93,16 +88,6 @@
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
                     <div class="mime">{{ el | mediaMimeType }}</div>
-                </div>
-                <div class="media-controls">
-                    <!--<button ng-click="enableMediaEditor()" class="btn btn-small" i18n="EditMedia" >-->
-                        <!--<i class="icon-edit"></i>-->
-                        <!--<span class="i18n"></span>-->
-                    <!--</button>-->
-                    <!--<button ng-show="isVideo(el.value.MimeType)" class="btn btn-small" ng-click="openVideoPreview(el)" i18n="PreviewVideo" >-->
-                        <!--<i class="icon icon-film"></i>-->
-                        <!--<span class="i18n"></span>-->
-                    <!--</button>-->
                 </div>
             </div>
         </div>

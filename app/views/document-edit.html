@@ -158,41 +158,40 @@
             </thead>
             <tbody>
             <tr>
-                <td data-ng-repeat="(panelIndex, panel) in panels"
-                    class="level{{$index}} bordered-{{!$first}} panel panel-last-{{$last}}">
-
+                <td data-ng-repeat="(panelIndex, panel) in panels" class="panel panel-last-{{$last}}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
                     <div data-ng-show="panel.element.elements">
-                        <ul class="nav nav-pills nav-stacked panel-list">
-                            <li data-ng-repeat="element in panel.element.elements">
-                                <a href class="level{{ element.classIndex }} link-{{ element.name }}"
+                        <ul class="list-unstyled panel-list">
+                            <li data-ng-repeat="element in panel.element.elements" data-ng-class="level{{ element.classIndex }}">
+                                <div class="icon-container">
+                                    <span class="glyphicon-item status status-{{ element.invalid }}"></span>
+                                    <span data-ng-show="element.config.multiple"
+                                          class="display-{{ element.config.multiple }} icon-item pointer"
+                                          data-ng-click="addSibling(panel.element, $index, panelIndex)">
+                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                    </span>
+                                    <span data-ng-show="element.config.multiple"
+                                          class="display-{{ element.config.multiple }} icon-item pointer"
+                                          data-ng-click="removeSibling(panel.element, $index, panelIndex)">
+                                        <i class="glyphicon glyphicon-minus-sign"></i>
+                                    </span>
+                                </div>
+                                <a href class="link-{{ element.name }}"
                                    data-ng-click="choose($index, $parent.$index)">
                                         <span class="link-title">
                                             {{ element | elementTitle }}
                                             <span data-ng-show="config.showTranslationEditor"
                                                   data-ng-click="openTitleDialog(element)"
                                                   class="badge badge-warning badge-i18n">
-                                                  <i class="glyphicon-translate"></i>
+                                                  <i class="glyphicon glyphicon-globe"></i>
                                             </span>
                                         </span>
                                         <span data-ng-controller="PanelElementController"
-                                              document-navigation="navigationKeyPressed($key)">
-                                            <span ng-include="getPanelEditTemplate(element)"></span>
+                                              document-navigation="navigationKeyPressed($key)"
+                                              ng-include="getPanelEditTemplate(element)">
                                         </span>
                                 </a>
+                                <div class="active-indicator" data-ng-show="$index == panel.choice"></div>
 
-                                <div class="icon-container">
-                                    <span class="glyphicon-item status status-{{ element.invalid }}"></span>
-                                        <span data-ng-show="element.config.multiple"
-                                              class="display-{{ element.config.multiple }} icon-item pointer"
-                                              data-ng-click="addSibling(panel.element, $index, panelIndex)">
-                                            <i class="glyphicon glyphicon-plus-sign"></i>
-                                        </span>
-                                        <span data-ng-show="element.config.multiple"
-                                              class="display-{{ element.config.multiple }} icon-item pointer"
-                                              data-ng-click="removeSibling(panel.element, $index, panelIndex)">
-                                            <i class="glyphicon glyphicon-minus-sign"></i>
-                                        </span>
-                                </div>
                             </li>
                         </ul>
                     </div>

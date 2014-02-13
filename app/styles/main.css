@@ -527,30 +527,20 @@ fieldset[disabled] .btn-on.active {
   -moz-animation-duration: 0.5s;
   animation-duration: 0.5s;
 }
-/* LEVEL COLORS */
-.level0 {
-  background: #000000;
-  background: #222222;
-}
-.level1 {
-  background: #333333;
-}
-.level2 {
-  background: #4f4f4f;
-}
-.level3 {
-  background: #757575;
-}
-.level4 {
-  background: #8e8e8e;
-}
-.level5 {
-  background: #9b9b9b;
-}
 /* DOCUMENT PANELS **************************************/
 #panel-container {
   max-width: 100%;
   overflow-x: auto;
+}
+.active-indicator {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 19px 32.9px 19px 0;
+  border-color: transparent #999999 transparent transparent;
 }
 /* panels table */
 .table-panels {
@@ -560,8 +550,6 @@ fieldset[disabled] .btn-on.active {
   /* panel header */
 
   /* panel body */
-
-  /* panel on right for user input */
 
 }
 .table-panels thead > tr > th {
@@ -575,12 +563,24 @@ fieldset[disabled] .btn-on.active {
   padding-left: 20px;
 }
 .table-panels td.panel {
-  padding: 20px 0 20px 10px;
+  padding: 20px 20px 20px 10px;
   width: 340px;
   min-width: 300px;
   border-top: none;
   border-radius: 0 0 10px 10px;
-  color: #eeeeee;
+  color: #333333;
+}
+.table-panels td.panel.even {
+  background: #dddddd;
+}
+.table-panels td.panel.even .active-indicator {
+  border-color: transparent #ffffff transparent transparent;
+}
+.table-panels td.panel.odd {
+  background: #ffffff;
+}
+.table-panels td.panel.odd .active-indicator {
+  border-color: transparent #dddddd transparent transparent;
 }
 .table-panels input[disabled],
 .table-panels select[disabled],
@@ -589,25 +589,18 @@ fieldset[disabled] .btn-on.active {
 .table-panels select[readonly],
 .table-panels textarea[readonly] {
   cursor: pointer;
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #333333;
+  color: #999999;
 }
 .table-panels label {
-  color: #999999;
+  color: #333333;
 }
 .table-panels input.disabled,
 .table-panels select.disabled,
 .table-panels textarea.disabled {
   cursor: pointer;
-  background-color: #222222;
-  color: #eeeeee;
-}
-.table-panels .panel-input {
-  color: #222222;
-  padding: 0 20px;
-}
-.table-panels .panel-input textarea {
-  width: 95%;
+  background-color: #eeeeee;
+  color: #999999;
 }
 .table-panels .chosen-value {
   background: #eeeeee;
@@ -621,25 +614,22 @@ fieldset[disabled] .btn-on.active {
 .table-panels .contrast {
   color: #adafae;
 }
+.panel.even .active-indicator {
+  border-color: transparent #ffffff transparent transparent;
+}
+.panel.odd .active-indicator {
+  border-color: transparent #eeeeee transparent transparent;
+}
 /* list with element labels */
-ul.panel-list > li > a {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
 ul.panel-list li {
+  padding-bottom: 8px;
   position: relative;
-  padding-left: 50px;
 }
-ul.panel-list li .link-title {
-  color: #ffffff;
-}
-ul.panel-list li a,
-ul.panel-list li label {
-  padding-right: 10px;
+ul.panel-list li .panel-input {
+  margin-left: 60px;
 }
 ul.panel-list li a:hover,
 ul.panel-list li label:hover {
-  background: #999999;
   cursor: pointer;
   text-decoration: none;
 }
@@ -662,10 +652,11 @@ input#hidden {
 }
 /* CRM LINKS */
 .link-title {
-  color: #ffffff;
+  color: #333333;
   display: inline-block;
+  font-weight: bold;
   margin-left: 0px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .chosen-value {
   color: #222222;
@@ -696,10 +687,8 @@ input#hidden {
   margin-bottom: 8px;
 }
 .icon-container {
-  position: absolute;
-  left: 0px;
-  top: 10px;
-  width: 70px;
+  width: 55px;
+  display: inline-block;
 }
 .icon-container .icon-item {
   display: inline-block;
@@ -854,12 +843,13 @@ ul.kv-list li span.value {
 }
 .stealth {
   opacity: 0;
-  width: 0;
-  height: 0;
+  width: 0px;
+  height: 0px;
   font-size: 0px;
   line-height: 0px;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
+  position: absolute;
 }
 .media-upload-controls {
   height: auto;

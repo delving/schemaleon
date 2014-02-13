@@ -280,8 +280,8 @@ OSCR.controller(
                             $rootScope.globalError = null;
                             $modalInstance.close();
                         };
-                        // todo revert button $rootScope.revertDocument();
                         $scope.cancel = function () {
+                            $rootScope.revertDocument();
                             $rootScope.disableChoosePath = false;
                             $rootScope.globalError = null;
                             $modalInstance.dismiss();
