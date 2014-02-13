@@ -120,7 +120,7 @@ OSCR.controller(
 
 //            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
 
-            $scope.allKeysI18N = {};
+            $rootScope.allKeysI18N = {};
 
             $scope.$watch('config.interfaceLanguage', function (newValue, oldValue) {
                 I18N.fetchList(newValue);
