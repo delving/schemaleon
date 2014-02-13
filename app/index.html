@@ -117,7 +117,6 @@
         <div class="viewport row">
             <div class="viewport-left col-md-2" data-ng-show="user">
                 <div class="sidebar-nav">
-
                    <div class="list-group nav-left">
                         <div class="list-group-item-heading user-info">
                             <div class="media">
@@ -209,7 +208,6 @@
                     <div data-ng-include="getInclude()"></div>
                 </div>
             </div>
-            <!--{{ !user }}-->
             <div class="viewport-right" data-ng-class="{'col-md-12' : !user, 'col-md-10' : user }">
                 {{ user.length }}
                 <div class="alert alert-danger fade-in" data-ng-show="globalError">
@@ -231,7 +229,6 @@
 <script src="components/bootstrap/js/alert.js"></script>
 <script src="components/bootstrap/js/collapse.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
-<!--<script src="components/media-elements/js/mediaelement-and-player.js"></script>-->
 <script src="scripts/video-js/video.js"></script>
 <!-- endbuild -->
 
