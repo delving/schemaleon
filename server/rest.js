@@ -326,7 +326,7 @@ Storage('oscr', homeDir, function (storage) {
 
     // all schemas
     app.get('/schema', function (req, res) {
-        res.send(storage.Document.schemaMap);
+        res.send(storage.schemaMap);
     });
 
     // fetch schema
@@ -462,25 +462,26 @@ Storage('oscr', homeDir, function (storage) {
 
     app.get('/data/import/:data/please', function(req, res) {
         var data = req.params.data;
-        var answer;
         switch (data) {
             case 'primary-replace':
-                storage.ETC.loadPrimaryData(true);
-                answer = 'Importing primary data, replacing';
+                storage.ETC.loadPrimaryData(true, function() {
+                    res.send('Imported primary data, replacing');
+                });
                 break;
             case 'primary-new':
-                answer = 'Loading primary data, first time';
-                storage.ETC.loadPrimaryData(false);
+                storage.ETC.loadPrimaryData(false, function() {
+                    res.send('Loaded primary data, first time');
+                });
                 break;
             case 'bootstrap':
-                answer = 'Loading bootstrap data';
-                storage.ETC.loadBootstrapData();
+                storage.ETC.loadBootstrapData(false, function() {
+                    res.send('Loaded bootstrap data');
+                });
                 break;
             default :
-                answer = 'Did not understand: bootstrap, primary-new, primary-replace';
+                res.send('Did not understand: bootstrap, primary-new, primary-replace');
                 break;
         }
-        res.send(answer);
     });
 });
 

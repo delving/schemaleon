@@ -16,7 +16,6 @@ OSCR.service(
         this.fetchSchemaMap = function(accept) {
             $http.get('/schema').success(function (schemaMap) {
                 accept(schemaMap);
-                console.log(schemaMap);
             });
         };
 

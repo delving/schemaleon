@@ -80,12 +80,6 @@ function Storage(home) {
         return "db:add('" + this.database + "', " + xml + ",'" + this.vocabDocument(vocabName) + "')";
     };
 
-    // ========= the following have changed to accommodate shared and primary records
-    this.schemaMap = {
-        primary: [ "Photo", "Film", "Memoriam", "Publication", "Object", "GemondeArchief" ],
-        shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
-    };
-
     this.isGroupSpecific = function(schemaName) {
         if (schemaName == "MediaMetadata") return true;
         return (_.contains(this.schemaMap.primary, schemaName))
@@ -169,8 +163,6 @@ function Storage(home) {
         }
     };
 
-    // =============
-
     this.activityDocument = function () {
         var now = new Date();
         return "/log/activity-" + now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + ".xml";
@@ -206,7 +198,6 @@ function Storage(home) {
     }
 
     this.query = function (message, query, receiver) {
-//        console.log(message || 'no message'); // todo: remove
         query = wrapQuery(query);
         this.session.execute(query, function (error, reply) {
             if (reply.ok) {
@@ -264,10 +255,24 @@ function open(databaseName, homeDir, receiver) {
 
     var storage = new Storage(homeDir);
 
+    function getSchemaMap() {
+        storage.query('get schema map',
+            "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
+            function (schemaMapXml) {
+                storage.schemaMap = {
+                    primary: util.getFromXml(schemaMapXml, 'primary').split(','),
+                    shared: util.getFromXml(schemaMapXml, 'shared').split(',')
+                };
+                console.log('schema map', storage.schemaMap);
+            }
+        );
+    }
+
     storage.session.execute('open ' + databaseName, function (error, reply) {
         storage.database = databaseName;
 
         if (reply.ok) {
+            getSchemaMap();
             receiver(storage);
         }
         else {
@@ -278,8 +283,10 @@ function open(databaseName, homeDir, receiver) {
                             console.error(er);
                         }
                         else {
-                            receiver(storage);
-                            storage.ETC.loadBootstrapData(false);
+                            storage.ETC.loadBootstrapData(false, function() {
+                                getSchemaMap();
+                                receiver(storage);
+                            });
                         }
                     });
                 }

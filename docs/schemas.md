@@ -104,7 +104,7 @@ such as using regular expressions when validating.
 
 * **vocabularyFixed**
 
-	This (currently unimplemented) property indicates that the user will not be allowed to create new entries on-the-fly for this vocabulary.
+	This property indicates that the user will not be allowed to create new entries on-the-fly for this vocabulary, when set to *true*.
 
 * **instance**
 

@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $routeParams, $filter, Person, I18N, Statistics, $modal) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $routeParams, $filter, Document, Person, I18N, Statistics, $modal) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -77,11 +77,6 @@ OSCR.controller(
         };
 
         $scope.recent = [];
-
-        $rootScope.schemaMap =  {
-            primary: [ "Photo", "Film", "Memoriam", "Publication", "Object", "GemondeArchief" ],
-            shared: [ "Location", "Person", "Organization", "HistoricalEvent" ]
-        };
 
         $rootScope.toggleTranslationEditor = function () {
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
@@ -144,68 +139,73 @@ OSCR.controller(
 
             if (!$rootScope.user) return;
 
-            $scope.mainMenuBase = [
-                {name: "Public", path: "/public", icon: 'glyphicon-road', active: false},
-                {name: "Community", path: "/community", icon: 'glyphicon-cog', active: false}
-            ];
+            Document.fetchSchemaMap(function (schemaMap) {
+                $rootScope.schemaMap = schemaMap;
+                console.log('schema map received', schemaMap);
 
-            var user = $rootScope.user;
-            if (user.Membership) {
+                $scope.mainMenuBase = [
+                    {name: "Public", path: "/public", icon: 'glyphicon-road', active: false},
+                    {name: "Community", path: "/community", icon: 'glyphicon-cog', active: false}
+                ];
 
-                if (_.indexOf(['Administrator', 'Member'], user.Membership.Role) >= 0) {
-                    $scope.mainMenuBase.push({name: "MediaUpload", path: "/media", icon: 'glyphicon-upload', active: false});
-                }
+                var user = $rootScope.user;
+                if (user.Membership) {
 
-                Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
-                    $scope.statistics = statistics;
-
-                    function getCountForSchema(statisticList, schemaName) {
-                        var found = _.find($scope.statistics[statisticList].Schema, function (entry) {
-                            return entry.Name == schemaName;
-                        });
-                        if (!found) {
-                            console.log("no stat found for", schemaName);
-                            return 0;
-                        }
-                        return  found.Count;
+                    if (_.indexOf(['Administrator', 'Member'], user.Membership.Role) >= 0) {
+                        $scope.mainMenuBase.push({name: "MediaUpload", path: "/media", icon: 'glyphicon-upload', active: false});
                     }
 
-                    if (user.Membership.GroupIdentifier == 'OSCR') {
-                        $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function (sharedSchema) {
+                    Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
+                        $scope.statistics = statistics;
+
+                        function getCountForSchema(statisticList, schemaName) {
+                            var found = _.find($scope.statistics[statisticList].Schema, function (entry) {
+                                return entry.Name == schemaName;
+                            });
+                            if (!found) {
+                                console.log("no stat found for", schemaName);
+                                return 0;
+                            }
+                            return  found.Count;
+                        }
+
+                        if (user.Membership.GroupIdentifier == 'OSCR') {
+                            $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function (sharedSchema) {
+                                return {
+                                    name: sharedSchema,
+                                    path: "/shared/" + sharedSchema,
+                                    count: getCountForSchema('Shared', sharedSchema),
+                                    icon: 'glyphicon-th-list',
+                                    active: false
+                                };
+                            });
+                        }
+
+                        $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
                             return {
-                                name: sharedSchema,
-                                path: "/shared/" + sharedSchema,
-                                count: getCountForSchema('Shared', sharedSchema),
+                                name: primarySchema,
+                                path: "/primary/" + primarySchema + "/" + user.Membership.GroupIdentifier,
+                                count: getCountForSchema('Primary', primarySchema),
                                 icon: 'glyphicon-th-list',
                                 active: false
                             };
                         });
-                    }
 
-                    $scope.mainMenuPrimary = _.map($rootScope.schemaMap.primary, function(primarySchema) {
-                        return {
-                            name: primarySchema,
-                            path: "/primary/" + primarySchema + "/" + user.Membership.GroupIdentifier,
-                            count: getCountForSchema('Primary', primarySchema),
-                            icon: 'glyphicon-th-list',
-                            active: false
-                        };
+                        var anyActive = false;
+                        _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
+                            if(link){
+                                link.active = ($location.path().indexOf(link.path) != -1);
+                                if (link.active) anyActive = true;
+                            }
+                        });
                     });
-
-                    var anyActive = false;
-                    _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-                        if(link){
-                            link.active = ($location.path().indexOf(link.path) != -1);
-                            if (link.active) anyActive = true;
-                        }
+                }
+                else {
+                    Statistics.getGlobalStatistics(null, function (statistics) {
+                        $scope.statistics = statistics;
                     });
-                });
-            }
-            else {
-                Statistics.getGlobalStatistics(null, function (statistics) {
-                    $scope.statistics = statistics;
-                });
-            }
+                }
+            });
         }
 
         $rootScope.$watch('user', function (user, before) {
@@ -272,16 +272,6 @@ OSCR.controller(
                 $rootScope.setGlobalError('Please save your document first');
                 var modalInstance = $modal.open({
                     templateUrl: 'confirm-save-document.html',
-//                    template: '<div class="modal-header warning">' +
-//                        '<h3 i18n="Warning"><span class="i18n"/></h3>' +
-//                        '</div>' +
-//                        '<div class="modal-body">' +
-//                        '<p i18n="WarningSaveDocumentFirst?"><span class="i18n"/></p>' +
-//                    '</div>' +
-//                        '<div class="modal-footer">' +
-//                        '<button class="btn btn-success" data-ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>' +
-//                        '<button class="btn btn-danger" data-ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>' +
-//                        '</div>',
                     controller: function($scope, $modalInstance) {
                         $scope.whatever = {};
                         $scope.ok = function () {
@@ -549,21 +539,6 @@ OSCR.controller(
         }
     }
 );
-
-OSCR.directive('enterKey', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, elem, attr, ctrl) {
-            elem.bind('keydown', function (e) {
-                if (e.keyCode === 13) {
-                    scope.$apply(function (s) {
-                        s.$eval(attr.enterKey);
-                    });
-                }
-            });
-        }
-    };
-});
 
 // filter either an element or an identifier to pick up thumbmnail
 OSCR.filter('mediaThumbnail',

@@ -147,7 +147,7 @@ P.loadData = function(fsPath, docPath, replace) {
     });
 };
 
-P.loadBootstrapData = function (replace) {
+P.loadBootstrapData = function (replace, done) {
     var dataPath = "../oscr-data";
     if (!fs.existsSync(dataPath)) {
         throw new Error("Cannot find "+dataPath+" for bootstrapping!");
@@ -155,20 +155,20 @@ P.loadBootstrapData = function (replace) {
     dataPath = fs.realpathSync(dataPath);
     this.loadData(dataPath, '', replace);
     console.log('prepared to load bootstrap data');
-    this.satisfyPromise("loading bootstrap data from oscr-data");
+    this.satisfyPromise("loading bootstrap data from oscr-data", done);
 };
 
-P.loadPrimaryData = function(replace) {
+P.loadPrimaryData = function(replace, done) {
     var dataPath = "../oscr-primary-data";
     if (!fs.existsSync(dataPath)) {
         console.log("Cannot find " + dataPath + " for loading primary data.  Skipping.");
     }
     dataPath = fs.realpathSync(dataPath);
     this.loadData(dataPath, '/primary/', replace);
-    this.satisfyPromise("loading primary data from oscr-primary-data replace=" + replace);
+    this.satisfyPromise("loading primary data from oscr-primary-data replace=" + replace, done);
 };
 
-P.satisfyPromise = function(activity) {
+P.satisfyPromise = function(activity, done) {
     if (this.promise) {
         console.log("starting: " + activity);
         var goforit = this.promise;
@@ -176,6 +176,7 @@ P.satisfyPromise = function(activity) {
         goforit.then(
             function () {
                 console.log("done: " + activity);
+                done();
             },
             function (error) {
                 console.error("problem with " + activity + ":" + error);
