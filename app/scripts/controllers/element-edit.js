@@ -20,7 +20,7 @@ OSCR.controller(
 
 OSCR.controller(
     'VocabularyController',
-    function ($scope, $q, Vocabulary, $rootScope) {
+    function ($scope) {
 
         if (!$scope.el.config.vocabulary) {
             return;
@@ -59,6 +59,7 @@ OSCR.controller(
         };
 
         $scope.createNewValue = function () {
+            if ($scope.el.config.vocabularyFixed) return;
             // todo: "are you sure?" question
             var newValue = {
                 "Entry": {
@@ -159,7 +160,7 @@ OSCR.controller(
 
 OSCR.controller(
     'InstanceController',
-    function ($scope, $q, $rootScope) {
+    function ($scope) {
 
         if (!$scope.el.config.instance) {
             return;
