@@ -164,72 +164,89 @@
 <script type="text/ng-template" id="expert-media.html">
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="expert-left-col">
-        <div data-ng-controller="MediaElementController" class="panel-input media-element">
-        <div class="digital-object-input">
-            <div data-ng-show="isEditing(el)" class="media">
-                <div data-ng-show="el.value">
-                    <div class="media-thumbnail">
-                        <img ng-src="{{ el | mediaThumbnail }}" /><br/>
-                        <div class="mime">{{ el | mediaMimeType }}</div>
-                    </div>
-                </div>
-            </div>
-            <div data-ng-show="!isEditing(el)">
-                <div class="chosen-value" tabindex="0">
-                    <div ng-show="!el.value" ng-click="enableMediaEditor(el)">
-                        <span class="btn" i18n="Add"><span class="i18n"/></span>
-                    </div>
+        <div data-ng-controller="MediaElementController">
+            <div class="digital-object-input">
+                <div data-ng-show="isEditing(el)" class="media">
                     <div data-ng-show="el.value">
-                        <div ng-show="el.value" class="media-thumbnail">
-                            <img ng-src="{{ el | mediaThumbnail }}" />
+                        <div class="media-thumbnail">
+                            <img ng-src="{{ el | mediaThumbnail }}" /><br/>
                             <div class="mime">{{ el | mediaMimeType }}</div>
                         </div>
-                        <div class="media-controls">
-                            <button ng-click="enableMediaEditor(el)" class="btn btn-small" i18n="EditMedia">
-                                <i class="icon-edit"></i>
-                                <span class="i18n"></span>
-                            </button>
-                            <button ng-show="isVideo(el)" class="btn btn-small" ng-click="openVideoPreview(el)" i18n="PreviewVideo" >
-                                <i class="icon icon-film"></i>
-                                <span class="i18n"></span>
-                            </button>
+                    </div>
+                </div>
+                <div data-ng-show="!isEditing(el)">
+                    <div class="chosen-value" tabindex="0">
+                        <div ng-show="!el.value" ng-click="enableMediaEditor(el)">
+                            <span class="btn btn-default" i18n="Add"><span class="i18n"/></span>
+                        </div>
+                        <div data-ng-show="el.value">
+                            <div ng-show="el.value" class="media-thumbnail">
+                                <img ng-src="{{ el | mediaThumbnail }}" />
+                                <div class="mime">{{ el | mediaMimeType }}</div>
+                            </div>
+                            <div class="media-controls">
+                                <button ng-click="enableMediaEditor(el)" class="btn btn-small" i18n="EditMedia">
+                                    <i class="icon-edit"></i>
+                                    <span class="i18n"></span>
+                                </button>
+                                <button ng-show="isVideo(el)" class="btn btn-small" ng-click="openVideoPreview(el)" i18n="PreviewVideo" >
+                                    <i class="icon icon-film"></i>
+                                    <span class="i18n"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
     <div class="expert-right-col" ng-if="isEditing(el)">
-        <div data-ng-controller="MediaSearchController" class="expert-media-controls">
-            <tabset>
-                <tab>
-                    <tab-heading>
-                        <span class="nav-tabs" i18n="UploadedFiles" ng-click="refreshImageList()">
+        <div ng-controller="MediaSearchController">
+            <div class="navbar">
+                <div class="btn-group">
+                    <button class="btn btn-default" i18n="RefreshImageList" data-ng-click="refreshImageList()">
+                        <i class="glyphicon glyphicon-refresh"></i>
                         <span class="i18n"/>
-                    </tab-heading>
-                    <div ng-show="mediaList" class="oscr-media-grid">
-                        <ul class="media-thumb-list">
-                            <!--<li data-ng-repeat="entry in mediaList" data-ng-show="entry.Header.Identifier">-->
-                            <li data-ng-repeat="entry in mediaList">
-                                <div class="media-thumb pointer">
-                                    <img id="oscr-media-grid-thumb-{{$index}}"
-                                         ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
-                                         ng-click="setActiveEl(el); setValue(entry)"/>
-                                </div>
-                                <div class="mime">{{ entry | mediaMimeType }}</div>
-                            </li>
-                        </ul>
+                    </button>
+                    <button class="btn btn-primary pull-right" i18n="MediaUpload" data-ng-click="toggleMediaAside()">
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span class="i18n"/>
+                    </button>
+                </div>
+            </div>
+            <div class="media-thumbnails large" ng-show="mediaList">
+                <ul class="list-unstyled list-inline">
+                    <li data-ng-repeat="entry in mediaList" class="pointer">
+                        <div class="media-thumb pointer">
+                            <img id="oscr-media-grid-thumb-{{$index}}"
+                                 ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
+                                 ng-click="setValue(entry)"/>
+                        </div>
+                        <div class="mime">{{ entry | mediaMimeType }}</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div data-ng-controller="MediaUploadController" data-ng-show="mediaAsideActive">
+                <div class="aside-backdrop am-fade" style=""></div>
+                <div class="aside right aside-media" tabindex="-1" role="dialog">
+                    <div class="aside-dialog">
+                        <div class="aside-content">
+                            <div class="aside-header">
+                                <button type="button" class="close" ng-click="toggleMediaAside()">×</button>
+                                <h4 class="aside-title" i18n="MediaUpload"><span class="i18n"/></h4></div>
+                        </div>
+                        <div class="aside-body">
+                            <div data-ng-include="'views/media-lite.html'"></div>
+                        </div>
+                        <div class="aside-footer">
+                            <button type="button" class="btn btn-default" ng-click="toggleMediaAside()" i18n="Close"><span class="i18n"/></button>
+                        </div>
                     </div>
-                </tab>
-                <tab>
-                    <tab-heading>
-                        <span class="nav-tabs" i18n="MediaUpload"><span class="i18n"/></span>
-                    </tab-heading>
-                    <div data-ng-controller="MediaUploadController" data-ng-include="'views/media-lite.html'"></div>
-                </tab>
-            </tabset>
+                </div>
+            </div>
         </div>
+    </div>
     </div>
 
 </script>

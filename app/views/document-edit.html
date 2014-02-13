@@ -79,8 +79,8 @@
         </span>
     </div>
 
-
-    <div class="document-controls">
+    <div class="row">
+    <div class="document-controls col-md-12">
         <ul class="list-unstyled list-inline">
             <li>
                 <a href class="btn btn-primary" data-ng-click="chooseListPath()">
@@ -102,17 +102,12 @@
                 </a>
             </li>
             <li>
-                <small class="document-info">
-                    <ul class="list-unstyled list-inline">
-                        <li>
-                            <strong><span i18n="OwningGroup"><span class="i18n"/></span>:</strong> {{ groupName }}
-                        </li>
-                        <li data-ng-show="header.TimeStamp">
-                            <strong><span i18n="SavedOn"><span class="i18n"/></span>:</strong>
-                            <span data-ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
-                        </li>
-                    </ul>
-                </small>
+                <div class="document-info btn btn-sm">
+                    <strong><span i18n="OwningGroup"><span class="i18n"/></span>:</strong> {{ groupName }}<br/>
+                    <span data-ng-show="header.TimeStamp">
+                        <strong><span i18n="SavedOn"><span class="i18n"/></span>:</strong> {{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
+                    </span>
+                </div>
             </li>
             <li class="pull-right" ng-if="!user.viewer">
                <div class="btn-group">
@@ -143,6 +138,7 @@
             </li>
         </ul>
     </div> <!--document controls-->
+    </div>
 </script>
 
 <script type="text/ng-template" id="panel-array.html">
