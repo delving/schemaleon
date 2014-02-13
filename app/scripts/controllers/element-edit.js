@@ -160,6 +160,14 @@ OSCR.controller(
         $scope.refreshImageList = function () {
             refreshList();
         };
+
+        $scope.mediaAsideActive = false;
+        $scope.toggleMediaAside = function () {
+            $scope.mediaAsideActive = !$scope.mediaAsideActive;
+            if (!$scope.mediaAsideActive) {
+                refreshList();
+            }
+        }
     }
 );
 
