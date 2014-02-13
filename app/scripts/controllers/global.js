@@ -51,7 +51,7 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
-       $rootScope.disableChoosePath = false;
+        $rootScope.disableChoosePath = false;
 
         $rootScope.setDocumentDirty = function(dirty, saveDocument, revertDocument) {
             $rootScope.disableChoosePath = dirty;
