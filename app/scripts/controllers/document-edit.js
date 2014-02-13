@@ -324,7 +324,7 @@ OSCR.controller(
 
         $scope.revertDocument = function() {
             console.log("revertDocument", $scope.header);
-            Document.getDocument($scope.schema, $scope.groupIdentifier, $scope.header.Identifier, function(document) {
+            Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.header.Identifier, function(document) {
                 $scope.useHeader(document.Header);
                 $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
                 freezeTree();
