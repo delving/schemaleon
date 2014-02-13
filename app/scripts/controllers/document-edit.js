@@ -594,10 +594,6 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
     $scope.$watch("tree", function(tree, oldTree) {
         // collect an array of only the media elements
         $scope.mediaElements = tree ? collectMediaElements(tree) : [];
-
-        $scope.transportMedia = function () {
-            return $scope.mediaElements;
-        }
         // trigger media viewer after the mediaElements arrive
         $scope.$watch('mediaElements', function(mediaElements, oldMediaElements){
             // set the intital element
@@ -849,10 +845,11 @@ OSCR.directive('uiVideo', function () {
             '</video></div>',
         link: function (scope, element, attrs) {
 //            if (vp) vp.dispose();
+            vp = videojs('video-' + videoId, {"width": '100%', "height": 400 });
             scope.$on('$destroy', function () {
                 vp.dispose();
             });
-            vp = videojs('video-' + videoId, {"width": '100%', "height": 400 });
+
         }
     };
 });
