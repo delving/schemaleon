@@ -17,7 +17,7 @@
             </div>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <input class="form-control disabled" type="text" ng-model="el.value" /><input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
         </div>
     </div>
 </script>
@@ -28,8 +28,7 @@
             <textarea el-focus="el" ng-model="el.value" rows="5" class="form-control"></textarea>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <textarea class="disabled form-control" ng-model="el.value" rows="5" ></textarea>
-            <input el-hidden-focus="el" class="stealth" ng-focus="focusArrived(el, $index, panelIndex)"/>
+            <textarea class="disabled form-control" rows="5" el-hidden-focus="el" ng-focus="focusArrived(el, $index, panelIndex)">{{ displayValue }}</textarea>
         </div>
     </div>
 </script>
@@ -41,13 +40,8 @@
                 <input el-focus="el" type="text" ng-model="el.searchValue" class="form-control"/>
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-                <div data-ng-show="el.value">
-                    <input type="text" ng-model="el.value.Label" class="form-control disabled"/>
-                </div>
-                <div data-ng-show="!el.value">
-                    <input type="text" value="-" class="form-control disabled"/>
-                </div>
-                <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+                <input type="text" value="{{ displayValue }}" class="form-control disabled"
+                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>
@@ -149,16 +143,13 @@
                 <div data-ng-show="isLinkFacts()" class="link-facts">
                     <h6 class="heading" i18n="LinkFacts"><span class="i18n"/>:</h6>
                         <div data-ng-repeat="linkFact in el.linkFacts">
-                            <span i18n="{{ linkFact.name }}" class="key"><span class="i18n"/></span>:  <span class="value">{{ linkFact.value }}</span></span>
+                            <span i18n="{{ linkFact.name }}" class="key">
+                                <span class="i18n"/></span>:  <span class="value">{{ linkFact.value }}</span>
+                            </span>
                         </div>
                 </div>
-                <div data-ng-show="el.value">
-                    <input type="text" ng-model="el.headerTitle" class="form-control disabled"/>
-                </div>
-                <div data-ng-show="!el.value">
-                    <input type="text" value="-" class="form-control disabled"/>
-                </div>
-                <input el-hidden-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+                <input type="text" value="{{ el.headerTitle }}" class="form-control disabled"
+                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>

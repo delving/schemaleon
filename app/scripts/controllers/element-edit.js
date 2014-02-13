@@ -11,8 +11,12 @@ OSCR.controller(
         }
 
         $scope.$watch('el.value', function (after, before) {
-            if (after) {
+            if (after && after.length) {
                 $scope.valueChanged($scope.el);
+                $scope.displayValue = after;
+            }
+            else {
+                $scope.displayValue = '-';
             }
         });
     }
@@ -35,11 +39,12 @@ OSCR.controller(
 
         $scope.$watch('el.value', function (after, before) {
             $scope.valueChanged($scope.el);
+            $scope.displayValue = after ? after.Label : '-';
         });
         
-        $scope.enableVocabularyEditor = function () {
-            console.log('vocabulary focussed');
-        }
+//        $scope.enableVocabularyEditor = function () {
+//            console.log('vocabulary focussed');
+//        };
     }
 );
 OSCR.controller(
@@ -184,6 +189,7 @@ OSCR.controller(
         };
 
         $scope.$watch('el.value', function (after, before) {
+            $scope.el.headerTitle = "-";
             if ($scope.isLinkFacts()) {
                 $scope.el.linkFacts = _.map(xmlArray($scope.el.value.LinkFact), function (fact) {
                     return {
@@ -195,9 +201,6 @@ OSCR.controller(
             if ($scope.isHeader()) {
                 if ($scope.el.value.Header.SummaryFields) {
                     $scope.el.headerTitle = $scope.el.value.Header.SummaryFields.Title;
-                }
-                else {
-                    $scope.el.headerTitle = "?";
                 }
             }
             $scope.valueChanged($scope.el);
