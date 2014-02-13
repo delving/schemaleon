@@ -272,6 +272,16 @@ OSCR.controller(
                 $rootScope.setGlobalError('Please save your document first');
                 var modalInstance = $modal.open({
                     templateUrl: 'confirm-save-document.html',
+//                    template: '<div class="modal-header warning">' +
+//                        '<h3 i18n="Warning"><span class="i18n"/></h3>' +
+//                        '</div>' +
+//                        '<div class="modal-body">' +
+//                        '<p i18n="WarningSaveDocumentFirst?"><span class="i18n"/></p>' +
+//                    '</div>' +
+//                        '<div class="modal-footer">' +
+//                        '<button class="btn btn-success" data-ng-click="ok()"><span i18n="Save"><span class="i18n"/></span></button>' +
+//                        '<button class="btn btn-danger" data-ng-click="cancel()"><span i18n="DontSave"><span class="i18n"/></button>' +
+//                        '</div>',
                     controller: function($scope, $modalInstance) {
                         $scope.whatever = {};
                         $scope.ok = function () {

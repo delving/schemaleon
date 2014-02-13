@@ -17,7 +17,7 @@
         </span>
 
         <div class="media-body">
-            <ul class="label-list">
+            <ul class="list-unstyled">
                 <li>
                     <label i18n="Name"><span class="i18n"/></label>: {{ userView.Profile.firstName }} {{ userView.Profile.lastName }}
                 </li>
@@ -28,7 +28,7 @@
                     <label i18n="Group"><span class="i18n"/></label>: <a href="/#/people/group/{{userView.group.Identifier}}">{{ userView.group.Name }}</a>
                 </li>
                 <li>
-                    <label i18n="Role"><span class="i18n"/></label>: <span class="label {{ userView.Membership.Role }}">{{ userView.Membership.Role }}</span>
+                    <label i18n="Role"><span class="i18n"/></label>: <span class="label label-{{ userView.Membership.Role }}">{{ userView.Membership.Role }}</span>
                 </li>
             </ul>
         </div>

@@ -30,7 +30,7 @@
                 <div class="widget-body">
                     <select class="form-control" id="list-current-groups">
                         <option>- - - - - - - - - - - - - - - - - - - - - - - - - </option>
-                        <option bindonce ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}" bo-text="group.Name"></option>
+                        <option ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}">{{ group.Name }}</option>
                     </select>
                 </div>
             </div>
