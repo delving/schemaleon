@@ -564,8 +564,7 @@ fieldset[disabled] .btn-on.active {
 }
 .table-panels td.panel {
   padding: 20px 20px 20px 10px;
-  width: 340px;
-  min-width: 300px;
+  min-width: 400px;
   border-top: none;
   border-radius: 0 0 10px 10px;
   color: #333333;

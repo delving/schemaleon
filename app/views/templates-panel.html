@@ -9,7 +9,7 @@
         <div data-ng-if="isEditing(el)">
             <input el-focus="el" class="form-control" type="text" ng-model="el.value" />
             <div data-ng-if="el.invalidMessage">
-                <span class="label label-important">{{ el | invalidMessage }}</span>
+                <span class="label label-warning">{{ el | invalidMessage }}</span>
                 <span ng-show="config.showTranslationEditor" ng-click="openLabelDialog(el.invalidMessage)"
                       class="badge badge-warning badge-i18n">
                       <i class="glyphicon glyphicon-globe"></i>
