@@ -103,6 +103,7 @@
 <script type="text/ng-template" id="panel-media-search.html">
     <div ng-controller="MediaSearchController">
         <div class="navbar">
+            <div class="btn-group">
             <button class="btn btn-default" i18n="RefreshImageList" data-ng-click="refreshImageList()">
                 <i class="glyphicon glyphicon-refresh"></i>
                 <span class="i18n"/>
@@ -111,6 +112,7 @@
                 <i class="glyphicon glyphicon-upload"></i>
                 <span class="i18n"/>
             </button>
+            </div>
         </div>
         <div ng-show="mediaList" class="oscr-media-grid">
             <ul class="media-thumb-list">
