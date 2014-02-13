@@ -120,7 +120,7 @@ OSCR.controller(
 
 //            var lang = ($window.navigator.userLanguage || $window.navigator.language).substring(0,2);
 
-            $scope.allKeysI18N = {};
+            $rootScope.allKeysI18N = {};
 
             $scope.$watch('config.interfaceLanguage', function (newValue, oldValue) {
                 I18N.fetchList(newValue);
@@ -148,11 +148,11 @@ OSCR.controller(
                     },
                     template: '<div class="modal-header"><h3>Label</h3></div>' +
                         '<div class="modal-body">' +
-                        'Translate &quot;<span>{{ key }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
-                        '<input autofocus class="input-block-level" ng-model="label"/>' +
+                        '<label class="i18n-heading">Translate &quot;<span>{{ key }}</span>&quot; into language &quot;<span>{{ lang }}</span>&quot;</label>' +
+                        '<input autofocus class="form-control" ng-model="label"/>' +
                         '</div>' +
                         '<div class="modal-footer">' +
-                        '<button ng-click="close(label)" class="btn btn-primary">Ok</button>' +
+                        '<button ng-click="close(label)" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i> Ok</button>' +
                         '</div>'
 
                 });

@@ -1,35 +1,31 @@
-<div class="row" data-ng-if="mediaElements.length > 1">
-<div class="thumbnail-nav">
-    <div class="col-xs-3" data-ng-repeat="el in mediaElements">
-        <a class="thumbnail" data-ng-click="switchViewSource(el)">
-            <img data-ng-src="{{ el | mediaThumbnail }}" width="100"/><br/>
-            <span class="mime">{{ el | mediaMimeType }}</span>
-        </a>
-    </div>
-</div>
-</div>
 <div class="media-viewer">
-    <div data-ng-if="showImage">
-        <img id="image-viewer" data-ng-src="{{ mediaElement | mediaFile }}"/>
+    <div class="media-thumbnails" data-ng-if="mediaElements.length > 1">
+        <ul class="list-unstyled list-inline">
+            <li data-ng-repeat="el in mediaElements" data-ng-click="switchViewSource(el)" class="pointer">
+                <img data-ng-src="{{ el | mediaThumbnail }}" /><br/>
+                <span class="mime">{{ el | mediaMimeType }}</span>
+            </li>
+        </ul>
     </div>
-    <div data-ng-if="showVideo">
-        <div id="video-container">
-            <video  width="100%" height="100%" style="width:100%; height:100%;" controls="controls">
-                <source type="{{ videoMime }}" ng-src="{{ videoSrc }}" />
-            </video>
+    <div class="media-item">
+        <div data-ng-if="showImage">
+            <img id="image-viewer" data-ng-src="{{ mediaElement | mediaFile }}"/>
         </div>
-    </div>
-    <div data-ng-if="showPdf">{{ pdfUrl }}
-        <div class="row">
-            <div class="btn-group pdf-controls well well-sm" ng-show="totalPages > 1">
-                <button class="btn btn-default btn-sm" ng-click="gotoPage(1)"><i class="glyphicon glyphicon-fast-backward"></i></button>
-                <button class="btn btn-default btn-sm" ng-click="prevPage()"><i class="glyphicon glyphicon-backward"></i></button>
-                <button class="btn btn-default btn-sm" ng-click="nextPage()"><i class="glyphicon glyphicon-forward"></i></button>
-                <button class="btn btn-default btn-sm" ng-click="gotoPage(totalPages)"><i class="glyphicon glyphicon-fast-forward"></i></button>
-                &nbsp;<span class="label label-info" ng-show="totalPages"><i class="glyphicon glyphicon-file"></i> {{currentPage}} / {{totalPages}}</span>
-            </div>
+        <div data-ng-if="showVideo">
+            <div ui-video></div>
         </div>
-        <div class="row">
+        <div data-ng-if="showPdf">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-form">
+                    <div class="btn-group pdf-controls" ng-show="totalPages > 1">
+                        <button class="btn btn-default btn-sm" ng-click="gotoPage(1)"><i class="glyphicon glyphicon-fast-backward"></i></button>
+                        <button class="btn btn-default btn-sm" ng-click="prevPage()"><i class="glyphicon glyphicon-backward"></i></button>
+                        <button class="btn btn-default btn-sm" ng-click="nextPage()"><i class="glyphicon glyphicon-forward"></i></button>
+                        <button class="btn btn-default btn-sm" ng-click="gotoPage(totalPages)"><i class="glyphicon glyphicon-fast-forward"></i></button>
+                    </div>
+                    <span class="badge badge-default pull-right" ng-show="totalPages"><i class="glyphicon glyphicon-file"></i> {{currentPage}} / {{totalPages}}</span>
+                </div>
+            </nav>
             <pdfviewer id="pdf-viewer" src="{{ pdfURL }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
         </div>
     </div>

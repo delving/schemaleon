@@ -1,7 +1,7 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1>Welcome to OSCR <small>The Open Source Collection Registration system</small></h1>
+        <h1 i18n="WelcomeToOscrMain"><span class="i18n"/> <small i18n="WelcomeToOscrSub"><span class="i18n"/></small></h1>
     </div>
 
     <div class="row widget-row home">
@@ -30,7 +30,7 @@
                 <div class="widget-body">
                     <select class="form-control" id="list-current-groups">
                         <option>- - - - - - - - - - - - - - - - - - - - - - - - - </option>
-                        <option bindonce ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}" bo-text="group.Name"></option>
+                        <option ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}">{{ group.Name }}</option>
                     </select>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="thumbnails" data-ng-show="headerList.length">
-            <div data-ng-repeat="header in headerList" class="col-sm-6 col-md-3">
+            <div data-ng-repeat="header in headerList" class="col-md-3">
                 <div class="thumbnail">
                     <a href ng-click="choosePath(header, true)">
                         <div class="media">

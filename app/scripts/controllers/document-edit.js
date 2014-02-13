@@ -587,23 +587,8 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
     // TODO: crossbrowser video support. Only Safari works good
     // sets up the video player
     function intializeVideoPlayer(el) {
-        console.log('video initializing');
         $scope.videoSrc = $filter('mediaFile')(el);
         $scope.videoMime = $filter('mediaMimeType')(el);
-    }
-
-    function switchVideo(){
-        $scope.$watch('videoSrc',function(src){
-            var $target = $('#video-container');
-            $target.html('');
-            var html =  '<video width="460" height="340" style="width:100%; height:100%;" controls="controls">' +
-                '<source src="'+ $scope.videoSrc +'" type="' + $scope.videoMime + '"/>' +
-                '</video>';
-                $timeout(function(){
-                    $target.html(html);
-//                    $('video,audo').mediaelementplayer();
-                },500);
-        });
     }
 
     $scope.$watch("tree", function(tree, oldTree) {
@@ -636,6 +621,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
                     break;
                 case 'application/pdf':
                     $scope.showPdf = true;
+                    showPdf($scope.mediaElement);
                     break;
             }
 
@@ -656,7 +642,6 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
                 }
                 if($rootScope.isVideo(el)){
                     $scope.showVideo = true;
-                    switchVideo();
                     intializeVideoPlayer(el);
                 }
                 if($rootScope.isPdf(el)){
@@ -668,7 +653,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
     });
 
     function showPdf(el){
-        $scope.pdfURL = "";
+//        $scope.pdfURL = "";
         // Set the path for the pdf to get using the mediaFile filter
         $scope.pdfURL = $filter('mediaFile')(el);
 
@@ -713,6 +698,8 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         showPdf($scope.pdfFiles[0]);
     });
 }]);
+
+
 
 OSCR.controller(
     'ViewElementController',
@@ -833,3 +820,37 @@ OSCR.directive('elHiddenFocus',
         };
     }
 );
+
+OSCR.directive('videoPlayer',
+    function () {
+        return {
+            restrict: 'A',
+            link: function($scope, element, attrs){
+                var src = attrs.src;
+                var type = attrs.type;
+                var id = attrs.id;
+                console.log('src', src);
+            }
+        };
+    }
+);
+
+OSCR.directive('uiVideo', function () {
+    var vp; // video player object to overcome one of the angularjs issues in #1352 (https://github.com/angular/angular.js/issues/1352). when the videojs player is removed from the dom, the player object is not destroyed and can't be reused.
+    var videoId = Math.floor((Math.random() * 1000) + 100); // in random we trust. you can use a hash of the video uri
+    return {
+        template: '<div class="video-player">' +
+            '<video ng-src="{{ videoSrc }}" id="video-' + videoId + '" class="video-js vjs-default-skin" controls preload="auto">' +
+            'Your browser does not support the video tag. ' +
+            '</video></div>',
+        link: function (scope, element, attrs) {
+//            if (vp) vp.dispose();
+            vp = videojs('video-' + videoId, {"width": '100%', "height": 400 });
+            scope.$on('$destroy', function () {
+                vp.dispose();
+            });
+
+        }
+    };
+});
+

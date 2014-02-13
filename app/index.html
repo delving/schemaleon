@@ -10,13 +10,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
+    <title>OSCR</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/bootstrap.css"/>
     <!--<link rel="stylesheet" href="style/mediaelements/mediaelementsplayer.css"/>-->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/main.css"/>
     <!-- endbuild -->
     <style>
         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -85,7 +85,7 @@
                     <ul class="nav navbar-nav" id="user-controls" ng-show="user.Membership.Role == 'Administrator'">
                         <li>
                             <a href ng-click="choosePath('/people')" i18n="GroupManagement">
-                                <i class="glyphicon glyphicon-user"></i> <span class="i18n"/>
+                                <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-user"></i> <span class="i18n"/>
                             </a>
                         </li>
                     </ul>
@@ -117,32 +117,34 @@
         <div class="viewport row">
             <div class="viewport-left col-md-2" data-ng-show="user">
                 <div class="sidebar-nav">
-
                    <div class="list-group nav-left">
                         <div class="list-group-item-heading user-info">
                             <div class="media">
-                                <a href data-ng-click="chooseUserPath(user.Identifier)">
-                                    <div class="pull-left">
-                                        <gravatar-image data-email="user.Profile.email" data-size="50" data-default="mm" data-secure="false"></gravatar-image>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="media-heading">
+                                <div class="pull-left">
+                                    <a href data-ng-click="chooseUserPath(user.Identifier)">
+                                        <gravatar-image data-email="user.Profile.email" data-size="32" data-default="mm" data-secure="false"></gravatar-image>
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <div class="media-heading">
+                                        <a href data-ng-click="chooseUserPath(user.Identifier)">
                                             <span>{{ user.Profile.firstName }}</span>
                                             <span>{{ user.Profile.lastName }}</span>
-                                        </div>
-                                        <div data-ng-if="user.group">
-                                            <span i18n="Group" class="strong"><span class="i18n"/></span>: {{
-                                            user.group.Name }}<br/>
-                                            <span class="pull-left label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role }}</span><br/>
-                                        </div>
-                                        <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
-                                            <span class="label i18n"/><br/>
-                                        </div>
-                                        <a href ng-click="logout()" title="" class="btn btn-inverse btn-xs btn-logout" i18n="Logout">
-                                            <i class="glyphicon glyphicon-off"></i> <span class="i18n"/>
                                         </a>
                                     </div>
-                                </a>
+                                    <div data-ng-if="user.group">
+                                        <a ng-href="/#/people/group/{{ user.Membership.GroupIdentifier }}">
+                                            <span i18n="Group" class="strong"><span class="i18n"/></span>:{{ user.group.Name }}
+                                        </a>
+                                        <span class="pull-left label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role }}</span>
+                                    </div>
+                                    <div data-ng-if="!user.group" i18n="NotMemberOfGroup">
+                                        <span class="label i18n"/><br/>
+                                    </div>
+                                    <a href ng-click="logout()" title="" class="btn btn-inverse btn-xs btn-logout" i18n="Logout">
+                                        <i class="glyphicon glyphicon-off"></i> <span class="i18n"/>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <!-- Base links -->
@@ -199,14 +201,15 @@
                                 <i class="glyphicon glyphicon-file"></i>
                                 {{ link | linkTitle }}
                                 <span class="badge badge-important" ng-if="link.leased">
-                                    <i class="icon icon-lock icon-white"></i>
+                                    <i class="glyphicon glyphicon-lock"></i>
                                 </span>
                             </a>
                     </div>
                     <div data-ng-include="getInclude()"></div>
                 </div>
             </div>
-            <div class="viewport-right col-md-10">
+            <div class="viewport-right" data-ng-class="{'col-md-12' : !user, 'col-md-10' : user }">
+                {{ user.length }}
                 <div class="alert alert-danger fade-in" data-ng-show="globalError">
                     {{ globalError }}
                 </div>
@@ -220,14 +223,13 @@
 <script src="components/jquery/jquery.min.js"></script>
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-route/angular-route.js"></script>
-<script src="components/angular-bindonce/bindonce.js"></script>
 <script src="components/underscore/underscore.js"></script>
 <script src="components/angular-cookies/angular-cookies.js"></script>
 <script src="components/x2js/xml2json.js"></script>
-<script src="components/bootstrap/js/bootstrap-alert.js"></script>
-<script src="components/bootstrap/js/bootstrap-collapse.js"></script>
+<script src="components/bootstrap/js/alert.js"></script>
+<script src="components/bootstrap/js/collapse.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
-<!--<script src="components/media-elements/js/mediaelement-and-player.js"></script>-->
+<script src="scripts/video-js/video.js"></script>
 <!-- endbuild -->
 
 <script src="components/pdf-viewer/pdf.compat.js"></script>
@@ -235,10 +237,10 @@
 
 <!-- build:js scripts/oscr.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/public.js"></script>
-<script src="scripts/controllers/people.js"></script>
 <script src="scripts/controllers/global.js"></script>
 <script src="scripts/controllers/i18n.js"></script>
+<script src="scripts/controllers/public.js"></script>
+<script src="scripts/controllers/people.js"></script>
 <script src="scripts/controllers/community.js"></script>
 <script src="scripts/controllers/document-list.js"></script>
 <script src="scripts/controllers/document-edit.js"></script>

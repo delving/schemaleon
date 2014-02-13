@@ -1,15 +1,16 @@
-// Border Radius
+// Border Radius Mixin
 .border-radius(@radius) {
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
   border-radius: @radius;
 }
 
+// Cursor hand
 .pointer {
   cursor: pointer;
 }
 
-// Inverse button style
+// Btn styles
 .btn-inverse {
   .button-variant(@white; @baseLight; @baseLight);
 }
@@ -32,6 +33,8 @@
   }
 }
 
+// Badge styles
+
 .badge-info {
    background: @brand-primary;
 }
@@ -52,6 +55,7 @@
 
 }
 
+// label styles
 .label-Administrator {
   background: @gray-darker !important;
 }
@@ -63,3 +67,28 @@
 .label-Viewer {
   background: @brand-primary!important;
 }
+
+// Alert styles
+
+.alert-login {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+// Jumbotron styles
+
+.jumbotron-login {
+  background: @brand-primary;
+  .border-radius(8px);
+  color: @white;
+}
+
+.i18n-heading {
+  color: @gray;
+  span {
+    color: @gray-dark;
+  }
+}
+
+
+

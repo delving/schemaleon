@@ -4,7 +4,7 @@
         <h1 i18n="Translations"><span class="i18n">Translations</span> "{{ langCode }}"</h1>
     </div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <legend i18n="Unassigned"><span class="i18n"/></legend>
             <div ng-repeat="label in unassigned" class="form-group">
                     <label class="control-label">{{ label.Key }}</label>
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <legend i18n="Labels"><span class="i18n"/></legend>
             <ul class="list-unstyled translations">
                 <div ng-repeat="label in labels" class="form-group">
@@ -34,7 +34,7 @@
             </ul>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <legend i18n="Fields"><span class="i18n"/></legend>
                 <div ng-repeat="element in elements" class="form-group">
                     <label>{{ element.Key }}</label>

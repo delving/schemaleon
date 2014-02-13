@@ -127,7 +127,13 @@ body.full-screen {
   gravatar-image {
     margin-right: 8px;
   }
+  .label {
+    font-size: @font-size-small;
+    margin: 4px 0;
+  }
 }
+
+
 
 //ul.main-menu {
 //  background: @grayLight;
@@ -232,6 +238,10 @@ body.full-screen {
 }
 
 .thumbnail-nav {
+  background: @gray-dark;
+  .border-radius(@border-radius-base);
+  padding: @padding-base-vertical @padding-base-horizontal;
+  .clearfix();
   .thumbnail {
     height: 140px;
     position:relative;
@@ -249,10 +259,46 @@ body.full-screen {
 }
 
 .media-viewer {
-  img, pdfviewer canvas {
+  background: @gray-dark;
+  .border-radius(8px);
+  margin-bottom: @navbar-margin-bottom;
+  padding: 10px;
+  .media-thumbnails {
+    color: @gray-lighter;
+    li {
+      background: @gray-light;
+      text-align: center;
+      vertical-align: middle;
+      width: 80px;
+      height: 100px;
+      padding: 4px 4px 26px 4px;
+      position: relative;
+      margin-right: 1px;
+    }
+    .mime {
+      background: @black;
+      height: 22px;
+      padding: 4px;
+      font-size: 10px;
+      position: absolute;
+      bottom: 0px;
+      right: 0;
+      left: 0;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  .media-item {
+    text-align: center;
+    .navbar {
+      text-align: left;
+    }
+  }
+  img, canvas {
     max-width: 100%;
   }
-
 }
 
 /* DOCUMENT LIST */
@@ -290,6 +336,9 @@ body.full-screen {
   tbody {
     background: @white;
     color: @gray;
+  }
+  ul {
+    margin: 0;
   }
 }
 
@@ -360,13 +409,10 @@ body.full-screen {
 }
 
 .document-metadata {
-   label {
-
-   }
+  background: @white;
+  .border-radius(@border-radius-large);
+  padding: @padding-large-vertical*2 @padding-base-horizontal*2;
 }
-
-
-
 
 /* VOCABUARY / INSTANCES CONTROLS */
 
@@ -485,6 +531,23 @@ body.full-screen {
 .user-management .widget-body {
   min-height: 150px;
 }
+
+/* chat */
+//
+.oscr-chat {
+  .list-chat {
+    margin-bottom: 21px;
+  }
+  .widget-body {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .message-time {
+    font-size: smaller;
+  }
+}
+
+@import "/app/styles/less/video-player.less";
 
 
 
