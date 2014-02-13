@@ -161,13 +161,22 @@ OSCR.controller(
             refreshList();
         };
 
-        $scope.mediaAsideActive = false;
-        $scope.toggleMediaAside = function () {
-            $scope.mediaAsideActive = !$scope.mediaAsideActive;
-            if (!$scope.mediaAsideActive) {
+        $scope.mediaAsideUploadActive = false;
+        $scope.toggleMediaAsideUpload = function () {
+            $scope.mediaAsideUploadActive = !$scope.mediaAsideUploadActive;
+            if (!$scope.mediaAsideUploadActive) {
                 refreshList();
             }
         }
+
+        // todo: implement later
+//        $scope.mediaAsideListActive = false;
+//        $scope.toggleMediaAsideList = function () {
+//            $scope.mediaAsideListActive = !$scope.mediaAsideListActive;
+//            if (!$scope.mediaAsideListActive) {
+//                refreshList();
+//            }
+//        }
     }
 );
 

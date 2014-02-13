@@ -108,13 +108,14 @@
                 <i class="glyphicon glyphicon-refresh"></i>
                 <span class="i18n"/>
             </button>
-            <button class="btn btn-primary pull-right" i18n="MediaUpload" data-ng-click="toggleMediaAside()">
+            <button class="btn btn-primary pull-right" i18n="MediaUpload" data-ng-click="toggleMediaAsideUpload()">
                 <i class="glyphicon glyphicon-upload"></i>
                 <span class="i18n"/>
             </button>
             </div>
         </div>
-        <div class="media-thumbnails large" ng-show="mediaList">
+
+        <div class="media-thumbnails" ng-show="mediaList">
             <ul class="list-unstyled list-inline">
                 <li data-ng-repeat="entry in mediaList" class="pointer">
                     <div class="media-thumb pointer">
@@ -127,20 +128,20 @@
             </ul>
         </div>
 
-        <div data-ng-controller="MediaUploadController" data-ng-show="mediaAsideActive">
+        <div data-ng-controller="MediaUploadController" data-ng-show="mediaAsideUploadActive">
             <div class="aside-backdrop am-fade" style=""></div>
             <div class="aside right aside-media" tabindex="-1" role="dialog">
                 <div class="aside-dialog">
                     <div class="aside-content">
                         <div class="aside-header">
-                            <button type="button" class="close" ng-click="toggleMediaAside()">×</button>
+                            <button type="button" class="close" ng-click="toggleMediaAsideUpload()">×</button>
                             <h4 class="aside-title" i18n="MediaUpload"><span class="i18n"/></h4></div>
                         </div>
                         <div class="aside-body">
                             <div data-ng-include="'views/media-lite.html'"></div>
                         </div>
                         <div class="aside-footer">
-                            <button type="button" class="btn btn-default" ng-click="toggleMediaAside()" i18n="Close"><span class="i18n"/></button>
+                            <button type="button" class="btn btn-default" ng-click="toggleMediaAsideUpload()" i18n="Close"><span class="i18n"/></button>
                         </div>
                     </div>
                 </div>
