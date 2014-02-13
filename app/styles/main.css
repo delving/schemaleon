@@ -1274,6 +1274,13 @@ body.full-screen .viewport-right {
   max-width: 100%;
   max-height: 100%;
 }
+.media-thumbnails.large li {
+  width: 120px;
+  height: 120px;
+}
+.media-thumbnails.large .mime {
+  font-size: 12px;
+}
 /* DOCUMENT LIST */
 .navbar-document-list form {
   margin: 0 0 0 0;
