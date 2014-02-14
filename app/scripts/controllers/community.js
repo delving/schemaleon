@@ -70,9 +70,16 @@ OSCR.controller(
 
         var chatPollPromise;
 
-        function chatPoll() {
+        function chatScroll() {
+            var old = $location.hash();
             $location.hash('chat-bottom');
             $anchorScroll();
+            //reset to old to keep any additional routing logic from kicking in
+            $location.hash(old);
+        }
+
+        function chatPoll() {
+
             if ($scope.chatMessageSend) {
                 Person.publishChatMessage($scope.chatMessage, function (messageList) {
                     $scope.chatMessageSend = false;
@@ -86,6 +93,7 @@ OSCR.controller(
                 });
             }
             chatPollPromise = $timeout(chatPoll, 5000);
+            chatScroll();
         }
         chatPoll();
 
