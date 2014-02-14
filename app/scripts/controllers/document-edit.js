@@ -470,7 +470,6 @@ OSCR.controller(
         $scope.el = $scope.element;
 
         $scope.focusArrived = function(el, index, panelIndex) {
-            console.log('focus arrived', el);
             if (panelIndex > $scope.selectedPanelIndex) {
                 // refuse to skip ahead of selectedPanelIndex, instead cycle to 0
                 $scope.choose(0, $scope.selectedPanelIndex);
