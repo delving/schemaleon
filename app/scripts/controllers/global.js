@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $routeParams, $filter, Document, Person, I18N, Statistics, $modal) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -489,10 +489,11 @@ OSCR.controller(
         };
 
         $rootScope.scrollToTop = function () {
-            var height =  $('body').height();
+            var documentHeight = $($document).height();
+            var scrollHeight = parseInt(documentHeight-50);
             $('html,body').stop().animate({
                 scrollLeft: '+=' + 0,
-                scrollTop: '+=' + -height
+                scrollTop: '+=' + -scrollHeight
             })
         };
 
