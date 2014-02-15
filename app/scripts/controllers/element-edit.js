@@ -132,7 +132,7 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
 );
 
 OSCR.controller(
-    'MediaSearchController',
+    'MediaInputController',
     function ($rootScope, $scope, $q, Document) {
         if ($scope.panel) $scope.el = $scope.panel.element;
         if (!$scope.el.config.media) return;
@@ -147,10 +147,6 @@ OSCR.controller(
             augmented.GroupIdentifier = value.Header.GroupIdentifier;
             $scope.el.value = augmented;
             $scope.setEditing(false);
-        };
-
-        $rootScope.refreshImageList = function () {
-            refreshList();
         };
     }
 );

@@ -181,15 +181,11 @@
         </div>
     </div>
     <div class="expert-right-col">
-        <div ng-controller="MediaSearchController">
-            <div ng-controller="MediaUploadController">
-                <div oscr-media-aside-select></div>
-                <div oscr-media-aside-upload></div>
-            </div>
+        <div ng-controller="MediaController">
+            <div oscr-media-aside-select ng-controller="MediaInputController"></div>
+            <div oscr-media-aside-upload></div>
         </div>
     </div>
-
-
 </script>
 
 <script type="text/ng-template" id="expert-field-documentation.html">

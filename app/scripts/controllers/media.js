@@ -4,7 +4,7 @@
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
-    'MediaUploadController',
+    'MediaController',
     function ($rootScope, $scope, $http, $timeout, $filter, Document) {
 
         $rootScope.checkLoggedIn();
@@ -74,9 +74,6 @@ OSCR.controller(
                 done();
                 // reset the image list;
                 getMedia();
-                // refresh the image list in the media aside
-                // todo: use getMedia functionality in in media aside???
-                $rootScope.refreshImageList();
             });
         };
 
