@@ -20,7 +20,6 @@ OSCR.controller(
         $scope.searchString = '';
         $scope.defaultMaxResults = 12;
         $scope.expectedListLength = $scope.defaultMaxResults;
-        $scope.headerList = [];
         $scope.searchParams = {
             startIndex: 1,
             maxResults: $scope.defaultMaxResults
@@ -60,14 +59,6 @@ OSCR.controller(
         }
 
         searchDocuments();
-
-//        $scope.$watch('searchString', function(searchString, oldSearchString) {
-//            $scope.searchParams.searchQuery = searchString;
-//            $scope.searchParams.startIndex = 1;
-//            $scope.searchParams.maxResults = $scope.defaultMaxResults;
-//            $scope.expectedListLength = $scope.defaultMaxResults;
-//            searchDocuments();
-//        });
 
         $scope.doPublicSearch = function (searchString) {
             $scope.searchParams.searchQuery = searchString;

@@ -140,14 +140,6 @@ OSCR.controller(
         $scope.schema = $scope.el.config.media;
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
 
-        function refreshList() {
-            Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function(list) {
-                $scope.mediaList = list;
-            });
-        }
-
-        refreshList();
-
         $scope.setValue = function (value) {
             // make a copy of the body and add header things to it
             var augmented = angular.copy(value.Body.MediaMetadata);
@@ -157,26 +149,9 @@ OSCR.controller(
             $scope.setEditing(false);
         };
 
-        $scope.refreshImageList = function () {
+        $rootScope.refreshImageList = function () {
             refreshList();
         };
-
-        $scope.mediaAsideUploadActive = false;
-        $scope.toggleMediaAsideUpload = function () {
-            $scope.mediaAsideUploadActive = !$scope.mediaAsideUploadActive;
-            if (!$scope.mediaAsideUploadActive) {
-                refreshList();
-            }
-        }
-
-        // todo: implement later
-//        $scope.mediaAsideListActive = false;
-//        $scope.toggleMediaAsideList = function () {
-//            $scope.mediaAsideListActive = !$scope.mediaAsideListActive;
-//            if (!$scope.mediaAsideListActive) {
-//                refreshList();
-//            }
-//        }
     }
 );
 

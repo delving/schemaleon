@@ -17,7 +17,7 @@
             </div>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex); setEditing(true)"/>
         </div>
     </div>
 </script>
@@ -28,7 +28,7 @@
             <textarea el-focus="el" ng-model="el.value" rows="5" class="form-control"></textarea>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <textarea class="disabled form-control" rows="5" el-hidden-focus="el" ng-focus="focusArrived(el, $index, panelIndex)">{{ displayValue }}</textarea>
+            <textarea class="disabled form-control" rows="5" el-hidden-focus="el" ng-focus="focusArrived(el, $index, panelIndex); setEditing(true)">{{ displayValue }}</textarea>
         </div>
     </div>
 </script>
@@ -41,7 +41,7 @@
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <input type="text" value="{{ displayValue }}" class="form-control disabled"
-                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex); setEditing(true)"/>
             </div>
         </div>
     </div>
@@ -77,81 +77,33 @@
 
 <script type="text/ng-template" id="panel-media.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
-        <div data-ng-show="isEditing(el)" class="digital-object-input">
+        <div class="digital-object-input">
+            <div ng-show="!el.value">
+                <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Add"><span class="i18n"></span></button>
+            </div>
             <div ng-show="el.value" class="media">
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
                     <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
+                <button class="btn btn-default" ng-click="toggleMediaAsideList(true)" i18n="Change"><span class="i18n"></span></button>
             </div>
+
         </div>
-        <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
-            <div class="chosen-value" tabindex="0" i18n="Add">
-                <div ng-show="!el.value" ng-click="enableMediaEditor()">
-                    <span class="btn btn-default"><span class="i18n"></span></span>
-                </div>
-                <div ng-show="el.value" class="media-thumbnail">
-                    <img ng-src="{{ el | mediaThumbnail }}" />
-                    <div class="mime">{{ el | mediaMimeType }}</div>
-                </div>
-            </div>
-        </div>
-        <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+        <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex); setEditing(true)"/>
     </div>
 </script>
 
 <script type="text/ng-template" id="panel-media-search.html">
     <div ng-controller="MediaSearchController">
-        <div class="navbar">
-            <div class="btn-group">
-            <button class="btn btn-default" i18n="RefreshImageList" data-ng-click="refreshImageList()">
-                <i class="glyphicon glyphicon-refresh"></i>
-                <span class="i18n"/>
-            </button>
-            <button class="btn btn-primary pull-right" i18n="MediaUpload" data-ng-click="toggleMediaAsideUpload()">
-                <i class="glyphicon glyphicon-upload"></i>
-                <span class="i18n"/>
-            </button>
-            </div>
-        </div>
-
-        <div class="media-thumbnails" ng-show="mediaList">
-            <ul class="list-unstyled list-inline">
-                <li data-ng-repeat="entry in mediaList" class="pointer">
-                    <div class="media-thumb pointer">
-                        <img id="oscr-media-grid-thumb-{{$index}}"
-                             ng-src="{{ entry.Header.Identifier | mediaThumbnail }}"
-                             ng-click="setValue(entry)"/>
-                    </div>
-                    <div class="mime">{{ entry | mediaMimeType }}</div>
-                </li>
-            </ul>
-        </div>
-
-        <div data-ng-controller="MediaUploadController" data-ng-show="mediaAsideUploadActive">
-            <div class="aside-backdrop am-fade" style=""></div>
-            <div class="aside right aside-media" tabindex="-1" role="dialog">
-                <div class="aside-dialog">
-                    <div class="aside-content">
-                        <div class="aside-header">
-                            <button type="button" class="close" ng-click="toggleMediaAsideUpload()">×</button>
-                            <h4 class="aside-title" i18n="MediaUpload"><span class="i18n"/></h4></div>
-                        </div>
-                        <div class="aside-body">
-                            <div data-ng-include="'views/media-lite.html'"></div>
-                        </div>
-                        <div class="aside-footer">
-                            <button type="button" class="btn btn-default" ng-click="toggleMediaAsideUpload()" i18n="Close"><span class="i18n"/></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div ng-controller="MediaUploadController">
+            <div oscr-media-aside-select></div>
+            <div oscr-media-aside-upload></div>
         </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="panel-instance.html">
-    <!--todo: eric styling-->
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
             <div data-ng-show="isEditing(el)">

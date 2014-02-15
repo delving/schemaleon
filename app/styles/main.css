@@ -1081,6 +1081,9 @@ ul.kv-list li span.value {
 .aside-media {
   width: 500px;
 }
+.aside-media-upload .aside-dialog .aside-header {
+  background: #333333;
+}
 /* BODY */
 body {
   background: #dddddd;
@@ -1245,6 +1248,22 @@ body.full-screen .viewport-right {
 .media-thumbnails {
   color: #eeeeee;
 }
+.media-thumbnails:before,
+.media-thumbnails:after {
+  content: " ";
+  display: table;
+}
+.media-thumbnails:after {
+  clear: both;
+}
+.media-thumbnails:before,
+.media-thumbnails:after {
+  content: " ";
+  display: table;
+}
+.media-thumbnails:after {
+  clear: both;
+}
 .media-thumbnails li {
   background: #999999;
   text-align: center;
@@ -1254,6 +1273,9 @@ body.full-screen .viewport-right {
   padding: 4px 4px 26px 4px;
   position: relative;
   margin-right: 1px;
+}
+.media-thumbnails li:first-of-type {
+  padding: 4px 4px 26px 4px;
 }
 .media-thumbnails .mime {
   background: #000000;

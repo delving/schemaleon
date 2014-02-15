@@ -330,6 +330,27 @@ OSCR.controller(
                 freezeTree();
             });
         };
+
+        $scope.mediaAsideUploadActive = false;
+        $scope.toggleMediaAsideUpload = function () {
+            $scope.mediaAsideUploadActive = !$scope.mediaAsideUploadActive;
+            if (!$scope.mediaAsideUploadActive) {
+                $rootScope.refreshImageList();
+            }
+        }
+
+        // todo: implement later
+        $scope.mediaAsideListActive = false;
+        $scope.toggleMediaAsideList = function (value) {
+            if(value) {
+                $scope.mediaAsideListActive = value;
+                return;
+            }
+            $scope.mediaAsideListActive = !$scope.mediaAsideListActive;
+            if (!$scope.mediaAsideListActive) {
+                $rootScope.refreshImageList();
+            }
+        }
     }
 );
 
@@ -698,6 +719,8 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
         $scope.pdfURL = $filter('mediaFile')($scope.pdfFiles[0]);
         showPdf($scope.pdfFiles[0]);
     });
+
+
 }]);
 
 

@@ -74,7 +74,7 @@ OSCR.controller(
             var old = $location.hash();
             $location.hash('chat-bottom');
             $anchorScroll();
-            //reset to old to keep any additional routing logic from kicking in
+            //reset to old location in order to maintain routing logic
             $location.hash(old);
         }
 

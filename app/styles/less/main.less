@@ -278,6 +278,7 @@ body.full-screen {
 
 .media-thumbnails {
   color: @gray-lighter;
+  .clearfix();
   li {
     background: @gray-light;
     text-align: center;
@@ -287,6 +288,10 @@ body.full-screen {
     padding: 4px 4px 26px 4px;
     position: relative;
     margin-right: 1px;
+    // force padding first-of-type overwrite bootstrap list-unstyled
+    &:first-of-type {
+      padding: 4px 4px 26px 4px;
+    }
   }
   .mime {
     background: @black;

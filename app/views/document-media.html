@@ -1,12 +1,12 @@
 <div class="media-viewer">
     <div class="media-thumbnails" data-ng-if="mediaElements.length > 1">
-        <ul class="list-unstyled list-inline">
-            <li data-ng-repeat="el in mediaElements" data-ng-click="switchViewSource(el)" class="pointer">
-                <img data-ng-src="{{ el | mediaThumbnail }}" /><br/>
-                <span class="mime">{{ el | mediaMimeType }}</span>
-            </li>
-        </ul>
-    </div>
+    <ul class="list-unstyled list-inline">
+        <li data-ng-repeat="el in mediaElements" data-ng-click="switchViewSource(el)" class="pointer">
+            <img data-ng-src="{{ el | mediaThumbnail }}" /><br/>
+            <span class="mime">{{ el | mediaMimeType }}</span>
+        </li>
+    </ul>
+</div>
     <div class="media-item">
         <div data-ng-if="showImage">
             <img id="image-viewer" data-ng-src="{{ mediaElement | mediaFile }}"/>

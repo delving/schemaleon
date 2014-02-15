@@ -16,19 +16,44 @@ OSCR.controller(
             url: '/files/'+$scope.groupIdentifier+'/'
         };
 
-        function fetchCommitted() {
-            Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function (list) {
-                $scope.committedFiles = _.map(list, function (doc) {
-                    // $rootScope.getProperThumbExtension checks file extension.
-                    // For video/audio files the extension will be replaced by .png
-//                    doc.thumbnail = '/media/thumbnail/' + $rootScope.getProperThumbExtension(doc.Header.Identifier);;
+        $scope.mediaList = [];
+        $scope.defaultMaxResults = 20;
+        $scope.expectedListLength = $scope.defaultMaxResults;
+        $scope.searchParams = {
+            startIndex: 1,
+            maxResults: $scope.defaultMaxResults
+        };
+
+        function getMedia() {
+            Document.searchDocuments($scope.schema, $scope.groupIdentifier, $scope.searchParams, function (list) {
+                var mediaList = _.map(list, function(doc) {
                     doc.thumbnail = $filter('mediaThumbnail')(doc.Header.Identifier);
                     doc.date = new Date(parseInt(doc.Header.TimeStamp));
                     return doc;
                 });
+
+                if ($scope.searchParams.startIndex == 1) {
+                    $scope.mediaList = mediaList;
+                }
+                else {
+                    $scope.mediaList = $scope.mediaList.concat(mediaList);
+                }
+
             });
         }
-        fetchCommitted();
+
+        $scope.couldBeMoreMedia = function() {
+            return $scope.mediaList.length == $scope.expectedListLength;
+        };
+
+        $scope.getMoreMedia = function() {
+            $scope.searchParams.startIndex = $scope.mediaList.length + 1;
+            $scope.searchParams.maxResults = $scope.searchParams.maxResults * 2;
+            $scope.expectedListLength = $scope.mediaList.length + $scope.searchParams.maxResults;
+            getMedia();
+        };
+
+        getMedia();
 
         $scope.commitFile = function (file, done) {
             console.log('commit', file);
@@ -47,7 +72,11 @@ OSCR.controller(
             };
             Document.saveDocument(header, body, function (header) {
                 done();
-                fetchCommitted();
+                // reset the image list;
+                getMedia();
+                // refresh the image list in the media aside
+                // todo: use getMedia functionality in in media aside???
+                $rootScope.refreshImageList();
             });
         };
 
@@ -106,3 +135,32 @@ OSCR.controller(
         }
     }
 );
+
+
+OSCR.directive('oscrMediaList', function(){
+    return {
+        restrict: 'E,A',
+        templateUrl: 'template/oscr-media/mediaList.html',
+        replace: false,
+        link: function($scope, $element, $attrs){
+            $scope.gridSize = $attrs.gridSize;
+            $scope.selectMedia = $attrs.selectMedia;
+        }
+    }
+});
+
+OSCR.directive('oscrMediaAsideSelect', function(){
+    return {
+        restrict: 'E,A',
+        templateUrl: 'template/oscr-media/mediaAsideSelect.html',
+        replace: true
+    }
+});
+
+OSCR.directive('oscrMediaAsideUpload', function(){
+    return {
+        restrict: 'A',
+        templateUrl: 'template/oscr-media/mediaAsideUpload.html',
+        replace: true
+    }
+});

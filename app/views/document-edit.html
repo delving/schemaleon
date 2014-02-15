@@ -5,6 +5,7 @@
 <div data-ng-controller="TreeController">
     <div class="tabbable" data-ng-controller="TabController">
         <ul class="nav nav-tabs">
+
             <li ng-class="{ 'active': isTabActive('novice') }" data-ng-hide="user.viewer">
                 <a href="" i18n="Novice" data-ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
             </li>
@@ -205,24 +206,24 @@
 
 <script type="text/ng-template" id="expert-tab.html">
     <div data-ng-controller="ExpertTreeController">
-        <form class="form-expert" ng-if="tree">
+        <div class="form-expert" ng-if="tree">
             <span class="form-header" i18n="{{ schema }}"><span class="i18n"/></span>
             <div data-ng-controller="ExpertSubtreeController" ng-init="setParentEl(tree)" class="form-inner">
                 <div class="row-fluid" data-ng-repeat="(elIndex, el) in parentEl.elements" data-ng-controller="ExpertElementController">
                     <fieldset class="field" ng-include="getExpertEditTemplate(el)"/>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="view-tab.html">
     <div class="row" data-ng-controller="ViewTreeController">
         <div data-ng-controller="ViewElementController">
-            <div class="col-md-6 document-metadata">
+            <div class="col-md-12" ng-class="{ 'col-md-6' : (mediaElements.length > 0) }">
                 <div class="field" data-ng-repeat="el in filterNonMedia(tree.elements)" ng-include="getViewTemplate(el)" data-ng-show="hasValue(el)"></div>
             </div>
-            <div class="col-md-6 document-media">
+            <div class="col-md-6 document-media" data-ng-show="mediaElements.length > 0">
                 <div class="field" ng-include="'views/document-media.html'"></div>
             </div>
         </div>

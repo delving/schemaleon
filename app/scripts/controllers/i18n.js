@@ -221,7 +221,7 @@ OSCR.controller(
                     template: '<div class="modal-header"><h3>Explanation</h3></div>' +
                         '<div class="modal-body">' +
                         'Explain &quot;<span>{{ element.name }}</span>&quot; into language &quot;{{ lang }}&quot;<br/>' +
-                        '<textarea autofocus rows="8" ng-model="doc" class="input-block-level"></textarea>' +
+                        '<textarea autofocus rows="8" ng-model="doc" class="form-control"></textarea>' +
                         '</div>' +
                         '<div class="modal-footer">' +
                         '<button ng-click="close(doc)" class="btn btn-primary">Ok</button>' +
