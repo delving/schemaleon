@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal, $anchorScroll) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -496,6 +496,24 @@ OSCR.controller(
                 scrollTop: '+=' + -scrollHeight
             })
         };
+
+
+        function chatScroll() {
+            var old = $location.hash();
+            $location.hash('chat-bottom');
+            $anchorScroll();
+            //reset to old location in order to maintain routing logic
+            $location.hash(old);
+        }
+
+        $rootScope.scrollTo = function (hash) {
+            console.log('srollTo', hash);
+                var old = $location.hash();
+                $location.hash(hash);
+                $anchorScroll();
+                //reset to old location in order to maintain routing logic
+                $location.hash(old);
+        }
 
         $rootScope.getWindowHeight = function (){
             return $($window).height();

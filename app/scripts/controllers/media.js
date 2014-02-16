@@ -134,7 +134,8 @@ OSCR.controller(
 );
 
 
-OSCR.directive('oscrMediaList', function(){
+OSCR.directive('oscrMediaList', function($document){
+    var viewHeight = $document.height() - 200;
     return {
         restrict: 'E,A',
         templateUrl: 'template/oscr-media/mediaList.html',
@@ -142,6 +143,7 @@ OSCR.directive('oscrMediaList', function(){
         link: function($scope, $element, $attrs){
             $scope.gridSize = $attrs.gridSize;
             $scope.selectMedia = $attrs.selectMedia;
+            $scope.viewHeight = viewHeight+'px';
         }
     }
 });

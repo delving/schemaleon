@@ -94,6 +94,7 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
 
 //       // todo: should not be needed!
         $scope.enableMediaEditor = function (el) {
+            console.log('element-edit.js l.97 enableMediaEditor()', el);
             if (el) $scope.setActiveEl(el);
             $scope.setEditing(true);
         };
@@ -108,19 +109,21 @@ OSCR.controller(
     'MediaInputController',
     function ($rootScope, $scope, $q, Document) {
         if ($scope.panel) $scope.el = $scope.panel.element;
+        console.log('element-edit.js l.111 MediaInpuntController $scope.el', $scope.el);
         if (!$scope.el.config.media) return;
-        console.log($scope.el);
         $scope.schema = $scope.el.config.media;
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
 
         $scope.setValue = function (value) {
+//            console.log('element-edit.js l.117 MediaInputController setValue()', value);
             // make a copy of the body and add header things to it
             var augmented = angular.copy(value.Body.MediaMetadata);
             augmented.Identifier = value.Header.Identifier;
             augmented.GroupIdentifier = value.Header.GroupIdentifier;
             $scope.el.value = augmented;
             $scope.setEditing(false);
-            console.log('set value', value);
+            $scope.toggleMediaAsideList();
+//            console.log('set value', value);
         };
     }
 );
@@ -181,7 +184,7 @@ OSCR.controller(
 
         $scope.showInstanceDetails = function() {
             $scope.instanceDetails = !$scope.instanceDetails;
-            console.log($scope.instanceDetails);
+//            console.log($scope.instanceDetails);
         };
 
         if (!$scope.el.config.instance) {

@@ -26,7 +26,7 @@
                     <span class="badge badge-default pull-right" ng-show="totalPages"><i class="glyphicon glyphicon-file"></i> {{currentPage}} / {{totalPages}}</span>
                 </div>
             </nav>
-            <pdfviewer id="pdf-viewer" src="{{ pdfURL }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer" load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+            <pdfviewer id="pdf-viewer" src="{{ pdfURL }}" on-page-load='pageLoaded(page,total)' id="pdf-viewer"></pdfviewer>
         </div>
     </div>
 </div>

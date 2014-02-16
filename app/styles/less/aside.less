@@ -1,3 +1,21 @@
+@aside-header-height: 50px;
+@aside-toolbar-height: 50px;
+@aside-footer-height: 50px;
+@aside-body-padding: 20px;
+.calcBodyHeight {
+  /* Firefox */
+  height: -moz-calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
+  /* WebKit */
+  height: -webkit-calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
+  /* Opera */
+  height: -o-calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
+  /* Standard */
+  height: calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
+}
+
+
+
+
 .aside .aside-dialog .aside-footer:after, .aside .aside-dialog .aside-footer:before, .btn-group-vertical > .btn-group:after, .btn-group-vertical > .btn-group:before, .btn-toolbar:after, .btn-toolbar:before, .container-fluid:after, .container-fluid:before, .container:after, .container:before, .form-horizontal .form-group:after, .form-horizontal .form-group:before, .modal-footer:after, .modal-footer:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before {
   content: " ";
   display: table
@@ -7,33 +25,33 @@
   clear: both
 }
 
-.alert.top, .alert.top-left, .alert.top-right {
-  position: fixed;
-  top: 50px;
-  z-index: 1050;
-  margin: 20px
-}
-
-.alert.top {
-  right: 0;
-  left: 0
-}
-
-.alert.top-right {
-  right: 0
-}
-
-.alert.top-right .close {
-  padding-left: 10px
-}
-
-.alert.top-left {
-  left: 0
-}
-
-.alert.top-left .close {
-  padding-right: 10px
-}
+//.alert.top, .alert.top-left, .alert.top-right {
+//  position: fixed;
+//  top: 50px;
+//  z-index: 1050;
+//  margin: 20px
+//}
+//
+//.alert.top {
+//  right: 0;
+//  left: 0
+//}
+//
+//.alert.top-right {
+//  right: 0
+//}
+//
+//.alert.top-right .close {
+//  padding-left: 10px
+//}
+//
+//.alert.top-left {
+//  left: 0
+//}
+//
+//.alert.top-left .close {
+//  padding-right: 10px
+//}
 
 .aside {
   z-index: 1049;
@@ -145,7 +163,30 @@
 .aside-media-upload {
   .aside-dialog{
     .aside-header {
+      height: @aside-header-height;
       background: @gray-dark;
+    }
+    .aside-footer {
+      height: @aside-footer-height;
+    }
+  }
+}
+
+.aside-media-select {
+  .aside-dialog{
+    .aside-header {
+      height: @aside-header-height;
+    }
+    .aside-body {
+      .media-thumbnails {
+        display:block;
+        .calcBodyHeight;
+        overflow: hidden;
+        overflow-y: auto;
+      }
+    }
+    .aside-footer {
+      height: @aside-footer-height;
     }
   }
 }

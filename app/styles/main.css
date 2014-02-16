@@ -929,6 +929,20 @@ ul.kv-list li span.value {
     max-width: 80px;
   }
 }
+.calcBodyHeight {
+  /* Firefox */
+
+  height: -moz-calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  /* WebKit */
+
+  height: -webkit-calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  /* Opera */
+
+  height: -o-calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  /* Standard */
+
+  height: calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+}
 .aside .aside-dialog .aside-footer:after,
 .aside .aside-dialog .aside-footer:before,
 .btn-group-vertical > .btn-group:after,
@@ -975,30 +989,6 @@ ul.kv-list li span.value {
 .panel-body:after,
 .row:after {
   clear: both;
-}
-.alert.top,
-.alert.top-left,
-.alert.top-right {
-  position: fixed;
-  top: 50px;
-  z-index: 1050;
-  margin: 20px;
-}
-.alert.top {
-  right: 0;
-  left: 0;
-}
-.alert.top-right {
-  right: 0;
-}
-.alert.top-right .close {
-  padding-left: 10px;
-}
-.alert.top-left {
-  left: 0;
-}
-.alert.top-left .close {
-  padding-right: 10px;
 }
 .aside {
   z-index: 1049;
@@ -1082,7 +1072,34 @@ ul.kv-list li span.value {
   width: 500px;
 }
 .aside-media-upload .aside-dialog .aside-header {
+  height: 50px;
   background: #333333;
+}
+.aside-media-upload .aside-dialog .aside-footer {
+  height: 50px;
+}
+.aside-media-select .aside-dialog .aside-header {
+  height: 50px;
+}
+.aside-media-select .aside-dialog .aside-body .media-thumbnails {
+  display: block;
+  /* Firefox */
+
+  height: -moz-calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  /* WebKit */
+
+  height: -webkit-calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  /* Opera */
+
+  height: -o-calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  /* Standard */
+
+  height: calc(100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2));
+  overflow: hidden;
+  overflow-y: auto;
+}
+.aside-media-select .aside-dialog .aside-footer {
+  height: 50px;
 }
 /* BODY */
 body {

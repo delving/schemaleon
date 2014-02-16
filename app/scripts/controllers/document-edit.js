@@ -237,7 +237,18 @@ OSCR.controller(
         $scope.focusElementArray = [];
         $scope.hiddenFocusElementArray = [];
 
+        $scope.showMediaSelect = false;
+        $scope.toggleMediaAsideList = function (value) {
+            $scope.showMediaSelect = !$scope.showMediaSelect;
+        }
+
+        $scope.showMediaUpload = false;
+        $scope.toggleMediaAsideUpload = function () {
+            $scope.showMediaUpload = !$scope.showMediaUpload;
+        }
+
         $scope.setEditing = function(value) { // must have a function to mutate this primitive
+//            console.log('document-edit.js TreeEditController l.240 setEdititing()', value);
             $scope.editing = value;
         };
 
@@ -301,7 +312,7 @@ OSCR.controller(
         };
 
         $scope.saveDocument = function () {
-            console.log("saveDocument", $scope.header);
+//            console.log("saveDocument", $scope.header);
             collectSummaryFields($scope.tree, $scope.header);
             $scope.header.DocumentState = $scope.headerDocumentState || $scope.header.DocumentState;
             $scope.header.TimeStamp = $scope.blankTimeStamp;
@@ -323,7 +334,7 @@ OSCR.controller(
         };
 
         $scope.revertDocument = function() {
-            console.log("revertDocument", $scope.header);
+//            console.log("revertDocument", $scope.header);
             Document.fetchDocument($scope.schema, $scope.groupIdentifier, $scope.header.Identifier, function(document) {
                 $scope.useHeader(document.Header);
                 $scope.tree = populateTree(angular.copy($scope.cleanTree), document.Body);
@@ -331,15 +342,6 @@ OSCR.controller(
             });
         };
 
-        $scope.showMediaSelect = false;
-        $scope.toggleMediaAsideList = function (value) {
-            $scope.showMediaSelect = !$scope.showMediaSelect;
-        }
-
-        $scope.showMediaUpload = false;
-        $scope.toggleMediaAsideUpload = function () {
-            $scope.showMediaUpload = !$scope.showMediaUpload;
-        }
     }
 );
 
@@ -367,6 +369,7 @@ OSCR.controller(
         });
 
         $scope.setActiveEl = function (el) {
+//            console.log('document-edit.js PanelArrayController l.370 setActiveEl', el);
             $scope.activeEl = el;
             $timeout(function () {
                 var fe;
@@ -419,16 +422,7 @@ OSCR.controller(
                 });
             }
             $scope.panels.splice(panelIndex + 2, 5);
-
-            // slide panels over
-            var scroller = $('#panel-container'),
-                table = $('#panel-table'),
-                wTable = table.width(),
-                leftPos = scroller.scrollLeft();
-
-            scroller.animate({scrollLeft: leftPos + wTable}, 800);
-            $scope.setActiveEl(chosen);
-            $rootScope.scrollToTop();
+            $rootScope.scrollTo('panel-top');
         };
 
         $scope.addSibling = function (parentElement, index, panelIndex) {
@@ -738,6 +732,7 @@ OSCR.controller(
         $scope.activeEl = null;
 
         $scope.setActiveEl = function (el) {
+//            console.log('document-edit.js ExpertTreeController l.741 setActiveEl()', el);
             if ($scope.activeEl === el) return;
             if ($scope.activeEl) {
                 console.log('no longer editing', $scope.activeEl.name);
@@ -829,20 +824,6 @@ OSCR.directive('elHiddenFocus',
                 // add this element to the focus element array and tell it which one it is
                 $scope.el.hiddenFocusElementIndex = $scope.hiddenFocusElementArray.length;
                 $scope.hiddenFocusElementArray.push($element[0]);
-            }
-        };
-    }
-);
-
-OSCR.directive('videoPlayer',
-    function () {
-        return {
-            restrict: 'A',
-            link: function($scope, element, attrs){
-                var src = attrs.src;
-                var type = attrs.type;
-                var id = attrs.id;
-                console.log('src', src);
             }
         };
     }

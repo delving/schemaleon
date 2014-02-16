@@ -70,16 +70,9 @@ OSCR.controller(
 
         var chatPollPromise;
 
-        function chatScroll() {
-            var old = $location.hash();
-            $location.hash('chat-bottom');
-            $anchorScroll();
-            //reset to old location in order to maintain routing logic
-            $location.hash(old);
-        }
 
         function chatPoll() {
-
+//            console.log('chatPoll()');
             if ($scope.chatMessageSend) {
                 Person.publishChatMessage($scope.chatMessage, function (messageList) {
                     $scope.chatMessageSend = false;
@@ -93,18 +86,19 @@ OSCR.controller(
                 });
             }
             chatPollPromise = $timeout(chatPoll, 5000);
-            chatScroll();
+            $rootScope.scrollTo('chat-bottom');
         }
         chatPoll();
 
         $scope.chatSend = function(chatMessage) {
+//            console.log('chatSend');
             $scope.chatMessage = chatMessage;
             if (chatPollPromise) {
                 $timeout.cancel(chatPollPromise);
                 chatPollPromise = null;
             }
             $scope.chatMessageSend = true;
-            chatPoll();
+            $rootScope.scrollTo('chat-bottom');
         };
     }
 );
