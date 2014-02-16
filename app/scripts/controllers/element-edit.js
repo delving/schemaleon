@@ -92,34 +92,7 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
     'MediaElementController',
     function ($rootScope, $scope, $modal, $filter) {
 
-        $scope.openVideoPreview = function (elem) {
-            if ($rootScope.config.showTranslationEditor) return;
-            $scope.videoFile = '';
-            var videoMime = $filter('mediaMimeType')(elem);
-            $scope.videoFile = $filter('mediaFile')(elem);
-            $scope.$watch('videoFile', function () {
-                var modal = $modal.open({
-                    dialogFade: true,
-                    backdrop: true,
-                    fadeBackdrop: true,
-                    controller: function($scope, $modalInstance) {
-                        $scope.close = function () {
-                            $modalInstance.close();
-                        };
-                    },
-                    template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
-                        '<div class="modal-body">' +
-                        '<video width="320" height="240" controls autoplay="true">' +
-                        '<source src="' + $scope.videoFile + '" type="' + videoMime + '" />' +
-                        '</video>' +
-                        '<div class="modal-footer">' +
-                        '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
-                        '</div>'
-                });
-            });
-        };
-
-        // todo: should not be needed!
+//       // todo: should not be needed!
         $scope.enableMediaEditor = function (el) {
             if (el) $scope.setActiveEl(el);
             $scope.setEditing(true);
@@ -136,7 +109,7 @@ OSCR.controller(
     function ($rootScope, $scope, $q, Document) {
         if ($scope.panel) $scope.el = $scope.panel.element;
         if (!$scope.el.config.media) return;
-
+        console.log($scope.el);
         $scope.schema = $scope.el.config.media;
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
 
@@ -147,6 +120,7 @@ OSCR.controller(
             augmented.GroupIdentifier = value.Header.GroupIdentifier;
             $scope.el.value = augmented;
             $scope.setEditing(false);
+            console.log('set value', value);
         };
     }
 );

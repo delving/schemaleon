@@ -1,18 +1,16 @@
-<div data-ng-controller="MediaController" data-ng-show="mediaAsideUploadActive">
-    <div class="aside-backdrop am-fade" style=""></div>
-    <div class="aside left aside-media aside-media-upload" tabindex="-1" role="dialog">
-        <div class="aside-dialog">
-            <div class="aside-content">
-                <div class="aside-header">
-                    <button type="button" class="close" ng-click="toggleMediaAsideUpload()">×</button>
-                    <h4 class="aside-title" i18n="MediaUpload"><span class="i18n"/></h4></div>
-            </div>
-            <div class="aside-body">
-                <div data-ng-include="'views/media-lite.html'"></div>
-            </div>
-            <div class="aside-footer">
-                <button type="button" class="btn btn-default" ng-click="toggleMediaAsideUpload()" i18n="Close"><span class="i18n"/></button>
-            </div>
+<div class="aside-backdrop am-fade" style=""></div>
+<div class="aside left aside-media aside-media-upload" tabindex="-1" role="dialog">
+    <div class="aside-dialog">
+        <div class="aside-content">
+            <div class="aside-header">
+                <button type="button" class="close" ng-click="toggleMediaAsideUpload()">×</button>
+                <h4 class="aside-title" i18n="MediaUpload"><span class="i18n"/></h4></div>
+        </div>
+        <div class="aside-body">
+            <div data-ng-include="'views/media-lite.html'"></div>
+        </div>
+        <div class="aside-footer">
+            <button type="button" class="btn btn-default" ng-click="toggleMediaAsideUpload()" i18n="Close"><span class="i18n"/></button>
         </div>
     </div>
 </div>

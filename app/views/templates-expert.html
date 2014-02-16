@@ -165,25 +165,22 @@
     <div data-ng-include="'expert-field-label.html'"/>
     <div class="expert-left-col">
         <div data-ng-controller="MediaElementController" class="panel-input media-element">
-            <div class="digital-object-input">
-                <div ng-show="!el.value">
-                    <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Add"><span class="i18n"></span></button>
+            <div ng-show="!el.value">
+                <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Add"><span class="i18n"></span></button>
+            </div>
+            <div ng-show="el.value" class="media">
+                <div class="media-thumbnail">
+                    <img ng-src="{{ el | mediaThumbnail }}" /><br/>
+                    <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
-                <div ng-show="el.value" class="media">
-                    <div class="media-thumbnail" ng-click="toggleMediaAsideList()">
-                        <img ng-src="{{ el | mediaThumbnail }}" /><br/>
-                        <div class="mime">{{ el | mediaMimeType }}</div>
-                    </div>
-                    <button class="btn btn-default" ng-click="toggleMediaAsideList(true)" i18n="Change"><span class="i18n"></span></button>
-                </div>
-
+                <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Change"><span class="i18n"></span></button>
             </div>
         </div>
     </div>
     <div class="expert-right-col">
         <div ng-controller="MediaController">
-            <div oscr-media-aside-select ng-controller="MediaInputController"></div>
-            <div oscr-media-aside-upload></div>
+            <div oscr-media-aside-select ng-controller="MediaInputController" ng-show="showMediaSelect"></div>
+            <div oscr-media-aside-upload ng-show="showMediaUpload"></div>
         </div>
     </div>
 </script>

@@ -331,25 +331,14 @@ OSCR.controller(
             });
         };
 
-        $scope.mediaAsideUploadActive = false;
-        $scope.toggleMediaAsideUpload = function () {
-            $scope.mediaAsideUploadActive = !$scope.mediaAsideUploadActive;
-            if (!$scope.mediaAsideUploadActive) {
-                $rootScope.refreshImageList();
-            }
+        $scope.showMediaSelect = false;
+        $scope.toggleMediaAsideList = function (value) {
+            $scope.showMediaSelect = !$scope.showMediaSelect;
         }
 
-        // todo: implement later
-        $scope.mediaAsideListActive = false;
-        $scope.toggleMediaAsideList = function (value) {
-            if(value) {
-                $scope.mediaAsideListActive = value;
-                return;
-            }
-            $scope.mediaAsideListActive = !$scope.mediaAsideListActive;
-            if (!$scope.mediaAsideListActive) {
-                $rootScope.refreshImageList();
-            }
+        $scope.showMediaUpload = false;
+        $scope.toggleMediaAsideUpload = function () {
+            $scope.showMediaUpload = !$scope.showMediaUpload;
         }
     }
 );

@@ -1,16 +1,16 @@
 <div class="media-thumbnails {{gridSize}}">
     <ul class="list-unstyled list-inline">
-        <li data-ng-repeat="doc in mediaList">
+        <li data-ng-repeat="el in mediaList">
             <div class="media-thumb">
                 <img data-ng-if="!selectMedia"
-                     ng-src="{{ doc.thumbnail }}" />
+                     ng-src="{{ el.thumbnail }}" />
 
                 <img data-ng-if="selectMedia"
-                     ng-src="{{ doc.thumbnail }}"
-                     ng-click="setValue(doc)"
+                     ng-src="{{ el.thumbnail }}"
+                     ng-click="setValue(el)"
                      class="pointer"/>
             </div>
-            <div class="mime">{{ doc | mediaMimeType }}</div>
+            <div class="mime">{{ el | mediaMimeType }}</div>
         </li>
     </ul>
 </div>

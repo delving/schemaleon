@@ -150,7 +150,7 @@ OSCR.directive('oscrMediaAsideSelect', function(){
     return {
         restrict: 'E,A',
         templateUrl: 'template/oscr-media/mediaAsideSelect.html',
-        replace: true
+        replace: false
     }
 });
 
@@ -158,6 +158,6 @@ OSCR.directive('oscrMediaAsideUpload', function(){
     return {
         restrict: 'A',
         templateUrl: 'template/oscr-media/mediaAsideUpload.html',
-        replace: true
+        replace: false
     }
 });
