@@ -134,19 +134,7 @@
                     <span class="nav-tabs" i18n="UploadedFiles"><span class="i18n"/></span>
                 </tab-heading>
 
-                <div class="media-thumbnails large">
-                    <ul class="list-unstyled list-inline">
-                        <li data-ng-repeat="doc in committedFiles">
-                            <div class="media-thumb">
-                                <img id="oscr-media-grid-thumb-{{$index}}"
-                                     ng-src="{{ doc.thumbnail }}"
-                                        />
-                            </div>
-                            <div class="mime">{{ doc | mediaMimeType }}</div>
-                        </li>
-                    </ul>
-                </div>
-
+                <div oscr-media-list grid-size="large" display-only="true"></div>
             </tab>
         </tabset>
     </div>

@@ -37,7 +37,7 @@ OSCR.directive('private',
 
 OSCR.controller(
     'GlobalController',
-    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $routeParams, $filter, Document, Person, I18N, Statistics, $modal) {
+    function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal, $anchorScroll) {
 
         // CONFIGURATION SETTINGS ================================================================
 
@@ -489,16 +489,48 @@ OSCR.controller(
         };
 
         $rootScope.scrollToTop = function () {
-            var height =  $('body').height();
+            var documentHeight = $($document).height();
+            var scrollHeight = parseInt(documentHeight-50);
             $('html,body').stop().animate({
                 scrollLeft: '+=' + 0,
-                scrollTop: '+=' + -height
+                scrollTop: '+=' + -scrollHeight
             })
         };
+
+
+        function chatScroll() {
+            var old = $location.hash();
+            $location.hash('chat-bottom');
+            $anchorScroll();
+            //reset to old location in order to maintain routing logic
+            $location.hash(old);
+        }
+
 
         $rootScope.getWindowHeight = function (){
             return $($window).height();
         };
+
+
+        //todo: make better for overflow divs
+        $rootScope.scrollTo = function (options) {
+            var options = options || {};
+            var hash = options.hash || undefined;
+            var element = options.element || undefined;
+            var direction = options.direction || 'up';
+            if(options.hash) {
+                var old = $location.hash();
+                $location.hash(hash);
+                $anchorScroll();
+                $location.hash(old);//reset to old location in order to maintain routing logic (no hash in the url)
+            }
+            if(options.element) {
+//                var scrollElement = angular.element(options.element);
+                var scrollElement = $(options.element);
+                var distance = scrollElement.height();
+                scrollElement.scrollTop(distance);
+            }
+        }
 
         if ($location.host() == 'localhost') {
             var userIdentifier = $cookieStore.get('oscr-user-identifier');

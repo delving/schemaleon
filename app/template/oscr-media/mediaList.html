@@ -1,0 +1,29 @@
+<div class="media-thumbnails {{gridSize}}" ng-style="{height: viewHeight}">
+    <a name="list-top"></a>
+    <ul class="list-unstyled list-inline">
+        <li data-ng-repeat="el in mediaList">
+            <div class="media-thumb">
+                <img data-ng-if="!selectMedia"
+                     ng-src="{{ el.thumbnail }}" />
+
+                <img data-ng-if="selectMedia"
+                     ng-src="{{ el.thumbnail }}"
+                     ng-click="setValue(el)"
+                     class="pointer"/>
+            </div>
+            <div class="mime">{{ el | mediaMimeType }}</div>
+        </li>
+    </ul>
+</div>
+<div class="list-controls">
+    <div class="badge badge-success pointer" data-ng-click="getMoreMedia()" i18n="MoreThan" ng-show="couldBeMoreMedia()">
+        <i class="icon icon-white icon-hand-down"></i>
+        <span class="i18n"></span>
+        <span>{{ mediaList.length }}</span>
+    </div>
+
+    <div class="badge badge-info pointer pull-right" data-ng-click="scrollTo({hash: 'list-top'})" data-ng-show="mediaList.length > defaultMaxResults" i18n="BackToTop">
+        <i class="icon icon-white icon-hand-up"></i>
+        <span class="i18n"/></span>
+    </div>
+</div>

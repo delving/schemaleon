@@ -88,39 +88,12 @@ OSCR.controller(
     }
 );
 
-OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
+OSCR.controller(
     'MediaElementController',
     function ($rootScope, $scope, $modal, $filter) {
 
-        $scope.openVideoPreview = function (elem) {
-            if ($rootScope.config.showTranslationEditor) return;
-            $scope.videoFile = '';
-            var videoMime = $filter('mediaMimeType')(elem);
-            $scope.videoFile = $filter('mediaFile')(elem);
-            $scope.$watch('videoFile', function () {
-                var modal = $modal.open({
-                    dialogFade: true,
-                    backdrop: true,
-                    fadeBackdrop: true,
-                    controller: function($scope, $modalInstance) {
-                        $scope.close = function () {
-                            $modalInstance.close();
-                        };
-                    },
-                    template: '<div class="modal-header"><h3>Video Preview</h3></div>' +
-                        '<div class="modal-body">' +
-                        '<video width="320" height="240" controls autoplay="true">' +
-                        '<source src="' + $scope.videoFile + '" type="' + videoMime + '" />' +
-                        '</video>' +
-                        '<div class="modal-footer">' +
-                        '<button ng-click="close()" class="btn btn-primary">Ok</button>' +
-                        '</div>'
-                });
-            });
-        };
-
-        // todo: should not be needed!
         $scope.enableMediaEditor = function (el) {
+//            console.log('element-edit.js l.97 enableMediaEditor()', el);
             if (el) $scope.setActiveEl(el);
             $scope.setEditing(true);
         };
@@ -132,51 +105,25 @@ OSCR.controller( // TODO: this works inconsistently. IN view now commented out. 
 );
 
 OSCR.controller(
-    'MediaSearchController',
+    'MediaInputController',
     function ($rootScope, $scope, $q, Document) {
         if ($scope.panel) $scope.el = $scope.panel.element;
+//        console.log('element-edit.js l.111 MediaInpuntController $scope.el', $scope.el);
         if (!$scope.el.config.media) return;
-
         $scope.schema = $scope.el.config.media;
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
 
-        function refreshList() {
-            Document.searchDocuments($scope.schema, $scope.groupIdentifier, {}, function(list) {
-                $scope.mediaList = list;
-            });
-        }
-
-        refreshList();
-
         $scope.setValue = function (value) {
+//            console.log('element-edit.js l.117 MediaInputController setValue()', value);
             // make a copy of the body and add header things to it
             var augmented = angular.copy(value.Body.MediaMetadata);
             augmented.Identifier = value.Header.Identifier;
             augmented.GroupIdentifier = value.Header.GroupIdentifier;
             $scope.el.value = augmented;
             $scope.setEditing(false);
+            $scope.toggleMediaAsideList();
+//            console.log('set value', value);
         };
-
-        $scope.refreshImageList = function () {
-            refreshList();
-        };
-
-        $scope.mediaAsideUploadActive = false;
-        $scope.toggleMediaAsideUpload = function () {
-            $scope.mediaAsideUploadActive = !$scope.mediaAsideUploadActive;
-            if (!$scope.mediaAsideUploadActive) {
-                refreshList();
-            }
-        }
-
-        // todo: implement later
-//        $scope.mediaAsideListActive = false;
-//        $scope.toggleMediaAsideList = function () {
-//            $scope.mediaAsideListActive = !$scope.mediaAsideListActive;
-//            if (!$scope.mediaAsideListActive) {
-//                refreshList();
-//            }
-//        }
     }
 );
 
@@ -236,7 +183,7 @@ OSCR.controller(
 
         $scope.showInstanceDetails = function() {
             $scope.instanceDetails = !$scope.instanceDetails;
-            console.log($scope.instanceDetails);
+//            console.log($scope.instanceDetails);
         };
 
         if (!$scope.el.config.instance) {
