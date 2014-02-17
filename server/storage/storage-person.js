@@ -1,4 +1,28 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
+
+/*
+
+    Here we handle the users and their groups.
+
+    Author: Gerald de Jong <gerald@delving.eu>
+
+ */
 
 var util = require('../util');
 
@@ -14,19 +38,8 @@ function log(message) {
 //    console.log(message);
 }
 
-/*
- { isPublic: false,
- firstName: 'Gerald',
- lastName: 'de Jong',
- username: 'gerald', // added in rest.js/authenticate
- email: 'gerald@delving.eu',
- websites: [] }
- */
-
-P.roles = [
-    'Member', 'Administrator'
-];
-
+// given a profile, first look for a user with the given username, but if nobody is found, create a new
+// user document and fill it with the profile information
 P.getOrCreateUser = function (profile, receiver) {
     var s = this.storage;
     var self = this;
@@ -81,6 +94,7 @@ P.getOrCreateUser = function (profile, receiver) {
     );
 };
 
+// get a particular user
 P.getUser = function (identifier, receiver) {
     var s = this.storage;
     s.query('get user ' + identifier,
@@ -89,6 +103,7 @@ P.getUser = function (identifier, receiver) {
     );
 };
 
+// find out which users belong to a given group by querying their Membership
 P.getUsersInGroup = function (identifier, receiver) {
     var s = this.storage;
     s.query('get users in group ' + identifier,
@@ -101,23 +116,7 @@ P.getUsersInGroup = function (identifier, receiver) {
     );
 };
 
-P.getUsers = function (search, receiver) {
-    var s = this.storage;
-    s.query('get users ' + search,
-        [
-            '<Users>',
-            '    { ' + s.userCollection() + '[',
-            '      contains(lower-case(Profile/username), ' + util.quote(search) + ')',
-            '      or contains(lower-case(Profile/email), ' + util.quote(search) + ')',
-            '      or contains(lower-case(Profile/firstName), ' + util.quote(search) + ')',
-            '      or contains(lower-case(Profile/lastName), ' + util.quote(search) + ')',
-            '    ]}',
-            '</Users>'
-        ],
-        receiver
-    );
-};
-
+// get all the users
 P.getAllUsers = function (receiver) {
     var s = this.storage;
     s.query('get all users',
@@ -130,6 +129,7 @@ P.getAllUsers = function (receiver) {
     );
 };
 
+// save a changed group
 P.saveGroup = function (group, receiver) {
     var s = this.storage;
     group.SaveTime = new Date().getTime();
@@ -138,7 +138,6 @@ P.saveGroup = function (group, receiver) {
         group.Identifier = util.generateGroupId();
     }
     var groupXml = util.objectToXml(group, "Group");
-//    console.log('save group', groupXml); // todo
     if (existing) {
         if (group.Identifier == 'OSCR') {
             console.warn("Refuse to update OSCR group");
@@ -155,7 +154,6 @@ P.saveGroup = function (group, receiver) {
         s.query('check group',
             s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
             function(result) {
-//                console.log(group.Name + ' result was '+result);
                 if (result.length == 0) { // text is not found
                     s.add('add group ' + group.Identifier,
                         s.groupDocument(group.Identifier), groupXml,
@@ -170,18 +168,7 @@ P.saveGroup = function (group, receiver) {
     }
 };
 
-P.getGroups = function (search, receiver) {
-    var s = this.storage;
-    s.query('get groups ' + search,
-        [
-            '<Groups>',
-            '    { ' + s.groupCollection() + '[contains(lower-case(Name), lower-case(' + util.quote(search) + '))] }',
-            '</Groups>'
-        ],
-        receiver
-    );
-};
-
+// get a list of all groups
 P.getAllGroups = function (receiver) {
     var s = this.storage;
     s.query('get all groups',
@@ -194,6 +181,7 @@ P.getAllGroups = function (receiver) {
     );
 };
 
+// get a specific group
 P.getGroup = function (identifier, receiver) {
     var s = this.storage;
     s.query('get group ' + identifier,
@@ -202,6 +190,7 @@ P.getGroup = function (identifier, receiver) {
     );
 };
 
+// add a user to a group
 P.addUserToGroup = function (userIdentifier, role, groupIdentifier, receiver) {
     var s = this.storage;
     var addition = userIdentifier + ' ' + role + ' ' + groupIdentifier;
@@ -230,6 +219,7 @@ P.addUserToGroup = function (userIdentifier, role, groupIdentifier, receiver) {
     );
 };
 
+// remove a user from a group
 P.removeUserFromGroup = function (userIdentifier, groupIdentifier, receiver) {
     var s = this.storage;
     var removal = userIdentifier + ' ' + groupIdentifier;

@@ -1,5 +1,21 @@
-#!/usr/bin/env node
-/*
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
+/* ORIGINAL:
+ *
  * jQuery File Upload Plugin Node.js Example 2.1.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
@@ -8,21 +24,17 @@
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
+ *
+ * ============
+ *
+ * This file has been dramatically adjusted to make it work within "express" in the first place
+ * and then also to make it work within OSCR.
+ *
+ * Author of modifications: Gerald de Jong <gerald@delving.eu>
+ *
  */
 
-/*jslint nomen: true, regexp: true, unparam: true, stupid: true */
-/*global require, __dirname, unescape, console */
-
 'use strict';
-
-function log(message, lineNr) {
-    if (!lineNr === "") {
-        console.log('upload.js l.'+lineNr+':', message);
-    }
-    else {
-        console.log('upload.js:', message);
-    }
-}
 
 var fs = require('fs');
 var path = require('path');
@@ -116,9 +128,7 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
 
     this.destroy = function () {
         var handler = this;
-        console.log('destroy', handler.req.url);
         var fileName = path.basename(decodeURIComponent(handler.req.url));
-        console.log('fileName', fileName);
         if (fileName[0] !== '.') {
             fs.unlink(groupFileSystem.mediaUploadDir + '/' + fileName, function (error) {
                 if (error) {
@@ -164,7 +174,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
     };
 
     this.post = function () {
-        console.log('post');
         var handler = this;
         var form = new formidable.IncomingForm();
         var tmpFiles = [], files = [];
@@ -173,7 +182,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
         var redirect;
 
         var finish = function () {
-            console.log('finish');
             counter -= 1;
             if (!counter) {
                 files.forEach(function (fileInfo) {
@@ -209,7 +217,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
                 }
                 fs.renameSync(file.path, groupFileSystem.mediaUploadDir + '/' + fileInfo.name);
                 if (options.imageTypes.test(fileInfo.name)) {
-                    log("thumbing images");
                     Object.keys(options.imageVersions).forEach(function (version) {
                         counter += 1;
                         var opts = options.imageVersions[version];
@@ -227,7 +234,6 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
                 //TODO: PDF AND AUDIO - pdf use first page for thumb, audio -use and icon
                 else {
                     //TODO: allow for other video formats (MOV, VOB ...)
-                    log("thumbing other");
                     Object.keys(options.imageVersions).forEach(function (version) {
                         counter += 1;
                         var opts = options.imageVersions[version];
@@ -247,19 +253,17 @@ var UploadHandler = function (groupFileSystem, req, res, callback) {
             }
         ).on('aborted',
             function () {
-                console.log('aborted');
                 tmpFiles.forEach(function (file) {
                     fs.unlink(file);
                 });
             }
         ).on('error',
             function (e) {
-                console.log(e);
+                console.error(e);
             }
         ).on('progress',
             function (bytesReceived, bytesExpected) {
                 if (bytesReceived > options.maxPostSize) {
-                    console.log('DESTROY');
                     handler.req.connection.destroy();
                 }
             }

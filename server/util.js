@@ -1,7 +1,33 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
+/*
+
+    This utils class contains a bunch of functions which are used in various places
+    on the server side.
+
+    Author: Gerald de Jong <gerald@delving.eu>
+
+ */
+
 'use strict';
 
 var _ = require('underscore');
 
+// generate an id with a given prefix
 module.exports.generateId = function (prefix) {
     var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
     var randomNumber = Math.floor(Math.random() * 36 * 36 * 36);
@@ -12,32 +38,39 @@ module.exports.generateId = function (prefix) {
     return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + randomString;
 };
 
+// generate a user identifier
 module.exports.generateUserId = function () {
     return this.generateId('US');
 };
 
+// generate a group identifier
 module.exports.generateGroupId = function () {
     return this.generateId('GR');
 };
 
+// generate a document identifier
 module.exports.generateDocumentId = function (schemaName) {
     return this.generateId(schemaName);
 };
 
+// generated a vocabulary identifier
 module.exports.generateVocabId = function () {
     return this.generateId('VO');
 };
 
+// make sure that anything that is to be a XQuery literal is properly quoted, and quotes within are escaped
 module.exports.quote = function (value) {
     if (!value) return "''";
     return "'" + value.replace(/'/g, "\'\'") + "'";
 };
 
+// make sure that something within an XML string is not going to screw up the XML tags
 module.exports.inXml = function (value) {
     if (!value) return '';
     return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 };
 
+// a rather naive way to extract a bit of text between XML tags from an XML string
 module.exports.getFromXml = function (xml, tag) {
     if (xml) {
         var start = xml.indexOf('<' + tag + '>');
@@ -52,6 +85,7 @@ module.exports.getFromXml = function (xml, tag) {
     return '';
 };
 
+// naively convert a JSON object to XML
 module.exports.objectToXml = function (object, tag) {
     var s = this.storage;
     var self = this;
@@ -96,6 +130,7 @@ module.exports.objectToXml = function (object, tag) {
     return out.join('\n');
 };
 
+// get the preferred file name extension given a namespace
 module.exports.getExtensionFromMimeType = function(mimeType) {
     var extension;
     switch (mimeType) {
@@ -122,6 +157,7 @@ module.exports.getExtensionFromMimeType = function(mimeType) {
     return extension;
 };
 
+// derive the mime type of a file from its extension
 module.exports.getMimeTypeFromFileName = function(fileName) {
     var mimeType;
     switch(path.extname(fileName)) {
@@ -150,34 +186,43 @@ module.exports.getMimeTypeFromFileName = function(fileName) {
     return mimeType;
 };
 
-module.exports.thumbNameProper = function (thumbName)  {
-    var nameProper= thumbName;
-    if (thumbName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
-        nameProper = thumbName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
+// get the proper thumbnail file name for a given file name
+module.exports.thumbNameProper = function (fileName)  {
+    if (fileName.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
+        return fileName.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
     }
-    return nameProper;
+    else {
+        return fileName;
+    }
 };
 
+// our standard thumbnail extension is jpeg
 module.exports.thumbnailExtension = '.jpg';
 
+// our standard thumbnail mime type
 module.exports.thumbnailMimeType = 'image/jpeg';
 
+// send an error back in a request
 module.exports.sendError = function(res, status, error) {
     res.status(status).send("<Error>"+error+"</Error>");
 };
 
+// send a polite 200 error, nothing really wrong, just saying
 module.exports.sendErrorMessage = function(res, error) {
     this.sendError(res, 200, error);
 };
 
+// indicate that permission is denied here
 module.exports.sendPermissionDenied = function(res, error) {
     this.sendError(res, 403, error);
 };
 
+// internal problem
 module.exports.sendServerError = function(res, error) {
     this.sendError(res, 500, error);
 };
 
+// wrap the action in an authorization check so that only users in certain roles can do certain things
 module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, res, action) {
     if (!req.session) {
         console.error('no session for '+groupIdentifier);
@@ -195,6 +240,7 @@ module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, re
     }
 };
 
+// only allow the action to be performed by gods
 module.exports.authenticatedGod = function(req, res, action) {
     this.authenticatedGroup('OSCR', ['Administrator'], req, res, action);
 };

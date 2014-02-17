@@ -1,4 +1,26 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
+
+/*
+
+ Author: Gerald de Jong <gerald@delving.eu>
+
+ */
 
 var fs = require('fs');
 var path = require('path');
@@ -16,6 +38,9 @@ var P = Media.prototype;
 function log(message) {
     console.log('storage-media.js: ', message);
 }
+
+// save a media object, which involves adopting the file into the media file system directories.  only after that
+// is finished can we execute the callback so that the actual MediaMetadata document can be stored
 
 P.saveMedia = function (header, body, receiver) {
     console.log('saveMedia', header, body);
@@ -49,6 +74,7 @@ P.saveMedia = function (header, body, receiver) {
     }
 };
 
+// only for testing
 P.listMediaFilesForTesting = function (groupIdentifier, done) {
     function walk(dir, done) {
         var results = [];

@@ -1,4 +1,29 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
+
+/*
+
+    This is for the leftovers.  Compose a nice query to get statistics, take snapshots, and take
+    care of importing bootstrap data.
+
+    Author: Gerald de Jong <gerald@delving.eu>
+
+ */
 
 var _ = require('underscore');
 var fs = require('fs');
@@ -53,6 +78,7 @@ P.getStatistics = function (groupIdentifier, receiver) {
     s.query('get statistics', q, receiver);
 };
 
+// come up with a good name for a snapshot archive
 P.snapshotName = function() {
     var now = new Date();
     var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +
@@ -60,6 +86,7 @@ P.snapshotName = function() {
     return 'OSCR-Snapshot-' + dateString + '.tgz';
 };
 
+// create a snapshot by dumping the database to a directory and then tar gzipping it up
 P.snapshotCreate = function (fileName, receiver) {
     var s = this.storage;
     var match = fileName.match(/(.*)\.tgz/);
@@ -93,6 +120,7 @@ P.snapshotCreate = function (fileName, receiver) {
     })
 };
 
+// show something counting while loading bootstrap data
 P.incrementLoadCount = function() {
     this.dataLoadCount = this.dataLoadCount + 1;
     if (this.dataLoadCount % 100 == 0) {
@@ -100,6 +128,7 @@ P.incrementLoadCount = function() {
     }
 };
 
+// create a promise to load something
 P.loadPromise = function(filePath, docPath, replace) {
     var self = this;
     var s = this.storage;
@@ -124,6 +153,7 @@ P.loadPromise = function(filePath, docPath, replace) {
     return deferred.promise;
 };
 
+// create a whole bunch of promises to load things recursively in a whole directory
 P.loadData = function(fsPath, docPath, replace) {
     var self = this;
     var extension = ".xml";
@@ -147,6 +177,7 @@ P.loadData = function(fsPath, docPath, replace) {
     });
 };
 
+// load bootstrap data from oscr-data
 P.loadBootstrapData = function (replace, done) {
     var dataPath = "../oscr-data";
     if (!fs.existsSync(dataPath)) {
@@ -158,6 +189,7 @@ P.loadBootstrapData = function (replace, done) {
     this.satisfyPromise("loading bootstrap data from oscr-data", done);
 };
 
+// load primary data from oscr-primary-data
 P.loadPrimaryData = function(replace, done) {
     var dataPath = "../oscr-primary-data";
     if (!fs.existsSync(dataPath)) {
@@ -168,6 +200,7 @@ P.loadPrimaryData = function(replace, done) {
     this.satisfyPromise("loading primary data from oscr-primary-data replace=" + replace, done);
 };
 
+// after all the promises have been made, here we actually make sure things get done
 P.satisfyPromise = function(activity, done) {
     if (this.promise) {
         console.log("starting: " + activity);

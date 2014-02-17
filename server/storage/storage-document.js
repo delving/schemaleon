@@ -1,4 +1,28 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
+
+/*
+
+    Here we take care of saving and searching for documents of all kinds, primary or shared.
+
+    Author: Gerald de Jong <gerald@delving.eu>
+
+ */
 
 var _ = require('underscore');
 var util = require('../util');
@@ -15,6 +39,7 @@ function log(message) {
 //    console.log('storage-document.js: ', message);
 }
 
+// fetch a schema
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
     s.query('get document schema ' + schemaName,
@@ -22,6 +47,16 @@ P.getDocumentSchema = function (schemaName, receiver) {
         receiver
     );
 };
+
+// search the documents, sometimes globally sometimes specifically, depending on the params.
+//
+// Params:
+//    searchQuery - what are we searching for
+//    wildcards - if you want to search for wildcards too, the default is using stemming
+//    startIndex, maxResults - what to return and how much
+//    schemaName - optionally searching for docs from a given schema
+//    groupIdentifier - optionally searching docs from a given group
+//
 
 P.searchDocuments = function (params, receiver) {
 
@@ -63,6 +98,7 @@ P.searchDocuments = function (params, receiver) {
     s.query('select documents: ' + JSON.stringify(params), q, receiver);
 };
 
+// get a particular document
 P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
     var s = this.storage;
     s.query('get document ' + identifier + ' ' + schemaName + ' ' + groupIdentifier,
@@ -71,6 +107,7 @@ P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
     );
 };
 
+// wrap a media doc so that it's a proper reply to the client
 function wrapMediaDoc(doc) {
     return {
         identifier: util.getFromXml(doc, 'Identifier'),
@@ -80,6 +117,7 @@ function wrapMediaDoc(doc) {
     }
 }
 
+// get a media document, which is a special kind of search using a schema name and identifier
 P.getMediaDocument = function(groupIdentifier, identifier, receiver) {
     var s = this.storage;
     var schemaName = 'MediaMetadata';
@@ -114,6 +152,10 @@ P.getMediaDocument = function(groupIdentifier, identifier, receiver) {
     }
 };
 
+// save a document.  this is fairly complicated because it does some substitution of values in XML when identifiers
+// are invented, or things are timestamped, and it also treats MediaMetadata documents specially
+// by triggering functions in storage-media.js
+
 P.saveDocument = function (envelope, receiver) {
     var s = this.storage;
     var IDENTIFIER = '#IDENTIFIER#';
@@ -126,9 +168,6 @@ P.saveDocument = function (envelope, receiver) {
         console.log('Should eventually trigger git add/commit');
     }
 
-//    console.log('savedoc: header', header); // todo
-//    console.log('savedoc: body', body); // todo
-
     if (!header.GroupIdentifier) {
         reportError('No group identifier');
         return;
@@ -137,7 +176,6 @@ P.saveDocument = function (envelope, receiver) {
     if (header.Identifier === IDENTIFIER) {
         if (header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
-//            console.log('savedoc: save media'); // todo
             s.Media.saveMedia(header, body, function (base, extension, error) {
                 console.log('save media returns ', base, extension, error); // todo
                 if (error) {
@@ -180,7 +218,6 @@ P.saveDocument = function (envelope, receiver) {
             s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
             xml,
             function(header) {
-//                console.log('savedoc: add document header is', header); // todo
                 triggerGitCommit();
                 receiver(header, null);
             }

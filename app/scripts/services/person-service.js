@@ -31,12 +31,6 @@ angular.module('OSCR').service(
             });
         };
 
-//        this.selectUsers = function (query, accept) {
-//            $http.get('/person/user/select', {params: {q: query}}).success(function (xml) {
-//                accept(xmlToArray(xml));
-//            });
-//        };
-
         this.getUser = function (identifier, accept) {
             $http.get('/person/user/fetch/' + identifier).success(function (xml) {
                 accept(xmlToObject(xml).User);
@@ -45,12 +39,6 @@ angular.module('OSCR').service(
 
         this.getAllUsers = function(accept){
             $http.get('/person/user/all').success(function (xml) {
-                accept(xmlToArray(xml));
-            });
-        };
-
-        this.selectGroups = function (query, accept) {
-            $http.get('/person/group/select', {params: {q: query}}).success(function (xml) {
                 accept(xmlToArray(xml));
             });
         };

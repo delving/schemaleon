@@ -1,4 +1,29 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
+
+/*
+
+    Here we handle the vocabularies, which is a very free system that creates vocabularies
+    on the fly when they are not found.
+
+    Author: Gerald de Jong <gerald@delving.eu>
+
+ */
 
 var _ = require('underscore');
 var util = require('../util');
@@ -12,26 +37,10 @@ function Vocab(storage) {
 var P = Vocab.prototype;
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
-// for now, all vocabulary schemas are just Identifier/Label
-//P.getVocabularySchema = function (vocabName, receiver) {
-//    var s = this.storage;
-//    s.query('get vocabulary schema ' + vocabName,
-//        [
-//            '<' + vocabName + '>',
-//            "  <Entry>{ doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/text() }",
-//            '  <Label/>',
-//            '  <Identifier/>',
-//            "  { doc('" + s.database + "/Schemas.xml')/Schemas/Vocabulary/" + vocabName + "/* }",
-//            '  </Entry>',
-//            '</' + vocabName + '>'
-//        ],
-//        receiver
-//    );
-//};
-
+// add an entry to a given vocabulary
 P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var s = this.storage;
     var vocab = this;
@@ -73,6 +82,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
     }
 };
 
+// get a particular vocabulary entry
 P.getVocabularyEntry = function (vocabName, identifier, receiver) {
     var s = this.storage;
     s.query('get vocab entry',
@@ -81,6 +91,7 @@ P.getVocabularyEntry = function (vocabName, identifier, receiver) {
     );
 };
 
+// search through a vocabulary for an entry
 P.getVocabularyEntries = function (vocabName, search, receiver) {
     var s = this.storage;
     s.query('fetch',
@@ -99,6 +110,7 @@ P.getVocabularyEntries = function (vocabName, search, receiver) {
     );
 };
 
+// get an entire vocabulary, all the entries
 P.getVocabulary = function (vocabName, receiver) {
     var s = this.storage;
     s.query(null,
