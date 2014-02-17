@@ -98,6 +98,7 @@ OSCR.controller(
                 chatPollPromise = null;
             }
             $scope.chatMessageSend = true;
+            chatPoll();
             $rootScope.scrollTo('chat-bottom');
         };
     }

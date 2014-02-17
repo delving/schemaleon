@@ -507,7 +507,7 @@ OSCR.controller(
         }
 
         $rootScope.scrollTo = function (hash) {
-            console.log('srollTo', hash);
+//            console.log('srollTo', hash);
                 var old = $location.hash();
                 $location.hash(hash);
                 $anchorScroll();
