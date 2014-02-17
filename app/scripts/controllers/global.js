@@ -506,21 +506,14 @@ OSCR.controller(
             $location.hash(old);
         }
 
-        $rootScope.scrollTo = function (hash) {
-//            console.log('srollTo', hash);
-                var old = $location.hash();
-                $location.hash(hash);
-                $anchorScroll();
-                //reset to old location in order to maintain routing logic
-                $location.hash(old);
-        }
 
         $rootScope.getWindowHeight = function (){
             return $($window).height();
         };
 
+
+        //todo: make better for overflow divs
         $rootScope.scrollTo = function (options) {
-            console.log('scrollTo options', options);
             var options = options || {};
             var hash = options.hash || undefined;
             var element = options.element || undefined;
@@ -532,17 +525,10 @@ OSCR.controller(
                 $location.hash(old);//reset to old location in order to maintain routing logic (no hash in the url)
             }
             if(options.element) {
-                var scrollElement = angular.element(options.element);
-                console.log('scrollHeight', scrollElement.height());
-                if (options.direction == 'up'){
-                    scrollElement.scrollTop = scrollElement.height();
-                }
-                if (options.direction == 'down'){
-
-                    scrollElement.scrollTop = scrollElement.height();
-                }
-
-
+//                var scrollElement = angular.element(options.element);
+                var scrollElement = $(options.element);
+                var distance = scrollElement.height();
+                scrollElement.scrollTop(distance);
             }
         }
 

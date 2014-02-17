@@ -1537,8 +1537,8 @@ body.full-screen .viewport-right {
 .oscr-chat .list-chat {
   margin-bottom: 21px;
 }
-.oscr-chat .widget-body {
-  max-height: 200px;
+.oscr-chat .message-list {
+  height: 200px;
   overflow-y: auto;
 }
 .oscr-chat .message-time {

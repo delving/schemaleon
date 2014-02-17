@@ -73,6 +73,7 @@ OSCR.controller(
 
         function chatPoll() {
 //            console.log('chatPoll()');
+            $rootScope.scrollTo({element:'.message-list', direction: 'down'});
             if ($scope.chatMessageSend) {
                 Person.publishChatMessage($scope.chatMessage, function (messageList) {
                     $scope.chatMessageSend = false;
@@ -86,7 +87,7 @@ OSCR.controller(
                 });
             }
             chatPollPromise = $timeout(chatPoll, 5000);
-            $rootScope.scrollTo('chat-bottom');
+
         }
         chatPoll();
 
@@ -99,7 +100,7 @@ OSCR.controller(
             }
             $scope.chatMessageSend = true;
             chatPoll();
-            $rootScope.scrollTo('chat-bottom');
+            $rootScope.scrollTo({element:'.message-list', direction: 'down'});
         };
     }
 );

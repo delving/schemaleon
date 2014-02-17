@@ -108,7 +108,7 @@ OSCR.controller(
     'MediaInputController',
     function ($rootScope, $scope, $q, Document) {
         if ($scope.panel) $scope.el = $scope.panel.element;
-        console.log('element-edit.js l.111 MediaInpuntController $scope.el', $scope.el);
+//        console.log('element-edit.js l.111 MediaInpuntController $scope.el', $scope.el);
         if (!$scope.el.config.media) return;
         $scope.schema = $scope.el.config.media;
         $scope.groupIdentifier = $rootScope.userGroupIdentifier();
