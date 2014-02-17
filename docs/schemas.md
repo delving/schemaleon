@@ -96,6 +96,12 @@ Note that the stored document will simply omit blocks and fields which are not u
 	The name of the validation strategy to be used for this field.  There is a mechanism in place for creating validator strategies using Javascript code.  This makes it easy to have the user inteface in the browser to do the work of analyzing inputs and reporting back to the user what the problem currently is. The result will be immediately responsive in the user interaction, and Javascript has excellent support for many string evaluation and manipulations,
 such as using regular expressions when validating.
 
+### Cache Property
+
+* **summaryField**
+
+	True if you want this field to become part of the document header which is stored alongside the document's data and is shown in the document list. Upon saving a document, the *SummaryFields* block of the header is created by harvesting the contents of the fields marked by this property.
+
 ### Link Properties
 
 * **vocabulary**
@@ -104,31 +110,80 @@ such as using regular expressions when validating.
 
 * **vocabularyFixed**
 
-	This property indicates that the user will not be allowed to create new entries on-the-fly for this vocabulary, when set to *true*.
+	This property indicates that the user will not be allowed to create new entries on-the-fly for this vocabulary, when set to *true*. When this property is not used or is *false*, the vocabulary is considered to be "open".
+
+* **media**
+
+	The *media* property triggers the creation of a media chooser input in the user interface which allows for choosing among previously uploaded media objects, but also offers the option to upload new media on-the-fly while editing the document.  Currently the only value the property can have is *MediaMetadata* referring to the schema that is to represent every stored media object.
+	
+		<Picture>
+			<Identifier>535e4bef2de5019396263897f8f2fc0d</Identifier>
+			<GroupIdentifier>GROUP_06</GroupIdentifier>
+			<MimeType>image/jpeg</MimeType>
+			<OriginalFileName>0147_2003_0830_142831AA.JPG</OriginalFileName>
+		</Picture>
+	
+	The content of the XML element for a field marked as *media* will be the contents of the referenced *MediaMetadata* document, augmented with two fields: the *user* and *group* identifiers.  These extra fields locate the *MediaMetadata* record in the database so that the search scope can be more limited, and they also allow for immediately displaying provenance information.
 
 * **instance**
 
-	An *instance* field is one that contains the information needed to refer to an instance of another document, typically a shared document.
+	An *instance* field is one that contains the information needed to refer to an instance of another document, typically a */shared/* document within OSCR itself. Other options are also possible for the content, and currently there is one more option to facilitate migration of data from other systems to OSCR.
 	
-	[MORE here about the implicit content - headers, link facts]
+	**Header**
+	
+	When a */shared/* document is linked to in an *instance* field, the *Header* portion of the document is copied verbatim into the XML element.  Headers contain all of the identification information so it will be possible to construct a URL which links to the shared document in question.
+	
+		<Person>
+			<Header>
+				<SchemaName>Person</SchemaName>
+				<Identifier>OSCR-Person-ezwasujw-dnh</Identifier>
+				<GroupIdentifier>GROUP_249</GroupIdentifier>
+				<SummaryFields>
+					<Title>Joe Smith</Title>
+				</SummaryFields>
+				<DocumentState>public</DocumentState>
+				<TimeStamp>1391716121324</TimeStamp>
+				<SavedBy>OSCR-US-eaz3313x-rm2</SavedBy>
+			</Header>
+		</Person>
 
-### Cache Property
+	
+	It also contains some cached *SummaryFields* so that it is possible to quickly show a human-readable value in the field **without** having to de-reference the link.
+	
+	**LinkFact** Entries
+	
+	During data migraton it is not always possible or desirable to establish a link immediately, because the most important thing is that the links not be *wrong*, and computer algorithms cannot be trusted to make these choices in most cases.  At the same time, source data being migrated will often contain some information which suggests a particular instance, whether strongly or not so strongly.
+	
+	To allow the migration to take place without any loss of information, the XML element for the *instance* can contain a number of *LinkFact* elements, each having a name and a value.
 
-* **summaryField**
-
-	True if you want this field to become part of the document header which is stored alongside the document's data and is shown in the document list. Upon saving a document, the *SummaryFields* block of the header is created by harvesting the contents of the fields marked by this property.
+		<Person>	
+			<LinkFact>
+				<Name>Full Name</Name>
+				<Value>Joe Smith</Value>
+			</LinkFact>
+			<LinkFact>
+				<Name>Date of Birth</Name>
+				<Value>1836</Value>
+			</LinkFact>
+		<Person>	
+	
+	The *LinkFact* elements are intended to be of assistance to a user who is in the process of making the choice of link.  They could be considered helpful search terms when the user is looking for the right link.  These facts should have human-readable *Name* elements.  Optionally, once a link has been made, some or all of the *LinkFact* entries could be removed from the element, since there will be *Header* chosen to fully describe the instance.
 
 # Future Development
 
 The schema definition is part of a working prototype that is now undergoing initial alpha testing, so it is still open for improvement or adjustment if needs arise.  This approach has made the rapid development of the prototype possible, and offers much in the area of flexibility.
 
-* **Validation Strategies**
+* **Validation Strategies for Line fields**
 
 	Currently a framework is in place which connects the **validator** attribute from the schema to a block of Javascript code within the *Validator* service on the client side.  There is a great potential for expanding this validation strategy into an extensive library of validators from which to choose.
 
 * **Rich Text Paragraphs**
 
 	The *paragraph* property currently indicates that multiple lines of text will be edited and stored in the given element.  In the future we should also allow for rich text to be placed in paragraph form, in which case the database will store the contained value in **CDATA** form in the XML.
+
+* **Other Types of Fields**
+
+	We currently have these kinds of fields: line, paragraph, vocabulary, media, and instance. The system is very flexible regarding the number and variety of fields possible because all that is required is specific things in the field configuration JSON and the accompanying code in the application.  It would be quite easy to add checkboxes, radio buttons, selections, and anything else that would make the functionality richer.
 
 * **External Instances**
 
