@@ -17,7 +17,7 @@
             </div>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex); setActive(el)"/>
+            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
         </div>
     </div>
 </script>
@@ -28,7 +28,7 @@
             <textarea el-focus="el" ng-model="el.value" rows="5" class="form-control"></textarea>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <textarea class="disabled form-control" rows="5" el-hidden-focus="el" ng-focus="focusArrived(el, $index, panelIndex); setActive(el)">{{ displayValue }}</textarea>
+            <textarea class="disabled form-control" rows="5" el-hidden-focus="el" ng-focus="focusArrived(el, $index, panelIndex)">{{ displayValue }}</textarea>
         </div>
     </div>
 </script>
@@ -41,7 +41,7 @@
             </div>
             <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <input type="text" value="{{ displayValue }}" class="form-control disabled"
-                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex); setActive(el)"/>
+                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
                 <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Change"><span class="i18n"></span></button>
             </div>
 
-        <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex); setEditing(true)"/>
+        <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
     </div>
 
 </script>
