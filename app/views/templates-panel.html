@@ -77,17 +77,18 @@
 
 <script type="text/ng-template" id="panel-media.html">
     <div data-ng-controller="MediaElementController" class="panel-input media-element">
-
+        {{ showMediaSelect }}
             <div ng-show="!el.value">
-                <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Add"><span class="i18n"></span></button>
+                <button class="btn btn-default" ng-click="toggleMediaAsideList();setEditing(true);" i18n="Add"><span class="i18n"></span></button>
             </div>
             <div ng-show="el.value" class="media">
                 <div class="media-thumbnail">
                     <img ng-src="{{ el | mediaThumbnail }}" /><br/>
                     <div class="mime">{{ el | mediaMimeType }}</div>
                 </div>
-                <button class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Change"><span class="i18n"></span></button>
+                <button class="btn btn-default" ng-click="toggleMediaAsideList();setEditing(true);" i18n="Change"><span class="i18n"></span></button>
             </div>
+
 
         <input el-hidden-focus="el" el-focus="el" class="stealth" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
     </div>
@@ -95,7 +96,7 @@
 </script>
 
 <script type="text/ng-template" id="panel-media-search.html">
-    <div ng-controller="MediaController">
+     <div ng-controller="MediaController">
         <div oscr-media-aside-select ng-controller="MediaInputController" ng-show="showMediaSelect"></div>
         <div oscr-media-aside-upload ng-show="showMediaUpload"></div>
     </div>

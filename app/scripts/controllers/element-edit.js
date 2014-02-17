@@ -88,13 +88,12 @@ OSCR.controller(
     }
 );
 
-OSCR.controller( // TODO: this works inconsistently. IN view now commented out. Fix later. Dialog also does not seem to get closed properly
+OSCR.controller(
     'MediaElementController',
     function ($rootScope, $scope, $modal, $filter) {
 
-//       // todo: should not be needed!
         $scope.enableMediaEditor = function (el) {
-            console.log('element-edit.js l.97 enableMediaEditor()', el);
+//            console.log('element-edit.js l.97 enableMediaEditor()', el);
             if (el) $scope.setActiveEl(el);
             $scope.setEditing(true);
         };

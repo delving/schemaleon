@@ -519,6 +519,32 @@ OSCR.controller(
             return $($window).height();
         };
 
+        $rootScope.scrollTo = function (options) {
+            var options = options || {};
+            var hash = options.hash || undefined;
+            var element = options.element || undefined;
+            var direction = options.direction || 'up';
+            if(options.hash) {
+                var old = $location.hash();
+                $location.hash(hash);
+                $anchorScroll();
+                $location.hash(old);//reset to old location in order to maintain routing logic (no hash in the url)
+            }
+            if(options.element) {
+                var scrollElement = angular.element(options.element);
+                console.log('scrollHeight', scrollElement.height());
+                if (options.direction == 'up'){
+                    scrollElement.scrollTop = scrollElement.height();
+                }
+                if (options.direction == 'down'){
+
+                    scrollElement.scrollTop = scrollElement.height();
+                }
+
+
+            }
+        }
+
         if ($location.host() == 'localhost') {
             var userIdentifier = $cookieStore.get('oscr-user-identifier');
             if (userIdentifier) {
