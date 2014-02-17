@@ -520,6 +520,7 @@ OSCR.controller(
         };
 
         $rootScope.scrollTo = function (options) {
+            console.log('scrollTo options', options);
             var options = options || {};
             var hash = options.hash || undefined;
             var element = options.element || undefined;

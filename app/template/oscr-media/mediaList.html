@@ -1,4 +1,4 @@
-<div class="media-thumbnails {{gridSize}}" style="height: {{viewHeight}}">
+<div class="media-thumbnails {{gridSize}}" ng-style="{height: viewHeight}">
     <a name="list-top"></a>
     <ul class="list-unstyled list-inline">
         <li data-ng-repeat="el in mediaList">
@@ -22,11 +22,7 @@
         <span>{{ mediaList.length }}</span>
     </div>
 
-    <div class="badge badge-info pointer pull-right" data-ng-click="scrollToTop()" data-ng-show="mediaList.length > defaultMaxResults" i18n="BackToTop" data-ng-if="!selectMedia">
-        <i class="icon icon-white icon-hand-up"></i>
-        <span class="i18n"/></span>
-    </div>
-    <div class="badge badge-info pointer pull-right" data-ng-click="scrollTo('list-top')" data-ng-show="mediaList.length > defaultMaxResults" i18n="BackToTop" data-ng-if="selectMedia">
+    <div class="badge badge-info pointer pull-right" data-ng-click="scrollTo({hash: 'list-top'})" data-ng-show="mediaList.length > defaultMaxResults" i18n="BackToTop">
         <i class="icon icon-white icon-hand-up"></i>
         <span class="i18n"/></span>
     </div>

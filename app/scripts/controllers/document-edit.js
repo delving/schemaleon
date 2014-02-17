@@ -240,7 +240,6 @@ OSCR.controller(
         $scope.showMediaSelect = false;
         $scope.toggleMediaAsideList = function () {
             $scope.showMediaSelect = !$scope.showMediaSelect;
-            console.log($scope.showMediaSelect);
         }
 
         $scope.showMediaUpload = false;

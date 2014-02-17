@@ -135,7 +135,7 @@ OSCR.controller(
 
 
 OSCR.directive('oscrMediaList', function($document){
-    var viewHeight = $document.height() - 200;
+    var viewHeight = $document.height() - 380;
     return {
         restrict: 'E,A',
         templateUrl: 'template/oscr-media/mediaList.html',

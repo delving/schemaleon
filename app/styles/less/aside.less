@@ -2,16 +2,7 @@
 @aside-toolbar-height: 50px;
 @aside-footer-height: 50px;
 @aside-body-padding: 20px;
-.calcBodyHeight {
-  /* Firefox */
-  height: -moz-calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
-  /* WebKit */
-  height: -webkit-calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
-  /* Opera */
-  height: -o-calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
-  /* Standard */
-  height: calc(~'100% - (@aside-header-height - @aside-footer-height - @aside-body-padding*2)');
-}
+
 
 
 
@@ -178,9 +169,11 @@
       height: @aside-header-height;
     }
     .aside-body {
+      .aside-toolbar {
+        margin-bottom: @navbar-margin-bottom;
+      }
       .media-thumbnails {
         display:block;
-        .calcBodyHeight;
         overflow: hidden;
         overflow-y: auto;
       }

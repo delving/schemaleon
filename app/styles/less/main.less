@@ -278,9 +278,12 @@ body.full-screen {
 
 .media-thumbnails {
   color: @gray-lighter;
+  height: auto;
+  overflow: hidden;
+  overflow-y:auto;
   .clearfix();
   li {
-    background: @gray-light;
+    background: @bodyBackground;
     text-align: center;
     vertical-align: middle;
     width: 100px;
@@ -288,6 +291,7 @@ body.full-screen {
     padding: 4px 4px 26px 4px;
     position: relative;
     margin-right: 1px;
+    margin-bottom: 1px;
     // force padding first-of-type overwrite bootstrap list-unstyled
     &:first-of-type {
       padding: 4px 4px 26px 4px;
@@ -317,6 +321,11 @@ body.full-screen {
     }
   }
 
+}
+
+.list-controls {
+  margin-top: @navbar-margin-bottom;
+  .clearfix();
 }
 
 /* DOCUMENT LIST */
