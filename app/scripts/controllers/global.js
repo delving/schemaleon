@@ -35,12 +35,17 @@ OSCR.directive('private',
     }
 );
 
+/**
+ * GlobalController:
+ * Wraps the entire application and contains $rootScope elements that need to be available to multiple controllers and view
+ * TODO: rely less on $rootScope and create resource factories that contain variables and functions that need be shared between different controllers.
+ */
+
 OSCR.controller(
     'GlobalController',
     function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal, $anchorScroll) {
 
         // CONFIGURATION SETTINGS ================================================================
-
         $rootScope.config = {
             interfaceLanguages: [
                 {name: 'English', code: 'en'},
@@ -51,17 +56,27 @@ OSCR.controller(
             showTranslationEditor: false
         };
 
+        // set to true when a document is dirty and triggers modal save dialog when clicking choosePath() away from the document
         $rootScope.disableChoosePath = false;
-
+        /**
+         * Sets disableChoosePath and passes functions
+         * @param {Boolean} dirty
+         * @param {Function} saveDocument
+         * @param {Function} revertDocument
+         */
         $rootScope.setDocumentDirty = function(dirty, saveDocument, revertDocument) {
             $rootScope.disableChoosePath = dirty;
             $rootScope.saveDocument = saveDocument;
             $rootScope.revertDocument = revertDocument;
         };
 
+        // globalError message
         $rootScope.globalError = null;
         var globalErrorErasePromise;
-
+        /**
+         * Sets globalError with error value
+         * @param {String} error
+         */
         $rootScope.setGlobalError = function(error) {
             if (globalErrorErasePromise) {
                 $timeout.cancel(globalErrorErasePromise);
@@ -76,16 +91,29 @@ OSCR.controller(
             );
         };
 
-        $scope.recent = [];
-
+        /**
+         * toggles the value of $rootScope.config.showTranslationEditor which is used to disable various functions
+         * to kill the onclick functionality during translation
+         * @return {Boolean} $rootScope.config.showTranslationEditor
+         */
         $rootScope.toggleTranslationEditor = function () {
             $rootScope.config.showTranslationEditor = !$rootScope.config.showTranslationEditor;
         };
 
+        /**
+         * Checks to see if a schema is shared
+         * @param {String} schemaName
+         * @return {Boolean}
+         */
         function isShared(schemaName) {
             return (_.contains($rootScope.schemaMap.shared, schemaName))
         }
 
+        /**
+         * Returns a path to edit the document. Shared docs don't have a group Identifier, primary document do.
+         * @param {String} schemaName
+         * @return {Boolean}
+         */
         function editPathFromHeader(header) {
             if (isShared(header.SchemaName)) {
                 return '/shared/' + header.SchemaName + '/' + header.Identifier + '/edit';
@@ -94,6 +122,11 @@ OSCR.controller(
             }
         }
 
+        /**
+         * Returns a path to view the document. Shared docs don't have a group Identifier, primary document do.
+         * @param {String} schemaName
+         * @return {Boolean}
+         */
         function viewPathFromHeader(header) {
             if (isShared(header.SchemaName)) {
                 return '/shared/' + header.SchemaName + '/' + header.Identifier + '/view';
@@ -102,11 +135,19 @@ OSCR.controller(
             }
         }
 
+        /**
+         * returns the group identifier to which the currently authorized user belongs
+         * @return {String} $rootScope.user.Membership.GroupIdentifier
+         */
         $rootScope.userGroupIdentifier = function() {
             if (!($rootScope.user && $rootScope.user.Membership)) return 'unknown';
             return $rootScope.user.Membership.GroupIdentifier;
         };
 
+        /**
+         * returns the default document state of a particular schema
+         * @return {String} public | private
+         */
         $rootScope.defaultDocumentState = function(schemaName) {
             if (isShared(schemaName)) {
                 return 'public';
@@ -116,6 +157,11 @@ OSCR.controller(
             }
         };
 
+        /**
+         * Create a new document
+         * @param {String} schema
+         * @return navigates to the new document page with chosen schema
+         */
         $rootScope.newDocument = function (schema) {
             if (isShared(schema)) {
                 $scope.choosePath('/shared/' + schema + '/create');
@@ -134,7 +180,9 @@ OSCR.controller(
 
         // APPLICATION NAVIGATION ================================================================
 
-
+        /**
+         * Creates the main navigation visible on the left hand side
+         */
         function buildMainMenu() {
 
             if (!$rootScope.user) return;
@@ -234,6 +282,13 @@ OSCR.controller(
             }
         });
 
+
+        // recently opened Documents
+        $scope.recent = [];
+        /**
+         * adds a document to the recent list - visible at bottom of the left main menu - and rebuilds the main menu to set the 'active' classes.
+         * @param {Object} header
+         */
         $scope.addToRecentMenu = function(header) {
             var recentEntry = _.find($scope.recent, function(entry) {
                 return header.Identifier == entry.header.Identifier;
@@ -250,12 +305,18 @@ OSCR.controller(
                     $scope.recent.shift();
                 }
             }
-            // activate the one we just
+            // activate the one we just added
             buildMainMenu();
             recentEntry.active = true;
         };
 
+        /**
+         * gives visual cue if another user is working on the same document (document must be dirty to trigger)
+         * TODO: create a locking mechanism for the document instead of just a visual indication
+         * @param {Object} documentLease
+         */
         $rootScope.showDocumentsLeased = function(documentLeases) {
+            console.log(documentLeases);
             if (!$scope.recent) return;
             _.each($scope.recent, function(entry) {
                 entry.leased = false;
@@ -266,14 +327,18 @@ OSCR.controller(
             });
         };
 
-        $rootScope.choosePath = function (path, viewOnly) {
+        /**
+         * navigation function: contains trigger for document save modal dialog
+         * @param {String||Object} path - path to the view
+         * @param {Boolean} viewOnly - when true (as in links from public) will create url from header to view instead of edit.
+         */
+        $rootScope.choosePath = function (path,viewOnly) {
             if($rootScope.config.showTranslationEditor) return;
             if($rootScope.disableChoosePath) {
                 $rootScope.setGlobalError('Please save your document first');
                 var modalInstance = $modal.open({
                     templateUrl: 'confirm-save-document.html',
                     controller: function($scope, $modalInstance) {
-                        $scope.whatever = {};
                         $scope.ok = function () {
                             $rootScope.saveDocument();
                             $rootScope.disableChoosePath = false;
@@ -307,20 +372,36 @@ OSCR.controller(
             buildMainMenu();
         };
 
+        /**
+         * Navigates to user page
+         * @param {String} id
+         * @return {Function call} choosePath()
+         */
         $rootScope.chooseUserPath = function (id) {
             $rootScope.choosePath('/people/user/'+id);
         };
 
+        /**
+         * Redirect to login page if not authorized
+         */
         $rootScope.checkLoggedIn = function() {
             if ($location.path() != '/login' && !$rootScope.user) {
                 $location.path('/login');
             }
         };
 
+        /**
+         * Determins when we want to show the sidebar navigation
+         * @return {Boolean}
+         */
         $scope.sidebarShowing = function() {
             return $location.path() !== '/login';
         };
 
+        /**
+         * Depending on where we are in the app we may want to include different views as includes
+         * @return {String} (view location)
+         */
         $scope.getInclude = function () {
             if ($location.path().match(/.*\/(edit|create)/) ) {
                 return "views/document-edit-legend.html";
@@ -328,6 +409,11 @@ OSCR.controller(
             return "";
         };
 
+        /**
+         * return a file extension based on mime type
+         * @param {String} mimeType
+         * @return {String} extension
+         */
         $rootScope.getExtensionFromMimeType = function(mimeType) {
             var extension;
             switch (mimeType) {
@@ -354,19 +440,30 @@ OSCR.controller(
             return extension;
         };
 
-        var fileSplitRegExp = new RegExp('(.*)([.][^.]*)');
-
+        /**
+         * gets file extestion from filename
+         * @param {String} fileName
+         * @return {String} extension
+         */
         function getExtension(fileName) {
+            var fileSplitRegExp = new RegExp('(.*)([.][^.]*)');
             var fileNameMatch = fileSplitRegExp.exec(fileName);
+            var extension = '';
             if (!fileNameMatch) {
                 console.error('file name did not have the right form to extract extension '+fileName);
-                return '.jpg';
+                extension = '.jpg';
             }
             else {
-                return fileNameMatch[2];
+                extension = fileNameMatch[2];
             }
+            return extension;
         }
 
+        /**
+         * gets mime type from file name
+         * @param {String} fileName
+         * @return {String} mimeType
+         */
         $rootScope.getMimeTypeFromFileName = function(fileName) {
             var mimeType;
             switch(getExtension(fileName.toLowerCase())) {
@@ -395,21 +492,11 @@ OSCR.controller(
             return mimeType;
         };
 
-        $rootScope.thumbnailExtension = '.jpg';
-
-        $rootScope.thumbnailMimeType = 'image/jpeg';
-
-        // properFile name extension for multi-media thumbs
-        // todo: this should no longer be necessary
-        $rootScope.getProperThumbExtension = function (name){
-            console.log('getProperThumb', name);
-            var nameProper= name;
-            if (name.match(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/)) {
-                nameProper = name.replace(/(.mp4|.MP4|.mpeg|.MPEG|.mov|.MOV|.pdf)/g, ".jpg");
-            }
-            return nameProper;
-        };
-
+        /**
+         * Extracts mime type from different source formats
+         * @param {Object} source
+         * @return {String} mime
+         */
         $rootScope.extractMimeType = function(source) {
             var mime = '';
             if (source) {
@@ -427,21 +514,42 @@ OSCR.controller(
             return mime;
         };
 
+        /**
+         * Checks to see if passed source is an image
+         * @param {Object} source
+         * @return {Boolean}
+         */
         $rootScope.isImage = function(source) {
             var mime = $rootScope.extractMimeType(source);
             return (mime && mime.indexOf('image') >= 0);
         };
 
+        /**
+         * Checks to see if passed source is a video
+         * @param {Object} source
+         * @return {Boolean}
+         */
         $rootScope.isVideo = function (source) {
             var mime = $rootScope.extractMimeType(source);
             return (mime && mime.indexOf('video') >= 0);
         };
 
+        /**
+         * Checks to see if passed source is a pdf file
+         * @param {Object} source
+         * @return {Boolean}
+         */
         $rootScope.isPdf = function (source) {
             var mime = $rootScope.extractMimeType(source);
             return (mime && mime.indexOf('pdf') >= 0);
         };
 
+        /**
+         * Authenticate a user
+         * @param {String} username
+         * @param {String} password
+         * @return {Boolean}
+         */
         $rootScope.login = function (username, password) {
             $scope.loginFailed = false;
             delete $rootScope.user;
@@ -467,6 +575,11 @@ OSCR.controller(
             }
         };
 
+        /**
+         * Returns a promise with a groupname based on group identifier
+         * @param {String} groupIdentifier
+         * @return {String} deferred.promise (group.Name)
+         */
         $rootScope.getGroupName = function(groupIdentifier) {
             var deferred = $q.defer();
             if (groupIdentifier) {
@@ -480,6 +593,9 @@ OSCR.controller(
             return deferred.promise;
         };
 
+        /**
+         * Logout
+         */
         $rootScope.logout = function () {
             if ($rootScope.config.showTranslationEditor) return;
             $cookieStore.remove('oscr-user-identifier');
@@ -488,6 +604,10 @@ OSCR.controller(
             $scope.choosePath('/login');
         };
 
+        /**
+         * Scroll to the top of a document
+         * Todo: make more generic to be able to scroll to an anchor (hash) or within an element with fixed height and overflow
+         */
         $rootScope.scrollToTop = function () {
             var documentHeight = $($document).height();
             var scrollHeight = parseInt(documentHeight-50);
@@ -497,7 +617,10 @@ OSCR.controller(
             })
         };
 
-
+        /**
+         * Scroll to the bottom of the chat messages list each time it is update
+         * Todo: make more generic to be able to scroll to an anchor (hash) or within an element with fixed height and overflow
+         */
         function chatScroll() {
             var old = $location.hash();
             $location.hash('chat-bottom');
@@ -506,13 +629,17 @@ OSCR.controller(
             $location.hash(old);
         }
 
-
+        /**
+         * Gets the view-window height
+         * todo: necessary as $rootScope function: currently only used once in document-edit.js l.172
+         * @return {String} deferred.promise (group.Name)
+         */
         $rootScope.getWindowHeight = function (){
             return $($window).height();
         };
 
 
-        //todo: make better for overflow divs
+        //todo: make this work and replace chatScroll and all uses of scrollToTop
         $rootScope.scrollTo = function (options) {
             var options = options || {};
             var hash = options.hash || undefined;
@@ -532,6 +659,7 @@ OSCR.controller(
             }
         }
 
+        // for development only during livereload
         if ($location.host() == 'localhost') {
             var userIdentifier = $cookieStore.get('oscr-user-identifier');
             if (userIdentifier) {
@@ -555,7 +683,7 @@ OSCR.controller(
         };
 
         // layout functions
-        // todo: replace this with https://github.com/akoenig/angular-deckgrid
+        // todo: replace this with https://github.com/akoenig/angular-deckgrid?
         $rootScope.equalHeight = function (elements) {
             if(!elements) return;
             var tallest = 0;
@@ -647,23 +775,6 @@ OSCR.filter('mediaFileName',
         };
     }
 );
-
-// not used, it seems
-//OSCR.filter('mediaLabel',
-//    function () {
-//        return function (element) {
-//            if (_.isString(element.value)) {
-//                return element.value;
-//            }
-//            else if (element.value) {
-//                return element.value.Label;
-//            }
-//            else {
-//                return '';
-//            }
-//        };
-//    }
-//);
 
 OSCR.filter('elementDisplay',
     function () {
