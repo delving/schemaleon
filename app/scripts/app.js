@@ -53,7 +53,7 @@ OSCR.config(
             })
             .when('/media', {
                 templateUrl: 'views/media.html',
-                controller: 'MediaUploadController'
+                controller: 'MediaController'
             })
             .when('/people', {
                 templateUrl: 'views/people.html',

@@ -1,12 +1,31 @@
 <div class="media-upload-controls media-lite">
     <form id="fileupload" action="#" method="POST" enctype="multipart/form-data"
           data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
-        <button class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
-            <i class="glyphicon glyphicon-plus"></i>
-            <span i18n="AddFiles"/>
-            <input type="file" name="files[]" multiple ng-disabled="disabled">
-            </span>
-        </button>
+        <ul class="nav nav-pills nav-justified">
+            <li>
+                <button class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span i18n="AddFiles"/>
+                    <input type="file" name="files[]" multiple ng-disabled="disabled">
+                    </span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary start" data-ng-click="submit()" data-ng-class="{'disabled': !queue.length}" i18n="UploadAllFiles">
+                    <i class="glyphicon glyphicon-cloud-upload"></i>
+                    <span class="i18n"/>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()" data-ng-class="{'disabled': !queue.length}" i18n="CancelUpload">
+                    <i class="glyphicon glyphicon-stop"></i>
+                    <span class="i18n">Cancel upload</span>
+                </button>
+            </li>
+        </ul>
+
+
+
     </form>
     <div class="progress-indicator" data-ng-show="active()">
         <div class="progress" data-file-upload-progress="progress()">

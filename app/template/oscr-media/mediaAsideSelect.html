@@ -1,0 +1,24 @@
+<div class="aside-backdrop am-fade" style=""></div>
+<div class="aside right aside-media aside-media-select" tabindex="-1" role="dialog">
+    <div class="aside-dialog">
+        <div class="aside-content">
+            <div class="aside-header">
+                <button type="button" class="close" ng-click="toggleMediaAsideList()">×</button>
+                <h4 class="aside-title" i18n="UploadedFiles"><span class="i18n"/></h4>
+            </div>
+            <div class="aside-body">
+                <div class="aside-toolbar">
+                    <button class="btn btn-default" ng-click="toggleMediaAsideUpload()" i18n="MediaUpload">
+                        <i class="glyphicon glyphicon-upload"></i> <span class="i18n"/>
+                    </button>
+                </div>
+                <div oscr-media-list select-media="true" grid-size="small"></div>
+            </div>
+            <div class="aside-footer">
+                <button type="button" class="btn btn-default" ng-click="toggleMediaAsideList()" i18n="Close"><span class="i18n"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
