@@ -33,6 +33,20 @@ Before you can get to work on developing OSCR you will need to have the followin
 1. **BaseX**: database for persisting XML
 
     You can get the BaseX client application here: <http://basex.org/products/download/all-downloads/>
+    
+1. **imageMagick**: for thumbnail creation
+
+		brew install imageMagick
+	
+1. **ghostscript**: for extracting thumbs from and pdf files
+
+		brew install ghostscript
+	
+1. **ffmpeg**: for extracting thumbs from and video files
+
+		brew install ffmpeg
+  
+    
 
 ### Developing
 	
