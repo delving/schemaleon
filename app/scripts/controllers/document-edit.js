@@ -422,6 +422,7 @@ OSCR.controller(
                 });
             }
             $scope.panels.splice(panelIndex + 2, 5);
+            $scope.setActiveEl(chosen);
             $rootScope.scrollTo('panel-top');
         };
 
