@@ -59,9 +59,7 @@ P.getDocumentSchema = function (schemaName, receiver) {
 //
 
 P.searchDocuments = function (params, receiver) {
-
-    console.log("search", params); // todo
-
+//    console.log("search", params);
     // make sure these at least defaulted
     params.searchQuery = params.searchQuery || '';
     params.startIndex = params.startIndex || 1;
