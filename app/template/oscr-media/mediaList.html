@@ -1,4 +1,4 @@
-<div class="media-thumbnails {{gridSize}}" ng-style="{height: viewHeight}">
+<div class="media-thumbnails {{gridSize}}" id="media-thumbnail-list" ng-style="{'max-height': setViewportHeight({offset: 300})}">
     <a name="list-top"></a>
     <ul class="list-unstyled list-inline">
         <li data-ng-repeat="el in mediaList">
@@ -17,13 +17,13 @@
 </div>
 <div class="list-controls">
     <div class="badge badge-success pointer" data-ng-click="getMoreMedia()" i18n="MoreThan" ng-show="couldBeMoreMedia()">
-        <i class="icon icon-white icon-hand-down"></i>
+        <i class="glyphicon glyphicon-hand-down"></i>
         <span class="i18n"></span>
         <span>{{ mediaList.length }}</span>
     </div>
 
-    <div class="badge badge-info pointer pull-right" data-ng-click="scrollTo({hash: 'list-top'})" data-ng-show="mediaList.length > defaultMaxResults" i18n="BackToTop">
-        <i class="icon icon-white icon-hand-up"></i>
+    <div class="badge badge-info pointer" data-ng-click="scrollTo({element: '#media-thumbnail-list'})" data-ng-show="mediaList.length > defaultMaxResults" i18n="BackToTop">
+        <i class="glyphicon glyphicon-hand-up"></i>
         <span class="i18n"/></span>
     </div>
 </div>

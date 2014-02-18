@@ -325,6 +325,7 @@ body.full-screen {
 
 .list-controls {
   margin-top: @navbar-margin-bottom;
+  margin-bottom: @navbar-margin-bottom;
   .clearfix();
 }
 
@@ -341,9 +342,18 @@ body.full-screen {
 
 .table-oscr {
   background: @white;
+  &.header-only,
+  &.body-only,{
+    margin-bottom: 0px;
+  }
 }
 
-
+.table-oscr-list-controls {
+  background: @gray-lighter;
+  .clearfix;
+  margin-top: 1px;
+  padding: @padding-large-vertical;
+}
 /* DOCUMENT LIST */
 
 .table-oscr {
@@ -367,6 +377,11 @@ body.full-screen {
   ul {
     margin: 0;
   }
+}
+
+.vertical-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* DOCUMENT EDIT */

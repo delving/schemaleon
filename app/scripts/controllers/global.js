@@ -36,7 +36,6 @@ OSCR.directive('private',
  * Wraps the entire application and contains $rootScope elements that need to be available to multiple controllers and view
  * TODO: rely less on $rootScope and create resource factories that contain variables and functions that need be shared between different controllers.
  */
-
 OSCR.controller(
     'GlobalController',
     function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal, $anchorScroll) {
@@ -101,7 +100,8 @@ OSCR.controller(
          * @param {String} schemaName
          * @return {Boolean}
          */
-        function isShared(schemaName) {
+        $rootScope.isShared = function (schemaName) {
+            // this function will throw errors in development mode because of livereload
             return (_.contains($rootScope.schemaMap.shared, schemaName))
         }
 
@@ -111,7 +111,7 @@ OSCR.controller(
          * @return {Boolean}
          */
         function editPathFromHeader(header) {
-            if (isShared(header.SchemaName)) {
+            if ($rootScope.isShared(header.SchemaName)) {
                 return '/shared/' + header.SchemaName + '/' + header.Identifier + '/edit';
             } else {
                 return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/edit';
@@ -124,7 +124,7 @@ OSCR.controller(
          * @return {Boolean}
          */
         function viewPathFromHeader(header) {
-            if (isShared(header.SchemaName)) {
+            if ($rootScope.isShared(header.SchemaName)) {
                 return '/shared/' + header.SchemaName + '/' + header.Identifier + '/view';
             } else {
                 return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/view';
@@ -145,7 +145,7 @@ OSCR.controller(
          * @return {String} public | private
          */
         $rootScope.defaultDocumentState = function(schemaName) {
-            if (isShared(schemaName)) {
+            if ($rootScope.isShared(schemaName)) {
                 return 'public';
             }
             else {
@@ -159,7 +159,7 @@ OSCR.controller(
          * @return navigates to the new document page with chosen schema
          */
         $rootScope.newDocument = function (schema) {
-            if (isShared(schema)) {
+            if ($rootScope.isShared(schema)) {
                 $scope.choosePath('/shared/' + schema + '/create');
             } else {
                 $scope.choosePath('/primary/' + schema + '/' + $rootScope.userGroupIdentifier() + '/create');
@@ -167,7 +167,7 @@ OSCR.controller(
         };
 
         $rootScope.documentList = function (schema) {
-            if (isShared(schema)) {
+            if ($rootScope.isShared(schema)) {
                 $scope.choosePath('/shared/' + schema);
             } else {
                 $scope.choosePath('/primary/' + schema + '/' + $rootScope.userGroupIdentifier());
@@ -178,6 +178,8 @@ OSCR.controller(
 
         /**
          * Creates the main navigation visible on the left hand side
+         * Makes use of the Document service to retrieve schemas
+         * Makes use of the Statistics service to retrieve document counts per schema
          */
         function buildMainMenu() {
 
@@ -185,8 +187,7 @@ OSCR.controller(
 
             Document.fetchSchemaMap(function (schemaMap) {
                 $rootScope.schemaMap = schemaMap;
-                console.log('schema map received', schemaMap);
-
+//                console.log('schema map received', schemaMap);
                 $scope.mainMenuBase = [
                     {name: "Public", path: "/public", icon: 'glyphicon-road', active: false},
                     {name: "Community", path: "/community", icon: 'glyphicon-cog', active: false}
@@ -312,7 +313,7 @@ OSCR.controller(
          * @param {Object} documentLease
          */
         $rootScope.showDocumentsLeased = function(documentLeases) {
-            console.log(documentLeases);
+//            console.log(documentLeases);
             if (!$scope.recent) return;
             _.each($scope.recent, function(entry) {
                 entry.leased = false;
@@ -554,7 +555,7 @@ OSCR.controller(
                     if (user) {
                         $rootScope.user = user;
                         if ($location.host() == 'localhost') {
-                            console.log('setting user identifier', user.Identifier);
+//                            console.log('setting user identifier', user.Identifier);
                             $cookieStore.put('oscr-user-identifier', user.Identifier);
                         }
                         $scope.choosePath('/community');
@@ -601,57 +602,58 @@ OSCR.controller(
         };
 
         /**
-         * Scroll to the top of a document
-         * Todo: make more generic to be able to scroll to an anchor (hash) or within an element with fixed height and overflow
+         * Sets the desired viewport height - for scrolling divs
+         * @param {Object} options: offset - subtract from total windowheight, height - set a fixed height
+         * @return {Int} viewportHeight;
          */
-        $rootScope.scrollToTop = function () {
-            var documentHeight = $($document).height();
-            var scrollHeight = parseInt(documentHeight-50);
-            $('html,body').stop().animate({
-                scrollLeft: '+=' + 0,
-                scrollTop: '+=' + -scrollHeight
-            })
-        };
-
-        /**
-         * Scroll to the bottom of the chat messages list each time it is update
-         * Todo: make more generic to be able to scroll to an anchor (hash) or within an element with fixed height and overflow
-         */
-        function chatScroll() {
-            var old = $location.hash();
-            $location.hash('chat-bottom');
-            $anchorScroll();
-            //reset to old location in order to maintain routing logic
-            $location.hash(old);
+        $rootScope.setViewportHeight = function(options) {
+            var option = options || {},
+                offset = options.offset || 0,
+                height = options.height || undefined,
+                viewportHeight = null;
+            if(!height){
+                viewportHeight = $($window).height() - options.offset;
+            }
+            else {
+                viewportHeight = options.height;
+            }
+            return viewportHeight;
         }
 
         /**
-         * Gets the view-window height
-         * todo: necessary as $rootScope function: currently only used once in document-edit.js l.172
-         * @return {String} deferred.promise (group.Name)
+         * Scrolls up and down to a named anchor hash, or top/bottom of an element
+         * @param {Object} options: hash - named anchor, element - html element (usually a div) with id
+         * eg. scrollTo({'hash': 'page-top'})
+         * eg. scrollto({'element': '#document-list-container'})
          */
-        $rootScope.getWindowHeight = function (){
-            return $($window).height();
-        };
-
-
-        //todo: make this work and replace chatScroll and all uses of scrollToTop
         $rootScope.scrollTo = function (options) {
-            var options = options || {};
-            var hash = options.hash || undefined;
-            var element = options.element || undefined;
-            var direction = options.direction || 'up';
-            if(options.hash) {
+            var options = options || {},
+                hash = options.hash || undefined,
+                element = options.element || undefined,
+                direction = options.direction || 'up';
+            // navigate to hash
+            if(hash) {
                 var old = $location.hash();
                 $location.hash(hash);
                 $anchorScroll();
                 $location.hash(old);//reset to old location in order to maintain routing logic (no hash in the url)
             }
-            if(options.element) {
-//                var scrollElement = angular.element(options.element);
+            // scroll the provided dom element
+            if(element) {
                 var scrollElement = $(options.element);
-                var distance = scrollElement.height();
-                scrollElement.scrollTop(distance);
+                // get the height from the actual content, not the container
+                var scrollHeight = scrollElement[0].scrollHeight;
+                var distance = '';
+                if(!direction || direction == 'up') {
+                    distance = -scrollHeight;
+                }
+                else {
+                    distance = scrollHeight;
+                }
+                scrollElement.stop().animate({
+                    scrollLeft: '+=' + 0,
+                    scrollTop: '+=' + distance
+                });
             }
         }
 

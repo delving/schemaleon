@@ -38,7 +38,7 @@ OSCR.controller(
                 else {
                     $scope.mediaList = $scope.mediaList.concat(mediaList);
                 }
-
+                $rootScope.scrollTo({element:'#media-thumbnail-list', direction: 'down'});
             });
         }
 

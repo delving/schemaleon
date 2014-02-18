@@ -1301,6 +1301,7 @@ body.full-screen .viewport-right {
 }
 .list-controls {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 .list-controls:before,
 .list-controls:after {
@@ -1328,6 +1329,31 @@ body.full-screen .viewport-right {
 .table-oscr {
   background: #ffffff;
 }
+.table-oscr.header-only,
+.table-oscr.body-only {
+  margin-bottom: 0px;
+}
+.table-oscr-list-controls {
+  background: #eeeeee;
+  margin-top: 1px;
+  padding: 10px;
+}
+.table-oscr-list-controls:before,
+.table-oscr-list-controls:after {
+  content: " ";
+  display: table;
+}
+.table-oscr-list-controls:after {
+  clear: both;
+}
+.table-oscr-list-controls:before,
+.table-oscr-list-controls:after {
+  content: " ";
+  display: table;
+}
+.table-oscr-list-controls:after {
+  clear: both;
+}
 /* DOCUMENT LIST */
 .table-oscr {
   background: #333333;
@@ -1352,6 +1378,10 @@ body.full-screen .viewport-right {
 }
 .table-oscr ul {
   margin: 0;
+}
+.vertical-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 /* DOCUMENT EDIT */
 .tabbable {

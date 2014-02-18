@@ -13,7 +13,7 @@
                     <h5 i18n="Chat"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-                    <div class="message-list">
+                    <div class="message-list" id="message-list" ng-style="{'max-height': setViewportHeight({height: 100})}">
                         <ul class="list-unstyled list-chat">
                             <li data-ng-repeat="message in chatMessageList">
                                 <span class="message-time">{{ message.time | date:'MM/dd@H:mm'}}</span>
@@ -85,8 +85,8 @@
                                     {{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
                                 </td>
                                 <td>
-                                    <a href ng-click="logEntryWho(entry)" ng-hide="entry.userView" class="fade-out">{{ entry.Who }}</a>
-                                    <a href ng-show="entry.userView" class="fade-in" ng-click="logEntryWho(entry)" class="fade-in">{{ entry.userView.Profile.email }}</a>
+                                    <a href ng-click="logEntryWho(entry)" ng-hide="entry.userView">{{ entry.Who }}</a>
+                                    <a href ng-click="logEntryWho(entry)" ng-show="entry.userView" >{{ entry.userView.Profile.email }}</a>
                                 </td>
                                 <td>
                                     <span i18n="{{ entry.Op }}"><span class="i18n"/></span>

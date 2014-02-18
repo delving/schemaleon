@@ -11,7 +11,7 @@ OSCR.controller(
         $scope.schema = $routeParams.schema;
         $scope.groupIdentifier = $routeParams.groupIdentifier;
         $scope.searchString = '';
-        $scope.defaultMaxResults = 10;
+        $scope.defaultMaxResults = 12;
         $scope.expectedListLength = $scope.defaultMaxResults;
         $scope.headerList = [];
         $scope.searchParams = {
@@ -45,6 +45,7 @@ OSCR.controller(
                 else {
                     $scope.headerList = $scope.headerList.concat(headerList);
                 }
+                $rootScope.scrollTo({element:'#document-list-container', direction: 'down'});
             });
         }
 
