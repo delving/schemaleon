@@ -1,10 +1,21 @@
 var OSCR = angular.module('OSCR');
 
+/**
+ * CommunityController:
+ * Activity log, chat, and document statistics
+ */
 OSCR.controller(
     'CommunityController',
     function ($rootScope, $scope, $location, $anchorScroll, $cookieStore, $timeout, Statistics, Person) {
+
         $rootScope.checkLoggedIn();
 
+        /** STATISTICS *******************************************************************************************/
+
+        /**
+         * Builds a list of log entries using the Statistics service for display in the Activity log on public.html
+         * Makes use of the Person service to associate recognizable person information based on the user id. 
+         */
         Statistics.getLogEntries(function (entries) {
             $scope.logEntries = _.sortBy(entries, function (val) {
                 return -val.TimeStamp;
@@ -24,11 +35,22 @@ OSCR.controller(
                 });
             });
         });
-
+        
+        /**
+         * Triggers a choosePath() link function to the user page
+         * Used in the Activity log table to create links with the user's email addy or identifier
+         * @param {Object} entry
+         * @return {Function} choosePath
+         */
         $scope.logEntryWho = function (entry) {
             $scope.choosePath('/people/user/' + entry.Who);
         };
 
+        /**
+         * Triggers a choosePath() link function to the activity based on the entry.Op string
+         * @param {Object} entry
+         * @return {Function} choosePath
+         */
         $scope.logEntryDetail = function (entry) {
             var path = null;
             switch (entry.Op) {
@@ -64,16 +86,19 @@ OSCR.controller(
             }
         };
 
+        /** CHAT ***********************************************************************************************/
+
+        var chatPollPromise;
         $scope.chatMessage = '';
         $scope.chatMessageSend = false;
         $scope.chatMessageList = [];
 
-        var chatPollPromise;
-
-
+        /**
+         * Sends new chat message and appends it to the message list or only retrieves the list if no message is sent
+         * Makes use of the Person service
+         */
         function chatPoll() {
-//            console.log('chatPoll()');
-            $rootScope.scrollTo({element:'.message-list', direction: 'down'});
+            // send the message, retrieve the messageList and reset chat variables
             if ($scope.chatMessageSend) {
                 Person.publishChatMessage($scope.chatMessage, function (messageList) {
                     $scope.chatMessageSend = false;
@@ -81,18 +106,27 @@ OSCR.controller(
                     $scope.chatMessageList = messageList;
                 });
             }
+            // just retrieve the messageList
             else {
                 Person.publishChatMessage('', function (messageList) {
                     $scope.chatMessageList = messageList;
                 });
             }
+            // scroll to the bottom of the chat nessage list
+            $rootScope.scrollTo({element:'#message-list', direction: 'down'});
+            // check for new message every x seconds
             chatPollPromise = $timeout(chatPoll, 5000);
-
         }
+        
+        // poll on controller load
         chatPoll();
 
+        /**
+         * Triggers chatPoll() when user enters new chat message in chat input field
+         * Triggered by pressing of button or the ENTER key via chatEnter directive
+         * @param {String} chatMessage
+         */
         $scope.chatSend = function(chatMessage) {
-//            console.log('chatSend');
             $scope.chatMessage = chatMessage;
             if (chatPollPromise) {
                 $timeout.cancel(chatPollPromise);
@@ -100,7 +134,6 @@ OSCR.controller(
             }
             $scope.chatMessageSend = true;
             chatPoll();
-            $rootScope.scrollTo({element:'.message-list', direction: 'down'});
         };
     }
 );
