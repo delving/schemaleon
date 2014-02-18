@@ -620,6 +620,7 @@ OSCR.controller(
             return viewportHeight;
         }
 
+
         /**
          * Scrolls up and down to a named anchor hash, or top/bottom of an element
          * @param {Object} options: hash - named anchor, element - html element (usually a div) with id

@@ -20,6 +20,7 @@
         </div>
     </div>
 
+    <!-- separate table for header to allow for list scrolling -->
     <table class="table table-striped table-condensed table-oscr header-only">
         <thead>
             <th i18n="Title"><span class="i18n"/></th>
@@ -31,7 +32,8 @@
         </thead>
     </table>
 
-    <div class="vertical-scroll" id="document-list-container" ng-style="{'max-height': setViewportHeight({offset: 350})}">
+    <!-- scrolling container to make list scrollable -->
+    <div class="vertical-scroll" id="document-list-container" ng-style="{'max-height': setViewportHeight({offset: 320})}">
 
         <table class="table table-striped table-condensed table-oscr body-only">
             <!-- because the table body is separate from the head we need to sync up the column widths -->
@@ -77,6 +79,7 @@
             </tbody>
         </table>
     </div>
+
     <div class="list-controls table-oscr-list-controls">
         <div class="badge badge-success pointer" data-ng-click="getMoreResults()" i18n="MoreThan" data-ng-show="couldBeMoreResults()">
             <i class="glyphicon glyphicon-hand-down"></i>

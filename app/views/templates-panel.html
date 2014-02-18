@@ -17,7 +17,7 @@
             </div>
         </div>
         <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
-            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+            <input el-hidden-focus="el" class="form-control disabled" type="text" value="{{ displayValue }}" data-ng-focus="focusArrived(el, $index, panelIndex);setEditing(true);"/>
         </div>
     </div>
 </script>
