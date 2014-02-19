@@ -672,6 +672,7 @@ OSCR.directive('scrollable', function($window, $timeout) {
     return {
         restrict: 'E,A',
         replace: false,
+        scope: true,
         link: function($scope, $element, $attrs){
             // wrap in timeout because this directive is also called inside the mediaList directive (media.js)
             // and needs to run the $apply cycle to pick up it's offsetHeight attribute to pass into here
