@@ -608,8 +608,8 @@ OSCR.controller(
                 $anchorScroll();
                 $location.hash(old);//reset to old location in order to maintain routing logic (no hash in the url)
             }
-            // scroll the provided dom element
-            if(element) {
+            // scroll the provided dom element if it exists
+            if(element && $(options.element).length) {
                 var scrollElement = $(options.element);
                 // get the height from the actual content, not the container
                 var scrollHeight = scrollElement[0].scrollHeight;
