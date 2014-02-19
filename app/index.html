@@ -168,7 +168,7 @@
                         <a  href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }">
                                 <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
-                                <span class="badge badge-info pull-right">{{ link.count }}</span>
+                                <span class="badge badge-info count">{{ link.count }}</span>
 
                             <span data-ng-show="config.showTranslationEditor"
                                   data-ng-click="openLabelDialog(link)"
@@ -185,7 +185,7 @@
                         <a href data-ng-click="choosePath(link.path)" class="list-group-item"  data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-show="user.god">
                             <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
-                                <span class="badge badge-info pull-right">{{ link.count }}</span>
+                                <span class="badge badge-info count">{{ link.count }}</span>
 
                                 <span data-ng-show="config.showTranslationEditor"
                                       data-ng-click="openLabelDialog(link)"

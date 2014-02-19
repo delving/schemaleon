@@ -13,7 +13,6 @@
   margin: 0 0 0 0;
   .list-group-item {
     padding: @padding-small-vertical @padding-small-horizontal;
-//    background: transparent;
     &.active {
       background: @gray-lighter;
       color: @gray-dark;
@@ -22,8 +21,11 @@
         color: @brand-primary;
       }
     }
-    .badge {
+    .badge.count {
       font-weight: normal;
+      position: absolute;
+      right: 4px;
+      z-index: 0;
     }
     &.recent {
       text-overflow: ellipsis;
