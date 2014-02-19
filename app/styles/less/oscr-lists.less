@@ -13,37 +13,36 @@
   margin: 0 0 0 0;
   .list-group-item {
     padding: @padding-small-vertical @padding-small-horizontal;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
     &.active {
-      background: @gray-lighter;
-      color: @gray-dark;
+//      background: @brand-primary;
+//      color: @white;
       border: none;
       .glyphicon {
-        color: @brand-primary;
+        color: @white;
       }
     }
-    .badge.count {
+    .label {
       font-weight: normal;
+      font-size: 10px;
       position: absolute;
       right: 4px;
+      top: 4px;
       z-index: 0;
+      padding: 2px 4px;
     }
-    &.recent {
-      text-overflow: ellipsis;
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
+    > .glyphicon {
+      color: @gray;
+      margin-right: 4px;
     }
-  }
-  .glyphicon {
-    color: @gray;
-    margin-right: 4px;
   }
   .badge-translate .glyphicon {
     margin: 0;
   }
-  .label {
-    float:right;
-  }
+
   .list-group-item-heading {
     background: @gray-dark;
     color: @gray-light;

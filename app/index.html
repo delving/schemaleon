@@ -168,7 +168,7 @@
                         <a  href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }">
                                 <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
-                                <span class="badge badge-info count">{{ link.count }}</span>
+                                <span class="label label-info">{{ link.count }}</span>
 
                             <span data-ng-show="config.showTranslationEditor"
                                   data-ng-click="openLabelDialog(link)"
@@ -185,7 +185,7 @@
                         <a href data-ng-click="choosePath(link.path)" class="list-group-item"  data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-show="user.god">
                             <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
                                 {{ link | linkTitle }}
-                                <span class="badge badge-info count">{{ link.count }}</span>
+                                <span class="label label-info">{{ link.count }}</span>
 
                                 <span data-ng-show="config.showTranslationEditor"
                                       data-ng-click="openLabelDialog(link)"
@@ -202,8 +202,8 @@
                         <a href data-ng-click="choosePath(link.path)" class="list-group-item recent" data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
                                 <i class="glyphicon glyphicon-file"></i>
                                 {{ link | linkTitle }}
-                                <span class="badge badge-important" ng-if="link.leased">
-                                    <i class="glyphicon glyphicon-lock"></i>
+                                <span class="label label-danger" ng-if="link.leased">
+                                    <i class="glyphicon glyphicon-lock icon-only"></i>
                                 </span>
                             </a>
                     </div>

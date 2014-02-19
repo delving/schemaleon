@@ -7,7 +7,7 @@
         <div class="col-md-4">
             <legend i18n="Unassigned"><span class="i18n"/></legend>
             <div ng-repeat="label in unassigned" class="form-group">
-                    <label class="label label-default control-label">{{ label.Key }}</label>
+                    <label>{{ label.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
                     <div  ng-show="config.showTranslationEditor">
                     <input class="form-control" type="text" ng-model="label.Value"/>

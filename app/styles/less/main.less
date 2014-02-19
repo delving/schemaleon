@@ -188,21 +188,26 @@ body.full-screen {
 /* PAGE HEADERS */
 
 .page-header {
-  border-color: @grayLight;
+  border-color: @gray-light;
   margin-top: 0px;
   margin-bottom: @line-height-base;
-  text-shadow:1px 1px 2px #FFFFFF;
-  padding: 0 0 0 0;
+  margin: 0 0 @navbar-margin-bottom 0;
+  height: 36px;
   h1 {
     color: @gray;
-    font-weight: 200;
-    font-size: 28px;
+    font-weight: bold;
+    font-size: 21px;
     letter-spacing: 1px;
-    line-height: 28px;
+    line-height: 36px;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    small {
+      color: @gray-darker;
+    }
   }
   &.sub-header {
     h2{
-      color: @gray;
+      color: @gray-dark;
       font-weight: 200;
       font-size: 21px;
       letter-spacing: 1px;
@@ -384,7 +389,7 @@ body.full-screen {
 
 .tabbable {
   background: transparent;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-right: 10px;
   .nav-tabs {
     margin-bottom: 0px;
@@ -586,6 +591,12 @@ body.full-screen {
   }
   .message-time {
     font-size: smaller;
+    color: @gray-light;
+    float: right;
+  }
+  .media {
+    border-bottom: 1px solid @gray-lighter;
+    margin-top: 4px;
   }
 }
 
@@ -635,6 +646,10 @@ body.full-screen {
 .side-slide.activate {
   right: -10px !important;
   box-shadow: -07px 12px 23px rgba(0, 0, 0, 0.2);
+}
+
+.full-screen .side-slide {
+  top: 10px;
 }
 
 
