@@ -65,11 +65,11 @@ OSCR.controller(
                 else {
                     $scope.headerList = $scope.headerList.concat(headerList);
                 }
-
                 // ui - make sure all the grid items are of equal height for proper grid display
                 $timeout(function(){
                     $rootScope.equalHeight($("div.thumbnail"));
-                },2000);
+                    $rootScope.scrollTo({element:'#document-list-container', direction: 'down'});
+                },1000);
             });
         }
 

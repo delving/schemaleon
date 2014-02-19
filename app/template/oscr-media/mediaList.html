@@ -1,4 +1,4 @@
-<div class="media-thumbnails {{gridSize}}" id="media-thumbnail-list" ng-style="{'max-height': setViewportHeight({offset: 300})}">
+<div class="media-thumbnails {{gridSize}}" id="media-thumbnail-list" data-scrollable data-offset="{{ offsetHeight }}" data-ng-style="{ 'max-height': elHeight }" >
     <a name="list-top"></a>
     <ul class="list-unstyled list-inline">
         <li data-ng-repeat="el in mediaList">

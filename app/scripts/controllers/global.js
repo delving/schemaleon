@@ -602,26 +602,6 @@ OSCR.controller(
         };
 
         /**
-         * Sets the desired viewport height - for scrolling divs
-         * @param {Object} options: offset - subtract from total windowheight, height - set a fixed height
-         * @return {Int} viewportHeight;
-         */
-        $rootScope.setViewportHeight = function(options) {
-            var option = options || {},
-                offset = options.offset || 0,
-                height = options.height || undefined,
-                viewportHeight = null;
-            if(!height){
-                viewportHeight = $($window).height() - options.offset;
-            }
-            else {
-                viewportHeight = options.height;
-            }
-            return viewportHeight;
-        }
-
-
-        /**
          * Scrolls up and down to a named anchor hash, or top/bottom of an element
          * @param {Object} options: hash - named anchor, element - html element (usually a div) with id
          * eg. scrollTo({'hash': 'page-top'})
@@ -698,6 +678,35 @@ OSCR.controller(
         }
     }
 );
+
+OSCR.directive('scrollable', function($window, $timeout) {
+    return {
+        restrict: 'E,A',
+        replace: false,
+        link: function($scope, $element, $attrs){
+            // wrap in timeout because this directive is also called inside the mediaList directive (media.js)
+            // and needs to run the $apply cycle to pick up it's offsetHeight attribute to pass into here
+            $timeout(function(){
+                var offset = $attrs.offset,
+                    height = $attrs.fixedHeight;
+                $scope.elHeight = null;
+                function initialize () {
+                    if(!height){
+                        $scope.elHeight = $window.innerHeight - offset;
+                    }
+                    else {
+                        $scope.elHeight = height;
+                    }
+                }
+                initialize();
+                return angular.element($window).bind('resize', function() {
+                    initialize();
+                    return $scope.$apply();
+                });
+            });
+        }
+    }
+});
 
 // filter either an element or an identifier to pick up thumbmnail
 OSCR.filter('mediaThumbnail',

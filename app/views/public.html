@@ -42,8 +42,8 @@
         <div data-ng-hide="headerList.length" i18n="NoPublicDocuments">
             <div class="badge badge-warning"><span class="i18n"></span></div>
         </div>
+        <div class="vertical-scroll thumbnails" id="document-list-container" data-scrollable data-offset="360" data-ng-style="{ 'max-height': elHeight }" data-ng-show="headerList.length">
 
-        <div class="thumbnails" data-ng-show="headerList.length">
             <div data-ng-repeat="header in headerList" class="col-md-3">
                 <div class="thumbnail">
                     <a href ng-click="choosePath(header, true)">
@@ -86,7 +86,7 @@
                     <span class="i18n"></span>
                     <span>{{ headerList.length }}</span>
                 </div>
-                <div class="badge badge-info pointer" data-ng-click="scrollTo({'hash': 'page-top'})" data-ng-show="headerList.length > 12" i18n="BackToTop">
+                <div class="badge badge-info pointer" data-ng-click="scrollTo({'element': '#document-list-container'})" data-ng-show="headerList.length > 12" i18n="BackToTop">
                     <i class="glyphicon glyphicon-hand-up"></i>
                     <span class="i18n"/></span>
                 </div>
