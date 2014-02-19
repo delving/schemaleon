@@ -396,17 +396,6 @@ OSCR.controller(
         };
 
         /**
-         * Depending on where we are in the app we may want to include different views as includes
-         * @return {String} (view location)
-         */
-        $scope.getInclude = function () {
-            if ($location.path().match(/.*\/(edit|create)/) ) {
-                return "views/document-edit-legend.html";
-            }
-            return "";
-        };
-
-        /**
          * return a file extension based on mime type
          * @param {String} mimeType
          * @return {String} extension

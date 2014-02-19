@@ -134,6 +134,12 @@ OSCR.controller(
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch
         }
+
+
+        $scope.documentHelpActive = false;
+        $scope.toggleDocumentHelp = function () {
+            $scope.documentHelpActive = !$scope.documentHelpActive;
+        }
     }
 );
 
@@ -158,6 +164,7 @@ OSCR.controller(
         $scope.setActiveTab = function(tab) {
             $scope.activeTab = tab;
         };
+
 
     }
 );

@@ -199,7 +199,7 @@
                         <div data-ng-show="recent.length > 0" class="list-group-item-heading" i18n="RecentDocuments">
                             <span class="i18n"/>
                         </div>
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
+                        <a href data-ng-click="choosePath(link.path)" class="list-group-item recent" data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
                                 <i class="glyphicon glyphicon-file"></i>
                                 {{ link | linkTitle }}
                                 <span class="badge badge-important" ng-if="link.leased">
@@ -207,7 +207,6 @@
                                 </span>
                             </a>
                     </div>
-                    <div data-ng-include="getInclude()"></div>
                 </div>
             </div>
             <div class="viewport-right" data-ng-class="{'col-md-12' : !user, 'col-md-10' : user }">

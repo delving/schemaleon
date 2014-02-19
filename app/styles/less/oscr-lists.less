@@ -12,7 +12,8 @@
 .nav-left {
   margin: 0 0 0 0;
   .list-group-item {
-    padding: @padding-base-vertical @padding-base-horizontal;
+    padding: @padding-small-vertical @padding-small-horizontal;
+//    background: transparent;
     &.active {
       background: @gray-lighter;
       color: @gray-dark;
@@ -21,11 +22,19 @@
         color: @brand-primary;
       }
     }
-
+    .badge {
+      font-weight: normal;
+    }
+    &.recent {
+      text-overflow: ellipsis;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
   .glyphicon {
     color: @gray;
-    margin-right: 8px;
+    margin-right: 4px;
   }
   .badge-translate .glyphicon {
     margin: 0;
@@ -37,7 +46,7 @@
     background: @gray-dark;
     color: @gray-light;
 //    font-weight: bold;
-    padding: @padding-base-vertical @padding-base-horizontal;
+    padding: @padding-small-vertical @padding-small-horizontal;
     margin-bottom: 0px;
   }
 }

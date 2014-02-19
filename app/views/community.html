@@ -13,14 +13,15 @@
                     <h5 i18n="Chat"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-                    <div class="vertical-scroll" id="message-list" data-scrollable data-fixed-height="50px" data-ng-style="{ 'height': elHeight }" >
-                        <ul class="list-unstyled list-chat">
-                            <li data-ng-repeat="message in chatMessageList">
-                                <span class="message-time">{{ message.time | date:'MM/dd@H:mm'}}</span>
-                                <span class="label label-default" data-ng-class="{ 'label-primary' : user.Profile.firstName + ' ' + user.Profile.lastName == message.user }">{{ message.user }}</span>
+                    <div class="vertical-scroll" id="message-list" data-scrollable data-fixed-height="150px" data-ng-style="{ 'height': elHeight }" >
+                        <div data-ng-repeat="message in chatMessageList" class="media">
+                            <gravatar-image data-email="message.email" data-size="32" data-default="mm" data-secure="false" class="pull-left"></gravatar-image>
+                            <div class="media-body">
+                                <span class="label label-default" data-ng-class="{ 'label-success' : user.Profile.email == message.email }">{{ message.user }}</span>
+                                <span class="message-time">{{ message.time | date:'MM/dd@H:mm'}}</span><br/>
                                 <span>{{ message.text }}</span>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                         <a name="chat-bottom"></a>
                     </div>
                 </div>

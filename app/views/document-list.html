@@ -61,7 +61,7 @@
                 <td data-ng-hide="isShared(schema)">
                     <!-- only show the first thumb if there are multiple -->
                     <span data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)" data-ng-if="$first">
-                         <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" height="21"/>
+                         <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" height="26"/>
                     </span>
                 </td>
                 <td>
