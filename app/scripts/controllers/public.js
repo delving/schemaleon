@@ -19,9 +19,9 @@ OSCR.controller(
             });
         }();
 
-        // ui jquery - target the dropdown with groups and navigate on change
-        $('#list-current-groups').on('change',function(){
-            var path = $(this).val();
+        //target the dropdown with groups and navigate on change
+        angular.element('#list-current-groups').on('change',function(){
+            var path = this.value;
             $scope.$apply($rootScope.choosePath(path));
         });
 
