@@ -4,7 +4,7 @@
         <h1> {{group.Name }}</h1>
     </div>
     <div class="media">
-        <span ng-show="group.Address.Thumbnail.length" class="pull-left"><img ng-src="{{group.Address.Thumbnail}}" width="100"></span>
+        <span ng-if="group.Address.Thumbnail.length" class="pull-left"><img ng-src="{{group.Address.Thumbnail}}" width="100"></span>
         <div class="media-body">
             <address>
                 <h5 class="header">{{ group.Name }}</h5>
