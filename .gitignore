@@ -25,7 +25,7 @@ syntax: glob
 
 ._git
 
-dist
+/dist
 
 oscr-data
 oscr-primary-data
