@@ -665,6 +665,11 @@ OSCR.controller(
                 $(this).css('height',tallest+10);
             });
         }
+
+        $scope.showUserConsole = false;
+        $scope.toggleUserConsole = function () {
+            $scope.showUserConsole = !$scope.showUserConsole;
+        }
     }
 );
 
