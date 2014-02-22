@@ -19,12 +19,11 @@ OSCR.controller(
             });
         }();
 
-        //target the dropdown with groups and navigate on change
-        angular.element('#list-current-groups').on('change',function(){
+        // target the dropdown with groups and navigate on change
+        angular.element('#list-current-groups').on('change', function(){
             var path = this.value;
             $scope.$apply($rootScope.choosePath(path));
         });
-
 
         // search result scope variables
         $scope.headerList = [];
@@ -43,10 +42,11 @@ OSCR.controller(
          */
         function searchDocuments() {
             Document.searchDocuments(null, null, $scope.searchParams, function (list) {
-                var headerList = _.map(list, function(document) {
+                var headerList, groupIdentifiers;
+                headerList = _.map(list, function(document) {
                     return document.Header;
                 });
-                var groupIdentifiers = _.uniq(_.map(headerList, function(header){
+                groupIdentifiers = _.uniq(_.map(headerList, function(header){
                     return header.GroupIdentifier;
                 }));
                 _.each(groupIdentifiers, function(groupIdentifier){
@@ -70,6 +70,7 @@ OSCR.controller(
                     $rootScope.equalHeight($("div.thumbnail"));
                     $rootScope.scrollTo({element:'#document-list-container', direction: 'down'});
                 },1000);
+
             });
         }
 

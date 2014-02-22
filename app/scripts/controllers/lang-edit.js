@@ -62,6 +62,13 @@ OSCR.controller(
             }
         }
 
+        // reload the page with new language if user changes interface language
+//        $scope.$watch('lang', function(newLang, oldLang){
+//            if(newLang != oldLang){
+//                $rootScope.choosePath('lang/'+$rootScope.lang);
+//            }
+//        });
+
         I18N.getList($scope.langCode, function(lang) {
             setLanguage(lang);
         });
@@ -83,5 +90,18 @@ OSCR.controller(
                 setLanguage(lang);
             });
         };
+
+        $scope.setAllLabels = function(formId) {
+            var theForm = angular.element('#'+formId);
+            var inputs = theForm.find('input');
+            var count = 0;
+            angular.forEach(inputs, function(input, $q){
+                if(input.value){
+                    I18N.setLabelAsync($scope.langCode, input.name, input.value, function(lang) {
+                        setLanguage(lang);
+                    });
+                }
+            });
+        }
     }
 );

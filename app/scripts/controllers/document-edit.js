@@ -428,7 +428,7 @@ OSCR.controller(
             }
             $scope.panels.splice(panelIndex + 2, 5);
             $scope.setActiveEl(chosen);
-            $rootScope.scrollTo('panel-top');
+            $rootScope.scrollTo({'element':'#document-content-panels'});
         };
 
         $scope.addSibling = function (parentElement, index, panelIndex) {

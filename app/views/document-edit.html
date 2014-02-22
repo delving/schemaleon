@@ -23,13 +23,12 @@
             </div>
             <!--todo: this one should not be within the TreeEditController-->
             <div class="tab-pane active" ng-if="isTabActive('novice')">
-                <a name="panel-top"></a>
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <div data-ng-include="'panel-array.html'" class="document-content">panel array</div>
+                <div class="vertical-scroll document-content" id="document-content-panels" data-scrollable data-offset="200" data-ng-style="{ 'height': elHeight }" data-ng-include="'panel-array.html'">novice tab</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <div class="vertical-scroll document-content" id="document-list-container" data-scrollable data-offset="220" data-ng-style="{ 'height': elHeight }" data-ng-include="'expert-tab.html'">expert tab</div>
+                <div class="vertical-scroll document-content" id="document-content-expert" data-scrollable data-offset="200" data-ng-style="{ 'height': elHeight }" data-ng-include="'expert-tab.html'">expert tab</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('viewer')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
@@ -162,6 +161,7 @@
 
 <script type="text/ng-template" id="panel-array.html">
     <div id="panel-container" ng-controller="PanelArrayController">
+        <a name="panel-top"></a>
         <p data-ng-hide="panels" i18n="NoDocumentToEdit"></p>
         <table class="table table-panels" id="panel-table" data-ng-show="panels">
             <thead>
