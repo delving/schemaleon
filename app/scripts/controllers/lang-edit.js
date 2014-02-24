@@ -22,11 +22,13 @@ var OSCR = angular.module('OSCR');
 
 OSCR.controller(
     'LangEditController',
-    function ($rootScope, $scope, $routeParams, I18N) {
+    function ($rootScope, $scope, $routeParams, I18N, $timeout) {
 
         $scope.langCode = $routeParams.lang;
 
         function setLanguage(lang) {
+            $timeout(function(){
+
             $scope.labels = _.map(_.pairs(lang.label), function(pair) {
                 $scope.allKeysI18N[pair[0]] = false;
                 return {
@@ -38,28 +40,34 @@ OSCR.controller(
             var unassigned = _.filter(_.pairs($scope.allKeysI18N), function (pair) {
                 return pair[1];
             });
-            $scope.unassigned = _.map(unassigned, function(pair) {
-                return {
-                    Key: pair[0],
-                    Value: '',
-                    StoredValue: ''
-                };
-            });
-            $scope.elements = _.map(_.pairs(lang.element), function(pair) {
-                var key = pair[0];
-                var title = pair[1].title;
-                var doc = pair[1].doc;
-                return {
-                    Key: key,
-                    Title: title,
-                    StoredTitle: title,
-                    Doc: doc,
-                    StoredDoc: doc
-                };
-            });
+
+
+                $scope.unassigned = _.map(unassigned, function(pair) {
+                    return {
+                        Key: pair[0],
+                        Value: '',
+                        StoredValue: ''
+                    };
+                });
+                $scope.elements = _.map(_.pairs(lang.element), function(pair) {
+                    var key = pair[0];
+                    var title = pair[1].title;
+                    var doc = pair[1].doc;
+                    return {
+                        Key: key,
+                        Title: title,
+                        StoredTitle: title,
+                        Doc: doc,
+                        StoredDoc: doc
+                    };
+                });
+
             if ($scope.langCode == $rootScope.lang) {
                 $rootScope.i18n = lang;
             }
+            console.log($scope.unassigned);
+
+            });
         }
 
         // reload the page with new language if user changes interface language
@@ -68,6 +76,12 @@ OSCR.controller(
 //                $rootScope.choosePath('lang/'+$rootScope.lang);
 //            }
 //        });
+
+        !function () {
+            I18N.getList($scope.langCode, function(lang) {
+                setLanguage(lang);
+            });
+        }();
 
         I18N.getList($scope.langCode, function(lang) {
             setLanguage(lang);

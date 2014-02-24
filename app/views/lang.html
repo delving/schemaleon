@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <form id="form-unassigned" name="form-unassigned" action="" method>
                 <legend i18n="Unassigned"><span class="i18n"/></legend>
-                <div ng-repeat="label in unassigned" class="form-group">
+                <div ng-repeat="label in unassigned | orderBy:'Key'" class="form-group">
                     <label>{{ label.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
                     <div  ng-show="config.showTranslationEditor">
