@@ -480,6 +480,8 @@ OSCR.controller(
         $scope.el = $scope.element;
 
         $scope.focusArrived = function(el, index, panelIndex) {
+            // todo: @gerald: this breaks the panel navigation if using mouse only and clicking on input fields
+            // it will always activate the first element in the first panel
             if (panelIndex > $scope.selectedPanelIndex) {
                 // refuse to skip ahead of selectedPanelIndex, instead cycle to 0
                 $scope.choose(0, $scope.selectedPanelIndex);
@@ -487,6 +489,7 @@ OSCR.controller(
             else {
                 $scope.choose(index, panelIndex);
             }
+//              $scope.choose(index, panelIndex);
         };
 
         $scope.navigationKeyPressed = function (key) {
