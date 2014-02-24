@@ -6,14 +6,14 @@
     <!--<input type="file" accept="video/*" capture="camera">-->
 
     <div class="row widget-row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="widget-box oscr-chat">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-comment"></i></span>
                     <h5 i18n="Chat"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-                    <div class="vertical-scroll" id="message-list" data-scrollable data-fixed-height="150px" data-ng-style="{ 'height': elHeight }">
+                    <div class="vertical-scroll" id="message-list" data-scrollable data-fixed-height="210px" data-ng-style="{ 'height': elHeight }">
                         <div data-ng-repeat="message in chatMessageList" class="media">
                             <gravatar-image data-email="message.email" data-size="32" data-default="mm" data-secure="false" class="pull-left"></gravatar-image>
                             <div class="media-body">
@@ -32,6 +32,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-signal"></i></span>
@@ -61,8 +63,9 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-8">
+     </div>
+    <div class="row">
+        <div class="col-md-12">
             <div ng-show="logEntries">
                 <div class="widget-box">
                     <div class="widget-title">
@@ -72,12 +75,12 @@
                     </div>
                     <div class="widget-body widget-tall">
                         <div data-scrollable id="statistics-list" data-offset="200" data-ng-style="{ 'max-height': elHeight }" >
-                            <table class="table table-striped table-bordered table-oscr">
+                            <table class="table table-striped table-condensed table-bordered table-oscr">
                                 <thead>
                                 <tr>
-                                    <th i18n="When"><span class="i18n"/></th>
+                                    <th i18n="When" width="130"><span class="i18n"/></th>
                                     <th i18n="Who"><span class="i18n"/></th>
-                                    <th i18n="What"><span class="i18n"/></th>
+                                    <th i18n="What" width="130"><span class="i18n"/></th>
                                     <th i18n="Details"><span class="i18n"/></th>
                                 </tr>
                                 </thead>
