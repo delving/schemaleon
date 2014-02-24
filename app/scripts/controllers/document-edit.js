@@ -201,6 +201,9 @@ OSCR.controller(
                 $scope.documentDirty = dirty;
                 $rootScope.setDocumentDirty(dirty, $scope.saveDocument, $scope.revertDocument);
                 $scope.leasedDocument = $scope.header.Identifier || '';
+                if ($scope.leasedDocument == $scope.blankIdentifier) {
+                    $scope.leasedDocument = '';
+                }
             }
             if (!dirty) {
                 $scope.leasedDocument = '';
