@@ -643,13 +643,23 @@ body.full-screen {
 
 /* COMMUNITY / DASHBOARD / WIDGETS */
 
+.list-group.statistics {
+  .list-group-item {
+    padding: 4px 4px;
+  }
+}
+
 .statistics .label.count {
   float: right;
 }
 
 /* USER MANAGEMENT */
 
-.user-management .widget-body {
+.user-management-controls {
+  margin-bottom: 20px;
+}
+
+.user-management-widgets .widget-body {
   min-height: 150px;
 }
 
@@ -660,7 +670,7 @@ body.full-screen {
     margin-bottom: 21px;
   }
   .message-list {
-    height: 200px;
+    height: 20px;
     overflow-y: auto;
   }
   .message-time {

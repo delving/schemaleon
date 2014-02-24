@@ -98,7 +98,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href data-ng-click="choosePath('lang/'+config.interfaceLanguage)">
+                            <a ng-href="/#/lang/{{config.interfaceLanguage}}">
                                 <i class="glyphicon glyphicon-globe"></i> <span i18n="Translations"><span class="i18n"/> [{{ config.interfaceLanguage }}]</span>
                             </a>
                         </li>
@@ -129,7 +129,7 @@
                        <div class="list-group-item user-info" data-ng-show="showUserConsole">
                            <ul class="list-unstyled list-key-value">
                                <li>
-                                  <a href data-ng-click="chooseUserPath(user.Identifier)" data-i18n="UserProfile"><span class="i18n"/></a>
+                                   <span i18n="Name" class="key"><span class="i18n"/></span>: <a href data-ng-click="chooseUserPath(user.Identifier)">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</a>
                                </li>
                                <li data-ng-if="user.group" >
                                    <span i18n="Group" class="key"><span class="i18n"/></span>:
@@ -208,12 +208,12 @@
                 </div>
             </div>
             <div class="viewport-right" data-ng-class="{'col-md-12' : !user, 'col-md-10' : user }">
-                <div class="alert alert-danger fade-in" data-ng-show="globalError">
-                    {{ globalError }}
-                </div>
-                <div class="alert alert-warning fade-in alert alert-dismissable"  data-ng-if="!user.group" i18n="NotMemberOfGroup">
+                <!--<div class="alert alert-danger fade-in" data-ng-show="globalError">-->
+                    <!--{{ globalError }}-->
+                <!--</div>-->
+                <div class="alert alert-warning fade-in alert alert-dismissable"  data-ng-if="user && !user.group">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <span class="i18n"/>
+                    <div i18n="NotMemberOfGroup"><span class="i18n"/></div>
                 </div>
                 <div data-ng-view id="view"><!-- Angular views are rendered here --></div>
             </div>

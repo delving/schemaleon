@@ -416,9 +416,15 @@ fieldset[disabled] .btn-on.active {
   float: left;
 }
 .widget-title .action {
-  border-left: 1px solid #fff;
+  border-left: 1px solid #dddddd;
   padding: 9px 10px 7px 11px;
   float: right;
+}
+.widget-title .action .close {
+  color: #999999;
+  margin-top: -1px;
+  opacity: 100;
+  filter: alpha(opacity=10000);
 }
 .widget-title .label {
   padding: 3px 5px 4px;
@@ -443,7 +449,7 @@ fieldset[disabled] .btn-on.active {
 }
 .widget-body {
   clear: both;
-  padding: 4px;
+  padding: 6px;
   overflow-y: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1581,11 +1587,17 @@ body.full-screen .vertical-scroll {
   }
 }
 /* COMMUNITY / DASHBOARD / WIDGETS */
+.list-group.statistics .list-group-item {
+  padding: 4px 4px;
+}
 .statistics .label.count {
   float: right;
 }
 /* USER MANAGEMENT */
-.user-management .widget-body {
+.user-management-controls {
+  margin-bottom: 20px;
+}
+.user-management-widgets .widget-body {
   min-height: 150px;
 }
 /* chat */
@@ -1593,7 +1605,7 @@ body.full-screen .vertical-scroll {
   margin-bottom: 21px;
 }
 .oscr-chat .message-list {
-  height: 200px;
+  height: 20px;
   overflow-y: auto;
 }
 .oscr-chat .message-time {
