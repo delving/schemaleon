@@ -21,7 +21,7 @@
 .table-panels {
   background: transparent;
   width: auto;
-  margin-bottom: @line-height-base;
+  margin-bottom: 0px;
   /* panel header */
   thead > tr > th {
     border-bottom: none !important;
@@ -223,6 +223,9 @@ input#hidden {
 
 .field-controls {
   display: inline-block;
+  input[type=text] {
+    height: 24px;
+  }
   //  text-align: right;
   .icon-item {
 //    display: inline-block;
@@ -304,17 +307,9 @@ ul.kv-list {
 
 /* MEDIA **********************************/
 
-/* media select grid */
-.media-tabs {
-  .tabbable .tab-content {
-    .border-radius(0 0 10px 10px) !important;
-    width: 456px;
-  }
-}
-
 .oscr-media-grid {
-  max-height: 600px;
-  overflow-y: scroll;
+//  max-height: 600px;
+//  overflow-y: scroll;
   .media-thumb-list {
       list-style-type: none;
       padding: 0;

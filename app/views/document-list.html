@@ -33,7 +33,7 @@
     </table>
 
     <!-- scrolling container to make list scrollable -->
-    <div class="vertical-scroll" id="document-list-container" ng-style="{'max-height': setViewportHeight({offset: 320})}">
+    <div class="vertical-scroll" id="document-list-container" data-scrollable data-offset="280" data-ng-style="{ 'max-height': elHeight }" >
 
         <table class="table table-striped table-condensed table-oscr body-only">
             <!-- because the table body is separate from the head we need to sync up the column widths -->
@@ -61,7 +61,7 @@
                 <td data-ng-hide="isShared(schema)">
                     <!-- only show the first thumb if there are multiple -->
                     <span data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)" data-ng-if="$first">
-                         <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" height="21"/>
+                         <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" height="26"/>
                     </span>
                 </td>
                 <td>

@@ -1,33 +1,34 @@
 <div class="fade-in">
-
     <div class="page-header">
         <h1 i18n="Translations"><span class="i18n">Translations</span> "{{ langCode }}"</h1>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <legend i18n="Unassigned"><span class="i18n"/></legend>
-            <div ng-repeat="label in unassigned" class="form-group">
-                    <label class="label label-default control-label">{{ label.Key }}</label>
+            <form id="form-unassigned" name="form-unassigned" action="" method>
+                <legend i18n="Unassigned"><span class="i18n"/></legend>
+                <div ng-repeat="label in unassigned | orderBy:'Key'" class="form-group">
+                    <label>{{ label.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
                     <div  ng-show="config.showTranslationEditor">
-                    <input class="form-control" type="text" ng-model="label.Value"/>
-                    <span class="input-group-addon bg-success pointer" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
-                        <i class="glyphicon glyphicon-ok"></i>
-                    </span>
-            </div>
-            </div>
+                        <input class="form-control" type="text" ng-model="label.Value" name="{{ label.Key }}"/>
+                        <span class="input-group-addon btn btn-success pointer" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue" >
+                            <i class="glyphicon glyphicon-ok"></i> <span i18n="Save"/>
+                        </span>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <div class="col-md-4">
             <legend i18n="Labels"><span class="i18n"/></legend>
             <ul class="list-unstyled translations">
-                <div ng-repeat="label in labels" class="form-group">
+                <div ng-repeat="label in labels | orderBy:'Key'" class="form-group">
                     <label>{{ label.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ label.Value }}"</p>
                     <div ng-show="config.showTranslationEditor">
                         <input class="form-control" type="text" ng-model="label.Value"/>
-                    <span class="input-group-addon bg-success pointer" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue">
-                        <i class="glyphicon glyphicon-ok"></i>
+                    <span class="input-group-addon bg-success pointer" ng-click="setLabel(label)" ng-show="label.Value != label.StoredValue" i18n="Save">
+                        <i class="glyphicon glyphicon-ok"></i> <span class="i18n"/>
                     </span>
                     </div>
                 </div>
@@ -36,7 +37,7 @@
 
         <div class="col-md-4">
             <legend i18n="Fields"><span class="i18n"/></legend>
-                <div ng-repeat="element in elements" class="form-group">
+                <div ng-repeat="element in elements  | orderBy:'Key'" class="form-group">
                     <label>{{ element.Key }}</label>
                     <p ng-hide="config.showTranslationEditor">"{{ element.Title }}"</p>
                     <div ng-show="config.showTranslationEditor">

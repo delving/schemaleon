@@ -19,12 +19,11 @@ OSCR.controller(
             });
         }();
 
-        // ui jquery - target the dropdown with groups and navigate on change
-        $('#list-current-groups').on('change',function(){
-            var path = $(this).val();
+        // target the dropdown with groups and navigate on change
+        angular.element('#list-current-groups').on('change', function(){
+            var path = this.value;
             $scope.$apply($rootScope.choosePath(path));
         });
-
 
         // search result scope variables
         $scope.headerList = [];
@@ -43,10 +42,11 @@ OSCR.controller(
          */
         function searchDocuments() {
             Document.searchDocuments(null, null, $scope.searchParams, function (list) {
-                var headerList = _.map(list, function(document) {
+                var headerList, groupIdentifiers;
+                headerList = _.map(list, function(document) {
                     return document.Header;
                 });
-                var groupIdentifiers = _.uniq(_.map(headerList, function(header){
+                groupIdentifiers = _.uniq(_.map(headerList, function(header){
                     return header.GroupIdentifier;
                 }));
                 _.each(groupIdentifiers, function(groupIdentifier){
@@ -65,11 +65,12 @@ OSCR.controller(
                 else {
                     $scope.headerList = $scope.headerList.concat(headerList);
                 }
-
                 // ui - make sure all the grid items are of equal height for proper grid display
                 $timeout(function(){
                     $rootScope.equalHeight($("div.thumbnail"));
-                },2000);
+                    $rootScope.scrollTo({element:'#document-list-container', direction: 'down'});
+                },1000);
+
             });
         }
 

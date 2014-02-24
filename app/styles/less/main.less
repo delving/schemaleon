@@ -50,7 +50,7 @@
 @baseLightest: lighten(@baseDarker, 60%);
 @delvingBlue: #009ae0;
 
-// Scaffolding
+  // Scaffolding
 // -------------------------
 @bodyBackground:        #dddddd;
 @textColor:             @grayDark;
@@ -67,41 +67,56 @@
 //@import "/app/styles/less/angular-motion.less";
 @import "/app/styles/less/aside.less";
 
+html {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
 /* BODY */
-
 body {
   background: @bodyBackground;
-  margin: 0px 20px;
-  padding-top: 70px;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
   color: @gray-dark;
 }
-
 
 body.full-screen {
     #top-nav,
     .viewport-left {
         display:none;
     }
-  .viewport-right {
-    position: absolute;
-    top: 10px;
-    display: block;
-    width: 100%;
-    height: 100%;
+    .viewport-right {
+      position: absolute;
+      top: 10px;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  .vertical-scroll {
+      height: auto !important;
+      overflow-y: auto;
   }
 }
-
-/* i18n */
-
-
+.viewport {
+  padding: 0 20px;
+}
 
 /* NAVBAR TOP */
+
+#top-nav {
+  position: static !important;
+//  margin-left: -15px;
+//  margin-right: -15px;
+  .container-fluid {
+
+  }
+}
 
 .navbar-header {
   .make-md-column(2);
 }
 .navbar-brand {
   padding: 12px 0;
+  margin-left: 0!important;
   img {
     height: 24px;
     margin-right: 8px;
@@ -115,23 +130,78 @@ body.full-screen {
 //  .list-group a {
 //    color: @link-color;
 //  }
-  .user-info {
-    background: @gray;
-    a {
-      color: @gray-lighter;
-    }
-    .border-top-radius(5px);
-    font-size: smaller;
-  }
+//  .user-info {
+//    background: @gray;
+//    a {
+//      color: @gray-lighter;
+//    }
+//    .border-top-radius(5px);
+//    font-size: smaller;
+//  }
   .media-heading {
     border-bottom: 0px;
   }
   gravatar-image {
-    margin-right: 8px;
+    margin: 0 2px 0 -2px;
+    padding: 0
   }
   .label {
     font-size: @font-size-small;
     margin: 4px 0;
+  }
+}
+
+.nav-left {
+  margin: 0 0 0 0;
+  .list-group-item {
+    padding: @padding-small-vertical @padding-small-horizontal;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    &.active {
+      border: none;
+      .glyphicon {
+        color: @white;
+      }
+    }
+    &.user-info-heading {
+      background: @gray-dark;
+      color: @gray-light;
+      &:hover {
+        background: @brand-primary;
+        color: @white;
+      }
+    }
+    &.user-info {
+      background: @gray-lighter;
+      overflow: visible;
+      white-space: normal;
+    }
+    .label.count {
+      font-weight: normal;
+      font-size: 10px;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      z-index: 0;
+      padding: 2px 4px;
+    }
+    > .glyphicon {
+      color: @gray;
+      margin-right: 4px;
+    }
+  }
+  .badge-translate .glyphicon {
+    margin: 0;
+  }
+
+  .list-group-item-heading {
+    background: @gray-dark;
+    color: @gray-light;
+    //    font-weight: bold;
+    padding: @padding-small-vertical @padding-small-horizontal;
+    margin-bottom: 0px;
   }
 }
 
@@ -192,21 +262,26 @@ body.full-screen {
 /* PAGE HEADERS */
 
 .page-header {
-  border-color: @grayLight;
+  border-color: @gray-light;
   margin-top: 0px;
   margin-bottom: @line-height-base;
-  text-shadow:1px 1px 2px #FFFFFF;
-  padding: 0 0 0 0;
+  margin: 0 0 @navbar-margin-bottom 0;
+  height: 36px;
   h1 {
     color: @gray;
-    font-weight: 200;
-    font-size: 28px;
+    font-weight: bold;
+    font-size: 21px;
     letter-spacing: 1px;
-    line-height: 28px;
+    line-height: 36px;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    small {
+      color: @gray-darker;
+    }
   }
   &.sub-header {
     h2{
-      color: @gray;
+      color: @gray-dark;
       font-weight: 200;
       font-size: 21px;
       letter-spacing: 1px;
@@ -388,8 +463,7 @@ body.full-screen {
 
 .tabbable {
   background: transparent;
-  margin-bottom: 20px;
-  margin-right: 10px;
+  margin-bottom: 10px;
   .nav-tabs {
     margin-bottom: 0px;
     margin-left: 10px;
@@ -406,6 +480,7 @@ body.full-screen {
   .tab-content {
     background: @tabContentBackground;
     padding: 10px;
+    .box-sizing(border-box);
     .border-top-radius(@border-radius-base);
     .border-bottom-radius(@border-radius-base);
   }
@@ -437,11 +512,11 @@ body.full-screen {
   right: 24px;
 }
 
-.document-content {
-  overflow: hidden;
-  overflow-y: auto;
-  min-height: 600px;
-}
+//.document-content {
+//  overflow: hidden;
+//  overflow-y: auto;
+//  min-height: 600px;
+//}
 
 
 /* DOCUMENT-VIEW */
@@ -568,13 +643,23 @@ body.full-screen {
 
 /* COMMUNITY / DASHBOARD / WIDGETS */
 
+.list-group.statistics {
+  .list-group-item {
+    padding: 4px 4px;
+  }
+}
+
 .statistics .label.count {
   float: right;
 }
 
 /* USER MANAGEMENT */
 
-.user-management .widget-body {
+.user-management-controls {
+  margin-bottom: 20px;
+}
+
+.user-management-widgets .widget-body {
   min-height: 150px;
 }
 
@@ -585,13 +670,72 @@ body.full-screen {
     margin-bottom: 21px;
   }
   .message-list {
-    height: 200px;
+    height: 20px;
     overflow-y: auto;
   }
   .message-time {
     font-size: smaller;
+    color: @gray-light;
+    float: right;
+  }
+  .media {
+    border-bottom: 1px solid @gray-lighter;
+    margin-top: 4px;
   }
 }
+
+/* side slideouts */
+@slide-primary: @brand-warning;
+@slide-secondary: @white;
+.side-slide {
+  position: fixed;
+  top: 65px;
+  right: -250px;
+  width: 250px;
+  z-index: 5;
+  .box-sizing(borderbox);
+  background: @slide-primary;
+  .border-radius(0 0 0 5px);
+  -moz-transition: right .1s ease-out;
+  -ms-transition: right .1s ease-out;
+  -o-transition: right .1s ease-out;
+  -webkit-transition: right .1s ease-out;
+  transition: right .1s ease-out;
+  .side-slide-tab {
+    color: @slide-secondary;
+    font-size: @font-size-h4;
+    position: absolute;
+    left: -32px;
+    top: 0px;
+    display: block;
+    height: 32px;
+    width: 32px;
+    border-radius: 5px 0 0 5px;
+    background: @slide-primary;
+    padding: 2px;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+  }
+  .side-slide-body {
+    background: @slide-secondary;
+    .border-radius(0 0 0 5px);
+    padding: 10px;
+  }
+  .heading {
+    margin-top: 0px;
+  }
+}
+
+.side-slide.activate {
+  right: -10px !important;
+  box-shadow: -07px 12px 23px rgba(0, 0, 0, 0.2);
+}
+
+.full-screen .side-slide {
+  top: 10px;
+}
+
 
 @import "/app/styles/less/video-player.less";
 

@@ -203,25 +203,49 @@ module.exports = function (grunt) {
             }
         },
         ngmin: {
-            dist: {
+            oscr: {
                 files: [
                     {
                         expand: true,
                         cwd: '<%= yeoman.dist %>/scripts',
-                        src: '*.js',
+                        src: 'oscr.js',
                         dest: '<%= yeoman.dist %>/scripts'
                     }
                 ]
             }
         },
         uglify: {
-            dist: {
+            oscr: {
+                options: {
+                    mangle: false
+                },
+                files: {
+                    '<%= yeoman.dist %>/scripts/oscr.js': [
+                        '<%= yeoman.dist %>/scripts/oscr.js'
+                    ]
+                }
+            },
+            scripts: {
+                options: {
+                    mangle: false
+                },
                 files: {
                     '<%= yeoman.dist %>/scripts/scripts.js': [
                         '<%= yeoman.dist %>/scripts/scripts.js'
                     ]
                 }
+            },
+            fileupload: {
+                options: {
+                    mangle: false
+                },
+                files: {
+                    '<%= yeoman.dist %>/scripts/fileupload.js': [
+                        '<%= yeoman.dist %>/scripts/fileupload.js'
+                    ]
             }
+            }
+
         },
         rev: {
             dist: {
@@ -331,9 +355,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-//        'jshint',
-//        'test',
-//        'compass:dist',
         'less:dist',
         'useminPrepare',
         'imagemin',
@@ -342,14 +363,14 @@ module.exports = function (grunt) {
         'concat',
         'copy',
         'copy:dist:pdfworker',
+        'ngmin:oscr',
+        'uglify:oscr',
+        'uglify:scripts',
+        'uglify:fileupload',
         'cdnify',
-//        'ngmin',
-//        'uglify',
         'rev',
         'usemin'
     ]);
-
-
 
     grunt.registerTask('default', ['build']);
     grunt.loadNpmTasks('grunt-contrib-less');

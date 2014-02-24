@@ -101,10 +101,10 @@
 <script type="text/ng-template" id="panel-instance.html">
     <div class="panel-input vocabulary-element">
         <div data-ng-controller="InstanceController" class="vocabulary-input">
-            <div data-ng-show="isEditing(el)">
+            <div data-ng-if="isEditing(el)">
                 <input el-focus="el" type="text" ng-model="el.searchValue" class="form-control"/>
             </div>
-            <div data-ng-show="!isEditing(el)" ng-click="setEditing(true)">
+            <div data-ng-if="!isEditing(el)" ng-click="setEditing(true)">
                 <div data-ng-show="isLinkFacts()" class="link-facts">
                     <h6 class="heading" i18n="LinkFacts"><span class="i18n"/>:</h6>
                         <div data-ng-repeat="linkFact in el.linkFacts">
@@ -114,7 +114,7 @@
                         </div>
                 </div>
                 <input type="text" value="{{ el.headerTitle }}" class="form-control disabled"
-                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex)"/>
+                       el-hidden-focus="el" data-ng-focus="focusArrived(el, $index, panelIndex);setEditing(true);"/>
             </div>
         </div>
     </div>
@@ -122,9 +122,9 @@
 
 <script type="text/ng-template" id="panel-instance-search.html">
     <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
-        <!-- DISPLAY CURRENT VALUE //-->
-        <div ng-show="el.value" i18n="CurrentValue" class="current">
 
+        <!-- DISPLAY CURRENT VALUE -->
+        <div ng-show="el.value" i18n="CurrentValue" class="current">
             <label><span class="i18n"/>:</label>
             <span class="value" data-ng-show="isHeader()">{{ el.headerTitle }}</span>
 
@@ -135,13 +135,13 @@
                 </div>
             </div>
         </div>
-        <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+        <!-- DISPLAY VALUE BEING SEARCHED FOR -->
         <div i18n="SearchingFor">
             <label><span class="i18n"/>:</label>
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
         <div ng-show="el.entries">
-            <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
+            <!-- DISPLAY MORE/LESS DETAIL TOGGLE -->
         <div class="detail-controls">
             <span i18n="Found">
                 <label><span class="i18n"/>:</label>
@@ -153,7 +153,7 @@
                 <i class="glyphicon glyphicon-info-sign"></i> <span class="i18n"/>
             </span>
         </div>
-        <!-- DISPLAY LIST OF RETURNED VALUES //-->
+        <!-- DISPLAY LIST OF RETURNED VALUES -->
         <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
             <li ng-repeat="entry in el.entries">
                 <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>

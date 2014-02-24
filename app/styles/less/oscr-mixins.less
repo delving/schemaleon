@@ -43,8 +43,16 @@
   background: @brand-warning;
 }
 
-.badge-success {
-  background: @brand-success;
+.badge-success,
+.bg-success {
+  background: @brand-success !important;
+}
+
+.badge-danger {
+  background: @brand-danger !important;
+  i {
+    color: @white !important;
+  }
 }
 
 .badge-translate {
@@ -68,6 +76,9 @@
   background: @brand-primary!important;
 }
 
+i.icon-only {
+//  margin: 0px !important;
+}
 // Alert styles
 
 .alert-login {
