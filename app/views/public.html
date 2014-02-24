@@ -28,10 +28,12 @@
                     <h5 i18n="CurrentGroups"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
+                    <form class="navbar-form">
                     <select class="form-control" id="list-current-groups">
                         <option>- - - - - - - - - - - - - - - - - - - - - - - - - </option>
                         <option ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}">{{ group.Name }}</option>
                     </select>
+                    </form>
                 </div>
             </div>
         </div>
