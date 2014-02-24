@@ -221,7 +221,8 @@ Storage('oscr', homeDir, function (storage) {
             var chatMessage = {
                 time: new Date().getTime(),
                 text: req.query.message,
-                user: chatUserString(req.session.profile)
+                user: chatUserString(req.session.profile),
+                email: req.session.profile.email
             };
             chatMessages.push(chatMessage);
             storage.Log.chat(req, chatMessage);

@@ -396,17 +396,6 @@ OSCR.controller(
         };
 
         /**
-         * Depending on where we are in the app we may want to include different views as includes
-         * @return {String} (view location)
-         */
-        $scope.getInclude = function () {
-            if ($location.path().match(/.*\/(edit|create)/) ) {
-                return "views/document-edit-legend.html";
-            }
-            return "";
-        };
-
-        /**
          * return a file extension based on mime type
          * @param {String} mimeType
          * @return {String} extension
@@ -602,26 +591,6 @@ OSCR.controller(
         };
 
         /**
-         * Sets the desired viewport height - for scrolling divs
-         * @param {Object} options: offset - subtract from total windowheight, height - set a fixed height
-         * @return {Int} viewportHeight;
-         */
-        $rootScope.setViewportHeight = function(options) {
-            var option = options || {},
-                offset = options.offset || 0,
-                height = options.height || undefined,
-                viewportHeight = null;
-            if(!height){
-                viewportHeight = $($window).height() - options.offset;
-            }
-            else {
-                viewportHeight = options.height;
-            }
-            return viewportHeight;
-        }
-
-
-        /**
          * Scrolls up and down to a named anchor hash, or top/bottom of an element
          * @param {Object} options: hash - named anchor, element - html element (usually a div) with id
          * eg. scrollTo({'hash': 'page-top'})
@@ -639,8 +608,8 @@ OSCR.controller(
                 $anchorScroll();
                 $location.hash(old);//reset to old location in order to maintain routing logic (no hash in the url)
             }
-            // scroll the provided dom element
-            if(element) {
+            // scroll the provided dom element if it exists
+            if(element && $(options.element).length) {
                 var scrollElement = $(options.element);
                 // get the height from the actual content, not the container
                 var scrollHeight = scrollElement[0].scrollHeight;
@@ -696,8 +665,43 @@ OSCR.controller(
                 $(this).css('height',tallest+10);
             });
         }
+
+        $scope.showUserConsole = false;
+        $scope.toggleUserConsole = function () {
+            $scope.showUserConsole = !$scope.showUserConsole;
+        }
     }
 );
+
+OSCR.directive('scrollable', function($window, $timeout) {
+    return {
+        restrict: 'E,A',
+        replace: false,
+        scope: true,
+        link: function($scope, $element, $attrs){
+            // wrap in timeout because this directive is also called inside the mediaList directive (media.js)
+            // and needs to run the $apply cycle to pick up it's offsetHeight attribute to pass into here
+            $timeout(function(){
+                var offset = $attrs.offset,
+                    height = $attrs.fixedHeight;
+                $scope.elHeight = null;
+                function initialize () {
+                    if(!height){
+                        $scope.elHeight = $window.innerHeight - offset;
+                    }
+                    else {
+                        $scope.elHeight = height;
+                    }
+                }
+                initialize();
+                return angular.element($window).bind('resize', function() {
+                    initialize();
+                    return $scope.$apply();
+                });
+            });
+        }
+    }
+});
 
 // filter either an element or an identifier to pick up thumbmnail
 OSCR.filter('mediaThumbnail',

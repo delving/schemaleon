@@ -23,22 +23,38 @@
             </div>
             <!--todo: this one should not be within the TreeEditController-->
             <div class="tab-pane active" ng-if="isTabActive('novice')">
-                <a name="panel-top"></a>
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
-                <div data-ng-include="'panel-array.html'" class="document-content">panel array</div>
+                <div class="vertical-scroll document-content" id="document-content-panels" data-scrollable data-offset="200" data-ng-style="{ 'max-height': elHeight }" data-ng-include="'panel-array.html'">novice tab</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
-                <div data-ng-include="'expert-tab.html'" class="document-content" data-ng-style="{'height': setViewportHeight({offset: 210})}">expert tab</div>
+                <div class="vertical-scroll document-content" id="document-content-expert" data-scrollable data-offset="200" data-ng-style="{ 'height': elHeight }" data-ng-include="'expert-tab.html'">expert tab</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('viewer')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <hr style="margin: 8px 0"/>
                 <div data-ng-include="'view-tab.html'" class="document-content">view tab</div>
             </div>
         </div>
+    </div>
+    <div class="side-slide" data-ng-class="{'activate' : documentHelpActive}">
+        <span class="side-slide-tab" data-ng-click="toggleDocumentHelp()">
+            <i class="glyphicon glyphicon-info-sign"></i>
+        </span>
+        <div class="side-slide-body">
+            <h5 class="heading" i18n="FieldStatus"><span class="i18n"/></h5>
+            <ul class="list-unstyled">
+                <li i18n="StatusEmpty"><span class="icon-item status status-0"></span> <span class="i18n">Status Empty</span></li>
+                <li i18n="StatusOkay"><span class="icon-item status status-1"></span> <span class="i18n">Status Okay</span></li>
+                <li i18n="StatusIncomplete"><span class="icon-item status status-2"></span> <span class="i18n">Status Incomplete</span></li>
+                <li i18n="StatusInvalid"><span class="icon-item status status-3"></span> <span class="i18n">Status Invalid</span></li>
+            </ul>
+            <h5 class="heading" i18n="DocumentStatus"><span class="i18n"/></h5>
+            <span class="label label-default" i18n="Private"></i> <span class="i18n"/></span>
+            <p><small i18n="DocumentPrivateExplanation"><span class="i18n"/></small></p>
+            <span class="label label-success" i18n="Public"> <span class="i18n"/></span>
+            <p><small i18n="DocumentPublicExplanation"><span class="i18n"/></small></p>
+        </div>
+
     </div>
 </div>
 
@@ -145,6 +161,7 @@
 
 <script type="text/ng-template" id="panel-array.html">
     <div id="panel-container" ng-controller="PanelArrayController">
+        <a name="panel-top"></a>
         <p data-ng-hide="panels" i18n="NoDocumentToEdit"></p>
         <table class="table table-panels" id="panel-table" data-ng-show="panels">
             <thead>

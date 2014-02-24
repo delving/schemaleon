@@ -143,7 +143,8 @@ OSCR.directive('oscrMediaList', function($document){
         link: function($scope, $element, $attrs){
             $scope.gridSize = $attrs.gridSize;
             $scope.selectMedia = $attrs.selectMedia;
-            $scope.viewHeight = viewHeight+'px';
+            // eval this attr to pass it onto the scrollable directive (global.js)
+            $scope.offsetHeight = $scope.$eval($attrs.offsetHeight);
         }
     }
 });

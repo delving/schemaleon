@@ -134,6 +134,12 @@ OSCR.controller(
             });
             $scope.document = $scope.schema; // just a name triggers schema fetch
         }
+
+
+        $scope.documentHelpActive = false;
+        $scope.toggleDocumentHelp = function () {
+            $scope.documentHelpActive = !$scope.documentHelpActive;
+        }
     }
 );
 
@@ -158,6 +164,7 @@ OSCR.controller(
         $scope.setActiveTab = function(tab) {
             $scope.activeTab = tab;
         };
+
 
     }
 );
@@ -421,7 +428,17 @@ OSCR.controller(
             }
             $scope.panels.splice(panelIndex + 2, 5);
             $scope.setActiveEl(chosen);
-            $rootScope.scrollTo('panel-top');
+
+            //vertical scroll
+            $rootScope.scrollTo({'element':'#document-content-panels'});
+
+            // horizontal scroll
+            var scroller = $('#panel-container'),
+                table = $('#panel-table'),
+                wTable = table.width(),
+                leftPos = scroller.scrollLeft();
+            scroller.animate({scrollLeft: leftPos + wTable}, 800);
+
         };
 
         $scope.addSibling = function (parentElement, index, panelIndex) {
@@ -473,13 +490,7 @@ OSCR.controller(
         $scope.el = $scope.element;
 
         $scope.focusArrived = function(el, index, panelIndex) {
-            if (panelIndex > $scope.selectedPanelIndex) {
-                // refuse to skip ahead of selectedPanelIndex, instead cycle to 0
-                $scope.choose(0, $scope.selectedPanelIndex);
-            }
-            else {
-                $scope.choose(index, panelIndex);
-            }
+              $scope.choose(index, panelIndex);
         };
 
         $scope.navigationKeyPressed = function (key) {
