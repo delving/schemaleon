@@ -342,44 +342,6 @@ function populateTree(tree, object) {
     return tree;
 }
 
-function getTime(millis) {
-    var ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60, ONE_DAY = ONE_HOUR * 24;
-    var days = Math.floor(millis / ONE_DAY);
-    var hourMillis = Math.floor(millis - ONE_DAY * days);
-    var hours = Math.floor(hourMillis / ONE_HOUR);
-    var minuteMillis = Math.floor(millis - ONE_HOUR * hours);
-    var minutes = Math.floor(minuteMillis / ONE_MINUTE);
-    var secondMillis = Math.floor(minuteMillis - minutes * ONE_MINUTE);
-    var seconds = Math.floor(secondMillis / ONE_SECOND);
-    var time = {};
-    if (days > 0) {
-        time.days = days;
-        time.hours = hours;
-    }
-    else if (hours > 0) {
-        time.hours = hours;
-        time.minutes = minutes;
-    }
-    else if (minutes > 0) {
-        time.minutes = minutes;
-        if (minutes < 10) {
-            time.seconds = seconds;
-        }
-    }
-    else {
-        time.seconds = seconds;
-    }
-    return time;
-}
-
-function updateTimeString(timeStamp) {
-    if (!timeStamp) return null;
-    var now = new Date().getTime();
-    var elapsed = now - timeStamp;
-    var timeString = getTime(elapsed);
-    return getTime(elapsed);
-}
-
 function hasContent(el) {
     if (el.elements) {
         var values = _.filter(el.elements, function (element) {

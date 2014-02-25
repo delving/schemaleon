@@ -81,42 +81,6 @@ OSCR.controller(
         };
 
         /**
-         * Checks to see if a schema is shared
-         * @param {String} schemaName
-         * @return {Boolean}
-         */
-        $rootScope.isShared = function (schemaName) {
-            // this function will throw errors in development mode because of livereload
-            return (_.contains($rootScope.schemaMap.shared, schemaName))
-        };
-
-        /**
-         * Returns a path to edit the document. Shared docs don't have a group Identifier, primary document do.
-         * @param {String} schemaName
-         * @return {Boolean}
-         */
-        function editPathFromHeader(header) {
-            if ($rootScope.isShared(header.SchemaName)) {
-                return '/shared/' + header.SchemaName + '/' + header.Identifier + '/edit';
-            } else {
-                return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/edit';
-            }
-        }
-
-        /**
-         * Returns a path to view the document. Shared docs don't have a group Identifier, primary document do.
-         * @param {String} schemaName
-         * @return {Boolean}
-         */
-        function viewPathFromHeader(header) {
-            if ($rootScope.isShared(header.SchemaName)) {
-                return '/shared/' + header.SchemaName + '/' + header.Identifier + '/view';
-            } else {
-                return '/primary/' + header.SchemaName + '/' + header.GroupIdentifier + '/' + header.Identifier + '/view';
-            }
-        }
-
-        /**
          * returns the group identifier to which the currently authorized user belongs
          * @return {String} $rootScope.user.Membership.GroupIdentifier
          */
@@ -126,25 +90,12 @@ OSCR.controller(
         };
 
         /**
-         * returns the default document state of a particular schema
-         * @return {String} public | private
-         */
-        $rootScope.defaultDocumentState = function(schemaName) {
-            if ($rootScope.isShared(schemaName)) {
-                return 'public';
-            }
-            else {
-                return 'private'
-            }
-        };
-
-        /**
          * Create a new document
          * @param {String} schema
          * @return navigates to the new document page with chosen schema
          */
         $rootScope.newDocument = function (schema) {
-            if ($rootScope.isShared(schema)) {
+            if (isSchemaShared(schema, $rootScope)) {
                 $scope.choosePath('/shared/' + schema + '/create');
             } else {
                 $scope.choosePath('/primary/' + schema + '/' + $rootScope.userGroupIdentifier() + '/create');
@@ -152,7 +103,7 @@ OSCR.controller(
         };
 
         $rootScope.documentList = function (schema) {
-            if ($rootScope.isShared(schema)) {
+            if (isSchemaShared(schema, $rootScope)) {
                 $scope.choosePath('/shared/' + schema);
             } else {
                 $scope.choosePath('/primary/' + schema + '/' + $rootScope.userGroupIdentifier());
@@ -223,11 +174,12 @@ OSCR.controller(
                             };
                         });
 
-                        var anyActive = false;
                         _.forEach(_.union($scope.mainMenuBase, $scope.mainMenuPrimary, $scope.mainMenuShared, $scope.recent), function (link) {
-                            if(link){
+                            if (link) {
+                                if (!link.path) {
+                                    link.path = editPathFromHeader(link.header, $rootScope.schemaMap);
+                                }
                                 link.active = ($location.path().indexOf(link.path) != -1);
-                                if (link.active) anyActive = true;
                             }
                         });
                     });
@@ -269,6 +221,7 @@ OSCR.controller(
 
         // recently opened Documents
         $scope.recent = [];
+
         /**
          * adds a document to the recent list - visible at bottom of the left main menu - and rebuilds the main menu to set the 'active' classes.
          * @param {Object} header
@@ -280,7 +233,6 @@ OSCR.controller(
             if (!recentEntry) {
                 recentEntry = {
                     name: header.SummaryFields.Title,
-                    path: editPathFromHeader(header),
                     icon: 'icon-th-home',
                     header: header
                 };
@@ -289,9 +241,7 @@ OSCR.controller(
                     $scope.recent.shift();
                 }
             }
-            // activate the one we just added
-            buildMainMenu();
-            recentEntry.active = true;
+            buildMainMenu()
         };
 
         /**
@@ -316,7 +266,7 @@ OSCR.controller(
          * @param {String||Object} path - path to the view
          * @param {Boolean} viewOnly - when true (as in links from public) will create url from header to view instead of edit.
          */
-        $rootScope.choosePath = function (path,viewOnly) {
+        $rootScope.choosePath = function (path, viewOnly) {
             if($rootScope.config.showTranslationEditor) return;
             if($rootScope.disableChoosePath) {
                 $rootScope.setGlobalError('Please save your document first');
@@ -342,13 +292,13 @@ OSCR.controller(
             }
             //todo: catch a dirty document
             var header = undefined;
-            if (_.isObject(path)) { // they may have given us a header to define the path
+            if (_.isObject(path) && $rootScope.schemaMap) { // they may have given us a header to define the path
                 header = path;
                 if(!viewOnly){
-                    path = editPathFromHeader(header);
+                    path = editPathFromHeader(header, $rootScope.schemaMap);
                 }
                 else {
-                    path = viewPathFromHeader(header);
+                    path = viewPathFromHeader(header, $rootScope.schemaMap);
                 }
             }
             $location.path(path);
@@ -380,141 +330,6 @@ OSCR.controller(
          */
         $scope.sidebarShowing = function() {
             return $location.path() !== '/login';
-        };
-
-        /**
-         * return a file extension based on mime type
-         * @param {String} mimeType
-         * @return {String} extension
-         */
-        $rootScope.getExtensionFromMimeType = function(mimeType) {
-            var extension;
-            switch (mimeType) {
-                case 'image/jpeg':
-                case 'image/jpg': // todo: from Sjoerd's import
-                    extension = '.jpg';
-                    break;
-                case 'image/png':
-                    extension = '.png';
-                    break;
-                case 'image/gif':
-                    extension = '.gif';
-                    break;
-                case 'video/mp4':
-                    extension = '.mp4';
-                    break;
-                case 'video/quicktime':
-                    extension = '.mov';
-                    break;
-                case 'application/pdf':
-                    extension = '.pdf';
-                    break;
-            }
-            return extension;
-        };
-
-        /**
-         * gets file extestion from filename
-         * @param {String} fileName
-         * @return {String} extension
-         */
-        function getExtension(fileName) {
-            var fileSplitRegExp = new RegExp('(.*)([.][^.]*)');
-            var fileNameMatch = fileSplitRegExp.exec(fileName);
-            var extension = '';
-            if (!fileNameMatch) {
-                console.error('file name did not have the right form to extract extension '+fileName);
-                extension = '.jpg';
-            }
-            else {
-                extension = fileNameMatch[2];
-            }
-            return extension;
-        }
-
-        /**
-         * gets mime type from file name
-         * @param {String} fileName
-         * @return {String} mimeType
-         */
-        $rootScope.getMimeTypeFromFileName = function(fileName) {
-            var mimeType;
-            switch(getExtension(fileName.toLowerCase())) {
-                case '.jpg':
-                    mimeType = 'image/jpeg';
-                    break;
-                case '.png':
-                    mimeType = 'image/png';
-                    break;
-                case '.gif':
-                    mimeType = 'image/gif';
-                    break;
-                case '.mp4':
-                    mimeType = 'video/mp4';
-                    break;
-                case '.mov':
-                    mimeType = 'video/quicktime';
-                    break;
-                case '.pdf':
-                    mimeType = 'application/pdf';
-                    break;
-                default:
-                    console.error('No mime type for extension '+getExtension(fileName));
-                    break;
-            }
-            return mimeType;
-        };
-
-        /**
-         * Extracts mime type from different source formats
-         * @param {Object} source
-         * @return {String} mime
-         */
-        $rootScope.extractMimeType = function(source) {
-            var mime = '';
-            if (source) {
-                if (source.value) {
-                    mime = source.value.MimeType;
-                }
-                else if (source.Body && source.Body.MediaMetadata) {
-                    mime = source.Body.MediaMetadata.MimeType;
-                }
-                else if (_.isString(source)) {
-                    mime = source;
-                }
-            }
-//            console.log('extractedMimeType=' + mime, source);
-            return mime;
-        };
-
-        /**
-         * Checks to see if passed source is an image
-         * @param {Object} source
-         * @return {Boolean}
-         */
-        $rootScope.isImage = function(source) {
-            var mime = $rootScope.extractMimeType(source);
-            return (mime && mime.indexOf('image') >= 0);
-        };
-
-        /**
-         * Checks to see if passed source is a video
-         * @param {Object} source
-         * @return {Boolean}
-         */
-        $rootScope.isVideo = function (source) {
-            var mime = $rootScope.extractMimeType(source);
-            return (mime && mime.indexOf('video') >= 0);
-        };
-
-        /**
-         * Checks to see if passed source is a pdf file
-         * @param {Object} source
-         * @return {Boolean}
-         */
-        $rootScope.isPdf = function (source) {
-            var mime = $rootScope.extractMimeType(source);
-            return (mime && mime.indexOf('pdf') >= 0);
         };
 
         /**
@@ -584,8 +399,8 @@ OSCR.controller(
          * eg. scrollto({'element': '#document-list-container'})
          */
         $rootScope.scrollTo = function (options) {
-            var options = options || {},
-                hash = options.hash || undefined,
+            options = options || {};
+            var hash = options.hash || undefined,
                 element = options.element || undefined,
                 direction = options.direction || 'up';
             // navigate to hash
@@ -612,7 +427,7 @@ OSCR.controller(
                     scrollTop: '+=' + distance
                 });
             }
-        }
+        };
 
         // for development only during livereload
         if ($location.host() == 'localhost') {

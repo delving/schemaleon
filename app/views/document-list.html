@@ -24,7 +24,7 @@
     <table class="table table-striped table-condensed table-oscr header-only">
         <thead>
             <th i18n="Title"><span class="i18n"/></th>
-            <th i18n="Thumbnail" width="100" ng-hide="isShared(schema)"><span class="i18n"/></th>
+            <th i18n="Thumbnail" width="100" ng-hide="schemaIsShared"><span class="i18n"/></th>
             <th i18n="Identifier" width="250"><span class="i18n"/></th>
             <th i18n="State" width="75"><span class="i18n"/></th>
             <th i18n="Stored" width="150"><span class="i18n"/></th>
@@ -39,7 +39,7 @@
             <!-- because the table body is separate from the head we need to sync up the column widths -->
             <colgroup>
                 <col/>
-                <col style="width:100px" ng-hide="isShared(schema)"/>
+                <col style="width:100px" ng-hide="schemaIsShared"/>
                 <col style="width:250px"/>
                 <col style="width:75px"/>
                 <col style="width:150px"/>
@@ -58,7 +58,7 @@
                         <span data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</span>
                     </a>
                 </td>
-                <td data-ng-hide="isShared(schema)">
+                <td data-ng-hide="schemaIsShared">
                     <!-- only show the first thumb if there are multiple -->
                     <span data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)" data-ng-if="$first">
                          <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" height="26"/>

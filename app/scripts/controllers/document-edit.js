@@ -115,7 +115,7 @@ OSCR.controller(
                 return header.DocumentState;
             }
             else {
-                return $rootScope.defaultDocumentState($scope.schema);
+                return defaultDocumentState($scope.schema, $scope.schemaMap);
             }
         };
 
@@ -245,16 +245,6 @@ OSCR.controller(
             }
         }
 
-        $scope.isDocumentPublic = function() {
-            var documentState = $scope.headerDocumentState || $scope.getDocumentState($scope.header);
-            return documentState == 'public';
-        };
-
-        $scope.isDocumentPresent = function() {
-            var documentState = $scope.headerDocumentState || $scope.getDocumentState($scope.header);
-            return documentState != 'deleted';
-        };
-
         // for handling focus in element fields
         $scope.editing = false;
         $scope.focusElementArray = [];
@@ -263,12 +253,12 @@ OSCR.controller(
         $scope.showMediaSelect = false;
         $scope.toggleMediaAsideList = function () {
             $scope.showMediaSelect = !$scope.showMediaSelect;
-        }
+        };
 
         $scope.showMediaUpload = false;
         $scope.toggleMediaAsideUpload = function () {
             $scope.showMediaUpload = !$scope.showMediaUpload;
-        }
+        };
 
         $scope.setEditing = function(value) { // must have a function to mutate this primitive
 //            console.log('document-edit.js TreeEditController l.240 setEdititing()', value);

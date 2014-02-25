@@ -19,6 +19,10 @@ OSCR.controller(
             maxResults: $scope.defaultMaxResults
         };
 
+        $scope.$watch('schemaMap', function(schemaMap, before) {
+            $scope.schemaIsShared = isSchemaShared($scope.schema, schemaMap);
+        });
+
         function searchDocuments() {
             Document.searchDocuments($scope.schema, $scope.groupIdentifier, $scope.searchParams, function (list) {
                 var headerList = _.map(list, function(document) {

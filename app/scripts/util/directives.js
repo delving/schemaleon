@@ -14,6 +14,8 @@
 //    limitations under the License.
 // ================================================================================
 
+var OSCR = angular.module('OSCR');
+
 OSCR.directive('private',
     function () {
         return {

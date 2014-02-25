@@ -51,7 +51,7 @@ function installInElement(el, name) {
         case 'timePrimitive':
             break;
         default:
-            console.error('No validator found for: ' + name);
+            console.log('No validator found for: ' + name);
     }
 }
 

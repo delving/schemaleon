@@ -128,24 +128,27 @@
                 </div>
             </li>
             <li class="pull-right" ng-if="!user.viewer">
-               <div class="btn-group">
-                       <span i18n="Public" data-ng-click="setDocumentState('public')" class="btn btn-off" ng-class="{ 'btn-on' : isDocumentPublic() }">
+                <div class="btn-group">
+                       <span i18n="Public" data-ng-click="setDocumentState('public')" class="btn btn-off"
+                             ng-class="{ 'btn-on' : headerDocumentState == 'public' }">
                            <i class="glyphicon glyphicon-eye-open"></i>
                            <span class="i18n"/>
                        </span>
-                       <span i18n="Private" data-ng-click="setDocumentState('private')" class="btn btn-off" ng-class="{ 'btn-on' : !isDocumentPublic() }">
+                       <span i18n="Private" data-ng-click="setDocumentState('private')" class="btn btn-off"
+                             ng-class="{ 'btn-on' : headerDocumentState != 'public' }">
                            <i class="glyphicon glyphicon-eye-close"></i>
                            <span class="i18n"/>
                        </span>
+                </div>
 
-               </div>
-
-                <span class="btn" ng-class="{ 'btn-danger' : isDocumentPresent() }">
-                   <span data-ng-show="isDocumentPresent()" i18n="PutInTrash" data-ng-click="setDocumentState('deleted')">
+                <span class="btn" ng-class="{ 'btn-danger' : headerDocumentState != 'deleted' }">
+                   <span data-ng-show="headerDocumentState != 'deleted'" i18n="PutInTrash"
+                         data-ng-click="setDocumentState('deleted')">
                        <i class="glyphicon glyphicon-trash"></i>
                        <span class="i18n"/>
                    </span>
-                   <span data-ng-hide="isDocumentPresent()" i18n="TakeOutOfTrash" data-ng-click="setDocumentState('private')">
+                   <span data-ng-hide="headerDocumentState != 'deleted'" i18n="TakeOutOfTrash"
+                         data-ng-click="setDocumentState('private')">
                        <i class="glyphicon glyphicon-trash"></i>
                        <span class="i18n"/>
                    </span>

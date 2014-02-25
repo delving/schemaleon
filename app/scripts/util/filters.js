@@ -14,6 +14,8 @@
 //    limitations under the License.
 // ================================================================================
 
+var OSCR = angular.module('OSCR');
+
 // filter either an element or an identifier to pick up thumbmnail
 OSCR.filter('mediaThumbnail',
     function () {

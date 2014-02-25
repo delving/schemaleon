@@ -1,6 +1,5 @@
 'use strict';
 
-
 var OSCR = angular.module('OSCR');
 
 OSCR.controller(
@@ -67,7 +66,7 @@ OSCR.controller(
                 MediaMetadata: {
                     UserIdentifier: $rootScope.user.Identifier,
                     OriginalFileName: file.name,
-                    MimeType: $rootScope.getMimeTypeFromFileName(file.name)
+                    MimeType: getMimeTypeFromFileName(file.name)
                 }
             };
             Document.saveDocument(header, body, function (header) {
