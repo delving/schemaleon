@@ -143,7 +143,7 @@
         <ul data-ng-show="schemaList" class="list-unstyled list-inline list-tags">
             <li data-ng-repeat="schemaChoice in schemaList">
                 <span i18n="{{ schemaChoice }}">
-                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge i18n"/>
+                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge pointer i18n" data-ng-click="switchSchemas(schemaChoice)"/>
                 </span>
             </li>
         </ul>
@@ -162,7 +162,7 @@
             </span>
         </div>
         <!-- DISPLAY LIST OF RETURNED VALUES -->
-        <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 97%;">
+        <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px;">
             <li ng-repeat="entry in el.entries">
                 <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
                 <div class="vocabulary-extended" ng-show="instanceDetails">

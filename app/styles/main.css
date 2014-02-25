@@ -1502,7 +1502,6 @@ body.full-screen .vertical-scroll {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  margin-right: 10px;
 }
 .vocabulary-controls .detail-controls label {
   color: #999999;

@@ -140,7 +140,7 @@
             <ul data-ng-show="schemaList" class="list-unstyled list-inline list-tags">
                 <li data-ng-repeat="schemaChoice in schemaList">
                 <span i18n="{{ schemaChoice }}">
-                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge i18n"/>
+                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge pointer i18n" data-ng-click="switchSchemas(schemaChoice)"/>
                 </span>
                 </li>
             </ul>

@@ -207,6 +207,11 @@ OSCR.controller(
             return $scope.el.value && $scope.el.value.Header;
         };
 
+        $scope.switchSchemas = function (schemaChoice) {
+            $scope.schema = schemaChoice;
+            $scope.el.searchValue = '';
+        }
+
         $scope.setValue = function (value) {
             $scope.el.value = {
                 Header: value.Header
