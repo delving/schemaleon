@@ -120,10 +120,6 @@
                     <input ng-if="!isEditing(el)" type="text" class="form-control" ng-value="el.headerTitle" data-ng-focus="setActiveEl(el)"/>
                     <div ng-if="isEditing(el)">
                         <input type="text" class="form-control" ng-model="el.searchValue" autofocus="true"/>
-                        <!-- DISPLAY CURRENT VALUE //-->
-                        <div ng-show="el.value" i18n="CurrentValue" class="current">
-                            <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
-                        </div>
                     </div>
 
                 </div>
@@ -132,12 +128,26 @@
     </div>
     <div class="expert-right-col">
         <div ng-if="isEditing(el)" data-ng-controller="InstanceSearchController" class="vocabulary-controls">
-            <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
-            <div class="detail-controls">
-                <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
+            <!-- DISPLAY CURRENT VALUE //-->
+            <div ng-show="el.value" i18n="CurrentValue" class="current">
+                <label><span class="i18n"/>:</label> <span class="value">{{ el.value.Header.SummaryFields.Title }}</span>
+            </div>
+            <!-- DISPLAY VALUE BEING SEARCHED FOR //-->
                 <span i18n="SearchFor">
                     <label><span class="i18n"/>:</label>
                     <span class="value search-value">{{ el.searchValue }}</span>
+                </span>
+            <ul data-ng-show="schemaList" class="list-unstyled list-inline list-tags">
+                <li data-ng-repeat="schemaChoice in schemaList">
+                <span i18n="{{ schemaChoice }}">
+                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge i18n"/>
+                </span>
+                </li>
+            </ul>
+            <!-- DISPLAY MORE/LESS DETAIL TOGGLE //-->
+            <div class="detail-controls">
+                <span i18n="Found">
+                    <label><span class="i18n"/>:</label>
                 </span>
                 <span i18n="MoreDetails" class="badge badge-info pointer pull-right" data-ng-click="showInstanceDetails()" data-ng-hide="instanceDetails">
                     <i class="icon-info-sign icon-white"></i> <span class="i18n"/>
