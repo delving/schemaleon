@@ -127,7 +127,12 @@ such as using regular expressions when validating.
 
 * **instance**
 
-	An *instance* field is one that contains the information needed to refer to an instance of another document, typically a */shared/* document within OSCR itself. Other options are also possible for the content, and currently there is one more option to facilitate migration of data from other systems to OSCR.
+	An *instance* field is one that contains the information needed to refer to an instance of another document, typically a */shared/* document within OSCR itself. An instance field can allow choices from a single schema or from multiple.
+	
+		<Photographer>{ "instance": "Person" }</Photographer>
+		<Entity>{ "instance": [ "Location", "Person", "Organization" }</Entity>
+	
+	When an instance is chosen the *header* portion of the target document will be inserted as content of the XML tag. Other options are also possible for the content, and currently there is one more option to facilitate migration of data from other systems to OSCR.
 	
 	**Header**
 	
@@ -146,7 +151,6 @@ such as using regular expressions when validating.
 				<SavedBy>OSCR-US-eaz3313x-rm2</SavedBy>
 			</Header>
 		</Person>
-
 	
 	It also contains some cached *SummaryFields* so that it is possible to quickly show a human-readable value in the field **without** having to de-reference the link.
 	
