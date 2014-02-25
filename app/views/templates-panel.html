@@ -123,14 +123,6 @@
 <script type="text/ng-template" id="panel-instance-search.html">
     <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
 
-        <ul data-ng-show="schemaList">
-            <li data-ng-repeat="schemaChoice in schemaList">
-                <span i18n="{{ schemaChoice }}">
-                    <span data-ng-class="{ 'badge-warning': schemaChoice == schema }" class="badge i18n"/>
-                </span>
-            </li>
-        </ul>
-
         <!-- DISPLAY CURRENT VALUE -->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
             <label><span class="i18n"/>:</label>
@@ -148,6 +140,14 @@
             <label><span class="i18n"/>:</label>
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
+        <ul data-ng-show="schemaList" class="list-unstyled list-inline list-tags">
+            <li data-ng-repeat="schemaChoice in schemaList">
+                <span i18n="{{ schemaChoice }}">
+                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge i18n"/>
+                </span>
+            </li>
+        </ul>
+
         <div ng-show="el.entries">
             <!-- DISPLAY MORE/LESS DETAIL TOGGLE -->
         <div class="detail-controls">

@@ -231,6 +231,9 @@ fieldset[disabled] .btn-on.active {
   color: #333333;
   padding-left: 4px;
 }
+.list-tags li {
+  padding: 0 4px 2px 0;
+}
 /*bootstrap overrides */
 .dropdown-menu > li > a:hover {
   background: #428bca;
@@ -1531,7 +1534,7 @@ body.full-screen .vertical-scroll {
 @media (min-width: 1200px) {
   .expert-left-col {
     float: left;
-    width: 50%;
+    width: 66.66666666666666%;
   }
 }
 .expert-right-col {
@@ -1543,7 +1546,7 @@ body.full-screen .vertical-scroll {
 @media (min-width: 1200px) {
   .expert-right-col {
     float: left;
-    width: 50%;
+    width: 33.33333333333333%;
   }
 }
 .form-expert {
