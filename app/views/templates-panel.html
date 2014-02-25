@@ -162,7 +162,7 @@
             </span>
         </div>
         <!-- DISPLAY LIST OF RETURNED VALUES -->
-        <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px;">
+        <ul class="dropdown-menu vocabulary-list" role="menu" aria-labelledby="dLabel" style="display: block; position: static; margin-bottom: 5px; width: 100%;">
             <li ng-repeat="entry in el.entries">
                 <a href tabindex="-1"  ng-click="setValue(entry)">{{ entry.Header.SummaryFields.Title }}</a>
                 <div class="vocabulary-extended" ng-show="instanceDetails">

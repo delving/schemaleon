@@ -1471,13 +1471,6 @@ body.full-screen .vertical-scroll {
   right: 24px;
 }
 /* DOCUMENT-VIEW */
-.indent {
-  margin-left: 30px;
-}
-.indent legend {
-  border-bottom: none;
-  margin-bottom: 0px;
-}
 .document-metadata {
   background: #ffffff;
   /* border-radius */
@@ -1502,6 +1495,8 @@ body.full-screen .vertical-scroll {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  display: block;
+  width: 100%;
 }
 .vocabulary-controls .detail-controls label {
   color: #999999;
@@ -1523,26 +1518,54 @@ body.full-screen .vertical-scroll {
 .table-vocabulary-details tbody > tr > th {
   padding-left: 8px;
 }
+.indent {
+  padding-left: 5%;
+}
+.indent legend {
+  border-bottom: none;
+  margin-bottom: 0px;
+}
+.indent .form-control {
+  width: 97.55555555%;
+}
+.indent .indent .form-control {
+  width: 95%;
+}
+@media (max-width: 1200px) {
+  .indent {
+    padding-left: 2.5%;
+  }
+  .indent .form-control {
+    width: 96.25555555%;
+  }
+  .indent .indent .form-control {
+    width: 93.75555555%;
+  }
+}
 /* EXPERT INPUT FORM */
 .expert-left-col {
   position: relative;
   min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5;
+  padding-right: 5;
 }
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   .expert-left-col {
     float: left;
     width: 66.66666666666666%;
   }
 }
+.expert-left-col.active {
+  background: #ffffff;
+  padding: 20px;
+}
 .expert-right-col {
   min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5;
+  padding-right: 5;
   position: relative;
 }
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   .expert-right-col {
     float: left;
     width: 33.33333333333333%;
@@ -1567,26 +1590,17 @@ body.full-screen .vertical-scroll {
   padding: 6px 10px;
 }
 .form-expert legend {
+  color: #333333;
   border-color: #d9d9d9;
   font-size: 14px;
   font-weight: bold;
   line-height: 24px;
+  margin-top: 10px;
 }
 .form-expert .vocabulary-controls {
   position: absolute;
   width: 100%;
   z-indez: 1000;
-}
-.expert-media-controls {
-  position: absolute;
-}
-@media (max-width: 1350px) {
-  .expert-media-controls {
-    position: static;
-  }
-  .form-expert .vocabulary-controls {
-    position: static;
-  }
 }
 /* COMMUNITY / DASHBOARD / WIDGETS */
 .list-group.statistics .list-group-item {

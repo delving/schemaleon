@@ -521,14 +521,6 @@ body.full-screen {
 
 /* DOCUMENT-VIEW */
 
-.indent {
-  margin-left: 30px;
-  legend {
-    border-bottom: none;
-    margin-bottom: 0px;
-  }
-}
-
 .document-metadata {
   background: @white;
   .border-radius(@border-radius-large);
@@ -553,6 +545,8 @@ body.full-screen {
     .border-radius(6px);
     .box-sizing(border-box);
 //    margin-right: 10px;
+    display: block;
+    width: 100%;
     label {
       color: @gray-light;
     }
@@ -581,27 +575,50 @@ body.full-screen {
   }
 }
 
+.indent {
+  padding-left: 5%;
+  legend {
+    border-bottom: none;
+    margin-bottom: 0px;
+  }
+  .form-control {
+    width: 97.55555555%;
+  }
+  .indent .form-control {
+    width: 95%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .indent {
+    padding-left: 2.5%;
+    .form-control {
+      width: 96.25555555%;
+    }
+    .indent .form-control {
+      width: 93.75555555%;
+    }
+  }
+}
+
+
 /* EXPERT INPUT FORM */
 
 .expert-left-col {
-  .make-lg-column(8);
+  .make-sm-column(8,10);
+  &.active {
+    background: @white;
+    padding: 20px;
+  }
 }
 
+
 .expert-right-col {
-  .make-lg-column(4);
+  .make-sm-column(4,10);
   position:relative;
 }
 
 .form-expert {
-//  background: @grayDark;
-//  color: @grayLighter;
-//  margin-top: 0px;
-//  margin-left: -10px;
-//  margin-right: -10px;
-//  margin-bottom: -10px;
-//  .form-inner {
-//    padding: 10px;
-//  }
   .form-header {
     background: @brand-primary;
     .border-radius(6px);
@@ -613,12 +630,12 @@ body.full-screen {
   }
   .border-radius( 0 0 10px 10px);
   legend {
-//    color: @grayLighter;
+    color: @gray-dark;
     border-color: lighten(@gray-light, 25%);
-//    border: none;
     font-size: 14px;
     font-weight: bold;
     line-height: 24px;
+    margin-top: 10px;
   }
   .vocabulary-controls {
     position: absolute;
@@ -626,20 +643,6 @@ body.full-screen {
     z-indez: @zindex-dropdown;
   }
 }
-
-.expert-media-controls {
-  position: absolute;
-}
-
-@media (max-width: 1350px) {
-  .expert-media-controls {
-    position: static;
-  }
-  .form-expert .vocabulary-controls {
-    position: static;
-  }
-}
-
 
 /* COMMUNITY / DASHBOARD / WIDGETS */
 

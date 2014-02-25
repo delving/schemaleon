@@ -163,12 +163,11 @@ OSCR.controller(
     'TabController',
     function ($rootScope, $scope, $timeout) {
 
-        $scope.activeTab ='novice';
+        $scope.activeTab = 'novice';
 
         if($rootScope.user && $rootScope.user.viewer) {
-            $scope.activeTab = "viewer";
+            $scope.activeTab = 'viewer';
         }
-
 
         // toggle tabs between edit and view
         $scope.isTabActive = function (tab) {
