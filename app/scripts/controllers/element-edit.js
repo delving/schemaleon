@@ -184,6 +184,8 @@ OSCR.controller(
         if ($scope.panel) $scope.el = $scope.panel.element;
         if (!$scope.el.config.instance) return;
 
+        $scope.el.searchValue = '';
+
         if (_.isArray($scope.el.config.instance)) {
             $scope.schemaList = $scope.el.config.instance;
             $scope.schema = $scope.schemaList[0];
@@ -207,9 +209,23 @@ OSCR.controller(
             return $scope.el.value && $scope.el.value.Header;
         };
 
+        function searchSchemas(searchValue) {
+            var searchParams = {
+                searchQuery: searchValue
+            };
+            Document.searchDocuments($scope.schema, null, searchParams, function (entries) {
+                $scope.el.entries = entries;
+            });
+        }
+
         $scope.switchSchemas = function (schemaChoice) {
             $scope.schema = schemaChoice;
-            $scope.el.searchValue = '';
+            if ($scope.el.searchValue.length) {
+                $scope.el.searchValue = '';
+            }
+            else {
+                searchSchemas($scope.el.searchValue);
+            }
         };
 
         $scope.setValue = function (value) {
@@ -220,12 +236,7 @@ OSCR.controller(
         };
 
         $scope.$watch('el.searchValue', function (searchValue, oldSearchValue) {
-            var searchParams = {
-                searchQuery: searchValue
-            };
-            Document.searchDocuments($scope.schema, null, searchParams, function (entries) {
-                $scope.el.entries = entries;
-            });
+            searchSchemas(searchValue);
         });
 
         $scope.getInstanceDetails = function (schema) {
