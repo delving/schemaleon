@@ -210,7 +210,7 @@ OSCR.controller(
         $scope.switchSchemas = function (schemaChoice) {
             $scope.schema = schemaChoice;
             $scope.el.searchValue = '';
-        }
+        };
 
         $scope.setValue = function (value) {
             $scope.el.value = {
