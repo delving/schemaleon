@@ -1,118 +1,22 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
 
 var OSCR = angular.module('OSCR');
-
-OSCR.directive(
-    'i18n',
-    function () {
-        return {
-            restrict: 'A',
-            replace: false,
-            transclude: true,
-            scope: true,
-            link: function ($scope, $element, $attrs) {
-                $scope.$watch('i18n', function (i18n, before) {
-                    function setText(text) {
-                        var find = $element.find('.i18n');
-                        if (find.length) {
-                            find.text(text);
-                        }
-                        else {
-                            $element.text(text);
-                        }
-                    }
-
-                    if (i18n) {
-                        var msg = i18n.label[$attrs.i18n];
-                        if (msg && msg != '?') {
-                            setText(msg);
-                            return;
-                        }
-                    }
-                    setText($attrs.i18n);
-                });
-                $scope.key = $attrs.i18n;
-                $scope.allKeysI18N[$attrs.i18n] = true;
-                $attrs.$observe('i18n', function (newValue) {
-                    $scope.key = newValue;
-                });
-            },
-            template:
-                '<span ng-transclude></span> ' +
-                '<span class="badge badge-warning badge-translate pointer" ng-show="config.showTranslationEditor" ng-click="openLabelDialog(key)">' +
-                '<i class="glyphicon glyphicon-globe"></i>' +
-                '</span>'
-        }
-    }
-);
-
-OSCR.filter(
-    'invalidMessage',
-    function (I18N) {
-        return function (element) {
-            if (I18N.isReady()) {
-                var message = I18N.label(element.invalidMessage);
-                if (message) return message;
-            }
-            return element.invalidMessage;
-        };
-    }
-);
-
-
-OSCR.filter(
-    'linkTitle',
-    function (I18N) {
-        return function (link) {
-            if (!link) return '';
-            if (I18N.isReady()) {
-                var title = I18N.label(link.name);
-                if (title) return title;
-            }
-            return link.name;
-        };
-    }
-);
-
-OSCR.filter(
-    'elementTitle',
-        function (I18N) {
-            return function (element) {
-                if (!element) return '';
-                if (element.title) {
-                    if (element.title != '?') return element.title;
-                }
-                else if (I18N.isReady()) {
-                    var title = I18N.title(element.name);
-                    if (title) {
-                        element.title = title;
-                        return title;
-                    }
-                }
-                return element.name;
-            };
-        }
-);
-
-OSCR.filter(
-    'elementDoc',
-        function (I18N) {
-            return function (element) {
-                if (!element) return '';
-                if (element.doc) {
-                    if (element.doc != '?') return element.doc;
-                }
-                else if (I18N.isReady()) {
-                    var doc = I18N.doc(element.name);
-                    if (doc) {
-                        element.doc = doc;
-                        return doc;
-                    }
-                }
-                return element.name;
-            };
-        }
-);
 
 OSCR.controller(
     'I18NController',

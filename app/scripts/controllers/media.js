@@ -133,34 +133,3 @@ OSCR.controller(
     }
 );
 
-
-OSCR.directive('oscrMediaList', function($document){
-    var viewHeight = $document.height() - 380;
-    return {
-        restrict: 'E,A',
-        templateUrl: 'template/oscr-media/mediaList.html',
-        replace: false,
-        link: function($scope, $element, $attrs){
-            $scope.gridSize = $attrs.gridSize;
-            $scope.selectMedia = $attrs.selectMedia;
-            // eval this attr to pass it onto the scrollable directive (global.js)
-            $scope.offsetHeight = $scope.$eval($attrs.offsetHeight);
-        }
-    }
-});
-
-OSCR.directive('oscrMediaAsideSelect', function(){
-    return {
-        restrict: 'E,A',
-        templateUrl: 'template/oscr-media/mediaAsideSelect.html',
-        replace: false
-    }
-});
-
-OSCR.directive('oscrMediaAsideUpload', function(){
-    return {
-        restrict: 'A',
-        templateUrl: 'template/oscr-media/mediaAsideUpload.html',
-        replace: false
-    }
-});

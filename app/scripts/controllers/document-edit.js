@@ -1,7 +1,22 @@
+// ================================================================================
+// Copyright 2014 Delving BV, Rotterdam, Netherands
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+// ================================================================================
+
 'use strict';
 
 var OSCR = angular.module('OSCR');
-
 
 // This class is set when keyboard nav is used.
 $('html').on('click',function(){
@@ -550,37 +565,12 @@ OSCR.controller(
         };
     }
 );
-OSCR.directive('documentNavigation', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, elem, attr, ctrl) {
-            elem.bind('keydown', function (e) {
-                _.each([
-                    { code: 37, name: 'left'},
-                    { code: 39, name: 'right'},
-                    { code: 38, name: 'up'},
-                    { code: 40, name: 'down'},
-                    { code: 13, name: 'enter'},
-                    { code: 27, name: 'escape'}
-                ], function (pair) {
-                    if (pair.code === e.keyCode) {
-                        scope.$apply(function (s) {
-                            $('body').addClass('keyboard-on');
-                            s.$eval(attr.documentNavigation, { $key: pair.name });
-                        });
-                    }
-                });
-            });
-        }
-    };
-});
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
 OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', '$timeout', function($rootScope, $scope, $filter, pdf, $timeout) {
 
     var pdfViewer;
-
 
     $scope.filterNonMedia = function(elementList) {
         return _.filter(elementList, function(element) {
@@ -813,51 +803,4 @@ OSCR.controller(
         };
     }
 );
-
-OSCR.directive('elFocus',
-    function () {
-        return {
-            restrict: 'A',
-            priority: 100,
-            link: function ($scope, $element) {
-                // add this element to the focus element array and tell it which one it is
-                $scope.el.focusElementIndex = $scope.focusElementArray.length;
-                $scope.focusElementArray.push($element[0]);
-            }
-        };
-    }
-);
-
-OSCR.directive('elHiddenFocus',
-    function () {
-        return {
-            restrict: 'A',
-            priority: 100,
-            link: function ($scope, $element) {
-                // add this element to the focus element array and tell it which one it is
-                $scope.el.hiddenFocusElementIndex = $scope.hiddenFocusElementArray.length;
-                $scope.hiddenFocusElementArray.push($element[0]);
-            }
-        };
-    }
-);
-
-OSCR.directive('uiVideo', function () {
-    var vp; // video player object to overcome one of the angularjs issues in #1352 (https://github.com/angular/angular.js/issues/1352). when the videojs player is removed from the dom, the player object is not destroyed and can't be reused.
-    var videoId = Math.floor((Math.random() * 1000) + 100); // in random we trust. you can use a hash of the video uri
-    return {
-        template: '<div class="video-player">' +
-            '<video ng-src="{{ videoSrc }}" id="video-' + videoId + '" class="video-js vjs-default-skin" controls preload="auto">' +
-            'Your browser does not support the video tag. ' +
-            '</video></div>',
-        link: function (scope, element, attrs) {
-//            if (vp) vp.dispose();
-            vp = videojs('video-' + videoId, {"width": '100%', "height": 400 });
-            scope.$on('$destroy', function () {
-                vp.dispose();
-            });
-
-        }
-    };
-});
 
