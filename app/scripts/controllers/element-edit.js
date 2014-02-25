@@ -131,11 +131,17 @@ OSCR.controller(
     'InstanceController',
     function ($scope) {
 
-        if (!$scope.el.config.instance) {
-            return;
+        if (!$scope.el.config.instance) return;
+
+        if (_.isArray($scope.el.config.instance)) {
+            $scope.schemaChoice = $scope.el.config.instance;
+            $scope.schema = $scope.schemaChoice[0];
+        }
+        else {
+            $scope.schemaChoice = null;
+            $scope.schema = $scope.el.config.instance;
         }
 
-        $scope.schema = $scope.el.config.instance;
 
         $scope.$watch('chosenEntry', function (value, before) {
             if (_.isObject(value)) {
@@ -177,20 +183,21 @@ OSCR.controller(
 
         if ($scope.panel) $scope.el = $scope.panel.element;
         if (!$scope.el.config.instance) return;
-        $scope.schema = $scope.el.config.instance;
+
+        if (_.isArray($scope.el.config.instance)) {
+            $scope.schemaList = $scope.el.config.instance;
+            $scope.schema = $scope.schemaList[0];
+        }
+        else {
+            $scope.schemaList = null;
+            $scope.schema = $scope.el.config.instance;
+        }
 
         $scope.instanceDetails = false;
 
         $scope.showInstanceDetails = function() {
             $scope.instanceDetails = !$scope.instanceDetails;
-//            console.log($scope.instanceDetails);
         };
-
-        if (!$scope.el.config.instance) {
-            return;
-        }
-
-        $scope.schema = $scope.el.config.instance;
 
         $scope.isLinkFacts = function() {
             return $scope.el.value && $scope.el.value.LinkFact;

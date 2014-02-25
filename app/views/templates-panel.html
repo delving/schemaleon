@@ -123,6 +123,14 @@
 <script type="text/ng-template" id="panel-instance-search.html">
     <div data-ng-controller="InstanceSearchController" class="vocabulary-controls">
 
+        <ul data-ng-show="schemaList">
+            <li data-ng-repeat="schemaChoice in schemaList">
+                <span i18n="{{ schemaChoice }}">
+                    <span data-ng-class="{ 'badge-warning': schemaChoice == schema }" class="badge i18n"/>
+                </span>
+            </li>
+        </ul>
+
         <!-- DISPLAY CURRENT VALUE -->
         <div ng-show="el.value" i18n="CurrentValue" class="current">
             <label><span class="i18n"/>:</label>
