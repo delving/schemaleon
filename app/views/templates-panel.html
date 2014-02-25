@@ -140,10 +140,10 @@
             <label><span class="i18n"/>:</label>
             <span class="value search-value">{{ el.searchValue }}</span>
         </div>
-        <ul data-ng-show="schemaList" class="list-unstyled list-inline list-tags">
-            <li data-ng-repeat="schemaChoice in schemaList">
+        <ul data-ng-show="el.schemaList" class="list-unstyled list-inline list-tags">
+            <li data-ng-repeat="schemaChoice in el.schemaList">
                 <span i18n="{{ schemaChoice }}">
-                    <span data-ng-class="{ 'badge-info': schemaChoice == schema }" class="badge pointer i18n" data-ng-click="switchSchemas(schemaChoice)"/>
+                    <span data-ng-class="{ 'badge-info': schemaChoice == el.schema }" class="badge pointer i18n" data-ng-click="switchSchemas(schemaChoice)"/>
                 </span>
             </li>
         </ul>

@@ -134,14 +134,13 @@ OSCR.controller(
         if (!$scope.el.config.instance) return;
 
         if (_.isArray($scope.el.config.instance)) {
-            $scope.schemaChoice = $scope.el.config.instance;
-            $scope.schema = $scope.schemaChoice[0];
+            $scope.el.schemaList = $scope.el.config.instance;
+            $scope.el.schema = $scope.el.schemaList[0];
         }
         else {
-            $scope.schemaChoice = null;
-            $scope.schema = $scope.el.config.instance;
+            $scope.el.schemaList = null;
+            $scope.el.schema = $scope.el.config.instance;
         }
-
 
         $scope.$watch('chosenEntry', function (value, before) {
             if (_.isObject(value)) {
@@ -185,16 +184,6 @@ OSCR.controller(
         if (!$scope.el.config.instance) return;
 
         $scope.el.searchValue = '';
-
-        if (_.isArray($scope.el.config.instance)) {
-            $scope.schemaList = $scope.el.config.instance;
-            $scope.schema = $scope.schemaList[0];
-        }
-        else {
-            $scope.schemaList = null;
-            $scope.schema = $scope.el.config.instance;
-        }
-
         $scope.instanceDetails = false;
 
         $scope.showInstanceDetails = function() {
@@ -213,19 +202,14 @@ OSCR.controller(
             var searchParams = {
                 searchQuery: searchValue
             };
-            Document.searchDocuments($scope.schema, null, searchParams, function (entries) {
+            Document.searchDocuments($scope.el.schema, null, searchParams, function (entries) {
                 $scope.el.entries = entries;
             });
         }
 
         $scope.switchSchemas = function (schemaChoice) {
-            $scope.schema = schemaChoice;
-            if ($scope.el.searchValue.length) {
-                $scope.el.searchValue = '';
-            }
-            else {
-                searchSchemas($scope.el.searchValue);
-            }
+            $scope.el.schema = schemaChoice;
+            searchSchemas($scope.el.searchValue);
         };
 
         $scope.setValue = function (value) {
@@ -256,6 +240,9 @@ OSCR.controller(
                 else {
                     return "instance-details-default.html";
                 }
+            }
+            else {
+                return '';
             }
         };
     }

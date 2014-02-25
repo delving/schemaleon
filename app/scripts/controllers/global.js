@@ -103,7 +103,7 @@ OSCR.controller(
         $rootScope.isShared = function (schemaName) {
             // this function will throw errors in development mode because of livereload
             return (_.contains($rootScope.schemaMap.shared, schemaName))
-        }
+        };
 
         /**
          * Returns a path to edit the document. Shared docs don't have a group Identifier, primary document do.
@@ -186,8 +186,10 @@ OSCR.controller(
             if (!$rootScope.user) return;
 
             Document.fetchSchemaMap(function (schemaMap) {
+
                 $rootScope.schemaMap = schemaMap;
 //                console.log('schema map received', schemaMap);
+
                 $scope.mainMenuBase = [
                     {name: "Public", path: "/public", icon: 'glyphicon-road', active: false},
                     {name: "Community", path: "/community", icon: 'glyphicon-cog', active: false}
