@@ -90,6 +90,7 @@ function objectToXml(object) {
 
     function toXml(from, level) {
         for (var key in from) {
+            if (key[0] == '$') continue;
             var value = from[key];
             if (_.isString(value)) {
                 out.push(indent('<' + key + '>', level) + value + '</' + key + '>');
