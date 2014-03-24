@@ -1,0 +1,53 @@
+
+<!--is there an event which we can refer to from various places-->
+
+<HistoricalEvent>
+
+    <!--at least we must have a name for it-->
+    <Appellation>{ "required": true, "summaryField": "Title" }</Appellation>
+
+    <!--how would this event be described?-->
+    <Description>{ "paragraph": true }</Description>
+
+    <!--when did it happen?-->
+    <EventTime>{ "validator": "timePrimitive" }</EventTime>
+
+    <!--where on the map did the event take place?-->
+    <EventLocation>{ "instance": "Location" }</EventLocation>
+
+    <!--maybe there is something more detailed to say about where it happened, beyond maps-->
+    <SpecificLocation/>
+
+    <!--who participated in this event and how-->
+    <ParticipantInRole>{ "multiple": true }
+
+        <!--who or what was involved-->
+        <Participant>{ "instance": [ "Person", "Organization" ] }</Participant>
+
+        <!--how did this person participate in this event.  these should be recorded in understandable Dutch-->
+        <!--terms because we can later link them to authority terms about particpation.-->
+        <EventParticipationRole>{ "vocabulary": "EventParticipationRole" }</EventParticipationRole>
+
+    </ParticipantInRole>
+
+    <!--is there a digital representation we can use-->
+    <DigitalObject>{ "multiple": true }
+
+        <!--the actual file that holds the bits-->
+        <File>{ "media": "MediaMetadata", "summaryField": "Thumbnail" }</File>
+
+        <!--when was this digital representation created?-->
+        <CreationDate>{ "validator": "timePrimitive" }</CreationDate>
+
+        <!--anything else to say about this digital representation-->
+        <Comments>{ "paragraph":true }</Comments>
+
+    </DigitalObject>
+
+    <!--is there something on the web that describes this event well?-->
+    <WebLink>{ "validator": "URL" }</WebLink>
+
+    <!--anything else to record about this event?-->
+    <Comment>{ "paragraph": true }</Comment>
+
+</HistoricalEvent>

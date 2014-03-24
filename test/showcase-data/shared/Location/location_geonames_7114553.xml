@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7114553</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462626</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Roosendaal &gt; Rioolwaterzuiveringsinstallatie Roosendaal</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Roosendaal,Rioolwaterzuiveringsinstallatie Roosendaal</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Rioolwaterzuiveringsinstallatie Roosendaal</Appelation>
+        <LocationNameType>sewage treatment plant</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>4.4529</Longitude>
+        <Latitude>51.546409999999995</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7114553</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

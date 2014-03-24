@@ -72,30 +72,6 @@ Storage('oscr', homeDir, function (storage) {
         });
     }
 
-    // perform a query to the CultureCommons for authentication/login
-    function commonsQueryString() {
-        var API_QUERY_PARAMS = {
-            "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
-            "apiOrgId": "delving",
-            "apiNode": "playground" // todo: this should not be playground!
-        };
-        var queryParams = [];
-        for (var key in API_QUERY_PARAMS) {
-            queryParams.push(key + '=' + API_QUERY_PARAMS[key]);
-        }
-        return queryParams.join('&');
-    }
-
-    // compose the request to CultureCommons
-    function commonsRequest(path) {
-        return {
-            method: "GET",
-            host: 'commons.delving.eu',
-            port: 443,
-            path: path + '?' + commonsQueryString()
-        }
-    }
-
     // several functions need to reply with the current language in its totality, so this function is re-used
     function replyWithLanguage(lang, res) {
         storage.I18N.getLanguage(lang, function (xml) {
@@ -103,8 +79,6 @@ Storage('oscr', homeDir, function (storage) {
         });
     }
 
-    // a request to authenticate a user comes in, is checked with CultureCommons, and then the user record
-    // is fetched from the database (or created, first time).  the session object is created and filled
     app.post('/authenticate', function (req, res) {
         var username = req.body.username;
         var password = req.body.password;
@@ -113,36 +87,37 @@ Storage('oscr', homeDir, function (storage) {
         var hmac = crypto.createHmac('sha1', username);
         var hash = hmac.update(hashedPassword).digest('hex');
         res.setHeader('Content-Type', 'text/xml');
-        https.request(
-            commonsRequest('/user/authenticate/' + hash),
-            function (authResponse) {
-                if (authResponse.statusCode == 200) {
-                    https.request(
-                        commonsRequest('/user/profile/' + username),
-                        function (profileResponse) {
-                            var data;
-                            profileResponse.on('data', function (data) {
-                                var profile = JSON.parse(data);
-                                profile.username = username;
-                                req.session.profile = profile;
-                                storage.Person.getOrCreateUser(profile, function (xml) {
-                                    req.session.Identifier = util.getFromXml(xml, 'Identifier');
-                                    req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
-                                    req.session.Role = util.getFromXml(xml, 'Role');
-                                    res.xml(xml);
-                                    storage.Log.activity(req, {
-                                        Op: "Authenticate"
-                                    });
-                                });
-                            });
-                        }
-                    ).end();
-                }
-                else {
-                    util.sendErrorMessage(res, 'Failed to authenticate');
-                }
-            }
-        ).end();
+        // todo: authenticate somehow
+//        https.request(
+//            commonsRequest('/user/authenticate/' + hash),
+//            function (authResponse) {
+//                if (authResponse.statusCode == 200) {
+//                    https.request(
+//                        commonsRequest('/user/profile/' + username),
+//                        function (profileResponse) {
+//                            var data;
+//                            profileResponse.on('data', function (data) {
+//                                var profile = JSON.parse(data);
+//                                profile.username = username;
+//                                req.session.profile = profile;
+//                                storage.Person.getOrCreateUser(profile, function (xml) {
+//                                    req.session.Identifier = util.getFromXml(xml, 'Identifier');
+//                                    req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
+//                                    req.session.Role = util.getFromXml(xml, 'Role');
+//                                    res.xml(xml);
+//                                    storage.Log.activity(req, {
+//                                        Op: "Authenticate"
+//                                    });
+//                                });
+//                            });
+//                        }
+//                    ).end();
+//                }
+//                else {
+//                    util.sendErrorMessage(res, 'Failed to authenticate');
+//                }
+//            }
+//        ).end();
     });
 
     // fetch a translation document
