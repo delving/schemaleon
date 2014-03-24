@@ -1,32 +1,32 @@
-// ================================================================================
-// Copyright 2014 Delving BV, Rotterdam, Netherands
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-//    You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-//    Unless required by applicable law or agreed to in writing, software
-//    distributed under the License is distributed on an "AS IS" BASIS,
-//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//    See the License for the specific language governing permissions and
-//    limitations under the License.
-// ================================================================================
+/*
+ Copyright 2014 Delving BV, Rotterdam, Netherlands
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 'use strict';
 
-/*
-
-    This is the REST interface that the server-side of OSCR provides.  It is instantiated once the
-    Storage object has been created, which provides access to the BaseX database as well as to the
-    file system storage of media.
-
-    This interface generally receives either GET method requests or POST requests with JSON content,
-    and it returns XML.
-
-    Author: Gerald de Jong <gerald@delving.eu>
-
+/**
+ * This is the REST interface that the server-side of OSCR provides.  It is instantiated once the
+ * Storage object has been created, which provides access to the BaseX database as well as to the
+ * file system storage of media.
+ *
+ * This interface generally receives either GET method requests or POST requests with JSON content,
+ * and it returns XML.
+ *
+ * @Author Gerald de Jong <gerald@delving.eu>
+ * @Author Eric van der Meulen <eric@delving.eu>
  */
 
 var _ = require("underscore");

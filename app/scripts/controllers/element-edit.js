@@ -18,6 +18,13 @@
 
 var OSCR = angular.module('OSCR');
 
+/*
+ * Various controllers for editing specific field types
+ *
+ * @Author Gerald de Jong <gerald@delving.eu>
+ * @Author Eric van der Meulen <eric@delving.eu>
+ */
+
 OSCR.controller(
     'TextInputController',
     function ($scope) {

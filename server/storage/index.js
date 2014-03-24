@@ -1,27 +1,18 @@
-// ================================================================================
-// Copyright 2014 Delving BV, Rotterdam, Netherands
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-//    You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-//    Unless required by applicable law or agreed to in writing, software
-//    distributed under the License is distributed on an "AS IS" BASIS,
-//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//    See the License for the specific language governing permissions and
-//    limitations under the License.
-// ================================================================================
-
 /*
+ Copyright 2014 Delving BV, Rotterdam, Netherlands
 
-    This is the storage "class" which defines how the database is structured and provides access as
-    well to the file system directory for media etc.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    It is divided up into a number of different functional parts, each of which is created here
-    and attached so that it can be used from anywhere.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 'use strict';
@@ -42,6 +33,17 @@ var Log = require('./storage-log');
 var FileSystem = require('./storage-filesystem');
 var ETC = require('./storage-etc');
 var util = require('../util');
+
+/*
+ * This is the storage "class" which defines how the database is structured and provides access as
+ * well to the file system directory for media etc.
+ *
+ * It is divided up into a number of different functional parts, each of which is created here
+ * and attached so that it can be used from anywhere.
+ *
+ * @Author Gerald de Jong <gerald@delving.eu>
+ * @Author Eric van der Meulen <eric@delving.eu>
+ */
 
 function log(message) {
 //    console.log(message);
