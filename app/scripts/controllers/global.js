@@ -37,7 +37,7 @@ OSCR.controller(
                 {name: 'Nederlands', code: 'nl'},
                 {name: 'Svenska', code: 'sv'}
             ],
-            interfaceLanguage: 'nl',
+            interfaceLanguage: 'en',
             showTranslationEditor: false
         };
 

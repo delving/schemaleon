@@ -179,7 +179,7 @@ P.loadData = function(fsPath, docPath, replace) {
 
 // load bootstrap data from oscr-data
 P.loadBootstrapData = function (replace, done) {
-    var dataPath = "../oscr-data";
+    var dataPath = "oscr-data";
     if (!fs.existsSync(dataPath)) {
         throw new Error("Cannot find "+dataPath+" for bootstrapping!");
     }
@@ -191,7 +191,7 @@ P.loadBootstrapData = function (replace, done) {
 
 // load primary data from oscr-primary-data
 P.loadPrimaryData = function(replace, done) {
-    var dataPath = "../oscr-primary-data";
+    var dataPath = "oscr-primary-data";
     if (!fs.existsSync(dataPath)) {
         console.log("Cannot find " + dataPath + " for loading primary data.  Skipping.");
     }

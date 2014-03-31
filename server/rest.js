@@ -87,6 +87,26 @@ Storage('oscr', homeDir, function (storage) {
         var hmac = crypto.createHmac('sha1', username);
         var hash = hmac.update(hashedPassword).digest('hex');
         res.setHeader('Content-Type', 'text/xml');
+
+        // for showcase
+        console.log("authenticate", req.body);
+        var profile = {
+            firstName: "Test",
+            lastName: "User",
+            username: "username",
+            email: "test@user.eu"
+        };
+        req.session.profile = profile;
+        storage.Person.getOrCreateUser(profile, function(xml) {
+            req.session.Identifier = util.getFromXml(xml, 'Identifier');
+            req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
+            req.session.Role = util.getFromXml(xml, 'Role');
+            res.xml(xml);
+            storage.Log.activity(req, {
+                Op: "Authenticate"
+            });
+        });
+
         // todo: authenticate somehow
 //        https.request(
 //            commonsRequest('/user/authenticate/' + hash),
