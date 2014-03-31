@@ -48,10 +48,11 @@ function FileSystem(home) {
     var homePath = home || process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
     // create the root and its immediate subdirectories
-    this.home = make(homePath, 'OSCR-Files');
+    this.home = make(homePath, 'OSCR');
     this.mediaStorage = make(this.home, 'MediaStorage');
     this.mediaUpload = make(this.home, 'UploadIncoming');
     this.databaseSnapshotDir = make(this.home, 'DatabaseSnapshot');
+    this.bootstrapDir = make(this.home, 'BootstrapData');
 
     // generate an MD5 hash of the contents of a file, to be used in its name
     this.hashFile = function(source, callback) {

@@ -51,25 +51,25 @@ P.getStatistics = function (groupIdentifier, receiver) {
     q.push('    <Group>{ count(' + s.groupCollection() + ') }</Group>');
     q.push('  </People>');
     q.push('  <Shared>');
-    _.each(s.schemaMap.shared, function(schema){
+    _.each(s.schemaMap.shared, function (schema) {
         q.push('  <Schema>');
-        q.push('    <Name>'+schema+'</Name>');
+        q.push('    <Name>' + schema + '</Name>');
         q.push('    <Count>{ count(' + s.dataCollection(schema, null) + ') }</Count>');
         q.push('  </Schema>');
     });
     q.push('  </Shared>');
     q.push('  <Primary>');
-    _.each(s.schemaMap.primary, function(schema){
+    _.each(s.schemaMap.primary, function (schema) {
         q.push('  <Schema>');
-        q.push('    <Name>'+schema+'</Name>');
+        q.push('    <Name>' + schema + '</Name>');
         q.push('    <Count>{ count(' + s.dataCollection(schema, groupIdentifier) + ') }</Count>');
         q.push('  </Schema>');
     });
     q.push('  </Primary>');
     q.push('  <AllPrimary>');
-    _.each(s.schemaMap.primary, function(schema){
+    _.each(s.schemaMap.primary, function (schema) {
         q.push('  <Schema>');
-        q.push('    <Name>'+schema+'</Name>');
+        q.push('    <Name>' + schema + '</Name>');
         q.push('    <Count>{ ' + s.dataDocumentCount(schema) + ' }</Count>');
         q.push('  </Schema>');
     });
@@ -79,7 +79,7 @@ P.getStatistics = function (groupIdentifier, receiver) {
 };
 
 // come up with a good name for a snapshot archive
-P.snapshotName = function() {
+P.snapshotName = function () {
     var now = new Date();
     var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +
         '-' + now.getHours() + '-' + now.getMinutes();
@@ -100,7 +100,7 @@ P.snapshotCreate = function (fileName, receiver) {
 
         function remove(itemPath) {
             if (fs.statSync(itemPath).isDirectory()) {
-                _.each(fs.readdirSync(itemPath), function(childItemName) {
+                _.each(fs.readdirSync(itemPath), function (childItemName) {
                     remove(path.join(itemPath, childItemName));
                 });
                 fs.rmdirSync(itemPath);
@@ -110,7 +110,7 @@ P.snapshotCreate = function (fileName, receiver) {
             }
         }
 
-        archiver(exportPath, archiveFile, function(err) {
+        archiver(exportPath, archiveFile, function (err) {
             if (err) {
                 console.error(err);
             }
@@ -121,15 +121,15 @@ P.snapshotCreate = function (fileName, receiver) {
 };
 
 // show something counting while loading bootstrap data
-P.incrementLoadCount = function() {
+P.incrementLoadCount = function () {
     this.dataLoadCount = this.dataLoadCount + 1;
     if (this.dataLoadCount % 100 == 0) {
-        console.log('loaded '+this.dataLoadCount);
+        console.log('loaded ' + this.dataLoadCount);
     }
 };
 
 // create a promise to load something
-P.loadPromise = function(filePath, docPath, replace) {
+P.loadPromise = function (filePath, docPath, replace) {
     var self = this;
     var s = this.storage;
     var deferred = defer();
@@ -154,7 +154,7 @@ P.loadPromise = function(filePath, docPath, replace) {
 };
 
 // create a whole bunch of promises to load things recursively in a whole directory
-P.loadData = function(fsPath, docPath, replace) {
+P.loadData = function (fsPath, docPath, replace) {
     var self = this;
     var extension = ".xml";
     _.each(fs.readdirSync(fsPath), function (file) {
@@ -177,31 +177,21 @@ P.loadData = function(fsPath, docPath, replace) {
     });
 };
 
-// load bootstrap data from oscr-data
+// load bootstrap data from the file system
 P.loadBootstrapData = function (replace, done) {
-    var dataPath = "oscr-data";
+    var s = this.storage;
+    var dataPath = s.FileSystem.bootstrapDir;
     if (!fs.existsSync(dataPath)) {
-        throw new Error("Cannot find "+dataPath+" for bootstrapping!");
+        throw new Error("Cannot find " + dataPath + " for bootstrapping!");
     }
-    dataPath = fs.realpathSync(dataPath);
+    var dataPath = fs.realpathSync(s.FileSystem.bootstrapDir);
     this.loadData(dataPath, '', replace);
     console.log('prepared to load bootstrap data');
-    this.satisfyPromise("loading bootstrap data from oscr-data", done);
-};
-
-// load primary data from oscr-primary-data
-P.loadPrimaryData = function(replace, done) {
-    var dataPath = "oscr-primary-data";
-    if (!fs.existsSync(dataPath)) {
-        console.log("Cannot find " + dataPath + " for loading primary data.  Skipping.");
-    }
-    dataPath = fs.realpathSync(dataPath);
-    this.loadData(dataPath, '/primary/', replace);
-    this.satisfyPromise("loading primary data from oscr-primary-data replace=" + replace, done);
+    this.satisfyPromise("loading bootstrap data from " + dataPath, done);
 };
 
 // after all the promises have been made, here we actually make sure things get done
-P.satisfyPromise = function(activity, done) {
+P.satisfyPromise = function (activity, done) {
     if (this.promise) {
         console.log("starting: " + activity);
         var goforit = this.promise;

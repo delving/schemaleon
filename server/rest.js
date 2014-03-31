@@ -47,7 +47,7 @@ module.exports = app;
 var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
 // create the storage, with "oscr" as the database name in BaseX, and with homeDir for media storage
-Storage('oscr', homeDir, function (storage) {
+Storage('OSCR', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
     // integrate the server-side portion of the JQuery File Upload, modified to work in Express
@@ -511,32 +511,6 @@ Storage('oscr', homeDir, function (storage) {
     // redirect so that the snapshot is named according to the current time, call the above function
     app.get('/snapshot', function (req, res) {
         res.redirect('/snapshot/'+storage.ETC.snapshotName());
-    });
-
-    // this function should not be here but it is useful for testing
-    // todo: remove this function
-    app.get('/data/import/:data/please', function(req, res) {
-        var data = req.params.data;
-        switch (data) {
-            case 'primary-replace':
-                storage.ETC.loadPrimaryData(true, function() {
-                    res.send('Imported primary data, replacing');
-                });
-                break;
-            case 'primary-new':
-                storage.ETC.loadPrimaryData(false, function() {
-                    res.send('Loaded primary data, first time');
-                });
-                break;
-            case 'bootstrap':
-                storage.ETC.loadBootstrapData(false, function() {
-                    res.send('Loaded bootstrap data');
-                });
-                break;
-            default :
-                res.send('Did not understand: bootstrap, primary-new, primary-replace');
-                break;
-        }
     });
 });
 
