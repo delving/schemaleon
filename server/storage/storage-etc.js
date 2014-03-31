@@ -181,8 +181,8 @@ P.loadData = function (fsPath, docPath, replace) {
 P.loadBootstrapData = function (replace, done) {
     var s = this.storage;
     var dataPath = s.FileSystem.bootstrapDir;
-    if (!fs.existsSync(dataPath)) {
-        throw new Error("Cannot find " + dataPath + " for bootstrapping!");
+    if (fs.existsSync(dataPath)) {
+
     }
     var dataPath = fs.realpathSync(s.FileSystem.bootstrapDir);
     this.loadData(dataPath, '', replace);

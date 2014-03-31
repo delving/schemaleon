@@ -6,7 +6,7 @@
     <SummaryFields>
       <Title>Artisical Mishap</Title>
       <Thumbnail>
-        <UserIdentifier>GroupMember</UserIdentifier>
+        <UserIdentifier>Member</UserIdentifier>
         <OriginalFileName>museum-bad-art-painting.jpg</OriginalFileName>
         <MimeType>image/jpeg</MimeType>
         <Identifier>d12883a5c0d33a1248207a13f4b4fe9b</Identifier>
@@ -15,14 +15,14 @@
     </SummaryFields>
     <DocumentState>private</DocumentState>
     <TimeStamp>1396279321750</TimeStamp>
-    <SavedBy>GroupMember</SavedBy>
+    <SavedBy>Member</SavedBy>
   </Header>
   <Body>
     <Photo>
       <Title>Artisical Mishap</Title>
       <DigitalObject>
         <File>
-          <UserIdentifier>GroupMember</UserIdentifier>
+          <UserIdentifier>Member</UserIdentifier>
           <OriginalFileName>museum-bad-art-painting.jpg</OriginalFileName>
           <MimeType>image/jpeg</MimeType>
           <Identifier>d12883a5c0d33a1248207a13f4b4fe9b</Identifier>

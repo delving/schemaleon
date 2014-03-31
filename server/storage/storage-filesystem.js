@@ -70,7 +70,7 @@ function FileSystem(home) {
     this.mediaStorage = make(this.home, 'MediaStorage');
     this.mediaUpload = make(this.home, 'UploadIncoming');
     this.databaseSnapshotDir = make(this.home, 'DatabaseSnapshot');
-    this.bootstrapDir = make(this.home, 'BootstrapData');
+    this.bootstrapDir = path.join(this.home, 'BootstrapData');
 
     // generate an MD5 hash of the contents of a file, to be used in its name
     this.hashFile = function (source, callback) {

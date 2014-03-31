@@ -323,12 +323,12 @@ function Storage(home) {
                 '-S'
             ]
         );
-        child.stdout.on("data", function(data) {
+        child.stdout.on("data", function (data) {
             if (/.*started.*/.test(data)) {
                 started()
             }
             else {
-                console.log("BaseX not started: "+data);
+                console.log("BaseX not started: " + data);
             }
         });
     }
@@ -352,7 +352,8 @@ function open(databaseName, homeDir, receiver) {
         console.log("got basex session");
 
         function getSchemaMap() {
-            storage.query('get schema map',
+            storage.query(
+                'get schema map',
                     "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
                 function (schemaMapXml) {
                     storage.schemaMap = {
@@ -364,36 +365,56 @@ function open(databaseName, homeDir, receiver) {
             );
         }
 
-        storage.session.execute('open ' + databaseName, function (error, reply) {
-            storage.database = databaseName;
+        function openDatabase(afterOpen) {
+            storage.session.execute('open ' + databaseName, function (error, reply) {
+                storage.database = databaseName;
 
-            if (reply.ok) {
-                getSchemaMap();
-                receiver(storage);
-            }
-            else {
-                storage.session.execute('create db ' + databaseName, function (error, reply) {
-                    if (reply.ok) {
-                        storage.session.execute('create index fulltext', function (er, rep) {
-                            if (!reply.ok) {
-                                console.error(er);
-                            }
-                            else {
-                                storage.ETC.loadBootstrapData(false, function () {
-                                    getSchemaMap();
-                                    receiver(storage);
-                                });
-                            }
-                        });
-                    }
-                    else {
-                        console.error('Unable to create database ' + databaseName);
-                        console.error(error);
-                        receiver(null);
-                    }
-                });
-            }
-        });
+                if (reply.ok) {
+                    getSchemaMap();
+                    afterOpen(storage);
+                }
+                else {
+                    storage.session.execute('create db ' + databaseName, function (error, reply) {
+                        if (reply.ok) {
+                            storage.session.execute('create index fulltext', function (er, rep) {
+                                if (!reply.ok) {
+                                    console.error(er);
+                                }
+                                else {
+                                    storage.ETC.loadBootstrapData(false, function () {
+                                        getSchemaMap();
+                                        afterOpen(storage);
+                                    });
+                                }
+                            });
+                        }
+                        else {
+                            console.error('Unable to create database ' + databaseName);
+                            console.error(error);
+                            afterOpen(null);
+                        }
+                    });
+                }
+            });
+        }
+
+        if (fs.existsSync(storage.FileSystem.bootstrapDir)) {
+            var newName = storage.FileSystem.bootstrapDir + '-' + (new Date().getTime());
+            fs.renameSync(storage.FileSystem.bootstrapDir, newName);
+            storage.FileSystem.bootstrapDir = newName;
+            storage.session.execute('drop database ' + databaseName, function (error, reply) {
+                if (error) {
+                    console.error("Unable to drop database: " + error);
+                }
+                else {
+                    console.log("dropped database " + databaseName);
+                }
+                openDatabase(receiver);
+            });
+        }
+        else {
+            openDatabase(receiver);
+        }
     });
 
 }
