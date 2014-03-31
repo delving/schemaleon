@@ -90,11 +90,12 @@ Storage('OSCR', homeDir, function (storage) {
 
         // for showcase
         console.log("authenticate", req.body);
+        var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
         var profile = {
-            firstName: "Test",
+            firstName: "New",
             lastName: "User",
-            username: "username",
-            email: "test@user.eu"
+            username: username,
+            email: "user" + millisSince2013 + "@oscr.eu"
         };
         req.session.profile = profile;
         storage.Person.getOrCreateUser(profile, function(xml) {

@@ -1,0 +1,14 @@
+<User>
+    <Identifier>GroupUser</Identifier>
+    <Profile>
+        <firstName>Only</firstName>
+        <lastName>Viewer</lastName>
+        <username>viewer</username>
+        <email>viewer@oscr.eu</email>
+    </Profile>
+    <SaveTime>1</SaveTime>
+    <Membership>
+        <GroupIdentifier>GroupA</GroupIdentifier>
+        <Role>Viewer</Role>
+    </Membership>
+</User>

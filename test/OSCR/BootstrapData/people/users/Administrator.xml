@@ -1,0 +1,14 @@
+<User>
+    <Identifier>GroupAdmin</Identifier>
+    <Profile>
+        <firstName>Group</firstName>
+        <lastName>Administrator</lastName>
+        <username>admin</username>
+        <email>admin@user.eu</email>
+    </Profile>
+    <SaveTime>1</SaveTime>
+    <Membership>
+        <GroupIdentifier>GroupA</GroupIdentifier>
+        <Role>Administrator</Role>
+    </Membership>
+</User>

@@ -1,0 +1,14 @@
+<User>
+    <Identifier>OSCRAdmin</Identifier>
+    <Profile>
+        <firstName>OSCR</firstName>
+        <lastName>Administrator</lastName>
+        <username>super</username>
+        <email>super@oscr.eu</email>
+    </Profile>
+    <SaveTime>1</SaveTime>
+    <Membership>
+        <GroupIdentifier>OSCR</GroupIdentifier>
+        <Role>Administrator</Role>
+    </Membership>
+</User>
