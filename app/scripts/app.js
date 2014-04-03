@@ -143,3 +143,9 @@ OSCR.config(
 
     }
 );
+
+OSCR.config(
+    function ($rootScopeProvider) {
+        $rootScopeProvider.digestTtl(15);
+    }
+);
