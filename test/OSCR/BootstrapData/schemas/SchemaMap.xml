@@ -1,4 +1,4 @@
 <SchemaMap>
-   <primary>Photo,Film,Publication</primary>
+   <primary>Photo,Film,Publication,eac-cpf</primary>
    <shared>Location,Person,Organization,HistoricalEvent</shared>
 </SchemaMap>
