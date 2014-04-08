@@ -1552,7 +1552,7 @@ body.full-screen .vertical-scroll {
 @media (min-width: 768px) {
   .expert-left-col {
     float: left;
-    width: 66.66666666666666%;
+    width: 50%;
   }
 }
 .expert-left-col.active {
@@ -1568,7 +1568,7 @@ body.full-screen .vertical-scroll {
 @media (min-width: 768px) {
   .expert-right-col {
     float: left;
-    width: 33.33333333333333%;
+    width: 50%;
   }
 }
 .form-expert {
