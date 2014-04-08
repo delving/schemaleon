@@ -1056,6 +1056,16 @@ ul.kv-list li span.value {
 .aside-media-select .aside-dialog .aside-footer {
   height: 50px;
 }
+html,
+body {
+  height: auto !important;
+  /* Ignored by Internet Explorer, applied everywhere else. */
+
+  height: 100%;
+  /* Internet Explorer treats as min-height. */
+
+  min-height: 100%;
+}
 html {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
@@ -1572,6 +1582,7 @@ body.full-screen .vertical-scroll {
   }
 }
 .form-expert {
+  height: 100%;
   /* border-radius */
   -webkit-border-radius: 0 0 10px 10px;
   -moz-border-radius: 0 0 10px 10px;
@@ -1601,6 +1612,17 @@ body.full-screen .vertical-scroll {
   position: absolute;
   width: 100%;
   z-indez: 1000;
+}
+.form-expert .panel-widgets {
+  position: fixed;
+}
+.form-expert .widget-box {
+  background: #ffffff;
+  margin-bottom: 20px;
+  width: 93%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 /* COMMUNITY / DASHBOARD / WIDGETS */
 .list-group.statistics .list-group-item {

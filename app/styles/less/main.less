@@ -67,6 +67,12 @@
 //@import "/app/styles/less/angular-motion.less";
 @import "/app/styles/less/aside.less";
 
+html, body  {
+  height : auto !important; /* Ignored by Internet Explorer, applied everywhere else. */
+  height : 100%;            /* Internet Explorer treats as min-height. */
+  min-height : 100%;
+}
+
 html {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
@@ -78,6 +84,7 @@ body {
   padding: 0 0 0 0;
   color: @gray-dark;
 }
+
 
 body.full-screen {
     #top-nav,
@@ -619,6 +626,7 @@ body.full-screen {
 }
 
 .form-expert {
+  height: 100%;
   .form-header {
     background: @brand-primary;
     .border-radius(6px);
@@ -642,6 +650,17 @@ body.full-screen {
     width: 100%;
     z-indez: @zindex-dropdown;
   }
+  .panel-widgets {
+    position: fixed;
+  }
+    .widget-box {
+      background: @white;
+      margin-bottom: 20px;
+      width: 93%;
+      .box-sizing(border-box);
+    }
+
+
 }
 
 /* COMMUNITY / DASHBOARD / WIDGETS */
