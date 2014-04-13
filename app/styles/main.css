@@ -778,6 +778,14 @@ body.full-screen .vertical-scroll {
 #top-nav {
   margin-bottom: 10px !important;
 }
+#top-nav .navbar-brand {
+  color: #747474;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+#top-nav .navbar-brand img {
+  margin-top: -2px;
+}
 #top-nav .form-control#language-select {
   border: none;
   height: 32px;
