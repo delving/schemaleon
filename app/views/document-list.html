@@ -5,15 +5,15 @@
         </h1>
     </div>
 
-    <div class="navbar navbar-default navbar-document-list">
+    <div class="navbar navbar-inverse navbar-document-list">
         <div class="container-fluid">
-            <form data-ng-submit="doPublicSearch(searchString)" class="navbar-form navbar-left form-inline" role="search">
+            <form data-ng-submit="doPublicSearch(searchString)" class="navbar-left form-inline" role="search">
                 <div class="form-group">
                     <input type="text" data-ng-model="searchString" class="form-control"/>
                 </div>
                <button class="btn btn-default navbar-btn" type="submit" data-ng-click="doDocumentSearch(searchString)"><i class="glyphicon glyphicon-search "></i> </button>
             </form>
-            <a href class="btn btn-primary navbar-btn pull-right new-document" data-ng-click="newDocument(schema)"  i18n="NewDocument" data-ng-hide="user.viewer">
+            <a href class="btn btn-default navbar-btn pull-right new-document" data-ng-click="newDocument(schema)"  i18n="NewDocument" data-ng-hide="user.viewer">
                 <i class="glyphicon glyphicon-plus"></i>
                 <span class="i18n"></span>
             </a>
@@ -25,7 +25,6 @@
         <thead>
             <th i18n="Title"><span class="i18n"/></th>
             <th i18n="Thumbnail" width="100" ng-hide="schemaIsShared"><span class="i18n"/></th>
-            <th i18n="Identifier" width="250"><span class="i18n"/></th>
             <th i18n="State" width="75"><span class="i18n"/></th>
             <th i18n="Stored" width="150"><span class="i18n"/></th>
             <th i18n="SavedBy" width="200"><span class="i18n"/></th>
@@ -40,14 +39,13 @@
             <colgroup>
                 <col/>
                 <col style="width:100px" ng-hide="schemaIsShared"/>
-                <col style="width:250px"/>
                 <col style="width:75px"/>
                 <col style="width:150px"/>
                 <col style="width:200px"/>
             </colgroup>
             <tbody >
             <tr data-ng-hide="headerList.length">
-                <td colspan="7" i18n="NoSearchResults">
+                <td colspan="5" i18n="NoSearchResults">
                     <div class="badge badge-warning"><span class="i18n"></span></div>
                 </td>
             </tr>
@@ -61,16 +59,15 @@
                 <td data-ng-hide="schemaIsShared">
                     <!-- only show the first thumb if there are multiple -->
                     <span data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)" data-ng-if="$first">
-                         <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" height="26"/>
+                         <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" width="32"/>
                     </span>
-                </td>
-                <td>
-                    {{ header.Identifier }}
                 </td>
                 <td>
                     <span class="label label-default" ng-class="{'label-success' : header.DocumentState == 'public' }">{{ header.DocumentState }}</span>
                 </td>
-                <td><span data-ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span></td>
+                <td>
+                    <span data-ng-show="header.TimeStamp">{{ header.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</span>
+                </td>
                 <td>
                     <span data-ng-hide="header.userView">{{ header.SavedBy }}</span>
                     <span data-ng-show="header.userView">{{ header.userView.Profile.email }}</span>

@@ -36,7 +36,7 @@ OSCR.controller(
         /** STATISTICS *******************************************************************************************/
 
         /**
-         * Builds a list of log entries using the Statistics service for display in the Activity log on public.html
+         * Builds a list of log entries using the Statistics service for display in the Activity log on dashboard.html
          * Makes use of the Person service to associate recognizable person information based on the user id. 
          */
         Statistics.getLogEntries(function (entries) {
@@ -115,6 +115,10 @@ OSCR.controller(
         $scope.chatMessage = '';
         $scope.chatMessageSend = false;
         $scope.chatMessageList = [];
+        $scope.showChat = false;
+        $scope.toggleChat = function () {
+            $scope.showChat = !$scope.showChat;
+        }
 
         /**
          * Sends new chat message and appends it to the message list or only retrieves the list if no message is sent

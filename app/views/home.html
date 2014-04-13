@@ -1,43 +1,17 @@
 <div class="fade-in">
-
-    <div class="page-header">
-        <h1 i18n="WelcomeToOscrMain"><span class="i18n"/> <small i18n="WelcomeToOscrSub"><span class="i18n"/></small></h1>
-    </div>
-
-    <div class="row widget-row home">
+    <div class="jumbotron clearfix">
         <div class="col-md-6">
-            <div class="widget-box">
-                <div class="widget-title">
-                    <span class="icon"><i class="glyphicon glyphicon-search"></i></span>
-                    <h5 i18n="SearchAllDocuments"><span class="i18n"/></h5>
+            <h1>schema4ms2xml</h1>
+            <p>Schema driven forms to generate structured XML documents</p>
+            <form data-ng-submit="doPublicSearch(searchString)" class="form-inline">
+                <div class="input-group">
+                    <input type="text" data-ng-model="searchString" class="form-control input-lg"/>
+                    <span class="input-group-addon pointer" type="submit" ng-click="doPublicSearch(searchString)"><i class="glyphicon glyphicon-search "></i> </span>
                 </div>
-                <div class="widget-body">
-                    <form data-ng-submit="doPublicSearch(searchString)" class="navbar-form form-inline">
-                        <div class="input-group">
-                            <input type="text" data-ng-model="searchString" class="form-control"/>
-                            <span class="input-group-addon pointer" type="submit" ng-click="doPublicSearch(searchString)"><i class="glyphicon glyphicon-search "></i> </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="widget-box">
-                <div class="widget-title">
-                    <span class="icon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h5 i18n="CurrentGroups"><span class="i18n"/></h5>
-                </div>
-                <div class="widget-body">
-                    <form class="navbar-form">
-                    <select class="form-control" id="list-current-groups">
-                        <option>- - - - - - - - - - - - - - - - - - - - - - - - - </option>
-                        <option ng-repeat="group in groupList" value="/people/group/{{group.Identifier}}">{{ group.Name }}</option>
-                    </select>
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
 
     <div class="row">
 

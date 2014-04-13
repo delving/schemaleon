@@ -30,18 +30,18 @@ OSCR.config(
     function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/public.html',
+                templateUrl: 'views/home.html',
                 controller: 'PublicController',
-                title: 'OSCR Home'
+                title: 'Home'
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
                 title: 'OSCR Login'
             })
-            .when('/community', {
-                templateUrl: 'views/community.html',
+            .when('/dashboard', {
+                templateUrl: 'views/dashboard.html',
                 controller: 'CommunityController',
-                title: 'OSCR Community'
+                title: 'Dashboard'
             })
             .when('/shared/:schema', {
                 templateUrl: 'views/document-list.html',
@@ -92,9 +92,9 @@ OSCR.config(
                 controller: 'UserViewController'
             })
             .otherwise({
-                templateUrl: 'views/public.html',
+                templateUrl: 'views/home.html',
                 controller: 'PublicController',
-                title: 'OSCR Home'
+                title: 'Home'
             });
     }
 );

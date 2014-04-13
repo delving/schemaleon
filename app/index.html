@@ -1,11 +1,7 @@
-<!doctype html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
+<!doctype html><!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--><!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]--><!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]--><!--[if gt IE 8]><!-->
 <html class="no-js" xmlns:ng="http://angularjs.org"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
@@ -40,186 +36,224 @@
 
 <!-- APPLICATION CONTAINER -->
 <div ng-app="OSCR" ng-controller="GlobalController" ng-cloak class="ng-cloak" id="ng-app">
-    <div ng-controller="I18NController" class="loggedin-{{ user != undefined }}">
-        <nav class="navbar navbar-inverse navbar-static-top" role="navigation" id="top-nav">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-collapse-top">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href data-ng-click="choosePath('/public')" class="navbar-brand">
-                        <img src="img/logo.png"/>Delving OSCR
+<div ng-controller="I18NController" class="loggedin-{{ user != undefined }}">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top-nav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-collapse-top">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href data-ng-click="choosePath('/home')" class="navbar-brand">
+                <img src="img/schamelion-logo.png"/>
+                schema4ms2xml
+                <!--SCHEMALEON-->
+                <!--SCHAMELEON-->
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navigation-collapse-top">
+            <ul class="nav navbar-nav" data-ng-show="user">
+                <li class="dropdown" data-ng-hide="user.viewer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
+                        <i class="glyphicon glyphicon-file"></i>
+                        <span class="i18n"></span>
+                        <span class="caret"></span>
                     </a>
-                </div>
-                <div class="collapse navbar-collapse" id="navigation-collapse-top">
-                    <ul class="nav navbar-nav" data-ng-hide="user">
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li data-ng-repeat="schema in schemaMap.primary">
+                            <a tabindex="-1" href data-ng-click="newDocument(schema)">{{ schema }}</a>
+                        </li>
+                        <li class="divider" data-ng-show="user.god"></li>
+                        <li data-ng-repeat="schema in schemaMap.shared" ng-show="user.god">
+                            <a tabindex="-1" href data-ng-click="newDocument(schema)">{{ schema }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav" id="user-controls" ng-show="user.Membership.Role == 'Administrator'">
+                <li>
+                    <a href ng-click="choosePath('/people')" i18n="GroupManagement">
+                        <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-user"></i>
+                        <span class="i18n"/>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav" id="god-controls" data-ng-show="user.god">
+                <li>
+                    <a href="/snapshot">
+                        <i class="glyphicon glyphicon-compressed"></i>
+                        <span>Get Snapshot</span>
+                    </a>
+                </li>
+                <li>
+                    <a ng-href="/#/lang/{{config.interfaceLanguage}}">
+                        <i class="glyphicon glyphicon-globe"></i>
+                        <span i18n="Translations"><span class="i18n"/> [{{ config.interfaceLanguage }}]</span>
+                    </a>
+                </li>
+                <li>
+                    <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
+                        <i class="glyphicon glyphicon-globe"></i>
+                        <span i18n="TranslateUi"><span class="i18n"/></span>
+                    </a>
+                </li>
+            </ul>
+            <form class="navbar-form pull-right">
+                <select class="form-control" id="language-select" data-ng-model="config.interfaceLanguage" data-ng-options="l.code as l.name for l in config.interfaceLanguages">
+                    <option value="">-- Language --</option>
+                </select>
+            </form>
+
+
+            <ul class="nav navbar-nav pull-right" data-ng-hide="user">
+                <li>
+                    <a href data-ng-click="choosePath('/login')" title="" i18n="Login">
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        <span class="i18n"/>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav pull-right"  data-ng-if="user">
+                <li  data-ng-controller="CommunityController" class="dropdown-chat" data-ng-class="{ 'open' : showChat==true}">
+                    <a href class="chat-togle" data-ng-click="toggleChat()">
+                        <i class="glyphicon glyphicon-comment"></i>
+                    </a>
+                    <div class="chatmessages" data-ng-show="showChat">
+                        <div class="widget-box oscr-chat">
+                            <div class="widget-title">
+                                <span class="icon"><i class="glyphicon glyphicon-comment"></i></span>
+                                <h5 i18n="Chat"><span class="i18n"/></h5>
+                            </div>
+                            <div class="widget-body">
+                                <div class="vertical-scroll" id="message-list" data-scrollable data-fixed-height="210px" data-ng-style="{ 'height': elHeight }">
+                                    <div data-ng-repeat="message in chatMessageList" class="media">
+                                        <gravatar-image data-email="message.email" data-size="32" data-default="mm" data-secure="false" class="pull-left"></gravatar-image>
+                                        <div class="media-body">
+                                            <span class="label label-default" data-ng-class="{ 'label-success' : user.Profile.email == message.email }">{{ message.user }}</span>
+                                            <span class="message-time">{{ message.time | date:'H:mm'}}</span><br/>
+                                            <span>{{ message.text }}</span>
+                                        </div>
+                                    </div>
+                                    <a name="chat-bottom"></a>
+                                </div>
+                            </div>
+                            <div class="widget-footer">
+                                <div class="input-group">
+                                    <input data-ng-model="chatMessage" data-chat-enter="chatSend(chatMessage)" type="text" class="form-control"/>
+                                    <span class="input-group-addon  pointer" data-ng-click="chatSend(chatMessage)"><i class="glyphicon glyphicon-comment"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="glyphicon">
+                            <gravatar-image data-email="user.Profile.email" data-size="16" data-default="mm" data-secure="false"></gravatar-image>
+                        </i>
+                        <span>{{ user.Profile.firstName }} {{ user.Profile.lastName }} </span><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-if="!user.group" i18n="NotMemberOfGroup">
+                            <span class="i18n"/>
+                        </li>
                         <li>
-                            <a href data-ng-click="choosePath('/login')" title="" i18n="Login">
+                            <a href data-ng-click="chooseUserPath(user.Identifier)"><i class="glyphicon glyphicon-user"></i>
+                                <span i18n="Profile"><span class="i18n"/></span>
+                            </a>
+                        </li>
+                        <!--<li data-ng-if="user.group">-->
+                            <!--<span i18n="Group"><span class="i18n"/></span>: <a ng-href="/#/people/group/{{ user.Membership.GroupIdentifier }}">{{ user.group.Name }}</a>-->
+                        <!--</li>-->
+                        <!--<li data-ng-if="user.group">-->
+                            <!--<span i18n="Role"><span class="i18n"/></span>:{{ user.Membership.Role }}-->
+                        <!--</li>-->
+                        <li class="divider"></li>
+                        <li>
+                            <a href ng-click="logout()" title="" i18n="Logout">
+                                <i class="glyphicon glyphicon-log-out"></i>
                                 <span class="i18n"/>
                             </a>
                         </li>
-                        <!--<li>-->
-                            <!--<a href="http://www.brabantcloud.eu/registration" target="_blank">-->
-                                <!--<span i18n="Register"><span class="i18n"/></span>-->
-                            <!--</a>-->
-                        <!--</li>-->
                     </ul>
-                    <ul class="nav navbar-nav" data-ng-show="user">
-                        <li class="dropdown" data-ng-hide="user.viewer">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href i18n="NewDocument">
-                                <i class="glyphicon glyphicon-file"></i> <span class="i18n"></span>
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li data-ng-repeat="schema in schemaMap.primary">
-                                    <a tabindex="-1" href data-ng-click="newDocument(schema)">{{ schema }}</a>
-                                </li>
-                                <li class="divider" data-ng-show="user.god"></li>
-                                <li data-ng-repeat="schema in schemaMap.shared" ng-show="user.god">
-                                    <a tabindex="-1" href data-ng-click="newDocument(schema)">{{ schema }}</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav" id="user-controls" ng-show="user.Membership.Role == 'Administrator'">
-                        <li>
-                            <a href ng-click="choosePath('/people')" i18n="GroupManagement">
-                                <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-user"></i> <span class="i18n"/>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav" id="god-controls" data-ng-show="user.god">
-                        <li>
-                            <a href="/snapshot">
-                                <i class="glyphicon glyphicon-compressed"></i> <span>Get Snapshot</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-href="/#/lang/{{config.interfaceLanguage}}">
-                                <i class="glyphicon glyphicon-globe"></i> <span i18n="Translations"><span class="i18n"/> [{{ config.interfaceLanguage }}]</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
-                                <i class="glyphicon glyphicon-globe"></i> <span i18n="TranslateUi"><span class="i18n"/></span>
-                            </a>
-                        </li>
-                    </ul>
-                    <form class="navbar-form pull-right">
-                        <select class="form-control" id="language-select" data-ng-model="config.interfaceLanguage" data-ng-options="l.code as l.name for l in config.interfaceLanguages">
-                            <option value="">-- Language --</option>
-                        </select>
-                    </form>
-                </div>
-            </div>
-        </nav>
-        <div class="viewport">
-            <div class="row">
-            <div class="viewport-left col-md-2" data-ng-show="user">
-                <div class="sidebar-nav">
-                   <div class="list-group nav-left">
-                       <a class="list-group-item user-info-heading" href data-ng-click="toggleUserConsole()">
-                           <i class="glyphicon"><gravatar-image data-email="user.Profile.email" data-size="16" data-default="mm" data-secure="false"></gravatar-image></i>
-                           <span>{{ user.Profile.firstName }} {{ user.Profile.lastName }}</span>
-                           <span class="label label-default count"><i class="glyphicon glyphicon-cog"></i></span>
-                       </a>
-                       <div class="list-group-item user-info" data-ng-show="showUserConsole">
-                           <ul class="list-unstyled list-key-value">
-                               <li>
-                                   <span i18n="Name" class="key"><span class="i18n"/></span>: <a href data-ng-click="chooseUserPath(user.Identifier)">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</a>
-                               </li>
-                               <li data-ng-if="user.group" >
-                                   <span i18n="Group" class="key"><span class="i18n"/></span>:
-                                   <a ng-href="/#/people/group/{{ user.Membership.GroupIdentifier }}">{{ user.group.Name }}</a>
-                               </li>
-                               <li data-ng-if="user.group" >
-                                   <span i18n="Role" class="key"><span class="i18n"/></span>:
-                                   <span class="value">{{ user.Membership.Role }}</span>
-                               </li>
-                               <li data-ng-if="!user.group" i18n="NotMemberOfGroup">
-                                   <span class="i18n"/>
-                               </li>
-                           </ul>
-                            <a href ng-click="logout()" title="" class="btn btn-danger btn-block btn-logout" i18n="Logout">
-                                <i class="glyphicon glyphicon-off"></i> <span class="i18n"/>
-                            </a>
-                        </div>
-                        <!-- Base links -->
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuBase" data-ng-class="{ active: link.active }">
-                             <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                            <span data-ng-show="config.showTranslationEditor"
-                                data-ng-click="openLabelDialog(link)"
-                                tooltip="Click to translate"
-                                tooltip-placement="right"
-                                class="badge badge-warning badge-translate">
-                                <i class="glyphicon glyphicon-globe"></i>
-                            </span>
-                        </a>
-                        <!-- Primary document links -->
-                        <div class="list-group-item-heading" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length" data-ng-if="user.editor">
-                            <span class="i18n"/>
-                        </div>
-                        <a  href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }" data-ng-if="user.editor">
-                                <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                                <span class="label label-info count">{{ link.count }}</span>
+                </li>
+            </ul>
 
-                            <span data-ng-show="config.showTranslationEditor"
-                                  data-ng-click="openLabelDialog(link)"
-                                  tooltip="Click to translate"
-                                  tooltip-placement="right"
-                                  class="badge badge-warning badge-translate">
-                                <i class="glyphicon glyphicon-globe"></i>
-                            </span>
-                        </a>
-                        <!-- Shared document links -->
-                        <div class="list-group-item-heading" i18n="SharedDocuments" data-ng-show="mainMenuShared.length"  data-ng-if="user.god">
-                            <span class="i18n"/>
-                        </div>
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item"  data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-if="user.god">
-                            <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
-                                {{ link | linkTitle }}
-                                <span class="label label-info count">{{ link.count }}</span>
-
-                                <span data-ng-show="config.showTranslationEditor"
-                                      data-ng-click="openLabelDialog(link)"
-                                      tooltip="Click to translate"
-                                      tooltip-placement="right"
-                                      class="badge badge-warning badge-translate">
-                                    <i class="glyphicon glyphicon-globe"></i>
-                                </span>
-                        </a>
-                        <!-- Recent document links -->
-                        <div data-ng-show="recent.length > 0" class="list-group-item-heading" i18n="RecentDocuments">
-                            <span class="i18n"/>
-                        </div>
-                        <a href data-ng-click="choosePath(link.path)" class="list-group-item recent" data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
-                                <i class="glyphicon glyphicon-file"></i>
-                                {{ link | linkTitle }}
-                                <span class="label label-danger count" ng-if="link.leased">
-                                    <i class="glyphicon glyphicon-lock icon-only"></i>
-                                </span>
-                            </a>
-                    </div>
-                </div>
-            </div>
-            <div class="viewport-right" data-ng-class="{'col-md-12' : !user, 'col-md-10' : user }">
-                <!--<div class="alert alert-danger fade-in" data-ng-show="globalError">-->
-                    <!--{{ globalError }}-->
-                <!--</div>-->
-                <div class="alert alert-warning fade-in alert alert-dismissable"  data-ng-if="user && !user.group">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <div i18n="NotMemberOfGroup"><span class="i18n"/></div>
-                </div>
-                <div data-ng-view id="view"><!-- Angular views are rendered here --></div>
-            </div>
-            </div>
         </div>
     </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 viewport-left" data-ng-if="user">
+            <div class="sidebar-nav">
+                <div class="list-group nav-left">
+                    <!-- Base links -->
+                    <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuBase" data-ng-class="{ active: link.active }">
+                        <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
+                        {{ link | linkTitle }}
+                            <span data-ng-show="config.showTranslationEditor" data-ng-click="openLabelDialog(link)" tooltip="Click to translate" tooltip-placement="right" class="badge badge-warning badge-translate">
+                                <i class="glyphicon glyphicon-globe"></i>
+                            </span>
+                    </a>
+                    <!-- Primary document links -->
+                    <div class="list-group-item-heading" i18n="PrimaryDocuments" data-ng-show="mainMenuPrimary.length" data-ng-if="user.editor">
+                        <span class="i18n"/>
+                    </div>
+                    <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuPrimary" data-ng-class="{ active: link.active }" data-ng-if="user.editor">
+                        <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
+                        {{ link | linkTitle }}
+                        <span class="badge badge-default count">{{ link.count }}</span>
+
+                            <span data-ng-show="config.showTranslationEditor" data-ng-click="openLabelDialog(link)" tooltip="Click to translate" tooltip-placement="right" class="badge badge-warning badge-translate">
+                                <i class="glyphicon glyphicon-globe"></i>
+                            </span>
+                    </a>
+                    <!-- Shared document links -->
+                    <div class="list-group-item-heading" i18n="SharedDocuments" data-ng-show="mainMenuShared.length" data-ng-if="user.god">
+                        <span class="i18n"/>
+                    </div>
+                    <a href data-ng-click="choosePath(link.path)" class="list-group-item" data-ng-repeat="link in mainMenuShared" data-ng-class="{ active: link.active }" data-ng-if="user.god">
+                        <i data-ng-show="link.icon" class="glyphicon {{ link.icon }}"></i>
+                        {{ link | linkTitle }}
+                        <span class="badge badge-default count">{{ link.count }}</span>
+
+                                <span data-ng-show="config.showTranslationEditor" data-ng-click="openLabelDialog(link)" tooltip="Click to translate" tooltip-placement="right" class="badge badge-warning badge-translate">
+                                    <i class="glyphicon glyphicon-globe"></i>
+                                </span>
+                    </a>
+                    <!-- Recent document links -->
+                    <div data-ng-show="recent.length > 0" class="list-group-item-heading" i18n="RecentDocuments">
+                        <span class="i18n"/>
+                    </div>
+                    <a href data-ng-click="choosePath(link.path)" class="list-group-item recent" data-ng-repeat="link in recent" data-ng-class="{ active: link.active }">
+                        <i class="glyphicon glyphicon-file"></i>
+                        {{ link | linkTitle }}
+                                <span class="badge badge-default count" ng-if="link.leased">
+                                    <i class="glyphicon glyphicon-lock icon-only"></i>
+                                </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 viewport-right" data-ng-class="{ 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2' : user!=null }">
+            <!--<div class="viewport-right">-->
+                <!--<div class="alert alert-danger fade-in" data-ng-show="globalError">-->
+                <!--{{ globalError }}-->
+                <!--</div>-->
+                <div class="alert alert-warning fade-in alert alert-dismissable" data-ng-if="user && !user.group">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <div i18n="NotMemberOfGroup">
+                        <span class="i18n"/>
+                    </div>
+                </div>
+                <div data-ng-view id="view"><!-- Angular views are rendered here --></div>
+            <!--</div>-->
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- build:js scripts/scripts.js -->
