@@ -4,10 +4,15 @@
 @import "document-panels.less";
 @import "media-upload.less";
 @import "widget-box.less";
+@import "aside.less";
 
 .square(@px) {
   height: @px;
   width: @px;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 // shema4ms2xml
@@ -95,7 +100,7 @@
 
 .page-header {
   border-bottom-color: transparent;
-  margin: 10px 0 10px 0;
+  margin: 0px 0 10px 0;
   h1 {
     margin: 0;
     text-transform: uppercase;
@@ -311,7 +316,7 @@ html, body {
 }
 
 body {
-  padding-top: 70px;
+  padding-top: 80px;
   font-weight: 300;
 }
 
@@ -391,7 +396,8 @@ body.full-screen {
 
 .dropdown-chat {
   &.open {
-    a.chat-toggle i {
+    .chat-toggle i,
+    .chat-toggle span{
       color: @brand-primary;
     }
   }
@@ -412,6 +418,25 @@ body.full-screen {
 
 .sidebar-nav {
 //  font-size: 14px;
+}
+
+/* DOCUMENT LIST */
+  .doc-list-title {
+    vertical-align: middle;
+    height: 32px;
+    a{
+      display: block;
+      width: 100%;
+    }
+  }
+
+.table-oscr.table-hover {
+  > tbody > tr:hover {
+    > td,
+    > th {
+      background-color: @white;
+    }
+  }
 }
 
 /* DOCUMENT EDIT */
@@ -488,7 +513,7 @@ body.full-screen {
 
 .side-slide {
   position: fixed;
-  top: 65px;
+  top: 75px;
   right: -250px;
   width: 250px;
   z-index: 5;
@@ -534,6 +559,32 @@ body.full-screen {
 
 .full-screen .side-slide {
   top: 10px;
+}
+
+.indent {
+  padding-left: 5%;
+  legend {
+    border-bottom: none;
+    margin-bottom: 0px;
+  }
+  .form-control {
+    width: 97.55555555%;
+  }
+  .indent .form-control {
+    width: 95%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .indent {
+    padding-left: 2.5%;
+    .form-control {
+      width: 96.25555555%;
+    }
+    .indent .form-control {
+      width: 93.75555555%;
+    }
+  }
 }
 
 /* EXPERT INPUT FORM */

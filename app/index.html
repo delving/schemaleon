@@ -117,11 +117,11 @@
             </ul>
             <ul class="nav navbar-nav pull-right"  data-ng-if="user">
                 <li  data-ng-controller="CommunityController" class="dropdown-chat" data-ng-class="{ 'open' : showChat==true}">
-                    <a href class="chat-togle" data-ng-click="toggleChat()">
-                        <i class="glyphicon glyphicon-comment"></i>
+                    <a href class="chat-toggle" data-ng-click="toggleChat()" i18n="Chat">
+                        <i class="glyphicon glyphicon-comment"></i> <span class="i18n"/>
                     </a>
-                    <div class="chatmessages" data-ng-show="showChat">
-                        <div class="widget-box oscr-chat">
+                    <div class="chatmessages" data-ng-if="showChat">
+                        <div class="widget-box oscr-chat fade-in">
                             <div class="widget-title">
                                 <span class="icon"><i class="glyphicon glyphicon-comment"></i></span>
                                 <h5 i18n="Chat"><span class="i18n"/></h5>

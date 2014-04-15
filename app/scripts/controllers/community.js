@@ -136,6 +136,11 @@ OSCR.controller(
             // just retrieve the messageList
             else {
                 Person.publishChatMessage('', function (messageList) {
+                    console.log('scope', _.size($scope.chatMessageList));
+                    console.log('server', _.size(messageList));
+                    if( _.size(messageList) > _.size($scope.chatMessageList)) {
+                        console.log('new message');
+                    }
                     $scope.chatMessageList = messageList;
                 });
             }

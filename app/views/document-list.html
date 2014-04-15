@@ -24,7 +24,7 @@
     <table class="table table-striped table-condensed table-oscr header-only">
         <thead>
             <th i18n="Title"><span class="i18n"/></th>
-            <th i18n="Thumbnail" width="100" ng-hide="schemaIsShared"><span class="i18n"/></th>
+
             <th i18n="State" width="75"><span class="i18n"/></th>
             <th i18n="Stored" width="150"><span class="i18n"/></th>
             <th i18n="SavedBy" width="200"><span class="i18n"/></th>
@@ -34,33 +34,30 @@
     <!-- scrolling container to make list scrollable -->
     <div class="vertical-scroll" id="document-list-container" data-scrollable data-offset="280" data-ng-style="{ 'max-height': elHeight }" >
 
-        <table class="table table-striped table-condensed table-oscr body-only">
+        <table class="table table-striped table-condensed table-hover table-oscr body-only">
             <!-- because the table body is separate from the head we need to sync up the column widths -->
             <colgroup>
                 <col/>
-                <col style="width:100px" ng-hide="schemaIsShared"/>
+
                 <col style="width:75px"/>
                 <col style="width:150px"/>
                 <col style="width:200px"/>
             </colgroup>
-            <tbody >
+            <tbody>
             <tr data-ng-hide="headerList.length">
                 <td colspan="5" i18n="NoSearchResults">
                     <div class="badge badge-warning"><span class="i18n"></span></div>
                 </td>
             </tr>
             <tr data-ng-show="headerList.length" data-ng-repeat="header in headerList" class="fade-in">
-                <td>
-                    <a href data-ng-click="choosePath(header)" style="display:block">
-                        <i class="glyphicon glyphicon-edit"></i>
-                        <span data-ng-repeat="title in xmlArray(header.SummaryFields.Title)">{{ title }}</span>
-                    </a>
-                </td>
-                <td data-ng-hide="schemaIsShared">
-                    <!-- only show the first thumb if there are multiple -->
-                    <span data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)" data-ng-if="$first">
+                <td class="doc-list-title">
+                    <a href data-ng-click="choosePath(header)">
+                        <i class="glyphicon glyphicon-edit" data-ng-hide="header.SummaryFields.Thumbnail" ></i>
+                         <span data-ng-hide="schemaIsShared" data-ng-repeat="thumbnail in xmlArray(header.SummaryFields.Thumbnail)" data-ng-if="$first" class="doc-list-thumb">
                          <img ng-src="{{ thumbnail.Identifier | mediaThumbnail }}" width="32"/>
                     </span>
+                        <span data-ng-repeat="title in xmlArray(header.SummaryFields.Title)" class="doc-list-link">{{ title }}</span>
+                    </a>
                 </td>
                 <td>
                     <span class="label label-default" ng-class="{'label-success' : header.DocumentState == 'public' }">{{ header.DocumentState }}</span>
