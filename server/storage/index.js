@@ -23,6 +23,7 @@ var path = require('path');
 var basex = require('basex');//basex.debug_mode = true;
 var im = require('imagemagick');
 var defer = require('node-promise').defer;
+var child_process = require('child_process');
 
 var Person = require('./storage-person');
 var I18N = require('./storage-i18n');
@@ -50,7 +51,6 @@ function log(message) {
 }
 
 function Storage(home) {
-    this.session = new basex.Session();
     this.FileSystem = new FileSystem(home);
     this.ETC = new ETC(this);
     this.Person = new Person(this);
@@ -310,7 +310,31 @@ function Storage(home) {
             }
         });
     };
+
+    this.startBaseX = function (started) {
+        var s = this;
+        console.log("spawning");
+        var child = child_process.spawn(
+            '/usr/bin/java',
+            [
+                '-cp',
+                'server/basex/BaseX781.jar',
+                'org.basex.BaseXServer',
+                '-S'
+            ]
+        );
+        child.stdout.on("data", function (data) {
+            if (/.*started.*/.test(data)) {
+                started()
+            }
+            else {
+                console.log("BaseX not started: " + data);
+            }
+        });
+    }
+
 }
+
 
 // open a database, or create it and initialize it if there wasn't one present yet, and use the given
 // home directory to locate the media filesystem.
@@ -319,49 +343,80 @@ function open(databaseName, homeDir, receiver) {
 
     var storage = new Storage(homeDir);
 
-    function getSchemaMap() {
-        storage.query('get schema map',
-            "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
-            function (schemaMapXml) {
-                storage.schemaMap = {
-                    primary: util.getFromXml(schemaMapXml, 'primary').split(','),
-                    shared: util.getFromXml(schemaMapXml, 'shared').split(',')
-                };
-                console.log('schema map', storage.schemaMap);
-            }
-        );
-    }
+    storage.startBaseX(function () {
 
-    storage.session.execute('open ' + databaseName, function (error, reply) {
-        storage.database = databaseName;
+        console.log("started basex");
 
-        if (reply.ok) {
-            getSchemaMap();
-            receiver(storage);
+        storage.session = new basex.Session();
+
+        console.log("got basex session");
+
+        function getSchemaMap() {
+            storage.query(
+                'get schema map',
+                    "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
+                function (schemaMapXml) {
+                    storage.schemaMap = {
+                        primary: util.getFromXml(schemaMapXml, 'primary').split(','),
+                        shared: util.getFromXml(schemaMapXml, 'shared').split(',')
+                    };
+                    console.log('schema map', storage.schemaMap);
+                }
+            );
         }
-        else {
-            storage.session.execute('create db ' + databaseName, function (error, reply) {
+
+        function openDatabase(afterOpen) {
+            storage.session.execute('open ' + databaseName, function (error, reply) {
+                storage.database = databaseName;
+
                 if (reply.ok) {
-                    storage.session.execute('create index fulltext', function (er, rep) {
-                        if (!reply.ok) {
-                            console.error(er);
+                    getSchemaMap();
+                    afterOpen(storage);
+                }
+                else {
+                    storage.session.execute('create db ' + databaseName, function (error, reply) {
+                        if (reply.ok) {
+                            storage.session.execute('create index fulltext', function (er, rep) {
+                                if (!reply.ok) {
+                                    console.error(er);
+                                }
+                                else {
+                                    storage.ETC.loadBootstrapData(false, function () {
+                                        getSchemaMap();
+                                        afterOpen(storage);
+                                    });
+                                }
+                            });
                         }
                         else {
-                            storage.ETC.loadBootstrapData(false, function () {
-                                getSchemaMap();
-                                receiver(storage);
-                            });
+                            console.error('Unable to create database ' + databaseName);
+                            console.error(error);
+                            afterOpen(null);
                         }
                     });
                 }
-                else {
-                    console.error('Unable to create database ' + databaseName);
-                    console.error(error);
-                    receiver(null);
-                }
             });
         }
+
+        if (fs.existsSync(storage.FileSystem.bootstrapDir)) {
+            var newName = storage.FileSystem.bootstrapDir + '-' + (new Date().getTime());
+            fs.renameSync(storage.FileSystem.bootstrapDir, newName);
+            storage.FileSystem.bootstrapDir = newName;
+            storage.session.execute('drop database ' + databaseName, function (error, reply) {
+                if (error) {
+                    console.error("Unable to drop database: " + error);
+                }
+                else {
+                    console.log("dropped database " + databaseName);
+                }
+                openDatabase(receiver);
+            });
+        }
+        else {
+            openDatabase(receiver);
+        }
     });
+
 }
 
 module.exports = open;

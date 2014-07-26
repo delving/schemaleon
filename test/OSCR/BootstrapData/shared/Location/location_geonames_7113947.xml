@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7113947</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462550</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Paterskerk</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Paterskerk</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Paterskerk</Appelation>
+        <LocationNameType>church</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.48401</Longitude>
+        <Latitude>51.43827</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7113947</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

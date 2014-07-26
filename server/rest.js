@@ -47,7 +47,7 @@ module.exports = app;
 var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
 // create the storage, with "oscr" as the database name in BaseX, and with homeDir for media storage
-Storage('oscr', homeDir, function (storage) {
+Storage('OSCR', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
     // integrate the server-side portion of the JQuery File Upload, modified to work in Express
@@ -72,30 +72,6 @@ Storage('oscr', homeDir, function (storage) {
         });
     }
 
-    // perform a query to the CultureCommons for authentication/login
-    function commonsQueryString() {
-        var API_QUERY_PARAMS = {
-            "apiToken": "6f941a84-cbed-4140-b0c4-2c6d88a581dd",
-            "apiOrgId": "delving",
-            "apiNode": "playground" // todo: this should not be playground!
-        };
-        var queryParams = [];
-        for (var key in API_QUERY_PARAMS) {
-            queryParams.push(key + '=' + API_QUERY_PARAMS[key]);
-        }
-        return queryParams.join('&');
-    }
-
-    // compose the request to CultureCommons
-    function commonsRequest(path) {
-        return {
-            method: "GET",
-            host: 'commons.delving.eu',
-            port: 443,
-            path: path + '?' + commonsQueryString()
-        }
-    }
-
     // several functions need to reply with the current language in its totality, so this function is re-used
     function replyWithLanguage(lang, res) {
         storage.I18N.getLanguage(lang, function (xml) {
@@ -103,8 +79,6 @@ Storage('oscr', homeDir, function (storage) {
         });
     }
 
-    // a request to authenticate a user comes in, is checked with CultureCommons, and then the user record
-    // is fetched from the database (or created, first time).  the session object is created and filled
     app.post('/authenticate', function (req, res) {
         var username = req.body.username;
         var password = req.body.password;
@@ -113,36 +87,58 @@ Storage('oscr', homeDir, function (storage) {
         var hmac = crypto.createHmac('sha1', username);
         var hash = hmac.update(hashedPassword).digest('hex');
         res.setHeader('Content-Type', 'text/xml');
-        https.request(
-            commonsRequest('/user/authenticate/' + hash),
-            function (authResponse) {
-                if (authResponse.statusCode == 200) {
-                    https.request(
-                        commonsRequest('/user/profile/' + username),
-                        function (profileResponse) {
-                            var data;
-                            profileResponse.on('data', function (data) {
-                                var profile = JSON.parse(data);
-                                profile.username = username;
-                                req.session.profile = profile;
-                                storage.Person.getOrCreateUser(profile, function (xml) {
-                                    req.session.Identifier = util.getFromXml(xml, 'Identifier');
-                                    req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
-                                    req.session.Role = util.getFromXml(xml, 'Role');
-                                    res.xml(xml);
-                                    storage.Log.activity(req, {
-                                        Op: "Authenticate"
-                                    });
-                                });
-                            });
-                        }
-                    ).end();
-                }
-                else {
-                    util.sendErrorMessage(res, 'Failed to authenticate');
-                }
-            }
-        ).end();
+
+        // for showcase
+        console.log("authenticate", req.body);
+        var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
+        var profile = {
+            firstName: "New",
+            lastName: "User",
+            username: username,
+            email: "user" + millisSince2013 + "@oscr.eu"
+        };
+        req.session.profile = profile;
+        storage.Person.getOrCreateUser(profile, function(xml) {
+            req.session.Identifier = util.getFromXml(xml, 'Identifier');
+            req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
+            req.session.Role = util.getFromXml(xml, 'Role');
+            res.xml(xml);
+            storage.Log.activity(req, {
+                Op: "Authenticate"
+            });
+        });
+
+        // todo: authenticate somehow
+//        https.request(
+//            commonsRequest('/user/authenticate/' + hash),
+//            function (authResponse) {
+//                if (authResponse.statusCode == 200) {
+//                    https.request(
+//                        commonsRequest('/user/profile/' + username),
+//                        function (profileResponse) {
+//                            var data;
+//                            profileResponse.on('data', function (data) {
+//                                var profile = JSON.parse(data);
+//                                profile.username = username;
+//                                req.session.profile = profile;
+//                                storage.Person.getOrCreateUser(profile, function (xml) {
+//                                    req.session.Identifier = util.getFromXml(xml, 'Identifier');
+//                                    req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
+//                                    req.session.Role = util.getFromXml(xml, 'Role');
+//                                    res.xml(xml);
+//                                    storage.Log.activity(req, {
+//                                        Op: "Authenticate"
+//                                    });
+//                                });
+//                            });
+//                        }
+//                    ).end();
+//                }
+//                else {
+//                    util.sendErrorMessage(res, 'Failed to authenticate');
+//                }
+//            }
+//        ).end();
     });
 
     // fetch a translation document
@@ -516,32 +512,6 @@ Storage('oscr', homeDir, function (storage) {
     // redirect so that the snapshot is named according to the current time, call the above function
     app.get('/snapshot', function (req, res) {
         res.redirect('/snapshot/'+storage.ETC.snapshotName());
-    });
-
-    // this function should not be here but it is useful for testing
-    // todo: remove this function
-    app.get('/data/import/:data/please', function(req, res) {
-        var data = req.params.data;
-        switch (data) {
-            case 'primary-replace':
-                storage.ETC.loadPrimaryData(true, function() {
-                    res.send('Imported primary data, replacing');
-                });
-                break;
-            case 'primary-new':
-                storage.ETC.loadPrimaryData(false, function() {
-                    res.send('Loaded primary data, first time');
-                });
-                break;
-            case 'bootstrap':
-                storage.ETC.loadBootstrapData(false, function() {
-                    res.send('Loaded bootstrap data');
-                });
-                break;
-            default :
-                res.send('Did not understand: bootstrap, primary-new, primary-replace');
-                break;
-        }
     });
 });
 

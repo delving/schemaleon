@@ -28,10 +28,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-            less: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
-                tasks: ['less']
-            },
+//            less: {
+//                files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+//                tasks: ['less']
+//            },
             livereload: {
                 files: [
                     '<%= yeoman.app %>/{,**/}*.html',
@@ -108,27 +108,27 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
-        less: {
-            server: {
-                options: {
-                    paths: ["<%= yeoman.app %>/styles"],
-                    ieCompat: true
-                },
-                files: {
-                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/less/main.less'
-                }
-            },
-            dist: {
-                options: {
-                    paths: ["<%= yeoman.app %>/styles"],
-                    yuicompress: true,
-                    ieCompat: true
-                },
-                files: {
-                    "<%= yeoman.dist %>/styles/main.css": "<%= yeoman.app %>/styles/less/main.less"
-                }
-            }
-        },
+//        less: {
+//            server: {
+//                options: {
+//                    paths: ["<%= yeoman.app %>/styles"],
+//                    ieCompat: true
+//                },
+//                files: {
+//                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/less/main.less'
+//                }
+//            },
+//            dist: {
+//                options: {
+//                    paths: ["<%= yeoman.app %>/styles"],
+//                    yuicompress: true,
+//                    ieCompat: true
+//                },
+//                files: {
+//                    "<%= yeoman.dist %>/styles/main.css": "<%= yeoman.app %>/styles/less/main.less"
+//                }
+//            }
+//        },
         concat: {
             dist: {
                 files: {
@@ -311,7 +311,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('run', [
         'clean:server',
-        'less:server',
+//        'less:server',
         'express:livereload', // port 9000
         'livereload-start',
         'open',
@@ -355,7 +355,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'less:dist',
+//        'less:dist',
         'useminPrepare',
         'imagemin',
         'cssmin',
@@ -373,6 +373,6 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', ['build']);
-    grunt.loadNpmTasks('grunt-contrib-less');
+//    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
 };

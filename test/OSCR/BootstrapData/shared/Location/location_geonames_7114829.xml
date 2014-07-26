@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7114829</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462603</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Penitentiaire Inrichting De Boschpoort</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Penitentiaire Inrichting De Boschpoort</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Penitentiaire Inrichting De Boschpoort</Appelation>
+        <LocationNameType>prison</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>4.7872699999999995</Longitude>
+        <Latitude>51.59046</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7114829</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

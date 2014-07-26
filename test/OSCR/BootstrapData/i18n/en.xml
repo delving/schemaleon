@@ -1,0 +1,14 @@
+<Language>
+  <label>
+    <Dashboard>Dashboard</Dashboard>
+    <People>Folks</People>
+    <UserManagement>Manage users</UserManagement>
+    <MediaUpload>Upload media</MediaUpload>
+  </label>
+  <element>
+    <FirstName>
+      <title>Fuzzy Names</title>
+      <doc>Explaining the first name here</doc>
+    </FirstName>
+  </element>
+</Language>

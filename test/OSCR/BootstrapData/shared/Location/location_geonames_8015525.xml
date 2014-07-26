@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_8015525</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753463731</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Eindhoven 380 kV Substation</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Eindhoven 380 kV Substation</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Eindhoven 380 kV Substation</Appelation>
+        <LocationNameType>power station</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.53127</Longitude>
+        <Latitude>51.44661</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/8015525</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

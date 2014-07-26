@@ -1,0 +1,34 @@
+<Document>
+  <Header>
+    <SchemaName>Photo</SchemaName>
+    <Identifier>OSCR-Photo-gtebj7b-zk2</Identifier>
+    <GroupIdentifier>GroupA</GroupIdentifier>
+    <SummaryFields>
+      <Title>Artisical Mishap</Title>
+      <Thumbnail>
+        <UserIdentifier>Member</UserIdentifier>
+        <OriginalFileName>museum-bad-art-painting.jpg</OriginalFileName>
+        <MimeType>image/jpeg</MimeType>
+        <Identifier>d12883a5c0d33a1248207a13f4b4fe9b</Identifier>
+        <GroupIdentifier>GroupA</GroupIdentifier>
+      </Thumbnail>
+    </SummaryFields>
+    <DocumentState>private</DocumentState>
+    <TimeStamp>1396279321750</TimeStamp>
+    <SavedBy>Member</SavedBy>
+  </Header>
+  <Body>
+    <Photo>
+      <Title>Artisical Mishap</Title>
+      <DigitalObject>
+        <File>
+          <UserIdentifier>Member</UserIdentifier>
+          <OriginalFileName>museum-bad-art-painting.jpg</OriginalFileName>
+          <MimeType>image/jpeg</MimeType>
+          <Identifier>d12883a5c0d33a1248207a13f4b4fe9b</Identifier>
+          <GroupIdentifier>GroupA</GroupIdentifier>
+        </File>
+      </DigitalObject>
+    </Photo>
+  </Body>
+</Document>

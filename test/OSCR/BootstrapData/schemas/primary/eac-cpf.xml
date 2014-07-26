@@ -1,0 +1,100 @@
+<eac-cpf>
+    <control>
+        <recordId/>
+        <otherRecordId>{ "multiple": "true" }</otherRecordId>
+        <maintenanceStatus/>
+        <maintenanceAgency>
+            <agencyName/>
+        </maintenanceAgency>
+        <languageDeclaration>
+            <language/>
+            <script/>
+        </languageDeclaration>
+        <conventionDeclaration>
+            <citation/>
+        </conventionDeclaration>
+        <maintenanceHistory>
+            <maintenanceEvent>
+                <eventType/>
+                <eventDateTime/>
+                <agentType/>
+                <agent/>
+                <eventDescription>{ "paragraph": true }</eventDescription>
+            </maintenanceEvent>
+        </maintenanceHistory>
+        <sources>
+            <source>{ "multiple": "true" }</source>
+        </sources>
+    </control>
+    <cpfDescription>
+        <identity>
+            <entityType/>
+            <nameEntry>{ "multiple": "true" }
+                <part/>
+                <authorizedForm/>
+            </nameEntry>
+        </identity>
+        <description>
+            <existDates>
+                <dateRange>
+                    <fromDate/>
+                    <toDate/>
+                </dateRange>
+            </existDates>
+            <localDescription>{ "multiple": "true" }
+                <term/>
+            </localDescription>
+            <occupation>{ "multiple": "true" }
+                <term/>
+            </occupation>
+            <biogHist>
+                <chronList>{ "multiple": "true" }
+                    <chronItem>
+                        <date/>
+                        <placeEntry/>
+                        <event/>
+                    </chronItem>
+                </chronList>
+                <citation/>
+            </biogHist>
+        </description>
+        <relations>
+            <cpfRelation>{ "multiple": "true" }
+                <relationEntry/>
+                <descriptiveNote>
+                    <p>{ "paragraph": true }</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <resourceRelation>{ "multiple": "true" }
+                <relationEntry/>
+                <objectXMLWrap>
+                    <did>
+                        <head/>
+                        <unittitle>
+                            <unitdate/>
+                        </unittitle>
+                        <unitid/>
+                        <origination>{ "multiple": "true" }
+                            <persname/>
+                        </origination>
+                        <physdesc>
+                            <extent/>
+                        </physdesc>
+                        <langmaterial>
+                            <language/>
+                        </langmaterial>
+                        <repository>
+                            <corpname>
+                                <subarea/>
+                            </corpname>
+                            <address>
+                                <addressline/>
+                            </address>
+                        </repository>
+                        <abstract>{ "paragraph": true }</abstract>
+                    </did>
+                </objectXMLWrap>
+            </resourceRelation>
+        </relations>
+    </cpfDescription>
+</eac-cpf>

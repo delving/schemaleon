@@ -1,0 +1,570 @@
+<Language>
+  <label>
+    <Dashboard>Beheer</Dashboard>
+    <InMemoriam>Bidprentjes</InMemoriam>
+    <People>Gebruikersbeheer</People>
+    <MediaUpload>Upload media</MediaUpload>
+    <Photo>Foto</Photo>
+    <Book>Boeken</Book>
+    <Video>Videos</Video>
+    <Documents>Documenten</Documents>
+    <NewDocument>Nieuw document</NewDocument>
+    <Identifier>ID</Identifier>
+    <Title>Titel</Title>
+    <Stored>Bewaard op</Stored>
+    <SavedBy>Bewaard door</SavedBy>
+    <LoggedInAs>Aangemeld als</LoggedInAs>
+    <Logout>Meld af</Logout>
+    <Translations>Vertalingen</Translations>
+    <UserManagement>Beheer gebruikers</UserManagement>
+    <NewGroup>Maak nieuwe groep aan</NewGroup>
+    <Name>Naam</Name>
+    <Role>Rol</Role>
+    <AddMember>gebruiker toevoegen</AddMember>
+    <AddAdministrator>Voeg beheerder toe</AddAdministrator>
+    <Statistics>Statistieken</Statistics>
+    <YourProfile>Jouw profiel</YourProfile>
+    <RecentActivity>Activiteit log</RecentActivity>
+    <SharedDocuments>Gedeelde documenten</SharedDocuments>
+    <Location>Plaats</Location>
+    <Person>Persoon</Person>
+    <Organization>Organisatie</Organization>
+    <HistoricalEvent>Gebeurtenis</HistoricalEvent>
+    <RecentDocuments>Recente documenten</RecentDocuments>
+    <PrimaryDocuments>Eigen documenten</PrimaryDocuments>
+    <Memoriam>Herdenkingskaart</Memoriam>
+    <Save>Bewaar</Save>
+    <PreviewAndSave>Bekijk en bewaar</PreviewAndSave>
+    <Public>Openbaar</Public>
+    <Private>Privé</Private>
+    <PutInTrash>Verwijder</PutInTrash>
+    <TakeOutOfTrash>Maak verwijdering ongedaan</TakeOutOfTrash>
+    <Novice>Kolomweergave</Novice>
+    <Expert>Volledige weergave</Expert>
+    <Viewer>Bekijk</Viewer>
+    <Email>E-mail</Email>
+    <Groups>Groepen</Groups>
+    <SelectMedia>Selecteer bestand</SelectMedia>
+    <AddFiles>Voeg bestand toe</AddFiles>
+    <UploadAllFiles>Upload alle bestanden</UploadAllFiles>
+    <CancelUpload>Stop upload</CancelUpload>
+    <UploadMedia>Upload bestand</UploadMedia>
+    <UploadQueue>Upload wachtrij</UploadQueue>
+    <UploadedFiles>Bestanden geüpload</UploadedFiles>
+    <Publication>Publicatie</Publication>
+    <State>Status</State>
+    <NoSearchResults>Geen zoekresultaten</NoSearchResults>
+    <Search>Zoek</Search>
+    <SearchAllDocuments>Doorzoek alles</SearchAllDocuments>
+    <CurrentGroups>Huidige organisaties</CurrentGroups>
+    <New>Nieuw</New>
+    <Actions>Actie</Actions>
+    <NoFiles>Geen bestanden</NoFiles>
+    <OwningGroup>Bron</OwningGroup>
+    <StatusIndication>Aanduiding status</StatusIndication>
+    <Navigation>Navigatie</Navigation>
+    <StatusEmpty>Leeg</StatusEmpty>
+    <StatusOkay>OK</StatusOkay>
+    <StatusIncomplete>Onvolledig</StatusIncomplete>
+    <StatusInvalid>Fout</StatusInvalid>
+    <SavedOn>Bewaard op</SavedOn>
+    <RegisterAsUser>Registreer als gebruiker</RegisterAsUser>
+    <ToRegisterAsUser>Om te registreren als gebruiker:</ToRegisterAsUser>
+    <SignUp>Meld aan</SignUp>
+    <Add>Voeg toe</Add>
+    <When>Wanneer</When>
+    <Who>Wie</Who>
+    <What>Wat</What>
+    <CurrentValue>Huidige waarde</CurrentValue>
+    <SearchingFor>Zoek naar</SearchingFor>
+    <AddTerm>Voeg toe</AddTerm>
+    <Found>Resultaat</Found>
+    <MoreDetails>Meer details</MoreDetails>
+    <Required>Verplicht</Required>
+    <Thumbnail>Thumb</Thumbnail>
+    <LessDetails>Minder details</LessDetails>
+    <Group>Groep</Group>
+    <Community>Gemeenschap</Community>
+    <Description>Beschrijving</Description>
+    <Collection>Collectie</Collection>
+    <Creation>Vervaardiging</Creation>
+    <CreationDate>Datum vervaardiging</CreationDate>
+    <Creator>Vervaardiger</Creator>
+    <CreationRole>Rol vervaardiger</CreationRole>
+    <CreationPlace>Plaats van vervaardiging</CreationPlace>
+    <CopyrightHolderPerson>Copyrighthouder-Persoon</CopyrightHolderPerson>
+    <CopyrightHolderOrganization>Copyrighthouder-Organisatie</CopyrightHolderOrganization>
+    <CreativeCommonsLicense>Creative Commons Licentie</CreativeCommonsLicense>
+    <Comment>Opmerkingen</Comment>
+    <PublishedIn>Gepubliceerd in</PublishedIn>
+    <Acquisition>Verwerving</Acquisition>
+    <AcquisitionDate>Datum verwerving</AcquisitionDate>
+    <AcquirerPerson>Verworven van (persoon)</AcquirerPerson>
+    <AcquirerOrganization>Verworven van (organisatie)</AcquirerOrganization>
+    <AcquisitionType>Soort verwerving</AcquisitionType>
+    <Condition>Conditie</Condition>
+    <RefersTo>Verwijst naar</RefersTo>
+    <ReferenceType>Soort verwijzing</ReferenceType>
+    <DigitalObject>Digitaal object</DigitalObject>
+    <File>Bestand</File>
+    <Type>Type</Type>
+    <TechnicalProperty>Technische eigenschappen</TechnicalProperty>
+    <Value>Waarde</Value>
+    <Unit>Eenheid</Unit>
+    <Comments>Opmerkingen</Comments>
+    <PhysicalObject>Fysiek object</PhysicalObject>
+    <PhysicalProperty>Fysieke eigenschappen</PhysicalProperty>
+    <Format>Formaat</Format>
+    <Material>Materiaalsoort</Material>
+    <StorageLocation>Vindplaats</StorageLocation>
+    <Exhibition>Tentoonstelling</Exhibition>
+    <ExhibitionEvent>Tentoonstelling gebeurtenis</ExhibitionEvent>
+    <FieldStatus>Veldstatus</FieldStatus>
+    <DocumentStatus>Documentstatus</DocumentStatus>
+    <Language>Taal</Language>
+    <PublicationDate>Datum publicatie</PublicationDate>
+    <PublisherOrganization>Publicatie-organisatie</PublisherOrganization>
+    <PublisherPerson>Publicatie-persoon</PublisherPerson>
+    <Date>Datum</Date>
+    <PhysicalCard>Fysiek object</PhysicalCard>
+    <SpecificLocation>Specifieke locatie</SpecificLocation>
+    <ManagingOrganization>Beherende organisatie</ManagingOrganization>
+    <Front>Recto</Front>
+    <Back>Verso</Back>
+    <FrontScan>Scan voorzijde</FrontScan>
+    <Text>Tekst</Text>
+    <BackScan>Scan achterzijde</BackScan>
+    <PublicationType>Type</PublicationType>
+    <Subject>Onderwerpen</Subject>
+    <Contains>Bevat</Contains>
+    <IsContainedIn>Is opgenomen in</IsContainedIn>
+    <GroupManagement>Gebruikersbeheer</GroupManagement>
+    <FindGroup>Zoek een groep</FindGroup>
+    <FindUser>Zoek een gebruiker</FindUser>
+  </label>
+  <element>
+    <FirstName>
+      <title>Voornaam</title>
+      <doc>Hoe heet ie?</doc>
+    </FirstName>
+    <MediaFile>
+      <title>?</title>
+      <doc>MediaFile</doc>
+    </MediaFile>
+    <Appelation>
+      <title>Locatienaam</title>
+      <doc>Vul hier de naam in van de locatie die u wilt benoemen.
+
+Voorbeeld: Dorpsstraat</doc>
+    </Appelation>
+    <Title>
+      <title>Titel</title>
+      <doc>Vermeld hier de titel van de foto. Begin met een hoofdletter en gebruik geen punt aan het eind. Is er geen titel aan betreffende foto gegeven, maak dan zelf een korte titel. Schrijf deze titel tussen vierkante haken, dus: [gegeven titel].</doc>
+    </Title>
+    <Type>
+      <title>Type</title>
+      <doc>?</doc>
+    </Type>
+    <Collection>
+      <title>Collectie</title>
+      <doc>?</doc>
+    </Collection>
+    <Description>
+      <title>Beschrijving</title>
+      <doc>?</doc>
+    </Description>
+    <GeopoliticalHierarchy>
+      <title>Plaats, hiërarchisch</title>
+      <doc>?</doc>
+    </GeopoliticalHierarchy>
+    <Creation>
+      <title>Vervaardiging</title>
+      <doc>?</doc>
+    </Creation>
+    <CreationDate>
+      <title>Datum vervaardiging</title>
+      <doc>?</doc>
+    </CreationDate>
+    <Creator>
+      <title>Vervaardiger</title>
+      <doc>?</doc>
+    </Creator>
+    <CreationPlace>
+      <title>Plaats van vervaardiging</title>
+      <doc>?</doc>
+    </CreationPlace>
+    <Copyright>
+      <title>Copyright</title>
+      <doc>?</doc>
+    </Copyright>
+    <LocationName>
+      <title>Locatie</title>
+      <doc>?</doc>
+    </LocationName>
+    <LocationNameType>
+      <title>Locatietype</title>
+      <doc>?</doc>
+    </LocationNameType>
+    <LocationNameAttributionDate>
+      <title>Datum toekenning locatienaam</title>
+      <doc>Vul de datum in waarop deze naam werd gegeven aan deze locatie. Voorbeeld: 1936</doc>
+    </LocationNameAttributionDate>
+    <LocationNameAttributedByPerson>
+      <title>Locatienaam toegekend door (persoon)</title>
+      <doc>?</doc>
+    </LocationNameAttributedByPerson>
+    <LocationNameAttributedByOrganization>
+      <title>Locatienaam toegekend door (organisatie)</title>
+      <doc>?</doc>
+    </LocationNameAttributedByOrganization>
+    <Comments>
+      <title>Opmerkingen</title>
+      <doc>?</doc>
+    </Comments>
+    <Publication>
+      <title>Publicatie</title>
+      <doc>?</doc>
+    </Publication>
+    <PublishedIn>
+      <title>Gepubliceerd in</title>
+      <doc>?</doc>
+    </PublishedIn>
+    <Comment>
+      <title>Opmerkingen</title>
+      <doc>?</doc>
+    </Comment>
+    <GeonamesURI>
+      <title>URI Geonames</title>
+      <doc>?</doc>
+    </GeonamesURI>
+    <Acquisition>
+      <title>Verwerving</title>
+      <doc>?</doc>
+    </Acquisition>
+    <Coordinates>
+      <title>Coördinaten</title>
+      <doc>?</doc>
+    </Coordinates>
+    <AcquisitionDate>
+      <title>Datum verwerving</title>
+      <doc>?</doc>
+    </AcquisitionDate>
+    <WikipediaLink>
+      <title>Wikipedia link</title>
+      <doc>?</doc>
+    </WikipediaLink>
+    <AcquirerPerson>
+      <title>Verworven van (persoon)</title>
+      <doc>?</doc>
+    </AcquirerPerson>
+    <AcquirerOrganization>
+      <title>Verworven van (organisatie)</title>
+      <doc>?</doc>
+    </AcquirerOrganization>
+    <Condition>
+      <title>Conditie</title>
+      <doc>?</doc>
+    </Condition>
+    <AcquisitionType>
+      <title>Soort verwerving</title>
+      <doc>?</doc>
+    </AcquisitionType>
+    <Appellation>
+      <title>Volledige naam</title>
+      <doc>Vul de (gehele) naam in. Bijvoorbeeld: Piet van Boven.</doc>
+    </Appellation>
+    <GivenName>
+      <title>Voornaam</title>
+      <doc>Vul de voornaam van de persoon in. Gebruik voor elke voornaam een apart veld.
+Voorbeeld: Kees</doc>
+    </GivenName>
+    <SurnamePrefix>
+      <title>Tussenvoegsel</title>
+      <doc>Vul het voorvoegsel van de achternaam in, zonder leestekens: Voorbeeld: van</doc>
+    </SurnamePrefix>
+    <Surname>
+      <title>Achternaam</title>
+      <doc>?</doc>
+    </Surname>
+    <Gender>
+      <title>Geslacht</title>
+      <doc>?</doc>
+    </Gender>
+    <Birth>
+      <title>Geboorte</title>
+      <doc>?</doc>
+    </Birth>
+    <DateOfBirth>
+      <title>Geboortedatum</title>
+      <doc>?</doc>
+    </DateOfBirth>
+    <CreationRole>
+      <title>Rol vervaardiger</title>
+      <doc>?</doc>
+    </CreationRole>
+    <PlaceOfBirth>
+      <title>Geboorteplaats</title>
+      <doc>?</doc>
+    </PlaceOfBirth>
+    <Person>
+      <title>Persoon</title>
+      <doc>?</doc>
+    </Person>
+    <Organization>
+      <title>Organisatie</title>
+      <doc>?</doc>
+    </Organization>
+    <Marriage>
+      <title>Huwelijk</title>
+      <doc>?</doc>
+    </Marriage>
+    <DateOfMarriage>
+      <title>Huwelijksdatum</title>
+      <doc>?</doc>
+    </DateOfMarriage>
+    <PlaceOfMarriage>
+      <title>Huwelijksplaats</title>
+      <doc>?</doc>
+    </PlaceOfMarriage>
+    <SignificantLifeEvent>
+      <title>Biografische gegevens</title>
+      <doc>?</doc>
+    </SignificantLifeEvent>
+    <CopyrightHolderPerson>
+      <title>Copyrighthouder-Persoon</title>
+      <doc>?</doc>
+    </CopyrightHolderPerson>
+    <Death>
+      <title>Overlijden</title>
+      <doc>?</doc>
+    </Death>
+    <CopyrightHolderOrganization>
+      <title>Copyrighthouder-Organistie</title>
+      <doc>?</doc>
+    </CopyrightHolderOrganization>
+    <DateOfDeath>
+      <title>Datum overlijden</title>
+      <doc>?</doc>
+    </DateOfDeath>
+    <CreativeCommonsLicense>
+      <title>Creative Commons Licentie</title>
+      <doc>?</doc>
+    </CreativeCommonsLicense>
+    <PlaceOfFuneral>
+      <title>Plaats overlijden</title>
+      <doc>?</doc>
+    </PlaceOfFuneral>
+    <RefersTo>
+      <title>Verwijst naar</title>
+      <doc>?</doc>
+    </RefersTo>
+    <Mother>
+      <title>Moeder</title>
+      <doc>?</doc>
+    </Mother>
+    <Father>
+      <title>Vader</title>
+      <doc>?</doc>
+    </Father>
+    <Child>
+      <title>Kind</title>
+      <doc>?</doc>
+    </Child>
+    <ReferenceType>
+      <title>Soort verwijzing</title>
+      <doc>?</doc>
+    </ReferenceType>
+    <OrganizationType>
+      <title>Organisatietype</title>
+      <doc>?</doc>
+    </OrganizationType>
+    <OrganizationBeginDate>
+      <title>Begindatum organisatie</title>
+      <doc>?</doc>
+    </OrganizationBeginDate>
+    <OrganizationEndDate>
+      <title>Einddatum organisatie</title>
+      <doc>?</doc>
+    </OrganizationEndDate>
+    <OrganizationFlourishPeriod>
+      <title>Beschrijving</title>
+      <doc>?</doc>
+    </OrganizationFlourishPeriod>
+    <Membership>
+      <title>Leden organisatie</title>
+      <doc>?</doc>
+    </Membership>
+    <MembershipType>
+      <title>Lidmaatschapstype</title>
+      <doc>?</doc>
+    </MembershipType>
+    <MembershipBeginDate>
+      <title>Begindatum lidmaatschap</title>
+      <doc>?</doc>
+    </MembershipBeginDate>
+    <Location>
+      <title>Plaats</title>
+      <doc>?</doc>
+    </Location>
+    <MembershipEndDate>
+      <title>Einddatum lidmaatschap</title>
+      <doc>?</doc>
+    </MembershipEndDate>
+    <HistoricalEvent>
+      <title>Gebeurtenis</title>
+      <doc>?</doc>
+    </HistoricalEvent>
+    <ContactInfo>
+      <title>Contactinformatie</title>
+      <doc>?</doc>
+    </ContactInfo>
+    <HeadquartersLocation>
+      <title>Locatie (hoofd)vestiging</title>
+      <doc>?</doc>
+    </HeadquartersLocation>
+    <EmailAddress>
+      <title>E-mailadres</title>
+      <doc>?</doc>
+    </EmailAddress>
+    <DigitalObject>
+      <title>Digitaal object</title>
+      <doc>?</doc>
+    </DigitalObject>
+    <PostAddressLine>
+      <title>Postadres</title>
+      <doc>?</doc>
+    </PostAddressLine>
+    <TelephoneNumber>
+      <title>Telefoonnummer</title>
+      <doc>?</doc>
+    </TelephoneNumber>
+    <File>
+      <title>Bestand</title>
+      <doc>?</doc>
+    </File>
+    <TechnicalProperty>
+      <title>Technische eigenschappen</title>
+      <doc>?</doc>
+    </TechnicalProperty>
+    <Value>
+      <title>Waarde</title>
+      <doc>?</doc>
+    </Value>
+    <Unit>
+      <title>Eenheid</title>
+      <doc>?</doc>
+    </Unit>
+    <PhysicalObject>
+      <title>Fysiek object</title>
+      <doc>?</doc>
+    </PhysicalObject>
+    <Format>
+      <title>Formaat</title>
+      <doc>?</doc>
+    </Format>
+    <Material>
+      <title>Materiaalsoort</title>
+      <doc>?</doc>
+    </Material>
+    <PhysicalProperty>
+      <title>Fysieke eigenschappen</title>
+      <doc>?</doc>
+    </PhysicalProperty>
+    <EventTime>
+      <title>Datum gebeurtenis</title>
+      <doc>?</doc>
+    </EventTime>
+    <EventLocation>
+      <title>Plaats gebeurtenis</title>
+      <doc>?</doc>
+    </EventLocation>
+    <SpecificLocation>
+      <title>Specifieke locatie</title>
+      <doc>?</doc>
+    </SpecificLocation>
+    <Participant>
+      <title>Betrokkenen</title>
+      <doc>?</doc>
+    </Participant>
+    <WebLink>
+      <title>Weblink</title>
+      <doc>?</doc>
+    </WebLink>
+    <Date>
+      <title>Datum</title>
+      <doc>?</doc>
+    </Date>
+    <PhysicalCard>
+      <title>Fysiek object</title>
+      <doc>?</doc>
+    </PhysicalCard>
+    <Front>
+      <title>Recto</title>
+      <doc>?</doc>
+    </Front>
+    <FrontScan>
+      <title>Scan voorzijde</title>
+      <doc>?</doc>
+    </FrontScan>
+    <Text>
+      <title>Tekst</title>
+      <doc>?</doc>
+    </Text>
+    <Back>
+      <title>Verso</title>
+      <doc>?</doc>
+    </Back>
+    <BackScan>
+      <title>Scan achterzijde</title>
+      <doc>?</doc>
+    </BackScan>
+    <StorageLocation>
+      <title>Vindplaats</title>
+      <doc>?</doc>
+    </StorageLocation>
+    <Exhibition>
+      <title>Tentoonstelling</title>
+      <doc>?</doc>
+    </Exhibition>
+    <ExhibitionEvent>
+      <title>Tentoonstelling gebeurtenis</title>
+      <doc>?</doc>
+    </ExhibitionEvent>
+    <Language>
+      <title>Taal</title>
+      <doc>?</doc>
+    </Language>
+    <PublicationDate>
+      <title>Datum publicatie</title>
+      <doc>?</doc>
+    </PublicationDate>
+    <PublisherOrganization>
+      <title>Publicatie-organisatie</title>
+      <doc>?</doc>
+    </PublisherOrganization>
+    <PublisherPerson>
+      <title>Publicatie-persoon</title>
+      <doc>?</doc>
+    </PublisherPerson>
+    <ManagingOrganization>
+      <title>Beherende organisatie</title>
+      <doc>?</doc>
+    </ManagingOrganization>
+    <PublicationType>
+      <title>Type</title>
+      <doc>?</doc>
+    </PublicationType>
+    <Subject>
+      <title>Onderwerpen</title>
+      <doc>?</doc>
+    </Subject>
+    <Contains>
+      <title>Bevat</title>
+      <doc>?</doc>
+    </Contains>
+    <IsContainedIn>
+      <title>Is opgenomen in</title>
+      <doc>?</doc>
+    </IsContainedIn>
+  </element>
+</Language>

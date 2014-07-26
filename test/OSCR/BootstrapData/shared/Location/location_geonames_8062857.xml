@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_8062857</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753463855</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Gemeente Bladel en Netersel &gt; wxh</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Gemeente Bladel en Netersel,wxh</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>wxh</Appelation>
+        <LocationNameType>agricultural facility</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.29387</Longitude>
+        <Latitude>51.396029999999996</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/8062857</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>
