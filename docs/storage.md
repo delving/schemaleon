@@ -2,7 +2,7 @@
 
 ----
 
-# OSCR Storage
+# Schemaleon Storage
 
 There are two parts to the system of storing data behind the platform, the XML database is used for documents, and the media files are stored on the file system.  The documents must be searchable by content, and the media files are always referred to from documents so they must be consistently organized and named.
 
@@ -24,7 +24,7 @@ The database structure is as follows:
 
 Two of the above sections of the database actually correspond to multiple actual directories, since documents are always stored in collections according the the name of the schema to which they belong.  The shared documents are structured directly that way, while the primary documents are first dividied into sections according to the group of users to which they belong.
 
-There is one special group with the identifier **OSCR** which is to contain the powerful administrator users who have the rights to do things like group management and language translation.
+There is one special group with the identifier **schemaleon** which is to contain the powerful administrator users who have the rights to do things like group management and language translation.
 
 ### /schemas/shared and /schemas/primary
 
@@ -40,7 +40,7 @@ This is the collection of schema documents describing the data objects that all 
 
 How these schemas are structured and what they contain is described in [schemas.md](schemas.md).
 
-There is a file called **SchemaMap.xml** located in the */schemas/* directory and it tells OSCR which schemas of the different kinds are to be used.  Its contents are very simple:
+There is a file called **SchemaMap.xml** located in the */schemas/* directory and it tells Schemaleon which schemas of the different kinds are to be used.  Its contents are very simple:
 
 	<SchemaMap>
 	   <primary>Photo,Film,Publication</primary>
@@ -89,19 +89,19 @@ An XML file for each vocabulary defined in any of the schemas is stored here, an
 	<Entries>
 	  <Entry>
 	    <Label>Large</Label>
-	    <Identifier>OSCR-VO-emp1amz-vms</Identifier>
+	    <Identifier>emp1amz-vms</Identifier>
 	  </Entry>
 	  <Entry>
 	    <Label>Medium</Label>
-	    <Identifier>OSCR-VO-eu5f206-720</Identifier>
+	    <Identifier>eu5f206-720</Identifier>
 	  </Entry>
 	  <Entry>
 	    <Label>Small</Label>
-	    <Identifier>OSCR-VO-eu5pb8g-yyi</Identifier>
+	    <Identifier>eu5pb8g-yyi</Identifier>
 	  </Entry>
 	</Entries>
 
-Vocabularies are currently shared among all users, and they can be either fixed or open. Fixed vocabularies cannot change over time, and are therefore pre-installed by the administrators of the OSCR platform (see bootstrapping below).
+Vocabularies are currently shared among all users, and they can be either fixed or open. Fixed vocabularies cannot change over time, and are therefore pre-installed by the administrators of the Schemaleon platform (see bootstrapping below).
 
 An open vocabulary can be given a new entry on-the-fly by a user very quickly and easily.  The values of open vocabularies are "controlled" in the sense that users will be encouraged to re-use values that have already been used, although they will not be limited.  The purpose of these open vocabularies is to encourage re-use of values, so that spelling and capitalization differences are minimal, but otherwise the contents of the field are simlar to a free-text input field.
 
@@ -109,7 +109,7 @@ Ultimately, this definition of controlled vocabularies will probably change to a
 
 ### /people/groups
 
-In this collection there is one XML file for each OSCR group.  The structure is currently as follows, but it can be changed or extended depending on what should be displayed to identify a group.
+In this collection there is one XML file for each Schemaleon group.  The structure is currently as follows, but it can be changed or extended depending on what should be displayed to identify a group.
 
 	<Group>
 	  <Identifier>HS_343/Identifier>
@@ -128,7 +128,7 @@ Other fields can be added to this as long as the associated user interface knows
 This collection contains one XML file per user and each file looks like this:
 
 	<User>
-	  <Identifier>OSCR-US-e6m08tx-3hx</Identifier>
+	  <Identifier>e6m08tx-3hx</Identifier>
 	  <Profile>
 	    <firstName>John</firstName>
 	    <lastName>Smith</lastName>
@@ -188,7 +188,7 @@ There will be one of these files for each day. The activity log looks like this:
 	<Activities>
 	  <Activity>
 	    <Op>Authenticate</Op>
-	    <Who>OSCR-US-egs231vc-dqn</Who>
+	    <Who>egs231vc-dqn</Who>
 	    <TimeStamp>1392104217764</TimeStamp>
 	  </Activity>
 	  ...
@@ -204,7 +204,7 @@ The structure of the chat file is like this:
 	    <time>1391794342797</time>
 	    <text>the text that was written</text>
 	    <user>user's name</user>
-	    <Who>OSCR-US-egs231vc-dqn</Who>
+	    <Who>egs231vc-dqn</Who>
 	    <TimeStamp>1391794342797</TimeStamp>
 	  </ChatMessage>
 	  <ChatMessage>
@@ -225,9 +225,9 @@ Some examples might be
 
 Derived files such as thumbnails (JPEG) are stored with the exact same base file names but within sub-directories, as shown below.
 
-The files are stored in a directory called *OSCR-Files* within the home directory, and the media files for the different groups of users in the system are stored separately according to the group identifer.
+The files are stored in a directory called *SchemaleonFiles* within the home directory, and the media files for the different groups of users in the system are stored separately according to the group identifer.
 
-	<home-directory>/OSCR-Files/MediaStorage/<group-identifier>/
+	<home-directory>/SchemaleonFiles/MediaStorage/<group-identifier>/
 	
 Within the directory for group name, the media files are stored in *bucket* directories corresponding to the first two letters of hashed name of the file.
 
@@ -249,7 +249,7 @@ There is one more kind of document called MediaMetadata which is stored within t
 	  </Header>
 	  <Body>
 	    <MediaMetadata>
-	      <UserIdentifier>OSCR-US-ej624lw-5nk</UserIdentifier>
+	      <UserIdentifier>ej624lw-5nk</UserIdentifier>
 	      <OriginalFileName>20101208072.jpg</OriginalFileName>
 	      <MimeType>image/jpeg</MimeType>
 	      <Derivative>thumbnail</Derivative>
@@ -261,19 +261,21 @@ Records of this kind are generated automatically when media is uploaded and inge
 
 ## Generated Identifiers
 
-When descriptive records are introduced by users to the OSCR system via the interface, they are assigned identifiers which are generated in order to ensure uniqueness.  The generated identifiers are also intended to given some indication of the nature of the thing they identify.
+** Note: This part needs review **
+
+When descriptive records are introduced by users to the Schemaleon system via the interface, they are assigned identifiers which are generated in order to ensure uniqueness.  The generated identifiers are also intended to given some indication of the nature of the thing they identify.
 
 The different parts of the identifier are separated by dashes, and they all look like the following:
 
-    OSCR-{type}-{millis}-{disambiguator}
+    SCH-{type}-{millis}-{disambiguator}
 
 The identifier is built up piece by piece in the following sections:
 
 1. Type
 
-	When an identifier is prefixed with OSCR we know that it was generated within the platform, but the second portion is to indicate what type of thing is being identified.  There is no fixed strategy for defining the letters to indicate a type aside from the usage of the schema name when a document is created.
+	When an identifier is prefixed with SCH we know that it was generated within the platform, but the second portion is to indicate what type of thing is being identified.  There is no fixed strategy for defining the letters to indicate a type aside from the usage of the schema name when a document is created.
 	
-	    OSCR-Photo
+	    SCH-Photo
 	
 	The above example will be the first part of an identifier generated for a Photo document.
 
@@ -283,13 +285,13 @@ The identifier is built up piece by piece in the following sections:
 	
 	The identifier now looks like this:
 	
-	    OSCR-Photo-7hmylqu
+	    SCH-Photo-7hmylqu
 	
 	The number of milliseconds is from the beginning of 2013 and it is recorded using base-36 notation where the digits and all lower case letters are used.
 
 1. Disambiguator
 
-	Much can happen inside of a single millisecond, and if the OSCR system were used on a very large scale there would be a distinct chance that two identifiers generated in two different places could happen during one millisecond.  To ensure that this will essentially never result in an identifier conflict, there is another portion added to the identifier which generally contains a random number.
+	Much can happen inside of a single millisecond, and if the Schemaleon system were used on a very large scale there would be a distinct chance that two identifiers generated in two different places could happen during one millisecond.  To ensure that this will essentially never result in an identifier conflict, there is another portion added to the identifier which generally contains a random number.
 	
 	The disambiguator is generated as three random characters in base-36, which corresponds to a number between 0 and 46656.  The chance that two identifiers minted in the same millisecond will have the same random number is sufficiently small that we can consider it negligible.
 	
@@ -297,19 +299,19 @@ The identifier is built up piece by piece in the following sections:
 	
 	The complete identifier then looks like this:
 	
-	    OSCR-Photo-7hmylqu-u7w
+	    SCH-Photo-7hmylqu-u7w
 	
-When documents and media are migrated to the OSCR storage, they will be given identifiers according to the strategy used by the person doing the migration.
+When documents and media are migrated to the Schemaleon storage, they will be given identifiers according to the strategy used by the person doing the migration.
  
 ## Bootstrap Data
 
-The OSCR system cannot function with a completely empty database, of course, since from the start its behavior is defined by the schemas which are to be found there.  To make a clean startup possible, the OSCR server has functionality built in to populate an empty database before starting.
+The Schemaleon system cannot function with a completely empty database, of course, since from the start its behavior is defined by the schemas which are to be found there.  To make a clean startup possible, the Schemaleon server has functionality built in to populate an empty database before starting.
 
-When OSCR starts up, it attempts to open the **oscr** database after contacting the *BaseX*, but if the database is not found, it is created.  Upon creation it is also set up with a **fulltext** index and then the bootstrap data is loaded.
+When Schemaleon starts up, it attempts to open the **schemaleon** database after contacting the *BaseX*, but if the database is not found, it is created.  Upon creation it is also set up with a **fulltext** index and then the bootstrap data is loaded.
 
-Bootstrap data takes the form of a directory of XML files called **../oscr-data** relative to the directory where OSCR is started up.  It has exact same structure as the database described above, and the documents contained are imported and indexed as-is. It would be a good practice to store a basic bootstrap structure in a source-control system like *Git* so that it has clear permanence.
+Bootstrap data takes the form of a directory of XML files called **../schemaleon-data** relative to the directory where Schemaleon is started up.  It has exact same structure as the database described above, and the documents contained are imported and indexed as-is. It would be a good practice to store a basic bootstrap structure in a source-control system like *Git* so that it has clear permanence.
 
-The documents that should be put into source control for **oscr-data** should be everything except the */primary/* and */shared/* ones:
+The documents that should be put into source control for **schemaleon-data** should be everything except the */primary/* and */shared/* ones:
 
 * SchemaMap.xml
 * primary and shared schemas
@@ -319,7 +321,7 @@ The documents that should be put into source control for **oscr-data** should be
 
 It is also possible, although not recommended, to include shared documents (to the extent that they are considered permanent) and even primary ones if they are to be included in a clean startup.
 
-Ultimately it would be possible to use the contents of downloadable archive shapshot of OSCR data as the contents of **oscr-data** so that the database will be initialized to contain exactly what it had when the snapshot was made, including all */shared/* and */primary/* documents.  Needless to say if the number of documents becomes larger, bootstrapping can take some time since all documents must be indexed.
+Ultimately it would be possible to use the contents of downloadable archive shapshot of Schemaleon data as the contents of **schemaleon-data** so that the database will be initialized to contain exactly what it had when the snapshot was made, including all */shared/* and */primary/* documents.  Needless to say if the number of documents becomes larger, bootstrapping can take some time since all documents must be indexed.
 
 ## Future Development
 
@@ -327,7 +329,7 @@ Ultimately it would be possible to use the contents of downloadable archive shap
 
 	Vocabularies are now shared among all users, and although this is arguably a good idea for fixed vocabularies it raises questions for vocabularies which can be expanded by users.  There is a danger that they may end up littered with inconsistent entries after a while.  It may make sense at some time to have the open controlled vocabularies operate on a group-specific basis and therefore be stored in the */primary/* directories.
 	
-	Perhaps a mechanism of adoption could be created, in which new entries are initially created in a group-specific way, but OSCR administrators would be able to move individual entries into the shared lists.  This could probably best happen at the moment that external authority references are added to the entries.
+	Perhaps a mechanism of adoption could be created, in which new entries are initially created in a group-specific way, but Schemaleon administrators would be able to move individual entries into the shared lists.  This could probably best happen at the moment that external authority references are added to the entries.
 	
 * **Vocabulary Linking**
 
@@ -343,9 +345,9 @@ Ultimately it would be possible to use the contents of downloadable archive shap
 
 	The documents stored in the database are currently replaced when they are changed by users.  As mentioned in the beginning, an archive can be made of the entire contents whenever an administrator likes, and this could also be done automatically on a regular basis.  But this could be improved.
 	
-	The documents consist of (XML) text and changes will generally be localized, so the contents of the database actually quite closely resembles the source code of a software project.  The extremely popular "Git" version control system (http://git-scm.com/), which is used for the OSCR source code, would be an ideal tool for maintaining a comprehensive history of everything that ever changes in the OSCR database.
+	The documents consist of (XML) text and changes will generally be localized, so the contents of the database actually quite closely resembles the source code of a software project.  The extremely popular "Git" version control system (http://git-scm.com/), which is used for the Schemaleon source code, would be an ideal tool for maintaining a comprehensive history of everything that ever changes in the Schemaleon database.
 	
-	The OSCR server side could be made to save every changed or added document to the file system within a local Git repository, and then the necessary commands to commit the changes.  On a regular basis the local Git repository could be "pushed" or synchronized with a Git server (github.com, or an installation of Atlassian Stash, for example) for safe-keeping.  The advantage of this Git-based approach is that each and every change in the data can be recalled, since the entire history is maintained.
+	The Schemaleon server side could be made to save every changed or added document to the file system within a local Git repository, and then the necessary commands to commit the changes.  On a regular basis the local Git repository could be "pushed" or synchronized with a Git server (github.com, or an installation of Atlassian Stash, for example) for safe-keeping.  The advantage of this Git-based approach is that each and every change in the data can be recalled, since the entire history is maintained.
 	
 	As described above in bootstrapping, the contents of such a Git repository could be used as bootstrap data in the event that it becomes necessary to re-initialize a database from an empty state.
 

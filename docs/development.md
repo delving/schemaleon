@@ -2,13 +2,13 @@
 
 ----
 
-## OSCR Development Environment
+## Schemaleon Development Environment
 
 The development environment is end-to-end Javascript, with **Angular JS** as the framework for the client side and **Node JS** as the prototype back-end server providing a REST interface that interfaces to the **BaseX** database.
 
 ### Prerequisites
 
-Before you can get to work on developing OSCR you will need to have the following installed on your system:
+Before you can get to work on developing Schemaleon you will need to have the following installed on your system:
 
 1. **Node JS**: server side Javascript framework
 
@@ -50,9 +50,9 @@ Before you can get to work on developing OSCR you will need to have the followin
 
 ### Developing
 	
-1. clone the OSCR source-code from this repository
+1. clone the Schemaleon source-code from this repository
 
-        git clone git@github.com:delving/oscr.git
+        git clone git@github.com:delving/schemaleon.git
 
 1. start up the BaseX application, start its server
 
@@ -61,7 +61,7 @@ Before you can get to work on developing OSCR you will need to have the followin
 
 1. via the terminal navigate to the root of the application:
 
-        cd /path/to/cloned/oscr
+        cd /path/to/cloned/schemaleon
 
 1. run the application:
 
