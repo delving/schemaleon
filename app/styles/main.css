@@ -309,26 +309,26 @@ ul.kv-list li span.value {
   color: #555555;
 }
 /* MEDIA **********************************/
-.oscr-media-grid .media-thumb-list {
+.schemaleon-media-grid .media-thumb-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
   width: 100%;
 }
-.oscr-media-grid .media-thumb-list li {
+.schemaleon-media-grid .media-thumb-list li {
   background: #333333;
   display: inline-block;
   margin: 0px 4px 4px 0px;
   width: 110px;
 }
-.oscr-media-grid .media-thumb-list li .media-thumb {
+.schemaleon-media-grid .media-thumb-list li .media-thumb {
   height: 80px;
   vertical-align: top;
   text-align: center;
   overflow: hidden;
   position: relative;
 }
-.oscr-media-grid .media-thumb-list li .mime {
+.schemaleon-media-grid .media-thumb-list li .mime {
   color: #ffffff;
   padding: 4px;
   text-align: center;
@@ -975,8 +975,8 @@ body.full-screen .vertical-scroll {
   display: block;
   width: 100%;
 }
-.table-oscr.table-hover > tbody > tr:hover > td,
-.table-oscr.table-hover > tbody > tr:hover > th {
+.table-schemaleon.table-hover > tbody > tr:hover > td,
+.table-schemaleon.table-hover > tbody > tr:hover > th {
   background-color: #ffffff;
 }
 /* DOCUMENT EDIT */

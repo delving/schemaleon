@@ -26,6 +26,3 @@ syntax: glob
 ._git
 
 /dist
-
-oscr-data
-oscr-primary-data

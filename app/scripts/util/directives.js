@@ -15,16 +15,16 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.moSchemaleon('Schemaleon');
 
 /**
  * Various directives used pages throughout the app
  *
  * @Author Gerald de Jong <gerald@delving.eu>
- * @Author Eric van der Meulen <eric@delving.eu>
+ * @Author Eric van der Meulen <eric@delviSchemaleonu>
  */
 
-OSCR.directive('private',
+Schemaleon.directive('private',
     function () {
         return {
             restrict: 'A',
@@ -39,7 +39,7 @@ OSCR.directive('private',
     }
 );
 
-OSCR.directive('scrollable', function($window, $timeout) {
+Schemaleon.directive('scrollable', function($window, $timeout) {
     return {
         restrict: 'E,A',
         replace: false,
@@ -70,7 +70,7 @@ OSCR.directive('scrollable', function($window, $timeout) {
 });
 
 
-OSCR.directive('chatEnter', function () {
+Schemaleon.directive('chatEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
             if(event.which === 13) {
@@ -83,7 +83,7 @@ OSCR.directive('chatEnter', function () {
     };
 });
 
-OSCR.directive('documentNavigation', function () {
+Schemaleon.directive('documentNavigation', function () {
     return {
         restrict: 'A',
         link: function (scope, elem, attr, ctrl) {
@@ -108,7 +108,7 @@ OSCR.directive('documentNavigation', function () {
     };
 });
 
-OSCR.directive('elFocus',
+Schemaleon.directive('elFocus',
     function () {
         return {
             restrict: 'A',
@@ -122,7 +122,7 @@ OSCR.directive('elFocus',
     }
 );
 
-OSCR.directive('elHiddenFocus',
+Schemaleon.directive('elHiddenFocus',
     function () {
         return {
             restrict: 'A',
@@ -136,7 +136,7 @@ OSCR.directive('elHiddenFocus',
     }
 );
 
-OSCR.directive('uiVideo', function () {
+Schemaleon.directive('uiVideo', function () {
     var vp; // video player object to overcome one of the angularjs issues in #1352 (https://github.com/angular/angular.js/issues/1352). when the videojs player is removed from the dom, the player object is not destroyed and can't be reused.
     var videoId = Math.floor((Math.random() * 1000) + 100); // in random we trust. you can use a hash of the video uri
     return {
@@ -155,7 +155,7 @@ OSCR.directive('uiVideo', function () {
     };
 });
 
-OSCR.directive(
+Schemaleon.directive(
     'i18n',
     function () {
         return {
@@ -200,11 +200,11 @@ OSCR.directive(
 );
 
 
-OSCR.directive('oscrMediaList', function($document){
+Schemaleon.directive('schemaleonMediaList', function($document){
     var viewHeight = $document.height() - 380;
     return {
         restrict: 'E,A',
-        templateUrl: 'template/oscr-media/mediaList.html',
+        templateUrl: 'template/media/mediaList.html',
         replace: false,
         link: function($scope, $element, $attrs){
             $scope.gridSize = $attrs.gridSize;
@@ -215,18 +215,18 @@ OSCR.directive('oscrMediaList', function($document){
     }
 });
 
-OSCR.directive('oscrMediaAsideSelect', function(){
+Schemaleon.directive('schemaleonMediaAsideSelect', function(){
     return {
         restrict: 'E,A',
-        templateUrl: 'template/oscr-media/mediaAsideSelect.html',
+        templateUrl: 'template/media/mediaAsideSelect.html',
         replace: false
     }
 });
 
-OSCR.directive('oscrMediaAsideUpload', function(){
+Schemaleon.directive('schemaleonMediaAsideUpload', function(){
     return {
         restrict: 'A',
-        templateUrl: 'template/oscr-media/mediaAsideUpload.html',
+        templateUrl: 'template/media/mediaAsideUpload.html',
         replace: false
     }
 });

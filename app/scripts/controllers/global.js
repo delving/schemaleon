@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /*
  * GlobalController:
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'GlobalController',
     function ($rootScope, $scope, $cookieStore, $timeout, $q, $location, $window, $document, $routeParams, $filter, Document, Person, I18N, Statistics, $modal, $anchorScroll) {
 
@@ -157,7 +157,7 @@ OSCR.controller(
                             return  found.Count;
                         }
 
-                        if (user.Membership.GroupIdentifier == 'OSCR') {
+                        if (user.Membership.GroupIdentifier == 'Schemaleon') {
                             $scope.mainMenuShared = _.map($rootScope.schemaMap.shared, function (sharedSchema) {
                                 return {
                                     name: sharedSchema,
@@ -204,7 +204,7 @@ OSCR.controller(
                 switch (user.Membership.Role) {
                     case 'Administrator':
                         user.editor = true;
-                        if (user.Membership.GroupIdentifier == 'OSCR') {
+                        if (user.Membership.GroupIdentifier == 'Schemaleon') {
                             user.god = true;
                             $('body').addClass('admin');
                         }
@@ -307,7 +307,7 @@ OSCR.controller(
                 }
             }
             $location.path(path);
-            $cookieStore.put('oscr-path', path);
+            $cookieStore.put('schemaleon-path', path);
             buildMainMenu();
         };
 
@@ -352,7 +352,7 @@ OSCR.controller(
                         $rootScope.user = user;
                         if ($location.host() == 'localhost') {
 //                            console.log('setting user identifier', user.Identifier);
-                            $cookieStore.put('oscr-user-identifier', user.Identifier);
+                            $cookieStore.put('schemaleon-user-identifier', user.Identifier);
                         }
                         $scope.choosePath('/home');
                     }
@@ -391,7 +391,7 @@ OSCR.controller(
          */
         $rootScope.logout = function () {
             if ($rootScope.config.showTranslationEditor) return;
-            $cookieStore.remove('oscr-user-identifier');
+            $cookieStore.remove('schemaleon-user-identifier');
             $('body').removeClass('admin');
             delete $rootScope.user;
             $scope.choosePath('/login');
@@ -436,15 +436,15 @@ OSCR.controller(
 
         // for development only during livereload
         if ($location.host() == 'localhost') {
-            var userIdentifier = $cookieStore.get('oscr-user-identifier');
+            var userIdentifier = $cookieStore.get('schemaleon-user-identifier');
             if (userIdentifier) {
                 Person.getUser(userIdentifier, function(user) {
                     $rootScope.user = user;
-                    var oscrPath = $cookieStore.get('oscr-path');
-                    if (oscrPath) {
+                    var path = $cookieStore.get('schemaleon-path');
+                    if (path) {
                         $timeout(
                             function () {
-                                $scope.choosePath(oscrPath);
+                                $scope.choosePath(path);
                             },
                             300
                         );

@@ -35,7 +35,7 @@ module.exports.generateId = function (prefix) {
     while (randomString.length < 3) {
         randomString = '0' + randomString;
     }
-    return 'OSCR-' + prefix + '-' + millisSince2013.toString(36) + '-' + randomString;
+    return 'SCH-' + prefix + '-' + millisSince2013.toString(36) + '-' + randomString;
 };
 
 // generate a user identifier
@@ -228,7 +228,7 @@ module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, re
         console.error('no session for '+groupIdentifier);
         this.sendPermissionDenied(res, 'No session');
     }
-    else if (groupIdentifier != req.session.GroupIdentifier && req.session.GroupIdentifier != 'OSCR') {
+    else if (groupIdentifier != req.session.GroupIdentifier && req.session.GroupIdentifier != 'Schemaleon') {
         this.sendPermissionDenied(res, 'Illegal Group: ' + req.session.GroupIdentifier);
     }
     else if (roleArray.length && _.indexOf(roleArray, req.session.Role) < 0) {
@@ -242,6 +242,6 @@ module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, re
 
 // only allow the action to be performed by gods
 module.exports.authenticatedGod = function(req, res, action) {
-    this.authenticatedGroup('OSCR', ['Administrator'], req, res, action);
+    this.authenticatedGroup('Schemaleon', ['Administrator'], req, res, action);
 };
 

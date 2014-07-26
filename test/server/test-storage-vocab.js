@@ -11,7 +11,7 @@ function log(message) {
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    Storage('oscrtest', '/tmp', function(s) {
+    Storage('schemaleontest', '/tmp', function(s) {
         test.ok(s, 'problem creating database');
         storage = s;
         test.done();
@@ -75,7 +75,7 @@ exports.testFetchEntry = function(test) {
 
 exports.dropIt = function (test) {
     test.expect(1);
-    storage.session.execute('drop db oscrtest', function (error, reply) {
+    storage.session.execute('drop db schemaleontest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
         storage.session.close(function () {
             test.done();

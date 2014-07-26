@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Service for accessing and modifying vocabularies
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.service(
+Schemaleon.service(
     "Vocabulary",
     function ($http) {
 

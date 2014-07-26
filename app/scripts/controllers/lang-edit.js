@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Handle language editing
@@ -24,7 +24,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'LangEditController',
     function ($rootScope, $scope, $routeParams, I18N, $timeout) {
 

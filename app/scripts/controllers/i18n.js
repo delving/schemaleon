@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Handle internationalization. See also directives.js.
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'I18NController',
         function ($rootScope, $scope, $modal, $window, I18N) {
 

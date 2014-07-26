@@ -82,7 +82,7 @@ P.getOrCreateUser = function (profile, receiver) {
                         log('count: ' + result);
                         if (result === '0') {
                             userObject.Membership = {
-                                GroupIdentifier: 'OSCR',
+                                GroupIdentifier: 'Schemaleon',
                                 Role: 'Administrator'
                             };
                         }
@@ -139,8 +139,8 @@ P.saveGroup = function (group, receiver) {
     }
     var groupXml = util.objectToXml(group, "Group");
     if (existing) {
-        if (group.Identifier == 'OSCR') {
-            console.warn("Refuse to update OSCR group");
+        if (group.Identifier == 'Schemaleon') {
+            console.warn("Refuse to update Schemaleon group");
         }
         else {
             s.replace('save existing group ' + group.Identifier,

@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * CommunityController:
@@ -27,7 +27,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'CommunityController',
     function ($rootScope, $scope, $location, $anchorScroll, $cookieStore, $timeout, Statistics, Person) {
 

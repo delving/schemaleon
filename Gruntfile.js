@@ -6,8 +6,8 @@ var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
 var fs = require('fs');
 
-if (!fs.existsSync('../oscr-data')) {
-    throw 'Data directory not found: ../oscr-data. Clone https://github.com/delving/oscr-data there';
+if (!fs.existsSync('../schemaleon-data')) {
+    throw 'No data';
 }
 
 module.exports = function (grunt) {
@@ -203,25 +203,25 @@ module.exports = function (grunt) {
             }
         },
         ngmin: {
-            oscr: {
+            schemaleon: {
                 files: [
                     {
                         expand: true,
                         cwd: '<%= yeoman.dist %>/scripts',
-                        src: 'oscr.js',
+                        src: 'schemaleon.js',
                         dest: '<%= yeoman.dist %>/scripts'
                     }
                 ]
             }
         },
         uglify: {
-            oscr: {
+            schemaleon: {
                 options: {
                     mangle: false
                 },
                 files: {
-                    '<%= yeoman.dist %>/scripts/oscr.js': [
-                        '<%= yeoman.dist %>/scripts/oscr.js'
+                    '<%= yeoman.dist %>/scripts/schemaleon.js': [
+                        '<%= yeoman.dist %>/scripts/schemaleon.js'
                     ]
                 }
             },
@@ -363,8 +363,8 @@ module.exports = function (grunt) {
         'concat',
         'copy',
         'copy:dist:pdfworker',
-        'ngmin:oscr',
-        'uglify:oscr',
+        'ngmin:schemaleon',
+        'uglify:schemaleon',
         'uglify:scripts',
         'uglify:fileupload',
         'cdnify',

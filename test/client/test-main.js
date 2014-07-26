@@ -33,7 +33,7 @@ describe('Controller: ObjectEditController', function () {
 //    };
 //
 //    // load the controller's module
-//    beforeEach(module('OSCR'));
+//    beforeEach(module('Schemaleon'));
 //
 //    var MainCtrl, scope;
 //

@@ -83,7 +83,7 @@ P.snapshotName = function () {
     var now = new Date();
     var dateString = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() +
         '-' + now.getHours() + '-' + now.getMinutes();
-    return 'OSCR-Snapshot-' + dateString + '.tgz';
+    return 'Schemaleon-Snapshot-' + dateString + '.tgz';
 };
 
 // create a snapshot by dumping the database to a directory and then tar gzipping it up

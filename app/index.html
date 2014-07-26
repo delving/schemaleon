@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>OSCR</title>
+    <title>Schemaleon</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- build:css styles/main.css -->
@@ -35,7 +35,7 @@
 <![endif]-->
 
 <!-- APPLICATION CONTAINER -->
-<div ng-app="OSCR" ng-controller="GlobalController" ng-cloak class="ng-cloak" id="ng-app">
+<div ng-app="Schemaleon" ng-controller="GlobalController" ng-cloak class="ng-cloak" id="ng-app">
 <div ng-controller="I18NController" class="loggedin-{{ user != undefined }}">
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top-nav">
     <div class="container-fluid">
@@ -121,7 +121,7 @@
                         <i class="glyphicon glyphicon-comment"></i> <span class="i18n"/>
                     </a>
                     <div class="chatmessages" data-ng-if="showChat">
-                        <div class="widget-box oscr-chat fade-in">
+                        <div class="widget-box schemaleon-chat fade-in">
                             <div class="widget-title">
                                 <span class="icon"><i class="glyphicon glyphicon-comment"></i></span>
                                 <h5 i18n="Chat"><span class="i18n"/></h5>
@@ -275,7 +275,7 @@
 <script src="components/pdf-viewer/pdf.compat.js"></script>
 <script src="components/pdf-viewer/pdf.js"></script>
 
-<!-- build:js scripts/oscr.js -->
+<!-- build:js scripts/schemaleon.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/util/validator.js"></script>
 <script src="scripts/util/recursion.js"></script>

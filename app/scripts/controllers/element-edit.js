@@ -16,7 +16,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /*
  * Various controllers for editing specific field types
@@ -25,7 +25,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'TextInputController',
     function ($scope) {
         if (!($scope.el.config.line || $scope.el.config.paragraph)) {
@@ -45,7 +45,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'VocabularyController',
     function ($scope) {
 
@@ -70,7 +70,7 @@ OSCR.controller(
 //        };
     }
 );
-OSCR.controller(
+Schemaleon.controller(
     'VocabularySearchController',
     function ($scope, Vocabulary) {
 
@@ -111,7 +111,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'MediaElementController',
     function ($rootScope, $scope, $modal, $filter) {
 
@@ -127,7 +127,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'MediaInputController',
     function ($rootScope, $scope, $q, Document) {
         if ($scope.panel) $scope.el = $scope.panel.element;
@@ -150,7 +150,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'InstanceController',
     function ($scope) {
 
@@ -200,7 +200,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'InstanceSearchController',
     function ($rootScope, $scope, Document) {
 
@@ -272,7 +272,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'FieldDocumentationController',
     function ($scope, Document) {
         $scope.el = $scope.panel.element;

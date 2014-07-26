@@ -153,7 +153,7 @@ function Storage(home) {
 
     // determine whether somebody can access a document (gods can access anything, mortals only their primary docs)
     this.nonOSCRGroupIdentifier = function (schemaName, groupIdentifier) {
-        if (this.isShared(schemaName) && groupIdentifier == 'OSCR') return undefined;
+        if (this.isShared(schemaName) && groupIdentifier == 'Schemaleon') return undefined;
         return groupIdentifier;
     };
 

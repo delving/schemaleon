@@ -24,7 +24,7 @@
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-angular.module('OSCR').service(
+angular.module('Schemaleon').service(
     "Person",
     function ($rootScope, $http) {
 

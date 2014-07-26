@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Handle the people stuff, editing groups and viewing people and groups
@@ -24,7 +24,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'PeopleController',
     function ($rootScope, $scope, $q, $location, Person, $timeout) {
 
@@ -52,7 +52,7 @@ OSCR.controller(
         };
 
         if ($scope.membership.Role == $scope.administratorRole) {
-            if ($scope.membership.GroupIdentifier == 'OSCR') {
+            if ($scope.membership.GroupIdentifier == 'Schemaleon') {
                 Person.getAllGroups(function (list) {
                     $scope.groupList = list;
                 });
@@ -221,7 +221,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'UserViewController',
     function ($rootScope, $scope, $routeParams, $location, $cookieStore, Person) {
         $scope.Identifier = $routeParams.identifier;
@@ -237,7 +237,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'GroupViewController',
     function ($scope, $routeParams, Person) {
 

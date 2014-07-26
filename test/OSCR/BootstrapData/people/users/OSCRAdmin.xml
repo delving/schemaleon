@@ -1,14 +1,14 @@
 <User>
     <Identifier>OSCRAdmin</Identifier>
     <Profile>
-        <firstName>OSCR</firstName>
+        <firstName>Schemaleon</firstName>
         <lastName>Administrator</lastName>
         <username>super</username>
-        <email>super@oscr.eu</email>
+        <email>super@schemaleon.eu</email>
     </Profile>
     <SaveTime>1</SaveTime>
     <Membership>
-        <GroupIdentifier>OSCR</GroupIdentifier>
+        <GroupIdentifier>Schemaleon</GroupIdentifier>
         <Role>Administrator</Role>
     </Membership>
 </User>

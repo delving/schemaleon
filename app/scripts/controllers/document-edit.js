@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /*
  * handle all things that show the tree, whether editing or viewing
@@ -31,7 +31,7 @@ $('html').on('click',function(){
     $('body').removeClass('keyboard-on');
 });
 
-OSCR.controller(
+Schemaleon.controller(
     'TreeController',
     function ($rootScope, $scope, $routeParams, $timeout, Document) {
 
@@ -166,7 +166,7 @@ OSCR.controller(
 );
 
 // just mind the tabs and their activation and who can see what
-OSCR.controller(
+Schemaleon.controller(
     'TabController',
     function ($rootScope, $scope, $timeout) {
 
@@ -191,7 +191,7 @@ OSCR.controller(
 );
 
 // for the different kinds of tree editing, either panel or expert
-OSCR.controller(
+Schemaleon.controller(
     'TreeEditController',
     function ($rootScope, $scope, $timeout, Document) {
 
@@ -365,7 +365,7 @@ OSCR.controller(
 );
 
 // handle just the panel array way of editing the tree
-OSCR.controller(
+Schemaleon.controller(
     'PanelArrayController',
     function ($rootScope, $scope, $timeout) {
 
@@ -497,7 +497,7 @@ OSCR.controller(
 );
 
 // a single element within a panel, editing and some keyboard navigation
-OSCR.controller(
+Schemaleon.controller(
     'PanelElementController',
     function ($scope, $timeout) {
 
@@ -564,7 +564,7 @@ OSCR.controller(
 
 
 // the controller for viewing the tree only, not editing.  separates media from non-media.
-OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', '$timeout', function($rootScope, $scope, $filter, pdf, $timeout) {
+Schemaleon.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFViewerService', '$timeout', function($rootScope, $scope, $filter, pdf, $timeout) {
 
     var pdfViewer;
 
@@ -707,7 +707,7 @@ OSCR.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter', 'PDFV
 
 
 
-OSCR.controller(
+Schemaleon.controller(
     'ViewElementController',
     function ($scope) {
 
@@ -724,7 +724,7 @@ OSCR.controller(
 );
 
 // the controller for the expert editing of the whole tree in view
-OSCR.controller(
+Schemaleon.controller(
     'ExpertTreeController',
     function ($rootScope, $scope) {
 
@@ -760,7 +760,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'ExpertSubtreeController',
     function ($scope) {
         $scope.setParentEl = function(parentEl) {
@@ -769,7 +769,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'ExpertElementController',
     function ($scope) {
 

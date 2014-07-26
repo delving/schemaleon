@@ -13,7 +13,7 @@ function log(message) {
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    Storage('oscrtest', '/tmp', function (s) {
+    Storage('schemaleontest', '/tmp', function (s) {
         test.ok(s, 'problem creating database');
         storage = s;
         test.done();
@@ -22,10 +22,10 @@ exports.createDatabase = function (test) {
 
 var profile = {
     isPublic: false,
-    firstName: 'Oscr',
-    lastName: 'Wild',
-    username: 'oscr',
-    email: 'oscr@delving.eu',
+    firstName: 'Oscar',
+    lastName: 'Phoenix',
+    username: 'schemaleon',
+    email: 'schemaleon@delving.eu',
     websites: []
 };
 
@@ -66,15 +66,15 @@ exports.testCreateAgain = function (test) {
     });
 };
 
-var oscrGroupIdentifier = '?';
+var schemaleonGroupIdentifier = '?';
 
 exports.testFetchGroupsFirstTime = function (test) {
     test.expect(2);
     storage.Person.getAllGroups(function (xml) {
         test.ok(xml, "No xml from getAllGroups!");
 //        console.log('get all groups', xml);
-        test.ok(xml.indexOf("OSCR") > 0, "Missing default OSCR group");
-        oscrGroupIdentifier = util.getFromXml(xml, "Identifier");
+        test.ok(xml.indexOf("Schemaleon") > 0, "Missing default Schemaleon group");
+        schemaleonGroupIdentifier = util.getFromXml(xml, "Identifier");
         test.done();
     });
 };
@@ -185,19 +185,19 @@ exports.testAddAnotherMembership = function (test) {
         '<User>\n' +
         '  <Identifier>' + userIdentifier + '</Identifier>\n' +
         '  <Profile>\n' +
-        '    <firstName>Oscr</firstName>\n' +
-        '    <lastName>Wild</lastName>\n' +
-        '    <username>oscr</username>\n' +
-        '    <email>oscr@delving.eu</email>\n' +
+        '    <firstName>Oscar</firstName>\n' +
+        '    <lastName>Phoenix</lastName>\n' +
+        '    <username>schemaleon</username>\n' +
+        '    <email>schemaleon@delving.eu</email>\n' +
         '  </Profile>\n' +
         '  <Membership>\n' +
-        '    <GroupIdentifier>' + oscrGroupIdentifier + '</GroupIdentifier>\n' +
+        '    <GroupIdentifier>' + schemaleonGroupIdentifier + '</GroupIdentifier>\n' +
         '    <Role>Member</Role>\n' +
         '  </Membership>\n' +
         '</User>';
 
     test.expect(2);
-    storage.Person.addUserToGroup(userIdentifier, 'Member', oscrGroupIdentifier, function (userXml) {
+    storage.Person.addUserToGroup(userIdentifier, 'Member', schemaleonGroupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         log("add user to group returns user xml "+userXml);
         userXml = (_.filter(userXml.split('\n'), function (line) {
@@ -226,7 +226,7 @@ exports.testSearchUsers = function (test) {
         test.ok(userXml, "no userXml");
         log("users matching 'ow':\n" + userXml);
         test.ok(userXml.indexOf('Olivia') > 0, 'Olivia not present');
-        test.ok(userXml.indexOf('Oscr') < 0, 'Oscr not absent');
+        test.ok(userXml.indexOf('Oscar') < 0, 'Oscar not absent');
         test.done();
     });
 };
@@ -236,15 +236,15 @@ exports.testRemoveMembership = function (test) {
         '<User>\n' +
         '  <Identifier>' + userIdentifier + '</Identifier>\n' +
         '  <Profile>\n' +
-        '    <firstName>Oscr</firstName>\n' +
-        '    <lastName>Wild</lastName>\n' +
-        '    <username>oscr</username>\n' +
-        '    <email>oscr@delving.eu</email>\n' +
+        '    <firstName>Oscar</firstName>\n' +
+        '    <lastName>Phoenix</lastName>\n' +
+        '    <username>schemaleon</username>\n' +
+        '    <email>schemaleon@delving.eu</email>\n' +
         '  </Profile>\n' +
         '</User>';
 
     test.expect(2);
-    storage.Person.removeUserFromGroup(userIdentifier, oscrGroupIdentifier, function (userXml) {
+    storage.Person.removeUserFromGroup(userIdentifier, schemaleonGroupIdentifier, function (userXml) {
         test.ok(userXml, "no userXml");
         userXml = (_.filter(userXml.split('\n'), function (line) {
             return !line.match(/SaveTime/);
@@ -259,7 +259,7 @@ exports.testRemoveMembership = function (test) {
 
 exports.dropIt = function (test) {
     test.expect(1);
-    storage.session.execute('drop db oscrtest', function (error, reply) {
+    storage.session.execute('drop db schemaleontest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
         storage.session.close(function () {
             test.done();

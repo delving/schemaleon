@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR', ['ngRoute','ngCookies', 'ui.bootstrap', 'blueimp.fileupload','md5', 'ui-gravatar', 'ngPDFViewer']);
+var Schemaleon = angular.module('Schemaleon', ['ngRoute','ngCookies', 'ui.bootstrap', 'blueimp.fileupload','md5', 'ui-gravatar', 'ngPDFViewer']);
 
 /**
  * This is the main file which puts the building blocks in place for the remainder.
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR', ['ngRoute','ngCookies', 'ui.bootstrap', 'bluei
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.config(
+Schemaleon.config(
     function ($routeProvider) {
         $routeProvider
             .when('/', {
@@ -36,7 +36,7 @@ OSCR.config(
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
-                title: 'OSCR Login'
+                title: 'Schemaleon Login'
             })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
@@ -99,7 +99,7 @@ OSCR.config(
     }
 );
 
-OSCR.config(
+Schemaleon.config(
     function ($httpProvider, fileUploadProvider) {
         // for fileUploadProvider
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -144,7 +144,7 @@ OSCR.config(
     }
 );
 
-OSCR.config(
+Schemaleon.config(
     function ($rootScopeProvider) {
         $rootScopeProvider.digestTtl(15);
     }

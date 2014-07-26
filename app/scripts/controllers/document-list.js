@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /*
  * support the list of documents, including searching them
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'DocumentListController',
     function ($rootScope, $scope, $routeParams, $location, Document, Person) {
 

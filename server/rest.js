@@ -18,7 +18,7 @@
 'use strict';
 
 /**
- * This is the REST interface that the server-side of OSCR provides.  It is instantiated once the
+ * This is the REST interface that the server-side of Schemaleon provides.  It is instantiated once the
  * Storage object has been created, which provides access to the BaseX database as well as to the
  * file system storage of media.
  *
@@ -39,15 +39,15 @@ var util = require('./util');
 
 var app = express();
 app.use(express.cookieParser());
-app.use(express.cookieSession({secret: 'oscr'}));
+app.use(express.cookieSession({secret: 'schemaleon'}));
 
 module.exports = app;
 
 // the user's home directory is where the file system storage is created
 var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
-// create the storage, with "oscr" as the database name in BaseX, and with homeDir for media storage
-Storage('OSCR', homeDir, function (storage) {
+// create the storage, with "schemaleon" as the database name in BaseX, and with homeDir for media storage
+Storage('Schemaleon', homeDir, function (storage) {
     console.log('We have database ' + storage.database + ', and home directory ' + homeDir);
 
     // integrate the server-side portion of the JQuery File Upload, modified to work in Express
@@ -95,7 +95,7 @@ Storage('OSCR', homeDir, function (storage) {
             firstName: "New",
             lastName: "User",
             username: username,
-            email: "user" + millisSince2013 + "@oscr.eu"
+            email: "user" + millisSince2013 + "@schemaleon.eu"
         };
         req.session.profile = profile;
         storage.Person.getOrCreateUser(profile, function(xml) {

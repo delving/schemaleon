@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Various filters used throughout the app.
@@ -25,7 +25,7 @@ var OSCR = angular.module('OSCR');
  */
 
 // filter either an element or an identifier to pick up thumbmnail
-OSCR.filter('mediaThumbnail',
+Schemaleon.filter('mediaThumbnail',
     function () {
         return function (source) {
             if (source.value && source.config.media) {
@@ -42,7 +42,7 @@ OSCR.filter('mediaThumbnail',
 );
 
 // filter either an element or an identifier to pick up a media file
-OSCR.filter('mediaFile',
+Schemaleon.filter('mediaFile',
     function () {
         return function (source) {
             if (source.value && source.config.media) {
@@ -59,7 +59,7 @@ OSCR.filter('mediaFile',
 );
 
 // filter either an element or an identifier to pick up a media file
-OSCR.filter('mediaMimeType',
+Schemaleon.filter('mediaMimeType',
     function () {
         return function (source) {
             if (!source) return '';
@@ -80,7 +80,7 @@ OSCR.filter('mediaMimeType',
 );
 
 // filter either an element or an identifier to pick up a media file
-OSCR.filter('mediaFileName',
+Schemaleon.filter('mediaFileName',
     function () {
         return function (source) {
             if (!source) return '';
@@ -100,7 +100,7 @@ OSCR.filter('mediaFileName',
     }
 );
 
-OSCR.filter('elementDisplay',
+Schemaleon.filter('elementDisplay',
     function () {
         return function (element) {
             if (!element.value) {
@@ -119,7 +119,7 @@ OSCR.filter('elementDisplay',
     }
 );
 
-OSCR.filter(
+Schemaleon.filter(
     'logDetails',
     function () {
         return function (entry, type) {
@@ -148,7 +148,7 @@ OSCR.filter(
     }
 );
 
-OSCR.filter(
+Schemaleon.filter(
     'invalidMessage',
     function (I18N) {
         return function (element) {
@@ -162,7 +162,7 @@ OSCR.filter(
 );
 
 
-OSCR.filter(
+Schemaleon.filter(
     'linkTitle',
     function (I18N) {
         return function (link) {
@@ -176,7 +176,7 @@ OSCR.filter(
     }
 );
 
-OSCR.filter(
+Schemaleon.filter(
     'elementTitle',
     function (I18N) {
         return function (element) {
@@ -196,7 +196,7 @@ OSCR.filter(
     }
 );
 
-OSCR.filter(
+Schemaleon.filter(
     'elementDoc',
     function (I18N) {
         return function (element) {

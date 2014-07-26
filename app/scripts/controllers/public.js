@@ -15,17 +15,17 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /*
- * Controller for the public facing page of OSCR.
+ * Controller for the public facing page of Schemaleon.
  * view: views/dashboard.html
  *
  * @Author Gerald de Jong <gerald@delving.eu>
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'PublicController',
     function ($rootScope, $scope, $filter, $timeout, Person, Document) {
 

@@ -37,7 +37,7 @@
  * ============
  *
  * This file has been dramatically adjusted to make it work within "express" in the first place
- * and then also to make it work within OSCR.
+ * and then also to make it work within Schemaleon.
  *
  * Author of modifications: Gerald de Jong <gerald@delving.eu>
  *

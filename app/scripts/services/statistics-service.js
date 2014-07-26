@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Service to fetch statistics and log entries
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.service(
+Schemaleon.service(
     "Statistics",
     function ($rootScope, $http) {
 

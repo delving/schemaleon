@@ -15,7 +15,7 @@ function log(message, thing) {
     }
 }
 
-var groupIdentifier = 'OSCR';
+var groupIdentifier = 'Schemaleon';
 var storage = null;
 var groupFileSystem = null;
 
@@ -40,7 +40,7 @@ function rmdir(dir) {
 
 exports.createDatabase = function (test) {
     test.expect(1);
-    Storage('oscrtest', '/tmp', function (s) {
+    Storage('schemaleontest', '/tmp', function (s) {
         test.ok(s, 'problem creating database');
         storage = s;
         groupFileSystem = s.FileSystem.forGroup(groupIdentifier);
@@ -121,8 +121,8 @@ exports.testImageIngestion = function (test) {
 
 exports.dropIt = function (test) {
     test.expect(1);
-    rmdir('/tmp/OSCR-Files');
-    storage.session.execute('drop db oscrtest', function (error, reply) {
+    rmdir('/tmp/Schemaleon-Files');
+    storage.session.execute('drop db schemaleontest', function (error, reply) {
         test.ok(reply.ok, 'problem dropping database');
         storage.session.close(function () {
             test.done();

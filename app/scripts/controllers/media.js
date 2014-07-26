@@ -17,7 +17,7 @@
 
 'use strict';
 
-var OSCR = angular.module('OSCR');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Handle the page for uploading media
@@ -26,7 +26,7 @@ var OSCR = angular.module('OSCR');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-OSCR.controller(
+Schemaleon.controller(
     'MediaController',
     function ($rootScope, $scope, $http, $timeout, $filter, Document) {
 
@@ -119,7 +119,7 @@ OSCR.controller(
     }
 );
 
-OSCR.controller(
+Schemaleon.controller(
     'FileDestroyController',
     function ($scope, $http, $timeout) {
         var file = $scope.file, state;

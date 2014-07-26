@@ -36,7 +36,7 @@ module.exports = FileSystem;
 // regular expressions for extracting strings
 var FILE_NAME_FROM_PATH = new RegExp('.*/([^/]*)');
 var BASE_NAME_AND_EXTENSION = new RegExp('(.*)([.][^.]*)');
-var HOME = 'OSCR';
+var HOME = 'Schemaleon';
 
 // if we're going to talk about a directory, here we make sure it exists just in time
 function make(existing, subdir) {
