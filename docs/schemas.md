@@ -2,7 +2,7 @@
 
 ---
 
-# OSCR Schemas
+# Schemaleon Schemas
 
 The schemas are XML documents stored in the database determine what stored records look like and how they are to be edited by users. The structure is nested hierarchical XML with descriptive parts recorded in JSON.  The syntax and the structure of the schemas is intended to be very concise and easy to understand. 
 
@@ -48,7 +48,7 @@ It could produce a record like this:
         <Title>Berlin Wall</Title>
         <PhotoType>
             <Label>Black and White</Label>
-            <ID>OSCR-V-sghe5as-3az</ID>
+            <ID>SCH-V-sghe5as-3az</ID>
         </PhotoType>
         <ShortDescription>This depicts people climbing over the wall</ShortDescription>
         <Creation>
@@ -127,12 +127,12 @@ such as using regular expressions when validating.
 
 * **instance**
 
-	An *instance* field is one that contains the information needed to refer to an instance of another document, typically a */shared/* document within OSCR itself. An instance field can allow choices from a single schema or from multiple.
+	An *instance* field is one that contains the information needed to refer to an instance of another document, typically a */shared/* document within Schemaleon itself. An instance field can allow choices from a single schema or from multiple.
 	
 		<Photographer>{ "instance": "Person" }</Photographer>
 		<Entity>{ "instance": [ "Location", "Person", "Organization" }</Entity>
 	
-	When an instance is chosen the *header* portion of the target document will be inserted as content of the XML tag. Other options are also possible for the content, and currently there is one more option to facilitate migration of data from other systems to OSCR.
+	When an instance is chosen the *header* portion of the target document will be inserted as content of the XML tag. Other options are also possible for the content, and currently there is one more option to facilitate migration of data from other systems to Schemaleon.
 	
 	**Header**
 	
@@ -141,14 +141,14 @@ such as using regular expressions when validating.
 		<Person>
 			<Header>
 				<SchemaName>Person</SchemaName>
-				<Identifier>OSCR-Person-ezwasujw-dnh</Identifier>
+				<Identifier>SCH-Person-ezwasujw-dnh</Identifier>
 				<GroupIdentifier>GROUP_249</GroupIdentifier>
 				<SummaryFields>
 					<Title>Joe Smith</Title>
 				</SummaryFields>
 				<DocumentState>public</DocumentState>
 				<TimeStamp>1391716121324</TimeStamp>
-				<SavedBy>OSCR-US-eaz3313x-rm2</SavedBy>
+				<SavedBy>SCH-US-eaz3313x-rm2</SavedBy>
 			</Header>
 		</Person>
 	
