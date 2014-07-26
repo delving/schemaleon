@@ -4,24 +4,25 @@
   background: none repeat scroll 0 0 #f6f6f6;
   margin-bottom: 16px;
   position: relative;
-  .border-radius(@br-small);
   dl {
     margin-top: 0px;
+  }
+  .list-group-item {
+    background: transparent;
   }
 }
 
 .widget-title {
-  background: @gray-dark;
-  .border-top-radius(@br-small);
+  background: @gray-light;
   height: 36px;
   .icon {
-    border-right: 1px solid @bodyBackground;
-    color: @gray-light;
-    padding: 9px 10px 7px 11px;
+    border-right: 1px solid @body-bg;
+    color: @gray-lighter;
+    padding: 8px 10px 6px 11px;
     float: left;
   }
   .action {
-    border-left: 1px solid @bodyBackground;
+    border-left: 1px solid @body-bg;
     padding: 9px 10px 7px 11px;
     float: right;
     .close {
@@ -36,8 +37,6 @@
     margin: 9px 15px 0 0;
   }
   h5 {
-    color: @gray-lighter;
-//    text-shadow: 0 1px 0 @black;
     float: left;
     font-size: 12px;
     font-weight: bold;
@@ -45,7 +44,7 @@
     line-height: 12px;
     margin: 0;
     span {
-      color: @gray-light;
+//      color: @gray-lighter;
     }
   }
   .buttons {
@@ -55,9 +54,9 @@
 }
 
 .widget-body {
-  //  border-bottom: 1px solid #cdcdcd;
   clear: both;
-//  font-size: small;
+  color: @gray-dark;
+  font-size: @font-size-small;
   padding: 6px;
   overflow-y: auto;
 //  max-height: 350px;

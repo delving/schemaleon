@@ -1,0 +1,15 @@
+<Document>
+  <Header>
+    <SchemaName>MediaMetadata</SchemaName>
+    <GroupIdentifier>GroupA</GroupIdentifier>
+    <Identifier>1e5e23892416d48c16f5626526b58bde</Identifier>
+    <TimeStamp>1396361057338</TimeStamp>
+  </Header>
+  <Body>
+    <MediaMetadata>
+      <UserIdentifier>Member</UserIdentifier>
+      <OriginalFileName>istock_000011321340xsmall_custom-479ce8b2e39774bdcf54d93347aa0ed877fc03bc-s6-c30.jpg</OriginalFileName>
+      <MimeType>image/jpeg</MimeType>
+    </MediaMetadata>
+  </Body>
+</Document>

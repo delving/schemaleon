@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7114844</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462605</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Penitentiaire Inrichting Maashegge</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Penitentiaire Inrichting Maashegge</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Penitentiaire Inrichting Maashegge</Appelation>
+        <LocationNameType>prison</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.92906</Longitude>
+        <Latitude>51.59398</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7114844</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

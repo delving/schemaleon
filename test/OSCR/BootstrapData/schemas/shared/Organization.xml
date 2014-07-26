@@ -1,0 +1,67 @@
+
+<!--an organization is a named entity corresponding to a group of people at any given time, but of course an-->
+<!--organization can outlive its members and will change over time.-->
+
+<Organization>
+
+    <!--we are assuming here that an organization has one name for now and that it does not change over time.-->
+    <!--if we decide that enough organizations change their names over time, they should be recorded as-->
+    <!--naming events, with the associated actors and attribution dates recorded-->
+    <Appellation>{ "required": true, "summaryField": "Title"  }</Appellation>
+
+    <!--for the time being we should record the type of organization in the terms used by the source data, with-->
+    <!--Dutch labels so that everyone understands.  later we can find matching URIs to authority lists of-->
+    <!--organization types.  one will be "Heemkundekring" -->
+    <OrganizationType>{ "vocabulary": "OrganizationType" }</OrganizationType>
+
+    <!--when the organization was established if this is known.  the values are time primitives which unambiguously-->
+    <!--describe when the organization came into existence-->
+    <OrganizationBeginDate>{ "validator": "timePrimitive" }</OrganizationBeginDate>
+
+    <!--if the organization no longer exists, when did it officially stop-->
+    <OrganizationEndDate>{ "validator": "timePrimitive" }</OrganizationEndDate>
+
+    <!--this field records when the organization was known to be at its height of notoriety, perhaps in the absence-->
+    <!--of the above exact dates, or to provide a special period in its history-->
+    <OrganizationFlourishPeriod>{ "validator": "timePrimitive" }</OrganizationFlourishPeriod>
+
+    <!--this block can record the members that can be identified and when they took part, if that is available info -->
+    <Membership>{ "multiple": true }
+
+        <!--who was member -->
+        <Person>{ "instance": "Person" }</Person>
+
+        <!--were they members of a certain kind, in a certain role.  for now use Dutch labels, we can later-->
+        <!--decide to match to authority values-->
+        <MembershipType>{ "vocabulary": "OrganizationMembershipType" }</MembershipType>
+
+        <!--when did they start as member-->
+        <MembershipBeginDate>{ "validator": "timePrimitive" }</MembershipBeginDate>
+
+        <!--when did they end their membership-->
+        <MembershipEndDate>{ "validator": "timePrimitive" }</MembershipEndDate>
+
+    </Membership>
+
+    <!--how do you get in contact with this organization?-->
+    <ContactInfo>
+
+        <!--where the headquarters are located, perhaps there is more than one-->
+        <HeadquartersLocation>{ "instance": "Location", "multiple": true }</HeadquartersLocation>
+
+        <!--reach them online-->
+        <EmailAddress>{ "validator": "emailAddress", "multiple": true }</EmailAddress>
+
+        <!--snail mail-->
+        <PostAddressLine>{ "multiple": true }</PostAddressLine>
+
+        <!--voice-->
+        <TelephoneNumber>{ "validator": "telephoneNumber", "multiple": true }</TelephoneNumber>
+
+    </ContactInfo>
+
+    <!--if there is some information in the source that would help describe something about this organization-->
+    <!--but it doesn't fit into any of the above fields, save it here so it is not lost.-->
+    <Comments>{ "paragraph": true }</Comments>
+
+</Organization>

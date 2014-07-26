@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_8532048</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753463817</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Gemeente Cranendonck &gt; Kempen Airport</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Gemeente Cranendonck,Kempen Airport</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Kempen Airport</Appelation>
+        <LocationNameType>airport</LocationNameType>
+        <Comments>Budel Airport,EHBD,Vliegveld Kempen</Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.60105</Longitude>
+        <Latitude>51.256190000000004</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/8532048</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

@@ -1,0 +1,15 @@
+<Document>
+  <Header>
+    <SchemaName>MediaMetadata</SchemaName>
+    <GroupIdentifier>GroupA</GroupIdentifier>
+    <Identifier>d12883a5c0d33a1248207a13f4b4fe9b</Identifier>
+    <TimeStamp>1396279308034</TimeStamp>
+  </Header>
+  <Body>
+    <MediaMetadata>
+      <UserIdentifier>Member</UserIdentifier>
+      <OriginalFileName>museum-bad-art-painting.jpg</OriginalFileName>
+      <MimeType>image/jpeg</MimeType>
+    </MediaMetadata>
+  </Body>
+</Document>

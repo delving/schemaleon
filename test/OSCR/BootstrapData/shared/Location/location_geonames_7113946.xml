@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7113946</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462599</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Gemeente Laarbeek &gt; Missieklooster Heilig Bloed</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Gemeente Laarbeek,Missieklooster Heilig Bloed</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Missieklooster Heilig Bloed</Appelation>
+        <LocationNameType>monastery</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.6646</Longitude>
+        <Latitude>51.52678</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7113946</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

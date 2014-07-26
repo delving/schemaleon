@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7114548</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462131</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Kasteel Boxmeer</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Kasteel Boxmeer</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Kasteel Boxmeer</Appelation>
+        <LocationNameType>castle</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.9574</Longitude>
+        <Latitude>51.65218</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7114548</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

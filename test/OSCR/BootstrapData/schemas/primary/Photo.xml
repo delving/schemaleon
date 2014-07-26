@@ -1,0 +1,183 @@
+
+<!--a photograph record-->
+
+<Photo>
+
+    <!--what is the title of this photo?  this is used for list display-->
+    <Title>{ "required": true, "summaryField": "Title" }</Title>
+
+    <!--a description of this photo-->
+    <Description>{ "paragraph":true }</Description>
+
+    <!--what type of photo is this?  a negative, a print?  later these can be associated with authority terms-->
+    <Type>{ "vocabulary": "PhotoType" }</Type>
+
+    <!--does this photo belong to a particular collection?-->
+    <Collection>{ "vocabulary": "PhotoCollection" }</Collection>
+
+    <!--when where and by whom was this photo created-->
+    <Creation>{ "multiple" : true }
+
+        <!--when-->
+        <CreationDate>{ "validator": "timePrimitive" }</CreationDate>
+
+        <!--by whom in what role?-->
+        <CreatorInRole>{ "multiple" : true }
+
+            <!--did a person or organization create this photo?-->
+            <Creator>{ "instance": [ "Person", "Organization" ] }</Creator>
+
+            <!--what role did they play?  these terms can be later mapped to authority vocabularies-->
+            <CreationRole>{ "vocabulary": "PhotoCreationRole" }</CreationRole>
+
+        </CreatorInRole>
+
+        <!--where was it created?-->
+        <CreationPlace>{ "instance": "Location" }</CreationPlace>
+
+    </Creation>
+
+    <!--who holds the rights to this publication?-->
+    <Copyright>
+
+        <!--a person or organization-->
+        <CopyrightHolder>{ "instance": [ "Person", "Organization" ] }</CopyrightHolder>
+
+        <!--how do they licence it in terms of creative commons?-->
+        <CreativeCommonsLicense>{ "vocabulary": "CreativeCommonsLicense" }</CreativeCommonsLicense>
+
+        <!--any other information about this copyright-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </Copyright>
+
+    <!--describe the publications-->
+    <Publication>{ "multiple": true }
+
+        <!--has this photo been published in a-->
+        <PublishedIn>{ "instance": "Publication" }</PublishedIn>
+
+        <!--anything else to say about the publication of this photo-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </Publication>
+
+    <!--who or what owns or has owned it-->
+    <Acquisition>{ "multiple": true }
+
+        <!--when did this acquisition take place?-->
+        <AcquisitionDate>{ "validator": "timePrimitive" }</AcquisitionDate>
+
+        <!--who or what-->
+        <Acquirer>{ "instance": [ "Person", "Organization" ] }</Acquirer>
+
+        <!--what kind of acquisition was this-->
+        <AcquisitionType>{"vocabulary": "AcquisitionTypes"}</AcquisitionType>
+
+        <!--what condition was it in when it was acquired-->
+        <Condition>{ "vocabulary": "PhysicalCondition" }</Condition>
+
+        <!--anything to say about this acquisition?-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </Acquisition>
+
+    <!--if this photo refers to some identifiable entity it can be recorded here-->
+    <RefersTo>{ "multiple": true }
+
+        <!--in what way does this refer to the entity?-->
+        <!--these can someday be mapped to terminology authorities and used for searching-->
+        <ReferenceType>{ "vocabulary": "ReferenceType" }</ReferenceType>
+
+        <!--to what does this photo refer? -->
+        <Entity>{ "instance": [ "Location", "Person", "Organization", "HistoricalEvent" ] }</Entity>
+
+        <!--anything else to record about this reference?-->
+        <Comment>{ "paragraph":true }</Comment>
+
+    </RefersTo>
+
+    <!--is there a digital representation we can use-->
+    <DigitalObject>{ "multiple": true }
+
+        <!--the actual file that holds the bits-->
+        <File>{ "media": "MediaMetadata", "summaryField": "Thumbnail" }</File>
+
+        <!--when was this digital representation created?-->
+        <CreationDate>{ "validator": "timePrimitive" }</CreationDate>
+
+        <!--what are the technical properties of the film?-->
+        <!--this is an open ended set of properties, the types of which can later be mapped-->
+        <!--to authority terms-->
+        <TechnicalProperty>{ "multiple": true }
+
+            <!--what is the name of this property-->
+            <Type>{ "vocabulary": "PhotoDigitalPropertyType" }</Type>
+
+            <!--the value of the property-->
+            <Value/>
+
+            <!--in which unit is the value expressed?-->
+            <Unit>{ "vocabulary": "PhotoDigitalPropertyUnit" }</Unit>
+
+            <!--perhaps describe the means of taking the measurement, or related information-->
+            <Comment/>
+
+        </TechnicalProperty>
+
+        <!--anything else to say about this digital representation-->
+        <Comments>{ "paragraph":true }</Comments>
+
+    </DigitalObject>
+
+    <!--how should the physical photo be described?-->
+    <PhysicalObject>
+
+        <!--selection from a list of possible film formats-->
+        <Format>{ "vocabulary": "PhysicalPhotoFormats" }</Format>
+
+        <!--selection from a list of materials that are used to make films-->
+        <Material>{ "vocabulary": "PhysicalPhotoMaterials" }</Material>
+
+        <!--any other properties of the physical photo-->
+        <PhysicalProperty>{ "multiple": true }
+
+            <!--what is the name of this property-->
+            <Type>{ "vocabulary": "PhysicalPhotoPropertyType" }</Type>
+
+            <!--the value of the property-->
+            <Value/>
+
+            <!--in which unit is the value expressed?-->
+            <Unit>{ "vocabulary": "PhysicalPhotoPropertyUnit" }</Unit>
+
+            <!--perhaps describe the means of taking the measurement, or related information-->
+            <Comment/>
+
+        </PhysicalProperty>
+
+        <!--where can the physical copy be found?-->
+        <StorageLocation>
+
+            <!--locations can be quite specific, but not down to shelf position of course-->
+            <Location>{ "instance": "Location" }</Location>
+
+            <!--the format may vary depending on how people find things-->
+            <SpecificLocation/>
+
+        </StorageLocation>
+
+        <!--anything important to know about the physical film?-->
+        <Comment>{ "paragraph":true }</Comment>
+
+    </PhysicalObject>
+
+    <!--was this photo exhibited at any special historical event?-->
+    <Exhibition>{ "multiple": true }
+
+        <!--which event-->
+        <ExhibitionEvent>{ "instance": "HistoricalEvent" }</ExhibitionEvent>
+
+    </Exhibition>
+
+</Photo>

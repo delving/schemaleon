@@ -37,7 +37,7 @@ OSCR.controller(
                 {name: 'Nederlands', code: 'nl'},
                 {name: 'Svenska', code: 'sv'}
             ],
-            interfaceLanguage: 'nl',
+            interfaceLanguage: 'en',
             showTranslationEditor: false
         };
 
@@ -132,8 +132,8 @@ OSCR.controller(
 //                console.log('schema map received', schemaMap);
 
                 $scope.mainMenuBase = [
-                    {name: "Public", path: "/public", icon: 'glyphicon-road', active: false},
-                    {name: "Community", path: "/community", icon: 'glyphicon-cog', active: false}
+                    {name: "Home", path: "/home", icon: 'glyphicon-home', active: false},
+                    {name: "Dashoard", path: "/dashboard", icon: 'glyphicon-cog', active: false}
                 ];
 
                 var user = $rootScope.user;
@@ -354,7 +354,7 @@ OSCR.controller(
 //                            console.log('setting user identifier', user.Identifier);
                             $cookieStore.put('oscr-user-identifier', user.Identifier);
                         }
-                        $scope.choosePath('/community');
+                        $scope.choosePath('/home');
                     }
                     else {
                         $scope.loginFailed = true;
@@ -473,7 +473,7 @@ OSCR.controller(
             });
         }
 
-        $scope.showUserConsole = false;
+        $scope.showUserConsole = true;
         $scope.toggleUserConsole = function () {
             $scope.showUserConsole = !$scope.showUserConsole;
         }

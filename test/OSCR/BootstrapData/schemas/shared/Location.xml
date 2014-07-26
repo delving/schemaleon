@@ -1,0 +1,70 @@
+
+<!--locations are general in the sense that they can be very large or very small.  one often contains another.-->
+<!--there are ways, when migrating data to this       -->
+
+<Location>
+
+    <!--in the absence of any other information, this field records a human-readable comma-delimited list which starts-->
+    <!--with continent and zooms in on the intended location.  This is for humans to read later if the link has yet to-->
+    <!--be made to an authority list. There is no good reason to omit this, so it is required.-->
+    <GeopoliticalHierarchy>{ "required":true, "summaryField": "Title"  }</GeopoliticalHierarchy>
+
+    <!--the location name can be annoying for some places in the world, because they keep changing their names over-->
+    <!--time.  maybe it even happens all over the place. when a location is renamed, that must be recorded-->
+    <!--as an event in CIDOC-CRM. this block is multiple in order to allow for renaming history, if there is any.-->
+    <LocationName>{ "multiple": true, "required": true }
+
+        <!--what is the actual name of this place? of course cannot be empty-->
+        <!--its value is picked up to show as label in a choice list-->
+        <Appelation>{ "required": true }</Appelation>
+
+        <!--locations can be big or small, and they contain each other.  there are very many types of locations, from-->
+        <!--continents to villages or even cemeteries or swamps, you name it.  we have a list of 668 types of locations-->
+        <!--from geonames (english names) but that could easily be overkill for now.  we should compile a list of values-->
+        <!--that are actually used in practice by the HKKs and other collections, with Dutch labels.  we can later-->
+        <!--easily find the appropriate URIs to authority data.-->
+        <!--for example: straat, buurtschap, kerkhof, dorp, stad, rivier-->
+        <LocationNameType>{ "required":true, "vocabulary":"LocationNameType" }</LocationNameType>
+
+        <!--as locations change their names over time, we have to record events.  presumably there are official documents-->
+        <!--regarding when the names were changed. if there is one one name over time, leave this blank. if there are-->
+        <!--multiple name blocks, this field should be filled in.  this validation can later be automated.-->
+        <LocationNameAttributionDate>{ "validator": "timePrimitive" }</LocationNameAttributionDate>
+
+        <!--which organization was responsible for the attribution of this name, if known-->
+        <LocationNameAttributedBy>{ "instance": [ "Person", "Organization" ] }</LocationNameAttributedBy>
+
+        <!--if there is some information in the source that would help describe something about this naming event-->
+        <!--but it doesn't fit into any of the above fields, save it here so it is not lost.-->
+        <Comments>{ "paragraph": true }</Comments>
+
+    </LocationName>
+
+    <!--this field points to the geonames, such as the one for 's Hertogenbosh http://www.geonames.org/2747351, if it-->
+    <!--is available or can be dependably determined.  otherwise we can later match locations, automatically or -->
+    <!--manually.  the lookup is currently not implemented, but it will be done when it can be done properly-->
+    <GeonamesURI>{ "validator": "URI", "lookup": "Geonames" }</GeonamesURI>
+
+    <!--the actual whereabouts of the center of the location so that it can be located on a map display.  this information-->
+    <!--can be fetched via the Geonames if the URI above is known, but it can be convenient to have a local copy to-->
+    <!--display without having to fetch each entry.  -->
+    <!--we may have precise coordinates from a mobile phone which we can now attach to locations, and in the case-->
+    <!--of a monument this will be something beyond the scope of Geonames-->
+    <Coordinates>
+
+        <!--east west-->
+        <Longitude>{ "validator": "longitude" }</Longitude>
+
+        <!--north south-->
+        <Latitude>{ "validator": "latitude" }</Latitude>
+
+    </Coordinates>
+
+    <!--lookups are not yet implemented for this but there should be good ways to accomplish that-->
+    <WikipediaLink>{ "validator": "URL", "lookup": "Wikipedia" }</WikipediaLink>
+
+    <!--if there is some information in the source that would help describe something about this location-->
+    <!--but it doesn't fit into any of the above fields, save it here so it is not lost.-->
+    <Comments>{ "paragraph": true }</Comments>
+
+</Location>

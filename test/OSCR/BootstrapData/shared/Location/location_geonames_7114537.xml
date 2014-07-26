@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document>
+  <Header>
+    <SchemaName>Location</SchemaName>
+    <Identifier>location_geonames_7114537</Identifier>
+    <DocumentState>public</DocumentState>
+    <TimeStamp>1390753462632</TimeStamp>
+    <SummaryFields>
+      <Title>NL &gt; North Brabant &gt; Gemeente Laarbeek &gt; Rioolwaterzuiveringsinstallatie Helmond</Title>
+    </SummaryFields>
+  </Header>
+  <Body>
+    <Location>
+      <GeopoliticalHierarchy>NL,North Brabant,Gemeente Laarbeek,Rioolwaterzuiveringsinstallatie Helmond</GeopoliticalHierarchy>
+      <LocationName>
+        <Appelation>Rioolwaterzuiveringsinstallatie Helmond</Appelation>
+        <LocationNameType>sewage treatment plant</LocationNameType>
+        <Comments></Comments>
+      </LocationName>
+      <Coordinates>
+        <Longitude>5.66285</Longitude>
+        <Latitude>51.50586</Latitude>
+      </Coordinates>
+      <GeonamesURI>http://www.geonames.org/7114537</GeonamesURI>
+      <WikipediaLink/>
+      <DbpediaLink/>
+    </Location>
+  </Body>
+</Document>

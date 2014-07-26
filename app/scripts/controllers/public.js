@@ -19,7 +19,7 @@ var OSCR = angular.module('OSCR');
 
 /*
  * Controller for the public facing page of OSCR.
- * view: views/public.html
+ * view: views/dashboard.html
  *
  * @Author Gerald de Jong <gerald@delving.eu>
  * @Author Eric van der Meulen <eric@delving.eu>

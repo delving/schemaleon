@@ -36,6 +36,7 @@ module.exports = FileSystem;
 // regular expressions for extracting strings
 var FILE_NAME_FROM_PATH = new RegExp('.*/([^/]*)');
 var BASE_NAME_AND_EXTENSION = new RegExp('(.*)([.][^.]*)');
+var HOME = 'OSCR';
 
 // if we're going to talk about a directory, here we make sure it exists just in time
 function make(existing, subdir) {
@@ -44,17 +45,35 @@ function make(existing, subdir) {
     return dir;
 }
 
+function copyRecursive(src, dest) {
+    console.log('recursive '+src);
+    var exists = fs.existsSync(src);
+    var stats = exists && fs.statSync(src);
+    var isDirectory = exists && stats.isDirectory();
+    if (exists && isDirectory) {
+        fs.mkdirSync(dest);
+        fs.readdirSync(src).forEach(function (childItemName) {
+            copyRecursive(path.join(src, childItemName), path.join(dest, childItemName));
+        });
+    } else {
+        fs.linkSync(src, dest);
+    }
+}
+
 function FileSystem(home) {
     var homePath = home || process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
-    // create the root and its immediate subdirectories
-    this.home = make(homePath, 'OSCR-Files');
+    this.home = path.join(homePath, HOME);
+    if (!fs.existsSync(this.home)) {
+        copyRecursive(path.join('test', HOME), this.home);
+    }
     this.mediaStorage = make(this.home, 'MediaStorage');
     this.mediaUpload = make(this.home, 'UploadIncoming');
     this.databaseSnapshotDir = make(this.home, 'DatabaseSnapshot');
+    this.bootstrapDir = path.join(this.home, 'BootstrapData');
 
     // generate an MD5 hash of the contents of a file, to be used in its name
-    this.hashFile = function(source, callback) {
+    this.hashFile = function (source, callback) {
         var callbackCalled = false;
         var hash = crypto.createHash('md5');
         hash.setEncoding('hex');
@@ -64,6 +83,7 @@ function FileSystem(home) {
                 callbackCalled = true;
             }
         }
+
         var rd = fs.createReadStream(source);
         rd.on("error", function (error) {
             done(null, error);
@@ -83,6 +103,7 @@ function FileSystem(home) {
                 callbackCalled = true;
             }
         }
+
         var callbackCalled = false;
         var rd = fs.createReadStream(source);
         rd.on("error", function (err) {
@@ -99,7 +120,7 @@ function FileSystem(home) {
     };
 
     // create a file system that is geared to storing things for one specific group
-    this.forGroup = function(groupIdentifier) {
+    this.forGroup = function (groupIdentifier) {
         return new GroupFileSystem(this, groupIdentifier);
     };
 
@@ -109,7 +130,7 @@ function FileSystem(home) {
 
         // this is where we put stuff
         this.groupMediaStorage = make(fileSystem.mediaStorage, groupIdentifier);
-        
+
         // these are for blueimp file upload
         this.groupMediaUpload = make(fileSystem.mediaUpload, groupIdentifier);
         this.mediaUploadDir = make(this.groupMediaUpload, 'files');
@@ -128,12 +149,12 @@ function FileSystem(home) {
         }
 
         // the path to a media file
-        this.getMedia = function(identifier, mimeType) {
+        this.getMedia = function (identifier, mimeType) {
             return path.join(mediaBucketPath(identifier), identifier + util.getExtensionFromMimeType(mimeType));
         };
 
         // the path to a thumbnail
-        this.getThumbnail = function(identifier) {
+        this.getThumbnail = function (identifier) {
             return path.join(thumbnailBucketPath(identifier), identifier + util.thumbnailExtension);
         };
 
@@ -149,7 +170,7 @@ function FileSystem(home) {
                 var fileName = (targetFileName || fileExtract[1]).toLowerCase();
                 var fileNameMatch = BASE_NAME_AND_EXTENSION.exec(fileName);
                 if (!fileNameMatch) {
-                    callback(null, null, 'File name split mismatch: '+fileName);
+                    callback(null, null, 'File name split mismatch: ' + fileName);
                 }
                 else {
                     var base = fileNameMatch[1];

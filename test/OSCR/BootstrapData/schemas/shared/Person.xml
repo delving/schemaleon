@@ -1,0 +1,96 @@
+
+<!--a person, historical or living, but not a fictional person-->
+
+<Person>
+
+    <!--this would be the name that they are commonly called, in Dutch "roepnaam", defaulting to their proper name.-->
+    <Appellation>{ "required": true, "summaryField": "Title" }</Appellation>
+
+    <!--a person may have mulitple given names.  their order is important but will be maintained in this document.-->
+    <GivenName>{ "multiple": true }</GivenName>
+
+    <!--the "de" in "de Jong" or the "van" in "van Gogh" -->
+    <SurnamePrefix/>
+
+    <!--it would be rather useless to know only someone's first name-->
+    <Surname>{ "required": true }</Surname>
+
+    <!--not entirely sure how many there are anymore, but there are two values which are most popular-->
+    <Gender>{ "vocabulary": "Gender", "vocabularyFixed": true }</Gender>
+
+    <!--this corresponds to the CIDOC-CRM coming-into-existence specialization-->
+    <Birth>
+
+        <!--when were they born? a time primitive can be any recognizable indication of time which is available-->
+        <DateOfBirth>{ "validator": "timePrimitive" }</DateOfBirth>
+
+        <!--the location, as accurately as possible, of the location of their birth. locations can be specific or not -->
+        <PlaceOfBirth>{ "instance": "Location" }</PlaceOfBirth>
+
+        <!--something else noteworthy about the birth of this person-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </Birth>
+
+    <!--i know it wasn't intended this way, but reality dictates that this block must be multiple-->
+    <Marriage>{ "multiple": true }
+
+        <!--presumably the marriage was between just two people.  revisions pending laws and attitude changes -->
+        <Partner>{ "instance": "Person" }</Partner>
+
+        <!--when were they born? a time primitive can be any recognizable indication of time which is available-->
+        <DateOfMarriage>{ "validator": "timePrimitive" }</DateOfMarriage>
+
+        <!--the location, as accurately as possible, of the location of their marriage. locations can be specific or-->
+        <!--not, and in this case potentially a church or municipal office -->
+        <PlaceOfMarriage>{ "instance": "Location" }</PlaceOfMarriage>
+
+        <!--something else noteworthy about the marriage of this person-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </Marriage>
+
+    <!--did anything particularly interesting happen to this person-->
+    <SignificantLifeEvent>{ "multiple": true }
+
+        <!--these should be describing what happened.  they can later be mapped to authority terms-->
+        <LifeEventType>{ "vocabulary": "LifeEventType" }</LifeEventType>
+
+        <!--when did this event take place-->
+        <DateOfevent>{ "validator": "timePrimitive" }</DateOfevent>
+
+        <!--anything that should be said about this event-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </SignificantLifeEvent>
+
+    <!--for living people we fortunately do not yet have to have this value available-->
+    <Death>
+
+        <!--when did they pass? a time primitive can be any recognizable indication of time which is available-->
+        <DateOfDeath>{ "validator": "timePrimitive" }</DateOfDeath>
+
+        <!--the location, as accurately as possible, of the location of their funeral -->
+        <PlaceOfFuneral>{ "instance": "Location" }</PlaceOfFuneral>
+
+        <!--we are storing memoriams of the deaths of these people, so we can eventually link to them from here-->
+        <Memoriam>{ "instance": "Memoriam" }</Memoriam>
+
+        <!--something else noteworthy about the death of this person or the funeral-->
+        <Comment>{ "paragraph": true }</Comment>
+
+    </Death>
+
+    <!--mom and dad-->
+    <Mother>{ "instance": "Person" }</Mother>
+    <Father>{ "instance": "Person" }</Father>
+
+    <!--the kids-->
+    <Child>{ "instance": "Person", "multiple": true }</Child>
+
+    <!--anything else noteworthy about this person.  multiple because some people may have led very interesting lives-->
+    <!--data stored here may one day lead to the creation of more fields for Person, based on interpretation of these-->
+    <!--paragraphs-->
+    <Comment>{ "paragraph": true, "multiple": true }</Comment>
+
+</Person>
