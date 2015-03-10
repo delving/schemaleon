@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var Schemaleon = angular.moSchemaleon('Schemaleon');
+var Schemaleon = angular.module('Schemaleon');
 
 /**
  * Various directives used pages throughout the app

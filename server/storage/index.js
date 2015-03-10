@@ -398,8 +398,10 @@ function open(databaseName, homeDir, receiver) {
             });
         }
 
+        // clean everything if there is a to-be-used "BootstrapData" dir.
         if (fs.existsSync(storage.FileSystem.bootstrapDir)) {
             var newName = storage.FileSystem.bootstrapDir + '-' + (new Date().getTime());
+            // we only want to use this once. rename it so it won't be found next time
             fs.renameSync(storage.FileSystem.bootstrapDir, newName);
             storage.FileSystem.bootstrapDir = newName;
             storage.session.execute('drop database ' + databaseName, function (error, reply) {

@@ -6,10 +6,6 @@ var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var path = require('path');
 var fs = require('fs');
 
-if (!fs.existsSync('../schemaleon-data')) {
-    throw 'No data';
-}
-
 module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
