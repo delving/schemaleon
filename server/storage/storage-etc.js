@@ -22,6 +22,7 @@ var fs = require('fs');
 var path = require('path');
 var defer = require('node-promise').defer;
 var archiver = require('node-archiver');
+var util = require('../util');
 
 /*
  * This is for the leftovers.  Compose a nice query to get statistics, take snapshots, and take
@@ -97,25 +98,12 @@ P.snapshotCreate = function (fileName, receiver) {
     var exportPath = s.FileSystem.databaseSnapshotDir + '/' + fileBase;
     var archiveFile = exportPath + '.tgz';
     s.session.execute('export ' + exportPath, function () {
-
-        function remove(itemPath) {
-            if (fs.statSync(itemPath).isDirectory()) {
-                _.each(fs.readdirSync(itemPath), function (childItemName) {
-                    remove(path.join(itemPath, childItemName));
-                });
-                fs.rmdirSync(itemPath);
-            }
-            else {
-                fs.unlinkSync(itemPath);
-            }
-        }
-
         archiver(exportPath, archiveFile, function (err) {
             if (err) {
                 console.error(err);
             }
             receiver(archiveFile);
-            remove(exportPath);
+            util.deleteRecursive(exportPath);
         });
     })
 };

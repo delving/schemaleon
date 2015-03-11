@@ -1,0 +1,2 @@
+#/bin/bash
+java -cp server/basex/BaseX781.jar org.basex.BaseXServer

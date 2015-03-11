@@ -45,27 +45,13 @@ function make(existing, subdir) {
     return dir;
 }
 
-function copyRecursive(src, dest) {
-    console.log('recursive '+src);
-    var exists = fs.existsSync(src);
-    var stats = exists && fs.statSync(src);
-    var isDirectory = exists && stats.isDirectory();
-    if (exists && isDirectory) {
-        fs.mkdirSync(dest);
-        fs.readdirSync(src).forEach(function (childItemName) {
-            copyRecursive(path.join(src, childItemName), path.join(dest, childItemName));
-        });
-    } else {
-        fs.linkSync(src, dest);
-    }
-}
 
 function FileSystem(home) {
     var homePath = home || process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
     this.home = path.join(homePath, HOME);
     if (!fs.existsSync(this.home)) {
-        copyRecursive(path.join('test', HOME), this.home);
+        util.copyRecursive(path.join('test', "bootstrap"), this.home);
     }
     this.mediaStorage = make(this.home, 'MediaStorage');
     this.mediaUpload = make(this.home, 'UploadIncoming');

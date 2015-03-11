@@ -18,6 +18,8 @@
 'use strict';
 
 var _ = require('underscore');
+var fs = require('fs');
+var path = require('path');
 
 /**
  * This utils class contains a bunch of functions which are used in various places
@@ -243,5 +245,33 @@ module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, re
 // only allow the action to be performed by gods
 module.exports.authenticatedGod = function(req, res, action) {
     this.authenticatedGroup('Schemaleon', ['Administrator'], req, res, action);
+};
+
+module.exports.copyRecursive = function (src, dest) {
+    console.log('recursive '+src);
+    var exists = fs.existsSync(src);
+    var stats = exists && fs.statSync(src);
+    var isDirectory = exists && stats.isDirectory();
+    if (exists && isDirectory) {
+        fs.mkdirSync(dest);
+        fs.readdirSync(src).forEach(function (childItemName) {
+            module.exports.copyRecursive(path.join(src, childItemName), path.join(dest, childItemName));
+        });
+    } else {
+        fs.linkSync(src, dest);
+    }
+};
+
+module.exports.deleteRecursive = function (thing) {
+    console.log('delete '+thing);
+    if (fs.statSync(thing).isDirectory()) {
+        _.each(fs.readdirSync(thing), function (childItemName) {
+            module.exports.deleteRecursive(path.join(thing, childItemName));
+        });
+        fs.rmdirSync(thing);
+    }
+    else {
+        fs.unlinkSync(thing);
+    }
 };
 

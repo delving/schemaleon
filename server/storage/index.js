@@ -47,7 +47,7 @@ var util = require('../util');
  */
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
 function Storage(home) {
@@ -310,29 +310,6 @@ function Storage(home) {
             }
         });
     };
-
-    this.startBaseX = function (started) {
-        var s = this;
-        console.log("spawning");
-        var child = child_process.spawn(
-            '/usr/bin/java',
-            [
-                '-cp',
-                'server/basex/BaseX781.jar',
-                'org.basex.BaseXServer',
-                '-S'
-            ]
-        );
-        child.stdout.on("data", function (data) {
-            if (/.*started.*/.test(data)) {
-                started()
-            }
-            else {
-                console.log("BaseX not started: " + data);
-            }
-        });
-    }
-
 }
 
 
@@ -343,81 +320,82 @@ function open(databaseName, homeDir, receiver) {
 
     var storage = new Storage(homeDir);
 
-    storage.startBaseX(function () {
+    storage.session = new basex.Session();
 
-        console.log("started basex");
+    console.log("Got BaseX Session");
 
-        storage.session = new basex.Session();
+    function getSchemaMap() {
+        storage.query(
+            'get schema map',
+                "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
+            function (schemaMapXml) {
+                storage.schemaMap = {
+                    primary: util.getFromXml(schemaMapXml, 'primary').split(','),
+                    shared: util.getFromXml(schemaMapXml, 'shared').split(',')
+                };
+                console.log('schema map', storage.schemaMap);
+            }
+        );
+    }
 
-        console.log("got basex session");
+    function openDatabase(afterOpen) {
+        storage.session.execute('open ' + databaseName, function (error, reply) {
+            storage.database = databaseName;
 
-        function getSchemaMap() {
-            storage.query(
-                'get schema map',
-                    "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
-                function (schemaMapXml) {
-                    storage.schemaMap = {
-                        primary: util.getFromXml(schemaMapXml, 'primary').split(','),
-                        shared: util.getFromXml(schemaMapXml, 'shared').split(',')
-                    };
-                    console.log('schema map', storage.schemaMap);
-                }
-            );
-        }
+            if (reply.ok) {
+                getSchemaMap();
+                afterOpen(storage);
+            }
+            else {
+                storage.session.execute('create db ' + databaseName, function (error, reply) {
+                    if (reply.ok) {
+                        storage.session.execute('create index fulltext', function (er, rep) {
+                            if (!rep.ok) {
+                                console.error(er);
+                            }
+                            else {
+                                storage.ETC.loadBootstrapData(false, function () {
+                                    getSchemaMap();
+                                    afterOpen(storage);
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        console.error('Unable to create database ' + databaseName);
+                        console.error(error);
+                        afterOpen(null);
+                    }
+                });
+            }
+        });
+    }
 
-        function openDatabase(afterOpen) {
-            storage.session.execute('open ' + databaseName, function (error, reply) {
-                storage.database = databaseName;
+    // clean everything if there is a to-be-used "BootstrapData" dir.
 
-                if (reply.ok) {
-                    getSchemaMap();
-                    afterOpen(storage);
-                }
-                else {
-                    storage.session.execute('create db ' + databaseName, function (error, reply) {
-                        if (reply.ok) {
-                            storage.session.execute('create index fulltext', function (er, rep) {
-                                if (!reply.ok) {
-                                    console.error(er);
-                                }
-                                else {
-                                    storage.ETC.loadBootstrapData(false, function () {
-                                        getSchemaMap();
-                                        afterOpen(storage);
-                                    });
-                                }
-                            });
-                        }
-                        else {
-                            console.error('Unable to create database ' + databaseName);
-                            console.error(error);
-                            afterOpen(null);
-                        }
-                    });
-                }
-            });
-        }
+    console.log("checking for " + storage.FileSystem.bootstrapDir);
 
-        // clean everything if there is a to-be-used "BootstrapData" dir.
-        if (fs.existsSync(storage.FileSystem.bootstrapDir)) {
-            var newName = storage.FileSystem.bootstrapDir + '-' + (new Date().getTime());
-            // we only want to use this once. rename it so it won't be found next time
-            fs.renameSync(storage.FileSystem.bootstrapDir, newName);
-            storage.FileSystem.bootstrapDir = newName;
-            storage.session.execute('drop database ' + databaseName, function (error, reply) {
-                if (error) {
-                    console.error("Unable to drop database: " + error);
-                }
-                else {
-                    console.log("dropped database " + databaseName);
-                }
-                openDatabase(receiver);
-            });
-        }
-        else {
+    if (fs.existsSync(storage.FileSystem.bootstrapDir)) {
+        // we only want to use this once. rename it so it won't be found next time
+        var newName = storage.FileSystem.bootstrapDir + '-Used';
+        fs.renameSync(storage.FileSystem.bootstrapDir, newName);
+        storage.FileSystem.bootstrapDir = newName;
+        storage.session.execute('drop database ' + databaseName, function (error, reply) {
+            if (error) {
+                console.error("Unable to drop database: " + error);
+            }
+            else {
+                console.log("dropped database " + databaseName);
+            }
             openDatabase(receiver);
-        }
-    });
+        });
+    }
+    else {
+
+        console.log("######## it does not exist!!");
+
+        openDatabase(receiver);
+    }
 
 }
 

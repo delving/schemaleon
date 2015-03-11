@@ -35,63 +35,70 @@ function Person(storage) {
 var P = Person.prototype;
 
 function log(message) {
-//    console.log(message);
+    console.log(message);
 }
 
-// given a profile, first look for a user with the given username, but if nobody is found, create a new
-// user document and fill it with the profile information
-P.getOrCreateUser = function (profile, receiver) {
+P.authenticateUser = function (username, passwordHash, receiver) {
     var s = this.storage;
     var self = this;
-    if (!profile.username) {
-        throw new Error('No username in profile');
-    }
-
-    function addUser(userObject) {
-        var userXml = util.objectToXml(userObject, 'User');
-        if (!userObject.Identifier) {
-            console.trace('No Identifier in user object!');
-        }
-        s.add('add user ' + JSON.stringify(userObject),
-            s.userDocument(userObject.Identifier),
-            userXml,
-            receiver
-        );
-    }
-
-    if (!profile.username) {
-        console.trace('No Identifier in user object!');
-    }
-
-    s.query(null,
-        s.userCollection() + '[Profile/username=' + util.quote(profile.username) + ']',
+    s.query(
+        'authenticate user',
+            s.userCollection() +
+            '[Credentials/Username=' + util.quote(username) + ' and Credentials/PasswordHash=' + util.quote(passwordHash) + ']',
         function (result) {
             if (result) {
                 receiver(result);
             }
             else {
-                var userObject = {
-                    Identifier: util.generateUserId(),
-                    Profile: profile,
-                    SaveTime: new Date().getTime()
-                };
                 log('counting users');
-                s.query('count users',
-                    'count(' + s.userCollection() + ')',
+                s.query('count users', 'count(' + s.userCollection() + ')',
                     function (result) {
-                        log('count: ' + result);
+                        log('user count: ' + result);
                         if (result === '0') {
-                            userObject.Membership = {
-                                GroupIdentifier: 'Schemaleon',
-                                Role: 'Administrator'
+                            // there is nobody, so this person becomes administrator
+                            var userObject = {
+                                Identifier: util.generateUserId(),
+                                Credentials: {
+                                    Username: username,
+                                    PasswordHash: passwordHash
+                                },
+                                Membership: {
+                                    GroupIdentifier: 'Schemaleon',
+                                    Role: 'Administrator'
+                                },
+                                SaveTime: new Date().getTime()
                             };
+                            var userXml = util.objectToXml(userObject, 'User');
+                            if (!userObject.Identifier) {
+                                console.trace('No Identifier in user object!');
+                            }
+                            s.add('add user ' + JSON.stringify(userObject),
+                                s.userDocument(userObject.Identifier), userXml, receiver
+                            );
                         }
-                        addUser(userObject);
+                        else {
+                            receiver(null)
+                        }
                     }
                 );
             }
         }
     );
+};
+
+P.setProfile = function (identifier, profile, receiver) {
+    var s = this.storage;
+    var self = this;
+    var userProfilePath = s.userDocument(identifier) + "/Profile";
+    var profileXml = util.objectToXml(profile, "Profile");
+    s.query('check if profile exists', userProfilePath, function (result) {
+        if (result) {
+            s.replace('replacing profile', userProfilePath, profileXml, receiver)
+        }
+        else {
+            s.add('adding profile', userProfilePath, profileXml, receiver)
+        }
+    });
 };
 
 // get a particular user
@@ -109,7 +116,7 @@ P.getUsersInGroup = function (identifier, receiver) {
     s.query('get users in group ' + identifier,
         [
             '<Users>',
-            '    { ' + s.userCollection() + '[Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
+                '    { ' + s.userCollection() + '[Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
             '</Users>'
         ],
         receiver
@@ -122,7 +129,7 @@ P.getAllUsers = function (receiver) {
     s.query('get all users',
         [
             '<Users>',
-            '    { ' + s.userCollection() + ' }',
+                '    { ' + s.userCollection() + ' }',
             '</Users>'
         ],
         receiver
@@ -152,8 +159,8 @@ P.saveGroup = function (group, receiver) {
     else { // here we could try fuzzy match or something
         log('search for ' + group.Name);
         s.query('check group',
-            s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
-            function(result) {
+                s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
+            function (result) {
                 if (result.length == 0) { // text is not found
                     s.add('add group ' + group.Identifier,
                         s.groupDocument(group.Identifier), groupXml,
@@ -174,7 +181,7 @@ P.getAllGroups = function (receiver) {
     s.query('get all groups',
         [
             '<Groups>',
-            '    { ' + s.groupCollection() + ' }',
+                '    { ' + s.groupCollection() + ' }',
             '</Groups>'
         ],
         receiver
@@ -224,7 +231,7 @@ P.removeUserFromGroup = function (userIdentifier, groupIdentifier, receiver) {
     var s = this.storage;
     var removal = userIdentifier + ' ' + groupIdentifier;
     s.update('remove user from group ' + removal,
-        'delete node ' + s.userPath(userIdentifier) + '/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
+            'delete node ' + s.userPath(userIdentifier) + '/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
         function (result) {
             if (result) {
                 s.query('re-fetch user after remove membership ' + removal,

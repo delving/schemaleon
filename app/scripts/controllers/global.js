@@ -133,7 +133,7 @@ Schemaleon.controller(
 
                 $scope.mainMenuBase = [
                     {name: "Home", path: "/home", icon: 'glyphicon-home', active: false},
-                    {name: "Dashoard", path: "/dashboard", icon: 'glyphicon-cog', active: false}
+                    {name: "Dashboard", path: "/dashboard", icon: 'glyphicon-cog', active: false}
                 ];
 
                 var user = $rootScope.user;
