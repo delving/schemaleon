@@ -47,7 +47,7 @@ var util = require('../util');
  */
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 function Storage(home) {
@@ -288,7 +288,8 @@ function Storage(home) {
     this.add = function (message, path, content, receiver) {
         this.session.add(path, content, function (error, reply) {
             if (reply.ok) {
-                log('add ' + path + ': ' + content);
+                log('add ' + path);
+//                log('add ' + path + ': ' + content);
                 receiver(content);
             }
             else {
@@ -322,8 +323,6 @@ function open(databaseName, homeDir, receiver) {
 
     storage.session = new basex.Session();
 
-    console.log("Got BaseX Session");
-
     function getSchemaMap() {
         storage.query(
             'get schema map',
@@ -333,7 +332,7 @@ function open(databaseName, homeDir, receiver) {
                     primary: util.getFromXml(schemaMapXml, 'primary').split(','),
                     shared: util.getFromXml(schemaMapXml, 'shared').split(',')
                 };
-                console.log('schema map', storage.schemaMap);
+//                console.log('schema map', storage.schemaMap);
             }
         );
     }
@@ -372,9 +371,6 @@ function open(databaseName, homeDir, receiver) {
     }
 
     // clean everything if there is a to-be-used "BootstrapData" dir.
-
-    console.log("checking for " + storage.FileSystem.bootstrapDir);
-
     if (fs.existsSync(storage.FileSystem.bootstrapDir)) {
         // we only want to use this once. rename it so it won't be found next time
         var newName = storage.FileSystem.bootstrapDir + '-Used';
@@ -385,15 +381,12 @@ function open(databaseName, homeDir, receiver) {
                 console.error("Unable to drop database: " + error);
             }
             else {
-                console.log("dropped database " + databaseName);
+//                console.log("dropped database " + databaseName);
             }
             openDatabase(receiver);
         });
     }
     else {
-
-        console.log("######## it does not exist!!");
-
         openDatabase(receiver);
     }
 

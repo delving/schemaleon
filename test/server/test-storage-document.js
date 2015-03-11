@@ -5,21 +5,13 @@ var fs = require('fs');
 var Storage = require('../../server/storage');
 var util = require('../../server/util');
 var defer = require('node-promise').defer;
+var testUtil = require('./test-util');
 
 function log(message) {
 //    console.log(message);
 }
 
-var storage = null;
-
-exports.createDatabase = function (test) {
-    test.expect(1);
-    Storage('schemaleontest', '/tmp', function (s) {
-        test.ok(s, 'problem creating database');
-        storage = s;
-        test.done();
-    });
-};
+exports.createDatabase = testUtil.createDatabase;
 
 var SCHEMA_NAME = 'Photo';
 var schemaXml = '?';
@@ -67,7 +59,7 @@ function generateEnvelope(title, identifier) {
 
 exports.testFetchSchema = function (test) {
     test.expect(2);
-    storage.Document.getDocumentSchema(SCHEMA_NAME, function (xml) {
+    testUtil.storage.Document.getDocumentSchema(SCHEMA_NAME, function (xml) {
         test.ok(xml, "no xml");
         log("fetched:\n" + xml);
         test.ok(xml.indexOf('<Photo>') == 0, "Didn't retrieve");
@@ -81,7 +73,7 @@ exports.testSaveDocuments = function (test) {
     function savePromise(title) {
         var deferred = defer();
         log('save promise ' + title);
-        storage.Document.saveDocument(generateEnvelope(title, '#IDENTIFIER#'), function (xml) {
+        testUtil.storage.Document.saveDocument(generateEnvelope(title, '#IDENTIFIER#'), function (xml) {
             identifiers.push(util.getFromXml(xml, 'Identifier'));
             deferred.resolve(xml);
         });
@@ -110,11 +102,11 @@ exports.testSaveDocumentModified = function (test) {
     var whichDocument = 5;
     var identifier = identifiers[whichDocument];
     test.expect(1);
-    storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
+    testUtil.storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
         log(xml);
         var title = 'Very ' + util.getFromXml(xml, 'Title');
-        storage.Document.saveDocument(generateEnvelope(title, identifier), function (header) {
-            storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
+        testUtil.storage.Document.saveDocument(generateEnvelope(title, identifier), function (header) {
+            testUtil.storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
                 log(xml);
                 test.equal(identifier, util.getFromXml(header, 'Identifier'), 'Different identifier');
                 test.done();
@@ -126,7 +118,7 @@ exports.testSaveDocumentModified = function (test) {
 exports.testGetDocumentList = function (test) {
     test.expect(2);
     // todo: DOCZ
-    storage.Document.getAllDocuments(SCHEMA_NAME, function (xml) {
+    testUtil.storage.Document.getAllDocuments(SCHEMA_NAME, function (xml) {
 //        console.log(xml);
         test.ok(xml, "No xml");
         test.equals(xml.match(/<Body>/g).length, 30, 'Result count wrong');
@@ -138,7 +130,7 @@ exports.testSelectDocuments = function (test) {
     test.expect(2);
     // testing stemming here!
     // todo: DOCZ
-    storage.Document.selectDocuments(SCHEMA_NAME, 'yellowed', function (xml) {
+    testUtil.storage.Document.selectDocuments(SCHEMA_NAME, 'yellowed', function (xml) {
         log('testSelectDocuments:');
         log(xml);
         test.equals(xml.match(/<Body>/g).length, 7 + 8, 'Result count wrong');
@@ -147,12 +139,4 @@ exports.testSelectDocuments = function (test) {
     })
 };
 
-exports.dropIt = function (test) {
-    test.expect(1);
-    storage.session.execute('drop db schemaleontest', function (error, reply) {
-        test.ok(reply.ok, 'problem dropping database');
-        storage.session.close(function () {
-            test.done();
-        });
-    });
-};
+exports.dropDatabase = testUtil.dropDatabase

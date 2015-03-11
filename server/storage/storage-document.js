@@ -36,7 +36,7 @@ function Document(storage) {
 var P = Document.prototype;
 
 function log(message) {
-//    console.log('storage-document.js: ', message);
+    console.log('storage-document.js: ', message);
 }
 
 // fetch a schema

@@ -170,23 +170,23 @@ P.loadBootstrapData = function (replace, done) {
     var s = this.storage;
     var dataPath = s.FileSystem.bootstrapDir;
     if (fs.existsSync(dataPath)) {
-
+        this.loadData(dataPath, '', replace);
+        this.satisfyPromise("loading bootstrap data from " + dataPath, done);
     }
-    var dataPath = fs.realpathSync(s.FileSystem.bootstrapDir);
-    this.loadData(dataPath, '', replace);
-    console.log('prepared to load bootstrap data');
-    this.satisfyPromise("loading bootstrap data from " + dataPath, done);
+    else {
+        this.satisfyPromise("no bootstrap data in " + dataPath, done);
+    }
 };
 
 // after all the promises have been made, here we actually make sure things get done
 P.satisfyPromise = function (activity, done) {
     if (this.promise) {
-        console.log("starting: " + activity);
+//        console.log("starting: " + activity);
         var goforit = this.promise;
         this.promise = null;
         goforit.then(
             function () {
-                console.log("done: " + activity);
+//                console.log("done: " + activity);
                 done();
             },
             function (error) {

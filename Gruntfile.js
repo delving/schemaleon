@@ -334,6 +334,10 @@ module.exports = function (grunt) {
         'nodeunit:person'
     ]);
 
+    grunt.registerTask('test-document', [
+        'nodeunit:document'
+    ]);
+
     grunt.registerTask('test-media', [
         'nodeunit:media'
     ]);

@@ -35,7 +35,7 @@ function Person(storage) {
 var P = Person.prototype;
 
 function log(message) {
-    console.log(message);
+//    console.log(message);
 }
 
 P.authenticateUser = function (username, passwordHash, receiver) {
@@ -50,10 +50,9 @@ P.authenticateUser = function (username, passwordHash, receiver) {
                 receiver(result);
             }
             else {
-                log('counting users');
                 s.query('count users', 'count(' + s.userCollection() + ')',
                     function (result) {
-                        log('user count: ' + result);
+//                        log('user count: ' + result);
                         if (result === '0') {
                             // there is nobody, so this person becomes administrator
                             var userObject = {
@@ -86,19 +85,29 @@ P.authenticateUser = function (username, passwordHash, receiver) {
     );
 };
 
-P.setProfile = function (identifier, profile, receiver) {
+P.setProfile = function (userIdentifier, profile, receiver) {
     var s = this.storage;
-    var self = this;
-    var userProfilePath = s.userDocument(identifier) + "/Profile";
+    var userProfilePath = s.userPath(userIdentifier) + "/Profile";
     var profileXml = util.objectToXml(profile, "Profile");
-    s.query('check if profile exists', userProfilePath, function (result) {
-        if (result) {
-            s.replace('replacing profile', userProfilePath, profileXml, receiver)
+
+    s.update('set profile: ' + userIdentifier,
+        [
+            'let $user := ' + s.userPath(userIdentifier),
+            'let $profile := ' + profileXml,
+            'return',
+            'if (exists($user/hello))',
+            'then (replace node $user/Profile with $profile)',
+            'else (insert node $profile into $user)'
+        ],
+        function (result) {
+            if (result) {
+                s.query('re-fetch user', s.userPath(userIdentifier), receiver);
+            }
+            else {
+                receiver(null);
+            }
         }
-        else {
-            s.add('adding profile', userProfilePath, profileXml, receiver)
-        }
-    });
+    );
 };
 
 // get a particular user
@@ -110,13 +119,27 @@ P.getUser = function (identifier, receiver) {
     );
 };
 
+P.searchUsers = function(sought, receiver) {
+    var s = this.storage;
+    var q = [
+        '<Groups>{',
+        'let $found := for $user in ' + s.userCollection(),
+        '   where ($user//*[text() contains text ' + util.quote(sought) + ' any])',
+        '     return $user',
+        'return $found',
+        '}</Groups>'
+    ];
+//    console.log("!!! search groups", q);
+    s.query('search users: ' + sought, q, receiver);
+};
+
 // find out which users belong to a given group by querying their Membership
 P.getUsersInGroup = function (identifier, receiver) {
     var s = this.storage;
     s.query('get users in group ' + identifier,
         [
             '<Users>',
-                '    { ' + s.userCollection() + '[Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
+            '    { ' + s.userCollection() + '[Membership/GroupIdentifier=' + util.quote(identifier) + '] }',
             '</Users>'
         ],
         receiver
@@ -129,7 +152,7 @@ P.getAllUsers = function (receiver) {
     s.query('get all users',
         [
             '<Users>',
-                '    { ' + s.userCollection() + ' }',
+            '    { ' + s.userCollection() + ' }',
             '</Users>'
         ],
         receiver
@@ -157,9 +180,9 @@ P.saveGroup = function (group, receiver) {
         }
     }
     else { // here we could try fuzzy match or something
-        log('search for ' + group.Name);
+        log('saveGroup: search for ' + group.Name);
         s.query('check group',
-                s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
+            s.groupCollection() + '[Name = ' + util.quote(group.Name) + ']',
             function (result) {
                 if (result.length == 0) { // text is not found
                     s.add('add group ' + group.Identifier,
@@ -175,13 +198,27 @@ P.saveGroup = function (group, receiver) {
     }
 };
 
+P.searchGroups = function(sought, receiver) {
+    var s = this.storage;
+    var q = [
+        '<Groups>{',
+            'let $found := for $group in ' + s.groupCollection(),
+            '   where ($group//*[text() contains text ' + util.quote(sought) + ' any])',
+            '     return $group',
+            'return $found',
+        '}</Groups>'
+    ];
+//    console.log("!!! search groups", q);
+    s.query('search groups: ' + sought, q, receiver);
+};
+
 // get a list of all groups
 P.getAllGroups = function (receiver) {
     var s = this.storage;
     s.query('get all groups',
         [
             '<Groups>',
-                '    { ' + s.groupCollection() + ' }',
+            '    { ' + s.groupCollection() + ' }',
             '</Groups>'
         ],
         receiver
@@ -231,7 +268,7 @@ P.removeUserFromGroup = function (userIdentifier, groupIdentifier, receiver) {
     var s = this.storage;
     var removal = userIdentifier + ' ' + groupIdentifier;
     s.update('remove user from group ' + removal,
-            'delete node ' + s.userPath(userIdentifier) + '/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
+        'delete node ' + s.userPath(userIdentifier) + '/Membership[GroupIdentifier=' + util.quote(groupIdentifier) + ']',
         function (result) {
             if (result) {
                 s.query('re-fetch user after remove membership ' + removal,

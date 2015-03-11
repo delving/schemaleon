@@ -248,7 +248,6 @@ module.exports.authenticatedGod = function(req, res, action) {
 };
 
 module.exports.copyRecursive = function (src, dest) {
-    console.log('recursive '+src);
     var exists = fs.existsSync(src);
     var stats = exists && fs.statSync(src);
     var isDirectory = exists && stats.isDirectory();
@@ -263,7 +262,7 @@ module.exports.copyRecursive = function (src, dest) {
 };
 
 module.exports.deleteRecursive = function (thing) {
-    console.log('delete '+thing);
+    if (!fs.existsSync(thing)) return;
     if (fs.statSync(thing).isDirectory()) {
         _.each(fs.readdirSync(thing), function (childItemName) {
             module.exports.deleteRecursive(path.join(thing, childItemName));
