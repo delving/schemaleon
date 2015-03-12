@@ -61,8 +61,8 @@
                                         {{ entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}
                                     </td>
                                     <td>
-                                        <a href ng-click="logEntryWho(entry)" ng-hide="entry.userView">{{ entry.Who }}</a>
-                                        <a href ng-click="logEntryWho(entry)" ng-show="entry.userView" >{{ entry.userView.Profile.email }}</a>
+                                        <a href ng-click="logEntryWho(entry)" ng-show="!entry.userView.Credentials.Username">{{ entry.Who }}</a>
+                                        <a href ng-click="logEntryWho(entry)" ng-show="entry.userView.Credentials.Username" >{{ entry.userView.Credentials.Username }}</a>
                                     </td>
                                     <td>
                                         <span i18n="{{ entry.Op }}"><span class="i18n"/></span>

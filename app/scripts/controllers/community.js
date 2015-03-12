@@ -118,7 +118,7 @@ Schemaleon.controller(
         $scope.showChat = false;
         $scope.toggleChat = function () {
             $scope.showChat = !$scope.showChat;
-        }
+        };
 
         /**
          * Sends new chat message and appends it to the message list or only retrieves the list if no message is sent
@@ -136,8 +136,8 @@ Schemaleon.controller(
             // just retrieve the messageList
             else {
                 Person.publishChatMessage('', function (messageList) {
-                    console.log('scope', _.size($scope.chatMessageList));
-                    console.log('server', _.size(messageList));
+//                    console.log('scope', _.size($scope.chatMessageList));
+//                    console.log('server', _.size(messageList));
                     if( _.size(messageList) > _.size($scope.chatMessageList)) {
                         console.log('new message');
                     }

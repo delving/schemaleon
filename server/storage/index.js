@@ -335,7 +335,7 @@ function open(databaseName, homeDir, receiver) {
                     shared: sharedXml.split(',')
                 };
 //                console.log('schema map', storage.schemaMap);
-                afterGet();
+                afterGet(storage);
             }
         );
     }
@@ -345,8 +345,7 @@ function open(databaseName, homeDir, receiver) {
             storage.database = databaseName;
 
             if (reply.ok) {
-                getSchemaMap();
-                afterOpen(storage);
+                getSchemaMap(afterOpen);
             }
             else {
                 storage.session.execute('create db ' + databaseName, function (error, reply) {
@@ -357,9 +356,7 @@ function open(databaseName, homeDir, receiver) {
                             }
                             else {
                                 storage.ETC.loadBootstrapData(false, function () {
-                                    getSchemaMap(function() {
-                                        afterOpen(storage);
-                                    });
+                                    getSchemaMap(afterOpen);
                                 });
                             }
                         });

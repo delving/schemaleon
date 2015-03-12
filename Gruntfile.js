@@ -383,4 +383,6 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['build']);
 //    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
+
+    grunt.option('stack', true);
 };
