@@ -12,7 +12,7 @@
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i>
-                    <span i18n="FindGroup"><span class="i18n"/></span>
+                    <span i18n="FindGroupByName"><span class="i18n"/></span>
                 </span>
                 <input id="cai" type="text" ng-model="groupChoice" class="form-control"
                        typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"
@@ -23,7 +23,7 @@
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-user"></i>
-                    <span i18n="FindUser"><span class="i18n"/></span>
+                    <span i18n="FindGroupByUser"><span class="i18n"/></span>
                 </span>
                 <input id="cau" type="text" ng-model="groupFindUser" class="form-control"
                        typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"
@@ -53,11 +53,8 @@
                     <table class="table table-condensed table-striped table-schemaleon">
                         <thead>
                         <tr>
-                            <th width="250" i18n="Email">
-                                <span class="i18n">Email</span>
-                            </th>
-                            <th width="250" i18n="Name">
-                                <span class="i18n">Name</span>
+                            <th width="250" i18n="Username">
+                                <span class="i18n">Username</span>
                             </th>
                             <th i18n="Role">
                                 <span class="i18n">Role</span>
@@ -79,10 +76,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="user in selectedGroup.userList">
-                            <td>{{ user.Profile.email }}</td>
-                            <td>
-                                <span class="eclipse">{{ user.Profile.firstName }} {{ user.Profile.lastName }}</span>
-                            </td>
+                            <td>{{ user.Credentials.Username }}</td>
                             <td>
                                 <span class="label label-default label-{{ user.Membership.Role}}">{{ user.Membership.Role}}</span>
                             </td>
