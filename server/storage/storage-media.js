@@ -45,7 +45,7 @@ function log(message) {
 // is finished can we execute the callback so that the actual MediaMetadata document can be stored
 
 P.saveMedia = function (header, body, receiver) {
-    console.log('saveMedia', header, body);
+//    console.log('saveMedia', header, body);
     var s = this.storage;
     var groupFileSystem = s.FileSystem.forGroup(header.GroupIdentifier);
     var mediaPath = path.join(groupFileSystem.mediaUploadDir, body.MediaMetadata.OriginalFileName);

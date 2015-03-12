@@ -85,6 +85,29 @@ P.authenticateUser = function (username, passwordHash, receiver) {
     );
 };
 
+P.createUser = function (username, passwordHash, receiver) {
+    var s = this.storage;
+    var self = this;
+    s.query('check user', s.userCollection() + '[Credentials/Username=' + util.quote(username) + ']', function (result) {
+        if (result) {
+            receiver(result);
+        }
+        else {
+            // there is nobody, so this person becomes administrator
+            var userObject = {
+                Identifier: util.generateUserId(),
+                Credentials: {
+                    Username: username,
+                    PasswordHash: passwordHash
+                },
+                SaveTime: new Date().getTime()
+            };
+            var userXml = util.objectToXml(userObject, 'User');
+            s.add('add user ' + username,s.userDocument(userObject.Identifier), userXml, receiver);
+        }
+    });
+};
+
 P.setProfile = function (userIdentifier, profile, receiver) {
     var s = this.storage;
     var userProfilePath = s.userPath(userIdentifier) + "/Profile";

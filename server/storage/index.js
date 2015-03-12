@@ -152,14 +152,14 @@ function Storage(home) {
     };
 
     // determine whether somebody can access a document (gods can access anything, mortals only their primary docs)
-    this.nonOSCRGroupIdentifier = function (schemaName, groupIdentifier) {
+    this.nonAdminGroupIdentifier = function (schemaName, groupIdentifier) {
         if (this.isShared(schemaName) && groupIdentifier == 'Schemaleon') return undefined;
         return groupIdentifier;
     };
 
     // locate a document from a given schema and with the given identifier and group identifier
     this.dataDocument = function (identifier, schemaName, groupIdentifier) {
-        groupIdentifier = this.nonOSCRGroupIdentifier(schemaName, groupIdentifier);
+        groupIdentifier = this.nonAdminGroupIdentifier(schemaName, groupIdentifier);
         if (groupIdentifier) {
             if (!this.isGroupSpecific(schemaName)) throw schemaName + " is not group " + groupIdentifier + " specific!";
             return this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "/" + identifier + ".xml";
@@ -172,14 +172,14 @@ function Storage(home) {
 
     // the path into the document, from which you can dig further
     this.dataPath = function (identifier, schemaName, groupIdentifier) {
-        groupIdentifier = this.nonOSCRGroupIdentifier(schemaName, groupIdentifier);
+        groupIdentifier = this.nonAdminGroupIdentifier(schemaName, groupIdentifier);
         return "doc('" + this.database + this.dataDocument(identifier, schemaName, groupIdentifier) + "')/Document";
     };
 
     // locate a collection of documents, with optionally the schema and the group.  both are optional, because
     // this method is intended to be very flexible, especially for search
     this.dataCollection = function (schemaName, groupIdentifier) {
-        groupIdentifier = this.nonOSCRGroupIdentifier(schemaName, groupIdentifier);
+        groupIdentifier = this.nonAdminGroupIdentifier(schemaName, groupIdentifier);
         if (groupIdentifier) {
             if (schemaName) {
                 return "collection('" + this.database + this.schemaDir(schemaName) + groupIdentifier + "/" + schemaName + "')";
@@ -323,16 +323,19 @@ function open(databaseName, homeDir, receiver) {
 
     storage.session = new basex.Session();
 
-    function getSchemaMap() {
+    function getSchemaMap(afterGet) {
         storage.query(
             'get schema map',
                 "doc('" + storage.database + "/schemas/SchemaMap.xml')/SchemaMap",
             function (schemaMapXml) {
+                var primaryXml = util.getFromXml(schemaMapXml, 'primary');
+                var sharedXml = util.getFromXml(schemaMapXml, 'shared');
                 storage.schemaMap = {
-                    primary: util.getFromXml(schemaMapXml, 'primary').split(','),
-                    shared: util.getFromXml(schemaMapXml, 'shared').split(',')
+                    primary: primaryXml.split(','),
+                    shared: sharedXml.split(',')
                 };
 //                console.log('schema map', storage.schemaMap);
+                afterGet();
             }
         );
     }
@@ -354,8 +357,9 @@ function open(databaseName, homeDir, receiver) {
                             }
                             else {
                                 storage.ETC.loadBootstrapData(false, function () {
-                                    getSchemaMap();
-                                    afterOpen(storage);
+                                    getSchemaMap(function() {
+                                        afterOpen(storage);
+                                    });
                                 });
                             }
                         });

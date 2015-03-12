@@ -280,7 +280,7 @@ module.exports = function (grunt) {
         },
         nodeunit: {
             all: [
-                'test/server/*.js'
+                'test/server/test-*.js'
             ],
             document: [
                 'test/server/test-storage-document.js'
@@ -338,8 +338,16 @@ module.exports = function (grunt) {
         'nodeunit:document'
     ]);
 
+    grunt.registerTask('test-i18n', [
+        'nodeunit:i18n'
+    ]);
+
     grunt.registerTask('test-media', [
         'nodeunit:media'
+    ]);
+
+    grunt.registerTask('test-vocab', [
+        'nodeunit:vocab'
     ]);
 
     grunt.registerTask('test-filesystem', [

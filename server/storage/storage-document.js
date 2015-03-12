@@ -42,10 +42,7 @@ function log(message) {
 // fetch a schema
 P.getDocumentSchema = function (schemaName, receiver) {
     var s = this.storage;
-    s.query('get document schema ' + schemaName,
-        s.schemaPath(schemaName),
-        receiver
-    );
+    s.query('get document schema ' + schemaName, s.schemaPath(schemaName), receiver);
 };
 
 // search the documents, sometimes globally sometimes specifically, depending on the params.
@@ -101,6 +98,14 @@ P.getDocument = function (schemaName, groupIdentifier, identifier, receiver) {
     var s = this.storage;
     s.query('get document ' + identifier + ' ' + schemaName + ' ' + groupIdentifier,
         s.dataPath(identifier, schemaName, groupIdentifier),
+        receiver
+    );
+};
+
+P.getAllDocuments = function(schemaName, groupIdentifier, receiver) {
+    var s = this.storage;
+    s.query('get document ' + schemaName + ' ' + groupIdentifier,
+        s.dataCollection(schemaName, groupIdentifier),
         receiver
     );
 };
@@ -163,7 +168,7 @@ P.saveDocument = function (envelope, receiver) {
     var body = _.clone(envelope.body);
 
     function triggerGitCommit() {
-        console.log('Should eventually trigger git add/commit');
+//        console.log('Should eventually trigger git add/commit');
     }
 
     if (!header.GroupIdentifier) {
@@ -175,13 +180,13 @@ P.saveDocument = function (envelope, receiver) {
         if (header.SchemaName == 'MediaMetadata') {
             // expects fileName, mimeType
             s.Media.saveMedia(header, body, function (base, extension, error) {
-                console.log('save media returns ', base, extension, error); // todo
+//                console.log('save media returns ', base, extension, error); // todo
                 if (error) {
                     reportError(error);
                 }
                 else {
                     header.Identifier = base;
-                    console.log('savedoc: header with identifier', base); // todo
+//                    console.log('savedoc: header with identifier', base); // todo
                     addDocument();
                 }
             });
@@ -211,7 +216,7 @@ P.saveDocument = function (envelope, receiver) {
         var xml = envelope.xml
             .replace(IDENTIFIER, header.Identifier) // header
             .replace(TIMESTAMP, time); // header
-        console.log('savedoc: add document', xml); // todo
+//        console.log('savedoc: add document', xml); // todo
         s.add('add document ' + header.Identifier,
             s.dataDocument(header.Identifier, header.SchemaName, header.GroupIdentifier),
             xml,

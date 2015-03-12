@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 var util = require('../../server/util');
-var testUtil = require('./test-util');
+var testUtil = require('./testutil');
 
 function log(message) {
 //    console.log(message);

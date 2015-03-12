@@ -5,15 +5,13 @@ var fs = require('fs');
 var Storage = require('../../server/storage');
 var util = require('../../server/util');
 var defer = require('node-promise').defer;
-var testUtil = require('./test-util');
+var testUtil = require('./testutil');
 
 function log(message) {
 //    console.log(message);
 }
 
-exports.createDatabase = testUtil.createDatabase;
-
-var SCHEMA_NAME = 'Photo';
+var photoSchema = 'Photo';
 var schemaXml = '?';
 var colors = [
     'Red',
@@ -25,28 +23,28 @@ var colors = [
     'Black',
     'White'
 ];
-var titles = _.flatten(
-    _.map(colors, function (color) {
-            return _.map(colors, function (color2) {
-                return color + ' ' + color2;
-            });
-        }
-    )
-);
+var titles = _.flatten(_.map(colors, function (color) {
+    return _.map(colors, function (color2) {
+        return color + ' ' + color2;
+    });
+}));
+
 var identifiers = [];
 
-function generateEnvelope(title, identifier) {
+function generateEnvelope(title, identifier, workingGroupIdentifier) {
     return {
         header: {
             Identifier: identifier,
             Title: title,
-            SchemaName: SCHEMA_NAME
+            SchemaName: photoSchema,
+            GroupIdentifier: workingGroupIdentifier
         },
         xml: '<Document>' +
             '<Header>' +
             '<Identifier>' + identifier + '</Identifier>' +
             '<Title>' + title + '</Title>' +
-            '<SchemaName>' + SCHEMA_NAME + '</SchemaName>' +
+            '<SchemaName>' + photoSchema + '</SchemaName>' +
+            '<GroupIdentifier>' + workingGroupIdentifier + '</GroupIdentifier>' +
             '</Header>' +
             '<Body>' +
             '<Photo>' +
@@ -57,9 +55,12 @@ function generateEnvelope(title, identifier) {
     };
 }
 
+exports.createDatabase = testUtil.createDatabase;
+
 exports.testFetchSchema = function (test) {
-    test.expect(2);
-    testUtil.storage.Document.getDocumentSchema(SCHEMA_NAME, function (xml) {
+    test.expect(3);
+    test.ok(testUtil.storage, "No storage!");
+    testUtil.storage.Document.getDocumentSchema(photoSchema, function (xml) {
         test.ok(xml, "no xml");
         log("fetched:\n" + xml);
         test.ok(xml.indexOf('<Photo>') == 0, "Didn't retrieve");
@@ -68,12 +69,41 @@ exports.testFetchSchema = function (test) {
     });
 };
 
+var workerIdentifier = "?";
+var workingGroupIdentifier = "?";
+
+exports.testCreateUser = function(test) {
+    test.expect(1);
+    testUtil.storage.Person.createUser("worker", "secret", function(userXml) {
+//        console.log(userXml);
+        test.ok(userXml, "Can't create second user");
+        workerIdentifier = util.getFromXml(userXml, 'Identifier');
+        test.done();
+    });
+};
+
+exports.testCreateGroup = function(test) {
+    test.expect(2);
+    var group = {
+        Name: 'Working Group',
+        Address: 'The Office'
+    };
+    testUtil.storage.Person.saveGroup(group, function(groupXml) {
+//        console.log(groupXml);
+        test.ok(groupXml, "Can't create group");
+        workingGroupIdentifier = util.getFromXml(groupXml, 'Identifier');
+        testUtil.storage.Person.addUserToGroup(workerIdentifier, "Member", workingGroupIdentifier, function(userXml){
+            test.ok(userXml, "Can't put user in group");
+            test.done();
+        });
+    });
+};
 
 exports.testSaveDocuments = function (test) {
     function savePromise(title) {
         var deferred = defer();
         log('save promise ' + title);
-        testUtil.storage.Document.saveDocument(generateEnvelope(title, '#IDENTIFIER#'), function (xml) {
+        testUtil.storage.Document.saveDocument(generateEnvelope(title, '#IDENTIFIER#', workingGroupIdentifier), function (xml) {
             identifiers.push(util.getFromXml(xml, 'Identifier'));
             deferred.resolve(xml);
         });
@@ -102,11 +132,10 @@ exports.testSaveDocumentModified = function (test) {
     var whichDocument = 5;
     var identifier = identifiers[whichDocument];
     test.expect(1);
-    testUtil.storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
-        log(xml);
+    testUtil.storage.Document.getDocument(photoSchema, workingGroupIdentifier, identifier, function (xml) {
         var title = 'Very ' + util.getFromXml(xml, 'Title');
-        testUtil.storage.Document.saveDocument(generateEnvelope(title, identifier), function (header) {
-            testUtil.storage.Document.getDocument(SCHEMA_NAME, identifier, function (xml) {
+        testUtil.storage.Document.saveDocument(generateEnvelope(title, identifier, workingGroupIdentifier), function (header) {
+            testUtil.storage.Document.getDocument(photoSchema, workingGroupIdentifier, identifier, function (xml) {
                 log(xml);
                 test.equal(identifier, util.getFromXml(header, 'Identifier'), 'Different identifier');
                 test.done();
@@ -117,26 +146,30 @@ exports.testSaveDocumentModified = function (test) {
 
 exports.testGetDocumentList = function (test) {
     test.expect(2);
-    // todo: DOCZ
-    testUtil.storage.Document.getAllDocuments(SCHEMA_NAME, function (xml) {
-//        console.log(xml);
+    testUtil.storage.Document.getAllDocuments(photoSchema, workingGroupIdentifier, function (xml) {
+//        console.log('all docs\n' + xml);
         test.ok(xml, "No xml");
-        test.equals(xml.match(/<Body>/g).length, 30, 'Result count wrong');
+        test.equals(xml.match(/<Body>/g).length, titles.length, 'Result count wrong');
         test.done();
     })
 };
 
-exports.testSelectDocuments = function (test) {
+exports.testSearchDocuments = function (test) {
     test.expect(2);
-    // testing stemming here!
-    // todo: DOCZ
-    testUtil.storage.Document.selectDocuments(SCHEMA_NAME, 'yellowed', function (xml) {
-        log('testSelectDocuments:');
-        log(xml);
+//    console.log("total docs: " + titles.length);
+    var searchParams = {
+        schemaName: photoSchema,
+        groupIdentifier: workingGroupIdentifier,
+        searchQuery: 'yellowed',
+        maxResults: 10000
+    };
+    testUtil.storage.Document.searchDocuments(searchParams, function (xml) {
+//        console.log('testSearchDocuments:');
+//        console.log(xml);
         test.equals(xml.match(/<Body>/g).length, 7 + 8, 'Result count wrong');
         test.equals(xml.match(/Yellow/g).length, 16 * 2, "Yellow count wrong");
         test.done();
     })
 };
 
-exports.dropDatabase = testUtil.dropDatabase
+exports.dropDatabase = testUtil.dropDatabase;

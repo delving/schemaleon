@@ -2,41 +2,32 @@
 
 var fs = require('fs');
 var Storage = require('../../server/storage');
-
-var storage = null;
+var testUtil = require('./testutil');
 
 function log(message) {
 //    console.log(message);
 }
 
-exports.createDatabase = function (test) {
-    test.expect(1);
-    Storage('schemaleontest', '/tmp', function(s) {
-        test.ok(s, 'problem creating database');
-        storage = s;
-        test.done();
-    });
-};
+exports.createDatabase = testUtil.createDatabase;
 
-exports.testFetchSchema = function (test) {
-    test.expect(2);
-    storage.Vocab.getVocabularySchema('PhotoType', function (xml) {
-        test.ok(xml, "no xml");
-//        console.log("fetched:\n" + xml);
-        test.ok(xml.indexOf('<PhotoType') == 0, "Didn't retrieve");
-        test.done();
-    });
-};
-
-/*
- <PhotoType>
-   <Entry>
-     <Label/>
-     <ID/>
-     <URI/>
-   </Entry>
- </PhotoType>
- */
+// i think there used to be schemas for vocabs, but now they're all the same
+//exports.testFetchSchema = function (test) {
+//    test.expect(2);
+//    testUtil.storage.Vocab.getVocabularySchema('PhotoType', function (xml) {
+//        test.ok(xml, "no xml");
+////        console.log("fetched:\n" + xml);
+//        test.ok(xml.indexOf('<PhotoType') == 0, "Didn't retrieve");
+//        test.done();
+//    });
+//};
+//
+// <PhotoType>
+//   <Entry>
+//     <Label/>
+//     <ID/>
+//     <URI/>
+//   </Entry>
+// </PhotoType>
 
 exports.testAddEntry1 = function (test) {
     test.expect(1);
@@ -44,7 +35,7 @@ exports.testAddEntry1 = function (test) {
         Label: "Gumby",
         URI: "http://gumby.com"
     };
-    storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
+    testUtil.storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
         log("added:\n" + xml);
         test.done();
@@ -57,7 +48,7 @@ exports.testAddEntry2 = function (test) {
         Label: "Pokey",
         URI: "http://pokey.com"
     };
-    storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
+    testUtil.storage.Vocab.addVocabularyEntry('PhotoType', entry, function (xml) {
         test.ok(xml, "no xml");
         log("added:\n" + xml);
         test.done();
@@ -66,19 +57,11 @@ exports.testAddEntry2 = function (test) {
 
 exports.testFetchEntry = function(test) {
     test.expect(1);
-    storage.Vocab.getVocabularyEntries('PhotoType', 'y', null, function(xml) {
+    testUtil.storage.Vocab.getVocabularyEntries('PhotoType', 'y', function(xml) {
         test.ok(xml, "no xml");
         log("fetched:\n" + xml);
         test.done();
     });
 };
 
-exports.dropIt = function (test) {
-    test.expect(1);
-    storage.session.execute('drop db schemaleontest', function (error, reply) {
-        test.ok(reply.ok, 'problem dropping database');
-        storage.session.close(function () {
-            test.done();
-        });
-    });
-};
+exports.dropDatabase = testUtil.dropDatabase;

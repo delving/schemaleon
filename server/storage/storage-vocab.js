@@ -40,6 +40,12 @@ function log(message) {
 //    console.log(message);
 }
 
+// i think there used to be vocabulary schemas, but now they are all the same
+//P.getVocabularySchema = function (schemaName, receiver) {
+//    var s = this.storage;
+//    s.query('get vocabulary schema ' + schemaName, s.schemaDocument(schemaName), receiver);
+//};
+
 // add an entry to a given vocabulary
 P.addVocabularyEntry = function (vocabName, entry, receiver) {
     var s = this.storage;
