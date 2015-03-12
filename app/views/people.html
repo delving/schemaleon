@@ -31,12 +31,27 @@
             </div>
         </div>
         <div class="col-md-4">
-        <span i18n="NewGroup">
-            <a href class="btn btn-primary  pull-right" ng-click="newGroupToggle()">
-                <i class="glyphicon glyphicon-plus"></i>
-                <span class="i18n"/>
-            </a>
-        </span>
+            <div class="pull-right">
+                <span class="dropdown">
+                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span i18n="Add"><span class="i18n"/></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li i18n="NewGroup">
+                            <a href class="btn" ng-click="toggleNew('group')">
+                                <span class="i18n"/>
+                            </a>
+                        </li>
+                        <li i18n="NewUser">
+                            <a href class="btn" ng-click="toggleNew('user')">
+                                <span class="i18n"/>
+                            </a>
+                        </li>
+                    </ul>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -48,6 +63,24 @@
                     <h5>
                         <span>{{ selectedGroup.Name }}</span>
                     </h5>
+                    <div class="pull-right">
+                        <span class="dropdown">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span i18n="Membership"><span class="i18n"/></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="role in roles">
+                                    <span class="btn">
+                                        <a href ng-click="addUserToggle(role.name)">
+                                            <span>{{ role.name }}</span>
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
                 </div>
                 <div class="widget-body">
                     <table class="table table-condensed table-striped table-schemaleon">
@@ -59,26 +92,14 @@
                             <th i18n="Role">
                                 <span class="i18n">Role</span>
                             </th>
-                            <th width="300">
-                                <div class="dropdown">
-                                    <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Add user to group
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" class="z-index:100000">
-                                        <li ng-repeat="role in roles">
-                                            <a href ng-click="addUserToggle(role.name)">{{ role.name }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="user in selectedGroup.userList">
                             <td>{{ user.Credentials.Username }}</td>
                             <td>
-                                <span class="label label-default label-{{ user.Membership.Role}}">{{ user.Membership.Role}}</span>
+                                <span class="label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role}}</span>
                             </td>
                             <td>
                                 <button class="btn btn-xs btn-danger pull-right" ng-click="removeUserFromGroup(user)">
@@ -93,14 +114,17 @@
 
         <div class="adding-users col-md-4">
             <!-- GROUP CREATION //-->
-            <div class="widget-box" ng-show="creatingGroup">
+            <div class="widget-box" ng-show="creating == 'group'">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i></span>
                     <h5 i18n="CreateGroup">
                         <span class="i18n"/>
                     </h5>
-                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="newGroupToggle()">&times;</button></span>
+                    <span class="action">
+                        <button type="button" class="close" data-dismiss="widget-box" ng-click="toggleNew('group')">&times;</button>
+                    </span>
                 </div>
+                <!--todo: these models are all wrong, do it with newGroup object-->
                 <div class="widget-body">
                     <div ng-show="groupCreated" class="alert alert-success fade-in" i18n="GroupCreated">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -145,14 +169,53 @@
                     </div>
                 </div>
             </div>
+            <!-- USER CREATION //-->
+            <div class="widget-box" ng-show="creating == 'user'">
+                <div class="widget-title">
+                    <span class="icon"><i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i></span>
+                    <h5 i18n="CreateUser">
+                        <span class="i18n"/>
+                    </h5>
+                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="toggleNew('user')">&times;</button></span>
+                </div>
+                <!--todo: these models are all wrong-->
+                <div class="widget-body">
+                    <div ng-show="userCreated" class="alert alert-success fade-in" i18n="UserCreated">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <span class="i18n"/>
+                    </div>
+                    <div class="form-group">
+                        <label i18n="Username"><span class="i18n"/>:</label>
+                        <!--todo: "focus" below is suspect-->
+                        <input focus type="text" ng-model="newUserUsername" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label i18n="Password"><span class="i18n"/>:</label>
+                        <input type="password" ng-model="n" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label i18n="PasswordVerify"><span class="i18n"/>: </label>
+                        <input type="password" ng-model="passwordVerify" class="form-control"/>
+                    </div>
+                </div>
+                <div class="widget-footer">
+                    <div private="user.god">
+                        <button ng-click="createUser()" class="btn btn-success" data-i18n="CreateUser">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="i18n"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <!-- USER ADDITION //-->
-            <div class="widget-box" ng-show="addingUser">
+            <div class="widget-box" ng-show="creating == 'membership'">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-user"></i></span>
                     <h5>
-                        <span i18n="Add"><span class="i18n"/></span>: <span ng-bind="selectedGroup.Role"></span>
+                        <span ng-bind="selectedGroup.Role"></span>
+                        <span i18n="Of"><span class="i18n"/> </span>"<span ng-bind="selectedGroup.Name"></span>"
                     </h5>
-                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="addUserToggle()">&times;</button></span>
+                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="toggleNew('membership')">&times;</button></span>
                 </div>
                 <div class="widget-body">
                     <div ng-show="userAssigned" class="alert alert-success fade-in" i18n="UserAssigned">

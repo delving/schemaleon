@@ -34,7 +34,6 @@ Schemaleon.controller(
         $scope.selectedGroup = {};
         $scope.chosenUser = null;
         $scope.groupFindUser = null;
-        $scope.groupCreated = false;
         $scope.userAssigned = false;
         $scope.groupList = [];
         $scope.userList = [];
@@ -42,6 +41,9 @@ Schemaleon.controller(
             return { name: role }
         });
         $scope.membership = $rootScope.user.Membership;
+        $scope.creating = null;
+        $scope.newGroup = {};
+        $scope.newUser = {};
 
         $scope.populateGroup = function (group) {
             Person.getUsersInGroup(group.Identifier, function (list) {
@@ -69,11 +71,7 @@ Schemaleon.controller(
         }
 
         $scope.typeAheadUsers = function (query, onlyOrphans) {
-
             var search = query.toLowerCase();
-
-            console.log("type ahead user", query); // todo: remove
-
             var selectedUsers = _.filter($scope.userList, function (user) {
                 return user.Credentials.Username.toLowerCase().indexOf(search) >= 0;
             });
@@ -128,12 +126,10 @@ Schemaleon.controller(
             return group.Name;
         };
 
-        $scope.creatingGroup = false;
         $scope.addingUser = false;
 
-        $scope.newGroupToggle = function () {
-            $scope.creatingGroup = !$scope.creatingGroup;
-            $scope.addingUser = false;
+        $scope.toggleNew = function(what) {
+            $scope.creating = ($scope.creating == what) ? null: what;
         };
 
         $scope.addUserToggle = function (role) {
@@ -143,13 +139,13 @@ Schemaleon.controller(
                 return;
             }
             $scope.selectedGroup.Role = role;
-            $scope.addingUser = true;
-            $scope.creatingGroup = false;
+            $scope.toggleNew('membership');
         };
 
         $scope.createGroup = function () {
             var group = {
-                Name: $scope.groupName,
+                // todo: this is all wrong
+                Name: $scope.newGroup.Name,
                 StreetAndNr: $scope.groupStreetAndNr,
                 Zip: $scope.groupZip,
                 City: $scope.groupCity,
@@ -157,20 +153,44 @@ Schemaleon.controller(
             };
             // todo: make XML from the group and send that instead
             Person.saveGroup(group, function (groupObject) {
-                $scope.groupCreated = true;
-                $scope.groupName = '';
-                $scope.groupStreetNameAndNr = '';
-                $scope.groupZip = '';
-                $scope.groupCity = '';
-                $scope.groupDescription = '';
+                $scope.newGroup = { created: true };
                 $timeout(function () {
-                    $scope.groupCreated = false;
+                    $scope.newGroup.created = false;
                     $scope.creatingGroup = false;
                 }, 4000);
                 Person.getAllGroups(function (list) {
                     $scope.groupList = list;
                 });
             });
+        };
+
+        $scope.createUser = function () {
+            // todo: needs implementation
+            alert("create user");
+//            if ($scope.newUserPassword )
+//            var group = {
+//                Name: $scope.userName,
+//                StreetAndNr: $scope.groupStreetAndNr,
+//                Zip: $scope.groupZip,
+//                City: $scope.groupCity,
+//                Description: $scope.groupDescription
+//            };
+//            // todo: make XML from the group and send that instead
+//            Person.createUser(group, function (groupObject) {
+//                $scope.groupCreated = true;
+//                $scope.groupName = '';
+//                $scope.groupStreetNameAndNr = '';
+//                $scope.groupZip = '';
+//                $scope.groupCity = '';
+//                $scope.groupDescription = '';
+//                $timeout(function () {
+//                    $scope.groupCreated = false;
+//                    $scope.creatingGroup = false;
+//                }, 4000);
+//                Person.getAllGroups(function (list) {
+//                    $scope.groupList = list;
+//                });
+//            });
         };
 
         $scope.assignUserToGroup = function () {
