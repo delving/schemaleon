@@ -45,6 +45,19 @@ angular.module('Schemaleon').service(
             });
         };
 
+        this.createUser = function (username, password, accept) {
+            $http.post('/create-user', { username: username, password: password }).success(function (xml) {
+                var userObject = xmlToObject(xml);
+                console.log("create user returns", userObject);
+                if (userObject.User) {
+                    accept(userObject.User);
+                }
+                else {
+                    accept(null);
+                }
+            });
+        };
+
         this.publishChatMessage = function(message, accept) {
             $http.get('/person/chat', {params: {message: message}}).success(accept);
         };

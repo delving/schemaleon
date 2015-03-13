@@ -30,51 +30,62 @@ Schemaleon.controller(
 
         $rootScope.checkLoggedIn();
 
-        $scope.administratorRole = 'Administrator';
-        $scope.selectedGroup = {};
-        $scope.chosenUser = null;
-        $scope.groupFindUser = null;
-        $scope.userAssigned = false;
         $scope.groupList = [];
         $scope.userList = [];
         $scope.roles = _.map(Person.roles, function (role) {
             return { name: role }
         });
         $scope.membership = $rootScope.user.Membership;
+
+        $scope.groupChoice = null;
+        $scope.groupFindUser = null;
         $scope.creating = null;
+        $scope.selectedUser = null;
+        $scope.selectedGroup = {};
         $scope.newGroup = {};
         $scope.newUser = {};
 
-        $scope.populateGroup = function (group) {
+        function refreshUsers() {
+            Person.getAllUsers(function(list) {
+                $scope.userList = list;
+                console.log("users", list);
+            });
+        }
+
+        function populateGroup(group) {
             Person.getUsersInGroup(group.Identifier, function (list) {
                 $scope.selectedGroup.userList = list;
             });
             $scope.selectedGroup.Identifier = group.Identifier;
             $scope.selectedGroup.Name = group.Name;
-        };
+        }
 
-        if ($scope.membership.Role == $scope.administratorRole) {
+        if ($scope.membership.Role == 'Administrator') {
             if ($scope.membership.GroupIdentifier == 'Schemaleon') {
                 Person.getAllGroups(function (list) {
                     $scope.groupList = list;
                 });
-                Person.getAllUsers(function(list) {
-                    $scope.userList = list;
-                });
+                refreshUsers();
             }
             else {
                 Person.getGroup($scope.membership.GroupIdentifier, function(group) {
                     console.log("group", group);
-                    $scope.populateGroup(group);
+                    populateGroup(group);
                 })
             }
         }
 
         $scope.typeAheadUsers = function (query, onlyOrphans) {
             var search = query.toLowerCase();
+
+            console.log("before filter", $scope.userList);
+
             var selectedUsers = _.filter($scope.userList, function (user) {
                 return user.Credentials.Username.toLowerCase().indexOf(search) >= 0;
             });
+
+            console.log("selected users onlyOrphans="+onlyOrphans, selectedUsers);
+
             // todo: splice when it gets too big
             if (!selectedUsers.length) {
                 selectedUsers = $scope.userList;
@@ -92,19 +103,22 @@ Schemaleon.controller(
         };
 
         $scope.selectGroup = function(group) {
-            $scope.populateGroup(group);
-            $scope.groupChoice = '';
+            populateGroup(group);
+            $scope.groupChoice = null;
         };
 
         $scope.selectGroupFromUser = function(user) {
             Person.getGroup(user.Membership.GroupIdentifier, function(group) {
-                $scope.populateGroup(group);
+                populateGroup(group);
                 $scope.groupFindUser = '';
             });
         };
 
         $scope.userToString = function (user) {
             if (!user) return '';
+
+            console.log("userToString", user);
+
             return user.Credentials.Username;
         };
 
@@ -115,9 +129,7 @@ Schemaleon.controller(
                 return group.Name.toLowerCase().indexOf(search) >= 0;
             });
             // if no groups match the typed input then return all available groups
-            if (!selectedGroups.length) {
-                selectedGroups = $scope.groupList;
-            }
+            if (!selectedGroups.length) selectedGroups = $scope.groupList;
             return selectedGroups;
         };
 
@@ -126,118 +138,79 @@ Schemaleon.controller(
             return group.Name;
         };
 
-        $scope.addingUser = false;
-
         $scope.toggleNew = function(what) {
             $scope.creating = ($scope.creating == what) ? null: what;
         };
 
         $scope.addUserToggle = function (role) {
-            console.log(role);
-            if (!role) {
-                $scope.addingUser = false;
-                return;
-            }
+            console.log("add user role", role);
+            if (!role) return;
             $scope.selectedGroup.Role = role;
             $scope.toggleNew('membership');
         };
 
+        $scope.newGroupDisabled = true;
+        $scope.$watch("newGroup", function(newGroup) {
+            // todo: check against existing list
+            $scope.newGroupDisabled = !newGroup || !newGroup.Name || (newGroup.Name.trim().length < 3);
+        }, true);
+
         $scope.createGroup = function () {
-            var group = {
-                // todo: this is all wrong
-                Name: $scope.newGroup.Name,
-                StreetAndNr: $scope.groupStreetAndNr,
-                Zip: $scope.groupZip,
-                City: $scope.groupCity,
-                Description: $scope.groupDescription
-            };
-            // todo: make XML from the group and send that instead
-            Person.saveGroup(group, function (groupObject) {
-                $scope.newGroup = { created: true };
-                $timeout(function () {
-                    $scope.newGroup.created = false;
-                    $scope.creatingGroup = false;
-                }, 4000);
+//            console.log("### create group", $scope.newGroup);
+            Person.saveGroup($scope.newGroup, function (groupObject) {
+                $scope.newGroup = {};
+                $scope.toggleNew(null);
                 Person.getAllGroups(function (list) {
                     $scope.groupList = list;
                 });
             });
         };
 
+        $scope.newUserDisabled = true;
+        $scope.$watch("newUser", function(newUser) {
+            var disabled = true;
+            if (newUser && newUser.Username) {
+                var filtered = newUser.Username.trim().replace(/\W+/g, "-").replace(/[-]+/g, "-").toLowerCase();
+                if (newUser.Username != filtered) newUser.Username = filtered;
+                // todo: check against existing list
+                disabled = newUser.Password != newUser.PasswordVerify || (newUser.Username.length < 3);
+            }
+            $scope.newUserDisabled = disabled;
+        }, true);
+        
         $scope.createUser = function () {
-            // todo: needs implementation
-            alert("create user");
-//            if ($scope.newUserPassword )
-//            var group = {
-//                Name: $scope.userName,
-//                StreetAndNr: $scope.groupStreetAndNr,
-//                Zip: $scope.groupZip,
-//                City: $scope.groupCity,
-//                Description: $scope.groupDescription
-//            };
-//            // todo: make XML from the group and send that instead
-//            Person.createUser(group, function (groupObject) {
-//                $scope.groupCreated = true;
-//                $scope.groupName = '';
-//                $scope.groupStreetNameAndNr = '';
-//                $scope.groupZip = '';
-//                $scope.groupCity = '';
-//                $scope.groupDescription = '';
-//                $timeout(function () {
-//                    $scope.groupCreated = false;
-//                    $scope.creatingGroup = false;
-//                }, 4000);
-//                Person.getAllGroups(function (list) {
-//                    $scope.groupList = list;
-//                });
-//            });
+            var u = $scope.newUser;
+            console.log("### create user", u);
+            if (u.Password != u.PasswordVerify) {
+                console.warn("password mismatch!");
+                return;
+            }
+            Person.createUser(u.Username, u.Password, function(userObject) {
+                $scope.newUser = {};
+                $scope.toggleNew(null);
+                refreshUsers();
+            });
         };
 
         $scope.assignUserToGroup = function () {
-            Person.addUserToGroup(
-                $scope.chosenUser.Identifier,
-                $scope.selectedGroup.Role,
-                $scope.selectedGroup.Identifier,
-                function (xml) {
-                    $scope.userAssigned = true;
-                    $scope.chosenUser = null;
-                    Person.getAllUsers(function(list) {
-                        $scope.userList = list;
-                        _.each($scope.groupList, function (group) {
-                            if (group.Identifier === $scope.selectedGroup.Identifier) {
-                                $scope.populateGroup(group);
-                            }
-                        });
-                    });
-                    $timeout(function () {
-                        $scope.userAssigned = false;
-                    }, 4000);
-                }
-            )
+            var u = $scope.selectedUser;
+            var g = $scope.selectedGroup;
+            Person.addUserToGroup(u.Identifier, g.Role, g.Identifier, function (xml) {
+                refreshUsers();
+            });
         };
 
         $scope.clearChosenUser = function () {
-            $scope.chosenUser = null;
+            $scope.selectedUser = null;
             $('input#cu').focus();
         };
 
-        $scope.removeUserFromGroup = function (user) {
-            Person.removeUserFromGroup(
-                user.Identifier,
-                user.Membership.Role,
-                $scope.selectedGroup.Identifier,
-                function () {
-                    console.log("user removed");
-                    Person.getAllUsers(function(list) {
-                        $scope.userList = list;
-                        _.each($scope.groupList, function (group) {
-                            if (group.Identifier === $scope.selectedGroup.Identifier) {
-                                $scope.populateGroup(group);
-                            }
-                        });
-                    });
-                }
-            )
+        $scope.removeUserFromGroup = function (u) {
+            var g = $scope.selectedGroup;
+            Person.removeUserFromGroup(u.Identifier, u.Membership.Role, g.Identifier, function () {
+                console.log("user removed");
+                refreshUsers();
+            });
         };
 
     }

@@ -86,21 +86,12 @@ Storage('Schemaleon', homeDir, function (storage) {
         var passwordHash = digest.update(new Buffer(password + username, 'utf-8')).digest('base64');
         res.setHeader('Content-Type', 'text/xml');
 
-        // for showcase
         console.log("authenticate", req.body);
         storage.Person.authenticateUser(username, passwordHash, function (xml) {
             if (xml) {
                 req.session.Identifier = util.getFromXml(xml, 'Identifier');
                 req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
                 req.session.Role = util.getFromXml(xml, 'Role');
-                // todo: some profile information for the session?
-                //        var profile = {
-                //            firstName: "New",
-                //            lastName: "User",
-                //            username: username,
-                //            email: "user" + millisSince2013 + "@schemaleon.eu"
-                //        };
-                //        req.session.profile = profile;
                 res.xml(xml);
                 storage.Log.activity(req, {
                     Op: "Authenticate"
@@ -112,6 +103,28 @@ Storage('Schemaleon', homeDir, function (storage) {
         });
     });
 
+    app.post('/create-user', function (req, res) {
+        util.ifGod(req, res, function() {
+            var username = req.body.username;
+            var password = req.body.password;
+            var digest = crypto.createHash('sha256');
+            var passwordHash = digest.update(new Buffer(password + username, 'utf-8')).digest('base64');
+            res.setHeader('Content-Type', 'text/xml');
+
+            storage.Person.createUser(username, passwordHash, function (xml) {
+                if (xml) {
+                    res.xml(xml);
+                    storage.Log.activity(req, {
+                        Op: "CreateUser"
+                    });
+                }
+                else {
+                    util.sendErrorMessage(res, 'Unable to create user');
+                }
+            });
+        });
+    });
+
     // fetch a translation document
     app.get('/i18n/:lang', function (req, res) {
         replyWithLanguage(req.params.lang, res);
@@ -119,7 +132,7 @@ Storage('Schemaleon', homeDir, function (storage) {
 
     // adjust the translation and documentation for an element of the schema
     app.post('/i18n/:lang/element', function (req, res) {
-        util.authenticatedGod(req, res, function () {
+        util.ifGod(req, res, function () {
             var lang = req.params.lang;
             var key = req.body.key;
             if (key) {
@@ -149,7 +162,7 @@ Storage('Schemaleon', homeDir, function (storage) {
 
     // adjust the translation of an application label
     app.post('/i18n/:lang/label', function (req, res) {
-        util.authenticatedGod(req, res, function () {
+        util.ifGod(req, res, function () {
             var lang = req.params.lang;
             var key = req.body.key;
             if (key) {
@@ -232,7 +245,7 @@ Storage('Schemaleon', homeDir, function (storage) {
 
     // save a group record
     app.post('/person/group/save', function (req, res) {
-        util.authenticatedGod(req, res, function () {
+        util.ifGod(req, res, function () {
             storage.Person.saveGroup(req.body, function (xml) {
                 res.xml(xml);
                 storage.Log.activity(req, {
@@ -255,7 +268,7 @@ Storage('Schemaleon', homeDir, function (storage) {
         var userIdentifier = req.body.userIdentifier;
         var userRole = req.body.userRole;
         var groupIdentifier = req.params.identifier;
-        util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function () {
+        util.ifGroupRole(groupIdentifier, ['Administrator'], req, res, function () {
             storage.Person.addUserToGroup(userIdentifier, userRole, groupIdentifier, function (xml) {
                 res.xml(xml);
                 storage.Log.activity(req, {
@@ -272,7 +285,7 @@ Storage('Schemaleon', homeDir, function (storage) {
     app.post('/person/group/:identifier/remove', function (req, res) {
         var userIdentifier = req.body.userIdentifier;
         var groupIdentifier = req.params.identifier;
-        util.authenticatedGroup(groupIdentifier, ['Administrator'], req, res, function () {
+        util.ifGroupRole(groupIdentifier, ['Administrator'], req, res, function () {
             storage.Person.removeUserFromGroup(userIdentifier, groupIdentifier, function (xml) {
                 res.xml(xml);
                 storage.Log.activity(req, {
@@ -409,7 +422,7 @@ Storage('Schemaleon', homeDir, function (storage) {
     // and the body also contains the XML representation of the whole document
     app.post('/document/save', function (req, res) {
         var groupIdentifier = req.body.header.GroupIdentifier;
-        util.authenticatedGroup(groupIdentifier, ['Administrator', 'Member'], req, res, function () {
+        util.ifGroupRole(groupIdentifier, ['Administrator', 'Member'], req, res, function () {
             // kind of interesting to receive xml within json, but seems to work
             storage.Document.saveDocument(req.body, function (header, error) {
                 if (error) {

@@ -1,7 +1,7 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1 i18n="People">
+        <h1 data-i18n="UsersAndGroups">
             <span class="i18n"/>
         </h1>
     </div>
@@ -10,99 +10,95 @@
     <div class="row user-management-controls">
         <div class="col-md-4">
             <div class="input-group">
-                <span class="input-group-addon">
+                <label for="cai" class="input-group-addon">
                     <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i>
-                    <span i18n="FindGroupByName"><span class="i18n"/></span>
-                </span>
-                <input id="cai" type="text" ng-model="groupChoice" class="form-control"
-                       typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"
-                       typeahead-on-select="selectGroup(groupChoice)"/>
+                    <span data-i18n="FindGroupByName"><span class="i18n"/></span>
+                </label>
+                <input id="cai" type="text" data-ng-model="groupChoice" class="form-control"
+                       data-typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"
+                       data-typeahead-on-select="selectGroup(groupChoice)"/>
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-group">
-                <span class="input-group-addon">
+                <label for="cau" class="input-group-addon">
                     <i class="glyphicon glyphicon-user"></i>
-                    <span i18n="FindGroupByUser"><span class="i18n"/></span>
-                </span>
-                <input id="cau" type="text" ng-model="groupFindUser" class="form-control"
-                       typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"
-                       typeahead-on-select="selectGroupFromUser(groupFindUser)"/>
+                    <span data-i18n="FindGroupByUser"><span class="i18n"/></span>
+                </label>
+                <input id="cau" type="text" data-ng-model="groupFindUser" class="form-control"
+                       data-typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, false)"
+                       data-typeahead-on-select="selectGroupFromUser(groupFindUser)"/>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="pull-right">
-                <span class="dropdown">
-                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="glyphicon glyphicon-plus"></i>
-                        <span i18n="Add"><span class="i18n"/></span>
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li i18n="NewGroup">
-                            <a href class="btn" ng-click="toggleNew('group')">
-                                <span class="i18n"/>
-                            </a>
-                        </li>
-                        <li i18n="NewUser">
-                            <a href class="btn" ng-click="toggleNew('user')">
-                                <span class="i18n"/>
-                            </a>
-                        </li>
-                    </ul>
-                </span>
+            <div class="dropdown">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span data-i18n="CreateNew"><span class="i18n"/></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li data-i18n="CreateANewGroup">
+                        <a href class="btn" data-ng-click="toggleNew('group')">
+                            <span class="i18n"/>
+                        </a>
+                    </li>
+                    <li data-i18n="CreateANewUser">
+                        <a href class="btn" data-ng-click="toggleNew('user')">
+                            <span class="i18n"/>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div class="row user-management-widgets">
-        <div class="group-list col-md-8">
+        <div class="group-list col-md-7">
             <div class="widget-box" data-ng-show="selectedGroup.Name">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i></span>
-                    <h5>
-                        <span>{{ selectedGroup.Name }}</span>
-                    </h5>
+                    <h5>{{ selectedGroup.Name }}</h5>
                     <div class="pull-right">
-                        <span class="dropdown">
+                        <div class="dropdown">
                             <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="glyphicon glyphicon-plus"></i>
-                                <span i18n="Membership"><span class="i18n"/></span>
+                                <span data-i18n="Membership"><span class="i18n"/></span>
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li ng-repeat="role in roles">
+                                <li data-ng-repeat="role in roles">
                                     <span class="btn">
-                                        <a href ng-click="addUserToggle(role.name)">
+                                        <a href data-ng-click="addUserToggle(role.name)">
                                             <span>{{ role.name }}</span>
                                         </a>
                                     </span>
                                 </li>
                             </ul>
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <div class="widget-body">
                     <table class="table table-condensed table-striped table-schemaleon">
                         <thead>
                         <tr>
-                            <th width="250" i18n="Username">
+                            <th width="250" data-i18n="Username">
                                 <span class="i18n">Username</span>
                             </th>
-                            <th i18n="Role">
+                            <th data-i18n="Role">
                                 <span class="i18n">Role</span>
                             </th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="user in selectedGroup.userList">
+                        <tr data-ng-repeat="user in selectedGroup.userList">
                             <td>{{ user.Credentials.Username }}</td>
                             <td>
                                 <span class="label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role}}</span>
                             </td>
                             <td>
-                                <button class="btn btn-xs btn-danger pull-right" ng-click="removeUserFromGroup(user)">
+                                <button class="btn btn-xs btn-danger pull-right" data-ng-click="removeUserFromGroup(user)">
                                     <i class="glyphicon glyphicon-trash"></i></button>
                             </td>
                         </tr>
@@ -112,57 +108,41 @@
             </div>
         </div>
 
-        <div class="adding-users col-md-4">
+        <div class="adding-users col-md-5">
             <!-- GROUP CREATION //-->
-            <div class="widget-box" ng-show="creating == 'group'">
+            <div class="widget-box" data-ng-show="creating == 'group'">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i></span>
-                    <h5 i18n="CreateGroup">
-                        <span class="i18n"/>
-                    </h5>
+                    <h5 data-i18n="CreateGroup"><span class="i18n"/></h5>
                     <span class="action">
-                        <button type="button" class="close" data-dismiss="widget-box" ng-click="toggleNew('group')">&times;</button>
+                        <button type="button" class="close" data-dismiss="widget-box" data-ng-click="toggleNew('group')">&times;</button>
                     </span>
                 </div>
-                <!--todo: these models are all wrong, do it with newGroup object-->
                 <div class="widget-body">
-                    <div ng-show="groupCreated" class="alert alert-success fade-in" i18n="GroupCreated">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <span class="i18n"/>
+                    <div class="form-group">
+                        <label for="ngn" data-i18n="GroupName"><span class="i18n"/>:</label>
+                        <input id="ngn" type="text" data-ng-model="newGroup.Name" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label i18n="GroupName"><span class="i18n"/>:</label>
-                        <!--todo: "focus" below is suspect-->
-                        <input focus type="text" ng-model="groupName" class="form-control"/>
+                        <label for="ngsn" data-i18n="GroupStreetNameAndNr"><span class="i18n"/>:</label>
+                        <input id="ngsn" type="text" data-ng-model="newGroup.StreetNameAndNr" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label i18n="GroupStreetNameAndNr">
-                            <span class="i18n"/>
-                            :</label>
-                        <input type="text" ng-model="groupStreetNameAndNr" class="form-control"/>
+                        <label for="ngc" data-i18n="GroupCity"> <span class="i18n"/>:</label>
+                        <input id="ngc" type="text" data-ng-model="newGroup.City" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label i18n="GroupCity">
-                            <span class="i18n"/>
-                            :</label>
-                        <input type="text" ng-model="groupCity" class="form-control"/>
+                        <label for="ngz" data-i18n="GroupZip"><span class="i18n"/>:</label>
+                        <input id="ngz" type="text" data-ng-model="newGroup.Zip" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label i18n="GroupZip">
-                            <span class="i18n"/>
-                            :</label>
-                        <input type="text" ng-model="groupZip" class="form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <label i18n="GroupDescription">
-                            <span class="i18n"/>
-                            :</label>
-                        <textarea ng-model="groupDescription" class="form-control"></textarea>
+                        <label for="ngd" data-i18n="GroupDescription"><span class="i18n"/>:</label>
+                        <textarea id="ngd" data-ng-model="newGroup.Description" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="widget-footer">
-                    <div private="user.god">
-                        <button ng-click="createGroup()" class="btn btn-success" data-i18n="CreateGroup">
+                    <div data-private="user.god">
+                        <button data-ng-click="createGroup()" class="btn btn-success" data-i18n="CreateGroup" data-ng-disabled="newGroupDisabled">
                             <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i>
                             <span class="i18n"></span>
                         </button>
@@ -170,37 +150,29 @@
                 </div>
             </div>
             <!-- USER CREATION //-->
-            <div class="widget-box" ng-show="creating == 'user'">
+            <div class="widget-box" data-ng-show="creating == 'user'">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i></span>
-                    <h5 i18n="CreateUser">
-                        <span class="i18n"/>
-                    </h5>
-                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="toggleNew('user')">&times;</button></span>
+                    <h5 data-i18n="CreateUser"><span class="i18n"/></h5>
+                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" data-ng-click="toggleNew('user')">&times;</button></span>
                 </div>
-                <!--todo: these models are all wrong-->
                 <div class="widget-body">
-                    <div ng-show="userCreated" class="alert alert-success fade-in" i18n="UserCreated">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <span class="i18n"/>
+                    <div class="form-group">
+                        <label for="nuu" data-i18n="Username"><span class="i18n"/>:</label>
+                        <input id="nuu" type="text" data-ng-model="newUser.Username" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label i18n="Username"><span class="i18n"/>:</label>
-                        <!--todo: "focus" below is suspect-->
-                        <input focus type="text" ng-model="newUserUsername" class="form-control"/>
+                        <label for="nupw" data-i18n="Password"><span class="i18n"/>:</label>
+                        <input id="nupw" type="password" data-ng-model="newUser.Password" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label i18n="Password"><span class="i18n"/>:</label>
-                        <input type="password" ng-model="n" class="form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <label i18n="PasswordVerify"><span class="i18n"/>: </label>
-                        <input type="password" ng-model="passwordVerify" class="form-control"/>
+                        <label for="nupwv" data-i18n="PasswordVerify"><span class="i18n"/>: </label>
+                        <input id="nupwv" type="password" data-ng-model="newUser.PasswordVerify" class="form-control"/>
                     </div>
                 </div>
                 <div class="widget-footer">
-                    <div private="user.god">
-                        <button ng-click="createUser()" class="btn btn-success" data-i18n="CreateUser">
+                    <div data-private="user.god">
+                        <button data-ng-click="createUser()" class="btn btn-success" data-i18n="CreateUser" data-ng-disabled="newUserDisabled">
                             <i class="glyphicon glyphicon-user"></i>
                             <span class="i18n"></span>
                         </button>
@@ -208,39 +180,47 @@
                 </div>
             </div>
             <!-- USER ADDITION //-->
-            <div class="widget-box" ng-show="creating == 'membership'">
+            <div class="widget-box" data-ng-show="creating == 'membership'">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-user"></i></span>
                     <h5>
-                        <span ng-bind="selectedGroup.Role"></span>
-                        <span i18n="Of"><span class="i18n"/> </span>"<span ng-bind="selectedGroup.Name"></span>"
+                        <span data-ng-bind="selectedGroup.Role"></span>
+                        <span data-i18n="Of"><span class="i18n"/> </span>
+                        "<span data-ng-bind="selectedGroup.Name"></span>"
                     </h5>
-                    <span class="action"><button type="button" class="close" data-dismiss="widget-box" ng-click="toggleNew('membership')">&times;</button></span>
+                    <span class="action">
+                        <button type="button" class="close" data-dismiss="widget-box" data-ng-click="toggleNew('membership')">&times;</button>
+                    </span>
                 </div>
                 <div class="widget-body">
-                    <div ng-show="userAssigned" class="alert alert-success fade-in" i18n="UserAssigned">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <span class="i18n"/>
-                    </div>
-                    <form class="form-search">
-                        <label i18n="FindUser"><span class="i18n"/>:</label>
-
-                        <div class="input-group">
-                            <input id="cu" type="text" ng-model="chosenUser" class="form-control" typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, true)"/>
-                            <span class="input-group-btn">
-                                <button ng-click="clearChosenUser()" class="btn btn-warning"><i class="glyphicon glyphicon-ban-circle"></i></button>
-                            </span>
+                    <div class="input-group">
+                        <label for="cu" data-i18n="FindUser" class="input-group-addon"><span class="i18n"/>:</label>
+                        <input id="cu" type="text" data-ng-model="selectedUser" class="form-control" style="overflow: visible"
+                               data-typeahead="user as userToString(user) for user in typeAheadUsers($viewValue, true)"/>
+                        <div class="input-group-btn">
+                            <button data-ng-click="clearChosenUser()" class="btn btn-warning"><i class="glyphicon glyphicon-ban-circle"></i></button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="widget-footer">
-                    <button ng-click="assignUserToGroup()" class="btn btn-success" data-i18n="Assign">
+                    <button data-ng-click="assignUserToGroup()" class="btn btn-success" data-i18n="Assign">
                         <i class="icon-magnet icon-white"></i>
                         <span class="i18n"/>
                     </button>
                 </div>
             </div>
         </div>
+
+        <!--<div class="input-group">-->
+            <!--<label for="cai" class="input-group-addon">-->
+                <!--<i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i>-->
+                <!--<span data-i18n="FindGroupByName"><span class="i18n"/></span>-->
+            <!--</label>-->
+            <!--<input id="cai" type="text" data-ng-model="groupChoice" class="form-control"-->
+                   <!--data-typeahead="group as groupToString(group) for group in typeAheadGroups($viewValue)"-->
+                   <!--data-typeahead-on-select="selectGroup(groupChoice)"/>-->
+        <!--</div>-->
+
 
     </div>
 

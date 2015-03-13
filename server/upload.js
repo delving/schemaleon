@@ -286,7 +286,7 @@ var serve = function (storage, pathMatch, req, res) {
     req.groupIdentifier = pathMatch[1];
     req.url = pathMatch[2].length ? pathMatch[2] : '/';
 
-    util.authenticatedGroup(req.groupIdentifier, ['Administrator', 'Member'], req, res, function() {
+    util.ifGroupRole(req.groupIdentifier, ['Administrator', 'Member'], req, res, function() {
 
         var groupFileSystem = storage.FileSystem.forGroup(req.groupIdentifier);
 

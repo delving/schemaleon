@@ -225,7 +225,7 @@ module.exports.sendServerError = function(res, error) {
 };
 
 // wrap the action in an authorization check so that only users in certain roles can do certain things
-module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, res, action) {
+module.exports.ifGroupRole = function(groupIdentifier, roleArray, req, res, action) {
     if (!req.session) {
         console.error('no session for '+groupIdentifier);
         this.sendPermissionDenied(res, 'No session');
@@ -243,8 +243,8 @@ module.exports.authenticatedGroup = function(groupIdentifier, roleArray, req, re
 };
 
 // only allow the action to be performed by gods
-module.exports.authenticatedGod = function(req, res, action) {
-    this.authenticatedGroup('Schemaleon', ['Administrator'], req, res, action);
+module.exports.ifGod = function(req, res, action) {
+    this.ifGroupRole('Schemaleon', ['Administrator'], req, res, action);
 };
 
 module.exports.copyRecursive = function (src, dest) {

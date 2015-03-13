@@ -732,6 +732,7 @@ ul.kv-list li span.value {
   color: #80bd01;
 }
 .dropdown-menu {
+  z-index: 10000;
   border: none;
   margin: 0;
   -moz-box-shadow: none;
@@ -1186,4 +1187,8 @@ body.full-screen .vertical-scroll {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+/* USER MANAGEMENT */
+.user-management-controls {
+  margin-bottom: 30px;
 }
