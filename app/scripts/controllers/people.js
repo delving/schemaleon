@@ -116,9 +116,6 @@ Schemaleon.controller(
 
         $scope.userToString = function (user) {
             if (!user) return '';
-
-            console.log("userToString", user);
-
             return user.Credentials.Username;
         };
 
@@ -196,11 +193,14 @@ Schemaleon.controller(
             var u = $scope.selectedUser;
             var g = $scope.selectedGroup;
             Person.addUserToGroup(u.Identifier, g.Role, g.Identifier, function (xml) {
+                if ($scope.selectedGroup) populateGroup($scope.selectedGroup);
                 refreshUsers();
+                $scope.selectedUser = null;
+                $scope.toggleNew(null);
             });
         };
 
-        $scope.clearChosenUser = function () {
+        $scope.clearSelectedUser = function () {
             $scope.selectedUser = null;
             $('input#cu').focus();
         };
