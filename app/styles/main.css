@@ -493,7 +493,7 @@ ul.kv-list li span.value {
   color: #333333;
   font-size: 14px;
   padding: 6px;
-  overflow-y: auto;
+  overflow-y: visible;
   -ms-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -732,12 +732,15 @@ ul.kv-list li span.value {
   color: #80bd01;
 }
 .dropdown-menu {
-  z-index: 10000;
   border: none;
   margin: 0;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.dropdown-menu > li > a {
+  font-size: 12px;
+  font-weight: 300;
 }
 .btn-group.open .dropdown-toggle {
   -moz-box-shadow: none;
