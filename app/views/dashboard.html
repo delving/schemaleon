@@ -10,10 +10,66 @@
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-signal"></i></span>
+                    <h5 i18n="Profile"><span class="i18n"/> "{{ user.Credentials.Username }}"</h5>
+                </div>
+                <div class="widget-body">
+                    <div class="form-group">
+                        <label for="pfn" data-i18n="FirstName"><span class="i18n"/>:</label>
+                        <input id="pfn" type="text" data-ng-model="changeProfile.FirstName" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pln" data-i18n="LastName"><span class="i18n"/>:</label>
+                        <input id="pln" type="text" data-ng-model="changeProfile.LastName" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="nupwv" data-i18n="EMail"><span class="i18n"/>: </label>
+                        <input id="nupwv" type="text" data-ng-model="changeProfile.EMail" class="form-control"/>
+                    </div>
+                </div>
+                <div class="widget-footer">
+                    <span class="pull-right" data-i18n="ChangePassword">
+                        <input id="cpv" type="checkbox" data-ng-model="changePassword.visible"> <label for="cpv" style="color: black" class="i18n"/>
+                    </span>
+                    <div data-private="user.god">
+                        <button data-ng-click="doChangeProfile()" class="btn btn-success" data-i18n="Save" data-ng-disabled="saveProfileDisabled">
+                            <i class="glyphicon glyphicon-save"></i> <span class="i18n"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-box" data-ng-show="changePassword.visible">
+                <div class="widget-title">
+                    <span class="icon"><i class="glyphicon glyphicon-signal"></i></span>
+                    <h5 i18n="ChangePassword"><span class="i18n"/> "{{ user.Credentials.Username }}"</h5>
+                </div>
+                <div class="widget-body">
+                    <div class="form-group">
+                        <label for="pcp" data-i18n="CurrentPassword"><span class="i18n"/>:</label>
+                        <input id="pcp" type="text" data-ng-model="changePassword.CurrentPassword" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pcp1" data-i18n="NewPassword"><span class="i18n"/>:</label>
+                        <input id="pcp1" type="password" data-ng-model="changePassword.NewPassword" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pcp2" data-i18n="NewPassword"><span class="i18n"/>: </label>
+                        <input id="pcp2" type="password" data-ng-model="changePassword.NewPasswordVerify" class="form-control"/>
+                    </div>
+                </div>
+                <div class="widget-footer">
+                    <div data-private="user.god">
+                        <button data-ng-click="doChangePassword()" class="btn btn-success" data-i18n="Change" data-ng-disabled="changePassword.enabled">
+                            <i class="glyphicon glyphicon-adjust"></i> <span class="i18n"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class="glyphicon glyphicon-signal"></i></span>
                     <h5 i18n="GlobalStatistics"><span class="i18n"/></h5>
                 </div>
                 <div class="widget-body">
-
                     <ul class="list-group statistics">
                         <li i18n="Groups" class="list-group-item">
                             <i class="glyphicon glyphicon-user"></i>

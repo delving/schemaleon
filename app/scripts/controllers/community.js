@@ -167,6 +167,29 @@ Schemaleon.controller(
             $scope.chatMessageSend = true;
             chatPoll();
         };
+
+        $scope.changeProfile = {};
+
+        $scope.$watch("changeProfile", function(profile) {
+            console.log("changeProfile", profile);
+            // todo: saveProfile.enabled if something is different from user.Profile
+        }, true);
+
+        $scope.doChangeProfile = function() {
+            alert("change profile password");
+        };
+
+        $scope.changePassword = {};
+
+        $scope.$watch("changePassword", function(pass) {
+            console.log("changePassword", pass);
+            // todo: changePassword.enabled if something is different from user.Profile
+        }, true);
+
+        $scope.doChangePassword = function() {
+            alert("change password");
+        };
+
     }
 );
 
