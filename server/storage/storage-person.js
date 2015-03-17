@@ -56,7 +56,7 @@ P.authenticateUser = function (username, passwordHash, receiver) {
                         if (result === '0') {
                             // there is nobody, so this person becomes administrator
                             var userObject = {
-                                Identifier: util.generateUserId(),
+                                Identifier: util.generateId(),
                                 Credentials: {
                                     Username: username,
                                     PasswordHash: passwordHash
@@ -95,7 +95,7 @@ P.createUser = function (username, passwordHash, receiver) {
         else {
             // there is nobody, so this person becomes administrator
             var userObject = {
-                Identifier: util.generateUserId(),
+                Identifier: util.generateId(),
                 Credentials: {
                     Username: username,
                     PasswordHash: passwordHash
@@ -188,7 +188,7 @@ P.saveGroup = function (group, receiver) {
     group.SaveTime = new Date().getTime();
     var existing = group.Identifier;
     if (!existing) {
-        group.Identifier = util.generateGroupId();
+        group.Identifier = util.generateId();
     }
     var groupXml = util.objectToXml(group, "Group");
     if (existing) {

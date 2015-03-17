@@ -29,35 +29,15 @@ var path = require('path');
  * @Author Eric van der Meulen <eric@delving.eu>
  */
 
-// generate an id with a given prefix
-module.exports.generateId = function (prefix) {
+// generate an id
+module.exports.generateId = function () {
     var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
     var randomNumber = Math.floor(Math.random() * 36 * 36 * 36);
     var randomString = randomNumber.toString(36);
     while (randomString.length < 3) {
         randomString = '0' + randomString;
     }
-    return 'SCH-' + prefix + '-' + millisSince2013.toString(36) + '-' + randomString;
-};
-
-// generate a user identifier
-module.exports.generateUserId = function () {
-    return this.generateId('US');
-};
-
-// generate a group identifier
-module.exports.generateGroupId = function () {
-    return this.generateId('GR');
-};
-
-// generate a document identifier
-module.exports.generateDocumentId = function (schemaName) {
-    return this.generateId(schemaName);
-};
-
-// generated a vocabulary identifier
-module.exports.generateVocabId = function () {
-    return this.generateId('VO');
+    return 'S10-' + millisSince2013.toString(36) + '-' + randomString;
 };
 
 // make sure that anything that is to be a XQuery literal is properly quoted, and quotes within are escaped

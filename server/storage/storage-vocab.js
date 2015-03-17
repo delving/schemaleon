@@ -68,7 +68,7 @@ P.addVocabularyEntry = function (vocabName, entry, receiver) {
         );
     }
     else {
-        entry.Identifier = util.generateVocabId();
+        entry.Identifier = util.generateId();
         entryXml = util.objectToXml(entry, 'Entry');
         s.update('add vocab entry',
             [

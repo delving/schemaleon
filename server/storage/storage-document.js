@@ -192,7 +192,7 @@ P.saveDocument = function (envelope, receiver) {
             });
         }
         else {
-            header.Identifier = util.generateDocumentId(header.SchemaName);
+            header.Identifier = util.generateId();
             addDocument();
         }
     }
