@@ -227,6 +227,17 @@ module.exports.ifGod = function(req, res, action) {
     this.ifGroupRole('Schemaleon', ['Administrator'], req, res, action);
 };
 
+// only allow the action to be performed by gods
+module.exports.withSelf = function(req, res, action) {
+    if (!req.session || !req.session.Identifier) {
+        console.error('no session for self');
+        this.sendPermissionDenied(res, 'No session');
+    }
+    else {
+        action(req.session.Identifier);
+    }
+};
+
 module.exports.copyRecursive = function (src, dest) {
     var exists = fs.existsSync(src);
     var stats = exists && fs.statSync(src);

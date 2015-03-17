@@ -118,7 +118,7 @@ P.setProfile = function (userIdentifier, profile, receiver) {
             'let $user := ' + s.userPath(userIdentifier),
             'let $profile := ' + profileXml,
             'return',
-            'if (exists($user/hello))',
+            'if (exists($user/Profile))',
             'then (replace node $user/Profile with $profile)',
             'else (insert node $profile into $user)'
         ],

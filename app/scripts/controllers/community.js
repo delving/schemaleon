@@ -149,9 +149,9 @@ Schemaleon.controller(
             // check for new message every x seconds
             chatPollPromise = $timeout(chatPoll, 5000);
         }
-        
+
         // poll on controller load
-        chatPoll();
+        //        chatPoll();
 
         /**
          * Triggers chatPoll() when user enters new chat message in chat input field
@@ -168,26 +168,40 @@ Schemaleon.controller(
             chatPoll();
         };
 
-        $scope.changeProfile = {};
+        console.log("scope user", $scope.user);
+        $scope.changeProfile = angular.copy($scope.user.Profile);
+        $scope.changeProfile.disabled = true;
 
-        $scope.$watch("changeProfile", function(profile) {
-            console.log("changeProfile", profile);
-            // todo: saveProfile.enabled if something is different from user.Profile
+        $scope.$watch("changeProfile", function(changeProfile) {
+            if (!changeProfile) return;
+            var userProfile = $scope.user.Profile || {};
+            changeProfile.disabled =
+                userProfile.FirstName == changeProfile.FirstName &&
+                userProfile.LastName == changeProfile.LastName &&
+                userProfile.EMail == changeProfile.EMail;
         }, true);
 
         $scope.doChangeProfile = function() {
-            alert("change profile password");
+            var profile = {
+                FirstName: $scope.changeProfile.FirstName,
+                LastName: $scope.changeProfile.LastName,
+                EMail: $scope.changeProfile.EMail
+            };
+            Person.changeProfile(profile, function (user) {
+                if (user) $scope.user = user;
+            });
         };
 
-        $scope.changePassword = {};
+        $scope.changePassword = { disabled: true };
 
-        $scope.$watch("changePassword", function(pass) {
-            console.log("changePassword", pass);
-            // todo: changePassword.enabled if something is different from user.Profile
+        $scope.$watch("changePassword", function(changePassword) {
+            if (changePassword) changePassword.disabled =
+                !changePassword.CurrentPassword || !changePassword.NewPassword ||
+                    changePassword.NewPassword != changePassword.NewPasswordVerify;
         }, true);
 
         $scope.doChangePassword = function() {
-            alert("change password");
+            alert("change password not implemented");
         };
 
     }

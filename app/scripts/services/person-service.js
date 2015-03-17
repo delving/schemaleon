@@ -58,6 +58,19 @@ angular.module('Schemaleon').service(
             });
         };
 
+        this.changeProfile = function (profile, accept) {
+            $http.post('/change-profile', profile).success(function (xml) {
+                var userObject = xmlToObject(xml);
+                console.log("change profile returns", userObject);
+                if (userObject.User) {
+                    accept(userObject.User);
+                }
+                else {
+                    accept(null);
+                }
+            });
+        };
+
         this.publishChatMessage = function(message, accept) {
             $http.get('/person/chat', {params: {message: message}}).success(accept);
         };

@@ -92,6 +92,7 @@ Storage('Schemaleon', homeDir, function (storage) {
                 req.session.Identifier = util.getFromXml(xml, 'Identifier');
                 req.session.GroupIdentifier = util.getFromXml(xml, 'GroupIdentifier');
                 req.session.Role = util.getFromXml(xml, 'Role');
+                req.session.Username = util.getFromXml(xml, 'Username');
                 res.xml(xml);
                 storage.Log.activity(req, {
                     Op: "Authenticate"
@@ -120,6 +121,24 @@ Storage('Schemaleon', homeDir, function (storage) {
                 }
                 else {
                     util.sendErrorMessage(res, 'Unable to create user');
+                }
+            });
+        });
+    });
+
+    app.post('/change-profile', function (req, res) {
+        util.withSelf(req, res, function(userIdentifier) {
+            res.setHeader('Content-Type', 'text/xml');
+            console.log("## set profile with self", userIdentifier);
+            storage.Person.setProfile(userIdentifier, req.body, function (xml) {
+                if (xml) {
+                    res.xml(xml);
+                    storage.Log.activity(req, {
+                        Op: "ChangeProfile"
+                    });
+                }
+                else {
+                    util.sendErrorMessage(res, 'Unable to change profile');
                 }
             });
         });

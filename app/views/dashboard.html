@@ -31,7 +31,7 @@
                         <input id="cpv" type="checkbox" data-ng-model="changePassword.visible"> <label for="cpv" style="color: black" class="i18n"/>
                     </span>
                     <div data-private="user.god">
-                        <button data-ng-click="doChangeProfile()" class="btn btn-success" data-i18n="Save" data-ng-disabled="saveProfileDisabled">
+                        <button data-ng-click="doChangeProfile()" class="btn btn-success" data-i18n="Save" data-ng-disabled="changeProfile.disabled">
                             <i class="glyphicon glyphicon-save"></i> <span class="i18n"></span>
                         </button>
                     </div>
@@ -45,7 +45,7 @@
                 <div class="widget-body">
                     <div class="form-group">
                         <label for="pcp" data-i18n="CurrentPassword"><span class="i18n"/>:</label>
-                        <input id="pcp" type="text" data-ng-model="changePassword.CurrentPassword" class="form-control"/>
+                        <input id="pcp" type="password" data-ng-model="changePassword.CurrentPassword" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label for="pcp1" data-i18n="NewPassword"><span class="i18n"/>:</label>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="widget-footer">
                     <div data-private="user.god">
-                        <button data-ng-click="doChangePassword()" class="btn btn-success" data-i18n="Change" data-ng-disabled="changePassword.enabled">
+                        <button data-ng-click="doChangePassword()" class="btn btn-success" data-i18n="Change" data-ng-disabled="changePassword.disabled">
                             <i class="glyphicon glyphicon-adjust"></i> <span class="i18n"></span>
                         </button>
                     </div>

@@ -30,13 +30,32 @@ exports.testSetProfile = function(test) {
         userIdentifier = util.getFromXml(xml, "Identifier");
         var profile = {
             FirstName: "Deus",
-            LastName: "Yes",
+            LastName: "No",
             EMail: "deus@heaven.edu"
         };
         testUtil.storage.Person.setProfile(userIdentifier, profile, function(xmlAfter) {
 //                console.log("xmlAfter="+xmlAfter);
             var firstName = util.getFromXml(xmlAfter, "FirstName");
             test.ok(firstName == "Deus", "Profile not added");
+            test.done();
+        });
+    });
+};
+
+exports.testSetProfileAgain = function(test) {
+    test.expect(2);
+    testUtil.storage.Person.authenticateUser("deus", "infinity", function(xml) {
+        test.ok(xml, "Can't authenticate top user a second time");
+        userIdentifier = util.getFromXml(xml, "Identifier");
+        var profile = {
+            FirstName: "Deus",
+            LastName: "Yes",
+            EMail: "deus@heaven.edu"
+        };
+        testUtil.storage.Person.setProfile(userIdentifier, profile, function(xmlAfter) {
+//                console.log("xmlAfter="+xmlAfter);
+            var firstName = util.getFromXml(xmlAfter, "LastName");
+            test.ok(firstName == "Yes", "Profile not changed");
             test.done();
         });
     });
