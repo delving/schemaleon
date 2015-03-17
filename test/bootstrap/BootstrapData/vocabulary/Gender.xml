@@ -1,0 +1,14 @@
+<Entries>
+    <Entry>
+        <Label>Male</Label>
+        <Identifier>GenderM</Identifier>
+    </Entry>
+    <Entry>
+        <Label>Female</Label>
+        <Identifier>GenderF</Identifier>
+    </Entry>
+    <Entry>
+        <Label>OTHER</Label>
+        <Identifier>GenderO</Identifier>
+    </Entry>
+</Entries>
