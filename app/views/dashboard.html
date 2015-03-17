@@ -6,7 +6,7 @@
     <!--<input type="file" accept="video/*" capture="camera">-->
 
     <div class="row widget-row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><i class="glyphicon glyphicon-signal"></i></span>
@@ -27,13 +27,15 @@
                     </div>
                 </div>
                 <div class="widget-footer">
-                    <span class="pull-right" data-i18n="ChangePassword">
-                        <input id="cpv" type="checkbox" data-ng-model="changePassword.visible"> <label for="cpv" style="color: black" class="i18n"/>
-                    </span>
-                    <div data-private="user.god">
-                        <button data-ng-click="doChangeProfile()" class="btn btn-success" data-i18n="Save" data-ng-disabled="changeProfile.disabled">
-                            <i class="glyphicon glyphicon-save"></i> <span class="i18n"></span>
-                        </button>
+                    <div class="row">
+                        <span class="col-sm-5">
+                            <button data-ng-click="doChangeProfile()" class="btn btn-success" data-i18n="Save" data-ng-disabled="changeProfile.disabled">
+                                <i class="glyphicon glyphicon-save"></i> <span class="i18n"></span>
+                            </button>
+                        </span>
+                        <span class="col-sm-5 col-sm-offset-2" data-i18n="ChangePassword">
+                            <input id="cpv" type="checkbox" data-ng-model="changePassword.visible"> <label for="cpv" style="color: black" class="i18n"/>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -92,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div ng-show="logEntries">
                 <div class="widget-box">
                     <div class="widget-title">

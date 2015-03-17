@@ -13,11 +13,16 @@ function log(message) {
 exports.createDatabase = testUtil.createDatabase;
 
 exports.testCreateGodUser = function(test) {
-    test.expect(1);
-    testUtil.storage.Person.authenticateUser("deus", "infinity", function(xml) {
+    test.expect(2);
+    testUtil.storage.Person.authenticateUser("deus", "zero", function(xml) {
         test.ok(xml, "Can't authenticate top user");
 //        console.log(xml);
-        test.done();
+        var identifier = util.getFromXml(xml, "Identifier");
+        testUtil.storage.Person.changePassword(identifier, "infinity", function(xmlAgain) {
+            var passwordHash = util.getFromXml(xmlAgain, "PasswordHash");
+            test.equals(passwordHash, "infinity", "Can't find the new password");
+            test.done();
+        });
     });
 };
 

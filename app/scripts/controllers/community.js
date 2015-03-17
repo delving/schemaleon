@@ -168,9 +168,10 @@ Schemaleon.controller(
             chatPoll();
         };
 
-        console.log("scope user", $scope.user);
-        $scope.changeProfile = angular.copy($scope.user.Profile);
-        $scope.changeProfile.disabled = true;
+        function initChangeProfile() {
+            $scope.changeProfile = angular.copy($scope.user.Profile);
+        }
+        initChangeProfile();
 
         $scope.$watch("changeProfile", function(changeProfile) {
             if (!changeProfile) return;
@@ -189,10 +190,14 @@ Schemaleon.controller(
             };
             Person.changeProfile(profile, function (user) {
                 if (user) $scope.user = user;
+                initChangeProfile();
             });
         };
 
-        $scope.changePassword = { disabled: true };
+        function initChangePassword() {
+            $scope.changePassword = { };
+        }
+        initChangePassword();
 
         $scope.$watch("changePassword", function(changePassword) {
             if (changePassword) changePassword.disabled =
@@ -201,9 +206,11 @@ Schemaleon.controller(
         }, true);
 
         $scope.doChangePassword = function() {
-            alert("change password not implemented");
+            Person.changePassword($scope.changePassword, function(user) {
+                if (user) $scope.user = user;
+                initChangePassword();
+            });
         };
-
     }
 );
 

@@ -104,6 +104,35 @@ Storage('Schemaleon', homeDir, function (storage) {
         });
     });
 
+    app.post('/change-password', function (req, res) {
+        util.withSelf(req, res, function(Identifier, Username) {
+            var digest = crypto.createHash('sha256');
+            var password = req.body.CurrentPassword;
+            var passwordHash = digest.update(new Buffer(password + Username, 'utf-8')).digest('base64');
+            res.setHeader('Content-Type', 'text/xml');
+
+            storage.Person.authenticateUser(Username, passwordHash, function (xml) {
+                if (xml) {
+                    var digest = crypto.createHash('sha256');
+                    var newPassword = req.body.NewPassword;
+                    var newPasswordHash = digest.update(new Buffer(newPassword + Username, 'utf-8')).digest('base64');
+                    storage.Person.changePassword(Identifier, newPasswordHash, function(xmlAgain) {
+                        if (xmlAgain) {
+                            storage.Log.activity(req, { Op: "ChangePassword" });
+                            res.xml(xmlAgain);
+                        }
+                        else {
+                            util.sendErrorMessage(res, 'Unable to change password');
+                        }
+                    });
+                }
+                else {
+                    util.sendErrorMessage(res, 'Username/Password combination not found');
+                }
+            });
+        });
+    });
+
     app.post('/create-user', function (req, res) {
         util.ifGod(req, res, function() {
             var username = req.body.username;
@@ -115,9 +144,7 @@ Storage('Schemaleon', homeDir, function (storage) {
             storage.Person.createUser(username, passwordHash, function (xml) {
                 if (xml) {
                     res.xml(xml);
-                    storage.Log.activity(req, {
-                        Op: "CreateUser"
-                    });
+                    storage.Log.activity(req, { Op: "CreateUser" });
                 }
                 else {
                     util.sendErrorMessage(res, 'Unable to create user');
@@ -127,15 +154,13 @@ Storage('Schemaleon', homeDir, function (storage) {
     });
 
     app.post('/change-profile', function (req, res) {
-        util.withSelf(req, res, function(userIdentifier) {
+        util.withSelf(req, res, function(Identifier) {
             res.setHeader('Content-Type', 'text/xml');
-            console.log("## set profile with self", userIdentifier);
-            storage.Person.setProfile(userIdentifier, req.body, function (xml) {
+            console.log("## set profile with self", Identifier);
+            storage.Person.setProfile(Identifier, req.body, function (xml) {
                 if (xml) {
                     res.xml(xml);
-                    storage.Log.activity(req, {
-                        Op: "ChangeProfile"
-                    });
+                    storage.Log.activity(req, { Op: "ChangeProfile" });
                 }
                 else {
                     util.sendErrorMessage(res, 'Unable to change profile');

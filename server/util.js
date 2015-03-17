@@ -234,7 +234,7 @@ module.exports.withSelf = function(req, res, action) {
         this.sendPermissionDenied(res, 'No session');
     }
     else {
-        action(req.session.Identifier);
+        action(req.session.Identifier, req.session.Username);
     }
 };
 

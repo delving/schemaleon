@@ -85,6 +85,26 @@ P.authenticateUser = function (username, passwordHash, receiver) {
     );
 };
 
+P.changePassword = function(userIdentifier, passwordHash, receiver) {
+    var s = this.storage;
+    var self = this;
+    s.update('set profile: ' + userIdentifier,
+        [
+            'let $user := ' + s.userPath(userIdentifier),
+            'return',
+            'replace value of node $user/Credentials/PasswordHash with '+util.quote(passwordHash)
+        ],
+        function (result) {
+            if (result) {
+                s.query('re-fetch user', s.userPath(userIdentifier), receiver);
+            }
+            else {
+                receiver(null);
+            }
+        }
+    );
+};
+
 P.createUser = function (username, passwordHash, receiver) {
     var s = this.storage;
     var self = this;
