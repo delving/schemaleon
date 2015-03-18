@@ -74,7 +74,7 @@
             </ul>
             <ul class="nav navbar-nav" id="user-controls" ng-show="user.Membership.Role == 'Administrator'">
                 <li>
-                    <a href ng-click="choosePath('/people')" i18n="UsersAndGroups">
+                    <a href ng-click="choosePath('/people')" i18n="People">
                         <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-user"></i>
                         <span class="i18n"/>
                     </a>
@@ -90,13 +90,13 @@
                 <li>
                     <a ng-href="/#/lang/{{config.interfaceLanguage}}">
                         <i class="glyphicon glyphicon-globe"></i>
-                        <span i18n="Translations"><span class="i18n"/> [{{ config.interfaceLanguage }}]</span>
+                        <span i18n="AllTranslations"><span class="i18n"/> [{{ config.interfaceLanguage }}]</span>
                     </a>
                 </li>
                 <li>
                     <a href ng-click="toggleTranslationEditor()" ng-class="{'btn-warning': config.showTranslationEditor}">
                         <i class="glyphicon glyphicon-globe"></i>
-                        <span i18n="TranslateUi"><span class="i18n"/></span>
+                        <span i18n="TranslationMode"><span class="i18n"/></span>
                     </a>
                 </li>
             </ul>
@@ -116,7 +116,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-right"  data-ng-if="user">
-                <li  data-ng-controller="CommunityController" class="dropdown-chat" data-ng-class="{ 'open' : showChat==true}">
+                <!--todo: chat disabled for now-->
+                <li class="dropdown-chat" data-ng-class="{ 'open' : showChat==true}" data-ng-show="false">
                     <a href class="chat-toggle" data-ng-click="toggleChat()" i18n="Chat">
                         <i class="glyphicon glyphicon-comment"></i> <span class="i18n"/>
                     </a>

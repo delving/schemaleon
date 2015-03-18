@@ -1,13 +1,13 @@
 <div class="fade-in">
 
     <div class="page-header">
-        <h1 data-i18n="UsersAndGroups">
+        <h1 data-i18n="People">
             <span class="i18n"/>
         </h1>
     </div>
 
 
-    <div class="row user-management-controls">
+    <div class="row user-management-controls" data-ng-show="isUserGod">
         <div class="col-md-5">
             <div class="input-group">
                 <label for="cai" class="input-group-addon">
@@ -79,7 +79,7 @@
                             <td>
                                 <span class="label label-default label-{{ user.Membership.Role }}">{{ user.Membership.Role}}</span>
                             </td>
-                            <td>
+                            <td data-ng-show="selectedGroup.isUserAdministrator || isUserGod">
                                 <button class="btn btn-xs btn-danger pull-right" data-ng-click="removeUserFromGroup(user)">
                                     <i class="glyphicon glyphicon-trash"></i></button>
                             </td>
@@ -87,7 +87,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="widget-footer">
+                <div class="widget-footer" data-ng-show="selectedGroup.isUserAdministrator || isUserGod">
                     <div class="row">
                         <div class="dropdown col-sm-offset-8 col-sm-4">
                             <a class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" href="#" style="width: 100%">

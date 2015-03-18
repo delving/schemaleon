@@ -66,11 +66,13 @@ Schemaleon.controller(
                     $scope.groupList = list;
                 });
                 refreshUsers();
+                $scope.isUserGod = true;
             }
             else {
                 Person.getGroup($scope.membership.GroupIdentifier, function(group) {
                     console.log("group", group);
                     populateGroup(group);
+                    $scope.selectedGroup.isUserAdministrator = true;
                 })
             }
         }

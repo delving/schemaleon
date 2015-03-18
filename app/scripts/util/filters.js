@@ -126,6 +126,8 @@ Schemaleon.filter(
             if (entry) {
                 switch (entry.Op) {
                     case 'Authenticate':
+                    case 'ChangeProfile':
+                    case 'ChangePassword':
                         return '-';
                     case 'TranslateTitle':
                     case 'TranslateDoc':
