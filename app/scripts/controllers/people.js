@@ -179,7 +179,6 @@ Schemaleon.controller(
         
         $scope.createUser = function () {
             var u = $scope.newUser;
-            console.log("### create user", u);
             if (u.Password != u.PasswordVerify) {
                 console.warn("password mismatch!");
                 return;

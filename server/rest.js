@@ -86,7 +86,6 @@ Storage('Schemaleon', homeDir, function (storage) {
         var passwordHash = digest.update(new Buffer(password + username, 'utf-8')).digest('base64');
         res.setHeader('Content-Type', 'text/xml');
 
-        console.log("authenticate", req.body);
         storage.Person.authenticateUser(username, passwordHash, function (xml) {
             if (xml) {
                 req.session.Identifier = util.getFromXml(xml, 'Identifier');
@@ -156,7 +155,6 @@ Storage('Schemaleon', homeDir, function (storage) {
     app.post('/change-profile', function (req, res) {
         util.withSelf(req, res, function(Identifier) {
             res.setHeader('Content-Type', 'text/xml');
-            console.log("## set profile with self", Identifier);
             storage.Person.setProfile(Identifier, req.body, function (xml) {
                 if (xml) {
                     res.xml(xml);
