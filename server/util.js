@@ -31,13 +31,13 @@ var path = require('path');
 
 // generate an id
 module.exports.generateId = function () {
-    var millisSince2013 = new Date().getTime() - new Date(2013, 1, 1).getTime();
+    var millisSince2015 = new Date().getTime() - new Date(2015, 1, 1).getTime();
     var randomNumber = Math.floor(Math.random() * 36 * 36 * 36);
     var randomString = randomNumber.toString(36);
     while (randomString.length < 3) {
         randomString = '0' + randomString;
     }
-    return 'S10-' + millisSince2013.toString(36) + '-' + randomString;
+    return 'S10-' + millisSince2015.toString(36) + '-' + randomString;
 };
 
 // make sure that anything that is to be a XQuery literal is properly quoted, and quotes within are escaped

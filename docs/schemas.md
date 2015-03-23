@@ -118,7 +118,7 @@ such as using regular expressions when validating.
 	
 		<Picture>
 			<Identifier>535e4bef2de5019396263897f8f2fc0d</Identifier>
-			<GroupIdentifier>GROUP_06</GroupIdentifier>
+			<GroupIdentifier>S10-faox4ag-3x2</GroupIdentifier>
 			<MimeType>image/jpeg</MimeType>
 			<OriginalFileName>0147_2003_0830_142831AA.JPG</OriginalFileName>
 		</Picture>
@@ -141,14 +141,14 @@ such as using regular expressions when validating.
 		<Person>
 			<Header>
 				<SchemaName>Person</SchemaName>
-				<Identifier>SCH-Person-ezwasujw-dnh</Identifier>
-				<GroupIdentifier>GROUP_249</GroupIdentifier>
+				<Identifier>S10-ezwasujw-dnh</Identifier>
+				<GroupIdentifier>S10-sa2a4fs-w22</GroupIdentifier>
 				<SummaryFields>
 					<Title>Joe Smith</Title>
 				</SummaryFields>
 				<DocumentState>public</DocumentState>
 				<TimeStamp>1391716121324</TimeStamp>
-				<SavedBy>SCH-US-eaz3313x-rm2</SavedBy>
+				<SavedBy>S10-eaz3313x-rm2</SavedBy>
 			</Header>
 		</Person>
 	
@@ -205,8 +205,8 @@ The schema definition is part of a working prototype that is now undergoing init
 
 	    <Photograph>
 	        <Title>{ "required": true }</Title>
-	        <PhotoType>{ "until": "2013-09-26" }</PhotoType>
-	        <PhotoType>{ "vocabulary": "PhotoType", "since": "2013-09-26" }</PhotoType>
+	        <PhotoType>{ "until": "2018-09-26" }</PhotoType>
+	        <PhotoType>{ "vocabulary": "PhotoType", "since": "2016-09-26" }</PhotoType>
 	        <ShortDescription>{ "paragraph": true }</ShortDescription>
 	    </Photograph>
 

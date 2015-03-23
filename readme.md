@@ -6,17 +6,44 @@
 
 ### "Schema Chamelion"
 
----
+The schema that you write builds the user interface, and the software easily adapts to languages.
+
+Schema | Interface
+-------|--------
+![schema](docs/creation-schema.png) | ![schema](docs/creation-gui.png) 
 
 ## Introduction
 
-The Schemaleon system was originally built for historical societies and small museums as a tool for them to record and publish media and information about their cultural heritage artifacts.  At its core are flexibility, transparency, and user interface attention to detail, and its purpose is to have users contextualize rather than enter data.  This means that it focuses on selecting rather than typing, and encourages linking to shared lists.
+### Origin
+
+The Schemaleon system was originally built for historical societies and small museums as a tool for them to record and publish media and information about their cultural heritage artifacts.  At its core are flexibility, transparency, and user interface attention to detail, and its purpose is to have users favour linking above entering data.  This means that it focuses on selecting rather than typing, and encourages linking to shared lists.
+
+### Flexibility
 
 The flexibility of Schemaleon lies in the ability to generate user interface elements based on the content of a series of schemas.  When everything depends on the schemas, it becomes easy to define proper formats for different kinds of cultural heritage artifacts, and put them to use immediately.  New things can be recorded in their own way without any changes to the code.
 
-The data stored by Schemaleon is in the form of XML, in a database which holds XML in a form as if it were simply a file system filled with XML files.  In fact, Schemaleon has a database dump function which exports the entire database contents as a ZIP file which unpacks to exactly that, a directory structure of files.  This makes data storage extremely transparent.
+### XML
+
+The data stored by Schemaleon is in the form of XML, in a database which holds XML in a structure as if it were simply a file system filled with XML files.  In fact, Schemaleon has a database dump function which exports the entire database contents as a ZIP file which unpacks to exactly that, a directory structure of files.  This makes data storage extremely transparent.
+
+### Multilingual
 
 To make Schemaleon adaptable in an international environment, special attention has been paid to making the application very easily translatable.  When it is to appear in a new country, a user speaking the target language can just toggle “translation mode” and add translations for every bit of text.  This is a quick process, and the results are stored in the database.
+
+## Quick Start
+
+With a few technologies installed, it is quite easy to try out Schemaleon for yourself:
+
+        git clone git@github.com:delving/schemaleon.git
+        cd schemaleon
+		sh run-basex &
+		grunt run
+		
+However, this only works if you have the **Prerequisites** installed (see [Development](docs/development.md)).
+
+When the program starts up for the first time, it initializes from its own test bootstrap data.
+
+You can log in with your chosen password and the program will permit it.  From then on, you are the ultimate administrator.  You can then create users and groups, and start playing around.
 
 ## Technologies
 
@@ -70,17 +97,17 @@ A number of specific things have been implemented in Schemaleon so that it can f
 
 We decribe the important aspects of the Schemaleon platform in a series of documents in the *docs* directory of this project. Please let us know if you think there are things missing.
 
-* **[Storage](https://github.com/delving/schemaleon/blob/master/docs/storage.md)** - how documents and media are stored
+* **[Storage](docs/storage.md)** - how documents and media are stored
 
-* **[Schemas](https://github.com/delving/schemaleon/blob/master/docs/schemas.md)** - what the schemas look like and how they work
+* **[Schemas](docs/schemas.md)** - what the schemas look like and how they work
 
-* **[Development](https://github.com/delving/schemaleon/blob/master/docs/development.md)** - how to set up for development
+* **[Development](docs/development.md)** - how to set up for development
 
 
 ===
 
-* Eric van der Meulen <eric@delving.eu>
 * Gerald de Jong <gerald@delving.eu>
+* Eric van der Meulen <eric@delving.eu>
 
 	
 

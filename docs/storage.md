@@ -4,27 +4,27 @@
 
 # Schemaleon Storage
 
-There are two parts to the system of storing data behind the platform, the XML database is used for documents, and the media files are stored on the file system.  The documents must be searchable by content, and the media files are always referred to from documents so they must be consistently organized and named.
+There are two parts to the system of storing data behind the platform, the XML database is used for documents, and the media files are stored on the file system.  The documents must be searchable by content, and the media files are always referred to from documents so they must be consistently organized and named. The chosen naming is a hash of the file's content, so that identical files are not stored more than once.
 
 The entire XML content of the document database can be downloaded on demand by administrators at any time in the form of a *tar-gzip* archive, for backup or other purposes, which makes the storage completely transparent.  Within the archive the files are organized and appear exactly as they do in the database itself so a subsequent import is straightforward.
 
 ## BaseX Database Structure
 
-The database structure is as follows:
+The global database structure is as follows, where **schemaName** and **groupId** are deployment choices:
 
 	/schemas/shared
-	/shared/<schema>
 	/schemas/primary
-	/primary/<group>/<schema>/
+	/shared/<schemaName>
+	/primary/<groupId>/<schema>/
 	/vocabulary
 	/people/groups
 	/people/users
 	/i18n
 	/log
 
-Two of the above sections of the database actually correspond to multiple actual directories, since documents are always stored in collections according the the name of the schema to which they belong.  The shared documents are structured directly that way, while the primary documents are first dividied into sections according to the group of users to which they belong.
+The dynamically named sections of the database (where schema and group are named by administrators actually correspond to multiple actual directories, since documents are always stored in collections according the the name of the schema to which they belong.  The shared documents are structured directly that way, while the primary documents are first dividied into sections according to the group of users to which they belong.
 
-There is one special group with the identifier **schemaleon** which is to contain the powerful administrator users who have the rights to do things like group management and language translation.
+There is one special group with the identifier **Schemaleon** which is to contain the  administrator users who have the rights to do things like group management and language translation.
 
 ### /schemas/shared and /schemas/primary
 
@@ -89,15 +89,15 @@ An XML file for each vocabulary defined in any of the schemas is stored here, an
 	<Entries>
 	  <Entry>
 	    <Label>Large</Label>
-	    <Identifier>emp1amz-vms</Identifier>
+	    <Identifier>S10-emp1amz-vms</Identifier>
 	  </Entry>
 	  <Entry>
 	    <Label>Medium</Label>
-	    <Identifier>eu5f206-720</Identifier>
+	    <Identifier>S10-eu5f206-720</Identifier>
 	  </Entry>
 	  <Entry>
 	    <Label>Small</Label>
-	    <Identifier>eu5pb8g-yyi</Identifier>
+	    <Identifier>S10-eu5pb8g-yyi</Identifier>
 	  </Entry>
 	</Entries>
 
@@ -128,21 +128,26 @@ Other fields can be added to this as long as the associated user interface knows
 This collection contains one XML file per user and each file looks like this:
 
 	<User>
-	  <Identifier>e6m08tx-3hx</Identifier>
+	  <Identifier>S10-e6m08tx-3hx</Identifier>
+	  <Credentials>
+		 <Username>johnny</Username>
+		 <PasswordHash>TECYLDgbTcSTKceIHbAtZl5fqa6trbMUgNBvYidSo6c=</PasswordHash>
+	  </Credentials>
 	  <Profile>
-	    <firstName>John</firstName>
-	    <lastName>Smith</lastName>
-	    <email>j.smith@home.nl</email>
-	    <username>johnny</username>
+	    <FirstName>John</FirstName>
+	    <LastName>Smith</LastName>
+	    <EMail>j.smith@home.nl</EMail>
 	  </Profile>
 	  <SaveTime>1391164572597</SaveTime>
 	  <Membership>
-	    <GroupIdentifier>HS_343</GroupIdentifier>
+	    <GroupIdentifier>S10-uqkmmu1-h3l</GroupIdentifier>
 	    <Role>Administrator</Role>
 	  </Membership>
 	</User>
 	
 The *Identifier* is of course to be unique within the system, and the *SaveTime* records the last time that the user record was saved.
+
+The *Credentials* are for authentication, and the password hash encodes the password without revealing it.
 
 The *Membership* block records the group to which the user belongs as well as what *Role* they play in that group.
 
@@ -188,7 +193,7 @@ There will be one of these files for each day. The activity log looks like this:
 	<Activities>
 	  <Activity>
 	    <Op>Authenticate</Op>
-	    <Who>egs231vc-dqn</Who>
+	    <Who>S10-egs231vc-dqn</Who>
 	    <TimeStamp>1392104217764</TimeStamp>
 	  </Activity>
 	  ...
@@ -204,7 +209,7 @@ The structure of the chat file is like this:
 	    <time>1391794342797</time>
 	    <text>the text that was written</text>
 	    <user>user's name</user>
-	    <Who>egs231vc-dqn</Who>
+	    <Who>S10-egs231vc-dqn</Who>
 	    <TimeStamp>1391794342797</TimeStamp>
 	  </ChatMessage>
 	  <ChatMessage>
@@ -243,13 +248,13 @@ There is one more kind of document called MediaMetadata which is stored within t
 	<Document>
 	  <Header>
 	    <SchemaName>MediaMetadata</SchemaName>
-	    <GroupIdentifier>HS_124</GroupIdentifier>
+	    <GroupIdentifier>S10-ej624lw-5nk</GroupIdentifier>
 	    <Identifier>98cc4992ada9457c4aee538ac40b0664</Identifier>
 	    <TimeStamp>1391804850492</TimeStamp>
 	  </Header>
 	  <Body>
 	    <MediaMetadata>
-	      <UserIdentifier>ej624lw-5nk</UserIdentifier>
+	      <UserIdentifier>S10-ej624lw-5nk</UserIdentifier>
 	      <OriginalFileName>20101208072.jpg</OriginalFileName>
 	      <MimeType>image/jpeg</MimeType>
 	      <Derivative>thumbnail</Derivative>
@@ -261,23 +266,13 @@ Records of this kind are generated automatically when media is uploaded and inge
 
 ## Generated Identifiers
 
-** Note: This part needs review **
-
-When descriptive records are introduced by users to the Schemaleon system via the interface, they are assigned identifiers which are generated in order to ensure uniqueness.  The generated identifiers are also intended to given some indication of the nature of the thing they identify.
+Any entity introduced by users to the Schemaleon system via the interface, they are assigned identifiers which are generated in order to ensure uniqueness.  Each identifier generated is prefixed with **"S10-"** which stands for "Schemalion" in the tradition where "i18n" means "internationalization".
 
 The different parts of the identifier are separated by dashes, and they all look like the following:
 
-    SCH-{type}-{millis}-{disambiguator}
+    S10-{millis}-{disambiguator}
 
 The identifier is built up piece by piece in the following sections:
-
-1. Type
-
-	When an identifier is prefixed with SCH we know that it was generated within the platform, but the second portion is to indicate what type of thing is being identified.  There is no fixed strategy for defining the letters to indicate a type aside from the usage of the schema name when a document is created.
-	
-	    SCH-Photo
-	
-	The above example will be the first part of an identifier generated for a Photo document.
 
 1. Milliseconds
 
@@ -285,9 +280,9 @@ The identifier is built up piece by piece in the following sections:
 	
 	The identifier now looks like this:
 	
-	    SCH-Photo-7hmylqu
+	    S10-7hmylqu
 	
-	The number of milliseconds is from the beginning of 2013 and it is recorded using base-36 notation where the digits and all lower case letters are used.
+	The number of milliseconds is from the beginning of 2015 and it is recorded using base-36 notation where the digits and all lower case letters are used.
 
 1. Disambiguator
 
@@ -299,29 +294,33 @@ The identifier is built up piece by piece in the following sections:
 	
 	The complete identifier then looks like this:
 	
-	    SCH-Photo-7hmylqu-u7w
+	    S10-7hmylqu-u7w
 	
 When documents and media are migrated to the Schemaleon storage, they will be given identifiers according to the strategy used by the person doing the migration.
  
 ## Bootstrap Data
 
-The Schemaleon system cannot function with a completely empty database, of course, since from the start its behavior is defined by the schemas which are to be found there.  To make a clean startup possible, the Schemaleon server has functionality built in to populate an empty database before starting.
+Schemaleon stores all of its data in the XML document database, but in order to start it needs a few things to exist in the database. The server has functionality built in to populate an empty database before starting to make this easy.  While experimenting, at any time the database can be dropped and refreshed by providing new bootstrap data.
 
-When Schemaleon starts up, it attempts to open the **schemaleon** database after contacting the *BaseX*, but if the database is not found, it is created.  Upon creation it is also set up with a **fulltext** index and then the bootstrap data is loaded.
+When Schemaleon starts up, it attempts to open the **Schemaleon** database after contacting database, but if the database is not found, it is created.  Upon creation it is also set up with a **fulltext** index and then the bootstrap data is loaded.
 
-Bootstrap data takes the form of a directory of XML files called **../schemaleon-data** relative to the directory where Schemaleon is started up.  It has exact same structure as the database described above, and the documents contained are imported and indexed as-is. It would be a good practice to store a basic bootstrap structure in a source-control system like *Git* so that it has clear permanence.
+Bootstrap data takes the form of a directory of XML files called **~/Schemaleon/BootstrapData/** inside the  Schemaleon directory in the user's home directory.  It has exactly same structure as the database described above, and the documents contained are imported and indexed as-is. 
 
-The documents that should be put into source control for **schemaleon-data** should be everything except the */primary/* and */shared/* ones:
+	It is good practice to store a basic bootstrap structure in a source-control system like *Git* so that can be carefully managed.
 
-* SchemaMap.xml
-* primary and shared schemas
-* language translations
-* initial users and groups - if they are pre-determined
-* vocabularies - certainly the fixed ones
+The documents that should be put into source control will generally be everything except the */primary/* and */shared/* directories, because they contain entered data.
 
-It is also possible, although not recommended, to include shared documents (to the extent that they are considered permanent) and even primary ones if they are to be included in a clean startup.
+* **SchemaMap.xml** - which schemas are to be used
+* **primary**, **shared** - where to put the schemas
+* **translations** all languages
+* **users** and **groups** - only if they are to be pre-determined
+* **vocabularies** - fixed ones, and current state of dynamic ones
 
-Ultimately it would be possible to use the contents of downloadable archive shapshot of Schemaleon data as the contents of **schemaleon-data** so that the database will be initialized to contain exactly what it had when the snapshot was made, including all */shared/* and */primary/* documents.  Needless to say if the number of documents becomes larger, bootstrapping can take some time since all documents must be indexed.
+An example can be found in the project's [test](../test/bootstrap) directory.  If there is no 
+
+### Start from milestone
+
+The bootstrapping system of Schemaleon is so straightforward that it can even be used to save the entire state of the system at some milestone moment. A dump can be created when the milestone is reached and then this can be used anytime as bootstrap data.  It becomes a starting point which can be revisited, or even duplicated.
 
 ## Future Development
 

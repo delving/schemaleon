@@ -53,15 +53,11 @@ Before you can get to work on developing Schemaleon you will need to have the fo
 1. clone the Schemaleon source-code from this repository
 
         git clone git@github.com:delving/schemaleon.git
+        cd schemaleon
 
-1. start up the BaseX application, start its server
+1. start up the BaseX XML database server
 
-        go to Database / Server Administration...
-        click on Local Server "start" button
-
-1. via the terminal navigate to the root of the application:
-
-        cd /path/to/cloned/schemaleon
+        sh run-basex
 
 1. run the application:
 
@@ -73,6 +69,25 @@ Before you can get to work on developing Schemaleon you will need to have the fo
         
     * edit Gruntfile.js for your own browser preference
     * changes made and saved in the application code will trigger the browser to reload the page
+
+### Deploying
+
+1. install/start BaseX
+
+	Deployment for production will involve properly setting up the BaseX server to run, either with the **run-basex** script or something more elaborate.
+
+1. build the distribution package:
+
+        grunt
+
+1. run in production mode:
+
+		grunt prod
+
+1. navigate in browser:
+
+        http://localhost:9000/
+
 
 ===
 
