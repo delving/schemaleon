@@ -266,7 +266,7 @@ Records of this kind are generated automatically when media is uploaded and inge
 
 ## Generated Identifiers
 
-Any entity introduced by users to the Schemaleon system via the interface, they are assigned identifiers which are generated in order to ensure uniqueness.  Each identifier generated is prefixed with **"S10-"** which stands for "Schemalion" in the tradition where "i18n" means "internationalization".
+Any entity introduced by users to the Schemaleon system via the interface, they are assigned identifiers which are generated in order to ensure uniqueness.  Each identifier generated is prefixed with **"S10-"** which stands for "Schemaleon" in the tradition where "i18n" means "internationalization".
 
 The different parts of the identifier are separated by dashes, and they all look like the following:
 

@@ -1,10 +1,6 @@
-![delving logo](https://github.com/delving/Schemaleon/blob/master/docs/DelvingLogo.png?raw=true)
+### ![logo](https://raw.githubusercontent.com/delving/schemaleon/master/app/img/schemaleon-logo.png) Schemaleon
 
-----
-
-# Schemaleon
-
-### "Schema Chamelion"
+### "Schema Chameleon"
 
 The schema that you write builds the user interface, and the software easily adapts to languages.
 
@@ -105,6 +101,7 @@ We decribe the important aspects of the Schemaleon platform in a series of docum
 
 
 ===
+![delving logo](https://github.com/delving/Schemaleon/blob/master/docs/DelvingLogo.png?raw=true)
 
 * Gerald de Jong <gerald@delving.eu>
 * Eric van der Meulen <eric@delving.eu>
