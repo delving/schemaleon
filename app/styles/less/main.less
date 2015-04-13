@@ -600,6 +600,11 @@ body.full-screen {
 .expert-right-col {
   .make-sm-column(6, 10);
   position: relative;
+  .dropdown-menu {
+    background:@gray;
+    //box-shadow: 5px 5px 5px @gray-light;
+  }
+
 }
 
 .form-expert {
@@ -622,6 +627,10 @@ body.full-screen {
     margin-top: 10px;
   }
   .vocabulary-controls {
+    background: @white;
+    box-shadow: 5px 5px 10px @gray-dark;
+    color: @gray;
+    padding: 10px;
     position: absolute;
     width: 100%;
     z-indez: @zindex-dropdown;

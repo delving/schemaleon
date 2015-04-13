@@ -1140,6 +1140,9 @@ body.full-screen .vertical-scroll {
     width: 50%;
   }
 }
+.expert-right-col .dropdown-menu {
+  background: #555555;
+}
 .form-expert {
   height: 100%;
   -webkit-border-top-right-radius: 0 0 10px 10px;
@@ -1175,6 +1178,10 @@ body.full-screen .vertical-scroll {
   margin-top: 10px;
 }
 .form-expert .vocabulary-controls {
+  background: #ffffff;
+  box-shadow: 5px 5px 10px #333333;
+  color: #555555;
+  padding: 10px;
   position: absolute;
   width: 100%;
   z-indez: 1000;
