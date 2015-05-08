@@ -58,6 +58,12 @@ function installInElement(el, name) {
                 return element.value ? null : '2:Required'
             });
             break;
+        case 'date':
+            //todo
+            break;
+        case 'integer':
+            //todo
+            break;
         case 'URL':
             break;
         case 'URI':

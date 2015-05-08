@@ -5,12 +5,10 @@
       <ObjectType>{ "required": true,  "vocabulary": "ObjectType" }</ObjectType>
       <ObjectStatus>{ "vocabulary": "ObjectStatus" }</ObjectStatus>
       <ObjectRating>{ "vocabulary": "ObjectRating" }</ObjectRating>
-      <!--todo: look at how fixed works-->
-      <ObjectName>{ "vocabulary": "ObjectName", "fixed": true, "multiple": true }</ObjectName>
-      <!--todo: see if there is something for integer-->
-      <NumberOfParts>{ "integer": true, "default": "1" }</NumberOfParts>
+      <ObjectName>{ "vocabulary": "ObjectName", "vocabularyFixed": true, "multiple": true }</ObjectName>
+      <NumberOfParts>{ "validator": "integer", "default": "1" }</NumberOfParts>
       <!--todo: see if this can be less or equal to NumberOfParts-->
-      <PartNumber>{ "integer": true }</PartNumber>
+      <PartNumber>{ "validator": "integer" }</PartNumber>
     </ObjectDetails>
     <Numbers>
       <IdentificationNumber>{ "required": true, "multiple": true }</IdentificationNumber>
@@ -27,25 +25,25 @@
     <Description>{ "paragraph": true }</Description>
     <Measurements>
       <Type>{ "vocabulary": "DimensionType" }</Type>
-      <Height>{ "integer": true }</Height>
-      <Width>{ "integer": true }</Width>
-      <DepthOrLength>{ "integer": true }</DepthOrLength>
-      <Diameter>{ "integer": true }</Diameter>
+      <Height>{ "validator": "integer" }</Height>
+      <Width>{ "validator": "integer" }</Width>
+      <DepthOrLength>{ "validator": "integer" }</DepthOrLength>
+      <Diameter>{ "validator": "integer" }</Diameter>
       <LengthUnit>{ "vocabulary": "LengthUnit" }</LengthUnit>
-      <Weight>{ "integer": true }</Weight>
+      <Weight>{ "validator": "integer" }</Weight>
       <WeightUnit>{ "vocabulary": "WeightUnit" }</WeightUnit>
     </Measurements>
     <AdditionalDetails>
       <MeasurementNotes>{ "paragraph": true }</MeasurementNotes>
-      <Material>{ "vocabulary": "Material", "fixed": true, "multiple": true }</Material>
+      <Material>{ "vocabulary": "Material", "vocabularyFixed": true, "multiple": true }</Material>
     </AdditionalDetails>
   </PhysicalDescription>
   <Notes>{ "paragraph": true }</Notes>
   <Accession>
     <AcquisitionDetails>
       <AcquisitionMethod>{ "vocabulary": "AcquisitionMethod" }</AcquisitionMethod>
-      <AcquisitionDate>{ "date": true }</AcquisitionDate>
-      <RegistrationDate>{ "date": true }</RegistrationDate>
+      <AcquisitionDate>{ "validator": "date" }</AcquisitionDate>
+      <RegistrationDate>{ "validator": "date" }</RegistrationDate>
       <Source>{ "instance": [ "Person" ], "multiple": true }</Source>
       <Sponsor>{ "instance": [ "Person", "Organization" ], "multiple": true }</Sponsor>
       <SourceSummary>{ "required": true, "summaryField": "Source" }</SourceSummary>
@@ -86,8 +84,8 @@
     <CurrentLocation>{ "instance": [ "Location" ] }</CurrentLocation>
     <HomeCurator>{ "instance": [ "Person", "Organization" ] }</HomeCurator>
     <CommitteeHead>{ "instance": [ "Person", "Organization" ] }</CommitteeHead>
-    <DateMoved>{ "date": true }</DateMoved>
-    <TimeMoved>{ "time": true }</TimeMoved>
+    <DateMoved>{ "validator": "date" }</DateMoved>
+    <TimeMoved>{ "validator": "time" }</TimeMoved>
     <Curator>{ "instance": [ "Person" ], "multiple": true }</Curator>
     <Conservator>{ "instance": [ "Person" ], "multiple": true }</Conservator>
     <Registrar>{ "instance": [ "Person" ], "multiple": true }</Registrar>
@@ -106,7 +104,7 @@
   </MultiMedia>
   <ConditionCheck>{ "multiple": true }
     <ConditionStatus>{ "vocabulary": "ConditionStatus" }</ConditionStatus>
-    <DateChecked>{ "date": true }</DateChecked>
+    <DateChecked>{ "validator": "date" }</DateChecked>
     <ConditionDetails>{ "paragraph": true }</ConditionDetails>
   </ConditionCheck>
   <Inscriptions>

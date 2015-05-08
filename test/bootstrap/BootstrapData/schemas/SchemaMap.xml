@@ -1,0 +1,4 @@
+<SchemaMap>
+   <primary>CatalogueRecord</primary>
+   <shared>Location,Person,Organization</shared>
+</SchemaMap>

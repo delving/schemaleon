@@ -170,7 +170,7 @@ Schemaleon.controller(
     'TabController',
     function ($rootScope, $scope, $timeout) {
 
-        $scope.activeTab = 'expert';
+        $scope.activeTab = 'novice';
 
         if($rootScope.user && $rootScope.user.viewer) {
             $scope.activeTab = 'viewer';
@@ -637,7 +637,7 @@ Schemaleon.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter',
                     $scope.pdfFiles.push(file);
                 }
             });
-            
+
             $scope.switchViewSource = function (el) {
                 initializeViewStates();
                 if($rootScope.isImage(el)){
