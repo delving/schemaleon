@@ -5,7 +5,9 @@
       <ObjectType>{ "required": true,  "vocabulary": "ObjectType" }</ObjectType>
       <ObjectStatus>{ "vocabulary": "ObjectStatus" }</ObjectStatus>
       <ObjectRating>{ "vocabulary": "ObjectRating" }</ObjectRating>
-      <ObjectName>{ "vocabulary": "ObjectName", "vocabularyFixed": true, "multiple": true }</ObjectName>
+      <!--todo: ObjectName vocabulary should be vocabularyFixed when there is content prepared -->
+      <ObjectName>{ "vocabulary": "ObjectName", "multiple": true }</ObjectName>
+      <!--todo: an integer validator must be made-->
       <NumberOfParts>{ "validator": "integer", "default": "1" }</NumberOfParts>
       <!--todo: see if this can be less or equal to NumberOfParts-->
       <PartNumber>{ "validator": "integer" }</PartNumber>
@@ -35,18 +37,20 @@
     </Measurements>
     <AdditionalDetails>
       <MeasurementNotes>{ "paragraph": true }</MeasurementNotes>
+      <!--todo: material should be vocabularyFixed when there is content prepared-->
       <Material>{ "vocabulary": "Material", "vocabularyFixed": true, "multiple": true }</Material>
     </AdditionalDetails>
   </PhysicalDescription>
   <Notes>{ "paragraph": true }</Notes>
   <Accession>
     <AcquisitionDetails>
+      <SourceSummary>{ "required": true, "summaryField": "Source" }</SourceSummary>
       <AcquisitionMethod>{ "vocabulary": "AcquisitionMethod" }</AcquisitionMethod>
+      <!--todo: a date validator must be built-->
       <AcquisitionDate>{ "validator": "date" }</AcquisitionDate>
       <RegistrationDate>{ "validator": "date" }</RegistrationDate>
       <Source>{ "instance": [ "Person" ], "multiple": true }</Source>
       <Sponsor>{ "instance": [ "Person", "Organization" ], "multiple": true }</Sponsor>
-      <SourceSummary>{ "required": true, "summaryField": "Source" }</SourceSummary>
     </AcquisitionDetails>
     <SourceDetails>
       <Region>{ "vocabulary": "SourceRegion" }</Region>
