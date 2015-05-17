@@ -3,17 +3,16 @@
 <div ng-include="'/views/templates-view.html'"></div>
 
 <div data-ng-controller="TreeController">
-    <div class="tabbable" data-ng-controller="TabController">
+    <div class="tabbable">
         <ul class="nav nav-tabs">
-
+            <li ng-class="{ 'active': isTabActive('viewer') }">
+                <a href="" i18n="Viewer" data-ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
+            </li>
             <li ng-class="{ 'active': isTabActive('novice') }" data-ng-hide="user.viewer">
                 <a href="" i18n="Novice" data-ng-click="setActiveTab('novice')"><span class="i18n"></span></a>
             </li>
             <li ng-class="{ 'active': isTabActive('expert') }" data-ng-hide="user.viewer">
                 <a href="" i18n="Expert" data-ng-click="setActiveTab('expert')"><span class="i18n"></span></a>
-            </li>
-            <li ng-class="{ 'active': isTabActive('viewer') }">
-                <a href="" i18n="Viewer" data-ng-click="setActiveTab('viewer')"><span class="i18n"></span></a>
             </li>
         </ul>
         <div class="tab-content" data-ng-controller="TreeEditController">
@@ -22,17 +21,17 @@
                 <span i18n="DocumentSavedSuccess"><span class="i18n"></span></span>
             </div>
             <!--todo: this one should not be within the TreeEditController-->
-            <div class="tab-pane active" ng-if="isTabActive('expert')">
+            <div class="tab-pane active" ng-if="isTabActive('viewer')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <div class="vertical-scroll document-content" id="document-content-expert" data-scrollable data-offset="200" data-ng-style="{ 'height': elHeight }" data-ng-include="'expert-tab.html'">expert tab</div>
+                <div data-ng-include="'view-tab.html'" class="document-content">view tab</div>
             </div>
             <div class="tab-pane active" ng-if="isTabActive('novice')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
                 <div class="vertical-scroll document-content" id="document-content-panels" data-scrollable data-offset="200" data-ng-style="{ 'max-height': elHeight }" data-ng-include="'panel-array.html'">novice tab</div>
             </div>
-            <div class="tab-pane active" ng-if="isTabActive('viewer')">
+            <div class="tab-pane active" ng-if="isTabActive('expert')">
                 <div data-ng-include="'document-controls.html'">document controls</div>
-                <div data-ng-include="'view-tab.html'" class="document-content">view tab</div>
+                <div class="vertical-scroll document-content" id="document-content-expert" data-scrollable data-offset="200" data-ng-style="{ 'height': elHeight }" data-ng-include="'expert-tab.html'">expert tab</div>
             </div>
         </div>
     </div>
