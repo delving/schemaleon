@@ -1,0 +1,119 @@
+<CatalogueRecord>
+  <ObjectSummary>
+    <ObjectDetails>
+      <MainTitle>{ "required": true, "summaryField": "Title" }</MainTitle>
+      <ObjectType>{ "required": true,  "vocabulary": "ObjectType" }</ObjectType>
+      <ObjectStatus>{ "vocabulary": "ObjectStatus" }</ObjectStatus>
+      <ObjectRating>{ "vocabulary": "ObjectRating" }</ObjectRating>
+      <!--todo: ObjectName vocabulary should be vocabularyFixed when there is content prepared -->
+      <ObjectName>{ "vocabulary": "ObjectName", "multiple": true }</ObjectName>
+      <!--todo: an integer validator must be made-->
+      <NumberOfParts>{ "validator": "integer", "default": "1" }</NumberOfParts>
+      <!--todo: see if this can be less or equal to NumberOfParts-->
+      <PartNumber>{ "validator": "integer" }</PartNumber>
+    </ObjectDetails>
+    <Numbers>
+      <IdentificationNumber>{ "required": true, "multiple": true }</IdentificationNumber>
+      <ExcavationNumber>{ "multiple": true }</ExcavationNumber>
+      <MagazineNumber>{ "multiple": true }</MagazineNumber>
+      <MuseumNumber>{ "multiple": true }</MuseumNumber>
+      <VisibleNumber>{ "multiple": true }</VisibleNumber>
+    </Numbers>
+    <Requests>
+      <RequestedBy>{ "multiple": true }</RequestedBy>
+    </Requests>
+  </ObjectSummary>
+  <PhysicalDescription>
+    <Description>{ "paragraph": true }</Description>
+    <Measurements>
+      <Type>{ "vocabulary": "DimensionType" }</Type>
+      <Height>{ "validator": "integer" }</Height>
+      <Width>{ "validator": "integer" }</Width>
+      <DepthOrLength>{ "validator": "integer" }</DepthOrLength>
+      <Diameter>{ "validator": "integer" }</Diameter>
+      <LengthUnit>{ "vocabulary": "LengthUnit" }</LengthUnit>
+      <Weight>{ "validator": "integer" }</Weight>
+      <WeightUnit>{ "vocabulary": "WeightUnit" }</WeightUnit>
+    </Measurements>
+    <AdditionalDetails>
+      <MeasurementNotes>{ "paragraph": true }</MeasurementNotes>
+      <!--todo: material should be vocabularyFixed when there is content prepared-->
+      <Material>{ "vocabulary": "Material", "vocabularyFixed": true, "multiple": true }</Material>
+    </AdditionalDetails>
+  </PhysicalDescription>
+  <Notes>{ "paragraph": true }</Notes>
+  <Accession>
+    <AcquisitionDetails>
+      <SourceSummary>{ "required": true, "summaryField": "Source" }</SourceSummary>
+      <AcquisitionMethod>{ "vocabulary": "AcquisitionMethod" }</AcquisitionMethod>
+      <!--todo: a date validator must be built-->
+      <AcquisitionDate>{ "validator": "date" }</AcquisitionDate>
+      <RegistrationDate>{ "validator": "date" }</RegistrationDate>
+      <Source>{ "instance": [ "Person" ], "multiple": true }</Source>
+      <Sponsor>{ "instance": [ "Person", "Organization" ], "multiple": true }</Sponsor>
+    </AcquisitionDetails>
+    <SourceDetails>
+      <Region>{ "vocabulary": "SourceRegion" }</Region>
+      <Area>{ "vocabulary": "SourceArea" }</Area>
+      <Site>{ "vocabulary": "SourceSite" }</Site>
+      <Monument>{ "vocabulary": "SourceMonument" }</Monument>
+      <Feature>{ "vocabulary": "SourceFeature" }</Feature>
+      <Room>{ "vocabulary": "SourceRoom" }</Room>
+    </SourceDetails>
+    <DatingDetails>
+      <Period>{ "vocabulary": "DatingPeriod" }</Period>
+      <Dynasty>{ "vocabulary": "DatingDynasty" }</Dynasty>
+      <King>{ "vocabulary": "DatingKing" }</King>
+      <AbsoluteDates>{ "vocabulary": "DatingAbsoluteDates" }</AbsoluteDates>
+    </DatingDetails>
+  </Accession>
+  <Location>
+    <LocationCode>{ "vocabulary": "DatingPeriod" }</LocationCode>
+    <LocationSupervisor>{ "instance": [ "Person" ] }</LocationSupervisor>
+    <CurrentLocation>{ "instance": [ "Location" ] }</CurrentLocation>
+    <PermanentLocation>{ "instance": [ "Location" ] }</PermanentLocation>
+    <LocationHierarchy>
+      <Museum>{ "vocabulary": "LocationMuseum" }</Museum>
+      <Room>{ "vocabulary": "LocationRoom" }</Room>
+      <RoomPart>{ "vocabulary": "LocationRoomPart" }</RoomPart>
+      <VitrinePart>{ "vocabulary": "LocationVitrinePart" }</VitrinePart>
+      <VitrineArea>{ "vocabulary": "LocationVitrineArea" }</VitrineArea>
+      <Level>{ "vocabulary": "LocationLevel" }</Level>
+      <LevelArea>{ "vocabulary": "LocationLevelArea" }</LevelArea>
+      <Position>{ "vocabulary": "LocationPosition" }</Position>
+    </LocationHierarchy>
+  </Location>
+  <Movement>{ "multiple": true }
+    <ObjectSummary/>
+    <CurrentLocation>{ "instance": [ "Location" ] }</CurrentLocation>
+    <HomeCurator>{ "instance": [ "Person", "Organization" ] }</HomeCurator>
+    <CommitteeHead>{ "instance": [ "Person", "Organization" ] }</CommitteeHead>
+    <DateMoved>{ "validator": "date" }</DateMoved>
+    <TimeMoved>{ "validator": "time" }</TimeMoved>
+    <Curator>{ "instance": [ "Person" ], "multiple": true }</Curator>
+    <Conservator>{ "instance": [ "Person" ], "multiple": true }</Conservator>
+    <Registrar>{ "instance": [ "Person" ], "multiple": true }</Registrar>
+    <Security>{ "instance": [ "Person" ], "multiple": true }</Security>
+    <Purpose>{ "vocabulary": "MovementPurpose" }</Purpose>
+    <MovementNotes>{ "paragraph": true }</MovementNotes>
+    <PermanentLocation>{ "instance": [ "Location" ] }</PermanentLocation>
+    <IndependentlyMovable>{ "vocabulary": "IndependentlyMovable" }</IndependentlyMovable>
+    <MovementHistory>{ "paragraph": true }</MovementHistory>
+  </Movement>
+  <MultiMedia>{ "multiple": true }
+    <Title/>
+    <Creator>{ "instance": [ "Person" ], "multiple": true }</Creator>
+    <!--todo: maybe multiple thumbnails breaks things-->
+    <Media>{ "media": "MediaMetadata", "summaryField": "Thumbnail" }</Media>
+  </MultiMedia>
+  <ConditionCheck>{ "multiple": true }
+    <ConditionStatus>{ "vocabulary": "ConditionStatus" }</ConditionStatus>
+    <DateChecked>{ "validator": "date" }</DateChecked>
+    <ConditionDetails>{ "paragraph": true }</ConditionDetails>
+  </ConditionCheck>
+  <Inscriptions>
+    <PrimaryInscription>{ "multiple": true }</PrimaryInscription>
+    <OtherInscriptions>{ "multiple": true }</OtherInscriptions>
+    <SubjectClassificiation>{ "vocabulary": "InscriptionClass" }</SubjectClassificiation>
+  </Inscriptions>
+</CatalogueRecord>

@@ -1,4 +1,4 @@
 <SchemaMap>
-   <primary>Photo,Film,Publication</primary>
-   <shared>Location,Person,Organization,HistoricalEvent</shared>
+   <primary>CatalogueRecord</primary>
+   <shared>Location,Person,Organization</shared>
 </SchemaMap>

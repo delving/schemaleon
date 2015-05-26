@@ -145,6 +145,10 @@ Schemaleon.controller(
 
                     Statistics.getGlobalStatistics($rootScope.userGroupIdentifier(), function (statistics) {
                         $scope.statistics = statistics;
+                        $scope.statistics.Primary.Schema = xmlArray($scope.statistics.Primary.Schema);
+                        $scope.statistics.Shared.Schema = xmlArray($scope.statistics.Shared.Schema);
+
+                       console.log("STATS", statistics);
 
                         function getCountForSchema(statisticList, schemaName) {
                             var found = _.find($scope.statistics[statisticList].Schema, function (entry) {

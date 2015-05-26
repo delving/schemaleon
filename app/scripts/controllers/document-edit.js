@@ -146,6 +146,7 @@ Schemaleon.controller(
                 $scope.useHeader(document.Document.Header);
                 $scope.document = document.Document; // triggers the editor
                 $scope.addToRecentMenu(document.Document.Header); // reaches down to global.js
+                $scope.setActiveTab('viewer');
             });
         }
         else {
@@ -161,19 +162,10 @@ Schemaleon.controller(
         $scope.documentHelpActive = false;
         $scope.toggleDocumentHelp = function () {
             $scope.documentHelpActive = !$scope.documentHelpActive;
-        }
-    }
-);
-
-// just mind the tabs and their activation and who can see what
-Schemaleon.controller(
-    'TabController',
-    function ($rootScope, $scope, $timeout) {
-
-        $scope.activeTab = 'expert';
+        };
 
         if($rootScope.user && $rootScope.user.viewer) {
-            $scope.activeTab = 'viewer';
+            $scope.setActiveTab('viewer');
         }
 
         // toggle tabs between edit and view
@@ -183,10 +175,8 @@ Schemaleon.controller(
 
         // switch tabs
         $scope.setActiveTab = function(tab) {
-            $scope.activeTab = tab;
+            if (tab != $scope.activeTab) $scope.activeTab = tab;
         };
-
-
     }
 );
 
@@ -637,7 +627,7 @@ Schemaleon.controller('ViewTreeController', [ '$rootScope', '$scope', '$filter',
                     $scope.pdfFiles.push(file);
                 }
             });
-            
+
             $scope.switchViewSource = function (el) {
                 initializeViewStates();
                 if($rootScope.isImage(el)){
