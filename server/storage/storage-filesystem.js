@@ -17,7 +17,7 @@
 
 'use strict';
 
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var crypto = require('crypto');
 var util = require('../util');
@@ -36,7 +36,6 @@ module.exports = FileSystem;
 // regular expressions for extracting strings
 var FILE_NAME_FROM_PATH = new RegExp('.*/([^/]*)');
 var BASE_NAME_AND_EXTENSION = new RegExp('(.*)([.][^.]*)');
-var HOME = 'Schemaleon';
 
 // if we're going to talk about a directory, here we make sure it exists just in time
 function make(existing, subdir) {
@@ -47,11 +46,9 @@ function make(existing, subdir) {
 
 
 function FileSystem(home) {
-    var homePath = home || process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
-
-    this.home = path.join(homePath, HOME);
+    this.home = path.join(home, "SchemaleonFiles");
     if (!fs.existsSync(this.home)) {
-        util.copyRecursive(path.join('test', "bootstrap"), this.home);
+        fs.copySync(path.join('test', "bootstrap"), this.home);
     }
     this.mediaStorage = make(this.home, 'MediaStorage');
     this.mediaUpload = make(this.home, 'UploadIncoming');

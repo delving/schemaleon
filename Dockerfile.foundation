@@ -1,0 +1,26 @@
+FROM java:7
+
+MAINTAINER gerald@delving.eu
+
+# Install Node.js
+RUN \
+  apt-get update && \
+  apt-get install -y make gcc g++ locales apt-utils && \
+  echo "LANG=\"en_US.UTF-8\"" > /etc/default/locale && \
+  locale-gen en_US.UTF-8 && \
+  dpkg-reconfigure locales && \
+  apt-get install -y wget imagemagick ghostscript libgeos-dev && \
+  cd /tmp && \
+  wget http://nodejs.org/dist/node-latest.tar.gz && \
+  tar xvzf node-latest.tar.gz && \
+  rm -f node-latest.tar.gz && \
+  cd node-v* && \
+  ./configure && \
+  CXX="g++ -Wno-unused-local-typedefs" make && \
+  CXX="g++ -Wno-unused-local-typedefs" make install && \
+  cd /tmp && \
+  rm -rf /tmp/node-v* && \
+  npm install -g npm && \
+  printf '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
+
+

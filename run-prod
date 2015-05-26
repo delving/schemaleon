@@ -1,0 +1,4 @@
+#/bin/sh
+java -cp server/basex/BaseX781.jar org.basex.BaseXServer &
+sleep 3
+grunt prod
