@@ -2,10 +2,7 @@ FROM schemaleon_foundation
 
 MAINTAINER gerald@delving.eu
 
-RUN \
-  npm install -g bower && \
-  npm install -g grunt-cli && \
-  mkdir -p /Schemaleon/SchemaleonFiles /Schemaleon/BaseXData
+RUN mkdir -p /Schemaleon/SchemaleonFiles /Schemaleon/BaseXData
 
 
 ADD . /Schemaleon/App
